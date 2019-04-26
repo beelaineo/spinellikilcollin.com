@@ -62,8 +62,6 @@
 	},
 	"dependencies": {
 		"graphql": "^14.2.1",
-		"graphql-hooks": "^3.5.0",
-		"graphql-hooks-memcache": "^1.2.0",
 		"react": "^16.8.6",
 		"react-dom": "^16.8.6",
 		"react-router": "^5.0.0",

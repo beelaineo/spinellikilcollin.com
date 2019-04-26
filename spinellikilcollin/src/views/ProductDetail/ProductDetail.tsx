@@ -1,7 +1,6 @@
 import * as React from 'react'
 // import { path } from 'ramda'
 import { RouteComponentProps } from 'react-router-dom'
-import { useQuery } from 'graphql-hooks'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { productQuery, QueryResult } from './query'
 import { propByPath } from '../../utils/data'
