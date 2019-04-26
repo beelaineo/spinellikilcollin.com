@@ -2,7 +2,7 @@
 	"name": "root",
 	"private": true,
 	"scripts": {
-		"setup": "npm install && lerna bootstrap"
+		"setup": "yarn install"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^7.5.2",
@@ -13,6 +13,10 @@
 		"lerna": "^3.13.1",
 		"prettier": "^1.16.4"
 	},
+	"workspaces": [
+		"spinellikilcollin",
+		"sanity"
+	],
 	"husky": {
 		"hooks": {
 			"commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
