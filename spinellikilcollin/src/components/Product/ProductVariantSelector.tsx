@@ -1,6 +1,5 @@
 import * as React from 'react'
-import { Variant } from '../../types'
-import { UseProductVariant } from '../../providers/shopify'
+import { UseProductVariant, Variant } from 'use-shopify'
 import { Placeholder } from '../Placeholder'
 
 interface Props extends UseProductVariant {
@@ -16,6 +15,6 @@ interface Props extends UseProductVariant {
  */
 
 export const ProductVariantSelector = (props: Props) => {
-	const { variants, currentVariant, selectVariant } = props
+	// const { variants, currentVariant, selectVariant } = props
 	return <Placeholder>Product Variant Selector</Placeholder>
 }

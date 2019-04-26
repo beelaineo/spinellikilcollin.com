@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { render, fireEvent } from 'react-testing-library'
 import { BuyButton } from '../BuyButton'
 
 const variant = { id: '1', availableForSale: true, title: 'Variant 1' }
@@ -6,7 +7,7 @@ const variant = { id: '1', availableForSale: true, title: 'Variant 1' }
 const addToCheckout = jest.fn()
 
 afterEach(() => {
-	addToCheckout.mocks.clear()
+	addToCheckout.mockReset()
 })
 
 describe('Product Variant Selector', () => {
@@ -26,8 +27,8 @@ describe('Product Variant Selector', () => {
 
 	it('should call `addToCheckout` when clicked (default qty of 1)', () => {
 		const { container } = render(<BuyButton currentVariant={variant} addToCheckout={addToCheckout} />)
-		const btn = container.find('button[type="button"]')
-		fireEvent('click', btn)
+		const btn = container.querySelectorAll('button[type="button"]')[0]
+		fireEvent.click(btn)
 		expect(addToCheckout.mock.calls[0][0]).toBe({ variantId: variant.id, quantity: 1 })
 		expect(container).toBe(null)
 	})

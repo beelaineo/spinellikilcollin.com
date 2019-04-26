@@ -1,4 +1,4 @@
-import { Product } from 'Types'
+import { Product } from 'use-shopify'
 
 export const productQuery = /* GraphQL */ `
 	query ProductQuery($handle: String!) {

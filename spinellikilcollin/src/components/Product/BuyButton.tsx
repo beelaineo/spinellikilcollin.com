@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Variant } from '../../types'
-import { UseProductVariant, UseCheckoutProps } from '../../providers/shopify'
+import { Variant } from 'use-shopify'
+// import { UseProductVariant, UseCheckoutProps } from '../../providers/shopify'
 import { Placeholder } from '../Placeholder'
 
 /**
@@ -8,9 +8,10 @@ import { Placeholder } from '../Placeholder'
  */
 
 interface Props {
-	currentVariant?: Variant
-	addToCheckout: UseCheckoutProps.addToCheckout
-	/* quantitySelector?: boolean */ // Implement later
+	currentVariant?: Pick<Variant, 'id' | 'availableForSale'>
+	addToCheckout: any
+	/* quantitySelector?: boolean */
+	// Implement later
 }
 
 export const BuyButton = (props: Props) => {

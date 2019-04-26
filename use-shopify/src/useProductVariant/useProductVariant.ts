@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Product, Variant } from '../../types'
-import { unwindEdges } from '../../utils/graphql'
+import { Product, Variant } from '../types'
+import { unwindEdges } from '../graphql/utils'
 
 const { useState } = React
 

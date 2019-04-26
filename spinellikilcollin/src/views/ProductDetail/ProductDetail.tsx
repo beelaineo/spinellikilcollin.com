@@ -2,11 +2,11 @@ import * as React from 'react'
 // import { path } from 'ramda'
 import { RouteComponentProps } from 'react-router-dom'
 import { useQuery } from 'graphql-hooks'
+import { useProductVariant, useCheckout } from 'use-shopify'
 import { productQuery, QueryResult } from './query'
-import { useShopify } from '../../providers/shopify'
 import { propByPath } from '../../utils/data'
 import { Placeholder } from '../../components/Placeholder'
-import { ProductVariantSelector, BuyButton } from '../../components/Product'
+import { ProductVariantSelector } from '../../components/Product'
 
 interface MatchParams {
 	handle: string
@@ -20,8 +20,9 @@ export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
 	const product = propByPath('shop.productByHandle', data)
 
 	/* State */
-	const { checkout, hooks } = useShopify()
-	const { currentVariant, selectVariant } = hooks.useProductVariant(product)
+	// const { checkout, hooks } = useShopify()
+
+	const { currentVariant, selectVariant } = useProductVariant(product)
 
 	/** Todo: implement loading in actual view instead of showing this */
 	if (loading) return <p>Loading...</p>
@@ -36,7 +37,6 @@ export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
 			<Placeholder>Product Images</Placeholder>
 			<Placeholder>Product title & description</Placeholder>
 			<ProductVariantSelector variants={product.variants} currentVariant={currentVariant} selectVariant={selectVariant} />
-			<BuyButton currentVariant={currentVariant} addToCheckout={checkout.addToCheckout} />
 		</div>
 	)
 }

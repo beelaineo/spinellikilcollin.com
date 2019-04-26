@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Checkout, CheckoutLineItem } from '../../../types'
+import { Checkout, CheckoutLineItem } from '../types'
 import { useMutation } from 'graphql-hooks'
 import {
 	ADD_MUTATION,
