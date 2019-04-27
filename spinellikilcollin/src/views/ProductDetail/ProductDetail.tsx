@@ -1,41 +1,50 @@
 import * as React from 'react'
-// import { path } from 'ramda'
+import { path } from 'ramda'
 import { RouteComponentProps } from 'react-router-dom'
-import { useProductVariant, useCheckout } from 'use-shopify'
-import { productQuery, QueryResult } from './query'
-import { propByPath } from '../../utils/data'
+import { useFetchProductByHandle, useProductVariant, useCheckout, Variant, Product } from 'use-shopify'
+import { unwindEdges } from '../../utils/graphql'
+import { NotFound } from '../NotFound'
 import { Placeholder } from '../../components/Placeholder'
-import { ProductVariantSelector } from '../../components/Product'
+import { ProductVariantSelector, BuyButton } from './components'
+
+interface Props {
+	product: Product
+}
+
+const ProductDetailMain = ({ product }: Props) => {
+	/* get product variant utils */
+	console.log(product)
+	const { currentVariant, selectVariant } = useProductVariant(product)
+
+	/* get checkout utils */
+	const { addToCheckout } = useCheckout()
+
+	const [variants] = unwindEdges(product.variants)
+	// const [images] = unwindEdges(product.images)
+
+	return (
+		<Placeholder label="Product Details" data={product}>
+			<Placeholder label="Product Details" />
+			<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
+			<BuyButton addToCheckout={addToCheckout} />
+		</Placeholder>
+	)
+}
+
+/**
+ * View Wrapper
+ */
 
 interface MatchParams {
 	handle: string
 }
 
 export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
-	/* Product Fetching */
+	/* fetch the product data */
 	const { handle } = match.params
-	const result = useQuery<QueryResult>(productQuery, { variables: { handle } })
-	const { data, loading, fetchError, httpError, graphQLErrors } = result
-	const product = propByPath('shop.productByHandle', data)
-
-	/* State */
-	// const { checkout, hooks } = useShopify()
-
-	const { currentVariant, selectVariant } = useProductVariant(product)
-
-	/** Todo: implement loading in actual view instead of showing this */
-	if (loading) return <p>Loading...</p>
-	/** Todo: look into these errors and handle in a real way */
-	if (fetchError || httpError || graphQLErrors) {
-		console.log(fetchError || httpError || graphQLErrors)
-		throw new Error('Error loading product, see console')
-	}
-
-	return (
-		<div>
-			<Placeholder>Product Images</Placeholder>
-			<Placeholder>Product title & description</Placeholder>
-			<ProductVariantSelector variants={product.variants} currentVariant={currentVariant} selectVariant={selectVariant} />
-		</div>
-	)
+	const [response] = useFetchProductByHandle(handle)
+	const product = path(['data', 'productByHandle'], response)
+	if (response.fetching) return <p>Loading..</p>
+	if (!product) return <NotFound />
+	return <ProductDetailMain product={product} />
 }
