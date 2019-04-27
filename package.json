@@ -15,7 +15,8 @@
 	},
 	"workspaces": [
 		"spinellikilcollin",
-		"sanity"
+		"sanity",
+		"use-shopify"
 	],
 	"husky": {
 		"hooks": {
