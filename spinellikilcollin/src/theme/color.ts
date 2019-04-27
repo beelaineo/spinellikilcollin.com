@@ -1,4 +1,4 @@
 // @flow
 
-export const red = 'rgba(244, 48, 4, 1)'
-export const highlight = '#64daca'
+export const dark = 'rgb(0, 0, 0)'
+export const light = 'rgb(240, 240, 240)'
