@@ -13,9 +13,9 @@ export interface UseProductVariant {
 	selectVariant: (variantId: string) => void
 }
 
-export const useProductVariant = (product: Product, options: Options = {}) => {
+export const useProductVariant = (product?: Product, options: Options = {}) => {
 	const { initialVariant } = options
-	const [variants] = unwindEdges(product.variants)
+	const [variants] = product && product.variants ? unwindEdges(product.variants) : [[]]
 
 	/**
 	 * Private Methods

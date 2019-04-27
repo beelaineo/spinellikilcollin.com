@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Checkout, CheckoutLineItem } from '../types'
-import { useMutation } from 'graphql-hooks'
+import { useMutation } from 'urql'
 import {
 	ADD_MUTATION,
 	CREATE_MUTATION,
@@ -100,11 +100,11 @@ export const useCheckout = (): UseCheckoutProps => {
 	 * Hooks setup
 	 */
 	const [state, dispatch] = useReducer(reducer, initialState)
-	const [addMutation] = useMutation(ADD_MUTATION)
-	const [createMutation] = useMutation(CREATE_MUTATION)
-	const [updateLineItemMutation] = useMutation(UPDATE_LINE_ITEM_MUTATION)
-	const [applyDiscountMutation] = useMutation(APPLY_DISCOUNT_MUTATION)
-	const [removeDiscountMutation] = useMutation(REMOVE_DISCOUNT_MUTATION)
+	const [addMutationState, addMutation] = useMutation(ADD_MUTATION)
+	const [createMutationState, createMutation] = useMutation(CREATE_MUTATION)
+	const [updateLineItemMutationState, updateLineItemMutation] = useMutation(UPDATE_LINE_ITEM_MUTATION)
+	const [applyDiscountMutationState, applyDiscountMutation] = useMutation(APPLY_DISCOUNT_MUTATION)
+	const [removeDiscountMutationState, removeDiscountMutation] = useMutation(REMOVE_DISCOUNT_MUTATION)
 
 	const { currentCheckout } = state
 	const checkoutId = currentCheckout ? currentCheckout.id : undefined
