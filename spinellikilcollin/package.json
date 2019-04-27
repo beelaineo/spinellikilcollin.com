@@ -1,10 +1,10 @@
 {
-	"name": "jemmawynne-app",
+	"name": "spinellikilcollin-app",
 	"version": "0.0.0",
-	"description": "React app for jemmawynne.com",
+	"description": "React app for spinellikilcollin.com",
 	"author": "Joseph Thomas <joseph@good-idea.studio>",
-	"homepage": "https://www.jemmawynne.com",
-	"license": "ISC",
+	"homepage": "https://www.spinellikilcollin.com",
+	"license": "NONE",
 	"main": "lib/app.js",
 	"directories": {
 		"lib": "lib",
@@ -15,6 +15,7 @@
 	],
 	"scripts": {
 		"dev": "webpack-dev-server --watch --mode development --hot --progress",
+		"build": "NODE_ENV=production webpack -p --env production --progress --colors",
 		"install-types": "typesync && yarn install",
 		"test": "echo \"Error: run tests from root\" && exit 1"
 	},
@@ -68,5 +69,9 @@
 		"react-router": "^5.0.0",
 		"react-router-dom": "^5.0.0",
 		"styled-components": "^4.2.0"
+	},
+	"resolutions": {
+		"**/react": "16.8.6",
+		"**/react-dom": "16.8.6"
 	}
 }
