@@ -6,6 +6,7 @@ import { unwindEdges } from '../../utils/graphql'
 import { NotFound } from '../NotFound'
 import { Placeholder } from '../../components/Placeholder'
 import { ProductVariantSelector, BuyButton } from './components'
+import { Wrapper } from './styled'
 
 interface Props {
 	product: Product
@@ -23,11 +24,13 @@ const ProductDetailMain = ({ product }: Props) => {
 	// const [images] = unwindEdges(product.images)
 
 	return (
-		<Placeholder label="Product Details" data={product}>
-			<Placeholder label="Product Details" />
-			<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
-			<BuyButton addToCheckout={addToCheckout} />
-		</Placeholder>
+		<Wrapper>
+			<Placeholder label="Product Details" data={product}>
+				<Placeholder label="Product Details" />
+				<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
+				<BuyButton addToCheckout={addToCheckout} />
+			</Placeholder>
+		</Wrapper>
 	)
 }
 
