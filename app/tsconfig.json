@@ -3,6 +3,8 @@
 		// "module": "es6",
 		"declaration": true,
 		"noImplicitAny": false,
+		"module": "commonjs",
+		"moduleResolution": "node",
 		"removeComments": true,
 		"noLib": false,
 		"emitDecoratorMetadata": true,
@@ -14,7 +16,7 @@
 		"lib": ["es6", "es7", "dom"],
 		"outDir": "./dist",
 		"esModuleInterop": true,
-		"types": ["jest"],
+		"types": ["node", "jest"],
 
 		/*
 		TODO: Tighten these up once development is rolling
@@ -25,6 +27,8 @@
 		*/
 
 		"baseUrl": ".",
+		// "typeRoots": ["./node_modules/@types"],
+
 		"paths": {
 			"Components": ["./src/components/*"],
 			"Views/*": ["./src/views/*", "./src/views"],
@@ -33,6 +37,6 @@
 			"use-shopify": ["../use-shopify/src"]
 		}
 	},
-	"include": ["./src", "../use-shopify/src"],
+	"include": ["./src", "../use-shopify/src", "src/testUtils"],
 	"exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts", "dist", "**/__tests__/*"]
 }
