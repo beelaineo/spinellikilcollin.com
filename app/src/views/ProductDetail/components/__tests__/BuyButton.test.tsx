@@ -10,10 +10,12 @@ afterEach(() => {
 	addToCheckout.mockReset()
 })
 
-describe('Product Variant Selector', () => {
+describe('Buy Button', () => {
 	it('should disable the button when the no variant is provided', () => {
 		const { container } = render(<BuyButton addToCheckout={addToCheckout} />)
-		expect(container).toBe(null)
+		const btn = container.querySelectorAll('button')[0]
+		fireEvent.click(btn)
+		expect(addToCheckout.mock.calls.length).toBe(0)
 	})
 
 	it('should disable the button when the variant is not available for sale', () => {
@@ -22,35 +24,22 @@ describe('Product Variant Selector', () => {
 			availableForSale: false,
 		}
 		const { container } = render(<BuyButton currentVariant={nfs} addToCheckout={addToCheckout} />)
-		expect(container).toBe(null)
+		const btn = container.querySelectorAll('button')[0]
+		fireEvent.click(btn)
+		expect(addToCheckout.mock.calls.length).toBe(0)
 	})
 
 	it('should call `addToCheckout` when clicked (default qty of 1)', () => {
 		const { container } = render(<BuyButton currentVariant={variant} addToCheckout={addToCheckout} />)
-		const btn = container.querySelectorAll('button[type="button"]')[0]
+		const btn = container.querySelectorAll('button')[0]
 		fireEvent.click(btn)
-		expect(addToCheckout.mock.calls[0][0]).toBe({ variantId: variant.id, quantity: 1 })
-		expect(container).toBe(null)
+		expect(addToCheckout.mock.calls[0][0]).toEqual({ variantId: variant.id, quantity: 1 })
 	})
 
-	/**
-	 * Implement Later
-	 
-	it('should render a quantity selector when quantitySelector === true', () => {
-		const { container } = render(<BuyButton currentVariant={variant} quantitySelector addToCheckout={addToCheckout} />)
-		expect(getByTestId('qty-display').text).toBe('1')
-		const increaseBtn = getByTestId('qty-increase')
-		fireEvent('click', incraseBtn)
-		expect(getByTestId('qty-display').text).toBe('2')
+	it('should call `addToCheckout` when clicked with the correct quantity', () => {
+		const { container } = render(<BuyButton currentVariant={variant} addToCheckout={addToCheckout} quantity={3} />)
+		const btn = container.querySelectorAll('button')[0]
+		fireEvent.click(btn)
+		expect(addToCheckout.mock.calls[0][0]).toEqual({ variantId: variant.id, quantity: 3 })
 	})
-	
-	it('should not allow the quantity to move below 1 or above `maxQuantity`', () => {
-		// ...
-	})
-	
-	it('should call addToCheckout with the correct quantity', () => {
-		// ...
-	})
-
-	*/
 })

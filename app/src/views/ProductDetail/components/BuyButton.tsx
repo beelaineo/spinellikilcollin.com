@@ -1,19 +1,16 @@
 import * as React from 'react'
-import { Variant } from 'use-shopify'
-// import { UseProductVariant, UseCheckoutProps } from '../../providers/shopify'
-import { Placeholder } from '../../../components/Placeholder'
+import { Variant, UseCheckoutProps } from 'use-shopify'
 
-/**
- * TODO: Make Variant partial, we just need ID and availbleForSale
- */
-
-interface Props {
+interface Props extends Pick<UseCheckoutProps, 'addToCheckout'> {
 	currentVariant?: Pick<Variant, 'id' | 'availableForSale'>
-	addToCheckout: any
-	/* quantitySelector?: boolean */
-	// Implement later
+	quantity?: number
 }
 
-export const BuyButton = (props: Props) => {
-	return <Placeholder label="Buy Button" data={props} />
+export const BuyButton = ({ currentVariant, addToCheckout, quantity }: Props) => {
+	const handleClick = () => addToCheckout({ variantId: currentVariant.id, quantity: quantity || 1 })
+	return (
+		<button disabled={Boolean(!currentVariant || currentVariant.availableForSale === false)} onClick={handleClick}>
+			buy it
+		</button>
+	)
 }

@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { path } from 'ramda'
 import { RouteComponentProps } from 'react-router-dom'
-import { useFetchProductByHandle, useProductVariant, useCheckout, Variant, Product } from 'use-shopify'
+import { useFetchProductByHandle, useProductVariant, useCheckout, Product } from 'use-shopify'
 import { unwindEdges } from '../../utils/graphql'
 import { NotFound } from '../NotFound'
 import { Placeholder } from '../../components/Placeholder'
-import { ProductVariantSelector, BuyButton } from './components'
+import { ProductVariantSelector, BuyButton, ProductImages } from './components'
 import { Wrapper } from './styled'
 
 interface Props {
@@ -14,21 +14,19 @@ interface Props {
 
 const ProductDetailMain = ({ product }: Props) => {
 	/* get product variant utils */
-	console.log(product)
 	const { currentVariant, selectVariant } = useProductVariant(product)
 
 	/* get checkout utils */
 	const { addToCheckout } = useCheckout()
-
 	const [variants] = unwindEdges(product.variants)
-	// const [images] = unwindEdges(product.images)
 
 	return (
 		<Wrapper>
 			<Placeholder label="Product Details" data={product}>
+				<ProductImages currentVariant={currentVariant} product={product} />
 				<Placeholder label="Product Details" />
 				<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
-				<BuyButton addToCheckout={addToCheckout} />
+				<BuyButton addToCheckout={addToCheckout} currentVariant={currentVariant} />
 			</Placeholder>
 		</Wrapper>
 	)
