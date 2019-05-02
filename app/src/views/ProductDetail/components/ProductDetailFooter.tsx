@@ -10,11 +10,9 @@ interface ProductDetailFooterProps {
 }
 
 export const ProductDetailFooter = ({ product, currentVariant }: ProductDetailFooterProps) => {
-	console.log(product, currentVariant)
 	return (
 		<NormalizeDiv className="product__description">
-			<h1>{product.title}</h1>
+			<p>{product.description}</p>
 		</NormalizeDiv>
 	)
 }
-

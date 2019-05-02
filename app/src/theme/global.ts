@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import normalized from './normalized'
 import fonts from './fonts'
+import { semiDark } from './color'
 
 export const GlobalStyles = createGlobalStyle`
 	${normalized}
@@ -11,8 +12,8 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	body {
-		font-family: 'Leitura', serif;
-
+		font-family: 'LeituraNewsRoman', serif;
+		color: ${semiDark};
 	}
 
 	button, input, select, option, textarea {

@@ -16,19 +16,19 @@ export const PRODUCT_QUERY = /* GraphQL */ `
 					}
 				}
 			}
-		}
-		variants(first: 50) {
-			edges {
-				node {
-					id
-					availableForSale
-					price
-					sku
-					title
-					image {
+			variants(first: 50) {
+				edges {
+					node {
 						id
-						altText
-						originalSrc
+						availableForSale
+						price
+						sku
+						title
+						image {
+							id
+							altText
+							originalSrc
+						}
 					}
 				}
 			}
