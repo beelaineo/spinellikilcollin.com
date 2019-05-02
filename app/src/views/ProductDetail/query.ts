@@ -1,4 +1,5 @@
 import { Product } from 'use-shopify'
+import { imageFragment } from '../../graphql/fragments'
 
 export const productQuery = /* GraphQL */ `
 	query ProductQuery($handle: String!) {
@@ -10,9 +11,7 @@ export const productQuery = /* GraphQL */ `
 				images(first: 50) {
 					edges {
 						node {
-							id
-							altText
-							originalSrc
+							...ImageFragment
 						}
 					}
 				}
@@ -25,9 +24,7 @@ export const productQuery = /* GraphQL */ `
 							sku
 							title
 							image {
-								id
-								altText
-								originalSrc
+								...ImageFragment
 							}
 						}
 					}
@@ -35,6 +32,7 @@ export const productQuery = /* GraphQL */ `
 			}
 		}
 	}
+	${imageFragment}
 `
 
 export interface QueryResult {

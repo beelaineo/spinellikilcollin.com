@@ -3,13 +3,9 @@ import { Switch, Route } from 'react-router'
 import { Homepage, ProductListing, ProductDetail, Navigation, Checkout } from './views'
 import { Providers } from './providers/AllProviders'
 
-/* Global var provided by webpack */
-declare var SHOPIFY_STOREFRONT_TOKEN: string
-
 /**
  * App
  *
- * - Top-level Providers
  * - Global Components
  * - Routes
  */
