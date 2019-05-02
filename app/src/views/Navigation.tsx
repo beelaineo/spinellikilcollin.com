@@ -1,5 +1,18 @@
 import * as React from 'react'
+import { Link } from 'react-router-dom'
+import { useSettings } from '../providers/SettingsProvider'
 
 export const Navigation = () => {
-	return <nav>Nav</nav>
+	const { ready, collections } = useSettings()
+	console.log(ready, collections)
+	if (!ready) return null
+	return (
+		<nav>
+			{collections.map((collection) => (
+				<Link key={collection.id} to={`/collections/${collection.handle}`}>
+					{collection.title}
+				</Link>
+			))}
+		</nav>
+	)
 }

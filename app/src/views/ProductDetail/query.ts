@@ -1,36 +1,34 @@
 import { Product } from 'use-shopify'
 
-export const productQuery = /* GraphQL */ `
+export const PRODUCT_QUERY = /* GraphQL */ `
 	query ProductQuery($handle: String!) {
-		shop {
-			productByHandle(handle: $handle) {
-				id
-				title
-				handle
-				description
-				images(first: 50) {
-					edges {
-						node {
-							id
-							altText
-							originalSrc
-						}
+		productByHandle(handle: $handle) {
+			id
+			title
+			handle
+			description
+			images(first: 50) {
+				edges {
+					node {
+						id
+						altText
+						originalSrc
 					}
 				}
-				variants(first: 50) {
-					edges {
-						node {
-							id
-							availableForSale
-							price
-							sku
-							title
-							image {
-								id
-								altText
-								originalSrc
-							}
-						}
+			}
+		}
+		variants(first: 50) {
+			edges {
+				node {
+					id
+					availableForSale
+					price
+					sku
+					title
+					image {
+						id
+						altText
+						originalSrc
 					}
 				}
 			}
@@ -38,7 +36,7 @@ export const productQuery = /* GraphQL */ `
 	}
 `
 
-export interface QueryResult {
+export interface ProductQueryResult {
 	shop: {
 		productByHandle: Product | void
 	}
