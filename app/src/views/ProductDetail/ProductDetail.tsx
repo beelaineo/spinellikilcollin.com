@@ -1,7 +1,9 @@
 import * as React from 'react'
 import { path } from 'ramda'
 import { RouteComponentProps } from 'react-router-dom'
-import { useFetchProductByHandle, useProductVariant, useCheckout, Product } from 'use-shopify'
+import { useQuery } from 'urql'
+import { PRODUCT_QUERY, ProductQueryResult } from './query'
+import { useProductVariant, useCheckout, Product } from 'use-shopify'
 import { unwindEdges } from '../../utils/graphql'
 import { NotFound } from '../NotFound'
 import { Placeholder } from '../../components/Placeholder'
@@ -43,8 +45,10 @@ interface MatchParams {
 export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
 	/* fetch the product data */
 	const { handle } = match.params
-	const [response] = useFetchProductByHandle(handle)
+	const variables = { handle }
+	const [response] = useQuery<ProductQueryResult>({ query: PRODUCT_QUERY, variables })
 	const product = path(['data', 'productByHandle'], response)
+	console.log(response)
 	if (response.fetching) return <p>Loading..</p>
 	if (!product) return <NotFound />
 	return <ProductDetailMain product={product} />
