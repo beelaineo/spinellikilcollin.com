@@ -5,8 +5,8 @@ import { useFetchProductByHandle, useProductVariant, useCheckout, Product } from
 import { unwindEdges } from '../../utils/graphql'
 import { NotFound } from '../NotFound'
 import { Placeholder } from '../../components/Placeholder'
-import { ProductVariantSelector, BuyButton, ProductImages } from './components'
-import { Wrapper } from './styled'
+import { ProductVariantSelector, BuyButton, ProductImages, ProductDetailHeader, ProductDetailFooter } from './components'
+import { Wrapper, FlexContainer, FlexHalf } from './styled'
 
 interface Props {
 	product: Product
@@ -18,15 +18,23 @@ const ProductDetailMain = ({ product }: Props) => {
 
 	/* get checkout utils */
 	const { addToCheckout } = useCheckout()
-	const [variants] = unwindEdges(product.variants)
+	const [variants] = unwindEdges(product.variants)	
 
+	
 	return (
 		<Wrapper>
 			<Placeholder label="Product Details" data={product}>
-				<ProductImages currentVariant={currentVariant} product={product} />
-				<Placeholder label="Product Details" />
-				<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
-				<BuyButton addToCheckout={addToCheckout} currentVariant={currentVariant} />
+				<FlexContainer>
+					<FlexHalf>
+						<ProductImages currentVariant={currentVariant} product={product} />
+					</FlexHalf>
+					<FlexHalf>
+						<ProductDetailHeader currentVariant={currentVariant} product={product}/>
+						<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
+						<BuyButton addToCheckout={addToCheckout} currentVariant={currentVariant} />
+						<ProductDetailFooter currentVariant={currentVariant} product={product}/>
+					</FlexHalf>
+				</FlexContainer>
 			</Placeholder>
 		</Wrapper>
 	)

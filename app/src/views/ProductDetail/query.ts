@@ -7,6 +7,7 @@ export const productQuery = /* GraphQL */ `
 				id
 				title
 				handle
+				description
 				images(first: 50) {
 					edges {
 						node {

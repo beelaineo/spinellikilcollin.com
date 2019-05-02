@@ -10,6 +10,11 @@ export const GlobalStyles = createGlobalStyle`
 		box-sizing: border-box;
 	}
 
+	body {
+		font-family: 'Leitura', serif;
+
+	}
+
 	button, input, select, option, textarea {
 		background: white;
 		font-weight: 300;

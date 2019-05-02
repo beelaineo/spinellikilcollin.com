@@ -9,6 +9,7 @@ export const z = {
 }
 
 export const spacing = {
+	small: '10px',
 	quarter: '3px',
 	half: '6px',
 	single: '12px',
