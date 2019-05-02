@@ -17,7 +17,8 @@
 		"dev": "webpack-dev-server --watch --mode development --hot --progress",
 		"build": "NODE_ENV=production webpack -p --env production --progress --colors",
 		"install-types": "typesync && yarn install",
-		"test": "jest"
+		"test": "jest",
+		"playground": "graphql playground"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.4.3",
