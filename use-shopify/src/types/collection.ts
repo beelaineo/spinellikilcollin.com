@@ -7,7 +7,7 @@ export interface Collection {
 	__typename: 'Collection'
 	handle: string
 	title: string
-	description: string
+	description?: string
 	image?: ShopifyImage
-	products: Paginated<Product>
+	products?: Paginated<Product>
 }
