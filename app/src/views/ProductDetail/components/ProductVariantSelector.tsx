@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { UseProductVariant, Variant } from 'use-shopify'
 import { Placeholder } from '../../../components/Placeholder'
-import { Select, Label, NormalizeDiv } from '../styled'
+import { Select, Label, NormalizeDiv, QuantitySelector } from '../styled'
 
 interface Props extends UseProductVariant {
 	variants: Variant[]
@@ -18,28 +18,35 @@ interface Props extends UseProductVariant {
 export const ProductVariantSelector = (props: Props) => {
 	const { variants, currentVariant, selectVariant } = props
 	// return <Placeholder label="Variant Selector" data={props} />
-	console.log({ variants, currentVariant })
 	return (
 		<div className="product__variants">
 			{/* if there are sizes */}
 			{variants.length > 1 && (
-				<span>
+				<span key={currentVariant.id}>
 					<NormalizeDiv>
 						<Label>Size</Label>
 						<Select id="size" name="product-size">
 							{variants.map((variant) => {
-								return <option value={variant.id}>{variant.title}</option>
+								return (
+									<option key={variant.id} value={variant.id}>
+										{variant.title}
+									</option>
+								)
 							})}
 						</Select>
 					</NormalizeDiv>
 					<NormalizeDiv>
 						<Label>Quantity</Label>
 						{/* How do I get the quantity? */}
-						<Select id="quantity" name="product-size">
-							{variants.map((variant) => {
-								return <option value={variant.id}>{variant.title}</option>
-							})}
-						</Select>
+						<QuantitySelector>
+							<button type="button">
+								<span>&#43;</span>
+							</button>
+							<input type="text" name="quantity" value="1" />
+							<button type="button">
+								<span>&#8722;</span>
+							</button>
+						</QuantitySelector>
 					</NormalizeDiv>
 				</span>
 			)}

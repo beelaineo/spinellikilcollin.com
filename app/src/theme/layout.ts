@@ -16,6 +16,7 @@ export const spacing = {
 	singleHalf: '18px',
 	double: '24px',
 	triple: '38px',
+	large: '50px',
 }
 
 export const columns = {

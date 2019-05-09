@@ -11,6 +11,23 @@ export const Wrapper = styled.div`
 		max-width: 1200px;
 		margin: 0 auto;
 		font-family: "Leitura", "Adobe Caslon Pro",serif;
+		#main__navigation {
+			text-align: center;
+			padding: ${props.theme.layout.spacing.double};
+			h1 {
+				color: black;
+				font-size: ${props.theme.type.size.h1};
+			}
+		}
+	`}
+`
+
+export const Nav = styled.div`
+	${(props: WrapperProps) => `
+		width: calc(100% - 4rem);
+		max-width: 1200px;
+		margin: 0 auto;
+		font-family: "Leitura", "Adobe Caslon Pro",serif;
 	`}
 `
 
@@ -26,6 +43,25 @@ export const ProductGalleryWrapper = styled.div`
 			padding-right: ${props.theme.layout.spacing.small};
 			> button {
 				padding: ${props.theme.layout.spacing.small};
+			}
+		}
+	`}
+`
+
+export const ProductRelatedWrapper = styled.div`
+	${(props: WrapperProps) => `
+		margin: ${props.theme.layout.spacing.large};
+		h2 {
+			text-transform: uppercase;
+			color: ${props.theme.color.lightGrayBody};
+			letter-spacing: .035rem;
+		}
+		.product__related__item {
+			h4 {
+				text-align: center;
+				font-size: ${props.theme.type.size.h5};
+				margin: ${props.theme.layout.spacing.small};
+				font-weight: ${props.theme.type.weight.xlight};
 			}
 		}
 	`}
@@ -47,6 +83,11 @@ export const FlexHalf = styled.div`
 	width: 48.5%;
 `
 
+export const FlexFour = styled.div`
+	flex: 5;
+	margin: 10px;
+`
+
 export const Button = styled.button`
 	${(props: WrapperProps) => `
 	    background-color: ${props.theme.color.semiDark};
@@ -56,7 +97,7 @@ export const Button = styled.button`
 		display: inline-block;
 		font-family: serif;
 		font-size: ${props.theme.type.size.h5};
-		min-width: 12rem;
+		min-width: 13rem;
 		min-height: 3.5rem;
 		letter-spacing: .035em;
 		padding: .25rem 1rem;
@@ -112,6 +153,34 @@ export const Select = styled.select`
 	`}
 `
 
+export const QuantitySelector = styled.div`
+	${(props: WrapperProps) => `
+		button {
+			text-align-last: center;
+			height: 50px;
+			border: 1px solid #f1f1f1;
+			border-radius: 0;
+			-webkit-transition: .2s;
+			transition: .2s;
+			font-size: .85rem;
+			cursor: pointer;
+			-moz-appearance: none;
+			appearance: none;
+			-webkit-appearance: none;
+			border: none;
+			background: none;
+			border-radius: 0;
+			border: 1px solid #f1f1f1;
+			padding: .5rem 1.2rem;
+			font-family: sans-serif;
+		}
+		input {
+			text-align: center;
+			width: 109px;
+		}
+	`}
+`
+
 export const Label = styled.label`
 	${(props: WrapperProps) => `
 		color: #777;
@@ -129,10 +198,25 @@ export const Label = styled.label`
 
 // SPINELLI HEADINGS
 
+export const LightHeadingH1 = styled.h2`
+	${(props: WrapperProps) => `
+		font-weight: 100;
+		color: ${props.theme.color.semiDark};
+	`}
+`
+
 export const LightHeadingH2 = styled.h2`
 	${(props: WrapperProps) => `
 		font-weight: 100;
 		color: ${props.theme.color.semiDark};
+		color: ${(props) => (props.primary ? 'red' : 'blue')};
+	`}
+`
+
+export const LightHeadingH2Center = styled(LightHeadingH2)`
+	${(props: WrapperProps) => `
+		text-align: center;
+		width: 100%;
 	`}
 `
 

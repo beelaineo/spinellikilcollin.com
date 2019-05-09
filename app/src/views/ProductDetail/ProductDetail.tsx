@@ -7,8 +7,15 @@ import { useProductVariant, useCheckout, Product } from 'use-shopify'
 import { unwindEdges } from '../../utils/graphql'
 import { NotFound } from '../NotFound'
 import { Placeholder } from '../../components/Placeholder'
-import { ProductVariantSelector, BuyButton, ProductImages, ProductDetailHeader, ProductDetailFooter } from './components'
-import { Wrapper, FlexContainer, FlexHalf } from './styled'
+import {
+	ProductVariantSelector,
+	BuyButton,
+	ProductImages,
+	ProductDetailHeader,
+	ProductDetailFooter,
+	ProductRelated,
+} from './components'
+import { Wrapper, FlexContainer, FlexHalf, NormalizeDiv } from './styled'
 
 interface Props {
 	product: Product
@@ -24,7 +31,7 @@ const ProductDetailMain = ({ product }: Props) => {
 
 	return (
 		<Wrapper>
-			<Placeholder label="Product Details" data={product}>
+			<NormalizeDiv>
 				<FlexContainer>
 					<FlexHalf>
 						<ProductImages currentVariant={currentVariant} product={product} />
@@ -36,7 +43,10 @@ const ProductDetailMain = ({ product }: Props) => {
 						<ProductDetailFooter currentVariant={currentVariant} product={product} />
 					</FlexHalf>
 				</FlexContainer>
-			</Placeholder>
+				<NormalizeDiv>
+					<ProductRelated currentVariant={currentVariant} product={product} />
+				</NormalizeDiv>
+			</NormalizeDiv>
 		</Wrapper>
 	)
 }
