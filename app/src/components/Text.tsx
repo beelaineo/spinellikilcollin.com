@@ -9,7 +9,7 @@ interface TextStyleProps {
 }
 
 const commonHeaderStyles = css`
-	${({ theme, align, weight, color, family }: TextStyleProps) => `
+	${({ theme, align, weight, color, family }: TextStyleProps) => css`
 		font-weight: ${theme.type.weight[weight] || family === 'serif' ? theme.type.weight.normal : theme.type.weight.semi};
 		font-family: ${theme.type.fontFamily[family] || theme.type.fontFamily.sans};
 		color: ${theme.color[color] || 'inherit'};
@@ -19,25 +19,24 @@ const commonHeaderStyles = css`
 		&:first-child {
 			margin-top: 0;
 		}
-		
+
 		&:last-child {
 			margin-bottom: 0;
 		}
-
 	`};
 `
 
-export const Header1 = styled.h1`
+export const Header1 = styled.h2`
 	${commonHeaderStyles};
 	${({ theme }) => css`
-		font-size: ${theme.type.size.h1};
+		font-size: ${theme.type.size.h2};
 		font-family: ${theme.type.fontFamily.serif};
 		font-weight: ${theme.type.weight.normal};
 		${theme.mediaQueries.tablet} {
-			font-size: calc(${theme.type.size.h1} * 0.8);
+			font-size: calc(${theme.type.size.h2} * 0.8);
 		}
 		${theme.mediaQueries.phone} {
-			font-size: calc(${theme.type.size.h1} * 0.7);
+			font-size: calc(${theme.type.size.h2} * 0.7);
 		}
 	`};
 `

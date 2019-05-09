@@ -8,4 +8,10 @@ export default css`
 		font-style: italic;
 		font-weight: 100;
 	}
+	@font-face {
+		font-family: 'Leitura';
+		src: url('../public/assets/LeituraNewsRoman.woff') format('woff2');
+		font-style: italic;
+		font-weight: 100;
+	}
 `

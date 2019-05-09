@@ -1,12 +1,21 @@
 import * as React from 'react'
 import { path } from 'ramda'
 import { RouteComponentProps } from 'react-router-dom'
-import { useFetchProductByHandle, useProductVariant, useCheckout, Product } from 'use-shopify'
+import { useQuery } from 'urql'
+import { PRODUCT_QUERY, ProductQueryResult } from './query'
+import { useProductVariant, useCheckout, Product } from 'use-shopify'
 import { unwindEdges } from '../../utils/graphql'
 import { NotFound } from '../NotFound'
 import { Placeholder } from '../../components/Placeholder'
-import { ProductVariantSelector, BuyButton, ProductImages } from './components'
-import { Wrapper } from './styled'
+import {
+	ProductVariantSelector,
+	BuyButton,
+	ProductImages,
+	ProductDetailHeader,
+	ProductDetailFooter,
+	ProductRelated,
+} from './components'
+import { Wrapper, FlexContainer, FlexHalf, NormalizeDiv } from './styled'
 
 interface Props {
 	product: Product
@@ -22,12 +31,22 @@ const ProductDetailMain = ({ product }: Props) => {
 
 	return (
 		<Wrapper>
-			<Placeholder label="Product Details" data={product}>
-				<ProductImages currentVariant={currentVariant} product={product} />
-				<Placeholder label="Product Details" />
-				<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
-				<BuyButton addToCheckout={addToCheckout} currentVariant={currentVariant} />
-			</Placeholder>
+			<NormalizeDiv>
+				<FlexContainer>
+					<FlexHalf>
+						<ProductImages currentVariant={currentVariant} product={product} />
+					</FlexHalf>
+					<FlexHalf>
+						<ProductDetailHeader currentVariant={currentVariant} product={product} />
+						<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
+						<BuyButton addToCheckout={addToCheckout} currentVariant={currentVariant} />
+						<ProductDetailFooter currentVariant={currentVariant} product={product} />
+					</FlexHalf>
+				</FlexContainer>
+				<NormalizeDiv>
+					<ProductRelated currentVariant={currentVariant} product={product} />
+				</NormalizeDiv>
+			</NormalizeDiv>
 		</Wrapper>
 	)
 }
@@ -43,8 +62,10 @@ interface MatchParams {
 export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
 	/* fetch the product data */
 	const { handle } = match.params
-	const [response] = useFetchProductByHandle(handle)
+	const variables = { handle }
+	const [response] = useQuery<ProductQueryResult>({ query: PRODUCT_QUERY, variables })
 	const product = path(['data', 'productByHandle'], response)
+	console.log(response)
 	if (response.fetching) return <p>Loading..</p>
 	if (!product) return <NotFound />
 	return <ProductDetailMain product={product} />
