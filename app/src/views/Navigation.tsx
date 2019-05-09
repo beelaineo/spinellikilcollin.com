@@ -4,7 +4,6 @@ import { useSettings } from '../providers/SettingsProvider'
 
 export const Navigation = () => {
 	const { ready, collections } = useSettings()
-	console.log(ready, collections)
 	if (!ready) return null
 	return (
 		<nav>
