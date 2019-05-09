@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Product, Variant } from 'use-shopify'
 import { unwindEdges } from '../../../utils/graphql'
 import { Gallery } from '../../../components/Gallery'
-import { FlexHalf, NormalizeDiv } from '../styled'
+import { FlexHalf, NormalizeDiv, BodyText } from '../styled'
 
 interface ProductDetailFooterProps {
 	product: Product
@@ -12,7 +12,7 @@ interface ProductDetailFooterProps {
 export const ProductDetailFooter = ({ product, currentVariant }: ProductDetailFooterProps) => {
 	return (
 		<NormalizeDiv className="product__description">
-			<p>{product.description}</p>
+			<BodyText>{product.description}</BodyText>
 		</NormalizeDiv>
 	)
 }
