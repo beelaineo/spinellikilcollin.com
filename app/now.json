@@ -3,7 +3,7 @@
 	"name": "spinellikilcollin-storefront",
 	"builds": [
 		{
-			"src": "./app/package.json",
+			"src": "./package.json",
 			"use": "@now/static-build",
 			"config": { "distDir": "build" }
 		}

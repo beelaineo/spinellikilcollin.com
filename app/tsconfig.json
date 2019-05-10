@@ -9,7 +9,7 @@
 		"noLib": false,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"target": "es5",
+		"target": "es6",
 		"sourceMap": true,
 		"jsx": "react",
 		"rootDir": "..",

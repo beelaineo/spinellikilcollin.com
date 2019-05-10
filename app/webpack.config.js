@@ -1,71 +1,91 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
-const package = require('./package.json')
-const { TsConfigPathsPlugin } = require('awesome-typescript-loader')
 const env = require('dotenv').config()
 const CopyPlugin = require('copy-webpack-plugin')
 
 const { parsed } = env
 
-// variables
-const sourcePath = path.join(__dirname, './src')
-const outPath = path.join(__dirname, './build')
+const PATHS = {
+	root: path.resolve(__dirname),
+	nodeModules: path.resolve(__dirname, 'node_modules'),
+	src: path.resolve(__dirname, 'src'),
+	dist: path.resolve(__dirname, 'build'),
+}
 
-// plugins
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const WebpackCleanupPlugin = require('webpack-cleanup-plugin')
+const DEV_SERVER = {
+	hot: true,
+	hotOnly: true,
+	historyApiFallback: true,
+	overlay: true,
+	contentBase: path.resolve(__dirname, 'public'),
+	// proxy: {
+	//   '/api': 'http://localhost:3000'
+	// },
+}
 
-module.exports = function(env) {
-	const isProduction = env === 'production'
+module.exports = (env) => {
+	const isDev = env !== 'production'
 	return {
-		mode: env || 'development',
-		context: sourcePath,
-		entry: {
-			app: './index.tsx',
-		},
+		cache: true,
+		devtool: isDev ? 'eval-source-map' : 'source-map',
+		devServer: isDev ? DEV_SERVER : {},
+		context: PATHS.root,
+		entry: isDev ? ['./src/index.tsx'] : './src/index.tsx',
 		output: {
-			path: outPath,
+			path: PATHS.dist,
+			filename: isDev ? '[name].js' : '[name].[hash].js',
 			publicPath: '/',
-			filename: isProduction ? '[contenthash].js' : '[hash].js',
-			chunkFilename: isProduction ? '[name].[contenthash].js' : '[name].[hash].js',
 		},
-		target: 'web',
 		resolve: {
-			extensions: ['.mjs', '.js', '.jsx', '.ts', '.tsx'],
-			// Fix webpack's default behavior to not load packages with jsnext:main module
-			// (jsnext:main directs not usually distributable es6 format, but es6 sources)
-			mainFields: ['module', 'browser', 'main'],
-			alias: {
-				app: path.resolve(__dirname, 'src/app/'),
-				'react-dom': '@hot-loader/react-dom',
-			},
-			plugins: [new TsConfigPathsPlugin()],
+			extensions: ['.mjs', '.ts', '.tsx', '.js'],
+			alias: isDev
+				? {
+						'react-dom': '@hot-loader/react-dom',
+				  }
+				: {},
 		},
 		module: {
 			rules: [
-				// .ts, .tsx
 				{
 					test: /\.tsx?$/,
+					include: PATHS.src,
 					use: [
-						!isProduction && {
-							loader: 'babel-loader',
-							options: { plugins: ['react-hot-loader/babel'] },
+						// isDev ? { loader: 'react-hot-loader/webpack' } : null,
+						{ loader: 'babel-loader' },
+						{
+							loader: 'awesome-typescript-loader',
+							options: {
+								transpileOnly: true,
+								useTranspileModule: false,
+								sourceMap: true,
+							},
 						},
-						'ts-loader',
 					].filter(Boolean),
 				},
-				// static assets
-				{ test: /\.html$/, use: 'html-loader' },
-				{ test: /\.(a?png|svg)$/, use: 'url-loader?limit=10000' },
-				// {
-				// 	test: /\.(jpe?g|gif|bmp|mp3|mp4|ogg|wav|eot|ttf|woff|woff2)$/,
-				// 	use: 'file-loader',
-				// },
 			],
 		},
+		plugins: [
+			new webpack.DefinePlugin({
+				'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production'),
+				SHOPIFY_STOREFRONT_TOKEN: JSON.stringify(parsed.SHOPIFY_STOREFRONT_TOKEN),
+			}),
+			new HtmlWebpackPlugin({
+				template: './public/index.html',
+			}),
+			// isDev && new webpack.HotModuleReplacementPlugin(),
+			isDev && new webpack.NamedModulesPlugin(),
+			!isDev &&
+				new webpack.LoaderOptionsPlugin({
+					minimize: true,
+					debug: false,
+				}),
+			!isDev && new CopyPlugin([{ from: './public/' }]),
+		].filter(Boolean),
 		optimization: {
+			minimize: !isDev,
 			splitChunks: {
 				name: true,
 				cacheGroups: {
@@ -76,63 +96,12 @@ module.exports = function(env) {
 					vendors: {
 						test: /[\\/]node_modules[\\/]/,
 						chunks: 'all',
-						filename: isProduction ? 'vendor.[contenthash].js' : 'vendor.[hash].js',
+						filename: isDev ? 'vendor.[hash].js' : 'vendor.[contentHash].js',
 						priority: -10,
 					},
 				},
 			},
 			runtimeChunk: true,
-		},
-		plugins: [
-			new webpack.EnvironmentPlugin({
-				NODE_ENV: 'development', // use 'development' unless process.env.NODE_ENV is defined
-				DEBUG: false,
-			}),
-			new webpack.DefinePlugin({
-				SHOPIFY_STOREFRONT_TOKEN: JSON.stringify(parsed.SHOPIFY_STOREFRONT_TOKEN),
-			}),
-			new WebpackCleanupPlugin(),
-			new HtmlWebpackPlugin({
-				template: './index.html',
-				minify: {
-					minifyJS: isProduction,
-					minifyCSS: isProduction,
-					removeComments: !isProduction,
-					useShortDoctype: true,
-					collapseWhitespace: true,
-					collapseInlineTagWhitespace: true,
-				},
-				append: {
-					head: `<script src="//cdn.polyfill.io/v3/polyfill.min.js"></script>`,
-				},
-				meta: {
-					title: package.name,
-					description: package.description,
-					keywords: Array.isArray(package.keywords) ? package.keywords.join(',') : undefined,
-				},
-			}),
-			isProduction ? new CopyPlugin([{ from: '../public/' }]) : false,
-		].filter(Boolean),
-		devServer: isProduction
-			? {
-					contentBase: sourcePath,
-					hot: true,
-					port: 8080,
-					inline: true,
-					historyApiFallback: {
-						disableDotRule: true,
-					},
-					stats: 'minimal',
-					clientLogLevel: 'warning',
-			  }
-			: {},
-		// https://webpack.js.org/configuration/devtool/
-		devtool: isProduction ? 'hidden-source-map' : 'cheap-module-eval-source-map',
-		node: {
-			// workaround for webpack-dev-server issue
-			// https://github.com/webpack/webpack-dev-server/issues/60#issuecomment-103411179
-			fs: 'empty',
-			net: 'empty',
 		},
 	}
 }

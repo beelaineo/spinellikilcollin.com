@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { path } from 'ramda'
 import { RouteComponentProps } from 'react-router-dom'
 import { useQuery } from 'urql'
 import { PRODUCT_QUERY, ProductQueryResult } from './query'
@@ -64,8 +63,7 @@ export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
 	const { handle } = match.params
 	const variables = { handle }
 	const [response] = useQuery<ProductQueryResult>({ query: PRODUCT_QUERY, variables })
-	const product = path(['data', 'productByHandle'], response)
-	console.log(response)
+	const product = (response && response.data && response.data.productByHandle) || undefined
 	if (response.fetching) return <p>Loading..</p>
 	if (!product) return <NotFound />
 	return <ProductDetailMain product={product} />
