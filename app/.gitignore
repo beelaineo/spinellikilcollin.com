@@ -1,1 +1,4 @@
 dist
+*.log
+node_modules
+.DS_STORE

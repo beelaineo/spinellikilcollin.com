@@ -2451,6 +2451,11 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
+"@types/fast-json-stable-stringify@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#40363bb847cb86b2c2e1599f1398d11e8329c921"
+  integrity sha512-mky/O83TXmGY39P1H9YbUpjV6l6voRYlufqfFCvel8l1phuy8HRjdWc1rrPuN53ITBJlbyMSV6z3niOySO5pgQ==
+
 "@types/graphql@^14.2.0":
   version "14.2.0"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.2.0.tgz#74e1da5f2a4a744ac6eb3ed57b48242ea9367202"
@@ -7289,6 +7294,11 @@ graphql-static-binding@0.9.3:
   integrity sha512-C8+EqwNCiQxUhbrWEokxN16oINAkhIDBzEpKHXeatBRaAyMczXm0J6HMaMSKOuQmk7P1PbDHIVW3FVZwXF2WJQ==
   dependencies:
     cucumber-html-reporter "^3.0.4"
+
+graphql-tag@^2.10.1:
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.1.tgz#10aa41f1cd8fae5373eaf11f1f67260a3cad5e02"
+  integrity sha512-jApXqWBzNXQ8jYa/HLkZJaVw9jgwNqZkywa2zfFn16Iv1Zb7ELNHkJaXHR7Quvd5SIGsy6Ny7SUKATgnu05uEg==
 
 graphql@^0.13.1:
   version "0.13.2"
@@ -12394,7 +12404,7 @@ react-datepicker@^1.8.0:
     react-onclickoutside "^6.7.1"
     react-popper "^1.0.2"
 
-react-dom@^16.8, react-dom@^16.8.6:
+react-dom@16.8.6, react-dom@^16.8, react-dom@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
   integrity sha512-1nL7PIq9LTL3fthPqwkvr2zY7phIPjYrT0jp4HjyEQrEROnw4dG41VVwi/wfoCneoleqrNX7iAD+pXebJZwrwA==
@@ -12618,7 +12628,7 @@ react-tippy@^1.2.3:
   dependencies:
     popper.js "^1.11.1"
 
-react@^16.8, react@^16.8.6:
+react@16.8.6, react@^16.8, react@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
   integrity sha512-pC0uMkhLaHm11ZSJULfOBqV4tIZkx87ZLvbbQYunNixAAvjnC+snJCg0XQXn9VIsttVsbZP/H/ewzgsd5fxKXw==
@@ -14985,13 +14995,24 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-urql@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/urql/-/urql-1.0.4.tgz#e4140a15fbb7571d73a0008e736782522fd704c1"
-  integrity sha512-0/d09NkxvToMx1SVavouNrhPnm/y6k/QXaIpfMCo6/o0YeaOsOxv5xsSf8Pm35v5CLrd7L0sk28ZylnJ8XROeg==
+urql@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/urql/-/urql-1.0.5.tgz#782b6477692679e871cb55aa380e81f3746e053a"
+  integrity sha512-HIdfzxMC14ryyztakAxgKNEma4eC2N7iZaebLirslIiZAE+QLN5PoS0t30sfi9uG3ks0V9Y/AJRh2Du05g+8Mg==
   dependencies:
+    "@types/fast-json-stable-stringify" "^2.0.0"
     create-react-context "^0.2.3"
+    fast-json-stable-stringify "^2.0.0"
+    graphql-tag "^2.10.1"
+    prop-types "^15.6.0"
     wonka "^2.0.1"
+
+use-shopify@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/use-shopify/-/use-shopify-0.1.3.tgz#e7dc249e753ef60d77dc5b41856284f59a5aab5a"
+  integrity sha512-ybnpIZKAdsALaW0j86ykUspjw/g0eWU1AbjYLrSpYsjZgKlDSDKF+fjenRganGV+FtguQSWYQBVNS8AzEYyKEA==
+  dependencies:
+    urql "^1.0.5"
 
 use@^3.1.0:
   version "3.1.1"
