@@ -52,7 +52,7 @@ action "deploy:staging" {
   secrets = [
     "ZEIT_TOKEN",
   ]
-  args = "--local-config ./app/now.json --target staging"
+  args = "--target staging"
 }
 
 # action "deploy:production" {
