@@ -3,7 +3,7 @@
 	"name": "spinellikilcollin-storefront",
 	"builds": [
 		{
-			"src": "package.json",
+			"src": "app/package.json",
 			"use": "@now/static-build",
 			"config": { "distDir": "build" }
 		}
@@ -12,13 +12,13 @@
 		{
 			"src": "/static/(.*)",
 			"headers": { "cache-control": "s-maxage=31536000,immutable" },
-			"dest": "/static/$1"
+			"dest": "app/static/$1"
 		},
-		{ "src": "/favicon.ico", "dest": "/favicon.ico" },
+		{ "src": "/favicon.ico", "dest": "app/favicon.ico" },
 		{
 			"src": "/(.*)",
 			"headers": { "cache-control": "s-maxage=0" },
-			"dest": "index.html"
+			"dest": "app/index.html"
 		}
 	]
 }
