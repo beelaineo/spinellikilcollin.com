@@ -16,8 +16,14 @@ action "Develop" {
   args = "branch develop"
 }
 
-action "Test: Staging" {
+action "Build: Staging" {
   needs = "Develop"
+  uses = "actions/npm@master"
+  args = "install"
+}
+
+action "Test: Staging" {
+  needs = "Build: Staging"
   uses = "actions/npm@master"
   args = "test"
 }
