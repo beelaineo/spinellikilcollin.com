@@ -4,9 +4,7 @@ import { ThemeProvider } from 'styled-components'
 import { ShopifyProvider } from 'use-shopify'
 import { theme, GlobalStyles } from '../theme'
 import { SettingsProvider } from './SettingsProvider'
-
-/* Global var provided by webpack */
-declare var SHOPIFY_STOREFRONT_TOKEN: string
+import { SHOPIFY_STOREFRONT_TOKEN } from '../config'
 
 /**
  * App

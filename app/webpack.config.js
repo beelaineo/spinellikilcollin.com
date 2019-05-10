@@ -3,16 +3,15 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
-const env = require('dotenv').config()
+require('dotenv').config()
 const CopyPlugin = require('copy-webpack-plugin')
-
-const { parsed } = env
 
 const PATHS = {
 	root: path.resolve(__dirname),
 	nodeModules: path.resolve(__dirname, 'node_modules'),
 	src: path.resolve(__dirname, 'src'),
 	dist: path.resolve(__dirname, 'build'),
+	js: 'static/js',
 }
 
 const DEV_SERVER = {
@@ -36,7 +35,7 @@ module.exports = (env) => {
 		entry: isDev ? ['./src/index.tsx'] : './src/index.tsx',
 		output: {
 			path: PATHS.dist,
-			filename: isDev ? '[name].js' : '[name].[hash].js',
+			filename: isDev ? `${PATHS.js}/[name].js` : `${PATHS.js}/[name].[hash].js`,
 			publicPath: '/',
 		},
 		resolve: {
@@ -70,7 +69,7 @@ module.exports = (env) => {
 		plugins: [
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production'),
-				SHOPIFY_STOREFRONT_TOKEN: JSON.stringify(parsed.SHOPIFY_STOREFRONT_TOKEN),
+				SHOPIFY_STOREFRONT_TOKEN: JSON.stringify(process.env.SHOPIFY_STOREFRONT_TOKEN),
 			}),
 			new HtmlWebpackPlugin({
 				template: './public/index.html',
@@ -96,7 +95,7 @@ module.exports = (env) => {
 					vendors: {
 						test: /[\\/]node_modules[\\/]/,
 						chunks: 'all',
-						filename: isDev ? 'vendor.[hash].js' : 'vendor.[contentHash].js',
+						filename: isDev ? `${PATHS.js}/vendor.[hash].js` : `${PATHS.js}/vendor.[contentHash].js`,
 						priority: -10,
 					},
 				},
