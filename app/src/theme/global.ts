@@ -12,7 +12,8 @@ export const GlobalStyles = createGlobalStyle`
 	}
 
 	body {
-		font-family: 'LeituraNewsRoman', serif;
+		font-family: "Leitura News Roman", "Big Caslon", "Book Antiqua", Palatino, serif
+;;
 		color: ${semiDark};
 	}
 
