@@ -17,12 +17,10 @@
 		"dev": "webpack-dev-server --mode development",
 		"build": "rimraf build && NODE_ENV=production webpack --env production --mode production",
 		"stats": "NODE_ENV=production webpack --env production --mode production --json > stats.json",
-		"devz": "webpack-dev-server  --mode development --hot --progress",
-		"buildz": "rimraf build && mkdir build && NODE_ENV=production webpack -p --env production --progress --colors",
-		"statsz": "webpack -p --env production --progress --colors --json > stats.json",
 		"now-build": "yarn build",
 		"install-types": "typesync && yarn install",
 		"test": "jest",
+		"test:watch": "jest --watch",
 		"playground": "graphql playground"
 	},
 	"devDependencies": {

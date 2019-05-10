@@ -12,7 +12,7 @@
 		"target": "es6",
 		"sourceMap": true,
 		"jsx": "react",
-		"rootDir": "..",
+		// "rootDir": ".",
 		"lib": ["es6", "es7", "dom"],
 		"outDir": "./dist",
 		"esModuleInterop": true,
@@ -26,16 +26,23 @@
 		"strictNullChecks": true
 		*/
 
-		"baseUrl": ".",
 		// "typeRoots": ["./node_modules/@types"],
 
+		"baseUrl": "src",
 		"paths": {
-			"Components": ["./src/components/*"],
-			"Views/*": ["./src/views/*", "./src/views"],
-			// "Types": ["./src/types"],
-			"Providers/*": ["./src/providers/*"]
+			"test-utils/*": ["test-utils/*"],
+			"Components/*": ["components/*"],
+			"Views/*": ["views/*"],
+			"Types/*": ["types/*"],
+			"Providers/*": [".providers/*"]
 		}
 	},
-	"include": ["./src", "src/testUtils"],
-	"exclude": ["node_modules", "**/*.spec.ts", "**/*.test.ts", "dist", "**/__tests__/*"]
+	// "include": ["./src"],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts",
+		// "**/*.test.ts",
+		"dist"
+		// "**/__tests__/*"
+	]
 }
