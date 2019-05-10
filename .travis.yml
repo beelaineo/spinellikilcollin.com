@@ -1,15 +1,16 @@
+sudo: false
 language: node_js
+node_js:
+  - '10'
+cache:
+  directories:
+    - '$HOME/.npm'
+    - node_modules
 branches:
   only:
     - master
     - develop
-cache:
-  directories:
-    - node_modules
-before_install:
-  - npm update
-install:
-  - npm install
-script:
-  - npm test
-# - npm run coveralls
+jobs:
+  include:
+    - stage: test
+      script: yarn test
