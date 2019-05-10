@@ -1,7 +1,7 @@
 workflow "Test & Deploy" {
   on = "push"
   resolves = [
-#     "deploy:production",
+    #     "deploy:production",
     "deploy:staging",
   ]
 }
@@ -20,12 +20,24 @@ action "Build: Staging" {
   needs = "Develop"
   uses = "actions/npm@master"
   args = "install"
+  runs = "yarn"
+
+  # action "Master" {
+  #   uses = "actions/bin/filter@master"
+  #   args = "branch master"
+  # }
 }
 
 action "Test: Staging" {
   needs = "Build: Staging"
   uses = "actions/npm@master"
   args = "test"
+  runs = "yarn"
+
+  # action "Master" {
+  #   uses = "actions/bin/filter@master"
+  #   args = "branch master"
+  # }
 }
 
 # action "Test: Production" {
