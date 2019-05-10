@@ -12818,7 +12818,7 @@ react-datepicker@^1.8.0:
     react-onclickoutside "^6.7.1"
     react-popper "^1.0.2"
 
-react-dom@^16.8, react-dom@^16.8.6:
+react-dom@16.8.6, react-dom@^16.8, react-dom@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
   integrity sha512-1nL7PIq9LTL3fthPqwkvr2zY7phIPjYrT0jp4HjyEQrEROnw4dG41VVwi/wfoCneoleqrNX7iAD+pXebJZwrwA==
@@ -13042,7 +13042,7 @@ react-tippy@^1.2.3:
   dependencies:
     popper.js "^1.11.1"
 
-react@^16.8, react@^16.8.6:
+react@16.8.6, react@^16.8, react@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react/-/react-16.8.6.tgz#ad6c3a9614fd3a4e9ef51117f54d888da01f2bbe"
   integrity sha512-pC0uMkhLaHm11ZSJULfOBqV4tIZkx87ZLvbbQYunNixAAvjnC+snJCg0XQXn9VIsttVsbZP/H/ewzgsd5fxKXw==
@@ -15462,10 +15462,10 @@ urql@^1.0.5:
     prop-types "^15.6.0"
     wonka "^2.0.1"
 
-use-shopify@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/use-shopify/-/use-shopify-0.1.7.tgz#74a3899d8391525fd33481396184d634ecccce24"
-  integrity sha512-dZ1u53P9vkGPYY+iqIFED1K21rcWlsNj4IwFzDnLySY2YgjTLO54gpG4g1F6ki+OPc4z0MpZNp34fJ6JEl/YKA==
+use-shopify@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/use-shopify/-/use-shopify-0.2.0.tgz#76a44da14f50cf90a2ef92c75697f4cf34ac74a1"
+  integrity sha512-bz0sTlCDOrov0MsM0Wgn3A3u6nsgnah9W7k6GBVwM+LWg5x9+78syy4gtPIszI1iixB7C+4hKqFYVAAbnpdRFg==
   dependencies:
     "@commitlint/prompt" "^7.6.1"
     urql "^1.0.5"

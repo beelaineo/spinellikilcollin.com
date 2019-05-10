@@ -79,7 +79,7 @@
 		"react-router": "^5.0.0",
 		"react-router-dom": "^5.0.0",
 		"styled-components": "^4.2.0",
-		"use-shopify": "^0.1.7"
+		"use-shopify": "^0.2.0"
 	},
 	"resolutions": {
 		"**/react": "16.8.6",
