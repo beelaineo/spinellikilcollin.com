@@ -25,7 +25,7 @@ const ProductDetailMain = ({ product }: Props) => {
 	const { currentVariant, selectVariant } = useProductVariant(product)
 
 	/* get checkout utils */
-	const { addToCheckout } = useCheckout()
+	const { addItemToCheckout } = useCheckout()
 	const [variants] = unwindEdges(product.variants)
 
 	return (
@@ -38,7 +38,7 @@ const ProductDetailMain = ({ product }: Props) => {
 					<FlexHalf>
 						<ProductDetailHeader currentVariant={currentVariant} product={product} />
 						<ProductVariantSelector variants={variants} currentVariant={currentVariant} selectVariant={selectVariant} />
-						<BuyButton addToCheckout={addToCheckout} currentVariant={currentVariant} />
+						<BuyButton addItemToCheckout={addItemToCheckout} currentVariant={currentVariant} />
 						<ProductDetailFooter currentVariant={currentVariant} product={product} />
 					</FlexHalf>
 				</FlexContainer>
