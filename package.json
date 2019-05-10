@@ -2,7 +2,8 @@
 	"name": "root",
 	"private": true,
 	"scripts": {
-		"setup": "yarn install"
+		"setup": "yarn install",
+		"test": "yarn workspace spinellikilcollin-app test"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^7.5.2",
