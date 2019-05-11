@@ -7,10 +7,10 @@ declare module 'styled-components' {
 			spacing: { [key: string]: string }
 			columns: { [key: string]: string }
 		}
-		type: {
+		font: {
 			size: { [key: string]: string }
 			weight: { [key: string]: number }
-			fontFamily: { [key: string]: string }
+			family: { [key: string]: string }
 		}
 		color: { [key: string]: string }
 		mediaQueries: { [key: string]: string }
