@@ -19,8 +19,8 @@ export const weight = {
 	strong: 700,
 }
 
-export const fontFamily = {
+export const family = {
 	sans:
 		'"Gravity", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";',
-	serif: '"Amiri", "Palatino", Georgia, sans-serif',
+	serif: '"Leitura News Roman", "Adobe Caslon Pro", Caslon, "Palatino", Georgia, sans-serif',
 }

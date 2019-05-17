@@ -1,19 +1,23 @@
 import { createGlobalStyle } from 'styled-components'
 import normalized from './normalized'
-import fonts from './fonts'
 import { semiDark } from './color'
 
 export const GlobalStyles = createGlobalStyle`
 	${normalized}
-	${fonts}
 
 	* {
 		box-sizing: border-box;
 	}
 
+	@font-face {
+		font-family: 'Leitura News Roman';
+		src: url('/static/fonts/LeituraNewsRoman.woff') format('woff2');
+		font-style: italic;
+		font-weight: 100;
+	}
+
 	body {
-		font-family: "Leitura News Roman", "Big Caslon", "Book Antiqua", Palatino, serif
-;;
+		font-family: ${({ theme }) => theme.font.family.serif};
 		color: ${semiDark};
 	}
 
