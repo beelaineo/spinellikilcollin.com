@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Variant, UseCheckoutProps } from 'use-shopify'
+import { Variant, UseCheckoutValues } from 'use-shopify'
 import { ButtonPrimary } from '../styled'
 
-interface Props extends Pick<UseCheckoutProps, 'addItemToCheckout'> {
+interface Props extends Pick<UseCheckoutValues, 'addItemToCheckout'> {
 	currentVariant?: Pick<Variant, 'id' | 'availableForSale'>
 	quantity?: number
 }

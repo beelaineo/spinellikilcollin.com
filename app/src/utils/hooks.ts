@@ -11,7 +11,7 @@ const defaultOptions = {
 }
 
 export interface UseCounterValues {
-	count: number | ''
+	count: number
 	increment: () => void
 	decrement: () => void
 	setCount: (c: number) => void

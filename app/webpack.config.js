@@ -6,6 +6,8 @@ const path = require('path')
 require('dotenv').config()
 const CopyPlugin = require('copy-webpack-plugin')
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+const { CheckerPlugin } = require('awesome-typescript-loader')
 
 const PATHS = {
 	root: path.resolve(__dirname),
@@ -21,9 +23,6 @@ const DEV_SERVER = {
 	historyApiFallback: true,
 	overlay: true,
 	contentBase: path.resolve(__dirname, 'public'),
-	// proxy: {
-	//   '/api': 'http://localhost:3000'
-	// },
 }
 
 module.exports = (env) => {
@@ -45,6 +44,8 @@ module.exports = (env) => {
 			alias: isDev
 				? {
 						'react-dom': '@hot-loader/react-dom',
+						react: path.resolve('../node_modules/react'),
+						urql: path.resolve('../node_modules/urql'),
 				  }
 				: {},
 		},
@@ -59,9 +60,10 @@ module.exports = (env) => {
 						{
 							loader: 'awesome-typescript-loader',
 							options: {
-								transpileOnly: true,
+								transpileOnly: !isDev,
 								useTranspileModule: false,
 								sourceMap: true,
+								reportFiles: ['src/**/*.{ts,tsx}'],
 							},
 						},
 					].filter(Boolean),
@@ -69,6 +71,8 @@ module.exports = (env) => {
 			],
 		},
 		plugins: [
+			new CheckerPlugin(),
+			new HardSourceWebpackPlugin(),
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production'),
 				SHOPIFY_STOREFRONT_TOKEN: JSON.stringify(process.env.SHOPIFY_STOREFRONT_TOKEN),

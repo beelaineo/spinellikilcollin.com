@@ -1,8 +1,11 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
+import { useCheckout } from 'use-shopify'
 import { Link } from 'react-router-dom'
-import { useSettings } from '../providers/SettingsProvider'
+import { Placeholder } from 'Components/Placeholder'
 import { Header1 } from 'Components/Text'
+import { unwindEdges } from 'Utils/graphql'
+import { useSettings } from '../providers/SettingsProvider'
 
 export const Nav = styled.nav`
 	${({ theme }) => css`
@@ -18,6 +21,8 @@ export const NavLinks = styled.div`
 `
 
 export const Navigation = () => {
+	const { checkout } = useCheckout()
+	const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
 	const { ready, collections } = useSettings()
 	if (!ready) return null
 	return (
@@ -28,6 +33,9 @@ export const Navigation = () => {
 					{collection.title}
 				</Link>
 			))}
+			<Placeholder>
+				<Link to="/checkout">{lineItems.length} items in your cart</Link>
+			</Placeholder>
 		</Nav>
 	)
 }
