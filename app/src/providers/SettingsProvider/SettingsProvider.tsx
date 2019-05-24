@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Collection } from 'use-shopify'
+import { Collection, useCheckout } from 'use-shopify'
 import { useQuery } from 'urql'
 import { SETTINGS_QUERY, SettingsResponse } from './settingsQuery'
 import { unwindEdges } from '../../utils/graphql'
