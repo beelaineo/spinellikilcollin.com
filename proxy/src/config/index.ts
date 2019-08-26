@@ -39,10 +39,10 @@ export const config = convict({
 const development = {
 	shopify: {
 		shopName: 'spinellikilcollin',
-		accessToken: 'f1c614d9ce743936a3d8852a9d36203b',
+		accessToken: '0d3e3d2a74d125f799cd78a72e6c0000',
 	},
 	sanity: {
-		projectId: 'caazz4uw',
+		projectId: 'i21fjdbi',
 		dataset: 'production',
 	},
 }
@@ -50,10 +50,10 @@ const development = {
 const production = {
 	shopify: {
 		shopName: 'spinellikilcollin',
-		accessToken: 'f1c614d9ce743936a3d8852a9d36203b',
+		accessToken: '0d3e3d2a74d125f799cd78a72e6c0000',
 	},
 	sanity: {
-		projectId: 'caazz4uw',
+		projectId: 'i21fjdbi',
 		dataset: 'production',
 	},
 }

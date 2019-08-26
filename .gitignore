@@ -9,3 +9,5 @@ package-lock.json
 yalc.lock
 
 sanity/dist
+
+yarn-error.log

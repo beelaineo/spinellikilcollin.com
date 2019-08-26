@@ -9,7 +9,7 @@ export interface HomepageResponse {
 	}
 }
 
-export const homepageQuery = /*  GraphQL */ `
+export const homepageQuery = /*  GraphQL */ gql`
 	query HomepageQuery {
 		Homepage(id: "homepage") {
 			_id

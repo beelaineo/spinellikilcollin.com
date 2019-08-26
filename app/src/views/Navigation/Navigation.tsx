@@ -12,7 +12,7 @@ import { Checkout } from '../Cart/Checkout'
 import { Button } from '../ProductDetail/styled'
 import { MenuLinkOrSubMenu } from '../../types/generated'
 import { SubMenu } from './SubMenu'
-import { Wrapper, Inner, NavSection, NavHeader, NavHeaderWrapper, SubmenuPane, Logo, ModalBackground } from './styled'
+import { Wrapper, Inner, NavSection, NavHeader, NavHeaderWrapper, SubmenuPane, Logo, ModalBackground, Loading } from './styled'
 import { IoIosCart } from 'react-icons/io'
 
 interface MenuProps {
@@ -116,8 +116,15 @@ export const Navigation = () => {
 				<NavSection ready={ready} align="right">
 					<NavHeaderWrapper>
 						<NavHeader as="button" onClick={openCart}>
-							<IoIosCart /> {cartCount}
-							{cartCount === 1 ? ' item' : cartCount >= 2 ? ' items' : ''}
+							<Loading loading={loading}>
+								<div>
+									<IoIosCart />
+								</div>
+								<div>
+									{cartCount}
+									{cartCount === 1 ? ' item' : cartCount >= 2 ? ' items' : ''}
+								</div>
+							</Loading>
 						</NavHeader>
 					</NavHeaderWrapper>
 				</NavSection>
