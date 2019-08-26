@@ -5,7 +5,7 @@
 			"extensions": {
 				"endpoints": {
 					"default": {
-						"url": "https://jemmawynne-api.good-idea.now.sh",
+						"url": "https://spinellikilcollin.netlify.com/graphql",
 						"headers": {
 							"X-Shopify-Storefront-Access-Token": "${env:SHOPIFY_STOREFRONT_TOKEN}"
 						}

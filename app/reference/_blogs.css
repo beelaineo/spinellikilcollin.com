@@ -1,0 +1,299 @@
+.blogBlock {
+	padding: 3rem 0;
+	display: flex;
+	color: $grey3;
+
+	& + .blogBlock {
+		border-top: 1px solid $grey1;
+	}
+}
+
+.blogBlock__summary,
+.blogBlock__image {
+	width: 50%;
+
+	img {
+		width: 100%;
+		display: block;
+	}
+}
+
+.blogBlock__summary {
+	padding-right: 3rem;
+
+	p,
+	h2,
+	h3,
+	h4 {
+		margin-bottom: 2rem;
+	}
+}
+
+.blog--press {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	padding-top: 3rem;
+}
+
+.pressBlock {
+	flex-basis: calc(33% - 1.5rem);
+	margin-bottom: 3rem;
+
+	img {
+		width: 100%;
+	}
+}
+
+.article .rte {
+	line-height: 1.7em;
+	font-size: 1.6rem;
+	letter-spacing: 0.02em;
+	padding-top: 3rem;
+	color: $grey4;
+
+	p {
+		font-size: inherit;
+	}
+
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		text-transform: initial;
+	}
+
+	img {
+		display: block;
+		margin: 0 auto;
+	}
+}
+
+.article__header {
+	text-align: center;
+	margin-bottom: 2rem;
+	padding-top: 3rem;
+
+	h2 {
+		margin-bottom: 1rem;
+	}
+}
+
+.article__share {
+	color: $grey2;
+
+	h5 {
+		text-transform: uppercase;
+		display: inline-block;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	.share__icons {
+		display: inline-flex;
+		justify-content: flex-start;
+		margin-bottom: 0;
+	}
+
+	.share__icon {
+		padding: 0 3rem;
+		margin: 0;
+
+		& + .share__icon {
+			border-left: 1px solid $grey1;
+		}
+	}
+}
+
+.article__navigation {
+	border-top: 1px solid $grey1;
+	padding-top: 3rem;
+	margin-top: 3rem;
+	color: $grey2;
+	display: flex;
+	justify-content: center;
+
+	h5 + h5 {
+		margin-left: 3rem;
+		padding-left: 3rem;
+		border-left: 1px solid;
+	}
+}
+
+/**
+ * Slideshow
+ */
+
+$caption-height: 3.5rem;
+$carousel-height: 40rem;
+
+section.article {
+	.carousel__placeholder {
+		display: none;
+	}
+
+	.carousel__frame {
+		width: 100%;
+		height: calc($carousel-height + $caption-height);
+		padding-bottom: $caption-height;
+	}
+
+	.top-carousel .carousel__button {
+		height: 4rem;
+		top: calc(($carousel-height / 2) - ($caption-height / 2));
+	}
+
+	.rte .carousel {
+		margin-bottom: 2rem;
+		margin-left: -3rem;
+		width: calc(100% + 6rem);
+
+		.carousel__frame {
+			width: calc(100% - 6rem);
+			margin-left: 3rem;
+		}
+
+		.carousel__button {
+			height: calc(100% - $caption-height);
+		}
+
+		.column--narrow {
+			max-width: 100%;
+			width: 100%;
+		}
+	}
+
+	.top-carousel .carousel__button {
+		color: $grey3;
+		background-color: white;
+		padding: 2rem;
+
+		&:before {
+			font-size: 4rem;
+		}
+	}
+
+	.carousel__slides {
+		height: 100%;
+	}
+
+	.carousel__slide {
+		width: 100%;
+		height: 100%;
+		text-align: left;
+		padding: 0;
+		background-color: $grey1;
+		vertical-align: top;
+		position: relative;
+
+		img {
+			margin: 0 auto;
+			height: 100%;
+			width: auto;
+			position: absolute;
+			bottom: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		h4 {
+			margin-top: $carousel-height;
+			border-bottom: 1px solid $grey1;
+			color: $grey3;
+			display: flex;
+			align-items: center;
+			padding-top: 0.5rem;
+			height: $caption-height;
+		}
+	}
+}
+
+.article__body {
+	table {
+		display: none;
+	}
+}
+
+.article__items {
+	margin: 3rem auto 6rem;
+	text-align: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	h2,
+	h3 {
+		text-align: center;
+		width: 100%;
+	}
+}
+
+.article__item {
+	flex-basis: calc(33% - 1rem);
+	margin-bottom: 2rem;
+}
+
+@media screen and (max-width: $break-medium) {
+	.blogBlock {
+		flex-direction: column;
+	}
+
+	.blogBlock__summary,
+	.blogBlock__image {
+		width: 100%;
+	}
+
+	.blogBlock__image {
+		order: 1;
+		margin-bottom: 2rem;
+	}
+
+	.blogBlock__summary {
+		order: 2;
+		padding: 0;
+		margin-bottom: 0rem;
+	}
+
+	.article .rte {
+		font-size: 1.3rem;
+	}
+
+	.article__share {
+		text-align: center;
+
+		.share__icons {
+			margin-top: 1rem;
+			display: flex;
+			justify-content: center;
+		}
+	}
+
+	.article__item {
+		flex-basis: calc(50% - 1rem);
+	}
+
+	$carousel-height: 30rem;
+
+	section.article {
+		.carousel__frame {
+			height: calc($carousel-height + $caption-height);
+		}
+
+		.top-carousel .carousel__button {
+			top: calc(($carousel-height / 2) - ($caption-height / 2));
+		}
+
+		.carousel__slide h4 {
+			margin-top: $carousel-height;
+		}
+	}
+}
+
+@media screen and (max-width: $break-small) {
+	.blog--press .pressBlock {
+		flex-basis: calc(50% - 1.5rem);
+	}
+}

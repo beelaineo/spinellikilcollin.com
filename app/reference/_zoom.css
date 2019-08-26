@@ -1,0 +1,117 @@
+.zoom__carousel-modal {
+	transition: opacity 0.3s;
+	opacity: 0;
+	pointer-events: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	background-color: white;
+
+	.ex {
+		position: absolute;
+		border: 0;
+		outline: 0;
+		top: 20px;
+		z-index: 200;
+		right: 20px;
+		width: 30px;
+		height: 30px;
+		min-height: 20px;
+
+		&:before,
+		&:after {
+			content: '';
+			width: 130%;
+			height: 1px;
+			background-color: gray;
+			position: absolute;
+			top: 50%;
+			left: -15%;
+		}
+
+		&:before {
+			transform: rotate(45deg);
+		}
+		&:after {
+			transform: rotate(-45deg);
+		}
+	}
+
+	.carousel {
+		transform: scale(0.9);
+		transform-origin: 50% 50%;
+		transition: 0.3s transform;
+	}
+
+	.carousel {
+		transform: scale(0.9);
+		transform-origin: 50% 50%;
+		transition: 0.3s transform;
+	}
+
+	.carousel,
+	.carousel__frame,
+	.carousel__slides,
+	.carousel__slide {
+		height: 100%;
+	}
+
+	.carousel__slide {
+		width: 100%;
+		padding: 0;
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	/*
+	.carousel,
+	.carousel__frame,
+	.carousel__slides,
+	.carousel__slide {
+		height: 100%;
+	}
+
+	.carousel__slide {
+		width: 100%;
+		padding: 0;
+		display: inline;
+		flex-direction: column;
+		justify-content: center;
+	}
+*/
+	.img-preload {
+		height: auto;
+	}
+
+	.img-preload .img-preload-full {
+		position: relative;
+		height: auto;
+	}
+}
+
+.zoom__modal-button {
+	display: none;
+}
+
+@media screen and (max-width: $break-medium) {
+	.zoom__modal-button {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.zoom__carousel-modal.open {
+		opacity: 1;
+		pointer-events: initial;
+
+		.carousel {
+			transform: none;
+		}
+	}
+}

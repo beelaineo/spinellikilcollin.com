@@ -1,0 +1,100 @@
+$customer: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAnCAYAAACBvSFyAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QAAAAAAAD5Q7t/AAAACXBIWXMAABYlAAAWJQFJUiTwAAACq0lEQVRYw+3YTYiNURgH8J9hM2SGESJJje+PCcVCqbHDRhaShRQbS1bC2sJCFsQkysJCsmBBFohCMkUZymeyUb5Fvo1rcc7tPS4z973vvUbKv27vOfd9Pv7nec/7PM95qR1zsQs38BElfMN9HMYyDCpgNxcm4ER0Wu13E4vyGs7LeDFOYmScP4vzq3Hcgg6swPQo8x2bsKcREZiH93GFX7ENzf0sahWeJlHZUC+BZuFZl/ABnTn1JuBB1PuMmfWQ2JKsaG2NutNkG/dkPSQeRiOXC+rviPrfMbGIgSnqf67tiY31fQk19WNgWjK+UpDEQ7yI4xlFSLQk41cFScDLeB1ehMSbZDymDhJjf2MvN4lbybizIIE5GBHHt4uuokeWhpsK6O+TJbmxBfTBRtnu3lSj7kKhsJVwtCgBGILr0VAvVufUmyNL3e8UzBEpJuN5EpH9GNeHbDM2y2pNL1ZWc5C3is7EKUyK8884L6uiIzALy9EWZT5gHY7XG4UUrdiLL6r3E6f9nOwaEokU47AGS6KjNrzFY6HGHBPepv/4N1HrnhgjpPAFmCr0nC3CnniNe+jGBeGtaRiahL7xnPDe5+m2e6P8KjnSfbVILMVuWQctOrkl1JUnQmIahvFCppxdYfeOkMDO1Lr6oThYsbpuocNqq6LbFuW6K/QPRru5MBrXEuW7QiYsguVRv2zrWrTfL0bJyncJh2phnzOqPdHPbzEYZxPh7XU6r8T2xPbZ6O8XbE2EdjaYQBk7Ex9bK29OxKd482JfLBuAwdF+Kfr7qc/oije+CEnoT2KqrBJ3lf9sFWp/CQf+MIEyDsjOt62ExqP8nOYPEIl5ic91cCROHg0QgTIeRb9HmoSPG3BpgEmU/XUMEQ6thLNB5wCS+Bqv7YNiSP4qipyqGo4fpgnOA1qzK3gAAAAASUVORK5CYII=');
+$cart: url('data:image/svg+xml,%3Csvg%20version%3D%221.1%22%20id%3D%22Layer_1%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20xmlns%3Axlink%3D%22http%3A//www.w3.org/1999/xlink%22%20x%3D%220px%22%20y%3D%220px%22%0A%09%20viewBox%3D%220%200%2050%2050%22%20style%3D%22enable-background%3Anew%200%200%2050%2050%3B%22%20xml%3Aspace%3D%22preserve%22%3E%0A%3Cstyle%20type%3D%22text/css%22%3E%0A%09.st0%7Bfill%3A%23131313%3B%7D%0A%3C/style%3E%0A%3Cpath%20class%3D%22st0%22%20d%3D%22M0%2C0v50h50V0H0z%20M47%2C24H34.9c1.2-1%2C2.1-2.2%2C2.5-3.5c0.5-1.6%2C0.3-3.2-0.6-4.7C35.7%2C14.1%2C34%2C13%2C32.1%2C13%0A%09c0%2C0%2C0%2C0-0.1%2C0c-2.3%2C0-4.6%2C1.4-6%2C3.5c0%2C0%2C0%2C0%2C0%2C0.1V3h21V24z%20M18.1%2C22.6c-1.4-0.6-2.7-1.8-3-3c-0.2-0.8-0.1-1.5%2C0.3-2.2%0A%09c0.5-0.9%2C1.3-1.4%2C2.2-1.4c0%2C0%2C0%2C0%2C0%2C0c1.3%2C0%2C2.7%2C0.9%2C3.5%2C2.1c0.9%2C1.4%2C1.5%2C3.4%2C1.7%2C5.9h-0.3C21%2C23.7%2C18.9%2C23%2C18.1%2C22.6z%20M34.5%2C19.6%0A%09c-0.4%2C1.2-1.6%2C2.4-3%2C3c-0.8%2C0.4-3%2C1.1-4.5%2C1.4h-0.2c0.2-2.5%2C0.7-4.5%2C1.7-5.9c0.8-1.2%2C2.2-2.1%2C3.5-2.1c0%2C0%2C0%2C0%2C0%2C0%0A%09c0.9%2C0%2C1.7%2C0.5%2C2.2%2C1.4C34.7%2C18.1%2C34.8%2C18.9%2C34.5%2C19.6z%20M23%2C3v12.7c-1.4-1.6-3.4-2.7-5.4-2.7c0%2C0%2C0%2C0-0.1%2C0c-2%2C0-3.6%2C1.1-4.7%2C2.8%0A%09c-0.9%2C1.4-1.1%2C3.2-0.6%2C4.7c0.4%2C1.3%2C1.3%2C2.5%2C2.5%2C3.5H3V3H23z%20M3%2C27h18.2l-7.1%2C8.8l2.3%2C1.9c0%2C0%2C3.9-4.9%2C6.6-8.2V47H3V27z%20M26%2C47V28.7%0A%09c2.6%2C3.3%2C7.2%2C8.9%2C7.2%2C8.9l2.3-1.9L28.5%2C27H47v20H26z%22/%3E%0A%3C/svg%3E%0A');
+/*
+ Selections from FontAwesome
+ */
+@font-face {
+	font-family: 'FontAwesome';
+	src: url('fontawesome-webfont.eot?v=3.2.1');
+	src: url('fontawesome-webfont.eot?#iefix&v=3.2.1') format('embedded-opentype'),
+		url('fontawesome-webfont.woff?v=3.2.1') format('woff'), url('fontawesome-webfont.ttf?v=3.2.1') format('truetype'),
+		url('fontawesome-webfont.svg#fontawesomeregular?v=3.2.1') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* FONT AWESOME CORE
+ * -------------------------- */
+.fa-icon,
+[class^='icon-'],
+[class*=' icon-'] {
+	font-family: FontAwesome;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: inherit;
+	/*-webkit-font-smoothing: antialiased;*/
+}
+[class^='icon-']:before,
+[class*=' icon-']:before {
+	text-decoration: inherit;
+	display: inline-block;
+	speak: none;
+}
+/* makes the font 33% larger relative to the icon container */
+.icon-large:before {
+	vertical-align: -10%;
+	font-size: 1.3333333333333333em;
+}
+/* makes sure icons active on rollover in links */
+a [class^='icon-'],
+a [class*=' icon-'] {
+	display: inline;
+}
+
+.icon-1-5x {
+	font-size: 2em;
+}
+
+.icon-2x {
+	font-size: 2em;
+}
+
+.icon-plus:before {
+	content: '+';
+}
+
+.icon-minus:before {
+	content: '-';
+}
+
+.icon-angle-down:before {
+	content: '\f107';
+}
+
+.icon-facebook:before {
+	content: '\f09a';
+}
+
+.icon-twitter:before {
+	content: '\f099';
+}
+
+.icon-pinterest:before {
+	content: '\f0d2';
+}
+
+.icon-google-plus:before {
+	content: '\f0d5';
+}
+
+.icon-instagram:before {
+	content: '\f16d';
+}
+
+.icon-cart:before {
+	width: 2em;
+	content: $cart;
+}
+
+.icon-trash:before {
+	content: '\f014';
+}
+
+.icon-customer:before {
+	width: 1.7rem;
+	height: 2rem;
+	background: transparent none no-repeat scroll left top;
+	background-image: $customer;
+	background-size: 1.7rem 2rem;
+	content: '';
+}

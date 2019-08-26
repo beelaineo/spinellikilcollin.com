@@ -1,9 +1,9 @@
 {
-	"name": "jemmawynne-app",
+	"name": "spinellikilcollin-app",
 	"version": "0.0.0",
-	"description": "React app for jemmawynne.com",
+	"description": "Frontend build for spinellikilcollin.com",
 	"author": "Joseph Thomas <joseph@good-idea.studio>",
-	"homepage": "https://www.jemmawynne.com",
+	"homepage": "https://www.spinellikilcollin.com",
 	"license": "NONE",
 	"main": "lib/app.js",
 	"directories": {

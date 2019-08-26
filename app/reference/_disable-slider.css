@@ -1,0 +1,21 @@
+.slider__anchor {
+	display: none;
+}
+
+.slider__item {
+	position: relative;
+	width: 100%;
+	padding-bottom: 45%;
+
+	& + .slider__item {
+		margin-top: 2rem;
+	}
+}
+
+.slider__overlay {
+	mask-image: initial;
+}
+
+.featured__item--slider {
+	padding-bottom: 0;
+}
