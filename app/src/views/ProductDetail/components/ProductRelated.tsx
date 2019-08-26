@@ -1,10 +1,13 @@
 import * as React from 'react'
-import { Product, Collection } from 'use-shopify'
+import { Link } from 'react-router-dom'
+import { Product, Collection } from '../../../types/generated'
 import { unwindEdges } from '../../../utils/graphql'
-import { ProductRelatedWrapper } from '../styled'
-import { FlexContainer, FlexFour } from 'Components/Layout'
+import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
+import { Carousel } from 'Components/Carousel'
 import { Header2, Header4 } from 'Components/Text'
 import { Image } from 'Components/Image'
+import { Figure } from 'Components/Figure'
+import { ProductThumbnail } from '../../ProductListing/ProductThumbnail'
 
 interface ProductRelatedProps {
 	product: Product
@@ -17,25 +20,20 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
 	if (!products || !products.length) return null
 	return (
 		<ProductRelatedWrapper>
-			<Header2 transform="uppercase" color="lightGrayBody">
-				More in this collection
+			<Header2 transform="uppercase" color="lightGrayBody" align="center">
+				Shop the {collections[0].title} Collection
 			</Header2>
-			<FlexContainer>
-				{products.map((product, index) => {
-					let { title } = product
-					const [images] = unwindEdges(product.images)
-					if (index < 5) {
-						return (
-							<FlexFour>
-								{images[0] && <Image image={images[0]} />}
-								<Header4 align="center" weight="xlight">
-									{title}
-								</Header4>
-							</FlexFour>
-						)
-					}
-				})}
-			</FlexContainer>
+			<ProductRelatedInner>
+				<Carousel>
+					{products.slice(0, 10).map((product) => {
+						let { title } = product
+						const [images] = unwindEdges(product.images)
+						const productLink = `/products/${product.handle}`
+
+						return <ProductThumbnail product={product} />
+					})}
+				</Carousel>
+			</ProductRelatedInner>
 		</ProductRelatedWrapper>
 	)
 }

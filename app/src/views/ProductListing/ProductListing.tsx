@@ -1,9 +1,11 @@
 import * as React from 'react'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import { useQuery } from 'urql'
-import { Link } from 'react-router-dom'
 import { Product } from 'use-shopify'
 import { COLLECTION_QUERY, CollectionResult } from './query'
-import { unwindEdges } from '../../utils/graphql'
+import { ProductGrid } from './styled'
+import { ProductThumbnail } from './ProductThumbnail'
+import { ProductListingHeader } from './ProductListingHeader'
 
 interface ProductListingProps {
 	match: {
@@ -16,19 +18,21 @@ interface ProductListingProps {
 export const ProductListing = ({ match }: ProductListingProps) => {
 	const { handle } = match.params
 	const variables = { handle }
-	const [response] = useQuery<CollectionResult>({ query: COLLECTION_QUERY, variables })
-	console.log(response)
+	const [response] = useQuery<CollectionResult>({
+		query: COLLECTION_QUERY,
+		variables,
+	})
 	if (response.fetching || !response.data) return <p>Loading..</p>
 	const collection = response.data.collectionByHandle
 	const [products] = unwindEdges<Product>(collection.products)
 	return (
-		<div>
-			<p>{collection.title}</p>
-			{products.map((product) => (
-				<Link key={product.id} to={`/products/${product.handle}`}>
-					{product.title}
-				</Link>
-			))}
-		</div>
+		<React.Fragment>
+			<ProductListingHeader collection={collection} />
+			<ProductGrid>
+				{products.map((product) => {
+					return <ProductThumbnail product={product} />
+				})}
+			</ProductGrid>
+		</React.Fragment>
 	)
 }

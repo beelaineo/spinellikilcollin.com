@@ -1,21 +1,27 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 
-interface TextStyleProps {
+export interface TextStyleProps {
 	theme: DefaultTheme
 	align?: 'left' | 'center' | 'right'
 	weight?: 'xlight' | 'light' | 'book' | 'normal' | 'semi' | 'strong'
 	color?: string
 	family?: string
 	transform?: string
+	children: any
+	margin?: string
 }
 
-const commonHeaderStyles = ({ theme, align, transform, weight, color, family }: TextStyleProps) => css`
-	font-weight: ${theme.font.weight[weight] || family === 'serif' ? theme.font.weight.normal : theme.font.weight.semi};
+const commonHeaderStyles = ({ theme, align, transform, weight, color, family, margin, children }: TextStyleProps) => css`
+	font-weight: ${theme.font.weight[weight]
+		? theme.font.weight[weight]
+		: family === 'serif'
+		? theme.font.weight.normal
+		: theme.font.weight.semi};
 	font-family: ${theme.font.family[family] || theme.font.family.sans};
 	color: ${theme.color[color] || 'inherit'};
 	text-align: ${align || 'inherit'};
 	text-transform: ${transform || 'auto'};
-	margin: 0.3em 0;
+	margin: ${margin || '0.3em 0'};
 	letter-spacing: 0.03em;
 
 	&:first-child {
@@ -74,7 +80,9 @@ export const Header4 = styled.h4`
 	${(props: TextStyleProps) => css`
 		${commonHeaderStyles(props)};
 		font-size: ${props.theme.font.size.h4};
+		letter-spacing: 0.05em;
 
+		letter-spacing: 0.05em;
 		${props.theme.mediaQueries.tablet} {
 			font-size: calc(${props.theme.font.size.h4} * 0.8);
 		}
@@ -84,6 +92,7 @@ export const Header4 = styled.h4`
 export const Header5 = styled.h5`
 	${(props: TextStyleProps) => css`
 		${commonHeaderStyles(props)};
+		letter-spacing: 0.05em;
 		font-size: ${props.theme.font.size.h5};
 	`};
 `
@@ -91,10 +100,10 @@ export const Header5 = styled.h5`
 export const Header6 = styled.h6`
 	${(props: TextStyleProps) => css`
 		${commonHeaderStyles(props)};
+		letter-spacing: 0.05em;
 		font-size: ${props.theme.font.size.h6};
 	`};
 `
-
 export const P = styled.p`
 	${({ theme, align }: TextStyleProps) => css`
 		text-align: ${align || 'inherit'};

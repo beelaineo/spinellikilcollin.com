@@ -1,0 +1,71 @@
+/**
+ * Custom Orders
+ */
+
+section.page--custom {
+	padding-top: 0;
+
+	.heros {
+		margin-bottom: 2rem;
+
+		img {
+			width: 100%;
+		}
+	}
+
+	.contact__form {
+		margin-top: 3rem;
+	}
+
+	.hero--mobile {
+		display: none;
+	}
+}
+
+.contact__alternatively {
+	margin-bottom: 2rem;
+}
+
+.contact__form form {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+	color: $grey2;
+
+	.form__title {
+		margin-bottom: 2rem;
+	}
+
+	.form__field {
+		flex-basis: calc(33% - 1rem);
+	}
+
+	.contact__message,
+	.form__title {
+		flex-basis: 100%;
+	}
+
+	.form__feedback {
+		margin: 2rem 0;
+	}
+}
+
+@media screen and (max-width: $break-medium) {
+	.page--custom {
+		.hero--mobile {
+			display: block;
+		}
+		.hero--desktop {
+			display: none;
+		}
+	}
+}
+
+@media screen and (max-width: $break-small) {
+	.contact__form form .form__field {
+		flex-basis: 100%;
+	}
+}

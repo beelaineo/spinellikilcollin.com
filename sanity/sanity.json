@@ -1,25 +1,36 @@
 {
 	"root": true,
+	"api": {
+		"projectId": "i21fjdbi",
+		"dataset": "production"
+	},
 	"project": {
 		"name": "spinellikilcollin"
 	},
-	"api": {
-		"projectId": "caazz4uw",
-		"dataset": "development"
+	"env": {
+		"development": {
+			"api": {
+				"dataset": "production"
+			}
+		}
 	},
 	"plugins": [
 		"@sanity/base",
 		"@sanity/components",
 		"@sanity/default-layout",
 		"@sanity/default-login",
-		"@sanity/vision",
 		"@sanity/desk-tool",
-		"shopify-selector"
+		"@sane-shopify/sanity-plugin",
+		"@sanity/vision"
 	],
 	"parts": [
 		{
 			"name": "part:@sanity/base/schema",
 			"path": "./schemas/schema.js"
+		},
+		{
+			"name": "part:@sanity/desk-tool/structure",
+			"path": "./schemas/structure.js"
 		}
 	]
 }

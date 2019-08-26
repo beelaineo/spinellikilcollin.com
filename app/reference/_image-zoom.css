@@ -1,0 +1,70 @@
+.zoom__main {
+	width: 100%;
+	padding-bottom: 100%;
+	position: relative;
+}
+
+.zoom__frame {
+	position: relative;
+	overflow: hidden;
+	cursor: zoom-in;
+}
+
+.zoom__display {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	object-fit: cover;
+}
+
+.zoom__zoom {
+	position: absolute;
+	top: 0;
+	left: 0;
+	max-width: initial;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.2s opacity;
+}
+
+.zoom-active .zoom__zoom {
+	opacity: 1;
+}
+
+.zoom__frame-wrapper {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	padding-bottom: 100%;
+	display: none;
+
+	&.active {
+		display: block;
+	}
+}
+
+.zoom__frame {
+	@extend %abs-full-size;
+}
+
+.zoom__thumbs {
+	margin-top: 2rem;
+	padding-right: 1rem;
+	width: 11rem;
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	flex-direction: column;
+
+	img {
+		display: block;
+	}
+}
+
+.zoom__thumb {
+	cursor: pointer;
+	width: 100%;
+	margin-bottom: 1rem;
+}

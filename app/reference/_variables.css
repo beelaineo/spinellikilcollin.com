@@ -1,0 +1,22 @@
+/*
+// :::Site Variables
+//-------------------------------------------------- */
+
+$break-xl: 1220px;
+$break-large-min: 991px;
+$break-large: 990px;
+$break-medium-min: 861px;
+$break-medium: 860px;
+$break-small: 550px;
+$break-vsmall: 360px;
+
+$grey1: rgb(241, 241, 241);
+$grey1half: rgb(184, 184, 184);
+$grey2: rgb(119, 119, 119);
+$grey3: rgb(75, 75, 75);
+$grey3: rgb(75, 75, 75);
+$grey4: rgb(33, 33, 33);
+
+.grey3 {
+	color: $grey3;
+}

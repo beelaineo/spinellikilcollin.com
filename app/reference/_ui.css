@@ -1,0 +1,429 @@
+@import '_touch-slider';
+
+.burger {
+	position: relative;
+	width: 2rem;
+	height: 1.6rem;
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+
+	.line {
+		width: 100%;
+		height: 2px;
+		left: 0;
+		background-color: $grey3;
+		transform-origin: center center;
+		transition: 0.3s;
+		transform: translateZ(0);
+	}
+
+	.line__double {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: inherit;
+		transform-origin: center center;
+		left: 0;
+		top: 0;
+		transition: inherit;
+	}
+}
+
+.menu-open .burger {
+	.line:nth-of-type(1),
+	.line:nth-of-type(3) {
+		opacity: 0;
+	}
+
+	.line:nth-of-type(2) {
+		transform: rotate(45deg) translateZ(1px);
+	}
+
+	.line__double {
+		transform: rotate(-90deg);
+	}
+}
+
+label {
+	color: $grey2;
+	text-transform: uppercase;
+	margin-bottom: 1rem;
+}
+
+select {
+	text-align-last: center;
+	height: 5rem;
+	border: 1px solid $grey1;
+	border-radius: 0;
+	transition: 0.2s;
+	cursor: pointer;
+
+	&:hover {
+		border-color: $grey2;
+	}
+}
+
+.select__wrapper {
+	position: relative;
+
+	&:after {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		content: '\f107';
+		font-family: 'fontAwesome';
+		font-size: 1.5em;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: 4rem;
+		height: 100%;
+		pointer-events: none;
+	}
+}
+
+button,
+.button-like {
+	@extend %flex-center;
+	display: inline-block;
+	padding: 0.25rem 1rem;
+	border: 1px solid $grey1;
+	min-height: 4rem;
+	text-align: center;
+	text-transform: uppercase;
+	color: $grey3;
+	transition: 0.2s;
+	cursor: pointer;
+
+	&:hover {
+		border-color: $grey2;
+	}
+
+	p,
+	h4,
+	h5,
+	h6 {
+		margin-top: 0.2em;
+	}
+
+	i {
+		margin: -0.1em 0 0 0.3em;
+	}
+
+	&.square {
+		width: 4rem;
+	}
+
+	&.primary {
+		color: white;
+		background-color: $grey3;
+		border-color: $grey3;
+		min-height: 5rem;
+		min-width: 15rem;
+
+		&:hover {
+			background-color: black;
+		}
+	}
+}
+
+.button-like {
+	display: inline-flex;
+}
+
+input,
+textarea {
+	text-align: inherit;
+	/*margin-top: 2rem;*/
+	background: $grey1;
+	color: $grey3;
+	border-radius: 0;
+	padding: 0.75rem;
+}
+
+input {
+	min-height: 5rem;
+
+	&::placeholder {
+		color: $grey2;
+	}
+}
+
+textarea {
+	height: 20rem;
+	resize: none;
+}
+
+input[type='number'] {
+	text-align: center;
+}
+
+.toggle-trigger {
+	cursor: pointer;
+}
+
+#create_customer .large_form,
+.form__field {
+	width: 100%;
+	margin-bottom: 2rem;
+
+	label,
+	input,
+	textarea,
+	select {
+		display: block;
+		width: 100%;
+	}
+}
+
+.form__field--half {
+	width: calc(50% - 1rem);
+	flex-basis: calc(50% - 1rem);
+}
+
+.form__row {
+	width: 100%;
+}
+
+/*
+	Slider
+ */
+
+.slider.featured__item.featured__item--slider {
+	position: relative;
+	width: 100%;
+	flex-basis: 100%;
+
+	.featured__inner {
+		padding-bottom: 45%;
+	}
+}
+
+.slider {
+	.featured__caption {
+		display: none;
+	}
+}
+
+.slider__item {
+	@extend %abs-full-size;
+	overflow: hidden;
+}
+
+.slider__anchor {
+	@extend %abs-full-size;
+	z-index: 10;
+}
+
+.featured__item img {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.featured__caption {
+	text-align: center;
+	pointer-events: none;
+}
+
+.slider__image-container {
+	@extend %abs-full-size;
+}
+
+.slider__overlay-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	width: calc(100% + 7px);
+	transform: translate(0, 0);
+
+	.featured__caption {
+		display: none;
+	}
+
+	svg {
+		pointer-events: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	img {
+		width: calc(100% - 7px);
+		min-width: calc(100% - 7px);
+		left: -3.5px;
+	}
+}
+
+.slider__item-alt {
+	.slide__image {
+		clip-path: url('#clip');
+	}
+}
+
+@supports {
+	.slider__item-alt {
+		.slide__image {
+			clip-path: initial;
+		}
+	}
+	.slider__overlay {
+		mask-image: linear-gradient(90deg, rgba(0, 0, 0, 1) calc(100% - 7px), rgba(0, 0, 0, 0) calc(100%));
+		width: 0;
+		height: 100%;
+	}
+}
+
+.slider__scrubber-container {
+	display: none;
+}
+
+/**
+ * Carousel
+ */
+
+.carousel,
+.carousel__slides {
+	position: relative;
+	width: 100%;
+}
+
+.carousel__image--wrapper {
+	position: relative;
+	padding-bottom: 100%;
+
+	&:hover .carousel__image--hover {
+		opacity: 1;
+	}
+}
+
+.carousel__image--hover {
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.carousel__image,
+.carousel__image--hover {
+	position: absolute;
+	overflow: hidden;
+}
+
+.carousel__frame {
+	width: calc(100% - 6rem);
+	margin: 0 auto;
+}
+
+.carousel {
+	&.carousel--disabled {
+		.carousel__button {
+			display: none;
+		}
+	}
+}
+
+.carousel__frame {
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.carousel__slides {
+	font-size: 1px;
+	transition: 0.4s;
+	transition-timing-function: cubic-bezier(0.17, 0.67, 0.43, 0.97);
+}
+
+.carousel__slide {
+	width: 20%;
+	white-space: normal;
+	padding: 1rem 1rem 0 1rem;
+	display: inline-block;
+	flex-direction: column;
+	justify-content: flex-start;
+	vertical-align: top;
+
+	.slide__background {
+		@extend %abs-full-size;
+		background-size: cover;
+	}
+
+	img {
+		display: block;
+		width: 100%;
+		margin-bottom: 1rem;
+		object-fit: contain;
+	}
+}
+
+.carousel__button {
+	@extend %flex-center;
+	width: 4rem;
+	height: 4rem;
+	position: absolute;
+	top: 0;
+	cursor: pointer;
+	height: 100%;
+	transform: translateZ(0);
+
+	&:before {
+		font-size: 2rem;
+	}
+}
+
+.carousel__button--previous {
+	left: 0;
+
+	&:before {
+		left: 0;
+		transform: rotate(90deg);
+	}
+}
+
+.carousel__button--next {
+	right: 0;
+
+	&:before {
+		right: 0;
+		transform: rotate(-90deg);
+	}
+}
+
+@media screen and (max-width: $break-large) {
+	.carousel__slide {
+		width: 25%;
+	}
+}
+
+@media screen and (max-width: $break-medium) {
+	.carousel__slide {
+		width: calc(100% / 3);
+	}
+
+	.slider.featured__item.featured__item--slider {
+		.featured__inner {
+			padding-bottom: 66%;
+		}
+	}
+}
+
+@media screen and (max-width: $break-small) {
+	.carousel__frame {
+		width: 100%;
+	}
+	.carousel__slide {
+		width: 50%;
+	}
+
+	.carousel__button--previous {
+		left: -1rem;
+	}
+	.carousel__button--next {
+		right: -1rem;
+	}
+}

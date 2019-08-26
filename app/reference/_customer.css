@@ -1,0 +1,86 @@
+section.customer-login {
+	padding-top: 3rem;
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+
+	form {
+		width: 35rem;
+	}
+}
+
+#create-customer {
+	width: 35rem;
+	margin: 0 auto;
+	padding-top: 3rem;
+}
+
+#create_customer {
+	margin-top: 1rem;
+
+	input.btn {
+		text-align: center;
+		width: 10rem;
+	}
+}
+
+.customer__form {
+	.help {
+		margin-top: 1.5rem;
+		text-align: right;
+	}
+
+	button {
+		display: block;
+		margin-left: auto;
+	}
+}
+
+.form__title {
+	margin-bottom: 2rem;
+	color: $grey2;
+}
+
+.customer__recover-form {
+	display: none;
+}
+
+section.show-recover {
+	.customer__recover-form {
+		display: block;
+	}
+
+	.customer__login-form,
+	.customer__create-form {
+		display: none;
+	}
+}
+
+section.customer-account {
+	padding-top: 3rem;
+}
+
+.shopify-challenge__container {
+	padding-top: 3rem;
+}
+
+.account__logout {
+	margin-top: 1rem;
+	color: $grey2;
+}
+
+@media screen and (max-width: $break-medium) {
+	.customer__create-form {
+		margin-top: 4rem;
+	}
+
+	.customer__form {
+		.help {
+			text-align: center;
+		}
+
+		button {
+			margin-right: auto;
+		}
+	}
+}

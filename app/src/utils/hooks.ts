@@ -12,9 +12,9 @@ const defaultOptions = {
 
 export interface UseCounterValues {
 	count: number
-	increment: () => void
-	decrement: () => void
-	setCount: (c: number) => void
+	increment: () => void | Promise<void>
+	decrement: () => void | Promise<void>
+	setCount: (c: number) => void | Promise<void>
 	isMin: boolean
 	isMax: boolean
 }
