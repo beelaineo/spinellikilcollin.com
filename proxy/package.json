@@ -1,7 +1,7 @@
 {
-  "name": "jemmawynne-proxy",
+  "name": "spinellikilcollin-proxy",
   "version": "1.0.0",
-  "description": "Shopify + Sanity proxy for JemmaWynne",
+  "description": "Shopify + Sanity proxy for spinellikilcollin",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

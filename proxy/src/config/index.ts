@@ -38,8 +38,8 @@ export const config = convict({
 
 const development = {
 	shopify: {
-		shopName: 'jemmawynne-development',
-		accessToken: 'f50903d30045eaffacf14aa2dc37f167',
+		shopName: 'spinellikilcollin',
+		accessToken: 'f1c614d9ce743936a3d8852a9d36203b',
 	},
 	sanity: {
 		projectId: 'caazz4uw',
@@ -49,8 +49,8 @@ const development = {
 
 const production = {
 	shopify: {
-		shopName: 'jemmawynne-development',
-		accessToken: 'f50903d30045eaffacf14aa2dc37f167',
+		shopName: 'spinellikilcollin',
+		accessToken: 'f1c614d9ce743936a3d8852a9d36203b',
 	},
 	sanity: {
 		projectId: 'caazz4uw',

@@ -1,12 +1,12 @@
 {
-	"name": "root",
+	"name": "spinellikilcollin-root",
 	"private": true,
 	"scripts": {
 		"setup": "yarn install",
-		"test": "yarn workspace jemmawynne-app test",
-		"build": "yarn workspace jemmawynne-app build && yarn workspace jemmawynne-proxy build",
-		"start:app": "yarn workspace jemmawynne-app start",
-		"start:proxy": "yarn workspace jemmawynne-proxy start"
+		"test": "yarn workspace spinellikilcollin-app test",
+		"build": "yarn workspace spinellikilcollin-app build && yarn workspace spinellikilcollin-proxy build",
+		"start:app": "yarn workspace spinellikilcollin-app start",
+		"start:proxy": "yarn workspace spinellikilcollin-proxy start"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^8.1.0",
