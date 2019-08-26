@@ -1,7 +1,7 @@
 {
-  "name": "spinellikilcollin-sanity",
+  "name": "jemmawynne-sanity",
   "version": "0.0.0",
-  "description": "Sanity configuration for spinellikilcollin.com",
+  "description": "Sanity configuration for jemmawynne.com",
   "author": "Joseph Thomas <joseph@good-idea.studio>",
   "private": true,
   "license": "ISC",
@@ -15,29 +15,41 @@
   ],
   "scripts": {
     "start": "sanity start",
-    "test": "sanity check"
+    "test": "sanity check",
+    "deploy": "yarn deploy:cms && yarn deploy:graphql",
+    "deploy:cms": "yarn sanity deploy",
+    "deploy:graphql": "yarn sanity graphql deploy --playground"
   },
   "dependencies": {
-    "@sanity/base": "^0.140.12",
-    "@sanity/cli": "^0.140.14",
-    "@sanity/components": "^0.140.12",
-    "@sanity/core": "^0.140.12",
-    "@sanity/default-layout": "^0.140.14",
-    "@sanity/default-login": "^0.140.15",
-    "@sanity/desk-tool": "^0.140.14",
-    "@sanity/vision": "^0.140.14",
+    "@sane-shopify/sanity-plugin": "^0.2.2",
+    "@sanity/base": "^0.141.6",
+    "@sanity/block-content-to-react": "^2.0.6",
+    "@sanity/cli": "^0.141.6",
+    "@sanity/components": "^0.141.6",
+    "@sanity/core": "^0.141.6",
+    "@sanity/default-layout": "^0.141.6",
+    "@sanity/default-login": "^0.141.5",
+    "@sanity/desk-tool": "^0.141.6",
+    "@sanity/vision": "^0.141.6",
     "prop-types": "^15.7",
-    "react": "^16.8",
-    "react-dom": "^16.8",
-    "sanity-plugin-shopify-selector": "^0.0.0-development"
+    "react": "16.8",
+    "react-dom": "16.8",
+    "react-icons": "^3.7.0"
   },
   "devDependencies": {
-    "@types/prop-types": "^15.7.1",
-    "@types/react": "^16.8.17",
-    "@types/react-dom": "^16.8.4",
-    "react-hot-loader": "^4.8.0"
+    "@good-idea/unwind-edges": "^1.1.3",
+    "babel-eslint": "^10.0.2",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb": "^17.1.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "ramda": "^0.26.1",
+    "react-hot-loader": "^4.12.10"
   },
   "resolutions": {
-    "@sanity/base": "^0.140.12"
+    "@sanity/base": "^0.140.12",
+    "react-hot-loader": "^4.8.0:"
   }
 }

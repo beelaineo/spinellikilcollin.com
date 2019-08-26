@@ -1,24 +1,21 @@
 import { createGlobalStyle } from 'styled-components'
 import normalized from './normalized'
+import fontFaces from './fontFaces'
 import { semiDark } from './color'
 
 export const GlobalStyles = createGlobalStyle`
+
 	${normalized}
+	${fontFaces}
 
 	* {
 		box-sizing: border-box;
 	}
 
-	@font-face {
-		font-family: 'Leitura News Roman';
-		src: url('/static/fonts/LeituraNewsRoman.woff') format('woff2');
-		font-style: italic;
-		font-weight: 100;
-	}
-
 	body {
 		font-family: ${({ theme }) => theme.font.family.serif};
 		color: ${semiDark};
+		overflow-x: hidden;
 	}
 
 	button, input, select, option, textarea {

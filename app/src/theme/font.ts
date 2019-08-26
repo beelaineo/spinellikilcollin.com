@@ -2,11 +2,11 @@
 
 export const size = {
 	h1: '50px',
-	h2: '42px',
+	h2: '38px',
 	h3: '22px',
 	p: '18px',
 	h4: '16px',
-	h5: '13px',
+	h5: '14px',
 	h6: '10px',
 }
 
@@ -20,7 +20,6 @@ export const weight = {
 }
 
 export const family = {
-	sans:
-		'"Gravity", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";',
-	serif: '"Leitura News Roman", "Adobe Caslon Pro", Caslon, "Palatino", Georgia, sans-serif',
+	sans: '"AvenirLTStd", "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, sans-serif;',
+	serif: '"DidotLTPro-Roman", Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif;',
 }

@@ -4,3 +4,8 @@ node_modules
 build
 .env
 package-lock.json
+
+.yalc
+yalc.lock
+
+sanity/dist

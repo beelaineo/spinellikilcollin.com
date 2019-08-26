@@ -23,13 +23,20 @@ const DEV_SERVER = {
 	historyApiFallback: true,
 	overlay: true,
 	contentBase: path.resolve(__dirname, 'public'),
+	proxy: {
+		'/.netlify': {
+			target: 'http://[::1]:9000',
+			pathRewrite: { '^/.netlify/functions': '' },
+		},
+	},
 }
 
 module.exports = (env) => {
 	const isDev = env !== 'production'
 	return {
-		cache: true,
-		devtool: isDev ? 'eval-source-map' : 'source-map',
+		mode: isDev ? 'development' : 'production',
+		cache: isDev,
+		devtool: 'source-map',
 		devServer: isDev ? DEV_SERVER : {},
 		context: PATHS.root,
 		entry: isDev ? ['./src/index.tsx'] : './src/index.tsx',
@@ -44,8 +51,6 @@ module.exports = (env) => {
 			alias: isDev
 				? {
 						'react-dom': '@hot-loader/react-dom',
-						react: path.resolve('../node_modules/react'),
-						urql: path.resolve('../node_modules/urql'),
 				  }
 				: {},
 		},
@@ -56,14 +61,27 @@ module.exports = (env) => {
 					include: PATHS.src,
 					use: [
 						// isDev ? { loader: 'react-hot-loader/webpack' } : null,
-						{ loader: 'babel-loader' },
+						// { loader: 'babel-loader' },
 						{
 							loader: 'awesome-typescript-loader',
 							options: {
+								useBabel: true,
+								// babelOptions: {
+								// 	babelrc: false /* Important line */,
+								// 	presets: [
+								// 		[
+								// 			'@babel/preset-env',
+								// 			{ targets: 'last 2 versions, ie 11', modules: false },
+								// 		],
+								// 	],
+								// },
+								babelCore: '@babel/core', // needed for Babel v7
 								transpileOnly: !isDev,
-								useTranspileModule: false,
-								sourceMap: true,
-								reportFiles: ['src/**/*.{ts,tsx}'],
+								// useTranspileModule: false,
+								// sourceMap: true,
+								// getCustomTransformers: () => ({
+								// 	before: [styledComponentsTransformer],
+								// }),
 							},
 						},
 					].filter(Boolean),
@@ -72,7 +90,7 @@ module.exports = (env) => {
 		},
 		plugins: [
 			new CheckerPlugin(),
-			new HardSourceWebpackPlugin(),
+			isDev ? new HardSourceWebpackPlugin() : null,
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(isDev ? 'development' : 'production'),
 				SHOPIFY_STOREFRONT_TOKEN: JSON.stringify(process.env.SHOPIFY_STOREFRONT_TOKEN),

@@ -43,7 +43,7 @@ export const ProductVariantSelector = (props: Props) => {
 			</NormalizeDiv>
 			<NormalizeDiv>
 				<Label>Quantity</Label>
-				<QuantitySelector>
+				<QuantitySelector width={'52px'}>
 					<button type="button" onClick={decrement}>
 						<span>&#8722;</span>
 					</button>

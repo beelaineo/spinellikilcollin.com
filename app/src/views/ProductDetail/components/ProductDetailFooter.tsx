@@ -1,7 +1,9 @@
 import * as React from 'react'
-import { Product } from 'use-shopify'
 import { NormalizeDiv } from '../styled'
+import { Product } from '../../../types/generated'
 import { P } from 'Components/Text'
+import { Accordion } from '../../../Components/Accordion'
+const { useState } = React
 
 interface ProductDetailFooterProps {
 	product: Product
