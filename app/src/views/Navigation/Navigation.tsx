@@ -111,7 +111,7 @@ export const Navigation = () => {
 				</NavSection>
 
 				<Link to="/">
-					<Logo src="/static/images/Logo_Large_Black.svg" />
+					<Logo src="/static/images/sk-logotype.svg" />
 				</Link>
 				<NavSection ready={ready} align="right">
 					<NavHeaderWrapper>

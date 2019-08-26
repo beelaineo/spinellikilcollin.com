@@ -14,7 +14,7 @@ export const Homepage = () => {
 			</React.Fragment>
 		)
 
-	if (fetching || !data || !data.Homepage.contentSections) return null
+	if (fetching || !data || !data.Homepage || !data.Homepage.contentSections) return null
 	const { contentSections } = data.Homepage
 	return (
 		<React.Fragment>
