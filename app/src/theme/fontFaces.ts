@@ -43,11 +43,19 @@ export default css`
 	}
 
 	@font-face {
+		font-family: 'SangBleu';
+		src: url('/static/fonts/SangBleuSerif-Light.eot');
+		src: url('/static/fonts/SangBleuSerif-Light.eot?#iefix') format('embedded-opentype'),
+			url('/static/fonts/SangBleuSerif-Light.woff2') format('woff2'), url('/static/fonts/SangBleuSerif-Light.woff') format('woff'),
+			url('/static/fonts/SangBleuSerif-Light.ttf') format('truetype');
+	}
+
+	@font-face {
 		font-family: 'AvenirLTStd';
 		font-weight: 700;
 		src: url('/static/fonts/2C2CD5_1_0.eot');
 		src: url('/static/fonts/2C2CD5_1_0.eot?#iefix') format('embedded-opentype'),
-			url('/static/fonts/2C2CD5_1_0.woff2') format('woff2'), url('/static/fonts/2C2CD5_1_0.woff') format('woff'),
+			url('/static/fonts/2C2CD5_1_0.woff') format('woff2'), url('/static/fonts/2C2CD5_1_0.woff') format('woff'),
 			url('/static/fonts/2C2CD5_1_0.ttf') format('truetype');
 	}
 
