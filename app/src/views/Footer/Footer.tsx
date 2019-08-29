@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Footer } from './styled'
+import { FaFacebookF, FaTwitter, FaPinterest, FaGooglePlusG, FaInstagram, FaLongArrowAltRight } from 'react-icons/fa'
 
 export class Footer extends React.Component {
 	render() {
@@ -26,11 +27,33 @@ export class Footer extends React.Component {
 						<div className="footer-newsletter">
 							<h2>Keep In Touch</h2>
 							<p>Hear about our new releases, and learn more about our world. </p>
+							<form>
+								<input type="text" placeholder="Email Address" />
+								<button type="submit">
+									<FaLongArrowAltRight />
+								</button>
+							</form>
 						</div>
 					</div>
 					<div className="lower-footer">
-						<div className="socials">socials</div>
-						<div className="copyright">socials</div>
+						<div className="socials">
+							<a href="#">
+								<FaFacebookF />
+							</a>
+							<a href="#">
+								<FaTwitter />
+							</a>
+							<a href="#">
+								<FaPinterest />
+							</a>
+							<a href="#">
+								<FaGooglePlusG />{' '}
+							</a>
+							<a href="#">
+								<FaInstagram />
+							</a>
+						</div>
+						<div className="copyright">COPYRIGHT © 2019 SPINELLI KILCOLLIN</div>
 					</div>
 				</div>
 			</Footer>
