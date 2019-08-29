@@ -7,6 +7,8 @@ export const Wrapper = styled.nav`
 		position: relative;
 		z-index: ${theme.layout.z.navigation};
 		font-family: ${theme.font.family.sans};
+		position: sticky;
+		top: 20px;
 	`}
 `
 
@@ -18,7 +20,7 @@ export const Inner = styled.nav`
 		align-items: center;
 		padding: 0 ${theme.layout.spacing.triple};
 		width: 100%;
-		margin: 0 auto;
+		margin: ${theme.layout.spacing.singleHalf} 0;
 	`}
 `
 

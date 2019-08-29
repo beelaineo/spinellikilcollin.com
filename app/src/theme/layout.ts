@@ -20,8 +20,8 @@ export const spacing = {
 export const columns = {
 	small: '450px',
 	medium: '600px',
-	wide: '900px',
-	xWide: '1100px',
+	wide: '1100px',
+	xWide: '1440px',
 }
 
 export const navHeight = '50px'

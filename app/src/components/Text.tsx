@@ -22,8 +22,10 @@ const commonHeaderStyles = ({ theme, align, transform, weight, color, family, ma
 	text-align: ${align || 'inherit'};
 	text-transform: ${transform || 'auto'};
 	margin: ${margin || '0.3em 0'};
-	letter-spacing: 0.03em;
-
+	letter-spacing: 0.75px;
+	p {
+		letter-spacing: 1px;
+	}
 	&:first-child {
 		margin-top: 0;
 	}
@@ -54,6 +56,7 @@ export const Header2 = styled.h2`
 		font-size: ${props.theme.font.size.h2};
 		font-family: ${props.theme.font.family.serif};
 		font-weight: ${props.theme.font.weight.normal};
+
 		${props.theme.mediaQueries.tablet} {
 			font-size: calc(${props.theme.font.size.h2} * 0.8);
 		}
@@ -67,11 +70,12 @@ export const Header3 = styled.h3`
 	${(props: TextStyleProps) => css`
 		${commonHeaderStyles(props)};
 		font-size: ${props.theme.font.size.h3};
+		font-family: ${props.theme.font.family.serif};
 		${props.theme.mediaQueries.tablet} {
 			font-size: calc(${props.theme.font.size.h3} * 0.8);
 		}
 		${props.theme.mediaQueries.phone} {
-			font-size: calc(${props.theme.font.size.h3} * 0.7);
+			font-size: calc(${props.theme.font.size.h3} * 0.6);
 		}
 	`};
 `
@@ -109,6 +113,7 @@ export const P = styled.p`
 		text-align: ${align || 'inherit'};
 		margin: 0.5em 0;
 		font-size: ${theme.font.size.p};
+		font-family: ${theme.font.family.serif};
 
 		& + ${P} {
 			margin-top: 1em;
