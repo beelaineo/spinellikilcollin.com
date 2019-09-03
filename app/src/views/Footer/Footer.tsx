@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Footer } from './styled'
 import { FaFacebookF, FaTwitter, FaPinterest, FaGooglePlusG, FaInstagram, FaLongArrowAltRight } from 'react-icons/fa'
+import { Input, Form } from '../../components/Text'
 
 export class Footer extends React.Component {
 	render() {
@@ -27,12 +28,12 @@ export class Footer extends React.Component {
 						<div className="footer-newsletter">
 							<h2>Keep In Touch</h2>
 							<p>Hear about our new releases, and learn more about our world. </p>
-							<form>
-								<input type="text" placeholder="Email Address" />
+							<Form>
+								<Input type="text" placeholder="Email Address" />
 								<button type="submit">
 									<FaLongArrowAltRight />
 								</button>
-							</form>
+							</Form>
 						</div>
 					</div>
 					<div className="lower-footer">
