@@ -12,8 +12,21 @@ import { Checkout } from '../Cart/Checkout'
 import { Button } from '../ProductDetail/styled'
 import { MenuLinkOrSubMenu } from '../../types/generated'
 import { SubMenu } from './SubMenu'
-import { Wrapper, Inner, NavSection, NavHeader, NavHeaderWrapper, SubmenuPane, Logo, ModalBackground, Loading } from './styled'
+import {
+	Wrapper,
+	Inner,
+	NavSection,
+	NavHeader,
+	NavHeaderWrapper,
+	SubmenuPane,
+	Logo,
+	ModalBackground,
+	Loading,
+	Hamburger,
+	SideNavigation,
+} from './styled'
 import { IoIosCart } from 'react-icons/io'
+import { NavigationInner } from './NavigationInner'
 
 interface MenuProps {
 	activeMenu: null | string
@@ -70,6 +83,7 @@ export const Navigation = () => {
 	/* State from Providers */
 	const { loading, checkout } = useCheckout()
 	const { ready, menu } = useShopData()
+	const [navState, toggleNav] = useState(false)
 
 	/* State */
 	const [{ cartOpen, menuOpen, currentSubmenuKey }, dispatch] = useReducer(navReducer, {
@@ -81,6 +95,14 @@ export const Navigation = () => {
 	/* Handlers */
 	const openCart = () => dispatch({ type: OPEN_CART })
 	const closeCart = () => dispatch({ type: CLOSE_CART })
+
+	const handleNav = () => {
+		if (navState === true) {
+			toggleNav(false)
+		} else {
+			toggleNav(true)
+		}
+	}
 
 	const openMenu = (menuKey: string) => () => dispatch({ type: OPEN_SUBMENU, menuKey })
 	const closeMenu = () => dispatch({ type: CLOSE_MENU })
@@ -95,7 +117,7 @@ export const Navigation = () => {
 		<Wrapper>
 			<Inner>
 				<NavSection ready={ready}>
-					{menuItems.map((menuItem) =>
+					{/* {menuItems.map((menuItem) =>
 						menuItem.__typename === 'SubMenu' ? (
 							<NavHeaderWrapper key={menuItem._key} onMouseEnter={openMenu(menuItem._key)}>
 								<NavHeader transform="uppercase">{menuItem.title}</NavHeader>
@@ -107,7 +129,15 @@ export const Navigation = () => {
 								</NavHeader>
 							</NavHeaderWrapper>
 						),
-					)}
+					)} */}
+					<Hamburger onClick={handleNav} open={navState}>
+						<span></span>
+						<span></span>
+						<span></span>
+					</Hamburger>
+					<SideNavigation open={navState}>
+						<NavigationInner />
+					</SideNavigation>
 				</NavSection>
 
 				<Link to="/">

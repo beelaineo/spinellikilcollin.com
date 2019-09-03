@@ -6,22 +6,6 @@ export const Footer = styled.footer`
 	width: 100%;
 	${({ theme }) => css`
 		padding: ${theme.layout.spacing.triple} ${theme.layout.spacing.single};
-		input[type='text'] {
-			border: 1px solid ${theme.color.lightGrayBody};
-			width: 100%;
-			padding: ${theme.layout.spacing.small};
-			text-transform: lowercase;
-			font-family: ${theme.font.family.serif};
-		}
-		[type='submit'] {
-			position: absolute;
-			right: 12px;
-			top: 14px;
-			color: ${theme.color.lightGrayBody};
-		}
-		form {
-			position: relative;
-		}
 		.footer-inner {
 			margin: 0 auto;
 			max-width: 1200px;
