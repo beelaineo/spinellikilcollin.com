@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useQuery } from 'urql'
 import { homepageQuery, HomepageResponse } from './homepageQuery'
 import { ContentSection } from '../../components/ContentSection'
+import { FlexThree } from '../../components/Layout/Flex'
 
 export const Homepage = () => {
 	const [response] = useQuery<HomepageResponse>({ query: homepageQuery })
