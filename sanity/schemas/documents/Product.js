@@ -3,13 +3,6 @@ import { createProductDocument } from '@sane-shopify/sanity-plugin'
 export const Product = createProductDocument({
 	fields: [
 		{
-			title: 'Content Blocks (before details)',
-			description: 'These blocks will appear above the product description and images',
-			name: 'contentBlocksBefore',
-			type: 'array',
-			of: [{ type: 'contentSection' }],
-		},
-		{
 			title: 'Info Blocks',
 			name: 'infoBlocks',
 			type: 'array',
@@ -22,7 +15,7 @@ export const Product = createProductDocument({
 			name: 'contentBlocksAfter',
 			description: 'These blocks will appear below the product description, and above the Related Items carousel.',
 			type: 'array',
-			of: [{ type: 'contentSection' }],
+			of: [{ type: 'contentBlock' }],
 		},
 		{
 			title: 'Related Products & Collections',

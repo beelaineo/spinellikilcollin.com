@@ -7,7 +7,7 @@ export const homepage = {
 			name: 'contentSections',
 			label: 'Content Blocks',
 			type: 'array',
-			of: [{ type: 'contentSection' }],
+			of: [{ type: 'hero' }, { type: 'carousel' }, { type: 'contentBlock' }],
 		},
 	],
 	preview: {

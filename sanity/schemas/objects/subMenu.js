@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { groupBy, prop } from 'ramda'
 import { IoIosListBox } from 'react-icons/io'
-import { BlockPreview } from './contentSections/BlockPreview'
+import { BlockPreview } from '../components/BlockPreview'
 import { getReferencedDocument, getShopifyThumbnail } from '../utils'
 
 const getPreviewValues = async ({ label, link: previewLink }) => {
@@ -81,7 +81,10 @@ export const subMenu = {
 			title: 'Submenu Sections',
 			name: 'columns',
 			type: 'array',
-			of: [{ type: 'linkGroup' }, { type: 'imageBlock' }],
+			of: [
+				{ type: 'linkGroup' },
+				// { type: 'imageBlock' }
+			],
 		},
 	],
 	preview: {

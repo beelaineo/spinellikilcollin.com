@@ -7,7 +7,7 @@ export const blocksToPlainText = (blocks, lineBreaks = false) =>
 	blocks
 		? blocks
 				.map((b) => (b._type !== 'block' || !b.children ? '' : b.children.map((child) => child.text).join('')))
-				.join(lineBreaks ? '\n\n' : '')
+				.join(lineBreaks ? '\n\n' : ' ')
 		: undefined
 
 export const getImageThumbnail = async (image) => {
