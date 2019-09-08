@@ -4,11 +4,11 @@ import { Select, Label, NormalizeDiv, QuantitySelector } from '../styled'
 import { QuantityInput } from 'Components/QuantityInput'
 
 interface Props extends UseProductVariant {
-	variants: Variant[]
-	quantity: number
-	increment: () => void
-	decrement: () => void
-	setQuantity: (q: number) => void
+  variants: Variant[]
+  quantity: number
+  increment: () => void
+  decrement: () => void
+  setQuantity: (q: number) => void
 }
 
 /**
@@ -20,39 +20,52 @@ interface Props extends UseProductVariant {
  */
 
 export const ProductVariantSelector = (props: Props) => {
-	const { variants, currentVariant, selectVariant, quantity, setQuantity, increment, decrement } = props
-	if (!variants.length) return null
-	const handleSelect = (e) => {
-		selectVariant(e.target.value)
-	}
-	const handleQuantityInput = (e) => setQuantity(e.target.value)
+  const {
+    variants,
+    currentVariant,
+    selectVariant,
+    quantity,
+    setQuantity,
+    increment,
+    decrement,
+  } = props
+  if (!variants.length) return null
+  const handleSelect = (e) => {
+    selectVariant(e.target.value)
+  }
+  const handleQuantityInput = (e) => setQuantity(e.target.value)
 
-	return (
-		<div>
-			<NormalizeDiv>
-				<Label>Size</Label>
-				<Select onChange={handleSelect} value={currentVariant.id} id="size" name="product-size">
-					{variants.map((variant) => {
-						return (
-							<option key={variant.id} value={variant.id}>
-								{variant.title}
-							</option>
-						)
-					})}
-				</Select>
-			</NormalizeDiv>
-			<NormalizeDiv>
-				<Label>Quantity</Label>
-				<QuantitySelector width={'52px'}>
-					<button type="button" onClick={decrement}>
-						<span>&#8722;</span>
-					</button>
-					<QuantityInput quantity={quantity} setQuantity={setQuantity} />
-					<button type="button" onClick={increment}>
-						<span>&#43;</span>
-					</button>
-				</QuantitySelector>
-			</NormalizeDiv>
-		</div>
-	)
+  return (
+    <div>
+      <NormalizeDiv>
+        <Label>Size</Label>
+        <Select
+          onChange={handleSelect}
+          value={currentVariant.id}
+          id="size"
+          name="product-size"
+        >
+          {variants.map((variant) => {
+            return (
+              <option key={variant.id} value={variant.id}>
+                {variant.title}
+              </option>
+            )
+          })}
+        </Select>
+      </NormalizeDiv>
+      <NormalizeDiv>
+        <Label>Quantity</Label>
+        <QuantitySelector width={'52px'}>
+          <button type="button" onClick={decrement}>
+            <span>&#8722;</span>
+          </button>
+          <QuantityInput quantity={quantity} setQuantity={setQuantity} />
+          <button type="button" onClick={increment}>
+            <span>&#43;</span>
+          </button>
+        </QuantitySelector>
+      </NormalizeDiv>
+    </div>
+  )
 }

@@ -10,14 +10,14 @@ import * as objects from './objects'
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
-	name: 'default',
-	// Then proceed to concatenate our our document type
-	// to the ones provided by any plugins that are installed
-	types: schemaTypes.concat([
-		...Object.values(documents),
-		...Object.values(objects),
-		/* Your types here! */
-		...sanityObjects,
-		shopifySelector,
-	]),
+  name: 'default',
+  // Then proceed to concatenate our our document type
+  // to the ones provided by any plugins that are installed
+  types: schemaTypes.concat([
+    ...Object.values(documents),
+    ...Object.values(objects),
+    /* Your types here! */
+    ...sanityObjects,
+    shopifySelector,
+  ]),
 })
