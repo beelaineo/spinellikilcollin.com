@@ -321,7 +321,7 @@ export interface Carousel {
   items?: Maybe<Array<Maybe<PageLink>>>
 }
 
-export type CarouselOrContentBlockOrHero = Carousel | ContentBlock | Hero
+export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
 
 /** A container for all the information required to checkout items and pay. */
 export interface Checkout extends Node {
@@ -1062,19 +1062,6 @@ export interface CommentEdge {
   cursor: Scalars['String']
   /** The item at the end of CommentEdge. */
   node: Comment
-}
-
-export interface ContentBlock {
-  __typename: 'ContentBlock'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-  ctaText?: Maybe<Scalars['String']>
-  link?: Maybe<Array<Maybe<ExternalLinkOrPageLink>>>
-  textPosition?: Maybe<Scalars['String']>
-  layout?: Maybe<Scalars['String']>
-  backgroundImage?: Maybe<BackgroundImage>
-  hoverImage?: Maybe<BackgroundImage>
 }
 
 /** ISO 3166-1 alpha-2 country codes with some differences. */
@@ -2524,7 +2511,7 @@ export interface Homepage extends Document {
   /** Current document revision */
   _rev: Scalars['String']
   _key?: Maybe<Scalars['String']>
-  contentSections?: Maybe<Array<Maybe<CarouselOrContentBlockOrHero>>>
+  content?: Maybe<Array<Maybe<CarouselOrHeroOrImageTextBlock>>>
 }
 
 export type HomepageFilter = {
@@ -2642,6 +2629,19 @@ export interface ImageEdge {
   cursor: Scalars['String']
   /** The item at the end of ImageEdge. */
   node: Image
+}
+
+export interface ImageTextBlock {
+  __typename: 'ImageTextBlock'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+  ctaText?: Maybe<Scalars['String']>
+  link?: Maybe<Array<Maybe<ExternalLinkOrPageLink>>>
+  textPosition?: Maybe<Scalars['String']>
+  layout?: Maybe<Scalars['String']>
+  backgroundImage?: Maybe<BackgroundImage>
+  hoverImage?: Maybe<BackgroundImage>
 }
 
 export interface ImageWithAltText {
@@ -5152,7 +5152,7 @@ export interface ShopifyProduct extends Document {
   shopifyId?: Maybe<Scalars['String']>
   sourceData?: Maybe<ShopifyProductSource>
   infoBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
-  contentBlocksAfter?: Maybe<Array<Maybe<ContentBlock>>>
+  contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
   /**
    * (coming soon) Use these fields to create a customized 'related products'
    * carousel. If this section is empty, contents from a related collection will be shown instead.

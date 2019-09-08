@@ -47,8 +47,8 @@ export const externalLinkFragment = /* GraphQL */ `
   }
 `
 
-export const contentBlockFragment = /* GraphQL */ `
-  fragment ContentBlockFragment on ContentBlock {
+export const imageTextBlockFragment = /* GraphQL */ `
+  fragment ImageTextBlockFragment on ImageTextBlock {
     _key
     _type
     bodyRaw
@@ -72,5 +72,34 @@ export const contentBlockFragment = /* GraphQL */ `
   }
   ${pageLinkFragment}
   ${externalLinkFragment}
+  ${backgroundImageFragment}
+`
+
+export const carouselFragment = /* GraphQL */ `
+  fragment CarouselFragment on Carousel {
+    _key
+    _type
+    title
+    collection {
+      ...PageLinkFragment
+    }
+    items {
+      ...PageLinkFragment
+    }
+  }
+  ${pageLinkFragment}
+`
+
+export const heroFragment = /* GraphQL */ `
+  fragment HeroFragment on Hero {
+    _key
+    _type
+    bodyRaw
+    textPosition
+    textPositionMobile
+    image {
+      ...BackgroundImageFragment
+    }
+  }
   ${backgroundImageFragment}
 `
