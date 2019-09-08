@@ -11,12 +11,12 @@ export const Product = createProductDocument({
       of: [{ type: 'productInfoBlock' }],
     },
     {
-      title: 'Content Blocks (Bottom)',
-      name: 'contentBlocksAfter',
+      title: 'Content (After product info)',
+      name: 'contentAfter',
       description:
         'These blocks will appear below the product description, and above the Related Items carousel.',
       type: 'array',
-      of: [{ type: 'contentBlock' }],
+      of: [{ type: 'imageTextBlock' }],
     },
     {
       title: 'Related Products & Collections',

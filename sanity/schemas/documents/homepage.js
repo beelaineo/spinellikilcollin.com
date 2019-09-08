@@ -4,10 +4,10 @@ export const homepage = {
   name: 'homepage',
   fields: [
     {
-      name: 'contentSections',
-      label: 'Content Blocks',
+      name: 'content',
+      label: 'Content',
       type: 'array',
-      of: [{ type: 'hero' }, { type: 'carousel' }, { type: 'contentBlock' }],
+      of: [{ type: 'hero' }, { type: 'carousel' }, { type: 'imageTextBlock' }],
     },
   ],
   preview: {

@@ -1,9 +1,9 @@
 import { blocksToPlainText } from '../utils'
 
-export const contentBlock = {
-  name: 'contentBlock',
+export const imageTextBlock = {
+  name: 'imageTextBlock',
   type: 'object',
-  title: 'Content Block',
+  title: 'Image + Text Block',
   fields: [
     {
       name: 'body',
