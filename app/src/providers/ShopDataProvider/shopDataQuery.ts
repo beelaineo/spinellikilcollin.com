@@ -3,9 +3,9 @@ import gql from 'graphql-tag'
 import { Paginated } from '@good-idea/unwind-edges'
 import { Menu, ProductInfo } from '../../types/generated'
 import {
-  linkFragment,
-  imageBlockFragment,
-  productInfoFragment,
+  productInfoBlockFragment,
+  pageLinkFragment,
+  contentBlockFragment,
 } from '../../graphql/fragments'
 
 export const SHOP_DATA_QUERY = /* GraphQL */ gql`
@@ -21,7 +21,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           _type
           label
           link {
-            ...LinkFragment
+            ...PageLinkFragment
           }
         }
         ... on SubMenu {
@@ -29,15 +29,12 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           _type
           title
           columns {
-            ... on ImageBlock {
-              ...ImageBlockFragment
-            }
             ... on LinkGroup {
               _key
               _type
               title
               links {
-                ...LinkFragment
+                ...PageLinkFragment
               }
             }
           }
@@ -50,33 +47,32 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       _key
       _createdAt
       globalBlocks {
-        ...ProductInfoFragment
+        ...ProductInfoBlockFragment
       }
       ringBlocks {
-        ...ProductInfoFragment
+        ...ProductInfoBlockFragment
       }
       earringBlocks {
-        ...ProductInfoFragment
+        ...ProductInfoBlockFragment
       }
       braceletBlocks {
-        ...ProductInfoFragment
+        ...ProductInfoBlockFragment
       }
       necklaceBlocks {
-        ...ProductInfoFragment
+        ...ProductInfoBlockFragment
       }
       blocksByTag {
         _key
         _type
         tag
         infoBlocks {
-          ...ProductInfoFragment
+          ...ProductInfoBlockFragment
         }
       }
     }
   }
-  ${productInfoFragment}
-  ${linkFragment}
-  ${imageBlockFragment}
+  ${productInfoBlockFragment}
+  ${pageLinkFragment}
 `
 
 export interface ShopDataResponse {

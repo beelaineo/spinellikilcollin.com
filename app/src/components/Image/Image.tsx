@@ -34,6 +34,7 @@ const parseImage = (image: ShopifyImage | SanityImage): null | ImageDetails => {
         // TODO get alt text if present
       }
     default:
+      console.log(image)
       // @ts-ignore
       throw new Error(`Image type "${image.__typename}" is not supported`)
   }

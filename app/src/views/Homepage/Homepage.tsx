@@ -10,7 +10,7 @@ export const Homepage = () => {
     return (
       <React.Fragment>
         <p>error!</p>
-        <pre>JSON.stringify(error, null, 2)</pre>
+        <pre>{JSON.stringify(error, null, 2)}</pre>
       </React.Fragment>
     )
 
