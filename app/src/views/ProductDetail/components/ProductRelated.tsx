@@ -26,11 +26,11 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
       <ProductRelatedInner>
         <Carousel>
           {products.slice(0, 10).map((product) => {
-            let { title } = product
+            const { title } = product
             const [images] = unwindEdges(product.images)
             const productLink = `/products/${product.handle}`
 
-            return <ProductThumbnail product={product} />
+            return <ProductThumbnail key={product.id} product={product} />
           })}
         </Carousel>
       </ProductRelatedInner>

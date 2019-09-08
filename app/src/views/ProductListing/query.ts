@@ -1,6 +1,5 @@
 import { Collection } from 'use-shopify'
-import { imageFragment } from '../../graphql/fragments'
-import { Paginated } from '../../types'
+import { shopifyImageFragment } from '../../graphql/fragments'
 
 export const COLLECTION_QUERY = /* GraphQL */ `
   query CollectionQuery($handle: String!) {
@@ -46,7 +45,7 @@ export const COLLECTION_QUERY = /* GraphQL */ `
     }
   }
 
-  ${imageFragment}
+  ${shopifyImageFragment}
 `
 
 export interface CollectionResult {

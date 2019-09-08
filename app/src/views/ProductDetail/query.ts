@@ -1,5 +1,5 @@
 import { Product } from '../../types/generated'
-import { imageFragment } from '../../graphql/fragments'
+import { shopifyImageFragment } from '../../graphql/fragments'
 
 export const PRODUCT_QUERY = /* GraphQL */ `
   query ProductQuery($handle: String!) {
@@ -68,7 +68,7 @@ export const PRODUCT_QUERY = /* GraphQL */ `
       }
     }
   }
-  ${imageFragment}
+  ${shopifyImageFragment}
 `
 
 export interface ProductQueryResult {

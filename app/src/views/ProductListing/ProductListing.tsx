@@ -30,7 +30,7 @@ export const ProductListing = ({ match }: ProductListingProps) => {
       <ProductListingHeader collection={collection} />
       <ProductGrid>
         {products.map((product) => {
-          return <ProductThumbnail product={product} />
+          return <ProductThumbnail key={product.id} product={product} />
         })}
       </ProductGrid>
     </React.Fragment>
