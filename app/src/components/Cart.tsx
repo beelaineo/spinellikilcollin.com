@@ -14,7 +14,7 @@ export const CartSidebar = styled.div`
     max-height: 100vh;
     min-height: 100vh;
     overflow: scroll;
-    background-color: ${props.theme.color.white};
+    /* background-color: ${props.theme.color.white}; */
     box-shadow: -5px 0 5px rgba(0, 0, 0, 0.1);
     transition: 350ms ease-in-out;
     width: 500px;
@@ -32,6 +32,9 @@ export const CartSidebar = styled.div`
     h3 {
       margin: ${props.theme.layout.spacing.small};
       margin-top: ${props.theme.layout.spacing.small} !important;
+    }
+    button {
+      background: transparent;
     }
     ${props.theme.mediaQueries.mobile} {
       max-width: 340px;
@@ -60,7 +63,7 @@ export const CartBottom = styled.div`
   justify-content: space-between;
   flex-direction: column;
   /* height: 15vh; */
-  background-color: white;
+  /* background-color: white; */
   > div,
   > h6 {
     margin: ${(props) => props.theme.layout.spacing.small};
