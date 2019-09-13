@@ -7,8 +7,11 @@ export const Wrapper = styled.nav`
     position: relative;
     z-index: ${theme.layout.z.navigation};
     font-family: ${theme.font.family.sans};
-    position: sticky;
+    position: fixed;
     top: 20px;
+    left: 0;
+    right: 0;
+    width: 100vw;
   `}
 `
 

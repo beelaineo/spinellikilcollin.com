@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { Carousel } from '../../types'
 import { Placeholder } from '../Placeholder'
+import { CarouselBlockStyled, Square } from '../Layout/Containers'
+import { Header2, Header5 } from '../Text'
+import { FlexContainer, FlexSix } from '../Layout/Flex'
 
 interface CarouselBlockProps {
   carousel: Carousel
@@ -16,5 +19,26 @@ interface CarouselBlockProps {
  */
 
 export const CarouselBlock = (props: CarouselBlockProps) => {
-  return <Placeholder label="Carousel Block" data={props} />
+  let { title } = props.carousel
+
+  // mocking the data
+  let counter = 0
+  let allImages = []
+  while (counter < 6) {
+    allImages.push(
+      <FlexSix margin="double">
+        <Square></Square>
+        <Header5 align="center">Product Name</Header5>
+      </FlexSix>,
+    )
+    counter++
+  }
+  return (
+    <CarouselBlockStyled>
+      <Header2>{title}</Header2>
+      <FlexContainer margin="double" marginVertical="triple">
+        {allImages}
+      </FlexContainer>
+    </CarouselBlockStyled>
+  )
 }

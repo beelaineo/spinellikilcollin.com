@@ -10,7 +10,6 @@ interface HeroBlockProps {
 
 export const HeroBlock = (props: HeroBlockProps) => {
   let hero = props.hero
-  console.log(hero)
   return (
     <HeroBackground background={hero.image.asset.url}>
       <HeroText textAlign={hero.textPosition}>

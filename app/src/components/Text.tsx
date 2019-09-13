@@ -117,7 +117,9 @@ export const Header4Italic = styled.h4`
 export const Header5 = styled.h5`
   ${(props: TextStyleProps) => css`
     ${commonHeaderStyles(props)};
+    margin: ${props.theme.layout.spacing.double} 0;
     letter-spacing: 0.05em;
+    font-family: ${props.theme.font.family.serif};
     font-size: ${props.theme.font.size.h5};
   `};
 `

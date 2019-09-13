@@ -24,7 +24,7 @@ export const HeroBackground = styled.div`
       height: 90vh;
       position: relative;
       z-index:0;
-      top: -86px;
+      top: 0px;
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "a b";
@@ -72,13 +72,27 @@ export const ImageText = styled.div`
       color: ${theme.color.dark};
       padding: ${theme.layout.spacing.triple};
       background-image: ${`url(${background})`};
-      height: 80vh;
+      padding-top: 21%;
+      padding-bottom: 21%;
       background-size: cover;
       background-position: center;
       vertical-align: top;
+      position: relative;
+      ${theme.mediaQueries.tablet} {
+        width: 100%;
+        padding-top: 50%;
+        padding-bottom: 50%;
+      }
       > div {
         display: flex;
         height: 100%;
+        position: ${
+          textAlign === 'middle-center'
+            ? 'initial'
+            : textAlign === 'bottom-right'
+            ? 'absolute'
+            : 'absolute'
+        };
         text-align: ${
           textAlign === 'middle-center'
             ? 'center'
@@ -94,13 +108,55 @@ export const ImageText = styled.div`
             ? 'flex-end'
             : 'left'
         };
+        top: ${
+          textAlign === 'middle-center'
+            ? 0
+            : textAlign === 'bottom-right'
+            ? `-${theme.layout.spacing.triple}`
+            : theme.layout.spacing.triple
+        };
+        right: ${
+          textAlign === 'middle-center'
+            ? 'initial'
+            : textAlign === 'bottom-right'
+            ? theme.layout.spacing.triple
+            : 'initial'
+        };
+        bottom: ${
+          textAlign === 'middle-center'
+            ? 'initial'
+            : textAlign === 'bottom-right'
+            ? theme.layout.spacing.triple
+            : 'initial'
+        };
       
       }
       a {
         text-transform: capitalize;
         color: ${theme.color.semiDark};
         margin: ${theme.layout.spacing.small} 0;
+        display: inline-block;
         font-style: italic;
+        text-decoration: none;
+        padding-bottom: ${theme.layout.spacing.quarter};
+        border-bottom: 1px solid  ${theme.color.semiDark};;
       }
   `}
+`
+
+interface CarouselBlockStyled {
+  theme: DefaultTheme
+}
+
+export const CarouselBlockStyled = styled.div`
+  ${({ theme }: ImageText) => `
+        padding: ${theme.layout.spacing.triple};
+        text-align: center;
+    `};
+`
+
+export const Square = styled.div`
+  padding: 50% 0 50%;
+  background-color: lightgray;
+  text-align: center;
 `

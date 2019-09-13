@@ -85,6 +85,6 @@ export const FlexSix = styled.div`
   margin: 10px;
   ${({ theme, marginVertical, margin }: WrapperProps) => `
 		margin-top: ${theme.layout.spacing[marginVertical] || 'initial'} ;
-		margin: ${theme.layout.spacing[margin]} 0;
+		margin: ${theme.layout.spacing[margin]};
 	`}
 `
