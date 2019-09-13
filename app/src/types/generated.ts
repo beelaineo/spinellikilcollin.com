@@ -2494,8 +2494,9 @@ export interface Hero {
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
   textPosition?: Maybe<Scalars['String']>
-  textPositionMobile?: Maybe<Scalars['String']>
   image?: Maybe<BackgroundImage>
+  mobileImage?: Maybe<BackgroundImage>
+  textPositionMobile?: Maybe<Scalars['String']>
 }
 
 export interface Homepage extends Document {
@@ -3723,16 +3724,16 @@ export type ProductDescriptionArgs = {
  * customization of another product or an extended warranty).
  **/
 export type ProductImagesArgs = {
-  maxWidth?: Maybe<Scalars['Int']>
-  maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<CropRegion>
-  scale?: Maybe<Scalars['Int']>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ProductImageSortKeys>
+  maxWidth?: Maybe<Scalars['Int']>
+  maxHeight?: Maybe<Scalars['Int']>
+  crop?: Maybe<CropRegion>
+  scale?: Maybe<Scalars['Int']>
 }
 
 /**

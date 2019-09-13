@@ -1,13 +1,38 @@
 import * as React from 'react'
-import { render, fireEvent } from 'react-testing-library'
+import { fireEvent } from '@testing-library/react'
+import { render } from '../../test-utils/render'
 import { Gallery } from '../Gallery'
 import { Image } from '../../types'
 
 const images: Image[] = [
-  { id: '123', __typename: 'Image', originalSrc: './images/123.jpg' },
-  { id: '234', __typename: 'Image', originalSrc: './images/234.jpg' },
-  { id: '345', __typename: 'Image', originalSrc: './images/345.jpg' },
-  { id: '456', __typename: 'Image', originalSrc: './images/456.jpg' },
+  {
+    id: '123',
+    __typename: 'Image',
+    src: './images/123.jpg',
+    transformedSrc: './images/123.jpg',
+    originalSrc: './images/123.jpg',
+  },
+  {
+    id: '234',
+    __typename: 'Image',
+    src: './images/234.jpg',
+    transformedSrc: './images/234.jpg',
+    originalSrc: './images/234.jpg',
+  },
+  {
+    id: '345',
+    __typename: 'Image',
+    src: './images/345.jpg',
+    transformedSrc: './images/345.jpg',
+    originalSrc: './images/345.jpg',
+  },
+  {
+    id: '456',
+    __typename: 'Image',
+    src: './images/456.jpg',
+    transformedSrc: './images/456.jpg',
+    originalSrc: './images/456.jpg',
+  },
 ]
 
 describe('Gallery', () => {

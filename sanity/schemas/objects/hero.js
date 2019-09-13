@@ -32,14 +32,20 @@ export const hero = {
       type: 'position',
     },
     {
-      name: 'textPositionMobile',
-      title: 'Text Position (Mobile)',
-      type: 'position',
-    },
-    {
       name: 'image',
       title: 'Background Image',
       type: 'backgroundImage',
+    },
+    {
+      name: 'mobileImage',
+      title: 'Background Image (mobile)',
+      type: 'backgroundImage',
+    },
+
+    {
+      name: 'textPositionMobile',
+      title: 'Text Position (Mobile)',
+      type: 'position',
     },
   ],
   preview: {
