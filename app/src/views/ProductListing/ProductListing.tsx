@@ -8,31 +8,31 @@ import { ProductThumbnail } from './ProductThumbnail'
 import { ProductListingHeader } from './ProductListingHeader'
 
 interface ProductListingProps {
-	match: {
-		params: {
-			handle: string
-		}
-	}
+  match: {
+    params: {
+      handle: string
+    }
+  }
 }
 
 export const ProductListing = ({ match }: ProductListingProps) => {
-	const { handle } = match.params
-	const variables = { handle }
-	const [response] = useQuery<CollectionResult>({
-		query: COLLECTION_QUERY,
-		variables,
-	})
-	if (response.fetching || !response.data) return <p>Loading..</p>
-	const collection = response.data.collectionByHandle
-	const [products] = unwindEdges<Product>(collection.products)
-	return (
-		<React.Fragment>
-			<ProductListingHeader collection={collection} />
-			<ProductGrid>
-				{products.map((product) => {
-					return <ProductThumbnail product={product} />
-				})}
-			</ProductGrid>
-		</React.Fragment>
-	)
+  const { handle } = match.params
+  const variables = { handle }
+  const [response] = useQuery<CollectionResult>({
+    query: COLLECTION_QUERY,
+    variables,
+  })
+  if (response.fetching || !response.data) return <p>Loading..</p>
+  const collection = response.data.collectionByHandle
+  const [products] = unwindEdges<Product>(collection.products)
+  return (
+    <React.Fragment>
+      <ProductListingHeader collection={collection} />
+      <ProductGrid>
+        {products.map((product) => {
+          return <ProductThumbnail key={product.id} product={product} />
+        })}
+      </ProductGrid>
+    </React.Fragment>
+  )
 }

@@ -16,28 +16,28 @@ import { ShopDataProvider } from './ShopDataProvider'
  */
 
 interface Props {
-	children: React.ReactNode
+  children: React.ReactNode
 }
 
 const client = createClient({
-	url: '/.netlify/functions/graphql',
+  url: '/.netlify/functions/graphql',
 })
 
 const queries = createUrqlQueries(client)
 
 export const Providers = ({ children }: Props) => {
-	return (
-		<UrqlProvider value={client}>
-			<ShopifyProvider queries={queries}>
-				<ShopDataProvider>
-					<ThemeProvider theme={theme}>
-						<BrowserRouter>
-							<GlobalStyles />
-							{children}
-						</BrowserRouter>
-					</ThemeProvider>
-				</ShopDataProvider>
-			</ShopifyProvider>
-		</UrqlProvider>
-	)
+  return (
+    <UrqlProvider value={client}>
+      <ShopifyProvider queries={queries}>
+        <ShopDataProvider>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>
+              <GlobalStyles />
+              {children}
+            </BrowserRouter>
+          </ThemeProvider>
+        </ShopDataProvider>
+      </ShopifyProvider>
+    </UrqlProvider>
+  )
 }
