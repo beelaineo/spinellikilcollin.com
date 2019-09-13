@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { render, fireEvent } from 'test-utils/render'
-// import { BuyButton } from '../BuyButton'
+import { fireEvent } from '@testing-library/react'
+import { render } from '../../../../test-utils/render'
 import { BuyButton } from '../BuyButton'
 
 const variant = { id: '1', availableForSale: true, title: 'Variant 1' }
@@ -21,16 +21,17 @@ describe('Buy Button', () => {
     expect(addItemToCheckout.mock.calls.length).toBe(0)
   })
 
-  it('should disable the button when the variant is not available for sale', () => {
+  it('should display "out of stock" when the variant is not for sale', () => {
     const nfs = {
       ...variant,
       availableForSale: false,
     }
-    const { container } = render(
+    const { container, debug } = render(
       <BuyButton currentVariant={nfs} addItemToCheckout={addItemToCheckout} />,
     )
+    expect(container.textContent).toBe('Out of stock')
     const btn = container.querySelectorAll('button')[0]
-    fireEvent.click(btn)
+    expect(btn).toBe(undefined)
     expect(addItemToCheckout.mock.calls.length).toBe(0)
   })
 
