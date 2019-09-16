@@ -21,11 +21,15 @@ export const ImageTextBlock = (props: ImageTextBlockProps) => {
     link = content.link[0].url
   }
   return (
-    <ImageText textAlign={content.textPosition} background={background}>
-      <div>
-        <RichText body={content.bodyRaw} />
-        <a href="#">{link}</a>
-      </div>
-    </ImageText>
+    <a href={`/${link}`}>
+      <ImageText textAlign={content.textPosition} background={background}>
+        <div>
+          <RichText body={content.bodyRaw} />
+          <span>
+            <a href={`/${link}`}>{props.content.ctaText}</a>
+          </span>
+        </div>
+      </ImageText>
+    </a>
   )
 }
