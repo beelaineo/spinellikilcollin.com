@@ -12,11 +12,12 @@ export const Column = styled.div`
 interface HeroBackground {
   theme: DefaultTheme
   background: string
+  backgroundMobile: string
 }
 
 export const HeroBackground = styled.div`
   background-color: pink;
-  ${({ theme, background }: HeroBackground) => `
+  ${({ theme, background, backgroundMobile }: HeroBackground) => `
       background-image: ${`url(${background})`};
       background-size: cover;
       background-position: 10%;
@@ -34,6 +35,7 @@ export const HeroBackground = styled.div`
         grid-area: b;
       }
       ${theme.mediaQueries.tablet} {
+        background-image: ${`url(${backgroundMobile})`};
         grid-template-columns: 1fr;
         div {
           grid-area: a;
