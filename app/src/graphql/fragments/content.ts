@@ -97,6 +97,9 @@ export const heroFragment = /* GraphQL */ `
     bodyRaw
     textPosition
     textPositionMobile
+    mobileImage {
+      ...BackgroundImageFragment
+    }
     image {
       ...BackgroundImageFragment
     }
