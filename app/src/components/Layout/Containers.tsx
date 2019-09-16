@@ -19,7 +19,7 @@ export const HeroBackground = styled.div`
   ${({ theme, background }: HeroBackground) => `
       background-image: ${`url(${background})`};
       background-size: cover;
-      background-position: left;
+      background-position: 10%;
       padding: ${theme.layout.spacing.triple};
       height: 90vh;
       position: relative;
@@ -34,10 +34,10 @@ export const HeroBackground = styled.div`
         grid-area: b;
       }
       ${theme.mediaQueries.tablet} {
-        max-height: 100vw;
         grid-template-columns: 1fr;
         div {
           grid-area: a;
+          align-self: flex-start;
         }
       }
     `}
