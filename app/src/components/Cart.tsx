@@ -63,7 +63,7 @@ export const CartBottom = styled.div`
   justify-content: space-between;
   flex-direction: column;
   /* height: 15vh; */
-  /* background-color: white; */
+  background-color: white;
   > div,
   > h6 {
     margin: ${(props) => props.theme.layout.spacing.small};

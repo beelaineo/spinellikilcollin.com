@@ -36,7 +36,7 @@ export const Gallery = ({ images, currentImageId }: GalleryProps) => {
 
   /* Update the current image if a new prop is passed in */
   useEffect(() => {
-    setCurrentImage(getImageById(currentImageId))
+    if (currentImageId) setCurrentImage(getImageById(currentImageId))
   }, [currentImageId])
 
   /* Handlers */

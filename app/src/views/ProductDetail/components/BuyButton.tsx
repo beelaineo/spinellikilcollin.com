@@ -18,7 +18,7 @@ export const BuyButton = ({
       variantId: currentVariant.id,
       quantity: quantity || 1,
     })
-  if (!currentVariant.availableForSale)
+  if (currentVariant && !currentVariant.availableForSale)
     return <Placeholder>Out of stock</Placeholder>
   return (
     <ButtonPrimary disabled={Boolean(!currentVariant)} onClick={handleClick}>
