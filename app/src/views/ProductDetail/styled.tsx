@@ -15,7 +15,7 @@ export const ProductDetails = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: ${theme.layout.spacing.double};
-
+    /* background-color: #F5F3F4; */
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 1fr;
     }
@@ -29,6 +29,11 @@ export const ProductImagesWrapper = styled.div`
 export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
     padding-top: ${theme.layout.spacing.quadruple};
+    max-width: ${theme.layout.columns.small};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
   `}
 `
 
@@ -89,6 +94,7 @@ interface NormalizeDivProps {
   width?: string
   top?: string
   align?: string
+  marginBottom?: string
 }
 
 export const NormalizeDiv = styled.div`
@@ -96,9 +102,13 @@ export const NormalizeDiv = styled.div`
     props.width === 'half' ? '50%' : '100%'};
   text-align: ${(props: NormalizeDivProps) => props.align || 'inherit'};
 
-  ${(props) => `
-   		margin: ${props.theme.layout.spacing.small};
+  ${(props: NormalizeDivProps) => `
+       margin: ${props.theme.layout.spacing.small};
+      
 	`}
+  margin-bottom: ${(props: NormalizeDivProps) =>
+    props.theme.layout.spacing[props.marginBottom]} ;
+
 `
 
 interface BackgroundImageProps {
@@ -133,20 +143,19 @@ export const Button = styled.button`
     color: ${props.theme.color.light};
     cursor: ${props.disabled ? 'auto' : 'pointer'};
     display: inline-block;
-    font-family: ${props.theme.font.family.sans};
+    font-family: ${props.theme.font.family.serif};
     font-weight: ${props.theme.font.weight.strong};
     font-size: ${props.theme.font.size.h5};
-    letter-spacing: 0.035em;
+    letter-spacing: 0.095em;
     padding: 0.25rem 0.5rem;
     text-align: center;
     text-transform: uppercase;
     transition: 0.2s;
-    padding: ${props.theme.layout.spacing.small};
+    padding: ${props.theme.layout.spacing.singleHalf};
     margin: ${props.theme.layout.spacing.small} 0;
     opacity: ${props.disabled ? 0.3 : 1};
     pointer-events: ${props.disabled ? 'none' : 'auto'};
-    max-width: 200px;
-    border-radius: 2px;
+    /* max-width: 200px; */
     width: ${props.width || 'initial'};
   `}
 `

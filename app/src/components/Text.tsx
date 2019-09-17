@@ -94,6 +94,7 @@ export const Header4 = styled.h4`
     ${commonHeaderStyles(props)};
     font-size: ${props.theme.font.size.h4};
     letter-spacing: 0.05em;
+    font-family: ${props.theme.font.family.serif};
     ${props.theme.mediaQueries.tablet} {
       font-size: calc(${props.theme.font.size.h4} * 0.8);
     }
