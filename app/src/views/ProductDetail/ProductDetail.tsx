@@ -104,7 +104,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>
-      <ProductDetailFooter product={product} />
+      <ProductDetailFooter product={product} content={productExtra} />
       <ProductRelated product={product} />
     </Wrapper>
   )

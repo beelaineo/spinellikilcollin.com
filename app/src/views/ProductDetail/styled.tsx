@@ -95,6 +95,7 @@ interface NormalizeDivProps {
   top?: string
   align?: string
   marginBottom?: string
+  margin: string
 }
 
 export const NormalizeDiv = styled.div`
@@ -102,9 +103,8 @@ export const NormalizeDiv = styled.div`
     props.width === 'half' ? '50%' : '100%'};
   text-align: ${(props: NormalizeDivProps) => props.align || 'inherit'};
 
-  ${(props: NormalizeDivProps) => `
-       margin: ${props.theme.layout.spacing.small};
-      
+  ${(margin: NormalizeDivProps) => `
+       margin: ${margin || 0};
 	`}
   margin-bottom: ${(props: NormalizeDivProps) =>
     props.theme.layout.spacing[props.marginBottom]} ;
