@@ -7,10 +7,10 @@ interface WithOpen {
 
 export const ToggleButton = styled.button`
   ${({ theme }) => css`
-    font-size: ${theme.font.size.h6};
+    font-size: ${theme.font.size.h4};
     font-weight: ${theme.font.weight.semi};
-    text-transform: uppercase;
     letter-spacing: 1px;
+    text-transform: capitalize;
     color: ${(props) => props.theme.color.dark};
   `}
 `
@@ -18,15 +18,18 @@ export const ToggleButton = styled.button`
 export const Inner = styled.div`
   ${({ theme, open }: WithOpen) => css`
     display: ${open ? 'block' : 'none'};
-    padding: ${theme.layout.spacing.single} 0;
+    padding: ${theme.layout.spacing.double} 0;
   `}
 `
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding: ${theme.layout.spacing.small};
-    margin: ${theme.layout.spacing.singleHalf} 0;
-    border-top: 2px solid ${theme.color.light};
-    border-bottom: 2px solid ${theme.color.light};
+    padding: ${theme.layout.spacing.singleHalf} 0 0;
+    margin: ${theme.layout.spacing.singleHalf} 0 0;
+    font-family: ${theme.font.family.serif};
+    border-top: 1px solid ${theme.color.dark};
+    button {
+      font-family: ${theme.font.family.serif};
+    }
   `}
 `

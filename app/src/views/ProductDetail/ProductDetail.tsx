@@ -68,7 +68,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
 
   return (
     <Wrapper>
-      <Column>
+      <Column backgroundColor={'#F5F3F4'}>
         <ProductDetails>
           <ProductImagesWrapper>
             <ProductImages currentVariant={currentVariant} product={product} />
@@ -78,7 +78,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
               currentVariant={currentVariant}
               product={product}
             />
-            <ProductDetailFooter product={product} />
+
             <ProductVariantSelector
               setQuantity={setQuantity}
               quantity={quantity}
@@ -93,6 +93,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
                 addItemToCheckout={addItemToCheckout}
                 currentVariant={currentVariant}
                 quantity={quantity}
+                width="100%"
               />
               {accordions
                 ? accordions.map(({ _key, title, bodyRaw }) => (
@@ -103,6 +104,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>
+      <ProductDetailFooter product={product} content={productExtra} />
       <ProductRelated product={product} />
     </Wrapper>
   )

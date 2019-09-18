@@ -21,7 +21,11 @@ export const BuyButton = ({
   if (currentVariant && !currentVariant.availableForSale)
     return <Placeholder>Out of stock</Placeholder>
   return (
-    <ButtonPrimary disabled={Boolean(!currentVariant)} onClick={handleClick}>
+    <ButtonPrimary
+      width={'100%'}
+      disabled={Boolean(!currentVariant)}
+      onClick={handleClick}
+    >
       add to cart
     </ButtonPrimary>
   )

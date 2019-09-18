@@ -15,10 +15,12 @@ export const ImageTextBlock = (props: ImageTextBlockProps) => {
   if (content.backgroundImage !== null) {
     background = content.backgroundImage.asset.url
   }
-  if (content.link[0]._type === 'pageLink') {
+  if (content.link && content.link[0]._type === 'pageLink') {
     link = content.link[0].document.title
-  } else {
+  } else if (content.link) {
     link = content.link[0].url
+  } else {
+    link = ''
   }
   return (
     <a href={`/${link}`}>
