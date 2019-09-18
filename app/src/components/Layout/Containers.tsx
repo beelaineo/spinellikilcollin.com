@@ -1,7 +1,15 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { semiDark } from '../../theme/color'
 
+interface Column {
+  theme: DefaultTheme
+  backgroundColor: String
+}
+
 export const Column = styled.div`
+  ${({ theme, backgroundColor }: Column) => `
+      background-color: ${(props) => backgroundColor || 'white'}
+  `}
   ${({ theme }) => css`
     margin: 0 auto;
     max-width: calc(

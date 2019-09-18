@@ -20,7 +20,7 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
   if (!products || !products.length) return null
   return (
     <ProductRelatedWrapper>
-      <Header2 transform="uppercase" color="lightGrayBody" align="center">
+      <Header2 transform="capitalize" size="small" color="dark" align="center">
         Shop the {collections[0].title} Collection
       </Header2>
       <ProductRelatedInner>

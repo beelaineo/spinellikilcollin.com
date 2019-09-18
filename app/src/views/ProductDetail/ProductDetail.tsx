@@ -68,7 +68,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
 
   return (
     <Wrapper>
-      <Column>
+      <Column backgroundColor={'#F5F3F4'}>
         <ProductDetails>
           <ProductImagesWrapper>
             <ProductImages currentVariant={currentVariant} product={product} />

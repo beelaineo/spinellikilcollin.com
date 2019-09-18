@@ -62,9 +62,8 @@ export const ProductGalleryThumbnails = styled.div`
 
 export const ProductRelatedWrapper = styled.div`
   ${(props) => css`
-    background-color: ${props.theme.color.gray};
+    background-color: ${props.theme.color.white};
     padding: ${props.theme.layout.spacing.quadruple};
-
     ${props.theme.mediaQueries.tablet} {
       > h2 {
         font-size: ${props.theme.font.size.h2};

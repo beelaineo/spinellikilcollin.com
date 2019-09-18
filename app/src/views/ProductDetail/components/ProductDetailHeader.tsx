@@ -14,7 +14,7 @@ export const ProductDetailHeader = ({
   currentVariant,
 }: ProductDetailHeaderProps) => {
   return (
-    <NormalizeDiv marginBottom="trip">
+    <NormalizeDiv marginBottom="triple">
       <Header2 weight="xlight" color="dark">
         {product.title}
       </Header2>
