@@ -54,10 +54,11 @@ export const ProductInfo = styled.div`
   ${({ theme }) => css`
     color: black;
     display: grid;
-    grid-template-columns: 3fr 1fr;
+    grid-template-columns: 1fr;
     padding: ${theme.layout.spacing.single} 0;
+    text-align: center;
     h6 {
-      text-align: right;
+      text-align: center;
     }
   `}
 `

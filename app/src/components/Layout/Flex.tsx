@@ -11,6 +11,7 @@ interface WrapperProps {
   maxwidth?: string
   text?: string
   align?: string
+  backgroundColor?: string
 }
 
 export const FlexContainer = styled.div`
@@ -27,6 +28,7 @@ export const FlexContainer = styled.div`
     maxwidth,
     text,
     align,
+    backgroundColor,
   }: WrapperProps) => `
 		margin-top: ${theme.layout.spacing[marginVertical] || 'initial'};
 		justify-content: ${center ? 'center' : 'space-between'};
@@ -37,7 +39,8 @@ export const FlexContainer = styled.div`
 		text-align: ${text ? text : 'initial'};
 		margin-left: ${align ? 'auto' : 'initial'}
 		margin-right: ${align ? 'auto' : 'initial'};
-		padding: ${theme.layout.spacing[padding] || 'initial'}; 
+    padding: ${theme.layout.spacing[padding] || 'initial'}; 
+    backgroundColor: backgroundColor;
 	`}
   .visible {
     opacity: 1;
