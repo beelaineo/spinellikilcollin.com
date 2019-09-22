@@ -67,8 +67,8 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
   const [variants] = unwindEdges<Variant>(product.variants)
 
   return (
-    <Wrapper>
-      <Column backgroundColor={'#F5F3F4'}>
+    <Wrapper backgroundColor={'#F5F3F4'}>
+      <Column>
         <ProductDetails>
           <ProductImagesWrapper>
             <ProductImages currentVariant={currentVariant} product={product} />

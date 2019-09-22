@@ -12,6 +12,17 @@ export const ToggleButton = styled.button`
     letter-spacing: 1px;
     text-transform: capitalize;
     color: ${(props) => props.theme.color.dark};
+    background-color: transparent;
+    width: 100%;
+    text-align: left;
+    position: relative;
+    &::after {
+      content: '+';
+      display: block;
+      position: absolute;
+      right: 0;
+      top: -2px;
+      font-size: 15px;
   `}
 `
 

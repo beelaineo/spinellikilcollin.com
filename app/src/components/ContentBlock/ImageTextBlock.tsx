@@ -11,6 +11,7 @@ interface ImageTextBlockProps {
 export const ImageTextBlock = (props: ImageTextBlockProps) => {
   let content = props.content
   let [background, link] = ''
+  let width = content.layout
 
   if (content.backgroundImage !== null) {
     background = content.backgroundImage.asset.url
@@ -19,12 +20,15 @@ export const ImageTextBlock = (props: ImageTextBlockProps) => {
     link = content.link[0].document.title
   } else if (content.link) {
     link = content.link[0].url
-  } else {
-    link = ''
   }
+
   return (
     <a href={`/${link}`}>
-      <ImageText textAlign={content.textPosition} background={background}>
+      <ImageText
+        width={width}
+        textAlign={content.textPosition}
+        background={background}
+      >
         <div>
           <RichText body={content.bodyRaw} />
           <span>

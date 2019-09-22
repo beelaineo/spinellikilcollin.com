@@ -73,7 +73,7 @@ export const Gallery = ({ images, currentImageId }: GalleryProps) => {
           </ZoomInner>
         </ZoomImageWrapper>
       </MainImageWrapper>
-      {images.length > 1 && (
+      {/* {images.length > 1 && (
         <Thumbnails data-testid="thumbnails">
           {images.map((image, i) => (
             <button key={image.id} onClick={changeImage(image.id)}>
@@ -81,7 +81,7 @@ export const Gallery = ({ images, currentImageId }: GalleryProps) => {
             </button>
           ))}
         </Thumbnails>
-      )}
+      )} */}
     </GalleryWrapper>
   )
 }

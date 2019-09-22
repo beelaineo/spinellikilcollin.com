@@ -1,12 +1,14 @@
 import styled, { css, DefaultTheme } from 'styled-components'
+import { lightGraybackground } from '../../theme/color'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
     min-height: 100vh;
-    margin: 0 auto;
+    margin: 0 auto ${theme.layout.spacing.triple};
     font-family: ${theme.font.family.sans};
-    padding: ${theme.layout.spacing.triple} 0;
+    padding: ${theme.layout.spacing.triple} 0 0;
+    background-color: ${theme.color.lightGraybackground};
   `}
 `
 
@@ -15,6 +17,8 @@ export const ProductDetails = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: ${theme.layout.spacing.double};
+    margin: 0 ${theme.layout.spacing.double};
+    min-height: 800px;
     /* background-color: #F5F3F4; */
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 1fr;
@@ -23,17 +27,25 @@ export const ProductDetails = styled.div`
 `
 
 export const ProductImagesWrapper = styled.div`
-  ${({ theme }) => css``}
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  `}
 `
 
 export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
     padding-top: ${theme.layout.spacing.quadruple};
     max-width: ${theme.layout.columns.small};
+    min-width: ${theme.layout.columns.small};
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin-left: auto;
+    ${theme.mediaQueries.mobile} {
+      margin: ${theme.layout.spacing.double} auto;
+    }
   `}
 `
 
@@ -151,7 +163,8 @@ export const Button = styled.button`
     text-transform: uppercase;
     transition: 0.2s;
     padding: ${props.theme.layout.spacing.singleHalf};
-    margin: ${props.theme.layout.spacing.small} 0;
+    margin: ${props.theme.layout.spacing.double} 0
+      ${props.theme.layout.spacing.single};
     opacity: ${props.disabled ? 0.3 : 1};
     pointer-events: ${props.disabled ? 'none' : 'auto'};
     /* max-width: 200px; */
