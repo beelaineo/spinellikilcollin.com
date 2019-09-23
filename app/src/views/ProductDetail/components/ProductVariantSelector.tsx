@@ -39,7 +39,7 @@ export const ProductVariantSelector = (props: Props) => {
   return (
     <div>
       <NormalizeDiv>
-        <Accordion label={'Size'} content={'bodyRaw'} />
+        <Accordion label={'Size'} content={'dummyContent'} />
         {/* <Label>Size</Label> */}
         {/* <Select
           onChange={handleSelect}
