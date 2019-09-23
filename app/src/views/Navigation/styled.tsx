@@ -42,7 +42,7 @@ export const NavSection = styled.div`
     align-items: stretch;
     height: 100%;
     opacity: ${ready ? '1' : '0'};
-
+    border-bottom: 1px solid black;
     &:last-child {
       justify-content: flex-end;
     }
@@ -75,7 +75,9 @@ export const NavHeaderWrapper = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0 1em;
-
+  button {
+    background-color: transparent;
+  }
   &:first-child {
     margin-left: 0;
   }
@@ -204,7 +206,7 @@ export const Hamburger = styled.div`
     height: 1px;
     background-color: black;
     display: block;
-    margin: 9px;
+    margin: 9px 0;
     transition: 50ms ease;
   }
 `

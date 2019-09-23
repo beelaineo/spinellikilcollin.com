@@ -41,6 +41,7 @@ export const Checkout = () => {
       <Header3 color="dark" align="center">
         Your cart
       </Header3>
+
       <CartInner>
         {checkout.lineItems.edges.map((lineItem) => {
           const { id, title, variant, quantity } = lineItem.node

@@ -147,16 +147,25 @@ export const Navigation = () => {
             <NavigationInner />
           </SideNavigation>
         </NavSection>
-
-        <Link to="/">
-          <Logo src="/static/images/sk-logotype.svg" />
-        </Link>
+        <NavSection ready={ready}>
+          <Link to="/">
+            <Logo src="/static/images/sk-logotype.svg" />
+          </Link>
+        </NavSection>
         <NavSection ready={ready} align="right">
           <NavHeaderWrapper>
             <NavHeader as="button" onClick={openCart}>
               <Loading loading={loading}>
                 <div>
-                  <IoIosCart />
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="2em"
+                    height="2em"
+                    viewBox="0 0 512 512"
+                    fill="black"
+                  >
+                    <path d="M423.6 288c17.6 0 36-13.8 40.8-30.8l46.4-162.5C515.7 77.8 505.2 64 487.6 64L160 64c0-35.3-28.7-64-64-64L0 0l0 64 96 0 0 272c0 26.5 21.5 48 48 48l304 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L160 320l0-32L423.6 288zM160 128l289.4 0 -27.4 96L160 224 160 128zM192 472c0 22-18 40-40 40l-16 0c-22 0-40-18-40-40l0-16c0-22 18-40 40-40l16 0c22 0 40 18 40 40L192 472zM480 472c0 22-18 40-40 40l-16 0c-22 0-40-18-40-40l0-16c0-22 18-40 40-40l16 0c22 0 40 18 40 40L480 472z" />
+                  </svg>
                 </div>
                 <div>
                   {cartCount}
