@@ -32,6 +32,11 @@ export const hero = {
       type: 'position',
     },
     {
+      name: 'textColor',
+      title: 'Text Color',
+      type: 'colorPicker',
+    },
+    {
       name: 'image',
       title: 'Background Image',
       type: 'backgroundImage',
@@ -41,11 +46,15 @@ export const hero = {
       title: 'Background Image (mobile)',
       type: 'backgroundImage',
     },
-
     {
       name: 'textPositionMobile',
       title: 'Text Position (Mobile)',
       type: 'position',
+    },
+    {
+      name: 'textColorMobile',
+      title: 'Text Color (Mobile)',
+      type: 'colorPicker',
     },
   ],
   preview: {
