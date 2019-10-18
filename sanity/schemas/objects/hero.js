@@ -39,12 +39,12 @@ export const hero = {
     {
       name: 'image',
       title: 'Background Image',
-      type: 'backgroundImage',
+      type: 'richImage',
     },
     {
       name: 'mobileImage',
       title: 'Background Image (mobile)',
-      type: 'backgroundImage',
+      type: 'richImage',
     },
     {
       name: 'textPositionMobile',

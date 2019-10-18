@@ -34,7 +34,7 @@ export const imageTextBlock = {
     {
       name: 'link',
       type: 'array',
-      of: [{ type: 'pageLink' }, { type: 'externalLink' }],
+      of: [{ type: 'internalLink' }, { type: 'externalLink' }],
     },
     {
       name: 'textPosition',
@@ -58,12 +58,12 @@ export const imageTextBlock = {
     {
       name: 'backgroundImage',
       title: 'Background Image',
-      type: 'backgroundImage',
+      type: 'richImage',
     },
     {
       name: 'hoverImage',
       title: 'Hover Image',
-      type: 'backgroundImage',
+      type: 'richImage',
     },
   ],
   preview: {

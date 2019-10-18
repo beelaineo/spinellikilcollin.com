@@ -1,7 +1,7 @@
-export const productInfoBlock = {
-  title: 'Product Information',
+export const productInfo = {
+  title: 'Product Info Accordion',
   type: 'object',
-  name: 'productInfoBlock',
+  name: 'productInfo',
   fields: [
     {
       title: 'Title',
@@ -32,10 +32,36 @@ export const productInfoBlock = {
 
 const tagRegex = /^[\w\s-]+$/
 
-export const productInfoBlocksByTag = {
+export const productInfoByType = {
+  title: 'Product Information (by type)',
+  type: 'object',
+  name: 'productInfoByType',
+  fields: [
+    {
+      title: 'Type',
+      name: 'type',
+      description: 'Type to match from Shopify.',
+      type: 'string',
+      validation: (Rule) =>
+        Rule.required().custom((value) => {
+          const passes = tagRegex.test(value)
+          if (passes) return true
+          return 'Product Types may only contain letters, numbers, and spaces'
+        }),
+    },
+    {
+      title: 'Accordions',
+      name: 'info',
+      type: 'array',
+      of: [{ type: 'productInfo' }],
+    },
+  ],
+}
+
+export const productInfoByTag = {
   title: 'Product Information (by tag)',
   type: 'object',
-  name: 'productInfoBlocksByTag',
+  name: 'productInfoByTag',
   fields: [
     {
       title: 'Tag',
@@ -46,14 +72,14 @@ export const productInfoBlocksByTag = {
         Rule.required().custom((value) => {
           const passes = tagRegex.test(value)
           if (passes) return true
-          return 'Tags may only contain letters, numbers, and spaces'
+          return 'Product Tags may only contain letters, numbers, and spaces'
         }),
     },
     {
-      title: 'Info Blocks',
-      name: 'infoBlocks',
+      title: 'Accordions',
+      name: 'info',
       type: 'array',
-      of: [{ type: 'productInfoBlock' }],
+      of: [{ type: 'productInfo' }],
     },
   ],
 }
