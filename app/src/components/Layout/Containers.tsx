@@ -1,7 +1,15 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { semiDark } from '../../theme/color'
 
+interface Column {
+  theme: DefaultTheme
+  backgroundColor: String
+}
+
 export const Column = styled.div`
+  ${({ theme, backgroundColor }: Column) => `
+      background-color: ${(props) => backgroundColor || 'white'}
+  `}
   ${({ theme }) => css`
     margin: 0 auto;
     max-width: calc(
@@ -63,11 +71,12 @@ interface ImageText {
   theme: DefaultTheme
   textAlign: string
   background?: string
+  width?: string
 }
 
 export const ImageText = styled.div`
-  ${({ theme, textAlign, background }: ImageText) => `
-      width: 50%;
+  ${({ theme, textAlign, background, width }: ImageText) => `
+      width: ${width === 'fullWidth' ? '100%' : '50%'};
       display: inline-block;
       box-sizing: border-box;
       margin: 0 auto;
@@ -90,7 +99,7 @@ export const ImageText = styled.div`
         height: 100%;
         position: ${
           textAlign === 'middle-center'
-            ? 'initial'
+            ? 'absolute'
             : textAlign === 'bottom-right'
             ? 'absolute'
             : 'absolute'
@@ -131,6 +140,8 @@ export const ImageText = styled.div`
             ? theme.layout.spacing.triple
             : 'initial'
         };
+        left: ${textAlign === 'middle-center' ? '0' : 'initial'};
+        right: ${textAlign === 'middle-center' ? '0' : 'initial'};
       
       }
       a {

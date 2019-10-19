@@ -1,12 +1,14 @@
 import styled, { css, DefaultTheme } from 'styled-components'
+import { lightGraybackground } from '../../theme/color'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
     min-height: 100vh;
-    margin: 0 auto;
+    margin: 0 auto ${theme.layout.spacing.triple};
     font-family: ${theme.font.family.sans};
-    padding: ${theme.layout.spacing.triple} 0;
+    padding: ${theme.layout.spacing.triple} 0 0;
+    background-color: ${theme.color.lightGraybackground};
   `}
 `
 
@@ -15,7 +17,9 @@ export const ProductDetails = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: ${theme.layout.spacing.double};
-
+    margin: 0 ${theme.layout.spacing.double};
+    min-height: 800px;
+    /* background-color: #F5F3F4; */
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 1fr;
     }
@@ -23,12 +27,25 @@ export const ProductDetails = styled.div`
 `
 
 export const ProductImagesWrapper = styled.div`
-  ${({ theme }) => css``}
+  ${({ theme }) => css`
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  `}
 `
 
 export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
     padding-top: ${theme.layout.spacing.quadruple};
+    max-width: ${theme.layout.columns.small};
+    min-width: ${theme.layout.columns.small};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: auto;
+    ${theme.mediaQueries.mobile} {
+      margin: ${theme.layout.spacing.double} auto;
+    }
   `}
 `
 
@@ -57,9 +74,8 @@ export const ProductGalleryThumbnails = styled.div`
 
 export const ProductRelatedWrapper = styled.div`
   ${(props) => css`
-    background-color: ${props.theme.color.gray};
+    background-color: ${props.theme.color.white};
     padding: ${props.theme.layout.spacing.quadruple};
-
     ${props.theme.mediaQueries.tablet} {
       > h2 {
         font-size: ${props.theme.font.size.h2};
@@ -89,6 +105,8 @@ interface NormalizeDivProps {
   width?: string
   top?: string
   align?: string
+  marginBottom?: string
+  margin: string
 }
 
 export const NormalizeDiv = styled.div`
@@ -96,9 +114,12 @@ export const NormalizeDiv = styled.div`
     props.width === 'half' ? '50%' : '100%'};
   text-align: ${(props: NormalizeDivProps) => props.align || 'inherit'};
 
-  ${(props) => `
-   		margin: ${props.theme.layout.spacing.small};
+  ${(margin: NormalizeDivProps) => `
+       margin: ${margin || 0};
 	`}
+  margin-bottom: ${(props: NormalizeDivProps) =>
+    props.theme.layout.spacing[props.marginBottom]} ;
+
 `
 
 interface BackgroundImageProps {
@@ -133,20 +154,20 @@ export const Button = styled.button`
     color: ${props.theme.color.light};
     cursor: ${props.disabled ? 'auto' : 'pointer'};
     display: inline-block;
-    font-family: ${props.theme.font.family.sans};
+    font-family: ${props.theme.font.family.serif};
     font-weight: ${props.theme.font.weight.strong};
     font-size: ${props.theme.font.size.h5};
-    letter-spacing: 0.035em;
+    letter-spacing: 0.095em;
     padding: 0.25rem 0.5rem;
     text-align: center;
     text-transform: uppercase;
     transition: 0.2s;
-    padding: ${props.theme.layout.spacing.small};
-    margin: ${props.theme.layout.spacing.small} 0;
+    padding: ${props.theme.layout.spacing.singleHalf};
+    margin: ${props.theme.layout.spacing.double} 0
+      ${props.theme.layout.spacing.single};
     opacity: ${props.disabled ? 0.3 : 1};
     pointer-events: ${props.disabled ? 'none' : 'auto'};
-    max-width: 200px;
-    border-radius: 2px;
+    /* max-width: 200px; */
     width: ${props.width || 'initial'};
   `}
 `

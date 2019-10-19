@@ -9,6 +9,7 @@ export interface TextStyleProps {
   transform?: string
   children: any
   margin?: string
+  small?: string
 }
 
 const commonHeaderStyles = ({
@@ -20,6 +21,7 @@ const commonHeaderStyles = ({
   family,
   margin,
   children,
+  small,
 }: TextStyleProps) => css`
   font-weight: ${theme.font.weight[weight]
     ? theme.font.weight[weight]
@@ -32,6 +34,7 @@ const commonHeaderStyles = ({
   text-transform: ${transform || 'auto'};
   margin: ${margin || '0.3em 0'};
   letter-spacing: 0.75px;
+
   p {
     letter-spacing: 1px;
   }
@@ -62,7 +65,6 @@ export const Header1 = styled.h2`
 export const Header2 = styled.h2`
   ${(props: TextStyleProps) => css`
     ${commonHeaderStyles(props)};
-    font-size: ${props.theme.font.size.h2};
     font-family: ${props.theme.font.family.serif};
     font-weight: ${props.theme.font.weight.normal};
 
@@ -94,6 +96,7 @@ export const Header4 = styled.h4`
     ${commonHeaderStyles(props)};
     font-size: ${props.theme.font.size.h4};
     letter-spacing: 0.05em;
+    font-family: ${props.theme.font.family.serif};
     ${props.theme.mediaQueries.tablet} {
       font-size: calc(${props.theme.font.size.h4} * 0.8);
     }
