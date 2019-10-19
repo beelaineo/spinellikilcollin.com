@@ -3,6 +3,7 @@ import { Placeholder } from '../Placeholder'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
 import { ImageText } from '../Layout/index'
 import { RichText } from '../RichText'
+import { Image } from '../Image'
 
 interface ImageTextBlockProps {
   content: ImageTextBlockType
@@ -21,19 +22,13 @@ export const ImageTextBlock = (props: ImageTextBlockProps) => {
   } else if (content.link) {
     link = content.link[0].url
   }
-
   return (
     <a href={`/${link}`}>
-      <ImageText
-        width={width}
-        textAlign={content.textPosition}
-        background={background}
-      >
+      <ImageText textAlign={content.textPosition}>
+        <Image image={content.backgroundImage} ratio={1} />
         <div>
           <RichText body={content.bodyRaw} />
-          <span>
-            <a href={`/${link}`}>{props.content.ctaText}</a>
-          </span>
+          <span>{props.content.ctaText}</span>
         </div>
       </ImageText>
     </a>

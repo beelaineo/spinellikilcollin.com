@@ -34,12 +34,17 @@ export const imageTextBlock = {
     {
       name: 'link',
       type: 'array',
-      of: [{ type: 'pageLink' }, { type: 'externalLink' }],
+      of: [{ type: 'internalLink' }, { type: 'externalLink' }],
     },
     {
       name: 'textPosition',
       title: 'Text Position',
       type: 'position',
+    },
+    {
+      name: 'textColor',
+      title: 'Text Color',
+      type: 'colorPicker',
     },
     {
       name: 'layout',
@@ -58,12 +63,17 @@ export const imageTextBlock = {
     {
       name: 'backgroundImage',
       title: 'Background Image',
-      type: 'backgroundImage',
+      type: 'richImage',
+    },
+    {
+      name: 'backgroundColor',
+      title: 'Background Color',
+      type: 'colorPicker',
     },
     {
       name: 'hoverImage',
       title: 'Hover Image',
-      type: 'backgroundImage',
+      type: 'richImage',
     },
   ],
   preview: {

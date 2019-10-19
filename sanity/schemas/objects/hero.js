@@ -32,20 +32,39 @@ export const hero = {
       type: 'position',
     },
     {
+      name: 'textColor',
+      title: 'Text Color',
+      type: 'colorPicker',
+    },
+    {
       name: 'image',
       title: 'Background Image',
-      type: 'backgroundImage',
+      type: 'richImage',
+    },
+    {
+      name: 'backgroundColor',
+      title: 'Background Color',
+      type: 'colorPicker',
     },
     {
       name: 'mobileImage',
       title: 'Background Image (mobile)',
-      type: 'backgroundImage',
+      type: 'richImage',
     },
-
+    {
+      name: 'mobileBackgroundColor',
+      title: 'Background Color',
+      type: 'colorPicker',
+    },
     {
       name: 'textPositionMobile',
       title: 'Text Position (Mobile)',
       type: 'position',
+    },
+    {
+      name: 'textColorMobile',
+      title: 'Text Color (Mobile)',
+      type: 'colorPicker',
     },
   ],
   preview: {

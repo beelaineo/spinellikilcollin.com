@@ -1,14 +1,5 @@
-export const backgroundImage = {
-  name: 'backgroundImage',
-  title: 'Background Image',
-  type: 'image',
-  options: {
-    hotspot: true,
-  },
-}
-
-export const imageWithAltText = {
-  name: 'imageWithAltText',
+export const richImage = {
+  name: 'richImage',
   type: 'image',
   title: 'Image',
   options: {

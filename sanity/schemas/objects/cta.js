@@ -7,11 +7,10 @@ export const cta = {
       name: 'label',
       type: 'string',
       label: 'Label',
-      // validation: (Rule) => Rule.required().max(25),
+      validation: (Rule) => Rule.required().max(25),
     },
-
     {
-      type: 'pageLink',
+      type: 'internalLink',
       name: 'link',
       options: {
         required: true,

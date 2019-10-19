@@ -3,27 +3,27 @@ import { createProductDocument } from '@sane-shopify/sanity-plugin'
 export const Product = createProductDocument({
   fields: [
     {
-      title: 'Info Blocks',
-      name: 'infoBlocks',
+      title: 'Accordions',
+      name: 'info',
       type: 'array',
       description:
-        'Info blocks here will appear as accordion-dropdowns, below the product description. You can also add content blocks to multiple items in the "Product Info" section of the CMS.',
-      of: [{ type: 'productInfoBlock' }],
+        'Info accordions will appear below the product description. You can also add content accordions to multiple items in the "Product Info" section of the CMS.',
+      of: [{ type: 'productInfo' }],
     },
     {
-      title: 'Content (After product info)',
+      title: 'Content Blocks',
       name: 'contentAfter',
       description:
-        'These blocks will appear below the product description, and above the Related Items carousel.',
+        'These blocks will appear below the product header & gallery, and above the Related Items carousel.',
       type: 'array',
       of: [{ type: 'imageTextBlock' }],
     },
     {
-      title: 'Related Products & Collections',
-      name: 'related',
+      title: 'Related Products Carousels',
       description:
-        "(coming soon) Use these fields to create a customized 'related products' carousel. If this section is empty, contents from a related collection will be shown instead.",
-      type: 'helpText',
+        'The title will default to "Related Products" if left empty.',
+      name: 'related',
+      type: 'carousel',
     },
   ],
 })

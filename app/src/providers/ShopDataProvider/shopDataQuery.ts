@@ -3,9 +3,10 @@ import gql from 'graphql-tag'
 import { Paginated } from '@good-idea/unwind-edges'
 import { Menu, ProductInfo } from '../../types/generated'
 import {
-  productInfoBlockFragment,
-  pageLinkFragment,
-  contentBlockFragment,
+  productInfoFragment,
+  internalLinkFragment,
+  richPageLinkFragment,
+  ctaFragment,
 } from '../../graphql/fragments'
 
 export const SHOP_DATA_QUERY = /* GraphQL */ gql`
@@ -19,9 +20,8 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         ... on MenuLink {
           _key
           _type
-          label
           link {
-            ...PageLinkFragment
+            ...CTAFragment
           }
         }
         ... on SubMenu {
@@ -29,50 +29,47 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           _type
           title
           columns {
+            ... on RichPageLink {
+              ...RichPageLinkFragment
+            }
             ... on LinkGroup {
               _key
               _type
               title
               links {
-                ...PageLinkFragment
+                ...InternalLinkFragment
               }
             }
           }
         }
       }
     }
-    ProductInfo(id: "productInfo") {
+    ProductInfoSettings(id: "productInfoSettings") {
       _id
       _type
       _key
       _createdAt
-      globalBlocks {
-        ...ProductInfoBlockFragment
+      globalInfo {
+        ...ProductInfoFragment
       }
-      ringBlocks {
-        ...ProductInfoBlockFragment
+      infoByType {
+        type
+        info {
+          ...ProductInfoFragment
+        }
       }
-      earringBlocks {
-        ...ProductInfoBlockFragment
-      }
-      braceletBlocks {
-        ...ProductInfoBlockFragment
-      }
-      necklaceBlocks {
-        ...ProductInfoBlockFragment
-      }
-      blocksByTag {
-        _key
-        _type
+      infoByTag {
         tag
-        infoBlocks {
-          ...ProductInfoBlockFragment
+        info {
+          ...ProductInfoFragment
         }
       }
     }
   }
-  ${productInfoBlockFragment}
-  ${pageLinkFragment}
+  ${productInfoFragment}
+  ${internalLinkFragment}
+  ${richPageLinkFragment}
+  ${ctaFragment}
 `
 
 export interface ShopDataResponse {

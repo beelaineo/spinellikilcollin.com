@@ -4,7 +4,7 @@ import { MdInfo } from 'react-icons/md'
 const wrapperStyles = {
   display: 'grid',
   padding: '10px',
-  backgroundColor: '#eee4d2',
+  backgroundColor: 'rgb(245, 235, 243)',
   gridTemplateColumns: '1em 1fr',
   gridGap: '0.6em',
 }

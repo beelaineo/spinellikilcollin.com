@@ -214,15 +214,6 @@ export interface AvailableShippingRates {
   shippingRates?: Maybe<Array<ShippingRate>>
 }
 
-export interface BackgroundImage {
-  __typename: 'BackgroundImage'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityImageAsset>
-  hotspot?: Maybe<SanityImageHotspot>
-  crop?: Maybe<SanityImageCrop>
-}
-
 export interface Block {
   __typename: 'Block'
   _key?: Maybe<Scalars['String']>
@@ -317,8 +308,10 @@ export interface Carousel {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  collection?: Maybe<PageLink>
-  items?: Maybe<Array<Maybe<PageLink>>>
+  subtitleRaw?: Maybe<Scalars['JSON']>
+  /** Create a carousel from a collection. If a collection is used, items linked to below be ignored. */
+  collection?: Maybe<ShopifyCollection>
+  items?: Maybe<Array<Maybe<RichPageLink>>>
 }
 
 export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
@@ -369,10 +362,10 @@ export interface Checkout extends Node {
    **/
   paymentDueV2: MoneyV2
   /**
-   * Whether or not the Checkout is ready and can be completed. Checkouts may have
-   * asynchronous operations that can take time to finish. If you want to complete
-   * a checkout or ensure all the fields are populated and up to date, polling is
-   * required until the value is true.
+   * Whether or not the Checkout is ready and can be completed. Checkouts may
+   * have asynchronous operations that can take time to finish. If you want
+   * to complete a checkout or ensure all the fields are populated and up to
+   * date, polling is required until the value is true.
    **/
   ready: Scalars['Boolean']
   /** States whether or not the fulfillment requires shipping. */
@@ -1116,8 +1109,6 @@ export enum CountryCode {
   Bt = 'BT',
   /** Bolivia. */
   Bo = 'BO',
-  /** Bonaire, Sint Eustatius and Saba. */
-  Bq = 'BQ',
   /** Bosnia And Herzegovina. */
   Ba = 'BA',
   /** Botswana. */
@@ -1142,6 +1133,8 @@ export enum CountryCode {
   Ca = 'CA',
   /** Cape Verde. */
   Cv = 'CV',
+  /** Caribbean Netherlands. */
+  Bq = 'BQ',
   /** Cayman Islands. */
   Ky = 'KY',
   /** Central African Republic. */
@@ -1200,6 +1193,8 @@ export enum CountryCode {
   Er = 'ER',
   /** Estonia. */
   Ee = 'EE',
+  /** Eswatini. */
+  Sz = 'SZ',
   /** Ethiopia. */
   Et = 'ET',
   /** Falkland Islands (Malvinas). */
@@ -1320,8 +1315,6 @@ export enum CountryCode {
   Lu = 'LU',
   /** Macao. */
   Mo = 'MO',
-  /** Macedonia, Republic Of. */
-  Mk = 'MK',
   /** Madagascar. */
   Mg = 'MG',
   /** Malawi. */
@@ -1384,6 +1377,8 @@ export enum CountryCode {
   Nu = 'NU',
   /** Norfolk Island. */
   Nf = 'NF',
+  /** North Macedonia. */
+  Mk = 'MK',
   /** Norway. */
   No = 'NO',
   /** Oman. */
@@ -1480,8 +1475,6 @@ export enum CountryCode {
   Sr = 'SR',
   /** Svalbard And Jan Mayen. */
   Sj = 'SJ',
-  /** Swaziland. */
-  Sz = 'SZ',
   /** Sweden. */
   Se = 'SE',
   /** Switzerland. */
@@ -1625,7 +1618,7 @@ export interface Cta {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
-  link?: Maybe<PageLink>
+  link?: Maybe<InternalLink>
 }
 
 /** Currency codes */
@@ -2384,7 +2377,7 @@ export interface ExternalLink {
   newTab?: Maybe<Scalars['Boolean']>
 }
 
-export type ExternalLinkOrPageLink = ExternalLink | PageLink
+export type ExternalLinkOrInternalLink = ExternalLink | InternalLink
 
 export interface File {
   __typename: 'File'
@@ -2494,9 +2487,11 @@ export interface Hero {
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
   textPosition?: Maybe<Scalars['String']>
-  image?: Maybe<BackgroundImage>
-  mobileImage?: Maybe<BackgroundImage>
+  textColor?: Maybe<Scalars['String']>
+  image?: Maybe<RichImage>
+  mobileImage?: Maybe<RichImage>
   textPositionMobile?: Maybe<Scalars['String']>
+  textColorMobile?: Maybe<Scalars['String']>
 }
 
 export interface Homepage extends Document {
@@ -2638,22 +2633,18 @@ export interface ImageTextBlock {
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
   ctaText?: Maybe<Scalars['String']>
-  link?: Maybe<Array<Maybe<ExternalLinkOrPageLink>>>
+  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
   textPosition?: Maybe<Scalars['String']>
   layout?: Maybe<Scalars['String']>
-  backgroundImage?: Maybe<BackgroundImage>
-  hoverImage?: Maybe<BackgroundImage>
+  backgroundImage?: Maybe<RichImage>
+  hoverImage?: Maybe<RichImage>
 }
 
-export interface ImageWithAltText {
-  __typename: 'ImageWithAltText'
+export interface InternalLink {
+  __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  /** A short description of the image. Helps with accessibility and SEO */
-  altText?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityImageAsset>
-  hotspot?: Maybe<SanityImageHotspot>
-  crop?: Maybe<SanityImageCrop>
+  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
 }
 
 export interface LinkGroup {
@@ -2661,8 +2652,10 @@ export interface LinkGroup {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  links?: Maybe<Array<Maybe<PageLink>>>
+  links?: Maybe<Array<Maybe<InternalLink>>>
 }
+
+export type LinkGroupOrRichPageLink = LinkGroup | RichPageLink
 
 /** Represents a mailing address for customers and shipping. */
 export interface MailingAddress extends Node {
@@ -2857,8 +2850,7 @@ export interface MenuLink {
   __typename: 'MenuLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  link?: Maybe<PageLink>
+  link?: Maybe<Cta>
 }
 
 export type MenuLinkOrSubMenu = MenuLink | SubMenu
@@ -3539,13 +3531,6 @@ export interface PageInfo {
   hasPreviousPage: Scalars['Boolean']
 }
 
-export interface PageLink {
-  __typename: 'PageLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
-}
-
 export type PageOrShopifyCollectionOrShopifyProduct =
   | Page
   | ShopifyCollection
@@ -3868,8 +3853,34 @@ export enum ProductImageSortKeys {
   Relevance = 'RELEVANCE',
 }
 
-export interface ProductInfo extends Document {
+export interface ProductInfo {
   __typename: 'ProductInfo'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+}
+
+export interface ProductInfoByTag {
+  __typename: 'ProductInfoByTag'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** Tag to match from Shopify. */
+  tag?: Maybe<Scalars['String']>
+  info?: Maybe<Array<Maybe<ProductInfo>>>
+}
+
+export interface ProductInfoByType {
+  __typename: 'ProductInfoByType'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** Type to match from Shopify. */
+  type?: Maybe<Scalars['String']>
+  info?: Maybe<Array<Maybe<ProductInfo>>>
+}
+
+export interface ProductInfoSettings extends Document {
+  __typename: 'ProductInfoSettings'
   /** Document ID */
   _id: Scalars['ID']
   /** Document type */
@@ -3883,43 +3894,19 @@ export interface ProductInfo extends Document {
   _key?: Maybe<Scalars['String']>
   /**
    * Use these fields to add snippets of descriptions to all or some projects. For
-   * instance, you could add a 'Shipping and Returns' block on all items, and a
-   * 'Ring Sizing Guide' block to all Rings. These blocks will be displayed in
-   * accordion-dropdowns below the main product information. You can also add info
-   * blocks to individual items on their page here in the CMS.
+   * instance, you could add a 'Shipping and Returns' accordion on all items, a
+   * 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold'
+   * accordion to any product tagged with 'Black Gold'. These accordions will be
+   * displayed in accordion-dropdowns below the main product information. You can
+   * also add info accordions to individual items on their page here in the CMS.
    **/
   helpText?: Maybe<Scalars['String']>
-  globalBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
-  ringBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
-  earringBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
-  braceletBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
-  necklaceBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
-  /**
-   * Use these fields to add blocks to items with particular tags in Shopify. For
-   * instance, a "Customization" block for anything tagged with "Custom" in Shopify.
-   **/
-  byTagHelpText?: Maybe<Scalars['String']>
-  blocksByTag?: Maybe<Array<Maybe<ProductInfoBlocksByTag>>>
+  globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
+  infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
+  infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
 }
 
-export interface ProductInfoBlock {
-  __typename: 'ProductInfoBlock'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-}
-
-export interface ProductInfoBlocksByTag {
-  __typename: 'ProductInfoBlocksByTag'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** Tag to match from Shopify. */
-  tag?: Maybe<Scalars['String']>
-  infoBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
-}
-
-export type ProductInfoFilter = {
+export type ProductInfoSettingsFilter = {
   /** All documents that are equal to given value */
   _id?: Maybe<Scalars['ID']>
   /** All documents that are not equal to given value */
@@ -3984,14 +3971,6 @@ export type ProductInfoFilter = {
   helpText_matches?: Maybe<Scalars['String']>
   helpText_in?: Maybe<Array<Scalars['String']>>
   helpText_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  byTagHelpText?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  byTagHelpText_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  byTagHelpText_matches?: Maybe<Scalars['String']>
-  byTagHelpText_in?: Maybe<Array<Scalars['String']>>
-  byTagHelpText_not_in?: Maybe<Array<Scalars['String']>>
   /** All documents that are drafts */
   is_draft?: Maybe<Scalars['Boolean']>
 }
@@ -4247,7 +4226,7 @@ export interface Query {
   Menu?: Maybe<Menu>
   Homepage?: Maybe<Homepage>
   Page?: Maybe<Page>
-  ProductInfo?: Maybe<ProductInfo>
+  ProductInfoSettings?: Maybe<ProductInfoSettings>
   SanityImageAsset?: Maybe<SanityImageAsset>
   SanityFileAsset?: Maybe<SanityFileAsset>
   allShopifyProducts: Array<ShopifyProduct>
@@ -4255,7 +4234,7 @@ export interface Query {
   allMenus: Array<Menu>
   allHomepages: Array<Homepage>
   allPages: Array<Page>
-  allProductInfos: Array<ProductInfo>
+  allProductInfoSettings: Array<ProductInfoSettings>
   allSanityImageAssets: Array<SanityImageAsset>
   allSanityFileAssets: Array<SanityFileAsset>
 }
@@ -4370,7 +4349,7 @@ export type QueryPageArgs = {
   id: Scalars['ID']
 }
 
-export type QueryProductInfoArgs = {
+export type QueryProductInfoSettingsArgs = {
   id: Scalars['ID']
 }
 
@@ -4412,8 +4391,8 @@ export type QueryAllPagesArgs = {
   offset?: Maybe<Scalars['Int']>
 }
 
-export type QueryAllProductInfosArgs = {
-  where?: Maybe<ProductInfoFilter>
+export type QueryAllProductInfoSettingsArgs = {
+  where?: Maybe<ProductInfoSettingsFilter>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
 }
@@ -4428,6 +4407,29 @@ export type QueryAllSanityFileAssetsArgs = {
   where?: Maybe<SanityFileAssetFilter>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
+}
+
+export interface RichImage {
+  __typename: 'RichImage'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** A short description of the image. Helps with accessibility and SEO */
+  altText?: Maybe<Scalars['String']>
+  asset?: Maybe<SanityImageAsset>
+  hotspot?: Maybe<SanityImageHotspot>
+  crop?: Maybe<SanityImageCrop>
+}
+
+export interface RichPageLink {
+  __typename: 'RichPageLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
+  /** If left empty, the title of the linked page, product, or collection will be used. */
+  title?: Maybe<Scalars['String']>
+  captionRaw?: Maybe<Scalars['JSON']>
+  image?: Maybe<RichImage>
+  hoverImage?: Maybe<RichImage>
 }
 
 export interface SanityFileAsset extends Document {
@@ -5152,13 +5154,9 @@ export interface ShopifyProduct extends Document {
   handle?: Maybe<Scalars['String']>
   shopifyId?: Maybe<Scalars['String']>
   sourceData?: Maybe<ShopifyProductSource>
-  infoBlocks?: Maybe<Array<Maybe<ProductInfoBlock>>>
+  info?: Maybe<Array<Maybe<ProductInfo>>>
   contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
-  /**
-   * (coming soon) Use these fields to create a customized 'related products'
-   * carousel. If this section is empty, contents from a related collection will be shown instead.
-   **/
-  related?: Maybe<Scalars['String']>
+  related?: Maybe<Carousel>
 }
 
 export type ShopifyProductFilter = {
@@ -5242,14 +5240,6 @@ export type ShopifyProductFilter = {
   shopifyId_matches?: Maybe<Scalars['String']>
   shopifyId_in?: Maybe<Array<Scalars['String']>>
   shopifyId_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  related?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  related_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  related_matches?: Maybe<Scalars['String']>
-  related_in?: Maybe<Array<Scalars['String']>>
-  related_not_in?: Maybe<Array<Scalars['String']>>
   /** All documents that are drafts */
   is_draft?: Maybe<Scalars['Boolean']>
 }
@@ -5335,7 +5325,7 @@ export interface SubMenu {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  columns?: Maybe<Array<Maybe<LinkGroup>>>
+  columns?: Maybe<Array<Maybe<LinkGroupOrRichPageLink>>>
 }
 
 /**

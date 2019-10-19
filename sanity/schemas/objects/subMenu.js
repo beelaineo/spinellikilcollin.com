@@ -29,13 +29,9 @@ export const MenuLink = {
   title: 'Nav Link',
   fields: [
     {
-      title: 'Label',
-      name: 'label',
-      type: 'string',
-    },
-    {
-      type: 'pageLink',
+      title: 'Link',
       name: 'link',
+      type: 'cta',
     },
   ],
   preview: {
@@ -49,7 +45,6 @@ export const MenuLink = {
     ),
   },
 }
-
 export const linkGroup = {
   title: 'Link Group',
   name: 'linkGroup',
@@ -65,9 +60,23 @@ export const linkGroup = {
       name: 'links',
       type: 'array',
       validation: (Rule) => Rule.required().max(12),
-      of: [{ type: 'pageLink' }],
+      of: [{ type: 'internalLink' }],
     },
   ],
+  preview: {
+    select: {
+      title: 'title',
+      links: 'links',
+    },
+    prepare: ({ title, links }) => {
+      return {
+        title,
+        subtitle: links.length
+          ? `🔗 ${links.length} link${links.length === 1 ? '' : 's'}`
+          : undefined,
+      }
+    },
+  },
 }
 
 export const subMenu = {
@@ -86,10 +95,7 @@ export const subMenu = {
       title: 'Submenu Sections',
       name: 'columns',
       type: 'array',
-      of: [
-        { type: 'linkGroup' },
-        // { type: 'imageBlock' }
-      ],
+      of: [{ type: 'linkGroup' }, { type: 'richPageLink' }],
     },
   ],
   preview: {
@@ -98,20 +104,19 @@ export const subMenu = {
       columns: 'columns',
     },
     prepare: ({ title, columns }) => {
-      const { linkGroup: linkGroups, imageBlock: imageBlocks } = groupBy(
-        prop('_type'),
-        columns || {},
-      )
+      const byType = groupBy(prop('_type'), columns || {})
+
+      const { richPageLink: richPageLinks, linkGroup: linkGroups } = byType
 
       const subtitle = [
+        richPageLinks && richPageLinks.length
+          ? `${richPageLinks.length} Page Link${
+              richPageLinks.length === 1 ? '' : 's'
+            }`
+          : undefined,
         linkGroups && linkGroups.length
           ? `${linkGroups.length} Link Group${
               linkGroups.length === 1 ? '' : 's'
-            }`
-          : undefined,
-        imageBlocks && imageBlocks.length
-          ? `${imageBlocks.length} Image Link${
-              imageBlocks.length === 1 ? '' : 's'
             }`
           : undefined,
       ]

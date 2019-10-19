@@ -43,7 +43,7 @@ interface Props {
 
 const ProductDetailMain = ({ product, productExtra }: Props) => {
   /* get additional info blocks from Sanity */
-  console.log(productExtra)
+  const { info } = productExtra
   const { ready, productInfoBlocks } = useShopData()
   const accordions = productInfoBlocks
     ? [
@@ -95,10 +95,8 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
                 quantity={quantity}
                 width="100%"
               />
-              {accordions
-                ? accordions.map(({ _key, title, bodyRaw }) => (
-                    <Accordion key={_key} label={title} content={bodyRaw} />
-                  ))
+              {info
+                ? info.map((a) => <Accordion key={a._key} content={a} />)
                 : null}
             </NormalizeDiv>
           </ProductInfoWrapper>
@@ -132,6 +130,7 @@ export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
   const productExtra =
     (response && response.data && response.data.allShopifyProducts[0]) ||
     undefined
+  console.log(response)
   if (response.fetching) return <p>Loading..</p>
   if (!product) return <NotFound />
   return <ProductDetailMain product={product} productExtra={productExtra} />
