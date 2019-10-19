@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { ShopifyImage, SanityImageAsset } from '../../types'
+import { ShopifyImage, SanityImageAsset, RichImage } from '../../types'
 import { Wrapper, Picture, RatioImageFill } from './styled'
 
 export const ImageWrapper = styled.img`
@@ -21,9 +21,14 @@ interface ImageDetails {
 
 /* Based on the image type, return a src, srcset, altText, etc */
 const getImageDetails = (
-  image: ShopifyImage | SanityImageAsset,
+  image: ShopifyImage | SanityImageAsset | RichImage,
 ): null | ImageDetails => {
   switch (image.__typename) {
+    case 'RichImage':
+      return {
+        src: image.asset.url,
+        altText: image.altText,
+      }
     case 'Image':
       return { src: image.originalSrc, altText: image.altText }
     case 'SanityImageAsset':
@@ -68,14 +73,14 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
 }
 
 interface ImageProps {
-  image: ShopifyImage | SanityImageAsset
+  image: ShopifyImage | SanityImageAsset | RichImage
   ratio?: number
-  sizes: string
+  // TODO sizes?: string
   onLoad?: () => void
-  // TODO sizes
 }
 
-export const Image = ({ image, onLoad, sizes, ratio }: ImageProps) => {
+export const Image = ({ image, onLoad, ratio }: ImageProps) => {
+  if (!image) return null
   const [loaded, setLoaded] = React.useState(false)
   const imageRef = React.useRef<HTMLImageElement>(null)
 
@@ -111,11 +116,3 @@ export const Image = ({ image, onLoad, sizes, ratio }: ImageProps) => {
     </Wrapper>
   )
 }
-
-// export const Image = ({ image }: ImageProps) => {
-//   if (!image) return null
-//   const parsed = parseImage(image)
-//   if (!parsed) return null
-//   const { src, altText } = parsed
-//   return <ImageWrapper src={src} alt={altText} />
-// }

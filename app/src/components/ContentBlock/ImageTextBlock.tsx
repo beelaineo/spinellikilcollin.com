@@ -21,15 +21,14 @@ export const ImageTextBlock = (props: ImageTextBlockProps) => {
   } else {
     link = content.link[0].url
   }
+  console.log(props)
   return (
     <a href={`/${link}`}>
       <ImageText textAlign={content.textPosition}>
-        <Image image={content.image} ratio={1} />
+        <Image image={content.backgroundImage} ratio={1} />
         <div>
           <RichText body={content.bodyRaw} />
-          <span>
-            <a href={`/${link}`}>{props.content.ctaText}</a>
-          </span>
+          <span>{props.content.ctaText}</span>
         </div>
       </ImageText>
     </a>

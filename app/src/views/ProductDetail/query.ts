@@ -2,7 +2,8 @@ import gql from 'graphql-tag'
 import { Product, ShopifyProduct } from '../../types/generated'
 import {
   imageTextBlockFragment,
-  productInfoBlockFragment,
+  shopifyProductFragment,
+  productInfoFragment,
   shopifyImageFragment,
 } from '../../graphql/fragments'
 
@@ -74,17 +75,11 @@ export const PRODUCT_QUERY = gql`
     }
 
     allShopifyProducts(where: { handle: $handle }) {
-      _id
-      title
-      infoBlocks {
-        ...ProductInfoBlockFragment
-      }
-      contentAfter {
-        ...ImageTextBlockFragment
-      }
+      ...ShopifyProductFragment
     }
   }
-  ${productInfoBlockFragment}
+  ${productInfoFragment}
+  ${shopifyProductFragment}
   ${imageTextBlockFragment}
   ${shopifyImageFragment}
 `

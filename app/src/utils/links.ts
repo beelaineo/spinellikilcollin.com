@@ -1,10 +1,10 @@
-import { PageLink } from '../types/generated'
+import { RichPageLink } from '../types/generated'
 import { path } from 'ramda'
 
-export const getPageLinkLabel = (link: PageLink): string | void =>
+export const getPageLinkLabel = (link: RichPageLink): string | void =>
   path(['document', 'title'], link)
 
-export const getPageLinkUrl = (link: PageLink): string => {
+export const getPageLinkUrl = (link: RichPageLink): string => {
   const { document } = link
   if (!document) throw new Error('This link is missing a document')
   switch (document.__typename) {
