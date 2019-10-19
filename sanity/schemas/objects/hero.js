@@ -42,9 +42,19 @@ export const hero = {
       type: 'richImage',
     },
     {
+      name: 'backgroundColor',
+      title: 'Background Color',
+      type: 'colorPicker',
+    },
+    {
       name: 'mobileImage',
       title: 'Background Image (mobile)',
       type: 'richImage',
+    },
+    {
+      name: 'mobileBackgroundColor',
+      title: 'Background Color',
+      type: 'colorPicker',
     },
     {
       name: 'textPositionMobile',

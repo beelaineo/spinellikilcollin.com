@@ -42,6 +42,11 @@ export const imageTextBlock = {
       type: 'position',
     },
     {
+      name: 'textColor',
+      title: 'Text Color',
+      type: 'colorPicker',
+    },
+    {
       name: 'layout',
       type: 'string',
       title: 'Layout',
@@ -59,6 +64,11 @@ export const imageTextBlock = {
       name: 'backgroundImage',
       title: 'Background Image',
       type: 'richImage',
+    },
+    {
+      name: 'backgroundColor',
+      title: 'Background Color',
+      type: 'colorPicker',
     },
     {
       name: 'hoverImage',
