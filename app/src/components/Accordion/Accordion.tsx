@@ -19,15 +19,16 @@ export const Accordion = ({ content }: AccordionProps) => {
   const [height, updateHeight] = React.useState(0)
   const toggleOpen = () => setOpen(!open)
 
-  let refContainer = useRef('0')
+  const refContainer = useRef<HTMLDivElement>(null)
   useEffect(() => {
-    updateHeight(refContainer.current.firstChild.clientHeight)
-  }, [])
+    if (!refContainer.current) return
+    updateHeight(refContainer.current.clientHeight)
+  }, [refContainer])
 
   return (
     <Wrapper>
       <ToggleButton onClick={toggleOpen}>{title}</ToggleButton>
-      <Inner open={open}>
+      <Inner open={open} ref={refContainer}>
         <RichText blockWrapper={AccordionTextWrapper} body={bodyRaw} />
       </Inner>
     </Wrapper>
