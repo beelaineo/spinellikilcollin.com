@@ -25,8 +25,9 @@ export const sanityImageFragment = /* GraphQL */ `
   }
 `
 
-export const backgroundImageFragment = /* GraphQL */ `
-  fragment BackgroundImageFragment on BackgroundImage {
+export const richImageFragment = /* GraphQL */ `
+  fragment RichImageFragment on RichImage {
+    altText
     asset {
       ...SanityImageFragment
     }

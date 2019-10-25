@@ -55,15 +55,15 @@ export const externalLink = {
   },
 }
 
-export const pageLink = {
-  title: 'Page Link',
+export const internalLink = {
+  title: 'Page, Product, or Collection',
   description: 'Link to a Page, Product, or Collection',
-  name: 'pageLink',
+  name: 'internalLink',
   type: 'object',
   fields: [
     {
       name: 'document',
-      title: 'Page, Product, or Collection',
+      title: 'Linked Page',
       type: 'reference',
       to: [
         { type: 'shopifyProduct' },
@@ -76,7 +76,75 @@ export const pageLink = {
     select: {
       document: 'document',
     },
-    /* eslint-disable-next-line */
+    component: (props) => (
+      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
+    ),
+  },
+}
+
+export const richPageLink = {
+  title: 'Page, Product, or Collection',
+  description: 'Link to a Page, Product, or Collection',
+  name: 'richPageLink',
+  type: 'object',
+  fields: [
+    {
+      name: 'document',
+      title: 'Linked Page',
+      type: 'reference',
+      to: [
+        { type: 'shopifyProduct' },
+        { type: 'shopifyCollection' },
+        { type: 'page' },
+      ],
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      description:
+        'If left empty, the title of the linked page, product, or collection will be used.',
+    },
+    {
+      name: 'caption',
+      title: 'Caption',
+      type: 'array',
+      description: '(captions will not appear in carousels)',
+      of: [
+        {
+          type: 'block',
+          styles: [{ title: 'Normal', value: 'normal' }],
+          marks: {
+            decorators: [
+              { title: 'Strong', value: 'strong' },
+              { title: 'Emphasis', value: 'em' },
+            ],
+          },
+        },
+      ],
+    },
+    {
+      name: 'image',
+      title: 'Image',
+      description:
+        'If left empty, the image of the linked product or document will be used.',
+      type: 'richImage',
+    },
+    {
+      name: 'hoverImage',
+      title: 'Hover Image',
+      description:
+        'If left empty, the second image of the linked product will be used.',
+      type: 'richImage',
+    },
+  ],
+  preview: {
+    select: {
+      document: 'document',
+      title: 'title',
+      image: 'image',
+    },
     component: (props) => (
       <BlockPreview {...props} getPreviewValues={getPreviewValues} />
     ),

@@ -35,14 +35,13 @@ export default () =>
         .child(S.documentTypeList('shopifyProduct')),
 
       S.listItem()
-        .id('productInfo')
         .title('Product Info')
         .icon(MdInfoOutline)
         .child(
           S.editor()
-            .id('productInfo')
-            .schemaType('productInfo')
-            .documentId('productInfo'),
+            .id('productInfoSettings')
+            .schemaType('productInfoSettings')
+            .documentId('productInfoSettings'),
         ),
 
       // Collections

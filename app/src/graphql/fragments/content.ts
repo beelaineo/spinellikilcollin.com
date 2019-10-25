@@ -1,7 +1,7 @@
-import { backgroundImageFragment } from './media'
+import { richImageFragment } from './media'
 
-export const productInfoBlockFragment = /* GraphQL */ `
-  fragment ProductInfoBlockFragment on ProductInfoBlock {
+export const productInfoFragment = /* GraphQL */ `
+  fragment ProductInfoFragment on ProductInfo {
     _key
     _type
     title
@@ -9,8 +9,8 @@ export const productInfoBlockFragment = /* GraphQL */ `
   }
 `
 
-export const pageLinkFragment = /* GraphQL */ `
-  fragment PageLinkFragment on PageLink {
+export const internalLinkFragment = /* GraphQL */ `
+  fragment InternalLinkFragment on InternalLink {
     _key
     _type
     document {
@@ -38,6 +38,34 @@ export const pageLinkFragment = /* GraphQL */ `
   }
 `
 
+export const richPageLinkFragment = /* GraphQL */ `
+  fragment RichPageLinkFragment on RichPageLink {
+    _key
+    _type
+    title
+    captionRaw
+    image {
+      ...RichImageFragment
+    }
+    hoverImage {
+      ...RichImageFragment
+    }
+  }
+  ${richImageFragment}
+`
+
+export const ctaFragment = /* GraphQL */ `
+  fragment CTAFragment on Cta {
+    _key
+    _type
+    label
+    link {
+      ...InternalLinkFragment
+    }
+  }
+  ${internalLinkFragment}
+`
+
 export const externalLinkFragment = /* GraphQL */ `
   fragment ExternalLinkFragment on ExternalLink {
     _key
@@ -56,23 +84,34 @@ export const imageTextBlockFragment = /* GraphQL */ `
     textPosition
     layout
     backgroundImage {
-      ...BackgroundImageFragment
+      ...RichImageFragment
     }
     hoverImage {
-      ...BackgroundImageFragment
+      ...RichImageFragment
     }
     link {
-      ... on PageLink {
-        ...PageLinkFragment
+      ... on InternalLink {
+        ...InternalLinkFragment
       }
       ... on ExternalLink {
         ...ExternalLinkFragment
       }
     }
   }
-  ${pageLinkFragment}
+  ${internalLinkFragment}
   ${externalLinkFragment}
-  ${backgroundImageFragment}
+  ${richImageFragment}
+`
+
+export const shopifyCollectionFragment = /* GraphQL */ `
+  fragment ShopifyCollectionFragment on ShopifyCollection {
+    _id
+    _type
+    _key
+    title
+    handle
+    shopifyId
+  }
 `
 
 export const carouselFragment = /* GraphQL */ `
@@ -80,14 +119,38 @@ export const carouselFragment = /* GraphQL */ `
     _key
     _type
     title
+    subtitleRaw
     collection {
-      ...PageLinkFragment
+      ...ShopifyCollectionFragment
     }
     items {
-      ...PageLinkFragment
+      ...RichPageLinkFragment
     }
   }
-  ${pageLinkFragment}
+  ${shopifyCollectionFragment}
+  ${richPageLinkFragment}
+`
+
+export const shopifyProductFragment = /* GraphQL */ `
+  fragment ShopifyProductFragment on ShopifyProduct {
+    _id
+    _key
+    title
+    handle
+    shopifyId
+    info {
+      ...ProductInfoFragment
+    }
+    contentAfter {
+      ...ImageTextBlockFragment
+    }
+    related {
+      ...CarouselFragment
+    }
+  }
+  ${productInfoFragment}
+  ${imageTextBlockFragment}
+  ${carouselFragment}
 `
 
 export const heroFragment = /* GraphQL */ `
@@ -98,11 +161,11 @@ export const heroFragment = /* GraphQL */ `
     textPosition
     textPositionMobile
     mobileImage {
-      ...BackgroundImageFragment
+      ...RichImageFragment
     }
     image {
-      ...BackgroundImageFragment
+      ...RichImageFragment
     }
   }
-  ${backgroundImageFragment}
+  ${richImageFragment}
 `

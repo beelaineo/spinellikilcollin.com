@@ -22,6 +22,7 @@ export const ProductListing = ({ match }: ProductListingProps) => {
     query: COLLECTION_QUERY,
     variables,
   })
+  console.log(response)
   if (response.fetching || !response.data) return <p>Loading..</p>
   const collection = response.data.collectionByHandle
   const [products] = unwindEdges<Product>(collection.products)

@@ -16,12 +16,15 @@ export const homepageQuery = /*  GraphQL */ gql`
       _id
       content {
         ... on ImageTextBlock {
+          __typename
           ...ImageTextBlockFragment
         }
         ... on Hero {
+          __typename
           ...HeroFragment
         }
         ... on Carousel {
+          __typename
           ...CarouselFragment
         }
       }
