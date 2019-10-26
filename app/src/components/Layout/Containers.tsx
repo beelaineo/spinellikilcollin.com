@@ -81,10 +81,8 @@ export const ImageText = styled.div`
       box-sizing: border-box;
       margin: 0 auto;
       color: ${theme.color.dark};
-      padding: ${theme.layout.spacing.triple};
+      padding: 0;
       background-image: ${`url(${background})`};
-      padding-top: 21%;
-      padding-bottom: 21%;
       background-size: cover;
       background-position: center;
       vertical-align: top;
@@ -94,9 +92,38 @@ export const ImageText = styled.div`
         padding-top: 50%;
         padding-bottom: 50%;
       }
-      > div {
-        display: flex;
-        height: 100%;
+      
+      a {
+        text-transform: capitalize;
+        color: ${theme.color.semiDark};
+        margin: ${theme.layout.spacing.small} 0;
+        display: inline-block;
+        font-style: italic;
+        text-decoration: none;
+        padding: ${theme.layout.spacing.quarter} 0;
+        border-bottom: 1px solid  ${theme.color.semiDark};
+        font-size: ${theme.font.size.h4};
+      }
+  `}
+`
+
+interface ImageText {
+  textAlign: string
+}
+
+export const TextOverImage = styled.div`
+  ${({ theme, textAlign }: TextOverImage) => `
+        display: block;
+        position: absolute;
+        width: 100%;
+        padding: ${theme.layout.spacing.triple};
+        padding-top: ${
+          textAlign === 'middle-center' ? '45%' : theme.layout.spacing.triple
+        };
+        p {
+          font-size: ${theme.font.size.h3};
+          line-height: 32px;
+        }
         position: ${
           textAlign === 'middle-center'
             ? 'absolute'
@@ -119,42 +146,12 @@ export const ImageText = styled.div`
             ? 'flex-end'
             : 'left'
         };
-        top: ${
-          textAlign === 'middle-center'
-            ? 0
-            : textAlign === 'bottom-right'
-            ? `-${theme.layout.spacing.triple}`
-            : theme.layout.spacing.triple
-        };
-        right: ${
-          textAlign === 'middle-center'
-            ? 'initial'
-            : textAlign === 'bottom-right'
-            ? theme.layout.spacing.triple
-            : 'initial'
-        };
-        bottom: ${
-          textAlign === 'middle-center'
-            ? 'initial'
-            : textAlign === 'bottom-right'
-            ? theme.layout.spacing.triple
-            : 'initial'
-        };
+        top: ${textAlign === 'bottom-right' ? 'initial' : '0'};
+        bottom: ${textAlign === 'bottom-right' ? '0' : 'initial'};
         left: ${textAlign === 'middle-center' ? '0' : 'initial'};
         right: ${textAlign === 'middle-center' ? '0' : 'initial'};
-      
       }
-      a {
-        text-transform: capitalize;
-        color: ${theme.color.semiDark};
-        margin: ${theme.layout.spacing.small} 0;
-        display: inline-block;
-        font-style: italic;
-        text-decoration: none;
-        padding-bottom: ${theme.layout.spacing.quarter};
-        border-bottom: 1px solid  ${theme.color.semiDark};;
-      }
-  `}
+    `}
 `
 
 interface CarouselBlockStyled {

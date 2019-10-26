@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Placeholder } from '../Placeholder'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
-import { ImageText } from '../Layout/index'
+import { ImageText, TextOverImage } from '../Layout/index'
 import { RichText } from '../RichText'
 import { PageLink } from '../PageLink'
 import { Image } from '../Image'
@@ -26,10 +26,10 @@ export const ImageTextBlock = (props: ImageTextBlockProps) => {
     <PageLink link={link}>
       <ImageText textAlign={content.textPosition}>
         <Image image={content.backgroundImage} ratio={1} />
-        <div>
+        <TextOverImage textAlign={content.textPosition}>
           <RichText body={content.bodyRaw} />
-          <span>{props.content.ctaText}</span>
-        </div>
+          <PageLink link={link}>{props.content.ctaText}</PageLink>
+        </TextOverImage>
       </ImageText>
     </PageLink>
   )
