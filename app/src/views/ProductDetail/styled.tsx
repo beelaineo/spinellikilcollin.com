@@ -20,7 +20,7 @@ export const ProductDetails = styled.div`
     margin: 0 ${theme.layout.spacing.double};
     min-height: 800px;
     /* background-color: #F5F3F4; */
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr;
     }
   `}
@@ -43,7 +43,7 @@ export const ProductInfoWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     margin-left: auto;
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       margin: ${theme.layout.spacing.double} auto;
     }
   `}

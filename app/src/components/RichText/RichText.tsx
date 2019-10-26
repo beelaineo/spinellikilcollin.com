@@ -65,6 +65,7 @@ interface RichTextProps {
   blockWrapper?: React.ComponentType
 }
 
-export const RichText = ({ body, blockWrapper }: RichTextProps) => (
-  <BlockContent blocks={body} serializers={serializers({ blockWrapper })} />
-)
+export const RichText = ({ body, blockWrapper }: RichTextProps) =>
+  body ? (
+    <BlockContent blocks={body} serializers={serializers({ blockWrapper })} />
+  ) : null

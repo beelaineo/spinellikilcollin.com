@@ -3,6 +3,7 @@ import styled, { css, DefaultTheme } from 'styled-components'
 interface WithOpen {
   theme: DefaultTheme
   open: boolean
+  height: string
 }
 
 export const ToggleButton = styled.button`
@@ -27,9 +28,14 @@ export const ToggleButton = styled.button`
 `
 
 export const Inner = styled.div`
-  ${({ theme, open }: WithOpen) => css`
-    display: ${open ? 'block' : 'none'};
-    padding: ${theme.layout.spacing.double} 0;
+  ${({ theme, open, height }: WithOpen) => css`
+    /* display: ${open ? 'block' : 'none'}; */
+    height: ${open ? height + 'px' : '0'};
+    transition: 150ms linear;
+    overflow: hidden;
+    p {
+      padding: ${theme.layout.spacing.half} 0 ${theme.layout.spacing.double};
+    }
   `}
 `
 

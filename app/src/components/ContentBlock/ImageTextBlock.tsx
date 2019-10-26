@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { Placeholder } from '../Placeholder'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
-import { ImageText } from '../Layout/index'
+import { ImageText, TextOverImage } from '../Layout/index'
 import { RichText } from '../RichText'
+import { PageLink } from '../PageLink'
 import { Image } from '../Image'
+import { getPageLinkUrl } from '../../utils/links'
 
 interface ImageTextBlockProps {
   content: ImageTextBlockType
@@ -11,26 +13,24 @@ interface ImageTextBlockProps {
 
 export const ImageTextBlock = (props: ImageTextBlockProps) => {
   let content = props.content
-  let [background, link] = ''
+  let background = ''
   let width = content.layout
 
   if (content.backgroundImage !== null) {
     background = content.backgroundImage.asset.url
   }
-  if (content.link && content.link[0]._type === 'pageLink') {
-    link = content.link[0].document.title
-  } else if (content.link) {
-    link = content.link[0].url
-  }
+
+  const link = content.link ? content.link[0] : undefined
+
   return (
-    <a href={`/${link}`}>
+    <PageLink link={link}>
       <ImageText textAlign={content.textPosition}>
         <Image image={content.backgroundImage} ratio={1} />
-        <div>
+        <TextOverImage textAlign={content.textPosition}>
           <RichText body={content.bodyRaw} />
-          <span>{props.content.ctaText}</span>
-        </div>
+          <PageLink link={link}>{props.content.ctaText}</PageLink>
+        </TextOverImage>
       </ImageText>
-    </a>
+    </PageLink>
   )
 }
