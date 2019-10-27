@@ -21,7 +21,7 @@ export const ImageTextBlock = (props: ImageTextBlockProps) => {
   }
 
   const link = content.link ? content.link[0] : undefined
-
+  console.log(content)
   return (
     <PageLink link={link}>
       <ImageText textAlign={content.textPosition}>

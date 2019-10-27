@@ -142,9 +142,9 @@ export const P = styled.p`
     font-size: ${theme.font.size.p};
     font-family: ${theme.font.family.serif};
 
-    & + ${P} {
+    /* & + ${P} {
       margin-top: 1em;
-    }
+    } */
 
     &:first-child {
       margin-top: 0;
