@@ -18,6 +18,7 @@ export const FlexContainer = styled.div`
   display: flex;
   flex-wrap: ${(props) => props.wrap};
   margin: ${(props) => props.theme.layout.spacing[props.margin]};
+  background-size: cover;
   ${({
     theme,
     padding,
@@ -40,7 +41,7 @@ export const FlexContainer = styled.div`
 		margin-left: ${align ? 'auto' : 'initial'}
 		margin-right: ${align ? 'auto' : 'initial'};
     padding: ${theme.layout.spacing[padding] || 'initial'}; 
-    backgroundColor: backgroundColor;
+    background-color: ${backgroundColor};
 	`}
   .visible {
     opacity: 1;
