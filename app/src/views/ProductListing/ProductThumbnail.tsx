@@ -18,14 +18,14 @@ export const ProductThumbnail = ({ product }: ProductThumbnail) => {
         <BackgroundImage key={product.id} imageSrc={imageSrc} />
         <ProductInfo>
           <Header3>{product.title}</Header3>
-          {/* {minVariantPrice !== undefined &&
+          {minVariantPrice !== undefined &&
           minVariantPrice.amount !== maxVariantPrice.amount ? (
-            <Header6>
-              ${minVariantPrice.amount} - ${maxVariantPrice.amount}
-            </Header6>
+            <Header3>
+              | ${minVariantPrice.amount} - ${maxVariantPrice.amount}
+            </Header3>
           ) : (
-            <Header6>${maxVariantPrice.amount}</Header6>
-          )} */}
+            <Header3>| ${maxVariantPrice.amount}</Header3>
+          )}
         </ProductInfo>
       </Link>
     </ProductThumb>

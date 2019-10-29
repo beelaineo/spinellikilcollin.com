@@ -7,22 +7,24 @@ export const ProductListingHeader = (props) => {
   if (image) {
     return (
       <FlexContainer
-        marginVertical="triple"
-        height="400px"
+        height="600px"
         padding="small"
-        margin="small"
         center
+        style={{
+          backgroundImage: `url(${image.originalSrc})`,
+          backgroundSize: 'cover',
+        }}
       >
-        <FlexHalf vertical="center" padding="0 60px">
+        {/* <FlexHalf vertical="center" padding="0 60px">
           <Header2>{title}</Header2>
           <p>{description}</p>
-        </FlexHalf>
-        <FlexHalf
+        </FlexHalf> */}
+        {/* <FlexHalf
           style={{
             backgroundImage: `url(${image.originalSrc})`,
             backgroundSize: 'cover',
           }}
-        ></FlexHalf>
+        ></FlexHalf> */}
       </FlexContainer>
     )
   } else {
