@@ -3,11 +3,12 @@
 export const size = {
   h1: '50px',
   h2: '38px',
-  h3: '22px',
+  h3: '24px',
   p: '17px',
   h4: '16px',
   h5: '14px',
   h6: '10px',
+  badge: '12px',
 }
 
 export const weight = {
