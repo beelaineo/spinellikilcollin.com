@@ -20,6 +20,7 @@ import {
   ProductDetailHeader,
   ProductDetailFooter,
   ProductRelated,
+  MobileProductHeader,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useCounter } from 'Utils/hooks'
@@ -78,7 +79,6 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
               currentVariant={currentVariant}
               product={product}
             />
-
             <ProductVariantSelector
               setQuantity={setQuantity}
               quantity={quantity}

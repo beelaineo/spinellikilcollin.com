@@ -34,6 +34,13 @@ export const ProductImagesWrapper = styled.div`
   `}
 `
 
+export const MobileProductHeader = styled.div`
+  ${({ theme }) => css`
+    text-align: center;
+    padding-top: ${theme.layout.spacing.quadruple};
+  `}
+`
+
 export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
     padding-top: ${theme.layout.spacing.quadruple};
@@ -107,19 +114,22 @@ interface NormalizeDivProps {
   align?: string
   marginBottom?: string
   margin: string
+  mobile: string
 }
 
 export const NormalizeDiv = styled.div`
   max-width: ${(props: NormalizeDivProps) =>
     props.width === 'half' ? '50%' : '100%'};
-  text-align: ${(props: NormalizeDivProps) => props.align || 'inherit'};
-
-  ${(margin: NormalizeDivProps) => `
-       margin: ${margin || 0};
-	`}
-  margin-bottom: ${(props: NormalizeDivProps) =>
-    props.theme.layout.spacing[props.marginBottom]} ;
-
+  ${({ margin, mobile, align, theme, marginBottom }: NormalizeDivProps) => `
+       margin: ${margin || 0};  
+       text-align: ${align || 'inherit'};
+       margin-top: ${
+         mobile === 'block' ? theme.layout.spacing.triple : 'inherit'
+       };
+       margin-bottom: ${
+         mobile === 'block' ? 0 : theme.layout.spacing[marginBottom]
+       };
+  `}
 `
 
 interface BackgroundImageProps {
