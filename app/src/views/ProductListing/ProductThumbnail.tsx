@@ -23,7 +23,8 @@ export const ProductThumbnail = ({ product }: ProductThumbnail) => {
       <Link to={`/products/${product.handle}`}>
         <BackgroundImage key={product.id} imageSrc={imageSrc} />
         <ProductContainer>
-          {tags.length > 0 &&
+          {tags &&
+            tags.length > 0 &&
             tags.map((tag, index) => {
               if (index < 1) {
                 return <span>{tag}</span>

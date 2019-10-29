@@ -89,8 +89,6 @@ export const ImageText = styled.div`
       position: relative;
       ${theme.mediaQueries.tablet} {
         width: 100%;
-        padding-top: 50%;
-        padding-bottom: 50%;
       }
       
       a {
@@ -123,6 +121,7 @@ export const TextOverImage = styled.div`
         p {
           font-size: ${theme.font.size.h3};
           line-height: 32px;
+          margin:${theme.layout.spacing.quarter};
         }
         position: ${
           textAlign === 'middle-center'
