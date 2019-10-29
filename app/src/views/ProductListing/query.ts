@@ -21,6 +21,7 @@ export const COLLECTION_QUERY = /* GraphQL */ `
             id
             title
             handle
+            tags
             priceRange {
               minVariantPrice {
                 amount

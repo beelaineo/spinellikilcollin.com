@@ -18,7 +18,7 @@ export const FlexContainer = styled.div`
   display: flex;
   flex-wrap: ${(props) => props.wrap};
   margin: ${(props) => props.theme.layout.spacing[props.margin]};
-  background-position: contain;
+  background-size: cover;
   ${({
     theme,
     padding,
