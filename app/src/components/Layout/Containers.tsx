@@ -87,6 +87,7 @@ export const ImageText = styled.div`
       background-position: center;
       vertical-align: top;
       position: relative;
+      line-height: 0;
       ${theme.mediaQueries.tablet} {
         width: 100%;
       }
@@ -115,6 +116,7 @@ export const TextOverImage = styled.div`
         position: absolute;
         width: 100%;
         padding: ${theme.layout.spacing.triple};
+        line-height: initial;
         padding-top: ${
           textAlign === 'middle-center' ? '45%' : theme.layout.spacing.triple
         };

@@ -22,6 +22,12 @@ export const ProductDetailFooter = ({
         ? content.contentAfter.map((content, index) => (
             <ContentBlock content={content} />
           ))
+        : content.edges
+        ? content.edges.map((content, index) => {
+            if (index > 0) {
+              return <ContentBlock content={content.node} />
+            }
+          })
         : null}
     </NormalizeDiv>
   )

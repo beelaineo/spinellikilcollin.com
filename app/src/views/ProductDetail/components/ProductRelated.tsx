@@ -1,13 +1,11 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
 import { Product, Collection } from '../../../types/generated'
 import { unwindEdges } from '../../../utils/graphql'
 import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
 import { Carousel } from 'Components/Carousel'
 import { Header2, Header4 } from 'Components/Text'
-import { Image } from 'Components/Image'
-import { Figure } from 'Components/Figure'
 import { ProductThumbnail } from '../../ProductListing/ProductThumbnail'
+import { FlexContainer } from '../../../components/Layout'
 
 interface ProductRelatedProps {
   product: Product
@@ -20,9 +18,27 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
   if (!products || !products.length) return null
   return (
     <ProductRelatedWrapper>
-      <Header2 transform="capitalize" size="small" color="dark" align="center">
-        Shop the {collections[0].title} Collection
-      </Header2>
+      <FlexContainer center="center">
+        <Header4
+          active
+          margin="10px"
+          transform="capitalize"
+          size="small"
+          color="dark"
+          align="center"
+        >
+          More Like this
+        </Header4>
+        <Header4
+          margin="10px"
+          transform="capitalize"
+          size="small"
+          color="dark"
+          align="center"
+        >
+          Best Selling {collections[0].title}
+        </Header4>
+      </FlexContainer>
       <ProductRelatedInner>
         <Carousel>
           {products.slice(0, 10).map((product) => {

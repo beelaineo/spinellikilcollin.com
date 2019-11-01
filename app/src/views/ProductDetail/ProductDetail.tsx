@@ -67,6 +67,9 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
   const { addItemToCheckout } = useCheckout()
   const [variants] = unwindEdges<Variant>(product.variants)
 
+  /* get product image variants from Shopify */
+  let { images } = product
+
   return (
     <Wrapper backgroundColor={'#F5F3F4'}>
       <Column>
@@ -79,16 +82,8 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
               currentVariant={currentVariant}
               product={product}
             />
-            <ProductVariantSelector
-              setQuantity={setQuantity}
-              quantity={quantity}
-              increment={increment}
-              decrement={decrement}
-              variants={variants}
-              currentVariant={currentVariant}
-              selectVariant={selectVariant}
-            />
-            <NormalizeDiv>
+
+            <NormalizeDiv margin="0 0 20px 0">
               <BuyButton
                 addItemToCheckout={addItemToCheckout}
                 currentVariant={currentVariant}
@@ -99,11 +94,24 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
                 ? info.map((a) => <Accordion key={a._key} content={a} />)
                 : null}
             </NormalizeDiv>
+            <ProductVariantSelector
+              setQuantity={setQuantity}
+              quantity={quantity}
+              increment={increment}
+              decrement={decrement}
+              variants={variants}
+              currentVariant={currentVariant}
+              selectVariant={selectVariant}
+            />
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>
-      <ProductDetailFooter product={product} content={productExtra} />
+      {/* Shopify alt images will go here */}
+      <ProductDetailFooter product={product} content={images} />
+      {/* Related Products */}
       <ProductRelated product={product} />
+      {/* This is currently  from sanity */}
+      <ProductDetailFooter product={product} content={productExtra} />
     </Wrapper>
   )
 }
