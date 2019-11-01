@@ -42,6 +42,7 @@ export const FlexContainer = styled.div`
 		margin-right: ${align ? 'auto' : 'initial'};
     padding: ${theme.layout.spacing[padding] || 'initial'}; 
     background-color: ${backgroundColor};
+    align-items: baseline;
 	`}
   .visible {
     opacity: 1;

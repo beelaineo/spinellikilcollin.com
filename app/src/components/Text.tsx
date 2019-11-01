@@ -22,6 +22,7 @@ const commonHeaderStyles = ({
   margin,
   children,
   small,
+  active,
 }: TextStyleProps) => css`
   font-weight: ${theme.font.weight[weight]
     ? theme.font.weight[weight]
@@ -34,7 +35,7 @@ const commonHeaderStyles = ({
   text-transform: ${transform || 'auto'};
   margin: ${margin || '0.3em 0'};
   letter-spacing: 0.75px;
-
+  border-bottom: ${active ? '1px solid black' : 'inherit'};
   p {
     letter-spacing: 1px;
   }

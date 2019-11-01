@@ -35,10 +35,9 @@ export const ProductVariantSelector = (props: Props) => {
     selectVariant(e.target.value)
   }
   const handleQuantityInput = (e) => setQuantity(e.target.value)
-
   return (
     <div>
-      <NormalizeDiv>
+      <NormalizeDiv margin="20px 0">
         <Accordion label={'Size'} content={'dummyContent'} />
         {/* <Label>Size</Label> */}
         {/* <Select
