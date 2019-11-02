@@ -102,6 +102,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
               variants={variants}
               currentVariant={currentVariant}
               selectVariant={selectVariant}
+              product={product}
             />
           </ProductInfoWrapper>
         </ProductDetails>

@@ -29,16 +29,22 @@ export const ProductVariantSelector = (props: Props) => {
     setQuantity,
     increment,
     decrement,
+    product,
   } = props
   if (!variants.length) return null
   const handleSelect = (e) => {
     selectVariant(e.target.value)
   }
   const handleQuantityInput = (e) => setQuantity(e.target.value)
+
+  // information for accordions
+  let { description } = product
+
   return (
     <div>
       <NormalizeDiv margin="20px 0">
-        <Accordion label={'Size'} content={'dummyContent'} />
+        <Accordion content={{ title: 'description', bodyRaw: description }} />
+        <Accordion content={{ title: 'shipping', bodyRaw: description }} />
         {/* <Label>Size</Label> */}
         {/* <Select
           onChange={handleSelect}
@@ -66,8 +72,7 @@ export const ProductVariantSelector = (props: Props) => {
             <span>&#43;</span>
           </button>
         </QuantitySelector> */}
-        <Accordion label={'description'} content={'bodyRaw'} />
-        <Accordion label={'Shipping'} content={'bodyRaw'} />
+        <Accordion label={'Shipping'} content={{ title: 'Customization' }} />
       </NormalizeDiv>
     </div>
   )
