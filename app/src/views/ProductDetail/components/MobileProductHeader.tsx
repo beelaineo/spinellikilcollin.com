@@ -1,22 +1,25 @@
 import * as React from 'react'
 import { Variant } from 'use-shopify'
 import { Product } from '../../../types/generated'
-import { NormalizeDiv } from '../styled'
+import { NormalizeDiv, MobileProductHeader } from '../styled'
 import { Header2, Header4 } from 'Components/Text'
 
-interface ProductDetailHeaderProps {
+interface MobileProductHeaderProps {
   product: Product
   currentVariant: Variant
 }
 
-export const ProductDetailHeader = ({
+export const MobileProductHeader = ({
   product,
   currentVariant,
-  mobile,
-  align,
-}: ProductDetailHeaderProps) => {
+}: MobileProductHeaderProps) => {
   return (
-    <NormalizeDiv marginBottom="triple" mobile={'hidden'} align={align}>
+    <NormalizeDiv
+      marginBottom="triple"
+      marginTop="quadruple"
+      mobile="block"
+      align={'center'}
+    >
       <Header2 weight="xlight" color="dark">
         {product.title}
       </Header2>

@@ -22,7 +22,7 @@ export const ToggleButton = styled.button`
       display: block;
       position: absolute;
       right: 0;
-      top: -2px;
+      top: -16px;
       font-size: 15px;
   `}
 `
