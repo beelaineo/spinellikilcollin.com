@@ -82,7 +82,16 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
               currentVariant={currentVariant}
               product={product}
             />
-
+            <ProductVariantSelector
+              setQuantity={setQuantity}
+              quantity={quantity}
+              increment={increment}
+              decrement={decrement}
+              variants={variants}
+              currentVariant={currentVariant}
+              selectVariant={selectVariant}
+              product={product}
+            />
             <NormalizeDiv margin="0 0 20px 0">
               <BuyButton
                 addItemToCheckout={addItemToCheckout}
@@ -94,15 +103,6 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
                 ? info.map((a) => <Accordion key={a._key} content={a} />)
                 : null}
             </NormalizeDiv>
-            <ProductVariantSelector
-              setQuantity={setQuantity}
-              quantity={quantity}
-              increment={increment}
-              decrement={decrement}
-              variants={variants}
-              currentVariant={currentVariant}
-              selectVariant={selectVariant}
-            />
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>

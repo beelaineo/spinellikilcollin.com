@@ -4,6 +4,7 @@ import { Header5 } from '../Text'
 import { ProductInfo } from '../../types'
 import { Wrapper, ToggleButton, Inner } from './styled'
 import { useEffect, useRef } from 'react'
+import { AccordionButton } from './components/AccordionButton'
 
 interface AccordionProps {
   content: ProductInfo
@@ -27,9 +28,15 @@ export const Accordion = ({ content }: AccordionProps) => {
 
   return (
     <Wrapper>
-      <ToggleButton onClick={toggleOpen}>{title}</ToggleButton>
+      <ToggleButton onClick={toggleOpen} open={open}>
+        {title}
+      </ToggleButton>
       <Inner open={open} ref={refContainer}>
-        <RichText blockWrapper={AccordionTextWrapper} body={bodyRaw} />
+        {title === 'size' ? (
+          bodyRaw.map((el) => <AccordionButton content={el} />)
+        ) : (
+          <RichText blockWrapper={AccordionTextWrapper} body={bodyRaw} />
+        )}
       </Inner>
     </Wrapper>
   )
