@@ -6,6 +6,7 @@ import { COLLECTION_QUERY, CollectionResult } from './query'
 import { ProductGrid } from './styled'
 import { ProductThumbnail } from './ProductThumbnail'
 import { ProductListingHeader } from './ProductListingHeader'
+import { ProductListingFilter } from './ProductListingFilter'
 
 interface ProductListingProps {
   match: {
@@ -22,12 +23,13 @@ export const ProductListing = ({ match }: ProductListingProps) => {
     query: COLLECTION_QUERY,
     variables,
   })
-  console.log(response)
+
   if (response.fetching || !response.data) return <p>Loading..</p>
   const collection = response.data.collectionByHandle
   const [products] = unwindEdges<Product>(collection.products)
   return (
     <React.Fragment>
+      <ProductListingFilter collection={collection} />
       <ProductListingHeader collection={collection} />
       <ProductGrid>
         {products.map((product) => {

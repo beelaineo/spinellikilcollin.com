@@ -141,3 +141,74 @@ export const BackgroundImage = styled.div`
     color: transparent;
   }
 `
+
+// Adding the Filter Styles
+export const FilterInner = styled.div`
+  ${({ theme }) => css`
+    padding: ${theme.layout.spacing.single} ${theme.layout.spacing.triple};
+    width: 100%;
+  `}
+`
+
+interface FilterBodyProps {
+  theme: DefaultTheme
+  open: boolean
+}
+
+export const FilterBody = styled.div`
+  ${({ theme, open }: FilterBodyProps) => css`
+    transition: 250ms ease-in-out;
+    padding: 0 ${theme.layout.spacing.single};
+    width: 100%;
+    visibility: ${open === true ? 'visible' : 'hidden'};
+    overflow: hidden;
+    max-height: ${open === true ? '360px' : '0'};
+    border-top: 1px solid ${theme.color.lightGrayBody};
+    margin-top: ${theme.layout.spacing.triple};
+    > div {
+      padding: ${theme.layout.spacing.triple} 0;
+    }
+  `}
+`
+
+export const FilterList = styled.ul`
+  ${({ theme }) => css`
+    list-style: none;
+    padding: 0;
+    li {
+      margin-bottom: ${theme.layout.spacing.single};
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+      input,
+      label {
+        cursor: pointer;
+      }
+    }
+  `}
+`
+
+export const Checkbox = styled.input`
+  ${({ theme }) => css`
+    display: inline-block;
+    position: absolute;
+    visibility: hidden;
+    z-index: 2;
+    &:checked {
+      ~ span {
+        background-color: black;
+      }
+    }
+    ~ span {
+      width: 16px;
+      z-index: 1;
+      height: 16px;
+      position: relative;
+      border: 1px solid black;
+      border-radius: 0px;
+      margin-right: ${theme.layout.spacing.single};
+      display: inline-block;
+    }
+  `}
+`
