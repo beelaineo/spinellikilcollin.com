@@ -1,6 +1,12 @@
 import * as React from 'react'
 import { UseProductVariant, Variant } from 'use-shopify'
-import { Select, Label, NormalizeDiv, QuantitySelector } from '../styled'
+import {
+  Select,
+  Label,
+  NormalizeDiv,
+  QuantitySelector,
+  Button,
+} from '../styled'
 import { QuantityInput } from 'Components/QuantityInput'
 import { Accordion } from '../../../components/Accordion'
 
@@ -45,6 +51,7 @@ export const ProductVariantSelector = (props: Props) => {
       <NormalizeDiv margin="20px 0">
         <Accordion content={{ title: 'size', bodyRaw: mockSizes }} />
         <Accordion content={{ title: 'description', bodyRaw: description }} />
+        <Accordion label={'Shipping'} content={{ title: 'Shipping' }} />
         {/* <Label>Size</Label> */}
         {/* <Select
           onChange={handleSelect}
@@ -72,7 +79,9 @@ export const ProductVariantSelector = (props: Props) => {
             <span>&#43;</span>
           </button>
         </QuantitySelector> */}
-        <Accordion label={'Shipping'} content={{ title: 'Customization' }} />
+        <Button width="100%" background="lightGraybackground" color="dark">
+          CUSTOMIZATION
+        </Button>
       </NormalizeDiv>
     </div>
   )

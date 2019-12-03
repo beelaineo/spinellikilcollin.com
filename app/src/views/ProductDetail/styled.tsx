@@ -156,29 +156,41 @@ interface ButtonProps {
   transform?: string
   href?: string
   width?: string
+  marginTop: string
 }
 
 export const Button = styled.button`
-  ${(props: ButtonProps) => css`
-    background-color: ${props.theme.color.dark};
-    color: ${props.theme.color.light};
-    cursor: ${props.disabled ? 'auto' : 'pointer'};
+  ${({
+    theme,
+    disabled,
+    background,
+    color,
+    width,
+    marginTop,
+  }: ButtonProps) => css`
+    background-color: ${
+      background ? theme.color[background] : theme.color.dark
+    };
+    color: ${color ? theme.color.color : theme.color.light};
+    cursor: ${disabled ? 'auto' : 'pointer'};
     display: inline-block;
-    font-family: ${props.theme.font.family.serif};
-    font-weight: ${props.theme.font.weight.strong};
-    font-size: ${props.theme.font.size.h5};
+    font-family: ${theme.font.family.serif};
+    font-weight: ${theme.font.weight.strong};
+    font-size: ${theme.font.size.h5};
     letter-spacing: 0.095em;
     padding: 0.25rem 0.5rem;
     text-align: center;
     text-transform: uppercase;
     transition: 0.2s;
-    padding: ${props.theme.layout.spacing.singleHalf};
-    margin: ${props.theme.layout.spacing.double} 0
-      ${props.theme.layout.spacing.single};
-    opacity: ${props.disabled ? 0.3 : 1};
-    pointer-events: ${props.disabled ? 'none' : 'auto'};
+    padding: ${theme.layout.spacing.singleHalf};
+    margin: ${theme.layout.spacing.double} 0
+      ${theme.layout.spacing.single};
+    margin-top: ${marginTop ? theme.layout.spacing[marginTop] : 'inherit'}
+    opacity: ${disabled ? 0.3 : 1};
+    pointer-events: ${disabled ? 'none' : 'auto'};
+    border: 1px solid ${theme.color.dark};
     /* max-width: 200px; */
-    width: ${props.width || 'initial'};
+    width: ${width || 'initial'}; 
   `}
 `
 
