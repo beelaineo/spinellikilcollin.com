@@ -12,6 +12,7 @@ interface Props extends UseProductVariant {
   setQuantity: (q: number) => void
 }
 
+const mockSizes = [1, 2, 3, 4, 5, 6]
 /**
  * ProductVariantSelector
  *
@@ -39,12 +40,11 @@ export const ProductVariantSelector = (props: Props) => {
 
   // information for accordions
   let { description } = product
-
   return (
     <div>
       <NormalizeDiv margin="20px 0">
+        <Accordion content={{ title: 'size', bodyRaw: mockSizes }} />
         <Accordion content={{ title: 'description', bodyRaw: description }} />
-        <Accordion content={{ title: 'shipping', bodyRaw: description }} />
         {/* <Label>Size</Label> */}
         {/* <Select
           onChange={handleSelect}
