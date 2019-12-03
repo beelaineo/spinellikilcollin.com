@@ -193,7 +193,7 @@ export const Checkbox = styled.input`
   ${({ theme }) => css`
     display: inline-block;
     position: absolute;
-    visibility: hidden;
+    opacity: 0;
     z-index: 2;
     &:checked {
       ~ span {
@@ -201,12 +201,12 @@ export const Checkbox = styled.input`
       }
     }
     ~ span {
-      width: 16px;
+      width: 14px;
       z-index: 1;
-      height: 16px;
+      height: 14px;
       position: relative;
-      border: 1px solid black;
-      border-radius: 0px;
+      border: 1px solid ${theme.color.semiDark};
+      border-radius: 2px;
       margin-right: ${theme.layout.spacing.single};
       display: inline-block;
     }
