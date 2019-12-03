@@ -4,6 +4,7 @@ import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
 
 export const ProductListingHeader = (props) => {
   let { image, title, description } = props.collection
+
   if (image) {
     return (
       <FlexContainer

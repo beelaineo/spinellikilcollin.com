@@ -83,6 +83,8 @@ export const FlexThree = styled.div`
 
 export const FlexFour = styled.div`
   flex: 5;
+  max-width: 45%;
+  flex-basis: 45%;
 `
 
 export const FlexSix = styled.div`
