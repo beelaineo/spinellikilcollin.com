@@ -147,6 +147,36 @@ export const FilterInner = styled.div`
   ${({ theme }) => css`
     padding: ${theme.layout.spacing.single} ${theme.layout.spacing.triple};
     width: 100%;
+    input[type='range'] {
+      -webkit-appearance: none;
+      width: 100%;
+    }
+
+    input[type='range']::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 2px;
+      background: #ddd;
+      border: none;
+      border-radius: 3px;
+    }
+
+    input[type='range']::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      border: none;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: black;
+      margin-top: -6px;
+    }
+
+    input[type='range']:focus {
+      outline: none;
+    }
+
+    input[type='range']:focus::-webkit-slider-runnable-track {
+      background: black;
+    }
   `}
 `
 
