@@ -1,6 +1,12 @@
 import * as React from 'react'
 import { UseProductVariant, Variant } from 'use-shopify'
-import { Select, Label, NormalizeDiv, QuantitySelector } from '../styled'
+import {
+  Select,
+  Label,
+  NormalizeDiv,
+  QuantitySelector,
+  Button,
+} from '../styled'
 import { QuantityInput } from 'Components/QuantityInput'
 import { Accordion } from '../../../components/Accordion'
 
@@ -12,6 +18,7 @@ interface Props extends UseProductVariant {
   setQuantity: (q: number) => void
 }
 
+const mockSizes = [1, 2, 3, 4, 5, 6]
 /**
  * ProductVariantSelector
  *
@@ -29,16 +36,22 @@ export const ProductVariantSelector = (props: Props) => {
     setQuantity,
     increment,
     decrement,
+    product,
   } = props
   if (!variants.length) return null
   const handleSelect = (e) => {
     selectVariant(e.target.value)
   }
   const handleQuantityInput = (e) => setQuantity(e.target.value)
+
+  // information for accordions
+  let { description } = product
   return (
     <div>
       <NormalizeDiv margin="20px 0">
-        <Accordion label={'Size'} content={'dummyContent'} />
+        <Accordion content={{ title: 'size', bodyRaw: mockSizes }} />
+        <Accordion content={{ title: 'description', bodyRaw: description }} />
+        <Accordion label={'Shipping'} content={{ title: 'Shipping' }} />
         {/* <Label>Size</Label> */}
         {/* <Select
           onChange={handleSelect}
@@ -66,8 +79,9 @@ export const ProductVariantSelector = (props: Props) => {
             <span>&#43;</span>
           </button>
         </QuantitySelector> */}
-        <Accordion label={'description'} content={'bodyRaw'} />
-        <Accordion label={'Shipping'} content={'bodyRaw'} />
+        <Button width="100%" background="lightGraybackground" color="dark">
+          CUSTOMIZATION
+        </Button>
       </NormalizeDiv>
     </div>
   )

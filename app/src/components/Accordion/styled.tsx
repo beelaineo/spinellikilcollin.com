@@ -1,4 +1,5 @@
 import styled, { css, DefaultTheme } from 'styled-components'
+import { AccordionButton } from './components/AccordionButton'
 
 interface WithOpen {
   theme: DefaultTheme
@@ -7,7 +8,7 @@ interface WithOpen {
 }
 
 export const ToggleButton = styled.button`
-  ${({ theme }) => css`
+  ${({ theme, open }: WithOpen) => css`
     font-size: ${theme.font.size.h4};
     font-weight: ${theme.font.weight.semi};
     letter-spacing: 1px;
@@ -24,13 +25,14 @@ export const ToggleButton = styled.button`
       right: 0;
       top: -16px;
       font-size: 15px;
+    }
   `}
 `
-
 export const Inner = styled.div`
   ${({ theme, open, height }: WithOpen) => css`
     /* display: ${open ? 'block' : 'none'}; */
-    height: ${open ? height + 'px' : '0'};
+    max-height: ${open === true ? height + 'px' : '0'};
+    visibility: ${open === true ? 'visible' : 'hidden'};
     transition: 150ms linear;
     overflow: hidden;
     p {
@@ -48,5 +50,22 @@ export const Wrapper = styled.div`
     button {
       font-family: ${theme.font.family.serif};
     }
+  `}
+`
+
+interface AccordionButton {
+  theme: DefaultTheme
+  selected: boolean
+}
+
+export const AccordionButtonStyles = styled.button`
+  ${({ theme, selected }: AccordionButton) => css`
+    padding: ${theme.layout.spacing.single} ${theme.layout.spacing.singleHalf};
+    margin: ${theme.layout.spacing.small};
+    font-family: ${theme.font.family.serif};
+    background-color: ${selected ? theme.color.dark : 'transparent'};
+    color: ${selected ? theme.color.light : theme.color.dark};
+    border: 1px solid ${theme.color.dark};
+    border-radius: 50%;
   `}
 `
