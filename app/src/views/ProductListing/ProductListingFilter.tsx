@@ -65,6 +65,15 @@ export const ProductListingFilter = () => {
                 <FlexThree>
                   <Header5 transform="uppercase">{filter.name}</Header5>
                   <FilterList>
+                    <li>
+                      <Checkbox
+                        type="checkbox"
+                        name="filter"
+                        id={`filter-view-all`}
+                      />
+                      <span></span>
+                      <label for={`filter-view-all`}>View All</label>
+                    </li>
                     {filter.tags.map((item, i) => {
                       return (
                         <li>
