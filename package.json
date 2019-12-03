@@ -35,7 +35,6 @@
 		}
 	},
 	"dependencies": {
-		"react-dual-range-slider": "^1.0.4",
 		"react-icons": "^3.7.0"
 	}
 }
