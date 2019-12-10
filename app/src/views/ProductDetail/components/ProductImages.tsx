@@ -4,6 +4,7 @@ import { Product, Image } from '../../../types'
 import { unwindEdges } from '../../../utils/graphql'
 import { Gallery } from '../../../components/Gallery'
 import { ProductGalleryWrapper } from '../styled'
+import { ProductMobileImagesNav } from './ProductMobileImagesNav'
 
 interface ProductImagesProps {
   product: Product
@@ -21,6 +22,7 @@ export const ProductImages = ({
   return (
     <ProductGalleryWrapper>
       <Gallery images={images} currentImageId={currentVariant.image.id} />
+      <ProductMobileImagesNav content={images} />
     </ProductGalleryWrapper>
   )
 }

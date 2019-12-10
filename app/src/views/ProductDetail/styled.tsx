@@ -52,6 +52,7 @@ export const ProductInfoWrapper = styled.div`
     margin-left: auto;
     ${theme.mediaQueries.tablet} {
       margin: ${theme.layout.spacing.double} auto;
+      padding-top: ${theme.layout.spacing.double} 0;
     }
   `}
 `
@@ -120,12 +121,14 @@ interface NormalizeDivProps {
 export const NormalizeDiv = styled.div`
   max-width: ${(props: NormalizeDivProps) =>
     props.width === 'half' ? '50%' : '100%'};
+
   ${({ margin, mobile, align, theme, marginBottom }: NormalizeDivProps) => `
        margin: ${margin || 0};  
        text-align: ${align || 'inherit'};
        margin-top: ${
          mobile === 'block' ? theme.layout.spacing.triple : 'inherit'
        };
+      
        margin-bottom: ${
          mobile === 'block' ? 0 : theme.layout.spacing[marginBottom]
        };
@@ -312,4 +315,35 @@ export const ArrowDown = styled.div`
   ${(props) => props.theme.mediaQueries.tablet} {
     display: none;
   }
+`
+
+export const ImageNav = styled.div`
+  display: block;
+  background-color: ${(props) => props.theme.color.dark};
+  border-radius: 50%;
+  height: 16px;
+  width: 16px;
+`
+
+export const MobileImageNav = styled.div`
+  max-width: 80px;
+  display: none;
+  ${(props) => props.theme.mediaQueries.tablet} {
+    display: block !important;
+  }
+`
+
+interface ProductDetailHeaderStyles {
+  theme: DefaultTheme
+  mobile: string
+}
+
+export const ProductDetailHeaderStyles = styled.div`
+  ${(props: ProductDetailHeaderStyles) => css`
+    display: ${props.mobile === 'visible' ? 'none' : 'block'};
+    ${props.theme.mediaQueries.tablet} {
+      display: ${props.mobile === 'hidden' ? 'none' : 'block'};
+      text-align: center;
+    }
+  `}
 `

@@ -32,8 +32,11 @@ export const Accordion = ({ content }: AccordionProps) => {
         {title}
       </ToggleButton>
       <Inner open={open} ref={refContainer}>
+        {title === 'size' && (
+          <AccordionButton size="large" content={'Not sure of my size'} />
+        )}
         {title === 'size' ? (
-          bodyRaw.map((el) => <AccordionButton content={el} />)
+          bodyRaw.map((el) => <AccordionButton size="small" content={el} />)
         ) : (
           <RichText blockWrapper={AccordionTextWrapper} body={bodyRaw} />
         )}
