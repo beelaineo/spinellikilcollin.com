@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Variant } from 'use-shopify'
 import { Product } from '../../../types/generated'
-import { NormalizeDiv } from '../styled'
+import { NormalizeDiv, ProductDetailHeaderStyles } from '../styled'
 import { Header2, Header4 } from 'Components/Text'
 
 interface ProductDetailHeaderProps {
@@ -16,13 +16,15 @@ export const ProductDetailHeader = ({
   align,
 }: ProductDetailHeaderProps) => {
   return (
-    <NormalizeDiv marginBottom="triple" mobile={'hidden'} align={align}>
-      <Header2 weight="xlight" color="dark">
-        {product.title}
-      </Header2>
-      <Header4 weight="strong" color="dark">
-        ${currentVariant.price}
-      </Header4>
-    </NormalizeDiv>
+    <ProductDetailHeaderStyles mobile={mobile}>
+      <NormalizeDiv marginBottom="triple" align={align}>
+        <Header2 weight="xlight" color="dark">
+          {product.title}
+        </Header2>
+        <Header4 weight="strong" color="dark">
+          ${currentVariant.price}
+        </Header4>
+      </NormalizeDiv>
+    </ProductDetailHeaderStyles>
   )
 }

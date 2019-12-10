@@ -74,6 +74,11 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
     <Wrapper backgroundColor={'#F5F3F4'}>
       <Column>
         <ProductDetails>
+          <ProductDetailHeader
+            currentVariant={currentVariant}
+            product={product}
+            mobile={'visible'}
+          />
           <ProductImagesWrapper>
             <ProductImages currentVariant={currentVariant} product={product} />
           </ProductImagesWrapper>
@@ -81,6 +86,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
             <ProductDetailHeader
               currentVariant={currentVariant}
               product={product}
+              mobile={'hidden'}
             />
             <ProductVariantSelector
               setQuantity={setQuantity}

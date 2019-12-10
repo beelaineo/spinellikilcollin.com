@@ -23,15 +23,19 @@ export const ToggleButton = styled.button`
       display: block;
       position: absolute;
       right: 0;
-      top: -16px;
+      transform: translateY(-50%);
       font-size: 15px;
+      top: 50%;
+    }
+    &:hover {
+      opacity: 0.5;q
     }
   `}
 `
 export const Inner = styled.div`
   ${({ theme, open, height }: WithOpen) => css`
     /* display: ${open ? 'block' : 'none'}; */
-    max-height: ${open === true ? height + 'px' : '0'};
+    max-height: ${open === true ? '200px' : '0'};
     visibility: ${open === true ? 'visible' : 'hidden'};
     transition: 150ms linear;
     overflow: hidden;
@@ -56,16 +60,17 @@ export const Wrapper = styled.div`
 interface AccordionButton {
   theme: DefaultTheme
   selected: boolean
+  size: string
 }
 
 export const AccordionButtonStyles = styled.button`
-  ${({ theme, selected }: AccordionButton) => css`
+  ${({ theme, selected, size }: AccordionButton) => css`
     padding: ${theme.layout.spacing.single} ${theme.layout.spacing.singleHalf};
     margin: ${theme.layout.spacing.small};
     font-family: ${theme.font.family.serif};
     background-color: ${selected ? theme.color.dark : 'transparent'};
     color: ${selected ? theme.color.light : theme.color.dark};
     border: 1px solid ${theme.color.dark};
-    border-radius: 50%;
+    border-radius: ${size === 'large' ? '24px' : '50%'};
   `}
 `

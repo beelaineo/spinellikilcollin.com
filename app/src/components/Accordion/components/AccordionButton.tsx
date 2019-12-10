@@ -7,14 +7,15 @@ import { useEffect, useRef } from 'react'
 
 interface AccordionButtonProps {
   content: ButtonInfo
+  size: size
 }
 
-export const AccordionButton = ({ content }: AccordionButtonProps) => {
+export const AccordionButton = ({ content, size }: AccordionButtonProps) => {
   const [selected, setSelected] = React.useState(false)
   const toggleOpen = () => setSelected(!selected)
 
   return (
-    <AccordionButtonStyles onClick={toggleOpen} selected={selected}>
+    <AccordionButtonStyles size={size} onClick={toggleOpen} selected={selected}>
       {content}
     </AccordionButtonStyles>
   )
