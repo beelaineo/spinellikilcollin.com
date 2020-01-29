@@ -1,4 +1,42 @@
-import { createProductDocument } from '@sane-shopify/sanity-plugin'
+import {
+  createProductVariant,
+  createProductDocument,
+} from '@sane-shopify/sanity-plugin'
+
+export const ProductVariant = createProductVariant({
+  fields: [
+    {
+      title: 'Description',
+      name: 'description',
+      type: 'array',
+      of: [
+        {
+          type: 'block',
+          styles: [{ title: 'Normal', value: 'normal' }],
+          marks: {
+            decorators: [
+              { title: 'Strong', value: 'strong' },
+              { title: 'Emphasis', value: 'em' },
+            ],
+          },
+        },
+      ],
+    },
+    {
+      title: 'Swatch',
+      name: 'swatch',
+      type: 'image',
+    },
+    {
+      title: 'Alternate Gallery',
+      name: 'gallery',
+      description:
+        'An alternate gallery of photos to display when this variant is selected',
+      type: 'array',
+      of: [{ type: 'richImage' }],
+    },
+  ],
+})
 
 export const Product = createProductDocument({
   fields: [

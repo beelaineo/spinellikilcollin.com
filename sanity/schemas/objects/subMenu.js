@@ -4,7 +4,8 @@ import { IoIosListBox } from 'react-icons/io'
 import { BlockPreview } from '../components/BlockPreview'
 import { getReferencedDocument, getShopifyThumbnail } from '../utils'
 
-const getPreviewValues = async ({ label, link: previewLink }) => {
+const getPreviewValues = async (values) => {
+  const { label, link: previewLink } = values
   if (!previewLink || !previewLink.document || !previewLink.document._ref)
     return { title: 'Missing Link' }
   const linkedDoc = await getReferencedDocument(previewLink.document._ref)
@@ -29,9 +30,17 @@ export const MenuLink = {
   title: 'Nav Link',
   fields: [
     {
+      title: 'Label',
+      name: 'label',
+      type: 'string',
+    },
+    {
       title: 'Link',
       name: 'link',
-      type: 'cta',
+      type: 'internalLink',
+      options: {
+        required: true,
+      },
     },
   ],
   preview: {
@@ -95,7 +104,7 @@ export const subMenu = {
       title: 'Submenu Sections',
       name: 'columns',
       type: 'array',
-      of: [{ type: 'linkGroup' }, { type: 'richPageLink' }],
+      of: [{ type: 'cta' }],
     },
   ],
   preview: {
