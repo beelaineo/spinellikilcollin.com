@@ -20,12 +20,12 @@ export type Scalars = {
    * 8601 standard for representation of dates and times using the Gregorian calendar.
    **/
   DateTime: Date
-  /** A monetary value string. Example value: `"100.57"`. */
-  Money: any
-  /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
-  Decimal: any
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { [key: string]: any }
+  /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
+  Decimal: any
+  /** A monetary value string. Example value: `"100.57"`. */
+  Money: any
 }
 
 /** A version of the API. */
@@ -42,22 +42,23 @@ export interface ApiVersion {
 /** Details about the gift card used on the checkout. */
 export interface AppliedGiftCard extends Node {
   __typename: 'AppliedGiftCard'
-  /** The amount that was taken from the Gift Card by applying it. */
+  /** The amount that was taken from the gift card by applying it. */
   amountUsed: Scalars['Money']
-  /** The amount that was taken from the Gift Card by applying it. */
+  /** The amount that was taken from the gift card by applying it. */
   amountUsedV2: MoneyV2
-  /** The amount left on the Gift Card. */
+  /** The amount left on the gift card. */
   balance: Scalars['Money']
-  /** The amount left on the Gift Card. */
+  /** The amount left on the gift card. */
   balanceV2: MoneyV2
   /** Globally unique identifier. */
   id: Scalars['ID']
-  /** The last characters of the Gift Card code */
+  /** The last characters of the gift card. */
   lastCharacters: Scalars['String']
   /** The amount that was applied to the checkout in its currency. */
   presentmentAmountUsed: MoneyV2
 }
 
+/** An article in an online store blog. */
 export interface Article extends Node {
   __typename: 'Article'
   /** The article's author. */
@@ -94,6 +95,7 @@ export interface Article extends Node {
   url: Scalars['URL']
 }
 
+/** An article in an online store blog. */
 export type ArticleCommentsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -102,14 +104,17 @@ export type ArticleCommentsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
+/** An article in an online store blog. */
 export type ArticleContentArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
+/** An article in an online store blog. */
 export type ArticleExcerptArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
+/** An article in an online store blog. */
 export type ArticleImageArgs = {
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
@@ -117,6 +122,7 @@ export type ArticleImageArgs = {
   scale?: Maybe<Scalars['Int']>
 }
 
+/** The author of an article. */
 export interface ArticleAuthor {
   __typename: 'ArticleAuthor'
   /** The author's bio. */
@@ -223,6 +229,7 @@ export interface Block {
   list?: Maybe<Scalars['String']>
 }
 
+/** An online store blog. */
 export interface Blog extends Node {
   __typename: 'Blog'
   /** Find an article by its handle. */
@@ -241,10 +248,12 @@ export interface Blog extends Node {
   url: Scalars['URL']
 }
 
+/** An online store blog. */
 export type BlogArticleByHandleArgs = {
   handle: Scalars['String']
 }
 
+/** An online store blog. */
 export type BlogArticlesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -319,6 +328,7 @@ export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
 /** A container for all the information required to checkout items and pay. */
 export interface Checkout extends Node {
   __typename: 'Checkout'
+  /** The gift cards used on the checkout. */
   appliedGiftCards: Array<AppliedGiftCard>
   /**
    * The available shipping rates for this Checkout.
@@ -346,6 +356,7 @@ export interface Checkout extends Node {
   lineItems: CheckoutLineItemConnection
   /** The sum of all the prices of all the items in the checkout. Taxes, shipping and discounts excluded. */
   lineItemsSubtotalPrice: MoneyV2
+  /** The note associated with the checkout. */
   note?: Maybe<Scalars['String']>
   /** The resulting order from a paid checkout. */
   order?: Maybe<Order>
@@ -844,6 +855,7 @@ export interface CheckoutLineItemsAddPayload {
 /** Return type for `checkoutLineItemsRemove` mutation. */
 export interface CheckoutLineItemsRemovePayload {
   __typename: 'CheckoutLineItemsRemovePayload'
+  /** The updated checkout object. */
   checkout?: Maybe<Checkout>
   /** List of errors that occurred executing the mutation. */
   checkoutUserErrors: Array<CheckoutUserError>
@@ -873,6 +885,7 @@ export interface CheckoutLineItemsUpdatePayload {
 
 /** Specifies the input fields to update a line item on the checkout. */
 export type CheckoutLineItemUpdateInput = {
+  /** The identifier of the line item. */
   id?: Maybe<Scalars['ID']>
   /** The variant identifier of the line item. */
   variantId?: Maybe<Scalars['ID']>
@@ -1001,6 +1014,14 @@ export interface CollectionEdge {
   node: Collection
 }
 
+export interface CollectionsConnection {
+  __typename: 'CollectionsConnection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  pageInfo?: Maybe<PageInfo>
+  edges?: Maybe<Array<Maybe<Edge>>>
+}
+
 /** The set of valid sort keys for the collections query. */
 export enum CollectionSortKeys {
   /** Sort by the `title` value. */
@@ -1017,6 +1038,7 @@ export enum CollectionSortKeys {
   Relevance = 'RELEVANCE',
 }
 
+/** A comment on an article. */
 export interface Comment extends Node {
   __typename: 'Comment'
   /** The comment’s author. */
@@ -1029,10 +1051,12 @@ export interface Comment extends Node {
   id: Scalars['ID']
 }
 
+/** A comment on an article. */
 export type CommentContentArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
+/** The author of a comment. */
 export interface CommentAuthor {
   __typename: 'CommentAuthor'
   /** The author's email. */
@@ -1548,14 +1572,21 @@ export enum CountryCode {
 /** Credit card information used for a payment. */
 export interface CreditCard {
   __typename: 'CreditCard'
+  /** The brand of the credit card. */
   brand?: Maybe<Scalars['String']>
+  /** The expiry month of the credit card. */
   expiryMonth?: Maybe<Scalars['Int']>
+  /** The expiry year of the credit card. */
   expiryYear?: Maybe<Scalars['Int']>
+  /** The credit card's BIN number. */
   firstDigits?: Maybe<Scalars['String']>
+  /** The first name of the card holder. */
   firstName?: Maybe<Scalars['String']>
+  /** The last 4 digits of the credit card. */
   lastDigits?: Maybe<Scalars['String']>
+  /** The last name of the card holder. */
   lastName?: Maybe<Scalars['String']>
-  /** Masked credit card number with only the last 4 digits displayed */
+  /** The masked credit card number with only the last 4 digits displayed. */
   maskedNumber?: Maybe<Scalars['String']>
 }
 
@@ -1621,7 +1652,7 @@ export interface Cta {
   link?: Maybe<InternalLink>
 }
 
-/** Currency codes */
+/** Currency codes. */
 export enum CurrencyCode {
   /** United States Dollars (USD). */
   Usd = 'USD',
@@ -2079,7 +2110,7 @@ export interface CustomerAddressUpdatePayload {
   userErrors: Array<UserError>
 }
 
-/** Specifies the fields required to create a new Customer. */
+/** Specifies the fields required to create a new customer. */
 export type CustomerCreateInput = {
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
@@ -2087,7 +2118,11 @@ export type CustomerCreateInput = {
   lastName?: Maybe<Scalars['String']>
   /** The customer’s email. */
   email: Scalars['String']
-  /** The customer’s phone number. */
+  /**
+   * A unique phone number for the customer.
+   *
+   * Formatted using E.164 standard. For example, _+16135551111_.
+   **/
   phone?: Maybe<Scalars['String']>
   /** The login password used by the customer. */
   password: Scalars['String']
@@ -2169,7 +2204,7 @@ export interface CustomerResetByUrlPayload {
   userErrors: Array<UserError>
 }
 
-/** Specifies the fields required to reset a Customer’s password. */
+/** Specifies the fields required to reset a customer’s password. */
 export type CustomerResetInput = {
   /** The reset token required to reset the customer’s password. */
   resetToken: Scalars['String']
@@ -2198,7 +2233,11 @@ export type CustomerUpdateInput = {
   lastName?: Maybe<Scalars['String']>
   /** The customer’s email. */
   email?: Maybe<Scalars['String']>
-  /** The customer’s phone number. */
+  /**
+   * A unique phone number for the customer.
+   *
+   * Formatted using E.164 standard. For example, _+16135551111_.
+   **/
   phone?: Maybe<Scalars['String']>
   /** The login password used by the customer. */
   password?: Maybe<Scalars['String']>
@@ -2369,6 +2408,14 @@ export interface Domain {
   url: Scalars['URL']
 }
 
+export interface Edge {
+  __typename: 'Edge'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  cursor?: Maybe<Scalars['String']>
+  node?: Maybe<ShopifyNode>
+}
+
 export interface ExternalLink {
   __typename: 'ExternalLink'
   _key?: Maybe<Scalars['String']>
@@ -2489,7 +2536,9 @@ export interface Hero {
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
   image?: Maybe<RichImage>
+  backgroundColor?: Maybe<Scalars['String']>
   mobileImage?: Maybe<RichImage>
+  mobileBackgroundColor?: Maybe<Scalars['String']>
   textPositionMobile?: Maybe<Scalars['String']>
   textColorMobile?: Maybe<Scalars['String']>
 }
@@ -2635,8 +2684,10 @@ export interface ImageTextBlock {
   ctaText?: Maybe<Scalars['String']>
   link?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
   textPosition?: Maybe<Scalars['String']>
+  textColor?: Maybe<Scalars['String']>
   layout?: Maybe<Scalars['String']>
   backgroundImage?: Maybe<RichImage>
+  backgroundColor?: Maybe<Scalars['String']>
   hoverImage?: Maybe<RichImage>
 }
 
@@ -2654,8 +2705,6 @@ export interface LinkGroup {
   title?: Maybe<Scalars['String']>
   links?: Maybe<Array<Maybe<InternalLink>>>
 }
-
-export type LinkGroupOrRichPageLink = LinkGroup | RichPageLink
 
 /** Represents a mailing address for customers and shipping. */
 export interface MailingAddress extends Node {
@@ -2740,15 +2789,29 @@ export interface MailingAddressEdge {
 
 /** Specifies the fields accepted to create or update a mailing address. */
 export type MailingAddressInput = {
+  /** The first line of the address. Typically the street address or PO Box number. */
   address1?: Maybe<Scalars['String']>
+  /** The second line of the address. Typically the number of the apartment, suite, or unit. */
   address2?: Maybe<Scalars['String']>
+  /** The name of the city, district, village, or town. */
   city?: Maybe<Scalars['String']>
+  /** The name of the customer's company or organization. */
   company?: Maybe<Scalars['String']>
+  /** The name of the country. */
   country?: Maybe<Scalars['String']>
+  /** The first name of the customer. */
   firstName?: Maybe<Scalars['String']>
+  /** The last name of the customer. */
   lastName?: Maybe<Scalars['String']>
+  /**
+   * A unique phone number for the customer.
+   *
+   * Formatted using E.164 standard. For example, _+16135551111_.
+   **/
   phone?: Maybe<Scalars['String']>
+  /** The region of the address, such as the province, state, or district. */
   province?: Maybe<Scalars['String']>
+  /** The zip or postal code of the address. */
   zip?: Maybe<Scalars['String']>
 }
 
@@ -2850,7 +2913,8 @@ export interface MenuLink {
   __typename: 'MenuLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  link?: Maybe<Cta>
+  label?: Maybe<Scalars['String']>
+  link?: Maybe<InternalLink>
 }
 
 export type MenuLinkOrSubMenu = MenuLink | SubMenu
@@ -3004,7 +3068,7 @@ export interface Mutation {
   checkoutGiftCardsAppend?: Maybe<CheckoutGiftCardsAppendPayload>
   /** Adds a list of line items to a checkout. */
   checkoutLineItemsAdd?: Maybe<CheckoutLineItemsAddPayload>
-  /** Removes line items from an existing checkout */
+  /** Removes line items from an existing checkout. */
   checkoutLineItemsRemove?: Maybe<CheckoutLineItemsRemovePayload>
   /** Sets a list of line items to a checkout. */
   checkoutLineItemsReplace?: Maybe<CheckoutLineItemsReplacePayload>
@@ -3522,13 +3586,12 @@ export type PageFilter = {
   is_draft?: Maybe<Scalars['Boolean']>
 }
 
-/** Information about pagination in a connection. */
 export interface PageInfo {
   __typename: 'PageInfo'
-  /** Indicates if there are more pages to fetch. */
-  hasNextPage: Scalars['Boolean']
-  /** Indicates if there are any pages prior to the current page. */
-  hasPreviousPage: Scalars['Boolean']
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  hasNextPage?: Maybe<Scalars['Boolean']>
+  hasPreviousPage?: Maybe<Scalars['Boolean']>
 }
 
 export type PageOrShopifyCollectionOrShopifyProduct =
@@ -4016,6 +4079,14 @@ export interface ProductPriceRangeEdge {
   node: ProductPriceRange
 }
 
+export interface ProductsConnection {
+  __typename: 'ProductsConnection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  pageInfo?: Maybe<PageInfo>
+  edges?: Maybe<Array<Maybe<Edge>>>
+}
+
 /** The set of valid sort keys for the products query. */
 export enum ProductSortKeys {
   /** Sort by the `title` value. */
@@ -4042,85 +4113,16 @@ export enum ProductSortKeys {
   Relevance = 'RELEVANCE',
 }
 
-/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export interface ProductVariant extends Node, HasMetafields {
+export interface ProductVariant {
   __typename: 'ProductVariant'
-  /** Indicates if the product variant is in stock. */
-  available?: Maybe<Scalars['Boolean']>
-  /** Indicates if the product variant is available for sale. */
-  availableForSale: Scalars['Boolean']
-  /**
-   * The compare at price of the variant. This can be used to mark a variant as on
-   * sale, when `compareAtPrice` is higher than `price`.
-   **/
-  compareAtPrice?: Maybe<Scalars['Money']>
-  /**
-   * The compare at price of the variant. This can be used to mark a variant as on
-   * sale, when `compareAtPriceV2` is higher than `priceV2`.
-   **/
-  compareAtPriceV2?: Maybe<MoneyV2>
-  /** Globally unique identifier. */
-  id: Scalars['ID']
-  /** Image associated with the product variant. This field falls back to the product image if no image is available. */
-  image?: Maybe<Image>
-  /** The metafield associated with the resource. */
-  metafield?: Maybe<Metafield>
-  /** A paginated list of metafields associated with the resource. */
-  metafields: MetafieldConnection
-  /** List of prices and compare-at prices in the presentment currencies for this shop. */
-  presentmentPrices: ProductVariantPricePairConnection
-  /** The product variant’s price. */
-  price: Scalars['Money']
-  /** The product variant’s price. */
-  priceV2: MoneyV2
-  /** The product object that the product variant belongs to. */
-  product: Product
-  /** Whether a customer needs to provide a shipping address when placing an order for the product variant. */
-  requiresShipping: Scalars['Boolean']
-  /** List of product options applied to the variant. */
-  selectedOptions: Array<SelectedOption>
-  /** The SKU (stock keeping unit) associated with the variant. */
-  sku?: Maybe<Scalars['String']>
-  /** The product variant’s title. */
-  title: Scalars['String']
-  /** The weight of the product variant in the unit system specified with `weight_unit`. */
-  weight?: Maybe<Scalars['Float']>
-  /** Unit of measurement for weight. */
-  weightUnit: WeightUnit
-}
-
-/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantImageArgs = {
-  maxWidth?: Maybe<Scalars['Int']>
-  maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<CropRegion>
-  scale?: Maybe<Scalars['Int']>
-}
-
-/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantMetafieldArgs = {
-  namespace: Scalars['String']
-  key: Scalars['String']
-}
-
-/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantMetafieldsArgs = {
-  namespace?: Maybe<Scalars['String']>
-  first?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  last?: Maybe<Scalars['Int']>
-  before?: Maybe<Scalars['String']>
-  reverse?: Maybe<Scalars['Boolean']>
-}
-
-/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantPresentmentPricesArgs = {
-  presentmentCurrencies?: Maybe<Array<CurrencyCode>>
-  first?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  last?: Maybe<Scalars['Int']>
-  before?: Maybe<Scalars['String']>
-  reverse?: Maybe<Scalars['Boolean']>
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  sourceData?: Maybe<ShopifyProductVariantSource>
+  descriptionRaw?: Maybe<Scalars['JSON']>
+  swatch?: Maybe<SanityImage>
+  gallery?: Maybe<Array<Maybe<RichImage>>>
 }
 
 export interface ProductVariantConnection {
@@ -4133,10 +4135,10 @@ export interface ProductVariantConnection {
 
 export interface ProductVariantEdge {
   __typename: 'ProductVariantEdge'
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String']
-  /** The item at the end of ProductVariantEdge. */
-  node: ProductVariant
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  cursor?: Maybe<Scalars['String']>
+  node?: Maybe<ShopifyProductVariantSource>
 }
 
 /** The compare-at price and price of a variant sharing a currency. */
@@ -4162,6 +4164,14 @@ export interface ProductVariantPricePairEdge {
   cursor: Scalars['String']
   /** The item at the end of ProductVariantPricePairEdge. */
   node: ProductVariantPricePair
+}
+
+export interface ProductVariantsConnection {
+  __typename: 'ProductVariantsConnection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  pageInfo?: Maybe<PageInfo>
+  edges?: Maybe<Array<Maybe<Edge>>>
 }
 
 /** The set of valid sort keys for the variants query. */
@@ -4194,6 +4204,7 @@ export interface Query {
   collectionByHandle?: Maybe<Collection>
   /** List of the shop’s collections. */
   collections: CollectionConnection
+  /** Find a customer by its access token. */
   customer?: Maybe<Customer>
   node?: Maybe<Node>
   nodes: Array<Maybe<Node>>
@@ -4220,6 +4231,7 @@ export interface Query {
   products: ProductConnection
   /** The list of public Storefront API versions, including supported, release candidate and unstable versions. */
   publicApiVersions: Array<ApiVersion>
+  /** The shop associated with the storefront access token. */
   shop: Shop
   ShopifyProduct?: Maybe<ShopifyProduct>
   ShopifyCollection?: Maybe<ShopifyCollection>
@@ -4432,6 +4444,42 @@ export interface RichPageLink {
   hoverImage?: Maybe<RichImage>
 }
 
+export interface SaneMoney {
+  __typename: 'SaneMoney'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  amount?: Maybe<Scalars['String']>
+  currencyCode?: Maybe<Scalars['String']>
+}
+
+export interface SaneProductOption {
+  __typename: 'SaneProductOption'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  values?: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+export interface SaneProductPriceRange {
+  __typename: 'SaneProductPriceRange'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  minVariantPrice?: Maybe<SaneMoney>
+  maxVariantPrice?: Maybe<SaneMoney>
+}
+
+export interface SanityAssetSourceData {
+  __typename: 'SanityAssetSourceData'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** A canonical name for the source this asset is originating from */
+  name?: Maybe<Scalars['String']>
+  /** The unique ID for the asset within the originating source so you can programatically find back to it */
+  id?: Maybe<Scalars['String']>
+  /** A URL to find more information about this asset in the originating source */
+  url?: Maybe<Scalars['String']>
+}
+
 export interface SanityFileAsset extends Document {
   __typename: 'SanityFileAsset'
   /** Document ID */
@@ -4447,6 +4495,8 @@ export interface SanityFileAsset extends Document {
   _key?: Maybe<Scalars['String']>
   originalFilename?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
   sha1hash?: Maybe<Scalars['String']>
   extension?: Maybe<Scalars['String']>
   mimeType?: Maybe<Scalars['String']>
@@ -4454,6 +4504,7 @@ export interface SanityFileAsset extends Document {
   assetId?: Maybe<Scalars['String']>
   path?: Maybe<Scalars['String']>
   url?: Maybe<Scalars['String']>
+  source?: Maybe<SanityAssetSourceData>
 }
 
 export type SanityFileAssetFilter = {
@@ -4529,6 +4580,22 @@ export type SanityFileAssetFilter = {
   label_matches?: Maybe<Scalars['String']>
   label_in?: Maybe<Array<Scalars['String']>>
   label_not_in?: Maybe<Array<Scalars['String']>>
+  /** All documents that are equal to given value */
+  title?: Maybe<Scalars['String']>
+  /** All documents that are not equal to given value */
+  title_not?: Maybe<Scalars['String']>
+  /** All documents contain (match) the given word/words */
+  title_matches?: Maybe<Scalars['String']>
+  title_in?: Maybe<Array<Scalars['String']>>
+  title_not_in?: Maybe<Array<Scalars['String']>>
+  /** All documents that are equal to given value */
+  description?: Maybe<Scalars['String']>
+  /** All documents that are not equal to given value */
+  description_not?: Maybe<Scalars['String']>
+  /** All documents contain (match) the given word/words */
+  description_matches?: Maybe<Scalars['String']>
+  description_in?: Maybe<Array<Scalars['String']>>
+  description_not_in?: Maybe<Array<Scalars['String']>>
   /** All documents that are equal to given value */
   sha1hash?: Maybe<Scalars['String']>
   /** All documents that are not equal to given value */
@@ -4617,6 +4684,8 @@ export interface SanityImageAsset extends Document {
   _key?: Maybe<Scalars['String']>
   originalFilename?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
   sha1hash?: Maybe<Scalars['String']>
   extension?: Maybe<Scalars['String']>
   mimeType?: Maybe<Scalars['String']>
@@ -4625,6 +4694,7 @@ export interface SanityImageAsset extends Document {
   path?: Maybe<Scalars['String']>
   url?: Maybe<Scalars['String']>
   metadata?: Maybe<SanityImageMetadata>
+  source?: Maybe<SanityAssetSourceData>
 }
 
 export type SanityImageAssetFilter = {
@@ -4700,6 +4770,22 @@ export type SanityImageAssetFilter = {
   label_matches?: Maybe<Scalars['String']>
   label_in?: Maybe<Array<Scalars['String']>>
   label_not_in?: Maybe<Array<Scalars['String']>>
+  /** All documents that are equal to given value */
+  title?: Maybe<Scalars['String']>
+  /** All documents that are not equal to given value */
+  title_not?: Maybe<Scalars['String']>
+  /** All documents contain (match) the given word/words */
+  title_matches?: Maybe<Scalars['String']>
+  title_in?: Maybe<Array<Scalars['String']>>
+  title_not_in?: Maybe<Array<Scalars['String']>>
+  /** All documents that are equal to given value */
+  description?: Maybe<Scalars['String']>
+  /** All documents that are not equal to given value */
+  description_not?: Maybe<Scalars['String']>
+  /** All documents contain (match) the given word/words */
+  description_matches?: Maybe<Scalars['String']>
+  description_in?: Maybe<Array<Scalars['String']>>
+  description_not_in?: Maybe<Array<Scalars['String']>>
   /** All documents that are equal to given value */
   sha1hash?: Maybe<Scalars['String']>
   /** All documents that are not equal to given value */
@@ -4848,16 +4934,12 @@ export interface ScriptDiscountApplication extends DiscountApplication {
   value: PricingValue
 }
 
-/**
- * Custom properties that a shop owner can use to define product variants.
- * Multiple options can exist. Options are represented as: option1, option2, option3, etc.
- **/
 export interface SelectedOption {
   __typename: 'SelectedOption'
-  /** The product option’s name. */
-  name: Scalars['String']
-  /** The product option’s value. */
-  value: Scalars['String']
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  value?: Maybe<Scalars['String']>
 }
 
 /** Specifies the input fields required for a selected option. */
@@ -5017,6 +5099,7 @@ export interface ShopifyCollection extends Document {
   handle?: Maybe<Scalars['String']>
   shopifyId?: Maybe<Scalars['String']>
   sourceData?: Maybe<ShopifyCollectionSource>
+  products?: Maybe<Array<Maybe<ShopifyProduct>>>
 }
 
 export type ShopifyCollectionFilter = {
@@ -5111,8 +5194,10 @@ export interface ShopifyCollectionSource {
   title?: Maybe<Scalars['String']>
   handle?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
+  descriptionHtml?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   image?: Maybe<ShopifySourceImage>
+  products?: Maybe<ProductsConnection>
 }
 
 export interface ShopifyImageEdge {
@@ -5124,17 +5209,12 @@ export interface ShopifyImageEdge {
   node?: Maybe<ShopifySourceImage>
 }
 
-export interface ShopifyItem {
-  __typename: 'ShopifyItem'
+export interface ShopifyNode {
+  __typename: 'ShopifyNode'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  itemId?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  itemType?: Maybe<Scalars['String']>
   handle?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  originalImage?: Maybe<Scalars['String']>
-  previewImage?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
 }
 
 export interface ShopifyProduct extends Document {
@@ -5154,6 +5234,8 @@ export interface ShopifyProduct extends Document {
   handle?: Maybe<Scalars['String']>
   shopifyId?: Maybe<Scalars['String']>
   sourceData?: Maybe<ShopifyProductSource>
+  collections?: Maybe<Array<Maybe<ShopifyCollection>>>
+  variants?: Maybe<Array<Maybe<ProductVariant>>>
   info?: Maybe<Array<Maybe<ProductInfo>>>
   contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
   related?: Maybe<Carousel>
@@ -5249,10 +5331,34 @@ export interface ShopifyProductSource {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
+  availableForSale?: Maybe<Scalars['Boolean']>
+  options?: Maybe<Array<Maybe<SaneProductOption>>>
+  priceRange?: Maybe<SaneProductPriceRange>
+  productType?: Maybe<Scalars['String']>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
   handle?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
+  descriptionHtml?: Maybe<Scalars['String']>
   id?: Maybe<Scalars['String']>
   images?: Maybe<ShopifySourceImages>
+  variants?: Maybe<ProductVariantsConnection>
+  collections?: Maybe<CollectionsConnection>
+}
+
+export interface ShopifyProductVariantSource {
+  __typename: 'ShopifyProductVariantSource'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  availableForSale?: Maybe<Scalars['Boolean']>
+  id?: Maybe<Scalars['String']>
+  image?: Maybe<ShopifySourceImage>
+  priceV2?: Maybe<SaneMoney>
+  selectedOptions?: Maybe<Array<Maybe<SelectedOption>>>
+  requiresShipping?: Maybe<Scalars['Boolean']>
+  sku?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  weight?: Maybe<Scalars['Float']>
+  weightUnit?: Maybe<Scalars['String']>
 }
 
 export interface ShopifySourceImage {
@@ -5325,7 +5431,7 @@ export interface SubMenu {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  columns?: Maybe<Array<Maybe<LinkGroupOrRichPageLink>>>
+  columns?: Maybe<Array<Maybe<Cta>>>
 }
 
 /**
@@ -5366,14 +5472,17 @@ export type TokenizedPaymentInputV2 = {
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: MailingAddressInput
-  /** The type of payment token. */
-  type: Scalars['String']
   /** A simple string or JSON containing the required payment data for the tokenized payment. */
   paymentData: Scalars['String']
-  /** Executes the payment in test mode if possible. Defaults to `false`. */
+  /**
+   * Whether to execute the payment in test mode, if possible. Test mode is not
+   * supported in production stores. Defaults to `false`.
+   **/
   test?: Maybe<Scalars['Boolean']>
   /** Public Hash Key used for AndroidPay payments only. */
   identifier?: Maybe<Scalars['String']>
+  /** The type of payment token. */
+  type: Scalars['String']
 }
 
 /** An object representing exchange of money for a product or service. */

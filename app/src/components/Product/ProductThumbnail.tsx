@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Header3, Header6 } from 'Components/Text'
+import { Product } from '../../types'
+import { Header3, Header6 } from '../Text'
 import {
   BackgroundImage,
   ProductInfo,

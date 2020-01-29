@@ -140,13 +140,14 @@ interface BackgroundImageProps {
 }
 
 export const BackgroundImage = styled.div`
-  background-image: url(${(props: BackgroundImageProps) =>
-    props.imageSrc || ''});
-  background-size: cover;
-  background-position: center;
-  a {
-    color: transparent;
-  }
+  ${({ imageSrc }: BackgroundImageProps) => css`
+    background-image: url(${imageSrc});
+    background-size: cover;
+    background-position: center;
+    a {
+      color: transparent;
+    }
+  `}
 `
 
 interface ButtonProps {

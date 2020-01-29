@@ -155,12 +155,12 @@ export const TextOverImage = styled.div`
     `}
 `
 
-interface CarouselBlockStyled {
+interface CarouselBlockStyledProps {
   theme: DefaultTheme
 }
 
 export const CarouselBlockStyled = styled.div`
-  ${({ theme }: ImageText) => `
+  ${({ theme }: CarouselBlockStyledProps) => `
         padding: ${theme.layout.spacing.triple};
         text-align: center;
     `};

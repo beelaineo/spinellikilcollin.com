@@ -4,7 +4,7 @@ import { useQuery } from 'urql'
 import { Product } from 'use-shopify'
 import { COLLECTION_QUERY, CollectionResult } from './query'
 import { ProductGrid } from './styled'
-import { ProductThumbnail } from './ProductThumbnail'
+import { ProductThumbnail } from '../../components/Product'
 import { ProductListingHeader } from './ProductListingHeader'
 import { ProductListingFilter } from './ProductListingFilter'
 

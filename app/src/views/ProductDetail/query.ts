@@ -5,6 +5,7 @@ import {
   shopifyProductFragment,
   productInfoFragment,
   shopifyImageFragment,
+  carouselFragment,
 } from '../../graphql/fragments'
 
 export const PRODUCT_QUERY = gql`
@@ -31,7 +32,9 @@ export const PRODUCT_QUERY = gql`
                     edges {
                       cursor
                       node {
-                        ...ImageFragment
+                        id
+                        altText
+                        originalSrc
                       }
                     }
                   }
@@ -54,7 +57,9 @@ export const PRODUCT_QUERY = gql`
       images(first: 50) {
         edges {
           node {
-            ...ImageFragment
+            id
+            altText
+            originalSrc
           }
         }
       }
@@ -63,11 +68,16 @@ export const PRODUCT_QUERY = gql`
           node {
             id
             availableForSale
-            price
+            priceV2 {
+              amount
+              currencyCode
+            }
             sku
             title
             image {
-              ...ImageFragment
+              id
+              altText
+              originalSrc
             }
           }
         }
@@ -76,12 +86,15 @@ export const PRODUCT_QUERY = gql`
 
     allShopifyProducts(where: { handle: $handle }) {
       ...ShopifyProductFragment
+      related {
+        ...CarouselFragment
+      }
     }
   }
   ${productInfoFragment}
   ${shopifyProductFragment}
   ${imageTextBlockFragment}
-  ${shopifyImageFragment}
+  ${carouselFragment}
 `
 
 export interface ProductQueryResult {

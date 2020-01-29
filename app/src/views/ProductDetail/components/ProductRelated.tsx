@@ -2,9 +2,9 @@ import * as React from 'react'
 import { Product, Collection } from '../../../types/generated'
 import { unwindEdges } from '../../../utils/graphql'
 import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
-import { Carousel } from 'Components/Carousel'
-import { Header2, Header4 } from 'Components/Text'
-import { ProductThumbnail } from '../../ProductListing/ProductThumbnail'
+import { Carousel } from '../../../components/Carousel'
+import { Header2, Header4 } from '../../../components/Text'
+import { ProductThumbnail } from '../../../components/Product'
 import { FlexContainer } from '../../../components/Layout'
 
 interface ProductRelatedProps {

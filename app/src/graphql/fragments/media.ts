@@ -1,5 +1,5 @@
 export const shopifyImageFragment = /* GraphQL */ `
-  fragment ImageFragment on Image {
+  fragment ImageFragment on ShopifySourceImage {
     id
     altText
     originalSrc

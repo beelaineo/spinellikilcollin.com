@@ -103,6 +103,50 @@ export const imageTextBlockFragment = /* GraphQL */ `
   ${richImageFragment}
 `
 
+export const shopifyProductFragment = /* GraphQL */ `
+  fragment ShopifyProductFragment on ShopifyProduct {
+    _id
+    _key
+    title
+    handle
+    shopifyId
+    sourceData {
+      id
+      title
+      handle
+      tags
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images {
+        edges {
+          cursor
+          node {
+            id
+            altText
+            originalSrc
+          }
+        }
+      }
+    }
+    info {
+      ...ProductInfoFragment
+    }
+    contentAfter {
+      ...ImageTextBlockFragment
+    }
+  }
+  ${productInfoFragment}
+  ${imageTextBlockFragment}
+`
+
 export const shopifyCollectionFragment = /* GraphQL */ `
   fragment ShopifyCollectionFragment on ShopifyCollection {
     _id
@@ -111,7 +155,11 @@ export const shopifyCollectionFragment = /* GraphQL */ `
     title
     handle
     shopifyId
+    products {
+      ...ShopifyProductFragment
+    }
   }
+  ${shopifyProductFragment}
 `
 
 export const carouselFragment = /* GraphQL */ `
@@ -129,28 +177,6 @@ export const carouselFragment = /* GraphQL */ `
   }
   ${shopifyCollectionFragment}
   ${richPageLinkFragment}
-`
-
-export const shopifyProductFragment = /* GraphQL */ `
-  fragment ShopifyProductFragment on ShopifyProduct {
-    _id
-    _key
-    title
-    handle
-    shopifyId
-    info {
-      ...ProductInfoFragment
-    }
-    contentAfter {
-      ...ImageTextBlockFragment
-    }
-    related {
-      ...CarouselFragment
-    }
-  }
-  ${productInfoFragment}
-  ${imageTextBlockFragment}
-  ${carouselFragment}
 `
 
 export const heroFragment = /* GraphQL */ `
