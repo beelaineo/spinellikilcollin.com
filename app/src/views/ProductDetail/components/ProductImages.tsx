@@ -22,7 +22,7 @@ export const ProductImages = ({
   return (
     <ProductGalleryWrapper>
       <Gallery images={images} currentImageId={currentVariant.image.id} />
-      <ProductMobileImagesNav content={images} />
+      <ProductMobileImagesNav images={images} />
     </ProductGalleryWrapper>
   )
 }

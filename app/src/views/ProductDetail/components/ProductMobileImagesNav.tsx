@@ -5,17 +5,17 @@ import { FlexContainer } from '../../../components/Layout'
 import { ImageNav, MobileImageNav } from '../styled'
 
 interface ProductMobileImagesNavProps {
-  content: content
+  images: Image[]
 }
 
 export const ProductMobileImagesNav = ({
-  content,
+  images,
 }: ProductMobileImagesNavProps) => {
   return (
     <MobileImageNav>
       <FlexContainer>
-        {content.map((el) => (
-          <ImageNav />
+        {images.map((el) => (
+          <ImageNav key={el.id} />
         ))}
       </FlexContainer>
     </MobileImageNav>

@@ -134,16 +134,16 @@ export const ModalBackground = styled.div`
   display: ${(props) => (props.open ? 'block' : 'none')};
 `
 
-interface Loading {
+interface LoadingProps {
   theme: DefaultTheme
-  loading?: boolean
+  isLoading?: boolean
 }
 
 export const Loading = styled.div`
   transition: 250ms ease;
   display: flex;
-  ${({ theme, loading }: Loading) => css`
-    opacity: ${loading ? '0.5' : '1'};
+  ${({ theme, isLoading }: LoadingProps) => css`
+    opacity: ${isLoading ? '0.5' : '1'};
 
     div:nth-child(1) {
       margin-right: ${theme.layout.spacing.half};

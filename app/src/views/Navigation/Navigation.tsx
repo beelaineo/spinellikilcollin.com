@@ -154,7 +154,7 @@ export const Navigation = () => {
         <NavSection ready={ready} align="right">
           <NavHeaderWrapper>
             <NavHeader as="button" onClick={openCart}>
-              <Loading loading={loading}>
+              <Loading isLoading={loading}>
                 <div>
                   <IoIosCart />
                 </div>

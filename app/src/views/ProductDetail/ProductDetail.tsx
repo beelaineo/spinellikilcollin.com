@@ -69,6 +69,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
 
   /* get product image variants from Shopify */
   let { images } = product
+  console.log(productExtra)
 
   return (
     <Wrapper backgroundColor="#F5F3F4">
