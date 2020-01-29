@@ -71,7 +71,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
   let { images } = product
 
   return (
-    <Wrapper backgroundColor={'#F5F3F4'}>
+    <Wrapper backgroundColor="#F5F3F4">
       <Column>
         <ProductDetails>
           <ProductDetailHeader

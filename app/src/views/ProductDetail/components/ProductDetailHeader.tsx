@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Variant } from 'use-shopify'
+import { formatMoney } from '../../../utils/currency'
 import { Product } from '../../../types/generated'
 import { NormalizeDiv, ProductDetailHeaderStyles } from '../styled'
 import { Header2, Header4 } from 'Components/Text'
@@ -15,6 +16,7 @@ export const ProductDetailHeader = ({
   mobile,
   align,
 }: ProductDetailHeaderProps) => {
+  console.log(formatMoney(currentVariant.priceV2))
   return (
     <ProductDetailHeaderStyles mobile={mobile}>
       <NormalizeDiv marginBottom="triple" align={align}>
@@ -22,7 +24,7 @@ export const ProductDetailHeader = ({
           {product.title}
         </Header2>
         <Header4 weight="strong" color="dark">
-          ${currentVariant.price}
+          {formatMoney(currentVariant.priceV2)}
         </Header4>
       </NormalizeDiv>
     </ProductDetailHeaderStyles>
