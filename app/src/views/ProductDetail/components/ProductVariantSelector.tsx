@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { UseProductVariant, Variant } from 'use-shopify'
+import { UseProductVariant } from 'use-shopify'
 import {
   Select,
   Label,
@@ -7,11 +7,13 @@ import {
   QuantitySelector,
   Button,
 } from '../styled'
+import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { QuantityInput } from '../../../components/QuantityInput'
 import { Accordion } from '../../../components/Accordion'
 
 interface Props extends UseProductVariant {
-  variants: Variant[]
+  variants: ShopifyProductVariant[]
+  product: ShopifyProduct
   quantity: number
   increment: () => void
   decrement: () => void
@@ -45,13 +47,23 @@ export const ProductVariantSelector = (props: Props) => {
   const handleQuantityInput = (e) => setQuantity(e.target.value)
 
   // information for accordions
-  let { description } = product
+  let { description } = product.sourceData
   return (
     <div>
       <NormalizeDiv margin="20px 0">
-        <Accordion content={{ title: 'size', bodyRaw: mockSizes }} />
-        <Accordion content={{ title: 'description', bodyRaw: description }} />
-        <Accordion label={'Shipping'} content={{ title: 'Shipping' }} />
+        <Accordion
+          // @ts-ignore
+          content={{ title: 'size', bodyRaw: mockSizes }}
+        />
+        <Accordion
+          // @ts-ignore
+          content={{ title: 'description', bodyRaw: description }}
+        />
+        <Accordion
+          label={'Shipping'}
+          // @ts-ignore
+          content={{ title: 'Shipping' }}
+        />
         {/* <Label>Size</Label> */}
         {/* <Select
           onChange={handleSelect}

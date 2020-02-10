@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { NormalizeDiv } from '../styled'
-import { Product, ShopifyProduct } from '../../../types/generated'
+import { ShopifyProduct } from '../../../types'
 import { P } from '../../../components/Text'
 import { Accordion } from '../../../components/Accordion'
 import { ContentBlock } from '../../../components/ContentBlock/ContentBlock'
@@ -8,27 +8,17 @@ import { ContentBlock } from '../../../components/ContentBlock/ContentBlock'
 const { useState } = React
 
 interface ProductDetailFooterProps {
-  product: Product
-  content?: ShopifyProduct
+  product: ShopifyProduct
 }
 
-export const ProductDetailFooter = ({
-  product,
-  content,
-}: ProductDetailFooterProps) => {
+export const ProductDetailFooter = ({ product }: ProductDetailFooterProps) => {
+  const content = product.contentAfter
+  if (!content || content.length !== 0) return null
   return (
     <NormalizeDiv margin="0">
-      {content && content.contentAfter
-        ? content.contentAfter.map((content, index) => (
-            <ContentBlock content={content} />
-          ))
-        : content.edges
-        ? content.edges.map((content, index) => {
-            if (index > 0) {
-              return <ContentBlock content={content.node} />
-            }
-          })
-        : null}
+      {content.map((contentBlock, index) => (
+        <ContentBlock content={contentBlock} />
+      ))}
     </NormalizeDiv>
   )
 }

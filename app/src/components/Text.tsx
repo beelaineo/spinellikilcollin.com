@@ -10,6 +10,7 @@ export interface TextStyleProps {
   children: any
   margin?: string
   small?: string
+  active?: boolean
 }
 
 const commonHeaderStyles = ({

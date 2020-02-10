@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Image as ImageType } from '../../types'
+import { Image as SanityImage, ShopifySourceImage } from '../../types'
 import { Image } from '../Image'
 import {
   GalleryWrapper,
@@ -11,17 +11,27 @@ import {
 
 const { useState, useEffect, useRef } = React
 
+type GalleryImage = SanityImage | ShopifySourceImage
+
+type ImageWithId = GalleryImage & { imageId: string }
+
 interface GalleryProps {
-  images: ImageType[]
+  images: GalleryImage[]
   currentImageId?: string
 }
 
 const ZOOM_AMOUNT = 2
 
 export const Gallery = ({ images, currentImageId }: GalleryProps) => {
+  const parsedImages: ImageWithId[] = images.map((image) => ({
+    // @ts-ignore
+    imageId: image.id || image._key,
+    ...image,
+  }))
+
   /* Utils */
-  const getImageById = (id: string): ImageType | undefined =>
-    images.find((i) => i.id === id)
+  const getImageById = (imageId: string): GalleryImage | undefined =>
+    parsedImages.find((i) => i.imageId === imageId)
 
   /* State */
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -73,15 +83,15 @@ export const Gallery = ({ images, currentImageId }: GalleryProps) => {
           </ZoomInner>
         </ZoomImageWrapper>
       </MainImageWrapper>
-      {/* {images.length > 1 && (
+      {parsedImages.length > 1 && (
         <Thumbnails data-testid="thumbnails">
-          {images.map((image, i) => (
-            <button key={image.id} onClick={changeImage(image.id)}>
+          {parsedImages.map((image, i) => (
+            <button key={image.imageId} onClick={changeImage(image.imageId)}>
               <Image ratio={1} image={image} />
             </button>
           ))}
         </Thumbnails>
-      )} */}
+      )}
     </GalleryWrapper>
   )
 }

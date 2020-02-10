@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import styled, { css } from 'styled-components'
 import { useState, useReducer } from 'react'
 import { path } from 'ramda'
@@ -7,10 +8,9 @@ import { PageLink } from '../../components/PageLink'
 import { useCheckout } from 'use-shopify'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { CartSidebar, CloseButton, CartNav } from '../../components/Cart'
-import { unwindEdges } from '../../utils/graphql'
 import { Checkout } from '../Cart/Checkout'
 import { Button } from '../ProductDetail/styled'
-import { MenuLinkOrSubMenu } from '../../types/generated'
+import { MenuLinkOrSubMenu } from '../../types'
 import { SubMenu } from './SubMenu'
 import {
   Wrapper,
@@ -175,7 +175,6 @@ export const Navigation = () => {
                 key={submenu._key}
                 submenu={submenu}
                 active={currentSubmenuKey === submenu._key}
-                justify="start"
               />
             ) : null,
           )}

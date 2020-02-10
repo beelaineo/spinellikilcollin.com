@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { SubMenu as SubMenuType } from '../../types/generated'
+import { SubMenu as SubMenuType } from '../../types'
 import { NavInner } from './styled'
 import { Header4Italic, Input, Form } from '../../components/Text'
 import { IoIosSearch } from 'react-icons/io'

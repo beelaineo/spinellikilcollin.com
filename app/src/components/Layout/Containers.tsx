@@ -3,13 +3,9 @@ import { semiDark } from '../../theme/color'
 
 interface Column {
   theme: DefaultTheme
-  backgroundColor: String
 }
 
 export const Column = styled.div`
-  ${({ theme, backgroundColor }: Column) => `
-      background-color: ${(props) => backgroundColor || 'white'}
-  `}
   ${({ theme }) => css`
     margin: 0 auto;
     max-width: calc(
@@ -24,7 +20,6 @@ interface HeroBackground {
 }
 
 export const HeroBackground = styled.div`
-  background-color: pink;
   ${({ theme, background, backgroundMobile }: HeroBackground) => `
       background-image: ${`url(${background})`};
       background-size: cover;

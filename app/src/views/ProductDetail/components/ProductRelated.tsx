@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Product, Collection } from '../../../types/generated'
-import { unwindEdges } from '../../../utils/graphql'
+import { unwindEdges } from '@good-idea/unwind-edges'
+import { ShopifyProduct, ShopifyCollection } from '../../../types'
 import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
 import { Carousel } from '../../../components/Carousel'
 import { Header2, Header4 } from '../../../components/Text'
@@ -8,22 +8,21 @@ import { ProductThumbnail } from '../../../components/Product'
 import { FlexContainer } from '../../../components/Layout'
 
 interface ProductRelatedProps {
-  product: Product
+  product: ShopifyProduct
 }
 
 export const ProductRelated = ({ product }: ProductRelatedProps) => {
-  const [collections] = unwindEdges<Collection>(product.collections)
+  const { collections } = product
   if (!collections || !collections.length) return null
-  const [products] = unwindEdges<Product>(collections[0].products)
+  const products = collections[0].products
   if (!products || !products.length) return null
   return (
     <ProductRelatedWrapper>
-      <FlexContainer center="center">
+      <FlexContainer center>
         <Header4
           active
           margin="10px"
           transform="capitalize"
-          size="small"
           color="dark"
           align="center"
         >
@@ -32,7 +31,6 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
         <Header4
           margin="10px"
           transform="capitalize"
-          size="small"
           color="dark"
           align="center"
         >
@@ -43,10 +41,11 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
         <Carousel>
           {products.slice(0, 10).map((product) => {
             const { title } = product
-            const [images] = unwindEdges(product.images)
+            // @ts-ignore
+            const [images] = unwindEdges(product.sourceData.images)
             const productLink = `/products/${product.handle}`
 
-            return <ProductThumbnail key={product.id} product={product} />
+            return <ProductThumbnail key={product._key} product={product} />
           })}
         </Carousel>
       </ProductRelatedInner>

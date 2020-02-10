@@ -1,7 +1,6 @@
-import { Collection } from 'use-shopify'
 import gql from 'graphql-tag'
 import { Paginated } from '@good-idea/unwind-edges'
-import { Menu, ProductInfo } from '../../types/generated'
+import { Menu, ProductInfo } from '../../types'
 import {
   productInfoFragment,
   internalLinkFragment,

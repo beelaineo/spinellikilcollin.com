@@ -25,37 +25,46 @@ const { useState } = React
 
 export const Checkout = () => {
   /* State */
-  const { checkout, updateQuantity, loading } = useCheckout()
+  const values = useCheckout()
+  const { checkout, loading } = useCheckout()
 
-  const createUpdateLineItemHandler = (lineItemId: string) => (quantity) => {
-    updateQuantity({ id: lineItemId, quantity: Math.max(quantity, 0) })
-  }
+  // const createUpdateLineItemHandler = (lineItemId: string) => (quantity) => {
+  //   updateQuantity({ id: lineItemId, quantity: Math.max(quantity, 0) })
+  // }
 
   if (!checkout || checkout.lineItems.length < 1) {
+    // @ts-ignore
     return <NormalizeDiv top="0">Your cart is empty</NormalizeDiv>
   }
 
   return (
+    // @ts-ignore
     <NormalizeDiv top="0">
       <Header3 color="dark" align="center">
         Your cart
       </Header3>
-      <CartInner>
+      <CartInner open={false}>
         {checkout.lineItems.edges.map((lineItem) => {
           const { id, title, variant, quantity } = lineItem.node
-          const updateLineItemQuantity = createUpdateLineItemHandler(id)
+          // const updateLineItemQuantity = createUpdateLineItemHandler(id)
           return (
             <CheckoutProduct
               lineItem={lineItem}
-              updateLineItemQuantity={updateLineItemQuantity}
+              // updateLineItemQuantity={updateLineItemQuantity}
             />
           )
         })}
       </CartInner>
 
       <CartBottom>
-        <Loading loading={loading}>
-          <FlexContainer width="100%">
+        <Loading
+          // @ts-ignore
+          loading={loading}
+        >
+          <FlexContainer
+            // @ts-ignore
+            width="100%"
+          >
             <FlexHalf>
               <Header5
                 transform="uppercase"
@@ -85,7 +94,7 @@ export const Checkout = () => {
             color="light"
             weight="semi"
             width="100%"
-            disabled={loading ? 'disabled' : ''}
+            disabled={loading}
           >
             Checkout
           </Button>

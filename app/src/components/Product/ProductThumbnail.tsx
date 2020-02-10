@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Product } from '../../types'
+import { ShopifyProduct } from '../../types'
 import { Header3, Header6 } from '../Text'
 import {
   BackgroundImage,
@@ -11,19 +11,20 @@ import {
 } from './styled'
 
 interface ProductThumbnail {
-  product: Product
+  product: ShopifyProduct
 }
 
 export const ProductThumbnail = ({ product }: ProductThumbnail) => {
-  const [images] = unwindEdges(product.images)
+  // @ts-ignore
+  const [images] = unwindEdges(product.sourceData.images)
   const imageSrc = images.length ? images[0].originalSrc : undefined
-  let { minVariantPrice, maxVariantPrice } = product.priceRange
-  const tags = product.tags
+  let { minVariantPrice, maxVariantPrice } = product.sourceData.priceRange
+  const tags = product.sourceData.tags
   return (
     <ProductThumb>
       <Link href={`/products/${product.handle}`}>
         <a>
-          <BackgroundImage key={product.id} imageSrc={imageSrc} />
+          <BackgroundImage key={product._id} imageSrc={imageSrc} />
           <ProductContainer>
             {tags &&
               tags.length > 0 &&

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import NextLink from 'next/link'
-import { RichPageLink, ExternalLink, InternalLink } from '../types/generated'
+import { RichPageLink, ExternalLink, InternalLink } from '../types'
 import { getPageLinkUrl, getPageLinkLabel } from '../utils/links'
 
 interface LinkProps {

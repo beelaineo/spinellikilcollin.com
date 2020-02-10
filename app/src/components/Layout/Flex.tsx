@@ -12,25 +12,31 @@ interface WrapperProps {
   text?: string
   align?: string
   backgroundColor?: string
+  mobileWidth?: string
+  margin?: string
+  wrap?: string
 }
 
 export const FlexContainer = styled.div`
-  display: flex;
-  flex-wrap: ${(props) => props.wrap};
-  margin: ${(props) => props.theme.layout.spacing[props.margin]};
-  background-size: cover;
   ${({
     theme,
     padding,
     marginVertical,
+    margin,
     center,
     height,
     vertical,
     maxwidth,
     text,
     align,
+    wrap,
     backgroundColor,
-  }: WrapperProps) => `
+  }: WrapperProps) => css`
+ display: flex;
+  flex-wrap: ${wrap};
+  margin: ${theme.layout.spacing[margin]};
+  background-size: cover;
+ 
 		margin-top: ${theme.layout.spacing[marginVertical] || 'initial'};
 		justify-content: ${center ? 'center' : 'space-between'};
 		height: ${height || 'initial'}; 

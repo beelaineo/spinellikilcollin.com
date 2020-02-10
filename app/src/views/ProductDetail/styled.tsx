@@ -114,8 +114,9 @@ interface NormalizeDivProps {
   top?: string
   align?: string
   marginBottom?: string
-  margin: string
-  mobile: string
+  marginTop?: string
+  margin?: string
+  mobile?: string
 }
 
 export const NormalizeDiv = styled.div`
@@ -160,7 +161,7 @@ interface ButtonProps {
   transform?: string
   href?: string
   width?: string
-  marginTop: string
+  marginTop?: string
 }
 
 export const Button = styled.button`

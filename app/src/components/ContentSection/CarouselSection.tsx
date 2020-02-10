@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Carousel } from '../Carousel'
-import { ContentSection } from '../../types'
+import { Carousel as CarouselType } from '../../types'
 import { Wrapper } from './styled'
 import { renderContentBlock } from './renderContentBlock'
 
 interface CarouselSectionProps {
-  section: ContentSection
+  section: CarouselType
 }
 
 export const CarouselSection = ({ section }: CarouselSectionProps) => {
