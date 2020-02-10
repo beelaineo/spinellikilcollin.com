@@ -61,6 +61,10 @@ export const product = {
       type: 'carousel',
     },
     {
+      name: 'sourceData',
+      hidden: true,
+    },
+    {
       name: 'variants',
       hidden: true,
     },
