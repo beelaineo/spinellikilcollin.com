@@ -36,5 +36,9 @@
 	},
 	"dependencies": {
 		"react-icons": "^3.7.0"
-	}
+	},
+
+    "resolutions": {
+                "graphql": "^14.6.0"
+        }
 }

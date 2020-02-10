@@ -1,0 +1,90 @@
+{
+  "__schema": {
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "Document",
+        "possibleTypes": [
+          {
+            "name": "Menu"
+          },
+          {
+            "name": "Page"
+          },
+          {
+            "name": "ShopifyCollection"
+          },
+          {
+            "name": "ShopifyProduct"
+          },
+          {
+            "name": "SanityImageAsset"
+          },
+          {
+            "name": "Homepage"
+          },
+          {
+            "name": "ProductInfoSettings"
+          },
+          {
+            "name": "SanityFileAsset"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "MenuLinkOrSubMenu",
+        "possibleTypes": [
+          {
+            "name": "MenuLink"
+          },
+          {
+            "name": "SubMenu"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "PageOrShopifyCollectionOrShopifyProduct",
+        "possibleTypes": [
+          {
+            "name": "Page"
+          },
+          {
+            "name": "ShopifyCollection"
+          },
+          {
+            "name": "ShopifyProduct"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ExternalLinkOrInternalLink",
+        "possibleTypes": [
+          {
+            "name": "ExternalLink"
+          },
+          {
+            "name": "InternalLink"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CarouselOrHeroOrImageTextBlock",
+        "possibleTypes": [
+          {
+            "name": "Carousel"
+          },
+          {
+            "name": "Hero"
+          },
+          {
+            "name": "ImageTextBlock"
+          }
+        ]
+      }
+    ]
+  }
+}
