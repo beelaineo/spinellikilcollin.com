@@ -7,6 +7,6 @@ module.exports = {
     // This option is rarely needed, and should be reserved for advanced
     // setups. You may be looking for `ignoreDevErrors` instead.
     // !! WARN !!
-    ignoreBuildErrors: true,
+    // ignoreBuildErrors: true,
   },
 }

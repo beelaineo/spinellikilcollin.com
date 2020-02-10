@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { ShopifyProduct } from '../../types'
-import { NotFound, ProductDetail } from '../../views'
+import { ShopifyProduct } from '../../src/types'
+import { NotFound, ProductDetail } from '../../src/views'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct

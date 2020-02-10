@@ -32,7 +32,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["./src"],
+  "include": ["./src", "./pages"],
   "exclude": [
     "node_modules",
     "../node_modules",
