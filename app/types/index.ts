@@ -1,5 +1,3 @@
-import { Image } from './generated'
-
-export interface ShopifyImage extends Image {}
-
-export * from './generated'
+export * from './generated-sanity'
+// @ts-ignore
+export * from './generated-shopify'

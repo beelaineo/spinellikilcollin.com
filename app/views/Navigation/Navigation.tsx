@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import styled, { css } from 'styled-components'
 import { useState, useReducer } from 'react'
 import { path } from 'ramda'
@@ -148,8 +148,10 @@ export const Navigation = () => {
           </SideNavigation>
         </NavSection>
 
-        <Link to="/">
-          <Logo src="/static/images/sk-logotype.svg" />
+        <Link href="/">
+          <a>
+            <Logo src="/static/images/sk-logotype.svg" />
+          </a>
         </Link>
         <NavSection ready={ready} align="right">
           <NavHeaderWrapper>

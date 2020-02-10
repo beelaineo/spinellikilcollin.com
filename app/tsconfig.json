@@ -11,36 +11,17 @@
     "target": "es6",
     "sourceMap": true,
     "jsx": "preserve",
-    "lib": [
-      "es6",
-      "es7",
-      "dom"
-    ],
+    "lib": ["es6", "es7", "dom"],
     "outDir": "./dist",
-    "types": [
-      "node",
-      "jest"
-    ],
+    "types": ["node", "jest"],
     "baseUrl": "src",
     "paths": {
-      "test-utils/*": [
-        "test-utils/*"
-      ],
-      "Components/*": [
-        "components/*"
-      ],
-      "Views/*": [
-        "views/*"
-      ],
-      "Types/*": [
-        "types/*"
-      ],
-      "Utils/*": [
-        "utils/*"
-      ],
-      "Providers/*": [
-        ".providers/*"
-      ]
+      "test-utils/*": ["test-utils/*"],
+      "Components/*": ["components/*"],
+      "Views/*": ["views/*"],
+      "Types/*": ["types/*"],
+      "Utils/*": ["utils/*"],
+      "Providers/*": [".providers/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,
@@ -51,9 +32,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": [
-    "./src"
-  ],
+  "include": ["./src"],
   "exclude": [
     "node_modules",
     "../node_modules",

@@ -1,9 +1,19 @@
 import * as React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import fetch from 'isomorphic-unfetch'
 import { ThemeProvider } from 'styled-components'
 import { ShopifyProvider } from 'use-shopify'
-import { createClient, Provider as UrqlProvider } from 'urql'
-import { SHOPIFY_STOREFRONT_TOKEN } from '../config'
+import { DocumentNode } from 'graphql'
+import {
+  createClient,
+  createRequest,
+  Provider as UrqlProvider,
+  dedupExchange,
+  cacheExchange,
+  ssrExchange,
+  fetchExchange,
+} from 'urql'
+import { pipe, subscribe } from 'wonka'
+import { SHOPIFY_STOREFRONT_TOKEN, SANITY_GRAPHQL_URL } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 
@@ -19,6 +29,7 @@ interface Props {
   children: React.ReactNode
 }
 
+// @ts-ignore
 const isServer = typeof window !== 'object' || process.browser
 
 const ssrCache = ssrExchange({ isClient: !isServer })
@@ -50,10 +61,8 @@ export const Providers = ({ children }: Props) => {
       <ShopifyProvider query={urqlQuery}>
         <ShopDataProvider>
           <ThemeProvider theme={theme}>
-            <BrowserRouter>
-              <GlobalStyles />
-              {children}
-            </BrowserRouter>
+            <GlobalStyles />
+            {children}
           </ThemeProvider>
         </ShopDataProvider>
       </ShopifyProvider>

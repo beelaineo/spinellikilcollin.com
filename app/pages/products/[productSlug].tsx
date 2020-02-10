@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { ShopifyProduct } from '../../types'
 import { NotFound, ProductDetail } from '../../views'
-import { client } from '../../utils/sanity'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -21,21 +20,8 @@ const Product = ({ productData }: ProductProps) => {
   return <ProductDetail product={productData} />
 }
 
-const productQuery = `
-*[_type == "shopifyProduct" && handle == $handle]{
-  collections[]->{
-    products[]->,
-    ...
-
-  },
-  ...
-}[0]
-`
-
 Product.getInitialProps = async (ctx: any) => {
-  const { productSlug } = ctx.query
-  const productData = await client.fetch(productQuery, { handle: productSlug })
-  return { productData }
+  return {}
 }
 
 export default Product
