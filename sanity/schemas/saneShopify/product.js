@@ -1,14 +1,11 @@
-import {
-  createProductVariant,
-  createProductDocument,
-} from '@sane-shopify/sanity-plugin'
-
-export const ProductVariant = createProductVariant({
+export const productOptionValue = {
   fields: [
     {
       title: 'Description',
       name: 'description',
       type: 'array',
+      description:
+        'An alternate description to display when this variant is selected',
       of: [
         {
           type: 'block',
@@ -31,14 +28,14 @@ export const ProductVariant = createProductVariant({
       title: 'Alternate Gallery',
       name: 'gallery',
       description:
-        'An alternate gallery of photos to display when this variant is selected',
+        'An alternate gallery of photos to display when this option is selected',
       type: 'array',
       of: [{ type: 'richImage' }],
     },
   ],
-})
+}
 
-export const Product = createProductDocument({
+export const product = {
   fields: [
     {
       title: 'Accordions',
@@ -63,5 +60,9 @@ export const Product = createProductDocument({
       name: 'related',
       type: 'carousel',
     },
+    {
+      name: 'variants',
+      hidden: true,
+    },
   ],
-})
+}

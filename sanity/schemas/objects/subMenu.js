@@ -5,10 +5,11 @@ import { BlockPreview } from '../components/BlockPreview'
 import { getReferencedDocument, getShopifyThumbnail } from '../utils'
 
 const getPreviewValues = async (values) => {
-  const { label, link: previewLink } = values
-  if (!previewLink || !previewLink.document || !previewLink.document._ref)
+  const { link, label } = values
+  console.log(link)
+  if (!link || !link.document || !link.document._ref)
     return { title: 'Missing Link' }
-  const linkedDoc = await getReferencedDocument(previewLink.document._ref)
+  const linkedDoc = await getReferencedDocument(link.document._ref)
 
   const shopifyThumbnail =
     linkedDoc &&
@@ -27,7 +28,7 @@ const getPreviewValues = async (values) => {
 export const MenuLink = {
   name: 'menuLink',
   type: 'object',
-  title: 'Nav Link',
+  title: 'Link',
   fields: [
     {
       title: 'Label',
@@ -54,39 +55,6 @@ export const MenuLink = {
     ),
   },
 }
-export const linkGroup = {
-  title: 'Link Group',
-  name: 'linkGroup',
-  type: 'object',
-  fields: [
-    {
-      title: 'Group Title',
-      name: 'title',
-      type: 'string',
-    },
-    {
-      title: 'Links',
-      name: 'links',
-      type: 'array',
-      validation: (Rule) => Rule.required().max(12),
-      of: [{ type: 'internalLink' }],
-    },
-  ],
-  preview: {
-    select: {
-      title: 'title',
-      links: 'links',
-    },
-    prepare: ({ title, links }) => {
-      return {
-        title,
-        subtitle: links.length
-          ? `🔗 ${links.length} link${links.length === 1 ? '' : 's'}`
-          : undefined,
-      }
-    },
-  },
-}
 
 export const subMenu = {
   title: 'Dropdown Menu',
@@ -101,7 +69,7 @@ export const subMenu = {
       validation: (Rule) => Rule.required(),
     },
     {
-      title: 'Submenu Sections',
+      title: 'Links',
       name: 'columns',
       type: 'array',
       of: [{ type: 'cta' }],
