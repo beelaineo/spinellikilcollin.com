@@ -23,7 +23,7 @@ import {
   MobileProductHeader,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { useCounter } from 'Utils/hooks'
+import { useCounter } from '../../utils/hooks'
 import {
   Wrapper,
   ProductDetails,
@@ -35,7 +35,7 @@ import {
 import { RichText } from '../../components/RichText'
 import { Accordion } from '../../components/Accordion'
 import { getInfoBlocksByType, getInfoBlocksByTag } from './utils'
-import { Header5, Header6 } from 'Components/Text'
+import { Header5, Header6 } from '../../components/Text'
 
 interface Props {
   product: Product

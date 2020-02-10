@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Variant, UseCheckoutValues } from 'use-shopify'
 import { ButtonPrimary } from '../styled'
-import { Placeholder } from 'Components/Placeholder'
+import { Placeholder } from '../../../components/Placeholder'
 
 interface Props extends Pick<UseCheckoutValues, 'addItemToCheckout'> {
   currentVariant?: Pick<Variant, 'id' | 'availableForSale'>

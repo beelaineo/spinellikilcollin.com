@@ -5,7 +5,7 @@ import {
   Button,
   QuantitySelectorCart,
 } from '../ProductDetail/styled'
-import { QuantityInput } from 'Components/QuantityInput'
+import { QuantityInput } from '../../components/QuantityInput'
 import {
   FlexContainer,
   FlexHalf,
@@ -13,9 +13,8 @@ import {
   FlexSix,
 } from '../../components/Layout/Flex'
 import { Loading } from '../Navigation/styled'
-import { Header6, Header5, Header3 } from 'Components/Text'
-import { CartBottom, CartInner } from 'Components/Cart'
-import { increment } from '../../../../migrate/src/put/limit'
+import { Header6, Header5, Header3 } from '../../components/Text'
+import { CartBottom, CartInner } from '../../components/Cart'
 import { CheckoutProduct } from './CheckoutProduct'
 
 const { useState } = React

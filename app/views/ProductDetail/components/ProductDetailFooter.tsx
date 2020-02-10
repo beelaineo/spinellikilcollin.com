@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { NormalizeDiv } from '../styled'
 import { Product, ShopifyProduct } from '../../../types/generated'
-import { P } from 'Components/Text'
-import { Accordion } from '../../../Components/Accordion'
+import { P } from '../../../components/Text'
+import { Accordion } from '../../../components/Accordion'
 import { ContentBlock } from '../../../components/ContentBlock/ContentBlock'
 
 const { useState } = React

@@ -34,7 +34,7 @@ export const ProductImagesWrapper = styled.div`
   `}
 `
 
-export const MobileProductHeader = styled.div`
+export const MobileProductHeaderWrapper = styled.div`
   ${({ theme }) => css`
     text-align: center;
     padding-top: ${theme.layout.spacing.quadruple};

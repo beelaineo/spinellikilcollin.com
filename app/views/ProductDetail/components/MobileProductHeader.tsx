@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Variant } from 'use-shopify'
 import { Product } from '../../../types/generated'
-import { NormalizeDiv, MobileProductHeader } from '../styled'
-import { Header2, Header4 } from 'Components/Text'
+import { NormalizeDiv } from '../styled'
+import { Header2, Header4 } from '../../../components/Text'
 
 interface MobileProductHeaderProps {
   product: Product

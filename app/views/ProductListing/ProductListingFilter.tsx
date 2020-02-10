@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Header2, Header4, Header5 } from 'Components/Text'
+import { Header2, Header4, Header5 } from '../../components/Text'
 import {
   FlexContainer,
   FlexHalf,

@@ -3,7 +3,7 @@ import { Variant } from 'use-shopify'
 import { formatMoney } from '../../../utils/currency'
 import { Product } from '../../../types/generated'
 import { NormalizeDiv, ProductDetailHeaderStyles } from '../styled'
-import { Header2, Header4 } from 'Components/Text'
+import { Header2, Header4 } from '../../../components/Text'
 
 interface ProductDetailHeaderProps {
   product: Product

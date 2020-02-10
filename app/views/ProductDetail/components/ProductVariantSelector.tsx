@@ -7,7 +7,7 @@ import {
   QuantitySelector,
   Button,
 } from '../styled'
-import { QuantityInput } from 'Components/QuantityInput'
+import { QuantityInput } from '../../../components/QuantityInput'
 import { Accordion } from '../../../components/Accordion'
 
 interface Props extends UseProductVariant {
