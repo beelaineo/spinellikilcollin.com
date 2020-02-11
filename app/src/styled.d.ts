@@ -3,13 +3,10 @@ import 'styled-components'
 declare module 'styled-components' {
   export interface DefaultTheme {
     utils: {
-      getTextAlignment: (position: string | void | null) => string | void
-      getFlexAlignment: (position: string | void | null) => string | void
-      getFlexJustification: (position: string | void | null) => string | void
-      getColor: (
-        color: string | void | null,
-        theme: DefaultTheme,
-      ) => string | void
+      getTextAlignment: (position: string | void | null) => string
+      getFlexAlignment: (position: string | void | null) => string
+      getFlexJustification: (position: string | void | null) => string
+      getColor: (color: string | void | null, theme: DefaultTheme) => string
     }
     layout: {
       z: { [key: string]: number }

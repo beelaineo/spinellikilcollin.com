@@ -103,7 +103,6 @@ const Product = ({ product }: ProductPageProps) => {
 
 Product.getInitialProps = async (ctx: any) => {
   const { apolloClient, query } = ctx
-  const hasApollo = Boolean(ctx.apollo)
   const variables = { handle: query.productSlug }
   const response = await apolloClient.query({ query: productQuery, variables })
   const products = response?.data?.allShopifyProducts

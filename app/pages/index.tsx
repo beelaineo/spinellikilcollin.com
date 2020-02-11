@@ -6,10 +6,11 @@ import { ContentBlock } from '../src/components/ContentBlock'
 import { Homepage as HomepageType } from '../src/types'
 import { Homepage as HomepageView } from '../src/views'
 import {
+  withApollo,
   imageTextBlockFragment,
   carouselFragment,
   heroFragment,
-} from '../src/graphql/fragments'
+} from '../src/graphql'
 
 const homepageQuery = /*  GraphQL */ gql`
   query HomepageQuery {
@@ -36,12 +37,12 @@ const homepageQuery = /*  GraphQL */ gql`
   ${heroFragment}
 `
 
-export interface HomepageResponse {
-  Homepage: HomepageType
+export interface HomepageProps {
+  homepage?: HomepageType
+  error?: any
 }
 
-export const Homepage = () => {
-  const { loading, error, data } = useQuery<HomepageResponse>(homepageQuery)
+export const Homepage = ({ homepage, error }: HomepageProps) => {
   if (error)
     return (
       <React.Fragment>
@@ -50,8 +51,20 @@ export const Homepage = () => {
       </React.Fragment>
     )
 
-  if (loading || !data || !data.Homepage.content) return null
-  return <HomepageView homepage={data.Homepage} />
+  if (!homepage) throw new Error('No homepage data fetched')
+
+  return <HomepageView homepage={homepage} />
 }
 
-export default Homepage
+export interface HomepageResponse {
+  Homepage: HomepageType
+}
+
+Homepage.getInitialProps = async (ctx: any) => {
+  const { apolloClient } = ctx
+  const response = await apolloClient.query({ query: homepageQuery })
+  const homepage = response?.data?.Homepage
+  return { homepage }
+}
+
+export default withApollo(Homepage)
