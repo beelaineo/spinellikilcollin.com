@@ -1149,5 +1149,5 @@ export interface SubMenu {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  columns?: Maybe<Array<Maybe<Cta>>>
+  links?: Maybe<Array<Maybe<Cta>>>
 }

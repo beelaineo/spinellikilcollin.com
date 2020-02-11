@@ -70,7 +70,7 @@ export const subMenu = {
     },
     {
       title: 'Links',
-      name: 'columns',
+      name: 'links',
       type: 'array',
       of: [{ type: 'cta' }],
     },
@@ -78,10 +78,10 @@ export const subMenu = {
   preview: {
     select: {
       title: 'title',
-      columns: 'columns',
+      links: 'links',
     },
-    prepare: ({ title, columns }) => {
-      const byType = groupBy(prop('_type'), columns || {})
+    prepare: ({ title, links }) => {
+      const byType = groupBy(prop('_type'), links || {})
 
       const { richPageLink: richPageLinks, linkGroup: linkGroups } = byType
 

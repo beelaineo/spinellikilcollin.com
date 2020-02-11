@@ -110,4 +110,4 @@ Product.getInitialProps = async (ctx: any) => {
   return { product }
 }
 
-export default withApollo(Product)
+export default Product

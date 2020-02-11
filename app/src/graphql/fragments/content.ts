@@ -35,7 +35,7 @@ export const shopifySourceProductVariantFragment = gql`
   ${shopifySourceImageFragment}
 `
 
-export const productInfoFragment = /* GraphQL */ `
+export const productInfoFragment = gql`
   fragment ProductInfoFragment on ProductInfo {
     _key
     _type
@@ -44,7 +44,7 @@ export const productInfoFragment = /* GraphQL */ `
   }
 `
 
-export const internalLinkFragment = /* GraphQL */ `
+export const internalLinkFragment = gql`
   fragment InternalLinkFragment on InternalLink {
     _key
     _type
@@ -73,7 +73,7 @@ export const internalLinkFragment = /* GraphQL */ `
   }
 `
 
-export const richPageLinkFragment = /* GraphQL */ `
+export const richPageLinkFragment = gql`
   fragment RichPageLinkFragment on RichPageLink {
     _key
     _type
@@ -89,7 +89,7 @@ export const richPageLinkFragment = /* GraphQL */ `
   ${richImageFragment}
 `
 
-export const ctaFragment = /* GraphQL */ `
+export const ctaFragment = gql`
   fragment CTAFragment on Cta {
     _key
     _type
@@ -101,7 +101,7 @@ export const ctaFragment = /* GraphQL */ `
   ${internalLinkFragment}
 `
 
-export const externalLinkFragment = /* GraphQL */ `
+export const externalLinkFragment = gql`
   fragment ExternalLinkFragment on ExternalLink {
     _key
     _type
@@ -110,7 +110,7 @@ export const externalLinkFragment = /* GraphQL */ `
   }
 `
 
-export const imageTextBlockFragment = /* GraphQL */ `
+export const imageTextBlockFragment = gql`
   fragment ImageTextBlockFragment on ImageTextBlock {
     _key
     _type
@@ -138,7 +138,7 @@ export const imageTextBlockFragment = /* GraphQL */ `
   ${richImageFragment}
 `
 
-export const shopifyProductFragment = /* GraphQL */ `
+export const shopifyProductFragment = gql`
   fragment ShopifyProductFragment on ShopifyProduct {
     _id
     _key
@@ -182,7 +182,7 @@ export const shopifyProductFragment = /* GraphQL */ `
   ${imageTextBlockFragment}
 `
 
-export const shopifyCollectionFragment = /* GraphQL */ `
+export const shopifyCollectionFragment = gql`
   fragment ShopifyCollectionFragment on ShopifyCollection {
     _id
     _type
@@ -197,7 +197,7 @@ export const shopifyCollectionFragment = /* GraphQL */ `
   ${shopifyProductFragment}
 `
 
-export const carouselFragment = /* GraphQL */ `
+export const carouselFragment = gql`
   fragment CarouselFragment on Carousel {
     _key
     _type
@@ -214,7 +214,7 @@ export const carouselFragment = /* GraphQL */ `
   ${richPageLinkFragment}
 `
 
-export const heroFragment = /* GraphQL */ `
+export const heroFragment = gql`
   fragment HeroFragment on Hero {
     _key
     _type

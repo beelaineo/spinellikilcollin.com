@@ -37,7 +37,9 @@ export const Accordion = ({ content }: AccordionProps) => {
         )}
         {title === 'size' && bodyRaw ? (
           bodyRaw.map((el) => (
-            <AccordionButton size="small">{el}</AccordionButton>
+            <AccordionButton key={el._key} size="small">
+              {el}
+            </AccordionButton>
           ))
         ) : bodyRaw ? (
           <RichText blockWrapper={AccordionTextWrapper} body={bodyRaw} />

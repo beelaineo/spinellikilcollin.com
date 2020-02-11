@@ -2,12 +2,13 @@ import styled, { css, DefaultTheme } from 'styled-components'
 
 export interface TextStyleProps {
   theme: DefaultTheme
+  fontStyle?: string
   align?: 'left' | 'center' | 'right'
   weight?: 'xlight' | 'light' | 'book' | 'normal' | 'semi' | 'strong'
   color?: string
   family?: string
   transform?: string
-  children: any
+  children: React.ReactNode
   margin?: string
   small?: string
   active?: boolean
@@ -21,8 +22,7 @@ const commonHeaderStyles = ({
   color,
   family,
   margin,
-  children,
-  small,
+  fontStyle,
   active,
 }: TextStyleProps) => css`
   font-weight: ${weight && theme.font.weight[weight]
@@ -30,6 +30,7 @@ const commonHeaderStyles = ({
     : family === 'serif'
     ? theme.font.weight.normal
     : theme.font.weight.semi};
+  font-style: ${fontStyle ? fontStyle : 'inherit'};
   // @ts-ignore
   font-family: ${theme.font.family[family] || theme.font.family.sans};
   // @ts-ignore

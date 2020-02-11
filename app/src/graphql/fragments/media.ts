@@ -1,12 +1,6 @@
-export const shopifyImageFragment = /* GraphQL */ `
-  fragment ImageFragment on ShopifySourceImage {
-    id
-    altText
-    originalSrc
-  }
-`
+import gql from 'graphql-tag'
 
-export const sanityImageFragment = /* GraphQL */ `
+export const sanityImageFragment = gql`
   fragment SanityImageFragment on SanityImageAsset {
     _id
     _type
@@ -25,7 +19,7 @@ export const sanityImageFragment = /* GraphQL */ `
   }
 `
 
-export const richImageFragment = /* GraphQL */ `
+export const richImageFragment = gql`
   fragment RichImageFragment on RichImage {
     altText
     asset {

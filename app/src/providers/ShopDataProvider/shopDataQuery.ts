@@ -4,7 +4,6 @@ import { Menu, ProductInfoSettings } from '../../types'
 import {
   productInfoFragment,
   internalLinkFragment,
-  richPageLinkFragment,
   ctaFragment,
 } from '../../graphql/fragments'
 
@@ -20,24 +19,16 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           _key
           _type
           link {
-            ...CTAFragment
+            ...InternalLinkFragment
           }
         }
         ... on SubMenu {
           _key
           _type
           title
-          columns {
-            ... on RichPageLink {
-              ...RichPageLinkFragment
-            }
-            ... on LinkGroup {
-              _key
-              _type
-              title
-              links {
-                ...InternalLinkFragment
-              }
+          links {
+            ... on Cta {
+              ...CTAFragment
             }
           }
         }
@@ -67,7 +58,6 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   }
   ${productInfoFragment}
   ${internalLinkFragment}
-  ${richPageLinkFragment}
   ${ctaFragment}
 `
 

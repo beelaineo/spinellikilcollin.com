@@ -1,31 +1,73 @@
 import * as React from 'react'
+import styled, { css, DefaultTheme } from 'styled-components'
 import { SubMenu as SubMenuType } from '../../types'
-import { SubMenuColumns } from './styled'
-import { LinkGroup } from './LinkGroup'
+import { Header3 } from '../../components/Text'
+import { PageLink } from '../../components/PageLink'
+import { PlusMinus } from './PlusMinus'
 
-const { useEffect, useRef } = React
+const { useState } = React
 
 interface SubMenuProps {
-  submenu: SubMenuType
-  active: boolean
+  subMenu: SubMenuType
 }
 
-export const SubMenu = ({ submenu, active }: SubMenuProps) => {
-  const { title, columns } = submenu
-  return null
-  // return (
-  //   <SubMenuColumns active={active}>
-  //     {columns.map((col) => {
-  //       switch (col.__typename) {
-  //         case 'LinkGroup':
-  //           return <LinkGroup key={col._key} linkGroup={col} />
-  //         default:
-  //           throw new Error(
-  //             // @ts-ignore
-  //             `Cannot create a column for type "${col.__typename}"`,
-  //           )
-  //       }
-  //     })}
-  //   </SubMenuColumns>
-  // )
+const SubmenuTop = styled.div`
+  position: relative;
+  button {
+    width: 100%;
+    text-align: left;
+  }
+`
+
+interface SubmenuInnerProps {
+  open: boolean
+  theme: DefaultTheme
+}
+
+const PlusMinusWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`
+
+const SubmenuInner = styled.div`
+  ${({ theme, open }: SubmenuInnerProps) => css`
+    display: ${open ? 'block' : 'none'};
+    padding: ${theme.layout.spacing.single} 0 ${theme.layout.spacing.single}
+      ${theme.layout.spacing.double};
+
+    & div + div {
+      margin-top: ${theme.layout.spacing.single};
+    }
+  `}
+`
+
+export const SubMenu = ({ subMenu }: SubMenuProps) => {
+  const [open, setOpen] = useState(false)
+  const { title, links } = subMenu
+  const toggleOpen = () => setOpen(!open)
+  if (!title || !links || !links.length) return null
+  return (
+    <>
+      <SubmenuTop>
+        <button onClick={toggleOpen}>
+          <Header3>{title.toUpperCase()}</Header3>
+          <PlusMinusWrapper>
+            <PlusMinus open={open} />
+          </PlusMinusWrapper>
+        </button>
+      </SubmenuTop>
+      <SubmenuInner open={open}>
+        {links.map((cta) =>
+          cta && cta.link && cta.label ? (
+            <div key={cta._key || 'some-key'}>
+              <PageLink link={cta.link}>
+                <Header3 fontStyle="italic">{cta.label || ''}</Header3>
+              </PageLink>
+            </div>
+          ) : null,
+        )}
+      </SubmenuInner>
+    </>
+  )
 }

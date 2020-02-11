@@ -241,3 +241,13 @@ export const NavInner = styled.div`
     }
   `};
 `
+export const NavItemWrapper = styled.div`
+  ${({ theme }) => css`
+    display: block;
+    padding: ${theme.layout.spacing.single} 0;
+
+    & + & {
+      border-top: 1px solid black;
+    }
+  `}
+`

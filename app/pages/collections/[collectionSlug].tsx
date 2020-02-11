@@ -1,39 +1,86 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
 import { ShopifyCollection } from '../../src/types'
 import { NotFound, ProductListing } from '../../src/views'
-import { shopifyImageFragment } from '../../src/graphql'
+import { shopifySourceImageFragment } from '../../src/graphql'
 
 interface CollectionQueryResult {
   allShopifyCollections: [ShopifyCollection]
 }
 
 export const collectionQuery = gql`
-  query allShopifyCollections {
-    _id
+  query CollectionPageQuery($handle: String) {
+    allShopifyCollections(where: { handle: $handle }) {
+      _id
+      _type
+      _key
+      title
+      handle
+      shopifyId
+      products {
+        _id
+        _key
+        shopifyId
+        title
+        handle
+        sourceData {
+          id
+          title
+          handle
+          tags
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          images {
+            edges {
+              cursor
+              node {
+                ...ShopifySourceImageFragment
+              }
+            }
+          }
+        }
+      }
+    }
   }
+
+  ${shopifySourceImageFragment}
 `
-// ${shopifyImageFragment}
 
 export interface CollectionResult {
   Collection: ShopifyCollection
 }
 
-function head<T>(arr: T[]): T {
-  return arr ? arr[0] : undefined
+interface CollectionPageProps {
+  collection: ShopifyCollection
 }
 
-// interface CollectionPageProps {
-//
-// }
+const Collection = ({ collection }: CollectionPageProps) => {
+  if (!collection) return <NotFound />
+  return <ProductListing collection={collection} />
+}
 
-const Collection = (props: any) => {
-  console.log(props)
-  // const { loading, error, data } = useQuery<CollectionQueryResult>(collectionQuery)
-  return null
-  // if (!collectionData) return <NotFound />
-  // return <ProductListing collection={collectionData} />
+Collection.getInitialProps = async (ctx: any) => {
+  const { apolloClient, query } = ctx
+  const variables = { handle: query.collectionSlug }
+  const response = await apolloClient.query({
+    query: collectionQuery,
+    variables,
+  })
+  console.log(variables)
+  console.log(response.data)
+
+  const collections = response?.data?.allShopifyCollections
+  const collection = collections.length ? collections[0] : undefined
+
+  return { collection }
 }
 
 export default Collection
