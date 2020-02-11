@@ -33,6 +33,12 @@ export const productOptionValue = {
       of: [{ type: 'richImage' }],
     },
   ],
+  preview: {
+    select: {
+      title: 'value',
+      media: 'swatch',
+    },
+  },
 }
 
 export const product = {
