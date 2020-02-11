@@ -23,9 +23,11 @@ export const MobileProductHeader = ({
       <Header2 weight="xlight" color="dark">
         {product.title}
       </Header2>
-      <Header4 weight="strong" color="dark">
-        ${formatMoney(currentVariant.sourceData.priceV2)}
-      </Header4>
+      {currentVariant?.sourceData?.priceV2 ? (
+        <Header4 weight="strong" color="dark">
+          ${formatMoney(currentVariant.sourceData.priceV2)}
+        </Header4>
+      ) : null}
     </NormalizeDiv>
   )
 }

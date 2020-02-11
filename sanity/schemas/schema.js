@@ -4,9 +4,11 @@ import { saneShopify } from '@sane-shopify/sanity-plugin'
 import * as documents from './documents'
 import * as objects from './objects'
 import { product, productOptionValue } from './saneShopify/product'
+import { collection } from './saneShopify/collection'
 
 const saneShopifySchema = saneShopify({
   product,
+  collection,
   productOptionValue,
 })
 

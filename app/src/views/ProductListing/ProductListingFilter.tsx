@@ -6,11 +6,10 @@ import {
   FlexThree,
   FlexFour,
 } from '../../components/Layout/Flex'
+import { ShopifyCollection } from '../../types'
 import { FilterInner, FilterBody, Checkbox, FilterList } from './styled'
 import { useState, useReducer } from 'react'
 import { addListener } from 'cluster'
-
-interface ProductListingFilter {}
 
 const mockData = [
   {
@@ -44,7 +43,13 @@ const mockData = [
   },
 ]
 
-export const ProductListingFilter = () => {
+interface ProductListingFilterProps {
+  collection: ShopifyCollection
+}
+
+export const ProductListingFilter = ({
+  collection,
+}: ProductListingFilterProps) => {
   const [open, toggleOpen] = useState(false)
 
   const toggleFilter = () => {
@@ -69,21 +74,18 @@ export const ProductListingFilter = () => {
                       <Checkbox
                         type="checkbox"
                         name="filter"
-                        id={`filter-view-all`}
+                        id="filter-view-all"
                       />
                       <span></span>
-                      <label for={`filter-view-all`}>View All</label>
+                      <label htmlFor="filter-view-all">View All</label>
                     </li>
                     {filter.tags.map((item, i) => {
+                      const id = `filter-${item}`
                       return (
                         <li>
-                          <Checkbox
-                            type="checkbox"
-                            name="filter"
-                            id={`filter-${item}`}
-                          />
+                          <Checkbox type="checkbox" name="filter" id={id} />
                           <span></span>
-                          <label for={`filter-${item}`}>{item}</label>
+                          <label htmlFor={id}>{item}</label>
                         </li>
                       )
                     })}

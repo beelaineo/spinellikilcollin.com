@@ -12,9 +12,11 @@ export const Homepage = (props: HomepageProps) => {
   const { content } = props.homepage
   return (
     <React.Fragment>
-      {content.map((c) => (
-        <ContentBlock key={c._key} content={c} />
-      ))}
+      {content
+        ? content.map((c) =>
+            c && c._key ? <ContentBlock key={c._key} content={c} /> : null,
+          )
+        : null}
     </React.Fragment>
   )
 }

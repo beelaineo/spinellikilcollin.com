@@ -17,7 +17,7 @@ type ImageWithId = GalleryImage & { imageId: string }
 
 interface GalleryProps {
   images: GalleryImage[]
-  currentImageId?: string
+  currentImageId: string
 }
 
 const ZOOM_AMOUNT = 2
@@ -40,7 +40,7 @@ export const Gallery = ({ images, currentImageId }: GalleryProps) => {
     left: '0%',
   })
 
-  const [currentImage, setCurrentImage] = useState(
+  const [currentImage, setCurrentImage] = useState<GalleryImage | void>(
     getImageById(currentImageId) || images[0],
   )
 

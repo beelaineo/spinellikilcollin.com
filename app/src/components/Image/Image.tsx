@@ -14,8 +14,8 @@ export const ImageWrapper = styled.img`
 `
 
 interface ImageDetails {
-  src: string
-  altText?: string
+  src: string | null | void
+  altText?: string | null
   // fileType: string
   // TODO srcSet
   // TODO srcSetWebP
@@ -26,18 +26,18 @@ interface ImageDetails {
 /* Based on the image type, return a src, srcset, altText, etc */
 const getImageDetails = (
   image: ShopifySourceImage | SanityImage | RichImage,
-): null | ImageDetails => {
+): ImageDetails => {
   switch (image.__typename) {
     case 'RichImage':
       return {
-        src: image.asset.url,
+        src: image?.asset?.url,
         altText: image.altText,
       }
     case 'ShopifySourceImage':
       return { src: image.originalSrc, altText: image.altText }
     case 'Image':
       return {
-        src: image.asset.url,
+        src: image?.asset?.url,
         // TODO get alt text if present
       }
     default:
@@ -76,7 +76,7 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
 }
 
 interface ImageProps {
-  image: ShopifySourceImage | SanityImage | RichImage
+  image?: null | ShopifySourceImage | SanityImage | RichImage | void
   ratio?: number
   // TODO sizes?: string
   onLoad?: () => void
@@ -114,7 +114,12 @@ export const Image = ({ image, onLoad, ratio }: ImageProps) => {
       <Picture loaded={loaded}>
         {/* <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} /> */}
         {/* <source type={imageType} srcSet={srcSet} sizes={sizes} /> */}
-        <img src={src} alt={altText} ref={imageRef} onLoad={handleOnLoad} />
+        <img
+          src={src}
+          alt={altText || ''}
+          ref={imageRef}
+          onLoad={handleOnLoad}
+        />
       </Picture>
     </Wrapper>
   )

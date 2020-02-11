@@ -5,16 +5,16 @@ import { ProductThumbnail } from '../Product'
 import { CollectionThumbnail } from '../Collection'
 
 interface ItemsCarouselProps {
-  items: Array<ShopifyCollection | ShopifyProduct | RichPageLink>
+  items: Array<null | ShopifyCollection | ShopifyProduct | RichPageLink>
 }
 
 export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
   return (
     <Carousel>
       {items.map((item) =>
-        item.__typename === 'ShopifyProduct' ? (
+        item && item.__typename === 'ShopifyProduct' ? (
           <ProductThumbnail key={item._id} product={item} />
-        ) : item.__typename === 'ShopifyCollection' ? (
+        ) : item && item.__typename === 'ShopifyCollection' ? (
           <CollectionThumbnail key={item._id} collection={item} />
         ) : null,
       )}

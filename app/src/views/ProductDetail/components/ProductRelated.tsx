@@ -13,8 +13,11 @@ interface ProductRelatedProps {
 
 export const ProductRelated = ({ product }: ProductRelatedProps) => {
   const { collections } = product
-  if (!collections || !collections.length) return null
-  const products = collections[0].products
+  if (collections === null || !collections || !collections.length) return null
+  const collection = collections[0]
+  if (!collection) return null
+
+  const products = collection.products
   if (!products || !products.length) return null
   return (
     <ProductRelatedWrapper>
@@ -34,18 +37,24 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
           color="dark"
           align="center"
         >
-          Best Selling {collections[0].title}
+          {collection.title}
         </Header4>
       </FlexContainer>
       <ProductRelatedInner>
         <Carousel>
           {products.slice(0, 10).map((product) => {
+            if (!product) return null
             const { title } = product
             // @ts-ignore
             const [images] = unwindEdges(product.sourceData.images)
             const productLink = `/products/${product.handle}`
 
-            return <ProductThumbnail key={product._key} product={product} />
+            return (
+              <ProductThumbnail
+                key={product._key || 'some-key'}
+                product={product}
+              />
+            )
           })}
         </Carousel>
       </ProductRelatedInner>

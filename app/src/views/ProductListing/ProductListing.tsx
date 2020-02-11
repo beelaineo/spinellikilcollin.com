@@ -18,9 +18,16 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       <ProductListingFilter collection={collection} />
       <ProductListingHeader collection={collection} />
       <ProductGrid>
-        {products.map((product) => {
-          return <ProductThumbnail key={product.id} product={product} />
-        })}
+        {products
+          ? products.map((product) =>
+              product ? (
+                <ProductThumbnail
+                  key={product._key || 'some-key'}
+                  product={product}
+                />
+              ) : null,
+            )
+          : null}
       </ProductGrid>
     </React.Fragment>
   )

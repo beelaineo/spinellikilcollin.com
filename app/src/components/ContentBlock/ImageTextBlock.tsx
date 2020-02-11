@@ -12,13 +12,8 @@ interface ImageTextBlockProps {
 }
 
 export const ImageTextBlock = (props: ImageTextBlockProps) => {
-  let content = props.content
-  let background = ''
-  let width = content.layout
-
-  if (content.backgroundImage !== null) {
-    background = content.backgroundImage.asset.url
-  }
+  const content = props.content
+  const width = content.layout
 
   const link = content.link ? content.link[0] : undefined
 

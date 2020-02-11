@@ -9,7 +9,7 @@ export interface SlideInfo {
   ref: HTMLDivElement
 }
 
-interface SlideProps {
+export interface SlideProps {
   index: number
   children: React.ReactNode
   columnCount: number

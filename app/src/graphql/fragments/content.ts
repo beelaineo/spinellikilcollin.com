@@ -1,4 +1,39 @@
+import gql from 'graphql-tag'
 import { richImageFragment } from './media'
+
+export const shopifySourceImageFragment = gql`
+  fragment ShopifySourceImageFragment on ShopifySourceImage {
+    id
+    altText
+    originalSrc
+    w100
+    w300
+    w800
+  }
+`
+
+export const shopifySourceProductVariantFragment = gql`
+  fragment ShopifySourceProductVariantFragment on ShopifySourceProductVariant {
+    _key
+    _type
+    availableForSale
+    id
+    title
+    image {
+      ...ShopifySourceImageFragment
+    }
+    priceV2 {
+      amount
+      currencyCode
+    }
+    selectedOptions {
+      _key
+      name
+      value
+    }
+  }
+  ${shopifySourceImageFragment}
+`
 
 export const productInfoFragment = /* GraphQL */ `
   fragment ProductInfoFragment on ProductInfo {

@@ -14,7 +14,7 @@ export const ProductMobileImagesNav = ({
     <MobileImageNav>
       <FlexContainer>
         {images.map((el) => (
-          <ImageNav key={el._key} />
+          <ImageNav key={el._key || 'some-key'} />
         ))}
       </FlexContainer>
     </MobileImageNav>

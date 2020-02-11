@@ -8,10 +8,10 @@ export const getPageLinkLabel = (link: LinkType): string | void =>
     ? undefined
     : path(['document', 'title'], link)
 
-export const getPageLinkUrl = (link: LinkType): string => {
+export const getPageLinkUrl = (link: LinkType): string | void => {
   // If it is an external link, return the URL
   if (link.__typename === 'ExternalLink') {
-    return link.url
+    return link.url ? link.url : undefined
   }
   // Otherwise, it is either a RichPageLink or InternalLink,
   // both of which will have a 'document'

@@ -62,15 +62,15 @@ export const HeroText = styled.div`
   `}
 `
 
-interface ImageText {
+interface ImageTextProps {
   theme: DefaultTheme
-  textAlign: string
+  textAlign?: string | null | void
   background?: string
   width?: string
 }
 
 export const ImageText = styled.div`
-  ${({ theme, textAlign, background, width }: ImageText) => `
+  ${({ theme, textAlign, background, width }: ImageTextProps) => `
       width: ${width === 'fullWidth' ? '100%' : '50%'};
       display: inline-block;
       box-sizing: border-box;
@@ -102,7 +102,7 @@ export const ImageText = styled.div`
 `
 
 interface ImageText {
-  textAlign: string
+  textAlign?: string | null | void
   theme: DefaultTheme
 }
 

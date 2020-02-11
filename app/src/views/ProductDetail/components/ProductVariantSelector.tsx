@@ -47,7 +47,7 @@ export const ProductVariantSelector = (props: Props) => {
   const handleQuantityInput = (e) => setQuantity(e.target.value)
 
   // information for accordions
-  let { description } = product.sourceData
+  const description = product?.sourceData?.description
   return (
     <div>
       <NormalizeDiv margin="20px 0">

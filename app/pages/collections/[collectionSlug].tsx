@@ -9,13 +9,10 @@ interface CollectionQueryResult {
   allShopifyCollections: [ShopifyCollection]
 }
 
-export const collectionQuery = gql` 
-query allShopifyCollections(where: {
-    handle: $handle
-}) {
+export const collectionQuery = gql`
+  query allShopifyCollections {
     _id
   }
-
 `
 // ${shopifyImageFragment}
 

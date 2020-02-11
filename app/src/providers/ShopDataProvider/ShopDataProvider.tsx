@@ -2,14 +2,14 @@ import * as React from 'react'
 import { useQuery } from 'urql'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { SHOP_DATA_QUERY, ShopDataResponse } from './shopDataQuery'
-import { Menu, ProductInfo } from '../../types'
+import { Menu, ProductInfoSettings } from '../../types'
 
 const { useContext } = React
 
 interface ShopDataContextValue {
   ready: boolean
   menu?: Menu
-  productInfoBlocks?: ProductInfo
+  productInfoBlocks?: ProductInfoSettings
 }
 
 const ShopDataContext = React.createContext<ShopDataContextValue | undefined>(
@@ -32,9 +32,9 @@ interface Props {
 export const ShopDataProvider = ({ children }: Props) => {
   const [response] = useQuery<ShopDataResponse>({ query: SHOP_DATA_QUERY })
 
-  const ready = response.data && !response.fetching
-  const menu = ready ? response.data.Menu : undefined
-  const productInfoBlocks = ready ? response.data.ProductInfo : undefined
+  const ready = Boolean(response.data && !response.fetching)
+  const menu = ready ? response?.data?.Menu : undefined
+  const productInfoBlocks = ready ? response?.data?.ProductInfo : undefined
 
   const value = {
     ready,

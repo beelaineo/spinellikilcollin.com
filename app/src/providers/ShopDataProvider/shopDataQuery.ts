@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { Paginated } from '@good-idea/unwind-edges'
-import { Menu, ProductInfo } from '../../types'
+import { Menu, ProductInfoSettings } from '../../types'
 import {
   productInfoFragment,
   internalLinkFragment,
@@ -73,5 +73,5 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
 
 export interface ShopDataResponse {
   Menu: Menu
-  ProductInfo: ProductInfo
+  ProductInfo: ProductInfoSettings
 }

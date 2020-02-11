@@ -34,16 +34,17 @@ interface Props {
   product: ShopifyProduct
 }
 
-const ProductDetailMain = ({ product }: Props) => {
+export const ProductDetail = ({ product }: Props) => {
   /* get additional info blocks from Sanity */
   const { ready, productInfoBlocks } = useShopData()
   const accordions = productInfoBlocks
     ? [
         ...getInfoBlocksByType(
-          product.sourceData.productType,
+          product?.sourceData?.productType || 'none',
           productInfoBlocks,
         ),
-        ...getInfoBlocksByTag(product.sourceData.tags, productInfoBlocks),
+        // @ts-ignore
+        ...getInfoBlocksByTag(product?.sourceData?.tags, productInfoBlocks),
       ]
     : []
 
@@ -55,14 +56,16 @@ const ProductDetailMain = ({ product }: Props) => {
     setCount: setQuantity,
   } = useCounter(1, { min: 1 })
   /* get product variant utils */
-  const { currentVariant, selectVariant } = useProductVariant(product)
+  const { currentVariant, selectVariant } = useProductVariant(
+    product.sourceData,
+  )
 
   /* get checkout utils */
   const { addLineItem } = useCheckout()
   const { variants } = product
 
   /* get product image variants from Shopify */
-  let { images } = product.sourceData
+  const images = product?.sourceData?.images
 
   return (
     <Wrapper>
@@ -87,6 +90,7 @@ const ProductDetailMain = ({ product }: Props) => {
               quantity={quantity}
               increment={increment}
               decrement={decrement}
+              // @ts-ignore
               variants={variants}
               currentVariant={currentVariant}
               selectVariant={selectVariant}
@@ -117,16 +121,4 @@ const ProductDetailMain = ({ product }: Props) => {
       <ProductDetailFooter product={product} />
     </Wrapper>
   )
-}
-
-/**
- * View Wrapper
- */
-
-interface ProductDetailProps {
-  product: ShopifyProduct
-}
-
-export const ProductDetail = ({ product }: ProductDetailProps) => {
-  return <ProductDetailMain product={product} />
 }

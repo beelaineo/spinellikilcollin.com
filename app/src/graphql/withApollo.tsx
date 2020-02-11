@@ -1,8 +1,10 @@
 import nextWithApollo from 'next-with-apollo'
-import ApolloClient, {
+import ApolloClient from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import {
   InMemoryCache,
   IntrospectionFragmentMatcher,
-} from 'apollo-boost'
+} from 'apollo-cache-inmemory'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { SANITY_GRAPHQL_URL } from '../config'
 
@@ -12,20 +14,23 @@ const fragmentMatcher = new IntrospectionFragmentMatcher({
   introspectionQueryResultData,
 })
 
+const httpLink = createHttpLink({ uri: SANITY_GRAPHQL_URL })
+
 export const withApollo = nextWithApollo(
   ({ initialState }) => {
     return new ApolloClient({
-      uri: SANITY_GRAPHQL_URL,
+      ssrMode: true,
+      link: httpLink,
       cache: new InMemoryCache({ fragmentMatcher }).restore(initialState || {}),
     })
   },
-  {
-    render: ({ Page, props }) => {
-      return (
-        <ApolloProvider client={props.apollo}>
-          <Page {...props} />
-        </ApolloProvider>
-      )
-    },
-  },
+  // {
+  //   render: ({ Page, props }) => {
+  //     return (
+  //       <ApolloProvider client={props.apollo}>
+  //         <Page {...props} />
+  //       </ApolloProvider>
+  //     )
+  //   },
+  // },
 )

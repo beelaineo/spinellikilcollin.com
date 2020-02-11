@@ -106,7 +106,9 @@ export const Carousel = ({
   })
 
   const isAtFirst = currentSlide === 0
-  const isAtLast = currentSlide + columnCount >= slides.length
+  const isAtLast = Boolean(
+    currentSlide && currentSlide + columnCount >= slides.length,
+  )
   const value = {
     addSlide,
     currentSlide,

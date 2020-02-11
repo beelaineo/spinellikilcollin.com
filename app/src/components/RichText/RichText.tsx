@@ -3,7 +3,7 @@ import * as BlockContent from '@sanity/block-content-to-react'
 import * as Text from '../Text'
 
 interface CustomSerializerConfig {
-  blockWrapper: React.ComponentType
+  blockWrapper?: React.ComponentType
 }
 
 const serializers = ({ blockWrapper: Wrapper }: CustomSerializerConfig) => ({
@@ -46,7 +46,7 @@ const serializers = ({ blockWrapper: Wrapper }: CustomSerializerConfig) => ({
 })
 
 interface RichTextProps {
-  body: { [key: string]: any }
+  body?: { [key: string]: any } | null
   blockWrapper?: React.ComponentType
 }
 

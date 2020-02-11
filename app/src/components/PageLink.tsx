@@ -23,6 +23,11 @@ export const PageLink = ({ link, children, label }: LinkProps) => {
   if (!link) return children
 
   const linkTo = getPageLinkUrl(link)
+  if (!linkTo) {
+    console.warn('Could not make a link', { link })
+    return null
+  }
+
   const isExternal = linkTo.startsWith('http')
 
   const inner = () => {
@@ -32,6 +37,7 @@ export const PageLink = ({ link, children, label }: LinkProps) => {
     if (inferredLabel) return inferredLabel
     return null
   }
+
   if (isExternal) {
     return (
       <a href={linkTo} rel="noopener noreferrer" target="_blank">

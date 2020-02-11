@@ -17,11 +17,13 @@ export const CollectionThumbnail = ({
     <Link href={to}>
       <a>
         <ImageWrapper>
-          <Image image={collection.sourceData.image} ratio={1} />
+          <Image image={collection?.sourceData?.image} ratio={1} />
         </ImageWrapper>
         <TextWrapper>
           <Header3>{collection.title}</Header3>
-          <Header6>{collection.products.length} items</Header6>
+          {collection.products && collection.products.length ? (
+            <Header6>{collection.products.length} items</Header6>
+          ) : null}
         </TextWrapper>
       </a>
     </Link>

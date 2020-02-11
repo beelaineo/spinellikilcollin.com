@@ -25,12 +25,14 @@ const commonHeaderStyles = ({
   small,
   active,
 }: TextStyleProps) => css`
-  font-weight: ${theme.font.weight[weight]
+  font-weight: ${weight && theme.font.weight[weight]
     ? theme.font.weight[weight]
     : family === 'serif'
     ? theme.font.weight.normal
     : theme.font.weight.semi};
+  // @ts-ignore
   font-family: ${theme.font.family[family] || theme.font.family.sans};
+  // @ts-ignore
   color: ${theme.color[color] || 'inherit'};
   text-align: ${align || 'inherit'};
   text-transform: ${transform || 'auto'};

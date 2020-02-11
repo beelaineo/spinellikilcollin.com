@@ -35,13 +35,13 @@ export const Accordion = ({ content }: AccordionProps) => {
         {title === 'size' && (
           <AccordionButton size="large">Not sure of my size</AccordionButton>
         )}
-        {title === 'size' ? (
+        {title === 'size' && bodyRaw ? (
           bodyRaw.map((el) => (
             <AccordionButton size="small">{el}</AccordionButton>
           ))
-        ) : (
+        ) : bodyRaw ? (
           <RichText blockWrapper={AccordionTextWrapper} body={bodyRaw} />
-        )}
+        ) : null}
       </Inner>
     </Wrapper>
   )

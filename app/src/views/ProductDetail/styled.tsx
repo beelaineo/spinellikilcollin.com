@@ -131,7 +131,11 @@ export const NormalizeDiv = styled.div`
        };
       
        margin-bottom: ${
-         mobile === 'block' ? 0 : theme.layout.spacing[marginBottom]
+         mobile === 'block'
+           ? 0
+           : marginBottom
+           ? theme.layout.spacing[marginBottom]
+           : 0
        };
   `}
 `
@@ -337,14 +341,14 @@ export const MobileImageNav = styled.div`
 
 interface ProductDetailHeaderStyles {
   theme: DefaultTheme
-  mobile: string
+  mobile?: string
 }
 
 export const ProductDetailHeaderStyles = styled.div`
-  ${(props: ProductDetailHeaderStyles) => css`
-    display: ${props.mobile === 'visible' ? 'none' : 'block'};
-    ${props.theme.mediaQueries.tablet} {
-      display: ${props.mobile === 'hidden' ? 'none' : 'block'};
+  ${({ mobile, theme }: ProductDetailHeaderStyles) => css`
+    display: ${mobile === 'visible' ? 'none' : 'block'};
+    ${theme.mediaQueries.tablet} {
+      display: ${mobile === 'hidden' ? 'none' : 'block'};
       text-align: center;
     }
   `}

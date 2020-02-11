@@ -117,6 +117,7 @@ export const Navigation = () => {
 
   /* Parsing */
   const menuItems = menu ? menu.menuItems : []
+  // @ts-ignore
   const submenus = menuItems.filter((mi) => mi.__typename === 'SubMenu')
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
   const cartCount = loading ? null : lineItems.length || null
@@ -125,19 +126,6 @@ export const Navigation = () => {
     <Wrapper>
       <Inner>
         <NavSection ready={ready}>
-          {/* {menuItems.map((menuItem) =>
-						menuItem.__typename === 'SubMenu' ? (
-							<NavHeaderWrapper key={menuItem._key} onMouseEnter={openMenu(menuItem._key)}>
-								<NavHeader transform="uppercase">{menuItem.title}</NavHeader>
-							</NavHeaderWrapper>
-						) : (
-							<NavHeaderWrapper key={menuItem._key} onMouseEnter={closeMenu}>
-								<NavHeader transform="uppercase">
-									<PageLink link={menuItem.link} />
-								</NavHeader>
-							</NavHeaderWrapper>
-						),
-					)} */}
           <Hamburger onClick={handleNav} open={navState}>
             <span></span>
             <span></span>
@@ -161,8 +149,16 @@ export const Navigation = () => {
                   <IoIosCart />
                 </div>
                 <div>
-                  {cartCount}
-                  {cartCount === 1 ? ' item' : cartCount >= 2 ? ' items' : ''}
+                  {cartCount ? (
+                    <>
+                      {cartCount}
+                      {cartCount === 1
+                        ? ' item'
+                        : cartCount >= 2
+                        ? ' items'
+                        : ''}
+                    </>
+                  ) : null}
                 </div>
               </Loading>
             </NavHeader>
@@ -170,9 +166,9 @@ export const Navigation = () => {
         </NavSection>
         <SubmenuPane open={menuOpen} onMouseLeave={closeMenu}>
           {submenus.map((submenu) =>
-            submenu.__typename === 'SubMenu' ? (
+            submenu && submenu.__typename === 'SubMenu' ? (
               <SubMenu
-                key={submenu._key}
+                key={submenu._key || 'some-key'}
                 submenu={submenu}
                 active={currentSubmenuKey === submenu._key}
               />

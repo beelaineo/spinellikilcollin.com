@@ -2,7 +2,7 @@ import { DefaultTheme } from 'styled-components'
 
 export const getTextAlignment = (
   position: string | void | null,
-): string | undefined => {
+): string | void => {
   if (!position) return 'center'
   const split = position.split('-')
   if (split.length > 1) return split[1]
@@ -11,7 +11,7 @@ export const getTextAlignment = (
 
 export const getFlexAlignment = (
   position: string | void | null,
-): string | undefined => {
+): string | void => {
   switch (position) {
     case 'top-left':
     case 'top-center':
@@ -32,7 +32,7 @@ export const getFlexAlignment = (
 
 export const getFlexJustification = (
   position: string | void | null,
-): string | undefined => {
+): string | void => {
   switch (position) {
     case 'top-left':
     case 'middle-left':

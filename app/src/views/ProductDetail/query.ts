@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Product, ShopifyProduct } from '../../types'
+import { ShopifyProduct } from '../../types'
 import {
   imageTextBlockFragment,
   shopifyProductFragment,

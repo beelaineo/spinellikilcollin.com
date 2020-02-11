@@ -18,8 +18,9 @@ export const ProductThumbnail = ({ product }: ProductThumbnail) => {
   // @ts-ignore
   const [images] = unwindEdges(product.sourceData.images)
   const imageSrc = images.length ? images[0].originalSrc : undefined
-  let { minVariantPrice, maxVariantPrice } = product.sourceData.priceRange
-  const tags = product.sourceData.tags
+  let { minVariantPrice, maxVariantPrice } =
+    product?.sourceData?.priceRange || {}
+  const tags = product?.sourceData?.tags
   return (
     <ProductThumb>
       <Link href={`/products/${product.handle}`}>
@@ -36,14 +37,15 @@ export const ProductThumbnail = ({ product }: ProductThumbnail) => {
           </ProductContainer>
           <ProductInfo>
             <Header3>{product.title}</Header3>
-            {minVariantPrice !== undefined &&
+            {minVariantPrice &&
+            maxVariantPrice &&
             minVariantPrice.amount !== maxVariantPrice.amount ? (
               <Header3>
                 | ${minVariantPrice.amount} - ${maxVariantPrice.amount}
               </Header3>
-            ) : (
+            ) : maxVariantPrice ? (
               <Header3>| ${maxVariantPrice.amount}</Header3>
-            )}
+            ) : null}
           </ProductInfo>
         </a>
       </Link>

@@ -16,9 +16,14 @@ export const ProductDetailFooter = ({ product }: ProductDetailFooterProps) => {
   if (!content || content.length !== 0) return null
   return (
     <NormalizeDiv margin="0">
-      {content.map((contentBlock, index) => (
-        <ContentBlock content={contentBlock} />
-      ))}
+      {content.map((contentBlock, index) =>
+        contentBlock ? (
+          <ContentBlock
+            key={contentBlock._key || 'some-key'}
+            content={contentBlock}
+          />
+        ) : null,
+      )}
     </NormalizeDiv>
   )
 }

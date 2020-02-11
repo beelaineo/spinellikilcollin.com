@@ -49,6 +49,7 @@ function urqlQuery<Response>(
     const request = createRequest(query, variables)
 
     pipe(
+      // @ts-ignore
       client.executeQuery(request),
       // @ts-ignore TODO What's up with that? Well, soon urql will have an actual API for this
       subscribe(resolve),

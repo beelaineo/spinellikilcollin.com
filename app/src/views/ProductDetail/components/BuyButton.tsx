@@ -11,6 +11,7 @@ interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
 
 export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
   const handleClick = () => {
+    if (!currentVariant) return
     addLineItem({
       variantId: currentVariant.id,
       quantity: quantity || 1,
