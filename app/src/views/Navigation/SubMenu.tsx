@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { SubMenu as SubMenuType } from '../../types'
 import { Header3 } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'

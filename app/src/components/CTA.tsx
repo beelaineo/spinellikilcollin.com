@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { Cta, PageLinkOrUrlLink, RichPageLink } from '../types'
 import { getPageLinkUrl } from '../utils/links'
 

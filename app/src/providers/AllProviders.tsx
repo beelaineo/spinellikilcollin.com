@@ -1,6 +1,6 @@
 import * as React from 'react'
 import fetch from 'isomorphic-unfetch'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from '@xstyled/styled-components'
 import { ShopifyProvider } from 'use-shopify'
 // @ts-ignore
 import { DocumentNode } from 'graphql'

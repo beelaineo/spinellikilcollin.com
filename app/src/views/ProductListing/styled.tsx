@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { semiDark } from '../../theme/color'
 
 export const OverLay = styled.div`

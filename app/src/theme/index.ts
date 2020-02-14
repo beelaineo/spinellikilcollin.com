@@ -1,5 +1,5 @@
 // @flow
-import { DefaultTheme } from 'styled-components'
+import { DefaultTheme } from '@xstyled/styled-components'
 import * as layout from './layout'
 import * as font from './font'
 import * as color from './color'

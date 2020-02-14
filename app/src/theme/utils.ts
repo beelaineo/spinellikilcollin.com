@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'styled-components'
+import { DefaultTheme } from '@xstyled/styled-components'
 
 export const getTextAlignment = (position: string | void | null): string => {
   if (!position) return 'center'

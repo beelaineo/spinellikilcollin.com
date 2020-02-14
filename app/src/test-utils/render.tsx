@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { render } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider } from 'styled-components'
+import { ThemeProvider } from '@xstyled/styled-components'
 import { theme } from '../../theme'
 
 interface Props {

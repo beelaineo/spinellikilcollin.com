@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from 'styled-components'
+import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { Header5 } from '../../components/Text'
 
 export const Wrapper = styled.nav`

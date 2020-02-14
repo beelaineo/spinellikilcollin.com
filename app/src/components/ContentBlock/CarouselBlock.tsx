@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from 'styled-components'
+import styled from '@xstyled/styled-components'
 import { Carousel } from '../../types'
 import { CollectionCarousel, ItemsCarousel } from '../Carousel'
 import { Placeholder } from '../Placeholder'
