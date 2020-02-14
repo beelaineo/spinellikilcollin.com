@@ -1,11 +1,9 @@
 import styled, { css, DefaultTheme } from 'styled-components'
-import { Link } from 'react-router-dom'
 import { Header5 } from '../Text'
 
 interface WithAsAndTo {
   theme: DefaultTheme
   justify?: string
-  as?: string | typeof Link
   to?: string
 }
 

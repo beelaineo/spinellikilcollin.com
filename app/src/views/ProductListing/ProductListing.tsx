@@ -1,40 +1,33 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useQuery } from 'urql'
-import { Product } from 'use-shopify'
-import { COLLECTION_QUERY, CollectionResult } from './query'
+import { ShopifyCollection } from '../../types'
 import { ProductGrid } from './styled'
-import { ProductThumbnail } from './ProductThumbnail'
+import { ProductThumbnail } from '../../components/Product'
 import { ProductListingHeader } from './ProductListingHeader'
 import { ProductListingFilter } from './ProductListingFilter'
 
 interface ProductListingProps {
-  match: {
-    params: {
-      handle: string
-    }
-  }
+  collection: ShopifyCollection
 }
 
-export const ProductListing = ({ match }: ProductListingProps) => {
-  const { handle } = match.params
-  const variables = { handle }
-  const [response] = useQuery<CollectionResult>({
-    query: COLLECTION_QUERY,
-    variables,
-  })
-
-  if (response.fetching || !response.data) return <p>Loading..</p>
-  const collection = response.data.collectionByHandle
-  const [products] = unwindEdges<Product>(collection.products)
+export const ProductListing = ({ collection }: ProductListingProps) => {
+  const products = collection.products
   return (
     <React.Fragment>
       <ProductListingFilter collection={collection} />
       <ProductListingHeader collection={collection} />
       <ProductGrid>
-        {products.map((product) => {
-          return <ProductThumbnail key={product.id} product={product} />
-        })}
+        {products
+          ? products.map((product) =>
+              product ? (
+                <ProductThumbnail
+                  key={product._key || 'some-key'}
+                  product={product}
+                />
+              ) : null,
+            )
+          : null}
       </ProductGrid>
     </React.Fragment>
   )

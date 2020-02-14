@@ -26,6 +26,7 @@ export class BlockPreview extends React.Component {
 
   fetchValues = async (props = this.props) => {
     if (!props.getPreviewValues) return
+    console.log(props)
     const values = await props.getPreviewValues(props.value)
     this.setState({
       ...values,

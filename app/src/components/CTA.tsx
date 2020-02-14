@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import styled, { css, DefaultTheme } from 'styled-components'
-import { Cta, PageLinkOrUrlLink, PageLink } from '../types/generated'
+import { Cta, PageLinkOrUrlLink, RichPageLink } from '../types'
 import { getPageLinkUrl } from '../utils/links'
 
 interface CTAProps {
@@ -10,11 +10,6 @@ interface CTAProps {
 
 interface WrapperProps {
   theme: DefaultTheme
-  as: typeof Link | 'a'
-  to?: string
-  href?: string
-  target?: string
-  rel?: string
 }
 
 const Outer = styled.div`
@@ -23,7 +18,7 @@ const Outer = styled.div`
   `}
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled.a`
   ${({ theme }: WrapperProps) => css`
     padding: ${theme.layout.spacing.single};
     border: 1px solid;
@@ -33,7 +28,7 @@ const Wrapper = styled.div`
   `}
 `
 
-const getPageLinkTo = (link: PageLink): string => {
+const getPageLinkTo = (link: RichPageLink): string => {
   const { document } = link
   if (!document) return '/'
 
@@ -52,9 +47,9 @@ export const CTA = ({ cta }: CTAProps) => {
   if (!link) return null
   return (
     <Outer>
-      <Wrapper as={Link} to={getPageLinkUrl(link)}>
-        {label}
-      </Wrapper>
+      <Link href={getPageLinkUrl(link)}>
+        <Wrapper>{label}</Wrapper>
+      </Link>
     </Outer>
   )
 }

@@ -10,26 +10,20 @@ export type Scalars = {
    * An RFC 3986 and RFC 3987 compliant URI string.
    *
    * Example value: `"https://johns-apparel.myshopify.com"`.
-   **/
+   */
   URL: any
   /** A string containing HTML code. Example value: `"<p>Grey cotton knit sweater.</p>"`. */
   HTML: any
-  /**
-   * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
-   * `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
-   * 8601 standard for representation of dates and times using the Gregorian calendar.
-   **/
+  /** An ISO-8601 encoded UTC date time string. Example value: `"2019-07-03T20:47:55Z"`. */
   DateTime: Date
   /** A monetary value string. Example value: `"100.57"`. */
   Money: any
   /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
   Decimal: any
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { [key: string]: any }
 }
 
 /** A version of the API. */
-export interface ApiVersion {
+export interface StorefrontApiApiVersion {
   __typename: 'ApiVersion'
   /** The human-readable name of the version. */
   displayName: Scalars['String']
@@ -40,34 +34,35 @@ export interface ApiVersion {
 }
 
 /** Details about the gift card used on the checkout. */
-export interface AppliedGiftCard extends Node {
+export interface StorefrontApiAppliedGiftCard extends StorefrontApiNode {
   __typename: 'AppliedGiftCard'
-  /** The amount that was taken from the Gift Card by applying it. */
+  /** The amount that was taken from the gift card by applying it. */
   amountUsed: Scalars['Money']
-  /** The amount that was taken from the Gift Card by applying it. */
-  amountUsedV2: MoneyV2
-  /** The amount left on the Gift Card. */
+  /** The amount that was taken from the gift card by applying it. */
+  amountUsedV2: StorefrontApiMoneyV2
+  /** The amount left on the gift card. */
   balance: Scalars['Money']
-  /** The amount left on the Gift Card. */
-  balanceV2: MoneyV2
+  /** The amount left on the gift card. */
+  balanceV2: StorefrontApiMoneyV2
   /** Globally unique identifier. */
   id: Scalars['ID']
-  /** The last characters of the Gift Card code */
+  /** The last characters of the gift card. */
   lastCharacters: Scalars['String']
   /** The amount that was applied to the checkout in its currency. */
-  presentmentAmountUsed: MoneyV2
+  presentmentAmountUsed: StorefrontApiMoneyV2
 }
 
-export interface Article extends Node {
+/** An article in an online store blog. */
+export interface StorefrontApiArticle extends StorefrontApiNode {
   __typename: 'Article'
   /** The article's author. */
-  author: ArticleAuthor
+  author: StorefrontApiArticleAuthor
   /** The article's author. */
-  authorV2?: Maybe<ArticleAuthor>
+  authorV2?: Maybe<StorefrontApiArticleAuthor>
   /** The blog that the article belongs to. */
-  blog: Blog
+  blog: StorefrontApiBlog
   /** List of comments posted on the article. */
-  comments: CommentConnection
+  comments: StorefrontApiCommentConnection
   /** Stripped content of the article, single line with HTML tags removed. */
   content: Scalars['String']
   /** The content of the article, complete with HTML formatting. */
@@ -81,11 +76,11 @@ export interface Article extends Node {
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** The image associated with the article. */
-  image?: Maybe<Image>
+  image?: Maybe<StorefrontApiImage>
   /** The date and time when the article was published. */
   publishedAt: Scalars['DateTime']
   /** The article’s SEO information. */
-  seo?: Maybe<Seo>
+  seo?: Maybe<StorefrontApiSeo>
   /** A categorization that a article can be tagged with. */
   tags: Array<Scalars['String']>
   /** The article’s name. */
@@ -94,7 +89,8 @@ export interface Article extends Node {
   url: Scalars['URL']
 }
 
-export type ArticleCommentsArgs = {
+/** An article in an online store blog. */
+export type StorefrontApiArticleCommentsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -102,22 +98,26 @@ export type ArticleCommentsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-export type ArticleContentArgs = {
+/** An article in an online store blog. */
+export type StorefrontApiArticleContentArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
-export type ArticleExcerptArgs = {
+/** An article in an online store blog. */
+export type StorefrontApiArticleExcerptArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
-export type ArticleImageArgs = {
+/** An article in an online store blog. */
+export type StorefrontApiArticleImageArgs = {
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<CropRegion>
+  crop?: Maybe<StorefrontApiCropRegion>
   scale?: Maybe<Scalars['Int']>
 }
 
-export interface ArticleAuthor {
+/** The author of an article. */
+export interface StorefrontApiArticleAuthor {
   __typename: 'ArticleAuthor'
   /** The author's bio. */
   bio?: Maybe<Scalars['String']>
@@ -131,24 +131,24 @@ export interface ArticleAuthor {
   name: Scalars['String']
 }
 
-export interface ArticleConnection {
+export interface StorefrontApiArticleConnection {
   __typename: 'ArticleConnection'
   /** A list of edges. */
-  edges: Array<ArticleEdge>
+  edges: Array<StorefrontApiArticleEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface ArticleEdge {
+export interface StorefrontApiArticleEdge {
   __typename: 'ArticleEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of ArticleEdge. */
-  node: Article
+  node: StorefrontApiArticle
 }
 
 /** The set of valid sort keys for the articles query. */
-export enum ArticleSortKeys {
+export enum StorefrontApiArticleSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `blog_title` value. */
@@ -165,12 +165,12 @@ export enum ArticleSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
 /** Represents a generic custom attribute. */
-export interface Attribute {
+export interface StorefrontApiAttribute {
   __typename: 'Attribute'
   /** Key or name of the attribute. */
   key: Scalars['String']
@@ -179,7 +179,7 @@ export interface Attribute {
 }
 
 /** Specifies the input fields required for an attribute. */
-export type AttributeInput = {
+export type StorefrontApiAttributeInput = {
   /** Key or name of the attribute. */
   key: Scalars['String']
   /** Value of the attribute. */
@@ -187,50 +187,43 @@ export type AttributeInput = {
 }
 
 /** Automatic discount applications capture the intentions of a discount that was automatically applied. */
-export interface AutomaticDiscountApplication extends DiscountApplication {
+export interface StorefrontApiAutomaticDiscountApplication
+  extends StorefrontApiDiscountApplication {
   __typename: 'AutomaticDiscountApplication'
   /** The method by which the discount's value is allocated to its entitled items. */
-  allocationMethod: DiscountApplicationAllocationMethod
+  allocationMethod: StorefrontApiDiscountApplicationAllocationMethod
   /** Which lines of targetType that the discount is allocated over. */
-  targetSelection: DiscountApplicationTargetSelection
+  targetSelection: StorefrontApiDiscountApplicationTargetSelection
   /** The type of line that the discount is applicable towards. */
-  targetType: DiscountApplicationTargetType
+  targetType: StorefrontApiDiscountApplicationTargetType
   /** The title of the application. */
   title: Scalars['String']
   /** The value of the discount application. */
-  value: PricingValue
+  value: StorefrontApiPricingValue
 }
 
 /** A collection of available shipping rates for a checkout. */
-export interface AvailableShippingRates {
+export interface StorefrontApiAvailableShippingRates {
   __typename: 'AvailableShippingRates'
   /**
    * Whether or not the shipping rates are ready.
    * The `shippingRates` field is `null` when this value is `false`.
    * This field should be polled until its value becomes `true`.
-   **/
+   */
   ready: Scalars['Boolean']
   /** The fetched shipping rates. `null` until the `ready` field is `true`. */
-  shippingRates?: Maybe<Array<ShippingRate>>
+  shippingRates?: Maybe<Array<StorefrontApiShippingRate>>
 }
 
-export interface Block {
-  __typename: 'Block'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  children?: Maybe<Array<Maybe<Span>>>
-  style?: Maybe<Scalars['String']>
-  list?: Maybe<Scalars['String']>
-}
-
-export interface Blog extends Node {
+/** An online store blog. */
+export interface StorefrontApiBlog extends StorefrontApiNode {
   __typename: 'Blog'
   /** Find an article by its handle. */
-  articleByHandle?: Maybe<Article>
+  articleByHandle?: Maybe<StorefrontApiArticle>
   /** List of the blog's articles. */
-  articles: ArticleConnection
+  articles: StorefrontApiArticleConnection
   /** The authors who have contributed to the blog. */
-  authors: Array<ArticleAuthor>
+  authors: Array<StorefrontApiArticleAuthor>
   /** A human-friendly unique string for the Blog automatically generated from its title. */
   handle: Scalars['String']
   /** Globally unique identifier. */
@@ -241,38 +234,40 @@ export interface Blog extends Node {
   url: Scalars['URL']
 }
 
-export type BlogArticleByHandleArgs = {
+/** An online store blog. */
+export type StorefrontApiBlogArticleByHandleArgs = {
   handle: Scalars['String']
 }
 
-export type BlogArticlesArgs = {
+/** An online store blog. */
+export type StorefrontApiBlogArticlesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ArticleSortKeys>
+  sortKey?: Maybe<StorefrontApiArticleSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
-export interface BlogConnection {
+export interface StorefrontApiBlogConnection {
   __typename: 'BlogConnection'
   /** A list of edges. */
-  edges: Array<BlogEdge>
+  edges: Array<StorefrontApiBlogEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface BlogEdge {
+export interface StorefrontApiBlogEdge {
   __typename: 'BlogEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of BlogEdge. */
-  node: Blog
+  node: StorefrontApiBlog
 }
 
 /** The set of valid sort keys for the blogs query. */
-export enum BlogSortKeys {
+export enum StorefrontApiBlogSortKeys {
   /** Sort by the `handle` value. */
   Handle = 'HANDLE',
   /** Sort by the `title` value. */
@@ -283,12 +278,12 @@ export enum BlogSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
 /** Card brand, such as Visa or Mastercard, which can be used for payments. */
-export enum CardBrand {
+export enum StorefrontApiCardBrand {
   /** Visa */
   Visa = 'VISA',
   /** Mastercard */
@@ -303,83 +298,72 @@ export enum CardBrand {
   Jcb = 'JCB',
 }
 
-export interface Carousel {
-  __typename: 'Carousel'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  subtitleRaw?: Maybe<Scalars['JSON']>
-  /** Create a carousel from a collection. If a collection is used, items linked to below be ignored. */
-  collection?: Maybe<ShopifyCollection>
-  items?: Maybe<Array<Maybe<RichPageLink>>>
-}
-
-export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
-
 /** A container for all the information required to checkout items and pay. */
-export interface Checkout extends Node {
+export interface StorefrontApiCheckout extends StorefrontApiNode {
   __typename: 'Checkout'
-  appliedGiftCards: Array<AppliedGiftCard>
+  /** The gift cards used on the checkout. */
+  appliedGiftCards: Array<StorefrontApiAppliedGiftCard>
   /**
    * The available shipping rates for this Checkout.
    * Should only be used when checkout `requiresShipping` is `true` and
    * the shipping address is valid.
-   **/
-  availableShippingRates?: Maybe<AvailableShippingRates>
+   */
+  availableShippingRates?: Maybe<StorefrontApiAvailableShippingRates>
   /** The date and time when the checkout was completed. */
   completedAt?: Maybe<Scalars['DateTime']>
   /** The date and time when the checkout was created. */
   createdAt: Scalars['DateTime']
   /** The currency code for the Checkout. */
-  currencyCode: CurrencyCode
+  currencyCode: StorefrontApiCurrencyCode
   /** A list of extra information that is added to the checkout. */
-  customAttributes: Array<Attribute>
+  customAttributes: Array<StorefrontApiAttribute>
   /** The customer associated with the checkout. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** Discounts that have been applied on the checkout. */
-  discountApplications: DiscountApplicationConnection
+  discountApplications: StorefrontApiDiscountApplicationConnection
   /** The email attached to this checkout. */
   email?: Maybe<Scalars['String']>
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** A list of line item objects, each one containing information about an item in the checkout. */
-  lineItems: CheckoutLineItemConnection
+  lineItems: StorefrontApiCheckoutLineItemConnection
   /** The sum of all the prices of all the items in the checkout. Taxes, shipping and discounts excluded. */
-  lineItemsSubtotalPrice: MoneyV2
+  lineItemsSubtotalPrice: StorefrontApiMoneyV2
+  /** The note associated with the checkout. */
   note?: Maybe<Scalars['String']>
   /** The resulting order from a paid checkout. */
-  order?: Maybe<Order>
+  order?: Maybe<StorefrontApiOrder>
   /** The Order Status Page for this Checkout, null when checkout is not completed. */
   orderStatusUrl?: Maybe<Scalars['URL']>
   /**
    * The amount left to be paid. This is equal to the cost of the line items, taxes
    * and shipping minus discounts and gift cards.
-   **/
+   */
   paymentDue: Scalars['Money']
   /**
    * The amount left to be paid. This is equal to the cost of the line items, taxes
    * and shipping minus discounts and gift cards.
-   **/
-  paymentDueV2: MoneyV2
+   */
+  paymentDueV2: StorefrontApiMoneyV2
   /**
    * Whether or not the Checkout is ready and can be completed. Checkouts may
    * have asynchronous operations that can take time to finish. If you want
    * to complete a checkout or ensure all the fields are populated and up to
    * date, polling is required until the value is true.
-   **/
+   */
   ready: Scalars['Boolean']
   /** States whether or not the fulfillment requires shipping. */
   requiresShipping: Scalars['Boolean']
   /** The shipping address to where the line items will be shipped. */
-  shippingAddress?: Maybe<MailingAddress>
+  shippingAddress?: Maybe<StorefrontApiMailingAddress>
   /** The discounts that have been allocated onto the shipping line by discount applications. */
-  shippingDiscountAllocations: Array<DiscountAllocation>
+  shippingDiscountAllocations: Array<StorefrontApiDiscountAllocation>
   /** Once a shipping rate is selected by the customer it is transitioned to a `shipping_line` object. */
-  shippingLine?: Maybe<ShippingRate>
+  shippingLine?: Maybe<StorefrontApiShippingRate>
   /** Price of the checkout before shipping and taxes. */
   subtotalPrice: Scalars['Money']
   /** Price of the checkout before shipping and taxes. */
-  subtotalPriceV2: MoneyV2
+  subtotalPriceV2: StorefrontApiMoneyV2
   /** Specifies if the Checkout is tax exempt. */
   taxExempt: Scalars['Boolean']
   /** Specifies if taxes are included in the line item and shipping line prices. */
@@ -387,11 +371,11 @@ export interface Checkout extends Node {
   /** The sum of all the prices of all the items in the checkout, taxes and discounts included. */
   totalPrice: Scalars['Money']
   /** The sum of all the prices of all the items in the checkout, taxes and discounts included. */
-  totalPriceV2: MoneyV2
+  totalPriceV2: StorefrontApiMoneyV2
   /** The sum of all the taxes applied to the line items and shipping lines in the checkout. */
   totalTax: Scalars['Money']
   /** The sum of all the taxes applied to the line items and shipping lines in the checkout. */
-  totalTaxV2: MoneyV2
+  totalTaxV2: StorefrontApiMoneyV2
   /** The date and time when the checkout was last updated. */
   updatedAt: Scalars['DateTime']
   /** The url pointing to the checkout accessible from the web. */
@@ -399,7 +383,7 @@ export interface Checkout extends Node {
 }
 
 /** A container for all the information required to checkout items and pay. */
-export type CheckoutDiscountApplicationsArgs = {
+export type StorefrontApiCheckoutDiscountApplicationsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -408,7 +392,7 @@ export type CheckoutDiscountApplicationsArgs = {
 }
 
 /** A container for all the information required to checkout items and pay. */
-export type CheckoutLineItemsArgs = {
+export type StorefrontApiCheckoutLineItemsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -417,258 +401,258 @@ export type CheckoutLineItemsArgs = {
 }
 
 /** Specifies the fields required to update a checkout's attributes. */
-export type CheckoutAttributesUpdateInput = {
+export type StorefrontApiCheckoutAttributesUpdateInput = {
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: Maybe<Scalars['String']>
   /** A list of extra information that is added to the checkout. */
-  customAttributes?: Maybe<Array<AttributeInput>>
+  customAttributes?: Maybe<Array<StorefrontApiAttributeInput>>
   /**
    * Allows setting partial addresses on a Checkout, skipping the full validation of attributes.
    * The required attributes are city, province, and country.
    * Full validation of the addresses is still done at complete time.
-   **/
+   */
   allowPartialAddresses?: Maybe<Scalars['Boolean']>
 }
 
 /** Return type for `checkoutAttributesUpdate` mutation. */
-export interface CheckoutAttributesUpdatePayload {
+export interface StorefrontApiCheckoutAttributesUpdatePayload {
   __typename: 'CheckoutAttributesUpdatePayload'
   /** The updated checkout object. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Specifies the fields required to update a checkout's attributes. */
-export type CheckoutAttributesUpdateV2Input = {
+export type StorefrontApiCheckoutAttributesUpdateV2Input = {
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: Maybe<Scalars['String']>
   /** A list of extra information that is added to the checkout. */
-  customAttributes?: Maybe<Array<AttributeInput>>
+  customAttributes?: Maybe<Array<StorefrontApiAttributeInput>>
   /**
    * Allows setting partial addresses on a Checkout, skipping the full validation of attributes.
    * The required attributes are city, province, and country.
    * Full validation of the addresses is still done at complete time.
-   **/
+   */
   allowPartialAddresses?: Maybe<Scalars['Boolean']>
 }
 
 /** Return type for `checkoutAttributesUpdateV2` mutation. */
-export interface CheckoutAttributesUpdateV2Payload {
+export interface StorefrontApiCheckoutAttributesUpdateV2Payload {
   __typename: 'CheckoutAttributesUpdateV2Payload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCompleteFree` mutation. */
-export interface CheckoutCompleteFreePayload {
+export interface StorefrontApiCheckoutCompleteFreePayload {
   __typename: 'CheckoutCompleteFreePayload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCompleteWithCreditCard` mutation. */
-export interface CheckoutCompleteWithCreditCardPayload {
+export interface StorefrontApiCheckoutCompleteWithCreditCardPayload {
   __typename: 'CheckoutCompleteWithCreditCardPayload'
   /** The checkout on which the payment was applied. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** A representation of the attempted payment. */
-  payment?: Maybe<Payment>
+  payment?: Maybe<StorefrontApiPayment>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCompleteWithCreditCardV2` mutation. */
-export interface CheckoutCompleteWithCreditCardV2Payload {
+export interface StorefrontApiCheckoutCompleteWithCreditCardV2Payload {
   __typename: 'CheckoutCompleteWithCreditCardV2Payload'
   /** The checkout on which the payment was applied. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** A representation of the attempted payment. */
-  payment?: Maybe<Payment>
+  payment?: Maybe<StorefrontApiPayment>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCompleteWithTokenizedPayment` mutation. */
-export interface CheckoutCompleteWithTokenizedPaymentPayload {
+export interface StorefrontApiCheckoutCompleteWithTokenizedPaymentPayload {
   __typename: 'CheckoutCompleteWithTokenizedPaymentPayload'
   /** The checkout on which the payment was applied. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** A representation of the attempted payment. */
-  payment?: Maybe<Payment>
+  payment?: Maybe<StorefrontApiPayment>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCompleteWithTokenizedPaymentV2` mutation. */
-export interface CheckoutCompleteWithTokenizedPaymentV2Payload {
+export interface StorefrontApiCheckoutCompleteWithTokenizedPaymentV2Payload {
   __typename: 'CheckoutCompleteWithTokenizedPaymentV2Payload'
   /** The checkout on which the payment was applied. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** A representation of the attempted payment. */
-  payment?: Maybe<Payment>
+  payment?: Maybe<StorefrontApiPayment>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Specifies the fields required to create a checkout. */
-export type CheckoutCreateInput = {
+export type StorefrontApiCheckoutCreateInput = {
   /** The email with which the customer wants to checkout. */
   email?: Maybe<Scalars['String']>
   /** A list of line item objects, each one containing information about an item in the checkout. */
-  lineItems?: Maybe<Array<CheckoutLineItemInput>>
+  lineItems?: Maybe<Array<StorefrontApiCheckoutLineItemInput>>
   /** The shipping address to where the line items will be shipped. */
-  shippingAddress?: Maybe<MailingAddressInput>
+  shippingAddress?: Maybe<StorefrontApiMailingAddressInput>
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: Maybe<Scalars['String']>
   /** A list of extra information that is added to the checkout. */
-  customAttributes?: Maybe<Array<AttributeInput>>
+  customAttributes?: Maybe<Array<StorefrontApiAttributeInput>>
   /**
    * Allows setting partial addresses on a Checkout, skipping the full validation of attributes.
    * The required attributes are city, province, and country.
    * Full validation of addresses is still done at complete time.
-   **/
+   */
   allowPartialAddresses?: Maybe<Scalars['Boolean']>
   /**
    * The three-letter currency code of one of the shop's enabled presentment currencies.
    * Including this field creates a checkout in the specified currency. By default, new
    * checkouts are created in the shop's primary currency.
-   **/
-  presentmentCurrencyCode?: Maybe<CurrencyCode>
+   */
+  presentmentCurrencyCode?: Maybe<StorefrontApiCurrencyCode>
 }
 
 /** Return type for `checkoutCreate` mutation. */
-export interface CheckoutCreatePayload {
+export interface StorefrontApiCheckoutCreatePayload {
   __typename: 'CheckoutCreatePayload'
   /** The new checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCustomerAssociate` mutation. */
-export interface CheckoutCustomerAssociatePayload {
+export interface StorefrontApiCheckoutCustomerAssociatePayload {
   __typename: 'CheckoutCustomerAssociatePayload'
   /** The updated checkout object. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** The associated customer object. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCustomerAssociateV2` mutation. */
-export interface CheckoutCustomerAssociateV2Payload {
+export interface StorefrontApiCheckoutCustomerAssociateV2Payload {
   __typename: 'CheckoutCustomerAssociateV2Payload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** The associated customer object. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCustomerDisassociate` mutation. */
-export interface CheckoutCustomerDisassociatePayload {
+export interface StorefrontApiCheckoutCustomerDisassociatePayload {
   __typename: 'CheckoutCustomerDisassociatePayload'
   /** The updated checkout object. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutCustomerDisassociateV2` mutation. */
-export interface CheckoutCustomerDisassociateV2Payload {
+export interface StorefrontApiCheckoutCustomerDisassociateV2Payload {
   __typename: 'CheckoutCustomerDisassociateV2Payload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutDiscountCodeApply` mutation. */
-export interface CheckoutDiscountCodeApplyPayload {
+export interface StorefrontApiCheckoutDiscountCodeApplyPayload {
   __typename: 'CheckoutDiscountCodeApplyPayload'
   /** The updated checkout object. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutDiscountCodeApplyV2` mutation. */
-export interface CheckoutDiscountCodeApplyV2Payload {
+export interface StorefrontApiCheckoutDiscountCodeApplyV2Payload {
   __typename: 'CheckoutDiscountCodeApplyV2Payload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutDiscountCodeRemove` mutation. */
-export interface CheckoutDiscountCodeRemovePayload {
+export interface StorefrontApiCheckoutDiscountCodeRemovePayload {
   __typename: 'CheckoutDiscountCodeRemovePayload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutEmailUpdate` mutation. */
-export interface CheckoutEmailUpdatePayload {
+export interface StorefrontApiCheckoutEmailUpdatePayload {
   __typename: 'CheckoutEmailUpdatePayload'
   /** The checkout object with the updated email. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutEmailUpdateV2` mutation. */
-export interface CheckoutEmailUpdateV2Payload {
+export interface StorefrontApiCheckoutEmailUpdateV2Payload {
   __typename: 'CheckoutEmailUpdateV2Payload'
   /** The checkout object with the updated email. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Possible error codes that could be returned by a checkout mutation. */
-export enum CheckoutErrorCode {
+export enum StorefrontApiCheckoutErrorCode {
   /** Input value is blank. */
   Blank = 'BLANK',
   /** Input value is invalid. */
@@ -744,56 +728,56 @@ export enum CheckoutErrorCode {
 }
 
 /** Return type for `checkoutGiftCardApply` mutation. */
-export interface CheckoutGiftCardApplyPayload {
+export interface StorefrontApiCheckoutGiftCardApplyPayload {
   __typename: 'CheckoutGiftCardApplyPayload'
   /** The updated checkout object. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutGiftCardRemove` mutation. */
-export interface CheckoutGiftCardRemovePayload {
+export interface StorefrontApiCheckoutGiftCardRemovePayload {
   __typename: 'CheckoutGiftCardRemovePayload'
   /** The updated checkout object. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutGiftCardRemoveV2` mutation. */
-export interface CheckoutGiftCardRemoveV2Payload {
+export interface StorefrontApiCheckoutGiftCardRemoveV2Payload {
   __typename: 'CheckoutGiftCardRemoveV2Payload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutGiftCardsAppend` mutation. */
-export interface CheckoutGiftCardsAppendPayload {
+export interface StorefrontApiCheckoutGiftCardsAppendPayload {
   __typename: 'CheckoutGiftCardsAppendPayload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** A single line item in the checkout, grouped by variant and attributes. */
-export interface CheckoutLineItem extends Node {
+export interface StorefrontApiCheckoutLineItem extends StorefrontApiNode {
   __typename: 'CheckoutLineItem'
   /** Extra information in the form of an array of Key-Value pairs about the line item. */
-  customAttributes: Array<Attribute>
+  customAttributes: Array<StorefrontApiAttribute>
   /** The discounts that have been allocated onto the checkout line item by discount applications. */
-  discountAllocations: Array<DiscountAllocation>
+  discountAllocations: Array<StorefrontApiDiscountAllocation>
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** The quantity of the line item. */
@@ -801,29 +785,29 @@ export interface CheckoutLineItem extends Node {
   /** Title of the line item. Defaults to the product's title. */
   title: Scalars['String']
   /** Product variant of the line item. */
-  variant?: Maybe<ProductVariant>
+  variant?: Maybe<StorefrontApiProductVariant>
 }
 
-export interface CheckoutLineItemConnection {
+export interface StorefrontApiCheckoutLineItemConnection {
   __typename: 'CheckoutLineItemConnection'
   /** A list of edges. */
-  edges: Array<CheckoutLineItemEdge>
+  edges: Array<StorefrontApiCheckoutLineItemEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface CheckoutLineItemEdge {
+export interface StorefrontApiCheckoutLineItemEdge {
   __typename: 'CheckoutLineItemEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of CheckoutLineItemEdge. */
-  node: CheckoutLineItem
+  node: StorefrontApiCheckoutLineItem
 }
 
 /** Specifies the input fields to create a line item on a checkout. */
-export type CheckoutLineItemInput = {
+export type StorefrontApiCheckoutLineItemInput = {
   /** Extra information in the form of an array of Key-Value pairs about the line item. */
-  customAttributes?: Maybe<Array<AttributeInput>>
+  customAttributes?: Maybe<Array<StorefrontApiAttributeInput>>
   /** The quantity of the line item. */
   quantity: Scalars['Int']
   /** The identifier of the product variant for the line item. */
@@ -831,95 +815,98 @@ export type CheckoutLineItemInput = {
 }
 
 /** Return type for `checkoutLineItemsAdd` mutation. */
-export interface CheckoutLineItemsAddPayload {
+export interface StorefrontApiCheckoutLineItemsAddPayload {
   __typename: 'CheckoutLineItemsAddPayload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutLineItemsRemove` mutation. */
-export interface CheckoutLineItemsRemovePayload {
+export interface StorefrontApiCheckoutLineItemsRemovePayload {
   __typename: 'CheckoutLineItemsRemovePayload'
-  checkout?: Maybe<Checkout>
+  /** The updated checkout object. */
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutLineItemsReplace` mutation. */
-export interface CheckoutLineItemsReplacePayload {
+export interface StorefrontApiCheckoutLineItemsReplacePayload {
   __typename: 'CheckoutLineItemsReplacePayload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<CheckoutUserError>
+  userErrors: Array<StorefrontApiCheckoutUserError>
 }
 
 /** Return type for `checkoutLineItemsUpdate` mutation. */
-export interface CheckoutLineItemsUpdatePayload {
+export interface StorefrontApiCheckoutLineItemsUpdatePayload {
   __typename: 'CheckoutLineItemsUpdatePayload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Specifies the input fields to update a line item on the checkout. */
-export type CheckoutLineItemUpdateInput = {
+export type StorefrontApiCheckoutLineItemUpdateInput = {
+  /** The identifier of the line item. */
   id?: Maybe<Scalars['ID']>
   /** The variant identifier of the line item. */
   variantId?: Maybe<Scalars['ID']>
   /** The quantity of the line item. */
   quantity?: Maybe<Scalars['Int']>
   /** Extra information in the form of an array of Key-Value pairs about the line item. */
-  customAttributes?: Maybe<Array<AttributeInput>>
+  customAttributes?: Maybe<Array<StorefrontApiAttributeInput>>
 }
 
 /** Return type for `checkoutShippingAddressUpdate` mutation. */
-export interface CheckoutShippingAddressUpdatePayload {
+export interface StorefrontApiCheckoutShippingAddressUpdatePayload {
   __typename: 'CheckoutShippingAddressUpdatePayload'
   /** The updated checkout object. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutShippingAddressUpdateV2` mutation. */
-export interface CheckoutShippingAddressUpdateV2Payload {
+export interface StorefrontApiCheckoutShippingAddressUpdateV2Payload {
   __typename: 'CheckoutShippingAddressUpdateV2Payload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `checkoutShippingLineUpdate` mutation. */
-export interface CheckoutShippingLineUpdatePayload {
+export interface StorefrontApiCheckoutShippingLineUpdatePayload {
   __typename: 'CheckoutShippingLineUpdatePayload'
   /** The updated checkout object. */
-  checkout?: Maybe<Checkout>
+  checkout?: Maybe<StorefrontApiCheckout>
   /** List of errors that occurred executing the mutation. */
-  checkoutUserErrors: Array<CheckoutUserError>
+  checkoutUserErrors: Array<StorefrontApiCheckoutUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Represents an error that happens during execution of a checkout mutation. */
-export interface CheckoutUserError extends DisplayableError {
+export interface StorefrontApiCheckoutUserError
+  extends StorefrontApiDisplayableError {
   __typename: 'CheckoutUserError'
   /** Error code to uniquely identify the error. */
-  code?: Maybe<CheckoutErrorCode>
+  code?: Maybe<StorefrontApiCheckoutErrorCode>
   /** Path to the input field which caused the error. */
   field?: Maybe<Array<Scalars['String']>>
   /** The error message. */
@@ -929,8 +916,8 @@ export interface CheckoutUserError extends DisplayableError {
 /**
  * A collection represents a grouping of products that a shop owner can create to
  * organize them or make their shops easier to browse.
- **/
-export interface Collection extends Node {
+ */
+export interface StorefrontApiCollection extends StorefrontApiNode {
   __typename: 'Collection'
   /** Stripped description of the collection, single line with HTML tags removed. */
   description: Scalars['String']
@@ -939,14 +926,14 @@ export interface Collection extends Node {
   /**
    * A human-friendly unique string for the collection automatically generated from its title.
    * Limit of 255 characters.
-   **/
+   */
   handle: Scalars['String']
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** Image associated with the collection. */
-  image?: Maybe<Image>
+  image?: Maybe<StorefrontApiImage>
   /** List of products in the collection. */
-  products: ProductConnection
+  products: StorefrontApiProductConnection
   /** The collection’s name. Limit of 255 characters. */
   title: Scalars['String']
   /** The date and time when the collection was last modified. */
@@ -956,53 +943,53 @@ export interface Collection extends Node {
 /**
  * A collection represents a grouping of products that a shop owner can create to
  * organize them or make their shops easier to browse.
- **/
-export type CollectionDescriptionArgs = {
+ */
+export type StorefrontApiCollectionDescriptionArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
 /**
  * A collection represents a grouping of products that a shop owner can create to
  * organize them or make their shops easier to browse.
- **/
-export type CollectionImageArgs = {
+ */
+export type StorefrontApiCollectionImageArgs = {
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<CropRegion>
+  crop?: Maybe<StorefrontApiCropRegion>
   scale?: Maybe<Scalars['Int']>
 }
 
 /**
  * A collection represents a grouping of products that a shop owner can create to
  * organize them or make their shops easier to browse.
- **/
-export type CollectionProductsArgs = {
+ */
+export type StorefrontApiCollectionProductsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ProductCollectionSortKeys>
+  sortKey?: Maybe<StorefrontApiProductCollectionSortKeys>
 }
 
-export interface CollectionConnection {
+export interface StorefrontApiCollectionConnection {
   __typename: 'CollectionConnection'
   /** A list of edges. */
-  edges: Array<CollectionEdge>
+  edges: Array<StorefrontApiCollectionEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface CollectionEdge {
+export interface StorefrontApiCollectionEdge {
   __typename: 'CollectionEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of CollectionEdge. */
-  node: Collection
+  node: StorefrontApiCollection
 }
 
 /** The set of valid sort keys for the collections query. */
-export enum CollectionSortKeys {
+export enum StorefrontApiCollectionSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `updated_at` value. */
@@ -1013,14 +1000,15 @@ export enum CollectionSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
-export interface Comment extends Node {
+/** A comment on an article. */
+export interface StorefrontApiComment extends StorefrontApiNode {
   __typename: 'Comment'
   /** The comment’s author. */
-  author: CommentAuthor
+  author: StorefrontApiCommentAuthor
   /** Stripped content of the comment, single line with HTML tags removed. */
   content: Scalars['String']
   /** The content of the comment, complete with HTML formatting. */
@@ -1029,11 +1017,13 @@ export interface Comment extends Node {
   id: Scalars['ID']
 }
 
-export type CommentContentArgs = {
+/** A comment on an article. */
+export type StorefrontApiCommentContentArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
-export interface CommentAuthor {
+/** The author of a comment. */
+export interface StorefrontApiCommentAuthor {
   __typename: 'CommentAuthor'
   /** The author's email. */
   email: Scalars['String']
@@ -1041,24 +1031,24 @@ export interface CommentAuthor {
   name: Scalars['String']
 }
 
-export interface CommentConnection {
+export interface StorefrontApiCommentConnection {
   __typename: 'CommentConnection'
   /** A list of edges. */
-  edges: Array<CommentEdge>
+  edges: Array<StorefrontApiCommentEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface CommentEdge {
+export interface StorefrontApiCommentEdge {
   __typename: 'CommentEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of CommentEdge. */
-  node: Comment
+  node: StorefrontApiComment
 }
 
 /** ISO 3166-1 alpha-2 country codes with some differences. */
-export enum CountryCode {
+export enum StorefrontApiCountryCode {
   /** Afghanistan. */
   Af = 'AF',
   /** Aland Islands. */
@@ -1546,33 +1536,40 @@ export enum CountryCode {
 }
 
 /** Credit card information used for a payment. */
-export interface CreditCard {
+export interface StorefrontApiCreditCard {
   __typename: 'CreditCard'
+  /** The brand of the credit card. */
   brand?: Maybe<Scalars['String']>
+  /** The expiry month of the credit card. */
   expiryMonth?: Maybe<Scalars['Int']>
+  /** The expiry year of the credit card. */
   expiryYear?: Maybe<Scalars['Int']>
+  /** The credit card's BIN number. */
   firstDigits?: Maybe<Scalars['String']>
+  /** The first name of the card holder. */
   firstName?: Maybe<Scalars['String']>
+  /** The last 4 digits of the credit card. */
   lastDigits?: Maybe<Scalars['String']>
+  /** The last name of the card holder. */
   lastName?: Maybe<Scalars['String']>
-  /** Masked credit card number with only the last 4 digits displayed */
+  /** The masked credit card number with only the last 4 digits displayed. */
   maskedNumber?: Maybe<Scalars['String']>
 }
 
 /**
  * Specifies the fields required to complete a checkout with
  * a Shopify vaulted credit card payment.
- **/
-export type CreditCardPaymentInput = {
+ */
+export type StorefrontApiCreditCardPaymentInput = {
   /** The amount of the payment. */
   amount: Scalars['Money']
   /**
    * A unique client generated key used to avoid duplicate charges. When a
    * duplicate payment is found, the original is returned instead of creating a new one.
-   **/
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
-  billingAddress: MailingAddressInput
+  billingAddress: StorefrontApiMailingAddressInput
   /** The ID returned by Shopify's Card Vault. */
   vaultId: Scalars['String']
   /** Executes the payment in test mode if possible. Defaults to `false`. */
@@ -1582,17 +1579,17 @@ export type CreditCardPaymentInput = {
 /**
  * Specifies the fields required to complete a checkout with
  * a Shopify vaulted credit card payment.
- **/
-export type CreditCardPaymentInputV2 = {
+ */
+export type StorefrontApiCreditCardPaymentInputV2 = {
   /** The amount and currency of the payment. */
-  paymentAmount: MoneyInput
+  paymentAmount: StorefrontApiMoneyInput
   /**
    * A unique client generated key used to avoid duplicate charges. When a
    * duplicate payment is found, the original is returned instead of creating a new one.
-   **/
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
-  billingAddress: MailingAddressInput
+  billingAddress: StorefrontApiMailingAddressInput
   /** The ID returned by Shopify's Card Vault. */
   vaultId: Scalars['String']
   /** Executes the payment in test mode if possible. Defaults to `false`. */
@@ -1600,7 +1597,7 @@ export type CreditCardPaymentInputV2 = {
 }
 
 /** The part of the image that should remain after cropping. */
-export enum CropRegion {
+export enum StorefrontApiCropRegion {
   /** Keep the center of the image */
   Center = 'CENTER',
   /** Keep the top of the image */
@@ -1613,16 +1610,8 @@ export enum CropRegion {
   Right = 'RIGHT',
 }
 
-export interface Cta {
-  __typename: 'Cta'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  link?: Maybe<InternalLink>
-}
-
-/** Currency codes */
-export enum CurrencyCode {
+/** Currency codes. */
+export enum StorefrontApiCurrencyCode {
   /** United States Dollars (USD). */
   Usd = 'USD',
   /** Euro (EUR). */
@@ -1913,17 +1902,17 @@ export enum CurrencyCode {
  * A customer represents a customer account with the shop. Customer accounts store
  * contact information for the customer, saving logged-in customers the trouble of
  * having to provide it at every checkout.
- **/
-export interface Customer {
+ */
+export interface StorefrontApiCustomer {
   __typename: 'Customer'
   /** Indicates whether the customer has consented to be sent marketing material via email. */
   acceptsMarketing: Scalars['Boolean']
   /** A list of addresses for the customer. */
-  addresses: MailingAddressConnection
+  addresses: StorefrontApiMailingAddressConnection
   /** The date and time when the customer was created. */
   createdAt: Scalars['DateTime']
   /** The customer’s default address. */
-  defaultAddress?: Maybe<MailingAddress>
+  defaultAddress?: Maybe<StorefrontApiMailingAddress>
   /** The customer’s name, email or phone number. */
   displayName: Scalars['String']
   /** The customer’s email address. */
@@ -1933,17 +1922,17 @@ export interface Customer {
   /** A unique identifier for the customer. */
   id: Scalars['ID']
   /** The customer's most recently updated, incomplete checkout. */
-  lastIncompleteCheckout?: Maybe<Checkout>
+  lastIncompleteCheckout?: Maybe<StorefrontApiCheckout>
   /** The customer’s last name. */
   lastName?: Maybe<Scalars['String']>
   /** The orders associated with the customer. */
-  orders: OrderConnection
+  orders: StorefrontApiOrderConnection
   /** The customer’s phone number. */
   phone?: Maybe<Scalars['String']>
   /**
    * A list of tags assigned to the customer.
    * Additional access scope required: unauthenticated_read_customer_tags.
-   **/
+   */
   tags: Array<Scalars['String']>
   /** The date and time when the customer information was updated. */
   updatedAt: Scalars['DateTime']
@@ -1953,8 +1942,8 @@ export interface Customer {
  * A customer represents a customer account with the shop. Customer accounts store
  * contact information for the customer, saving logged-in customers the trouble of
  * having to provide it at every checkout.
- **/
-export type CustomerAddressesArgs = {
+ */
+export type StorefrontApiCustomerAddressesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -1966,19 +1955,19 @@ export type CustomerAddressesArgs = {
  * A customer represents a customer account with the shop. Customer accounts store
  * contact information for the customer, saving logged-in customers the trouble of
  * having to provide it at every checkout.
- **/
-export type CustomerOrdersArgs = {
+ */
+export type StorefrontApiCustomerOrdersArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<OrderSortKeys>
+  sortKey?: Maybe<StorefrontApiOrderSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
 /** A CustomerAccessToken represents the unique token required to make modifications to the customer object. */
-export interface CustomerAccessToken {
+export interface StorefrontApiCustomerAccessToken {
   __typename: 'CustomerAccessToken'
   /** The customer’s access token. */
   accessToken: Scalars['String']
@@ -1987,7 +1976,7 @@ export interface CustomerAccessToken {
 }
 
 /** Specifies the input fields required to create a customer access token. */
-export type CustomerAccessTokenCreateInput = {
+export type StorefrontApiCustomerAccessTokenCreateInput = {
   /** The email associated to the customer. */
   email: Scalars['String']
   /** The login password to be used by the customer. */
@@ -1995,38 +1984,38 @@ export type CustomerAccessTokenCreateInput = {
 }
 
 /** Return type for `customerAccessTokenCreate` mutation. */
-export interface CustomerAccessTokenCreatePayload {
+export interface StorefrontApiCustomerAccessTokenCreatePayload {
   __typename: 'CustomerAccessTokenCreatePayload'
   /** The newly created customer access token object. */
-  customerAccessToken?: Maybe<CustomerAccessToken>
+  customerAccessToken?: Maybe<StorefrontApiCustomerAccessToken>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `customerAccessTokenDelete` mutation. */
-export interface CustomerAccessTokenDeletePayload {
+export interface StorefrontApiCustomerAccessTokenDeletePayload {
   __typename: 'CustomerAccessTokenDeletePayload'
   /** The destroyed access token. */
   deletedAccessToken?: Maybe<Scalars['String']>
   /** ID of the destroyed customer access token. */
   deletedCustomerAccessTokenId?: Maybe<Scalars['String']>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `customerAccessTokenRenew` mutation. */
-export interface CustomerAccessTokenRenewPayload {
+export interface StorefrontApiCustomerAccessTokenRenewPayload {
   __typename: 'CustomerAccessTokenRenewPayload'
   /** The renewed customer access token object. */
-  customerAccessToken?: Maybe<CustomerAccessToken>
+  customerAccessToken?: Maybe<StorefrontApiCustomerAccessToken>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Specifies the input fields required to activate a customer. */
-export type CustomerActivateInput = {
+export type StorefrontApiCustomerActivateInput = {
   /** The activation token required to activate the customer. */
   activationToken: Scalars['String']
   /** New password that will be set during activation. */
@@ -2034,60 +2023,64 @@ export type CustomerActivateInput = {
 }
 
 /** Return type for `customerActivate` mutation. */
-export interface CustomerActivatePayload {
+export interface StorefrontApiCustomerActivatePayload {
   __typename: 'CustomerActivatePayload'
   /** The customer object. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** A newly created customer access token object for the customer. */
-  customerAccessToken?: Maybe<CustomerAccessToken>
+  customerAccessToken?: Maybe<StorefrontApiCustomerAccessToken>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `customerAddressCreate` mutation. */
-export interface CustomerAddressCreatePayload {
+export interface StorefrontApiCustomerAddressCreatePayload {
   __typename: 'CustomerAddressCreatePayload'
   /** The new customer address object. */
-  customerAddress?: Maybe<MailingAddress>
+  customerAddress?: Maybe<StorefrontApiMailingAddress>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `customerAddressDelete` mutation. */
-export interface CustomerAddressDeletePayload {
+export interface StorefrontApiCustomerAddressDeletePayload {
   __typename: 'CustomerAddressDeletePayload'
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** ID of the deleted customer address. */
   deletedCustomerAddressId?: Maybe<Scalars['String']>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `customerAddressUpdate` mutation. */
-export interface CustomerAddressUpdatePayload {
+export interface StorefrontApiCustomerAddressUpdatePayload {
   __typename: 'CustomerAddressUpdatePayload'
   /** The customer’s updated mailing address. */
-  customerAddress?: Maybe<MailingAddress>
+  customerAddress?: Maybe<StorefrontApiMailingAddress>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
-/** Specifies the fields required to create a new Customer. */
-export type CustomerCreateInput = {
+/** Specifies the fields required to create a new customer. */
+export type StorefrontApiCustomerCreateInput = {
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
   /** The customer’s last name. */
   lastName?: Maybe<Scalars['String']>
   /** The customer’s email. */
   email: Scalars['String']
-  /** The customer’s phone number. */
+  /**
+   * A unique phone number for the customer.
+   *
+   * Formatted using E.164 standard. For example, _+16135551111_.
+   */
   phone?: Maybe<Scalars['String']>
   /** The login password used by the customer. */
   password: Scalars['String']
@@ -2096,29 +2089,29 @@ export type CustomerCreateInput = {
 }
 
 /** Return type for `customerCreate` mutation. */
-export interface CustomerCreatePayload {
+export interface StorefrontApiCustomerCreatePayload {
   __typename: 'CustomerCreatePayload'
   /** The created customer object. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `customerDefaultAddressUpdate` mutation. */
-export interface CustomerDefaultAddressUpdatePayload {
+export interface StorefrontApiCustomerDefaultAddressUpdatePayload {
   __typename: 'CustomerDefaultAddressUpdatePayload'
   /** The updated customer object. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Possible error codes that could be returned by a customer mutation. */
-export enum CustomerErrorCode {
+export enum StorefrontApiCustomerErrorCode {
   /** Input value is blank. */
   Blank = 'BLANK',
   /** Input value is invalid. */
@@ -2148,29 +2141,29 @@ export enum CustomerErrorCode {
 }
 
 /** Return type for `customerRecover` mutation. */
-export interface CustomerRecoverPayload {
+export interface StorefrontApiCustomerRecoverPayload {
   __typename: 'CustomerRecoverPayload'
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Return type for `customerResetByUrl` mutation. */
-export interface CustomerResetByUrlPayload {
+export interface StorefrontApiCustomerResetByUrlPayload {
   __typename: 'CustomerResetByUrlPayload'
   /** The customer object which was reset. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** A newly created customer access token object for the customer. */
-  customerAccessToken?: Maybe<CustomerAccessToken>
+  customerAccessToken?: Maybe<StorefrontApiCustomerAccessToken>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
-/** Specifies the fields required to reset a Customer’s password. */
-export type CustomerResetInput = {
+/** Specifies the fields required to reset a customer’s password. */
+export type StorefrontApiCustomerResetInput = {
   /** The reset token required to reset the customer’s password. */
   resetToken: Scalars['String']
   /** New password that will be set as part of the reset password process. */
@@ -2178,27 +2171,31 @@ export type CustomerResetInput = {
 }
 
 /** Return type for `customerReset` mutation. */
-export interface CustomerResetPayload {
+export interface StorefrontApiCustomerResetPayload {
   __typename: 'CustomerResetPayload'
   /** The customer object which was reset. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /** A newly created customer access token object for the customer. */
-  customerAccessToken?: Maybe<CustomerAccessToken>
+  customerAccessToken?: Maybe<StorefrontApiCustomerAccessToken>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Specifies the fields required to update the Customer information. */
-export type CustomerUpdateInput = {
+export type StorefrontApiCustomerUpdateInput = {
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
   /** The customer’s last name. */
   lastName?: Maybe<Scalars['String']>
   /** The customer’s email. */
   email?: Maybe<Scalars['String']>
-  /** The customer’s phone number. */
+  /**
+   * A unique phone number for the customer.
+   *
+   * Formatted using E.164 standard. For example, _+16135551111_.
+   */
   phone?: Maybe<Scalars['String']>
   /** The login password used by the customer. */
   password?: Maybe<Scalars['String']>
@@ -2207,26 +2204,27 @@ export type CustomerUpdateInput = {
 }
 
 /** Return type for `customerUpdate` mutation. */
-export interface CustomerUpdatePayload {
+export interface StorefrontApiCustomerUpdatePayload {
   __typename: 'CustomerUpdatePayload'
   /** The updated customer object. */
-  customer?: Maybe<Customer>
+  customer?: Maybe<StorefrontApiCustomer>
   /**
    * The newly created customer access token. If the customer's password is updated, all previous access tokens
    * (including the one used to perform this mutation) become invalid, and a new token is generated.
-   **/
-  customerAccessToken?: Maybe<CustomerAccessToken>
+   */
+  customerAccessToken?: Maybe<StorefrontApiCustomerAccessToken>
   /** List of errors that occurred executing the mutation. */
-  customerUserErrors: Array<CustomerUserError>
+  customerUserErrors: Array<StorefrontApiCustomerUserError>
   /** List of errors that occurred executing the mutation. */
-  userErrors: Array<UserError>
+  userErrors: Array<StorefrontApiUserError>
 }
 
 /** Represents an error that happens during execution of a customer mutation. */
-export interface CustomerUserError extends DisplayableError {
+export interface StorefrontApiCustomerUserError
+  extends StorefrontApiDisplayableError {
   __typename: 'CustomerUserError'
   /** Error code to uniquely identify the error. */
-  code?: Maybe<CustomerErrorCode>
+  code?: Maybe<StorefrontApiCustomerErrorCode>
   /** Path to the input field which caused the error. */
   field?: Maybe<Array<Scalars['String']>>
   /** The error message. */
@@ -2234,7 +2232,7 @@ export interface CustomerUserError extends DisplayableError {
 }
 
 /** Digital wallet, such as Apple Pay, which can be used for accelerated checkouts. */
-export enum DigitalWallet {
+export enum StorefrontApiDigitalWallet {
   /** Apple Pay. */
   ApplePay = 'APPLE_PAY',
   /** Android Pay. */
@@ -2246,31 +2244,31 @@ export enum DigitalWallet {
 }
 
 /** An amount discounting the line that has been allocated by a discount. */
-export interface DiscountAllocation {
+export interface StorefrontApiDiscountAllocation {
   __typename: 'DiscountAllocation'
   /** Amount of discount allocated. */
-  allocatedAmount: MoneyV2
+  allocatedAmount: StorefrontApiMoneyV2
   /** The discount this allocated amount originated from. */
-  discountApplication: DiscountApplication
+  discountApplication: StorefrontApiDiscountApplication
 }
 
 /**
  * Discount applications capture the intentions of a discount source at
  * the time of application.
- **/
-export type DiscountApplication = {
+ */
+export type StorefrontApiDiscountApplication = {
   /** The method by which the discount's value is allocated to its entitled items. */
-  allocationMethod: DiscountApplicationAllocationMethod
+  allocationMethod: StorefrontApiDiscountApplicationAllocationMethod
   /** Which lines of targetType that the discount is allocated over. */
-  targetSelection: DiscountApplicationTargetSelection
+  targetSelection: StorefrontApiDiscountApplicationTargetSelection
   /** The type of line that the discount is applicable towards. */
-  targetType: DiscountApplicationTargetType
+  targetType: StorefrontApiDiscountApplicationTargetType
   /** The value of the discount application. */
-  value: PricingValue
+  value: StorefrontApiPricingValue
 }
 
 /** The method by which the discount's value is allocated onto its entitled lines. */
-export enum DiscountApplicationAllocationMethod {
+export enum StorefrontApiDiscountApplicationAllocationMethod {
   /** The value is spread across all entitled lines. */
   Across = 'ACROSS',
   /** The value is applied onto every entitled line. */
@@ -2279,27 +2277,27 @@ export enum DiscountApplicationAllocationMethod {
   One = 'ONE',
 }
 
-export interface DiscountApplicationConnection {
+export interface StorefrontApiDiscountApplicationConnection {
   __typename: 'DiscountApplicationConnection'
   /** A list of edges. */
-  edges: Array<DiscountApplicationEdge>
+  edges: Array<StorefrontApiDiscountApplicationEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface DiscountApplicationEdge {
+export interface StorefrontApiDiscountApplicationEdge {
   __typename: 'DiscountApplicationEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of DiscountApplicationEdge. */
-  node: DiscountApplication
+  node: StorefrontApiDiscountApplication
 }
 
 /**
  * Which lines on the order that the discount is allocated over, of the type
  * defined by the Discount Application's target_type.
- **/
-export enum DiscountApplicationTargetSelection {
+ */
+export enum StorefrontApiDiscountApplicationTargetSelection {
   /** The discount is allocated onto all the lines. */
   All = 'ALL',
   /** The discount is allocated onto only the lines it is entitled for. */
@@ -2309,7 +2307,7 @@ export enum DiscountApplicationTargetSelection {
 }
 
 /** The type of line (i.e. line item or shipping line) on an order that the discount is applicable towards. */
-export enum DiscountApplicationTargetType {
+export enum StorefrontApiDiscountApplicationTargetType {
   /** The discount applies onto line items. */
   LineItem = 'LINE_ITEM',
   /** The discount applies onto shipping lines. */
@@ -2319,47 +2317,34 @@ export enum DiscountApplicationTargetType {
 /**
  * Discount code applications capture the intentions of a discount code at
  * the time that it is applied.
- **/
-export interface DiscountCodeApplication extends DiscountApplication {
+ */
+export interface StorefrontApiDiscountCodeApplication
+  extends StorefrontApiDiscountApplication {
   __typename: 'DiscountCodeApplication'
   /** The method by which the discount's value is allocated to its entitled items. */
-  allocationMethod: DiscountApplicationAllocationMethod
+  allocationMethod: StorefrontApiDiscountApplicationAllocationMethod
   /** Specifies whether the discount code was applied successfully. */
   applicable: Scalars['Boolean']
   /** The string identifying the discount code that was used at the time of application. */
   code: Scalars['String']
   /** Which lines of targetType that the discount is allocated over. */
-  targetSelection: DiscountApplicationTargetSelection
+  targetSelection: StorefrontApiDiscountApplicationTargetSelection
   /** The type of line that the discount is applicable towards. */
-  targetType: DiscountApplicationTargetType
+  targetType: StorefrontApiDiscountApplicationTargetType
   /** The value of the discount application. */
-  value: PricingValue
+  value: StorefrontApiPricingValue
 }
 
 /** Represents an error in the input of a mutation. */
-export type DisplayableError = {
+export type StorefrontApiDisplayableError = {
   /** Path to the input field which caused the error. */
   field?: Maybe<Array<Scalars['String']>>
   /** The error message. */
   message: Scalars['String']
 }
 
-/** A Sanity document */
-export type Document = {
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-}
-
 /** Represents a web address. */
-export interface Domain {
+export interface StorefrontApiDomain {
   __typename: 'Domain'
   /** The host name of the domain (eg: `example.com`). */
   host: Scalars['String']
@@ -2369,39 +2354,22 @@ export interface Domain {
   url: Scalars['URL']
 }
 
-export interface ExternalLink {
-  __typename: 'ExternalLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  url?: Maybe<Scalars['String']>
-  newTab?: Maybe<Scalars['Boolean']>
-}
-
-export type ExternalLinkOrInternalLink = ExternalLink | InternalLink
-
-export interface File {
-  __typename: 'File'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityFileAsset>
-}
-
 /** Represents a single fulfillment in an order. */
-export interface Fulfillment {
+export interface StorefrontApiFulfillment {
   __typename: 'Fulfillment'
   /** List of the fulfillment's line items. */
-  fulfillmentLineItems: FulfillmentLineItemConnection
+  fulfillmentLineItems: StorefrontApiFulfillmentLineItemConnection
   /** The name of the tracking company. */
   trackingCompany?: Maybe<Scalars['String']>
   /**
    * Tracking information associated with the fulfillment,
    * such as the tracking number and tracking URL.
-   **/
-  trackingInfo: Array<FulfillmentTrackingInfo>
+   */
+  trackingInfo: Array<StorefrontApiFulfillmentTrackingInfo>
 }
 
 /** Represents a single fulfillment in an order. */
-export type FulfillmentFulfillmentLineItemsArgs = {
+export type StorefrontApiFulfillmentFulfillmentLineItemsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -2410,37 +2378,37 @@ export type FulfillmentFulfillmentLineItemsArgs = {
 }
 
 /** Represents a single fulfillment in an order. */
-export type FulfillmentTrackingInfoArgs = {
+export type StorefrontApiFulfillmentTrackingInfoArgs = {
   first?: Maybe<Scalars['Int']>
 }
 
 /** Represents a single line item in a fulfillment. There is at most one fulfillment line item for each order line item. */
-export interface FulfillmentLineItem {
+export interface StorefrontApiFulfillmentLineItem {
   __typename: 'FulfillmentLineItem'
   /** The associated order's line item. */
-  lineItem: OrderLineItem
+  lineItem: StorefrontApiOrderLineItem
   /** The amount fulfilled in this fulfillment. */
   quantity: Scalars['Int']
 }
 
-export interface FulfillmentLineItemConnection {
+export interface StorefrontApiFulfillmentLineItemConnection {
   __typename: 'FulfillmentLineItemConnection'
   /** A list of edges. */
-  edges: Array<FulfillmentLineItemEdge>
+  edges: Array<StorefrontApiFulfillmentLineItemEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface FulfillmentLineItemEdge {
+export interface StorefrontApiFulfillmentLineItemEdge {
   __typename: 'FulfillmentLineItemEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of FulfillmentLineItemEdge. */
-  node: FulfillmentLineItem
+  node: StorefrontApiFulfillmentLineItem
 }
 
 /** Tracking information associated with the fulfillment. */
-export interface FulfillmentTrackingInfo {
+export interface StorefrontApiFulfillmentTrackingInfo {
   __typename: 'FulfillmentTrackingInfo'
   /** The tracking number of the fulfillment. */
   number?: Maybe<Scalars['String']>
@@ -2448,31 +2416,22 @@ export interface FulfillmentTrackingInfo {
   url?: Maybe<Scalars['URL']>
 }
 
-export interface Geopoint {
-  __typename: 'Geopoint'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  lat?: Maybe<Scalars['Float']>
-  lng?: Maybe<Scalars['Float']>
-  alt?: Maybe<Scalars['Float']>
-}
-
 /** Represents information about the metafields associated to the specified resource. */
-export type HasMetafields = {
+export type StorefrontApiHasMetafields = {
   /** The metafield associated with the resource. */
-  metafield?: Maybe<Metafield>
+  metafield?: Maybe<StorefrontApiMetafield>
   /** A paginated list of metafields associated with the resource. */
-  metafields: MetafieldConnection
+  metafields: StorefrontApiMetafieldConnection
 }
 
 /** Represents information about the metafields associated to the specified resource. */
-export type HasMetafieldsMetafieldArgs = {
+export type StorefrontApiHasMetafieldsMetafieldArgs = {
   namespace: Scalars['String']
   key: Scalars['String']
 }
 
 /** Represents information about the metafields associated to the specified resource. */
-export type HasMetafieldsMetafieldsArgs = {
+export type StorefrontApiHasMetafieldsMetafieldsArgs = {
   namespace?: Maybe<Scalars['String']>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -2481,98 +2440,8 @@ export type HasMetafieldsMetafieldsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-export interface Hero {
-  __typename: 'Hero'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-  textPosition?: Maybe<Scalars['String']>
-  textColor?: Maybe<Scalars['String']>
-  image?: Maybe<RichImage>
-  mobileImage?: Maybe<RichImage>
-  textPositionMobile?: Maybe<Scalars['String']>
-  textColorMobile?: Maybe<Scalars['String']>
-}
-
-export interface Homepage extends Document {
-  __typename: 'Homepage'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  content?: Maybe<Array<Maybe<CarouselOrHeroOrImageTextBlock>>>
-}
-
-export type HomepageFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
-}
-
 /** Represents an image resource. */
-export interface Image {
+export interface StorefrontApiImage {
   __typename: 'Image'
   /** A word or phrase to share the nature or contents of an image. */
   altText?: Maybe<Scalars['String']>
@@ -2582,7 +2451,7 @@ export interface Image {
    * The location of the original image as a URL.
    *
    * If there are any existing transformations in the original source URL, they will remain and not be stripped.
-   **/
+   */
   originalSrc: Scalars['URL']
   /** The location of the image as a URL. */
   src: Scalars['URL']
@@ -2591,74 +2460,47 @@ export interface Image {
    *
    * All transformation arguments are considered "best-effort". If they can be applied to an image, they will be.
    * Otherwise any transformations which an image type does not support will be ignored.
-   **/
+   */
   transformedSrc: Scalars['URL']
 }
 
 /** Represents an image resource. */
-export type ImageTransformedSrcArgs = {
+export type StorefrontApiImageTransformedSrcArgs = {
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<CropRegion>
+  crop?: Maybe<StorefrontApiCropRegion>
   scale?: Maybe<Scalars['Int']>
-  preferredContentType?: Maybe<ImageContentType>
+  preferredContentType?: Maybe<StorefrontApiImageContentType>
 }
 
-export interface ImageConnection {
+export interface StorefrontApiImageConnection {
   __typename: 'ImageConnection'
   /** A list of edges. */
-  edges: Array<ImageEdge>
+  edges: Array<StorefrontApiImageEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
 /** List of supported image content types. */
-export enum ImageContentType {
+export enum StorefrontApiImageContentType {
+  /** A PNG image. */
   Png = 'PNG',
+  /** A JPG image. */
   Jpg = 'JPG',
+  /** A WEBP image. */
   Webp = 'WEBP',
 }
 
-export interface ImageEdge {
+export interface StorefrontApiImageEdge {
   __typename: 'ImageEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of ImageEdge. */
-  node: Image
+  node: StorefrontApiImage
 }
-
-export interface ImageTextBlock {
-  __typename: 'ImageTextBlock'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-  ctaText?: Maybe<Scalars['String']>
-  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
-  textPosition?: Maybe<Scalars['String']>
-  layout?: Maybe<Scalars['String']>
-  backgroundImage?: Maybe<RichImage>
-  hoverImage?: Maybe<RichImage>
-}
-
-export interface InternalLink {
-  __typename: 'InternalLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
-}
-
-export interface LinkGroup {
-  __typename: 'LinkGroup'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  links?: Maybe<Array<Maybe<InternalLink>>>
-}
-
-export type LinkGroupOrRichPageLink = LinkGroup | RichPageLink
 
 /** Represents a mailing address for customers and shipping. */
-export interface MailingAddress extends Node {
+export interface StorefrontApiMailingAddress extends StorefrontApiNode {
   __typename: 'MailingAddress'
   /** The first line of the address. Typically the street address or PO Box number. */
   address1?: Maybe<Scalars['String']>
@@ -2674,14 +2516,14 @@ export interface MailingAddress extends Node {
    * The two-letter code for the country of the address.
    *
    * For example, US.
-   **/
+   */
   countryCode?: Maybe<Scalars['String']>
   /**
    * The two-letter code for the country of the address.
    *
    * For example, US.
-   **/
-  countryCodeV2?: Maybe<CountryCode>
+   */
+  countryCodeV2?: Maybe<StorefrontApiCountryCode>
   /** The first name of the customer. */
   firstName?: Maybe<Scalars['String']>
   /** A formatted version of the address, customized by the provided arguments. */
@@ -2702,7 +2544,7 @@ export interface MailingAddress extends Node {
    * A unique phone number for the customer.
    *
    * Formatted using E.164 standard. For example, _+16135551111_.
-   **/
+   */
   phone?: Maybe<Scalars['String']>
   /** The region of the address, such as the province, state, or district. */
   province?: Maybe<Scalars['String']>
@@ -2710,156 +2552,85 @@ export interface MailingAddress extends Node {
    * The two-letter code for the region.
    *
    * For example, ON.
-   **/
+   */
   provinceCode?: Maybe<Scalars['String']>
   /** The zip or postal code of the address. */
   zip?: Maybe<Scalars['String']>
 }
 
 /** Represents a mailing address for customers and shipping. */
-export type MailingAddressFormattedArgs = {
+export type StorefrontApiMailingAddressFormattedArgs = {
   withName?: Maybe<Scalars['Boolean']>
   withCompany?: Maybe<Scalars['Boolean']>
 }
 
-export interface MailingAddressConnection {
+export interface StorefrontApiMailingAddressConnection {
   __typename: 'MailingAddressConnection'
   /** A list of edges. */
-  edges: Array<MailingAddressEdge>
+  edges: Array<StorefrontApiMailingAddressEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface MailingAddressEdge {
+export interface StorefrontApiMailingAddressEdge {
   __typename: 'MailingAddressEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of MailingAddressEdge. */
-  node: MailingAddress
+  node: StorefrontApiMailingAddress
 }
 
 /** Specifies the fields accepted to create or update a mailing address. */
-export type MailingAddressInput = {
+export type StorefrontApiMailingAddressInput = {
+  /** The first line of the address. Typically the street address or PO Box number. */
   address1?: Maybe<Scalars['String']>
+  /** The second line of the address. Typically the number of the apartment, suite, or unit. */
   address2?: Maybe<Scalars['String']>
+  /** The name of the city, district, village, or town. */
   city?: Maybe<Scalars['String']>
+  /** The name of the customer's company or organization. */
   company?: Maybe<Scalars['String']>
+  /** The name of the country. */
   country?: Maybe<Scalars['String']>
+  /** The first name of the customer. */
   firstName?: Maybe<Scalars['String']>
+  /** The last name of the customer. */
   lastName?: Maybe<Scalars['String']>
+  /**
+   * A unique phone number for the customer.
+   *
+   * Formatted using E.164 standard. For example, _+16135551111_.
+   */
   phone?: Maybe<Scalars['String']>
+  /** The region of the address, such as the province, state, or district. */
   province?: Maybe<Scalars['String']>
+  /** The zip or postal code of the address. */
   zip?: Maybe<Scalars['String']>
 }
 
 /** Manual discount applications capture the intentions of a discount that was manually created. */
-export interface ManualDiscountApplication extends DiscountApplication {
+export interface StorefrontApiManualDiscountApplication
+  extends StorefrontApiDiscountApplication {
   __typename: 'ManualDiscountApplication'
   /** The method by which the discount's value is allocated to its entitled items. */
-  allocationMethod: DiscountApplicationAllocationMethod
+  allocationMethod: StorefrontApiDiscountApplicationAllocationMethod
   /** The description of the application. */
   description?: Maybe<Scalars['String']>
   /** Which lines of targetType that the discount is allocated over. */
-  targetSelection: DiscountApplicationTargetSelection
+  targetSelection: StorefrontApiDiscountApplicationTargetSelection
   /** The type of line that the discount is applicable towards. */
-  targetType: DiscountApplicationTargetType
+  targetType: StorefrontApiDiscountApplicationTargetType
   /** The title of the application. */
   title: Scalars['String']
   /** The value of the discount application. */
-  value: PricingValue
+  value: StorefrontApiPricingValue
 }
-
-export interface Menu extends Document {
-  __typename: 'Menu'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  menuItems?: Maybe<Array<Maybe<MenuLinkOrSubMenu>>>
-}
-
-export type MenuFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
-}
-
-export interface MenuLink {
-  __typename: 'MenuLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  link?: Maybe<Cta>
-}
-
-export type MenuLinkOrSubMenu = MenuLink | SubMenu
 
 /**
  * Metafields represent custom metadata attached to a resource. Metafields can be sorted into namespaces and are
  * comprised of keys, values, and value types.
- **/
-export interface Metafield extends Node {
+ */
+export interface StorefrontApiMetafield extends StorefrontApiNode {
   __typename: 'Metafield'
   /** The description of a metafield. */
   description?: Maybe<Scalars['String']>
@@ -2870,34 +2641,36 @@ export interface Metafield extends Node {
   /** The namespace for a metafield. */
   namespace: Scalars['String']
   /** The parent object that the metafield belongs to. */
-  parentResource: MetafieldParentResource
+  parentResource: StorefrontApiMetafieldParentResource
   /** The value of a metafield. */
   value: Scalars['String']
   /** Represents the metafield value type. */
-  valueType: MetafieldValueType
+  valueType: StorefrontApiMetafieldValueType
 }
 
-export interface MetafieldConnection {
+export interface StorefrontApiMetafieldConnection {
   __typename: 'MetafieldConnection'
   /** A list of edges. */
-  edges: Array<MetafieldEdge>
+  edges: Array<StorefrontApiMetafieldEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface MetafieldEdge {
+export interface StorefrontApiMetafieldEdge {
   __typename: 'MetafieldEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of MetafieldEdge. */
-  node: Metafield
+  node: StorefrontApiMetafield
 }
 
 /** A resource that the metafield belongs to. */
-export type MetafieldParentResource = Product | ProductVariant
+export type StorefrontApiMetafieldParentResource =
+  | StorefrontApiProduct
+  | StorefrontApiProductVariant
 
 /** Metafield value types. */
-export enum MetafieldValueType {
+export enum StorefrontApiMetafieldValueType {
   /** A string metafield. */
   String = 'STRING',
   /** An integer metafield. */
@@ -2907,11 +2680,11 @@ export enum MetafieldValueType {
 }
 
 /** Specifies the fields for a monetary value with currency. */
-export type MoneyInput = {
+export type StorefrontApiMoneyInput = {
   /** Decimal money amount. */
   amount: Scalars['Decimal']
   /** Currency of the money. */
-  currencyCode: CurrencyCode
+  currencyCode: StorefrontApiCurrencyCode
 }
 
 /**
@@ -2936,322 +2709,392 @@ export type MoneyInput = {
  *
  * For a more general solution, the [Unicode CLDR number formatting database] is available with many implementations
  * (such as [TwitterCldr](https://github.com/twitter/twitter-cldr-rb)).
- **/
-export interface MoneyV2 {
+ */
+export interface StorefrontApiMoneyV2 {
   __typename: 'MoneyV2'
   /** Decimal money amount. */
   amount: Scalars['Decimal']
   /** Currency of the money. */
-  currencyCode: CurrencyCode
+  currencyCode: StorefrontApiCurrencyCode
 }
 
-export interface Mutation {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export interface StorefrontApiMutation {
   __typename: 'Mutation'
   /** Updates the attributes of a checkout. */
-  checkoutAttributesUpdate?: Maybe<CheckoutAttributesUpdatePayload>
+  checkoutAttributesUpdate?: Maybe<StorefrontApiCheckoutAttributesUpdatePayload>
   /** Updates the attributes of a checkout. */
-  checkoutAttributesUpdateV2?: Maybe<CheckoutAttributesUpdateV2Payload>
+  checkoutAttributesUpdateV2?: Maybe<
+    StorefrontApiCheckoutAttributesUpdateV2Payload
+  >
   /**
    * Completes a checkout without providing payment information. You can use this
    * mutation for free items or items whose purchase price is covered by a gift card.
-   **/
-  checkoutCompleteFree?: Maybe<CheckoutCompleteFreePayload>
+   */
+  checkoutCompleteFree?: Maybe<StorefrontApiCheckoutCompleteFreePayload>
   /** Completes a checkout using a credit card token from Shopify's Vault. */
-  checkoutCompleteWithCreditCard?: Maybe<CheckoutCompleteWithCreditCardPayload>
+  checkoutCompleteWithCreditCard?: Maybe<
+    StorefrontApiCheckoutCompleteWithCreditCardPayload
+  >
   /**
    * Completes a checkout using a credit card token from Shopify's card vault.
    * Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you
    * need to  [_request payment processing_](https://help.shopify.com/api/guides/sales-channel-sdk/getting-started#request-payment-processing).
-   **/
+   */
   checkoutCompleteWithCreditCardV2?: Maybe<
-    CheckoutCompleteWithCreditCardV2Payload
+    StorefrontApiCheckoutCompleteWithCreditCardV2Payload
   >
   /** Completes a checkout with a tokenized payment. */
   checkoutCompleteWithTokenizedPayment?: Maybe<
-    CheckoutCompleteWithTokenizedPaymentPayload
+    StorefrontApiCheckoutCompleteWithTokenizedPaymentPayload
   >
   /** Completes a checkout with a tokenized payment. */
   checkoutCompleteWithTokenizedPaymentV2?: Maybe<
-    CheckoutCompleteWithTokenizedPaymentV2Payload
+    StorefrontApiCheckoutCompleteWithTokenizedPaymentV2Payload
   >
   /** Creates a new checkout. */
-  checkoutCreate?: Maybe<CheckoutCreatePayload>
+  checkoutCreate?: Maybe<StorefrontApiCheckoutCreatePayload>
   /** Associates a customer to the checkout. */
-  checkoutCustomerAssociate?: Maybe<CheckoutCustomerAssociatePayload>
+  checkoutCustomerAssociate?: Maybe<
+    StorefrontApiCheckoutCustomerAssociatePayload
+  >
   /** Associates a customer to the checkout. */
-  checkoutCustomerAssociateV2?: Maybe<CheckoutCustomerAssociateV2Payload>
+  checkoutCustomerAssociateV2?: Maybe<
+    StorefrontApiCheckoutCustomerAssociateV2Payload
+  >
   /** Disassociates the current checkout customer from the checkout. */
-  checkoutCustomerDisassociate?: Maybe<CheckoutCustomerDisassociatePayload>
+  checkoutCustomerDisassociate?: Maybe<
+    StorefrontApiCheckoutCustomerDisassociatePayload
+  >
   /** Disassociates the current checkout customer from the checkout. */
-  checkoutCustomerDisassociateV2?: Maybe<CheckoutCustomerDisassociateV2Payload>
+  checkoutCustomerDisassociateV2?: Maybe<
+    StorefrontApiCheckoutCustomerDisassociateV2Payload
+  >
   /** Applies a discount to an existing checkout using a discount code. */
-  checkoutDiscountCodeApply?: Maybe<CheckoutDiscountCodeApplyPayload>
+  checkoutDiscountCodeApply?: Maybe<
+    StorefrontApiCheckoutDiscountCodeApplyPayload
+  >
   /** Applies a discount to an existing checkout using a discount code. */
-  checkoutDiscountCodeApplyV2?: Maybe<CheckoutDiscountCodeApplyV2Payload>
+  checkoutDiscountCodeApplyV2?: Maybe<
+    StorefrontApiCheckoutDiscountCodeApplyV2Payload
+  >
   /** Removes the applied discount from an existing checkout. */
-  checkoutDiscountCodeRemove?: Maybe<CheckoutDiscountCodeRemovePayload>
+  checkoutDiscountCodeRemove?: Maybe<
+    StorefrontApiCheckoutDiscountCodeRemovePayload
+  >
   /** Updates the email on an existing checkout. */
-  checkoutEmailUpdate?: Maybe<CheckoutEmailUpdatePayload>
+  checkoutEmailUpdate?: Maybe<StorefrontApiCheckoutEmailUpdatePayload>
   /** Updates the email on an existing checkout. */
-  checkoutEmailUpdateV2?: Maybe<CheckoutEmailUpdateV2Payload>
+  checkoutEmailUpdateV2?: Maybe<StorefrontApiCheckoutEmailUpdateV2Payload>
   /** Applies a gift card to an existing checkout using a gift card code. This will replace all currently applied gift cards. */
-  checkoutGiftCardApply?: Maybe<CheckoutGiftCardApplyPayload>
+  checkoutGiftCardApply?: Maybe<StorefrontApiCheckoutGiftCardApplyPayload>
   /** Removes an applied gift card from the checkout. */
-  checkoutGiftCardRemove?: Maybe<CheckoutGiftCardRemovePayload>
+  checkoutGiftCardRemove?: Maybe<StorefrontApiCheckoutGiftCardRemovePayload>
   /** Removes an applied gift card from the checkout. */
-  checkoutGiftCardRemoveV2?: Maybe<CheckoutGiftCardRemoveV2Payload>
+  checkoutGiftCardRemoveV2?: Maybe<StorefrontApiCheckoutGiftCardRemoveV2Payload>
   /** Appends gift cards to an existing checkout. */
-  checkoutGiftCardsAppend?: Maybe<CheckoutGiftCardsAppendPayload>
+  checkoutGiftCardsAppend?: Maybe<StorefrontApiCheckoutGiftCardsAppendPayload>
   /** Adds a list of line items to a checkout. */
-  checkoutLineItemsAdd?: Maybe<CheckoutLineItemsAddPayload>
-  /** Removes line items from an existing checkout */
-  checkoutLineItemsRemove?: Maybe<CheckoutLineItemsRemovePayload>
+  checkoutLineItemsAdd?: Maybe<StorefrontApiCheckoutLineItemsAddPayload>
+  /** Removes line items from an existing checkout. */
+  checkoutLineItemsRemove?: Maybe<StorefrontApiCheckoutLineItemsRemovePayload>
   /** Sets a list of line items to a checkout. */
-  checkoutLineItemsReplace?: Maybe<CheckoutLineItemsReplacePayload>
+  checkoutLineItemsReplace?: Maybe<StorefrontApiCheckoutLineItemsReplacePayload>
   /** Updates line items on a checkout. */
-  checkoutLineItemsUpdate?: Maybe<CheckoutLineItemsUpdatePayload>
+  checkoutLineItemsUpdate?: Maybe<StorefrontApiCheckoutLineItemsUpdatePayload>
   /** Updates the shipping address of an existing checkout. */
-  checkoutShippingAddressUpdate?: Maybe<CheckoutShippingAddressUpdatePayload>
+  checkoutShippingAddressUpdate?: Maybe<
+    StorefrontApiCheckoutShippingAddressUpdatePayload
+  >
   /** Updates the shipping address of an existing checkout. */
   checkoutShippingAddressUpdateV2?: Maybe<
-    CheckoutShippingAddressUpdateV2Payload
+    StorefrontApiCheckoutShippingAddressUpdateV2Payload
   >
   /** Updates the shipping lines on an existing checkout. */
-  checkoutShippingLineUpdate?: Maybe<CheckoutShippingLineUpdatePayload>
+  checkoutShippingLineUpdate?: Maybe<
+    StorefrontApiCheckoutShippingLineUpdatePayload
+  >
   /**
    * Creates a customer access token.
    * The customer access token is required to modify the customer object in any way.
-   **/
-  customerAccessTokenCreate?: Maybe<CustomerAccessTokenCreatePayload>
+   */
+  customerAccessTokenCreate?: Maybe<
+    StorefrontApiCustomerAccessTokenCreatePayload
+  >
   /** Permanently destroys a customer access token. */
-  customerAccessTokenDelete?: Maybe<CustomerAccessTokenDeletePayload>
+  customerAccessTokenDelete?: Maybe<
+    StorefrontApiCustomerAccessTokenDeletePayload
+  >
   /**
    * Renews a customer access token.
    *
    * Access token renewal must happen *before* a token expires.
    * If a token has already expired, a new one should be created instead via `customerAccessTokenCreate`.
-   **/
-  customerAccessTokenRenew?: Maybe<CustomerAccessTokenRenewPayload>
+   */
+  customerAccessTokenRenew?: Maybe<StorefrontApiCustomerAccessTokenRenewPayload>
   /** Activates a customer. */
-  customerActivate?: Maybe<CustomerActivatePayload>
+  customerActivate?: Maybe<StorefrontApiCustomerActivatePayload>
   /** Creates a new address for a customer. */
-  customerAddressCreate?: Maybe<CustomerAddressCreatePayload>
+  customerAddressCreate?: Maybe<StorefrontApiCustomerAddressCreatePayload>
   /** Permanently deletes the address of an existing customer. */
-  customerAddressDelete?: Maybe<CustomerAddressDeletePayload>
+  customerAddressDelete?: Maybe<StorefrontApiCustomerAddressDeletePayload>
   /** Updates the address of an existing customer. */
-  customerAddressUpdate?: Maybe<CustomerAddressUpdatePayload>
+  customerAddressUpdate?: Maybe<StorefrontApiCustomerAddressUpdatePayload>
   /** Creates a new customer. */
-  customerCreate?: Maybe<CustomerCreatePayload>
+  customerCreate?: Maybe<StorefrontApiCustomerCreatePayload>
   /** Updates the default address of an existing customer. */
-  customerDefaultAddressUpdate?: Maybe<CustomerDefaultAddressUpdatePayload>
+  customerDefaultAddressUpdate?: Maybe<
+    StorefrontApiCustomerDefaultAddressUpdatePayload
+  >
   /** Sends a reset password email to the customer, as the first step in the reset password process. */
-  customerRecover?: Maybe<CustomerRecoverPayload>
+  customerRecover?: Maybe<StorefrontApiCustomerRecoverPayload>
   /** Resets a customer’s password with a token received from `CustomerRecover`. */
-  customerReset?: Maybe<CustomerResetPayload>
+  customerReset?: Maybe<StorefrontApiCustomerResetPayload>
   /** Resets a customer’s password with the reset password url received from `CustomerRecover`. */
-  customerResetByUrl?: Maybe<CustomerResetByUrlPayload>
+  customerResetByUrl?: Maybe<StorefrontApiCustomerResetByUrlPayload>
   /** Updates an existing customer. */
-  customerUpdate?: Maybe<CustomerUpdatePayload>
+  customerUpdate?: Maybe<StorefrontApiCustomerUpdatePayload>
 }
 
-export type MutationCheckoutAttributesUpdateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutAttributesUpdateArgs = {
   checkoutId: Scalars['ID']
-  input: CheckoutAttributesUpdateInput
+  input: StorefrontApiCheckoutAttributesUpdateInput
 }
 
-export type MutationCheckoutAttributesUpdateV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutAttributesUpdateV2Args = {
   checkoutId: Scalars['ID']
-  input: CheckoutAttributesUpdateV2Input
+  input: StorefrontApiCheckoutAttributesUpdateV2Input
 }
 
-export type MutationCheckoutCompleteFreeArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCompleteFreeArgs = {
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutCompleteWithCreditCardArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCompleteWithCreditCardArgs = {
   checkoutId: Scalars['ID']
-  payment: CreditCardPaymentInput
+  payment: StorefrontApiCreditCardPaymentInput
 }
 
-export type MutationCheckoutCompleteWithCreditCardV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCompleteWithCreditCardV2Args = {
   checkoutId: Scalars['ID']
-  payment: CreditCardPaymentInputV2
+  payment: StorefrontApiCreditCardPaymentInputV2
 }
 
-export type MutationCheckoutCompleteWithTokenizedPaymentArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCompleteWithTokenizedPaymentArgs = {
   checkoutId: Scalars['ID']
-  payment: TokenizedPaymentInput
+  payment: StorefrontApiTokenizedPaymentInput
 }
 
-export type MutationCheckoutCompleteWithTokenizedPaymentV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCompleteWithTokenizedPaymentV2Args = {
   checkoutId: Scalars['ID']
-  payment: TokenizedPaymentInputV2
+  payment: StorefrontApiTokenizedPaymentInputV2
 }
 
-export type MutationCheckoutCreateArgs = {
-  input: CheckoutCreateInput
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCreateArgs = {
+  input: StorefrontApiCheckoutCreateInput
 }
 
-export type MutationCheckoutCustomerAssociateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCustomerAssociateArgs = {
   checkoutId: Scalars['ID']
   customerAccessToken: Scalars['String']
 }
 
-export type MutationCheckoutCustomerAssociateV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCustomerAssociateV2Args = {
   checkoutId: Scalars['ID']
   customerAccessToken: Scalars['String']
 }
 
-export type MutationCheckoutCustomerDisassociateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCustomerDisassociateArgs = {
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutCustomerDisassociateV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutCustomerDisassociateV2Args = {
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutDiscountCodeApplyArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutDiscountCodeApplyArgs = {
   discountCode: Scalars['String']
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutDiscountCodeApplyV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutDiscountCodeApplyV2Args = {
   discountCode: Scalars['String']
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutDiscountCodeRemoveArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutDiscountCodeRemoveArgs = {
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutEmailUpdateArgs = {
-  checkoutId: Scalars['ID']
-  email: Scalars['String']
-}
-
-export type MutationCheckoutEmailUpdateV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutEmailUpdateArgs = {
   checkoutId: Scalars['ID']
   email: Scalars['String']
 }
 
-export type MutationCheckoutGiftCardApplyArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutEmailUpdateV2Args = {
+  checkoutId: Scalars['ID']
+  email: Scalars['String']
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutGiftCardApplyArgs = {
   giftCardCode: Scalars['String']
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutGiftCardRemoveArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutGiftCardRemoveArgs = {
   appliedGiftCardId: Scalars['ID']
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutGiftCardRemoveV2Args = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutGiftCardRemoveV2Args = {
   appliedGiftCardId: Scalars['ID']
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutGiftCardsAppendArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutGiftCardsAppendArgs = {
   giftCardCodes: Array<Scalars['String']>
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutLineItemsAddArgs = {
-  lineItems: Array<CheckoutLineItemInput>
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutLineItemsAddArgs = {
+  lineItems: Array<StorefrontApiCheckoutLineItemInput>
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutLineItemsRemoveArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutLineItemsRemoveArgs = {
   checkoutId: Scalars['ID']
   lineItemIds: Array<Scalars['ID']>
 }
 
-export type MutationCheckoutLineItemsReplaceArgs = {
-  lineItems: Array<CheckoutLineItemInput>
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutLineItemsReplaceArgs = {
+  lineItems: Array<StorefrontApiCheckoutLineItemInput>
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutLineItemsUpdateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutLineItemsUpdateArgs = {
   checkoutId: Scalars['ID']
-  lineItems: Array<CheckoutLineItemUpdateInput>
+  lineItems: Array<StorefrontApiCheckoutLineItemUpdateInput>
 }
 
-export type MutationCheckoutShippingAddressUpdateArgs = {
-  shippingAddress: MailingAddressInput
-  checkoutId: Scalars['ID']
-}
-
-export type MutationCheckoutShippingAddressUpdateV2Args = {
-  shippingAddress: MailingAddressInput
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutShippingAddressUpdateArgs = {
+  shippingAddress: StorefrontApiMailingAddressInput
   checkoutId: Scalars['ID']
 }
 
-export type MutationCheckoutShippingLineUpdateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutShippingAddressUpdateV2Args = {
+  shippingAddress: StorefrontApiMailingAddressInput
+  checkoutId: Scalars['ID']
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCheckoutShippingLineUpdateArgs = {
   checkoutId: Scalars['ID']
   shippingRateHandle: Scalars['String']
 }
 
-export type MutationCustomerAccessTokenCreateArgs = {
-  input: CustomerAccessTokenCreateInput
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerAccessTokenCreateArgs = {
+  input: StorefrontApiCustomerAccessTokenCreateInput
 }
 
-export type MutationCustomerAccessTokenDeleteArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerAccessTokenDeleteArgs = {
   customerAccessToken: Scalars['String']
 }
 
-export type MutationCustomerAccessTokenRenewArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerAccessTokenRenewArgs = {
   customerAccessToken: Scalars['String']
 }
 
-export type MutationCustomerActivateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerActivateArgs = {
   id: Scalars['ID']
-  input: CustomerActivateInput
+  input: StorefrontApiCustomerActivateInput
 }
 
-export type MutationCustomerAddressCreateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerAddressCreateArgs = {
   customerAccessToken: Scalars['String']
-  address: MailingAddressInput
+  address: StorefrontApiMailingAddressInput
 }
 
-export type MutationCustomerAddressDeleteArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerAddressDeleteArgs = {
   id: Scalars['ID']
   customerAccessToken: Scalars['String']
 }
 
-export type MutationCustomerAddressUpdateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerAddressUpdateArgs = {
   customerAccessToken: Scalars['String']
   id: Scalars['ID']
-  address: MailingAddressInput
+  address: StorefrontApiMailingAddressInput
 }
 
-export type MutationCustomerCreateArgs = {
-  input: CustomerCreateInput
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerCreateArgs = {
+  input: StorefrontApiCustomerCreateInput
 }
 
-export type MutationCustomerDefaultAddressUpdateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerDefaultAddressUpdateArgs = {
   customerAccessToken: Scalars['String']
   addressId: Scalars['ID']
 }
 
-export type MutationCustomerRecoverArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerRecoverArgs = {
   email: Scalars['String']
 }
 
-export type MutationCustomerResetArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerResetArgs = {
   id: Scalars['ID']
-  input: CustomerResetInput
+  input: StorefrontApiCustomerResetInput
 }
 
-export type MutationCustomerResetByUrlArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerResetByUrlArgs = {
   resetUrl: Scalars['URL']
   password: Scalars['String']
 }
 
-export type MutationCustomerUpdateArgs = {
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type StorefrontApiMutationCustomerUpdateArgs = {
   customerAccessToken: Scalars['String']
-  customer: CustomerUpdateInput
+  customer: StorefrontApiCustomerUpdateInput
 }
 
 /** An object with an ID to support global identification. */
-export type Node = {
+export type StorefrontApiNode = {
   /** Globally unique identifier. */
   id: Scalars['ID']
 }
@@ -3260,27 +3103,27 @@ export type Node = {
  * An order is a customer’s completed request to purchase one or more products from
  * a shop. An order is created when a customer completes the checkout process,
  * during which time they provides an email address, billing address and payment information.
- **/
-export interface Order extends Node {
+ */
+export interface StorefrontApiOrder extends StorefrontApiNode {
   __typename: 'Order'
   /** The code of the currency used for the payment. */
-  currencyCode: CurrencyCode
+  currencyCode: StorefrontApiCurrencyCode
   /** The locale code in which this specific order happened. */
   customerLocale?: Maybe<Scalars['String']>
   /** The unique URL that the customer can use to access the order. */
   customerUrl?: Maybe<Scalars['URL']>
   /** Discounts that have been applied on the order. */
-  discountApplications: DiscountApplicationConnection
+  discountApplications: StorefrontApiDiscountApplicationConnection
   /** The customer's email address. */
   email?: Maybe<Scalars['String']>
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** List of the order’s line items. */
-  lineItems: OrderLineItemConnection
+  lineItems: StorefrontApiOrderLineItemConnection
   /**
    * Unique identifier for the order that appears on the order.
    * For example, _#1000_ or _Store1001.
-   **/
+   */
   name: Scalars['String']
   /** A unique numeric identifier for the order for use by shop owner and customer. */
   orderNumber: Scalars['Int']
@@ -3290,44 +3133,44 @@ export interface Order extends Node {
    * The date and time when the order was imported.
    * This value can be set to dates in the past when importing from other systems.
    * If no value is provided, it will be auto-generated based on current date and time.
-   **/
+   */
   processedAt: Scalars['DateTime']
   /** The address to where the order will be shipped. */
-  shippingAddress?: Maybe<MailingAddress>
+  shippingAddress?: Maybe<StorefrontApiMailingAddress>
   /** The discounts that have been allocated onto the shipping line by discount applications. */
-  shippingDiscountAllocations: Array<DiscountAllocation>
+  shippingDiscountAllocations: Array<StorefrontApiDiscountAllocation>
   /** The unique URL for the order's status page. */
   statusUrl: Scalars['URL']
   /** Price of the order before shipping and taxes. */
   subtotalPrice?: Maybe<Scalars['Money']>
   /** Price of the order before shipping and taxes. */
-  subtotalPriceV2?: Maybe<MoneyV2>
+  subtotalPriceV2?: Maybe<StorefrontApiMoneyV2>
   /** List of the order’s successful fulfillments. */
-  successfulFulfillments?: Maybe<Array<Fulfillment>>
+  successfulFulfillments?: Maybe<Array<StorefrontApiFulfillment>>
   /** The sum of all the prices of all the items in the order, taxes and discounts included (must be positive). */
   totalPrice: Scalars['Money']
   /** The sum of all the prices of all the items in the order, taxes and discounts included (must be positive). */
-  totalPriceV2: MoneyV2
+  totalPriceV2: StorefrontApiMoneyV2
   /** The total amount that has been refunded. */
   totalRefunded: Scalars['Money']
   /** The total amount that has been refunded. */
-  totalRefundedV2: MoneyV2
+  totalRefundedV2: StorefrontApiMoneyV2
   /** The total cost of shipping. */
   totalShippingPrice: Scalars['Money']
   /** The total cost of shipping. */
-  totalShippingPriceV2: MoneyV2
+  totalShippingPriceV2: StorefrontApiMoneyV2
   /** The total cost of taxes. */
   totalTax?: Maybe<Scalars['Money']>
   /** The total cost of taxes. */
-  totalTaxV2?: Maybe<MoneyV2>
+  totalTaxV2?: Maybe<StorefrontApiMoneyV2>
 }
 
 /**
  * An order is a customer’s completed request to purchase one or more products from
  * a shop. An order is created when a customer completes the checkout process,
  * during which time they provides an email address, billing address and payment information.
- **/
-export type OrderDiscountApplicationsArgs = {
+ */
+export type StorefrontApiOrderDiscountApplicationsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -3339,8 +3182,8 @@ export type OrderDiscountApplicationsArgs = {
  * An order is a customer’s completed request to purchase one or more products from
  * a shop. An order is created when a customer completes the checkout process,
  * during which time they provides an email address, billing address and payment information.
- **/
-export type OrderLineItemsArgs = {
+ */
+export type StorefrontApiOrderLineItemsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -3352,60 +3195,60 @@ export type OrderLineItemsArgs = {
  * An order is a customer’s completed request to purchase one or more products from
  * a shop. An order is created when a customer completes the checkout process,
  * during which time they provides an email address, billing address and payment information.
- **/
-export type OrderSuccessfulFulfillmentsArgs = {
+ */
+export type StorefrontApiOrderSuccessfulFulfillmentsArgs = {
   first?: Maybe<Scalars['Int']>
 }
 
-export interface OrderConnection {
+export interface StorefrontApiOrderConnection {
   __typename: 'OrderConnection'
   /** A list of edges. */
-  edges: Array<OrderEdge>
+  edges: Array<StorefrontApiOrderEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface OrderEdge {
+export interface StorefrontApiOrderEdge {
   __typename: 'OrderEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of OrderEdge. */
-  node: Order
+  node: StorefrontApiOrder
 }
 
 /** Represents a single line in an order. There is one line item for each distinct product variant. */
-export interface OrderLineItem {
+export interface StorefrontApiOrderLineItem {
   __typename: 'OrderLineItem'
   /** List of custom attributes associated to the line item. */
-  customAttributes: Array<Attribute>
+  customAttributes: Array<StorefrontApiAttribute>
   /** The discounts that have been allocated onto the order line item by discount applications. */
-  discountAllocations: Array<DiscountAllocation>
+  discountAllocations: Array<StorefrontApiDiscountAllocation>
   /** The number of products variants associated to the line item. */
   quantity: Scalars['Int']
   /** The title of the product combined with title of the variant. */
   title: Scalars['String']
   /** The product variant object associated to the line item. */
-  variant?: Maybe<ProductVariant>
+  variant?: Maybe<StorefrontApiProductVariant>
 }
 
-export interface OrderLineItemConnection {
+export interface StorefrontApiOrderLineItemConnection {
   __typename: 'OrderLineItemConnection'
   /** A list of edges. */
-  edges: Array<OrderLineItemEdge>
+  edges: Array<StorefrontApiOrderLineItemEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface OrderLineItemEdge {
+export interface StorefrontApiOrderLineItemEdge {
   __typename: 'OrderLineItemEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of OrderLineItemEdge. */
-  node: OrderLineItem
+  node: StorefrontApiOrderLineItem
 }
 
 /** The set of valid sort keys for the orders query. */
-export enum OrderSortKeys {
+export enum StorefrontApiOrderSortKeys {
   /** Sort by the `processed_at` value. */
   ProcessedAt = 'PROCESSED_AT',
   /** Sort by the `total_price` value. */
@@ -3416,114 +3259,52 @@ export enum OrderSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
-export interface Page extends Document {
+/**
+ * Shopify merchants can create pages to hold static HTML content. Each Page object
+ * represents a custom page on the online store.
+ */
+export interface StorefrontApiPage extends StorefrontApiNode {
   __typename: 'Page'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  slug?: Maybe<Slug>
+  /** The description of the page, complete with HTML formatting. */
+  body: Scalars['HTML']
+  /** Summary of the page body. */
+  bodySummary: Scalars['String']
+  /** The timestamp of the page creation. */
+  createdAt: Scalars['DateTime']
+  /** A human-friendly unique string for the page automatically generated from its title. */
+  handle: Scalars['String']
+  /** Globally unique identifier. */
+  id: Scalars['ID']
+  /** The title of the page. */
+  title: Scalars['String']
+  /** The timestamp of the latest page update. */
+  updatedAt: Scalars['DateTime']
+  /** The url pointing to the page accessible from the web. */
+  url: Scalars['URL']
 }
 
-export interface PageConnection {
+export interface StorefrontApiPageConnection {
   __typename: 'PageConnection'
   /** A list of edges. */
-  edges: Array<PageEdge>
+  edges: Array<StorefrontApiPageEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface PageEdge {
+export interface StorefrontApiPageEdge {
   __typename: 'PageEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of PageEdge. */
-  node: Page
-}
-
-export type PageFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  title?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  title_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  title_matches?: Maybe<Scalars['String']>
-  title_in?: Maybe<Array<Scalars['String']>>
-  title_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
+  node: StorefrontApiPage
 }
 
 /** Information about pagination in a connection. */
-export interface PageInfo {
+export interface StorefrontApiPageInfo {
   __typename: 'PageInfo'
   /** Indicates if there are more pages to fetch. */
   hasNextPage: Scalars['Boolean']
@@ -3531,13 +3312,8 @@ export interface PageInfo {
   hasPreviousPage: Scalars['Boolean']
 }
 
-export type PageOrShopifyCollectionOrShopifyProduct =
-  | Page
-  | ShopifyCollection
-  | ShopifyProduct
-
 /** The set of valid sort keys for the pages query. */
-export enum PageSortKeys {
+export enum StorefrontApiPageSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `updated_at` value. */
@@ -3548,23 +3324,23 @@ export enum PageSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
 /** A payment applied to a checkout. */
-export interface Payment extends Node {
+export interface StorefrontApiPayment extends StorefrontApiNode {
   __typename: 'Payment'
   /** The amount of the payment. */
   amount: Scalars['Money']
   /** The amount of the payment. */
-  amountV2: MoneyV2
+  amountV2: StorefrontApiMoneyV2
   /** The billing address for the payment. */
-  billingAddress?: Maybe<MailingAddress>
+  billingAddress?: Maybe<StorefrontApiMailingAddress>
   /** The checkout to which the payment belongs. */
-  checkout: Checkout
+  checkout: StorefrontApiCheckout
   /** The credit card used for the payment in the case of direct payments. */
-  creditCard?: Maybe<CreditCard>
+  creditCard?: Maybe<StorefrontApiCreditCard>
   /** A message describing a processing error during asynchronous processing. */
   errorMessage?: Maybe<Scalars['String']>
   /** Globally unique identifier. */
@@ -3576,53 +3352,57 @@ export interface Payment extends Node {
   /** A flag to indicate if the payment is to be done in test mode for gateways that support it. */
   test: Scalars['Boolean']
   /** The actual transaction recorded by Shopify after having processed the payment with the gateway. */
-  transaction?: Maybe<Transaction>
+  transaction?: Maybe<StorefrontApiTransaction>
 }
 
 /** Settings related to payments. */
-export interface PaymentSettings {
+export interface StorefrontApiPaymentSettings {
   __typename: 'PaymentSettings'
   /** List of the card brands which the shop accepts. */
-  acceptedCardBrands: Array<CardBrand>
+  acceptedCardBrands: Array<StorefrontApiCardBrand>
   /** The url pointing to the endpoint to vault credit cards. */
   cardVaultUrl: Scalars['URL']
   /** The country where the shop is located. */
-  countryCode: CountryCode
+  countryCode: StorefrontApiCountryCode
   /** The three-letter code for the shop's primary currency. */
-  currencyCode: CurrencyCode
+  currencyCode: StorefrontApiCurrencyCode
   /**
    * A list of enabled currencies (ISO 4217 format) that the shop accepts.
    * Merchants can enable currencies from their Shopify Payments settings in the Shopify admin.
-   **/
-  enabledPresentmentCurrencies: Array<CurrencyCode>
+   */
+  enabledPresentmentCurrencies: Array<StorefrontApiCurrencyCode>
   /** The shop’s Shopify Payments account id. */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>
   /** List of the digital wallets which the shop supports. */
-  supportedDigitalWallets: Array<DigitalWallet>
+  supportedDigitalWallets: Array<StorefrontApiDigitalWallet>
 }
 
 /** The value of the percentage pricing object. */
-export interface PricingPercentageValue {
+export interface StorefrontApiPricingPercentageValue {
   __typename: 'PricingPercentageValue'
   /** The percentage value of the object. */
   percentage: Scalars['Float']
 }
 
 /** The price value (fixed or percentage) for a discount application. */
-export type PricingValue = PricingPercentageValue | MoneyV2
+export type StorefrontApiPricingValue =
+  | StorefrontApiPricingPercentageValue
+  | StorefrontApiMoneyV2
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export interface Product extends Node, HasMetafields {
+ */
+export interface StorefrontApiProduct
+  extends StorefrontApiNode,
+    StorefrontApiHasMetafields {
   __typename: 'Product'
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']
   /** List of collections a product belongs to. */
-  collections: CollectionConnection
+  collections: StorefrontApiCollectionConnection
   /** The date and time when the product was created. */
   createdAt: Scalars['DateTime']
   /** Stripped description of the product, single line with HTML tags removed. */
@@ -3632,27 +3412,27 @@ export interface Product extends Node, HasMetafields {
   /**
    * A human-friendly unique string for the Product automatically generated from its title.
    * They are used by the Liquid templating language to refer to objects.
-   **/
+   */
   handle: Scalars['String']
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** List of images associated with the product. */
-  images: ImageConnection
+  images: StorefrontApiImageConnection
   /** The metafield associated with the resource. */
-  metafield?: Maybe<Metafield>
+  metafield?: Maybe<StorefrontApiMetafield>
   /** A paginated list of metafields associated with the resource. */
-  metafields: MetafieldConnection
+  metafields: StorefrontApiMetafieldConnection
   /**
    * The online store URL for the product.
    * A value of `null` indicates that the product is not published to the Online Store sales channel.
-   **/
+   */
   onlineStoreUrl?: Maybe<Scalars['URL']>
   /** List of custom product options (maximum of 3 per product). */
-  options: Array<ProductOption>
+  options: Array<StorefrontApiProductOption>
   /** List of price ranges in the presentment currencies for this shop. */
-  presentmentPriceRanges: ProductPriceRangeConnection
+  presentmentPriceRanges: StorefrontApiProductPriceRangeConnection
   /** The price range. */
-  priceRange: ProductPriceRange
+  priceRange: StorefrontApiProductPriceRange
   /** A categorization that a product can be tagged with, commonly used for filtering and searching. */
   productType: Scalars['String']
   /** The date and time when the product was published to the channel. */
@@ -3660,7 +3440,7 @@ export interface Product extends Node, HasMetafields {
   /**
    * A categorization that a product can be tagged with, commonly used for filtering and searching.
    * Additional access scope required for private apps: unauthenticated_read_product_tags.
-   **/
+   */
   tags: Array<Scalars['String']>
   /** The product’s title. */
   title: Scalars['String']
@@ -3670,10 +3450,10 @@ export interface Product extends Node, HasMetafields {
    * Find a product’s variant based on its selected options.
    * This is useful for converting a user’s selection of product options into a single matching variant.
    * If there is not a variant for the selected options, `null` will be returned.
-   **/
-  variantBySelectedOptions?: Maybe<ProductVariant>
+   */
+  variantBySelectedOptions?: Maybe<StorefrontApiProductVariant>
   /** List of the product’s variants. */
-  variants: ProductVariantConnection
+  variants: StorefrontApiProductVariantConnection
   /** The product’s vendor name. */
   vendor: Scalars['String']
 }
@@ -3683,8 +3463,8 @@ export interface Product extends Node, HasMetafields {
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export type ProductCollectionsArgs = {
+ */
+export type StorefrontApiProductCollectionsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -3697,8 +3477,8 @@ export type ProductCollectionsArgs = {
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export type ProductDescriptionArgs = {
+ */
+export type StorefrontApiProductDescriptionArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
@@ -3707,17 +3487,17 @@ export type ProductDescriptionArgs = {
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export type ProductImagesArgs = {
+ */
+export type StorefrontApiProductImagesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ProductImageSortKeys>
+  sortKey?: Maybe<StorefrontApiProductImageSortKeys>
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<CropRegion>
+  crop?: Maybe<StorefrontApiCropRegion>
   scale?: Maybe<Scalars['Int']>
 }
 
@@ -3726,8 +3506,8 @@ export type ProductImagesArgs = {
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export type ProductMetafieldArgs = {
+ */
+export type StorefrontApiProductMetafieldArgs = {
   namespace: Scalars['String']
   key: Scalars['String']
 }
@@ -3737,8 +3517,8 @@ export type ProductMetafieldArgs = {
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export type ProductMetafieldsArgs = {
+ */
+export type StorefrontApiProductMetafieldsArgs = {
   namespace?: Maybe<Scalars['String']>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -3752,8 +3532,8 @@ export type ProductMetafieldsArgs = {
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export type ProductOptionsArgs = {
+ */
+export type StorefrontApiProductOptionsArgs = {
   first?: Maybe<Scalars['Int']>
 }
 
@@ -3762,43 +3542,43 @@ export type ProductOptionsArgs = {
  * For example, a digital download (such as a movie, music or ebook file) also
  * qualifies as a product, as do services (such as equipment rental, work for hire,
  * customization of another product or an extended warranty).
- **/
-export type ProductPresentmentPriceRangesArgs = {
-  presentmentCurrencies?: Maybe<Array<CurrencyCode>>
-  first?: Maybe<Scalars['Int']>
-  after?: Maybe<Scalars['String']>
-  last?: Maybe<Scalars['Int']>
-  before?: Maybe<Scalars['String']>
-  reverse?: Maybe<Scalars['Boolean']>
-}
-
-/**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
- **/
-export type ProductVariantBySelectedOptionsArgs = {
-  selectedOptions: Array<SelectedOptionInput>
-}
-
-/**
- * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
- **/
-export type ProductVariantsArgs = {
+ */
+export type StorefrontApiProductPresentmentPriceRangesArgs = {
+  presentmentCurrencies?: Maybe<Array<StorefrontApiCurrencyCode>>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ProductVariantSortKeys>
+}
+
+/**
+ * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
+ */
+export type StorefrontApiProductVariantBySelectedOptionsArgs = {
+  selectedOptions: Array<StorefrontApiSelectedOptionInput>
+}
+
+/**
+ * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
+ */
+export type StorefrontApiProductVariantsArgs = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+  sortKey?: Maybe<StorefrontApiProductVariantSortKeys>
 }
 
 /** The set of valid sort keys for the products query. */
-export enum ProductCollectionSortKeys {
+export enum StorefrontApiProductCollectionSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `price` value. */
@@ -3817,28 +3597,28 @@ export enum ProductCollectionSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
-export interface ProductConnection {
+export interface StorefrontApiProductConnection {
   __typename: 'ProductConnection'
   /** A list of edges. */
-  edges: Array<ProductEdge>
+  edges: Array<StorefrontApiProductEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface ProductEdge {
+export interface StorefrontApiProductEdge {
   __typename: 'ProductEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of ProductEdge. */
-  node: Product
+  node: StorefrontApiProduct
 }
 
 /** The set of valid sort keys for the images query. */
-export enum ProductImageSortKeys {
+export enum StorefrontApiProductImageSortKeys {
   /** Sort by the `created_at` value. */
   CreatedAt = 'CREATED_AT',
   /** Sort by the `position` value. */
@@ -3849,130 +3629,8 @@ export enum ProductImageSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
-}
-
-export interface ProductInfo {
-  __typename: 'ProductInfo'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-}
-
-export interface ProductInfoByTag {
-  __typename: 'ProductInfoByTag'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** Tag to match from Shopify. */
-  tag?: Maybe<Scalars['String']>
-  info?: Maybe<Array<Maybe<ProductInfo>>>
-}
-
-export interface ProductInfoByType {
-  __typename: 'ProductInfoByType'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** Type to match from Shopify. */
-  type?: Maybe<Scalars['String']>
-  info?: Maybe<Array<Maybe<ProductInfo>>>
-}
-
-export interface ProductInfoSettings extends Document {
-  __typename: 'ProductInfoSettings'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  /**
-   * Use these fields to add snippets of descriptions to all or some projects. For
-   * instance, you could add a 'Shipping and Returns' accordion on all items, a
-   * 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold'
-   * accordion to any product tagged with 'Black Gold'. These accordions will be
-   * displayed in accordion-dropdowns below the main product information. You can
-   * also add info accordions to individual items on their page here in the CMS.
-   **/
-  helpText?: Maybe<Scalars['String']>
-  globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
-  infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
-  infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
-}
-
-export type ProductInfoSettingsFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  helpText?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  helpText_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  helpText_matches?: Maybe<Scalars['String']>
-  helpText_in?: Maybe<Array<Scalars['String']>>
-  helpText_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
 }
 
 /**
@@ -3980,8 +3638,8 @@ export type ProductInfoSettingsFilter = {
  * Products are based on permutations of these options.
  * A product may have a maximum of 3 options.
  * 255 characters limit each.
- **/
-export interface ProductOption extends Node {
+ */
+export interface StorefrontApiProductOption extends StorefrontApiNode {
   __typename: 'ProductOption'
   /** Globally unique identifier. */
   id: Scalars['ID']
@@ -3992,32 +3650,32 @@ export interface ProductOption extends Node {
 }
 
 /** The price range of the product. */
-export interface ProductPriceRange {
+export interface StorefrontApiProductPriceRange {
   __typename: 'ProductPriceRange'
   /** The highest variant's price. */
-  maxVariantPrice: MoneyV2
+  maxVariantPrice: StorefrontApiMoneyV2
   /** The lowest variant's price. */
-  minVariantPrice: MoneyV2
+  minVariantPrice: StorefrontApiMoneyV2
 }
 
-export interface ProductPriceRangeConnection {
+export interface StorefrontApiProductPriceRangeConnection {
   __typename: 'ProductPriceRangeConnection'
   /** A list of edges. */
-  edges: Array<ProductPriceRangeEdge>
+  edges: Array<StorefrontApiProductPriceRangeEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface ProductPriceRangeEdge {
+export interface StorefrontApiProductPriceRangeEdge {
   __typename: 'ProductPriceRangeEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of ProductPriceRangeEdge. */
-  node: ProductPriceRange
+  node: StorefrontApiProductPriceRange
 }
 
 /** The set of valid sort keys for the products query. */
-export enum ProductSortKeys {
+export enum StorefrontApiProductSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `product_type` value. */
@@ -4038,12 +3696,14 @@ export enum ProductSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export interface ProductVariant extends Node, HasMetafields {
+export interface StorefrontApiProductVariant
+  extends StorefrontApiNode,
+    StorefrontApiHasMetafields {
   __typename: 'ProductVariant'
   /** Indicates if the product variant is in stock. */
   available?: Maybe<Scalars['Boolean']>
@@ -4052,33 +3712,33 @@ export interface ProductVariant extends Node, HasMetafields {
   /**
    * The compare at price of the variant. This can be used to mark a variant as on
    * sale, when `compareAtPrice` is higher than `price`.
-   **/
+   */
   compareAtPrice?: Maybe<Scalars['Money']>
   /**
    * The compare at price of the variant. This can be used to mark a variant as on
    * sale, when `compareAtPriceV2` is higher than `priceV2`.
-   **/
-  compareAtPriceV2?: Maybe<MoneyV2>
+   */
+  compareAtPriceV2?: Maybe<StorefrontApiMoneyV2>
   /** Globally unique identifier. */
   id: Scalars['ID']
   /** Image associated with the product variant. This field falls back to the product image if no image is available. */
-  image?: Maybe<Image>
+  image?: Maybe<StorefrontApiImage>
   /** The metafield associated with the resource. */
-  metafield?: Maybe<Metafield>
+  metafield?: Maybe<StorefrontApiMetafield>
   /** A paginated list of metafields associated with the resource. */
-  metafields: MetafieldConnection
+  metafields: StorefrontApiMetafieldConnection
   /** List of prices and compare-at prices in the presentment currencies for this shop. */
-  presentmentPrices: ProductVariantPricePairConnection
+  presentmentPrices: StorefrontApiProductVariantPricePairConnection
   /** The product variant’s price. */
   price: Scalars['Money']
   /** The product variant’s price. */
-  priceV2: MoneyV2
+  priceV2: StorefrontApiMoneyV2
   /** The product object that the product variant belongs to. */
-  product: Product
+  product: StorefrontApiProduct
   /** Whether a customer needs to provide a shipping address when placing an order for the product variant. */
   requiresShipping: Scalars['Boolean']
   /** List of product options applied to the variant. */
-  selectedOptions: Array<SelectedOption>
+  selectedOptions: Array<StorefrontApiSelectedOption>
   /** The SKU (stock keeping unit) associated with the variant. */
   sku?: Maybe<Scalars['String']>
   /** The product variant’s title. */
@@ -4086,25 +3746,25 @@ export interface ProductVariant extends Node, HasMetafields {
   /** The weight of the product variant in the unit system specified with `weight_unit`. */
   weight?: Maybe<Scalars['Float']>
   /** Unit of measurement for weight. */
-  weightUnit: WeightUnit
+  weightUnit: StorefrontApiWeightUnit
 }
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantImageArgs = {
+export type StorefrontApiProductVariantImageArgs = {
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<CropRegion>
+  crop?: Maybe<StorefrontApiCropRegion>
   scale?: Maybe<Scalars['Int']>
 }
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantMetafieldArgs = {
+export type StorefrontApiProductVariantMetafieldArgs = {
   namespace: Scalars['String']
   key: Scalars['String']
 }
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantMetafieldsArgs = {
+export type StorefrontApiProductVariantMetafieldsArgs = {
   namespace?: Maybe<Scalars['String']>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -4114,8 +3774,8 @@ export type ProductVariantMetafieldsArgs = {
 }
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
-export type ProductVariantPresentmentPricesArgs = {
-  presentmentCurrencies?: Maybe<Array<CurrencyCode>>
+export type StorefrontApiProductVariantPresentmentPricesArgs = {
+  presentmentCurrencies?: Maybe<Array<StorefrontApiCurrencyCode>>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -4123,49 +3783,49 @@ export type ProductVariantPresentmentPricesArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-export interface ProductVariantConnection {
+export interface StorefrontApiProductVariantConnection {
   __typename: 'ProductVariantConnection'
   /** A list of edges. */
-  edges: Array<ProductVariantEdge>
+  edges: Array<StorefrontApiProductVariantEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface ProductVariantEdge {
+export interface StorefrontApiProductVariantEdge {
   __typename: 'ProductVariantEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of ProductVariantEdge. */
-  node: ProductVariant
+  node: StorefrontApiProductVariant
 }
 
 /** The compare-at price and price of a variant sharing a currency. */
-export interface ProductVariantPricePair {
+export interface StorefrontApiProductVariantPricePair {
   __typename: 'ProductVariantPricePair'
   /** The compare-at price of the variant with associated currency. */
-  compareAtPrice?: Maybe<MoneyV2>
+  compareAtPrice?: Maybe<StorefrontApiMoneyV2>
   /** The price of the variant with associated currency. */
-  price: MoneyV2
+  price: StorefrontApiMoneyV2
 }
 
-export interface ProductVariantPricePairConnection {
+export interface StorefrontApiProductVariantPricePairConnection {
   __typename: 'ProductVariantPricePairConnection'
   /** A list of edges. */
-  edges: Array<ProductVariantPricePairEdge>
+  edges: Array<StorefrontApiProductVariantPricePairEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface ProductVariantPricePairEdge {
+export interface StorefrontApiProductVariantPricePairEdge {
   __typename: 'ProductVariantPricePairEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
   /** The item at the end of ProductVariantPricePairEdge. */
-  node: ProductVariantPricePair
+  node: StorefrontApiProductVariantPricePair
 }
 
 /** The set of valid sort keys for the variants query. */
-export enum ProductVariantSortKeys {
+export enum StorefrontApiProductVariantSortKeys {
   /** Sort by the `title` value. */
   Title = 'TITLE',
   /** Sort by the `sku` value. */
@@ -4178,681 +3838,185 @@ export enum ProductVariantSortKeys {
    * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
    * results by relevance to the search term(s). When no search query is specified, this sort key is not
    * deterministic and should not be used.
-   **/
+   */
   Relevance = 'RELEVANCE',
 }
 
-export interface Query {
-  __typename: 'Query'
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export interface StorefrontApiQueryRoot {
+  __typename: 'QueryRoot'
   /** List of the shop's articles. */
-  articles: ArticleConnection
+  articles: StorefrontApiArticleConnection
   /** Find a blog by its handle. */
-  blogByHandle?: Maybe<Blog>
+  blogByHandle?: Maybe<StorefrontApiBlog>
   /** List of the shop's blogs. */
-  blogs: BlogConnection
+  blogs: StorefrontApiBlogConnection
   /** Find a collection by its handle. */
-  collectionByHandle?: Maybe<Collection>
+  collectionByHandle?: Maybe<StorefrontApiCollection>
   /** List of the shop’s collections. */
-  collections: CollectionConnection
-  customer?: Maybe<Customer>
-  node?: Maybe<Node>
-  nodes: Array<Maybe<Node>>
+  collections: StorefrontApiCollectionConnection
+  /** Find a customer by its access token. */
+  customer?: Maybe<StorefrontApiCustomer>
+  node?: Maybe<StorefrontApiNode>
+  nodes: Array<Maybe<StorefrontApiNode>>
   /** Find a page by its handle. */
-  pageByHandle?: Maybe<Page>
+  pageByHandle?: Maybe<StorefrontApiPage>
   /** List of the shop's pages. */
-  pages: PageConnection
+  pages: StorefrontApiPageConnection
   /** Find a product by its handle. */
-  productByHandle?: Maybe<Product>
+  productByHandle?: Maybe<StorefrontApiProduct>
   /**
    * Find recommended products related to a given `product_id`.
    * To learn more about how recommendations are generated, see
    * [*Showing product recommendations on product pages*](https://help.shopify.com/themes/development/recommended-products).
-   **/
-  productRecommendations?: Maybe<Array<Product>>
+   */
+  productRecommendations?: Maybe<Array<StorefrontApiProduct>>
   /**
    * Tags added to products.
    * Additional access scope required: unauthenticated_read_product_tags.
-   **/
-  productTags: StringConnection
+   */
+  productTags: StorefrontApiStringConnection
   /** List of product types for the shop's products that are published to your app. */
-  productTypes: StringConnection
+  productTypes: StorefrontApiStringConnection
   /** List of the shop’s products. */
-  products: ProductConnection
+  products: StorefrontApiProductConnection
   /** The list of public Storefront API versions, including supported, release candidate and unstable versions. */
-  publicApiVersions: Array<ApiVersion>
-  shop: Shop
-  ShopifyProduct?: Maybe<ShopifyProduct>
-  ShopifyCollection?: Maybe<ShopifyCollection>
-  Menu?: Maybe<Menu>
-  Homepage?: Maybe<Homepage>
-  Page?: Maybe<Page>
-  ProductInfoSettings?: Maybe<ProductInfoSettings>
-  SanityImageAsset?: Maybe<SanityImageAsset>
-  SanityFileAsset?: Maybe<SanityFileAsset>
-  allShopifyProducts: Array<ShopifyProduct>
-  allShopifyCollections: Array<ShopifyCollection>
-  allMenus: Array<Menu>
-  allHomepages: Array<Homepage>
-  allPages: Array<Page>
-  allProductInfoSettings: Array<ProductInfoSettings>
-  allSanityImageAssets: Array<SanityImageAsset>
-  allSanityFileAssets: Array<SanityFileAsset>
+  publicApiVersions: Array<StorefrontApiApiVersion>
+  /** The shop associated with the storefront access token. */
+  shop: StorefrontApiShop
 }
 
-export type QueryArticlesArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootArticlesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ArticleSortKeys>
+  sortKey?: Maybe<StorefrontApiArticleSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
-export type QueryBlogByHandleArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootBlogByHandleArgs = {
   handle: Scalars['String']
 }
 
-export type QueryBlogsArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootBlogsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<BlogSortKeys>
+  sortKey?: Maybe<StorefrontApiBlogSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
-export type QueryCollectionByHandleArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootCollectionByHandleArgs = {
   handle: Scalars['String']
 }
 
-export type QueryCollectionsArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootCollectionsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<CollectionSortKeys>
+  sortKey?: Maybe<StorefrontApiCollectionSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
-export type QueryCustomerArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootCustomerArgs = {
   customerAccessToken: Scalars['String']
 }
 
-export type QueryNodeArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootNodeArgs = {
   id: Scalars['ID']
 }
 
-export type QueryNodesArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootNodesArgs = {
   ids: Array<Scalars['ID']>
 }
 
-export type QueryPageByHandleArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootPageByHandleArgs = {
   handle: Scalars['String']
 }
 
-export type QueryPagesArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootPagesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<PageSortKeys>
+  sortKey?: Maybe<StorefrontApiPageSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
-export type QueryProductByHandleArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootProductByHandleArgs = {
   handle: Scalars['String']
 }
 
-export type QueryProductRecommendationsArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootProductRecommendationsArgs = {
   productId: Scalars['ID']
 }
 
-export type QueryProductTagsArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootProductTagsArgs = {
   first: Scalars['Int']
 }
 
-export type QueryProductTypesArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootProductTypesArgs = {
   first: Scalars['Int']
 }
 
-export type QueryProductsArgs = {
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type StorefrontApiQueryRootProductsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ProductSortKeys>
+  sortKey?: Maybe<StorefrontApiProductSortKeys>
   query?: Maybe<Scalars['String']>
-}
-
-export type QueryShopifyProductArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryShopifyCollectionArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryMenuArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryHomepageArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryPageArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryProductInfoSettingsArgs = {
-  id: Scalars['ID']
-}
-
-export type QuerySanityImageAssetArgs = {
-  id: Scalars['ID']
-}
-
-export type QuerySanityFileAssetArgs = {
-  id: Scalars['ID']
-}
-
-export type QueryAllShopifyProductsArgs = {
-  where?: Maybe<ShopifyProductFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export type QueryAllShopifyCollectionsArgs = {
-  where?: Maybe<ShopifyCollectionFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export type QueryAllMenusArgs = {
-  where?: Maybe<MenuFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export type QueryAllHomepagesArgs = {
-  where?: Maybe<HomepageFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export type QueryAllPagesArgs = {
-  where?: Maybe<PageFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export type QueryAllProductInfoSettingsArgs = {
-  where?: Maybe<ProductInfoSettingsFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export type QueryAllSanityImageAssetsArgs = {
-  where?: Maybe<SanityImageAssetFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export type QueryAllSanityFileAssetsArgs = {
-  where?: Maybe<SanityFileAssetFilter>
-  limit?: Maybe<Scalars['Int']>
-  offset?: Maybe<Scalars['Int']>
-}
-
-export interface RichImage {
-  __typename: 'RichImage'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** A short description of the image. Helps with accessibility and SEO */
-  altText?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityImageAsset>
-  hotspot?: Maybe<SanityImageHotspot>
-  crop?: Maybe<SanityImageCrop>
-}
-
-export interface RichPageLink {
-  __typename: 'RichPageLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
-  /** If left empty, the title of the linked page, product, or collection will be used. */
-  title?: Maybe<Scalars['String']>
-  captionRaw?: Maybe<Scalars['JSON']>
-  image?: Maybe<RichImage>
-  hoverImage?: Maybe<RichImage>
-}
-
-export interface SanityFileAsset extends Document {
-  __typename: 'SanityFileAsset'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  originalFilename?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  sha1hash?: Maybe<Scalars['String']>
-  extension?: Maybe<Scalars['String']>
-  mimeType?: Maybe<Scalars['String']>
-  size?: Maybe<Scalars['Float']>
-  assetId?: Maybe<Scalars['String']>
-  path?: Maybe<Scalars['String']>
-  url?: Maybe<Scalars['String']>
-}
-
-export type SanityFileAssetFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  originalFilename?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  originalFilename_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  originalFilename_matches?: Maybe<Scalars['String']>
-  originalFilename_in?: Maybe<Array<Scalars['String']>>
-  originalFilename_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  label?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  label_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  label_matches?: Maybe<Scalars['String']>
-  label_in?: Maybe<Array<Scalars['String']>>
-  label_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  sha1hash?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  sha1hash_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  sha1hash_matches?: Maybe<Scalars['String']>
-  sha1hash_in?: Maybe<Array<Scalars['String']>>
-  sha1hash_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  extension?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  extension_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  extension_matches?: Maybe<Scalars['String']>
-  extension_in?: Maybe<Array<Scalars['String']>>
-  extension_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  mimeType?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  mimeType_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  mimeType_matches?: Maybe<Scalars['String']>
-  mimeType_in?: Maybe<Array<Scalars['String']>>
-  mimeType_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  size?: Maybe<Scalars['Float']>
-  /** All documents that are not equal to given value */
-  size_not?: Maybe<Scalars['Float']>
-  /** All documents are less than given value */
-  size_lt?: Maybe<Scalars['Float']>
-  /** All documents are less than or equal to given value */
-  size_lte?: Maybe<Scalars['Float']>
-  /** All documents are greater than given value */
-  size_gt?: Maybe<Scalars['Float']>
-  /** All documents are greater than or equal to given value */
-  size_gte?: Maybe<Scalars['Float']>
-  /** All documents that are equal to given value */
-  assetId?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  assetId_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  assetId_matches?: Maybe<Scalars['String']>
-  assetId_in?: Maybe<Array<Scalars['String']>>
-  assetId_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  path?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  path_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  path_matches?: Maybe<Scalars['String']>
-  path_in?: Maybe<Array<Scalars['String']>>
-  path_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  url?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  url_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  url_matches?: Maybe<Scalars['String']>
-  url_in?: Maybe<Array<Scalars['String']>>
-  url_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
-}
-
-export interface SanityImage {
-  __typename: 'SanityImage'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityImageAsset>
-  hotspot?: Maybe<SanityImageHotspot>
-  crop?: Maybe<SanityImageCrop>
-}
-
-export interface SanityImageAsset extends Document {
-  __typename: 'SanityImageAsset'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  originalFilename?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  sha1hash?: Maybe<Scalars['String']>
-  extension?: Maybe<Scalars['String']>
-  mimeType?: Maybe<Scalars['String']>
-  size?: Maybe<Scalars['Float']>
-  assetId?: Maybe<Scalars['String']>
-  path?: Maybe<Scalars['String']>
-  url?: Maybe<Scalars['String']>
-  metadata?: Maybe<SanityImageMetadata>
-}
-
-export type SanityImageAssetFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  originalFilename?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  originalFilename_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  originalFilename_matches?: Maybe<Scalars['String']>
-  originalFilename_in?: Maybe<Array<Scalars['String']>>
-  originalFilename_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  label?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  label_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  label_matches?: Maybe<Scalars['String']>
-  label_in?: Maybe<Array<Scalars['String']>>
-  label_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  sha1hash?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  sha1hash_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  sha1hash_matches?: Maybe<Scalars['String']>
-  sha1hash_in?: Maybe<Array<Scalars['String']>>
-  sha1hash_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  extension?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  extension_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  extension_matches?: Maybe<Scalars['String']>
-  extension_in?: Maybe<Array<Scalars['String']>>
-  extension_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  mimeType?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  mimeType_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  mimeType_matches?: Maybe<Scalars['String']>
-  mimeType_in?: Maybe<Array<Scalars['String']>>
-  mimeType_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  size?: Maybe<Scalars['Float']>
-  /** All documents that are not equal to given value */
-  size_not?: Maybe<Scalars['Float']>
-  /** All documents are less than given value */
-  size_lt?: Maybe<Scalars['Float']>
-  /** All documents are less than or equal to given value */
-  size_lte?: Maybe<Scalars['Float']>
-  /** All documents are greater than given value */
-  size_gt?: Maybe<Scalars['Float']>
-  /** All documents are greater than or equal to given value */
-  size_gte?: Maybe<Scalars['Float']>
-  /** All documents that are equal to given value */
-  assetId?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  assetId_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  assetId_matches?: Maybe<Scalars['String']>
-  assetId_in?: Maybe<Array<Scalars['String']>>
-  assetId_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  path?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  path_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  path_matches?: Maybe<Scalars['String']>
-  path_in?: Maybe<Array<Scalars['String']>>
-  path_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  url?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  url_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  url_matches?: Maybe<Scalars['String']>
-  url_in?: Maybe<Array<Scalars['String']>>
-  url_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
-}
-
-export interface SanityImageCrop {
-  __typename: 'SanityImageCrop'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  top?: Maybe<Scalars['Float']>
-  bottom?: Maybe<Scalars['Float']>
-  left?: Maybe<Scalars['Float']>
-  right?: Maybe<Scalars['Float']>
-}
-
-export interface SanityImageDimensions {
-  __typename: 'SanityImageDimensions'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  height?: Maybe<Scalars['Float']>
-  width?: Maybe<Scalars['Float']>
-  aspectRatio?: Maybe<Scalars['Float']>
-}
-
-export interface SanityImageHotspot {
-  __typename: 'SanityImageHotspot'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  x?: Maybe<Scalars['Float']>
-  y?: Maybe<Scalars['Float']>
-  height?: Maybe<Scalars['Float']>
-  width?: Maybe<Scalars['Float']>
-}
-
-export interface SanityImageMetadata {
-  __typename: 'SanityImageMetadata'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  location?: Maybe<Geopoint>
-  dimensions?: Maybe<SanityImageDimensions>
-  palette?: Maybe<SanityImagePalette>
-  lqip?: Maybe<Scalars['String']>
-  hasAlpha?: Maybe<Scalars['Boolean']>
-  isOpaque?: Maybe<Scalars['Boolean']>
-}
-
-export interface SanityImagePalette {
-  __typename: 'SanityImagePalette'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  darkMuted?: Maybe<SanityImagePaletteSwatch>
-  lightVibrant?: Maybe<SanityImagePaletteSwatch>
-  darkVibrant?: Maybe<SanityImagePaletteSwatch>
-  vibrant?: Maybe<SanityImagePaletteSwatch>
-  dominant?: Maybe<SanityImagePaletteSwatch>
-  lightMuted?: Maybe<SanityImagePaletteSwatch>
-  muted?: Maybe<SanityImagePaletteSwatch>
-}
-
-export interface SanityImagePaletteSwatch {
-  __typename: 'SanityImagePaletteSwatch'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  background?: Maybe<Scalars['String']>
-  foreground?: Maybe<Scalars['String']>
-  population?: Maybe<Scalars['Float']>
-  title?: Maybe<Scalars['String']>
 }
 
 /**
  * Script discount applications capture the intentions of a discount that
  * was created by a Shopify Script.
- **/
-export interface ScriptDiscountApplication extends DiscountApplication {
+ */
+export interface StorefrontApiScriptDiscountApplication
+  extends StorefrontApiDiscountApplication {
   __typename: 'ScriptDiscountApplication'
   /** The method by which the discount's value is allocated to its entitled items. */
-  allocationMethod: DiscountApplicationAllocationMethod
+  allocationMethod: StorefrontApiDiscountApplicationAllocationMethod
   /** The description of the application as defined by the Script. */
   description: Scalars['String']
   /** Which lines of targetType that the discount is allocated over. */
-  targetSelection: DiscountApplicationTargetSelection
+  targetSelection: StorefrontApiDiscountApplicationTargetSelection
   /** The type of line that the discount is applicable towards. */
-  targetType: DiscountApplicationTargetType
+  targetType: StorefrontApiDiscountApplicationTargetType
   /** The title of the application as defined by the Script. */
   title: Scalars['String']
   /** The value of the discount application. */
-  value: PricingValue
+  value: StorefrontApiPricingValue
 }
 
 /**
  * Custom properties that a shop owner can use to define product variants.
  * Multiple options can exist. Options are represented as: option1, option2, option3, etc.
- **/
-export interface SelectedOption {
+ */
+export interface StorefrontApiSelectedOption {
   __typename: 'SelectedOption'
   /** The product option’s name. */
   name: Scalars['String']
@@ -4861,7 +4025,7 @@ export interface SelectedOption {
 }
 
 /** Specifies the input fields required for a selected option. */
-export type SelectedOptionInput = {
+export type StorefrontApiSelectedOptionInput = {
   /** The product option’s name. */
   name: Scalars['String']
   /** The product option’s value. */
@@ -4869,7 +4033,7 @@ export type SelectedOptionInput = {
 }
 
 /** SEO information. */
-export interface Seo {
+export interface StorefrontApiSeo {
   __typename: 'SEO'
   /** The meta description. */
   description?: Maybe<Scalars['String']>
@@ -4878,31 +4042,31 @@ export interface Seo {
 }
 
 /** A shipping rate to be applied to a checkout. */
-export interface ShippingRate {
+export interface StorefrontApiShippingRate {
   __typename: 'ShippingRate'
   /** Human-readable unique identifier for this shipping rate. */
   handle: Scalars['String']
   /** Price of this shipping rate. */
   price: Scalars['Money']
   /** Price of this shipping rate. */
-  priceV2: MoneyV2
+  priceV2: StorefrontApiMoneyV2
   /** Title of this shipping rate. */
   title: Scalars['String']
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export interface Shop {
+export interface StorefrontApiShop {
   __typename: 'Shop'
   /** List of the shop' articles. */
-  articles: ArticleConnection
+  articles: StorefrontApiArticleConnection
   /** List of the shop' blogs. */
-  blogs: BlogConnection
+  blogs: StorefrontApiBlogConnection
   /** Find a collection by its handle. */
-  collectionByHandle?: Maybe<Collection>
+  collectionByHandle?: Maybe<StorefrontApiCollection>
   /** List of the shop’s collections. */
-  collections: CollectionConnection
+  collections: StorefrontApiCollectionConnection
   /** The three-letter code for the currency that the shop accepts. */
-  currencyCode: CurrencyCode
+  currencyCode: StorefrontApiCurrencyCode
   /** A description of the shop. */
   description?: Maybe<Scalars['String']>
   /** A string representing the way currency is formatted when the currency isn’t specified. */
@@ -4910,372 +4074,98 @@ export interface Shop {
   /** The shop’s name. */
   name: Scalars['String']
   /** Settings related to payments. */
-  paymentSettings: PaymentSettings
+  paymentSettings: StorefrontApiPaymentSettings
   /** The shop’s primary domain. */
-  primaryDomain: Domain
+  primaryDomain: StorefrontApiDomain
   /** The shop’s privacy policy. */
-  privacyPolicy?: Maybe<ShopPolicy>
+  privacyPolicy?: Maybe<StorefrontApiShopPolicy>
   /** Find a product by its handle. */
-  productByHandle?: Maybe<Product>
+  productByHandle?: Maybe<StorefrontApiProduct>
   /**
    * Tags added to products.
    * Additional access scope required: unauthenticated_read_product_tags.
-   **/
-  productTags: StringConnection
+   */
+  productTags: StorefrontApiStringConnection
   /** List of the shop’s product types. */
-  productTypes: StringConnection
+  productTypes: StorefrontApiStringConnection
   /** List of the shop’s products. */
-  products: ProductConnection
+  products: StorefrontApiProductConnection
   /** The shop’s refund policy. */
-  refundPolicy?: Maybe<ShopPolicy>
+  refundPolicy?: Maybe<StorefrontApiShopPolicy>
   /** Countries that the shop ships to. */
-  shipsToCountries: Array<CountryCode>
+  shipsToCountries: Array<StorefrontApiCountryCode>
   /** The shop’s Shopify Payments account id. */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>
   /** The shop’s terms of service. */
-  termsOfService?: Maybe<ShopPolicy>
+  termsOfService?: Maybe<StorefrontApiShopPolicy>
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopArticlesArgs = {
+export type StorefrontApiShopArticlesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ArticleSortKeys>
+  sortKey?: Maybe<StorefrontApiArticleSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopBlogsArgs = {
+export type StorefrontApiShopBlogsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<BlogSortKeys>
+  sortKey?: Maybe<StorefrontApiBlogSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopCollectionByHandleArgs = {
+export type StorefrontApiShopCollectionByHandleArgs = {
   handle: Scalars['String']
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopCollectionsArgs = {
+export type StorefrontApiShopCollectionsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<CollectionSortKeys>
+  sortKey?: Maybe<StorefrontApiCollectionSortKeys>
   query?: Maybe<Scalars['String']>
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopProductByHandleArgs = {
+export type StorefrontApiShopProductByHandleArgs = {
   handle: Scalars['String']
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopProductTagsArgs = {
+export type StorefrontApiShopProductTagsArgs = {
   first: Scalars['Int']
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopProductTypesArgs = {
+export type StorefrontApiShopProductTypesArgs = {
   first: Scalars['Int']
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export type ShopProductsArgs = {
+export type StorefrontApiShopProductsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
-  sortKey?: Maybe<ProductSortKeys>
+  sortKey?: Maybe<StorefrontApiProductSortKeys>
   query?: Maybe<Scalars['String']>
-}
-
-export interface ShopifyCollection extends Document {
-  __typename: 'ShopifyCollection'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  shopifyId?: Maybe<Scalars['String']>
-  sourceData?: Maybe<ShopifyCollectionSource>
-}
-
-export type ShopifyCollectionFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  title?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  title_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  title_matches?: Maybe<Scalars['String']>
-  title_in?: Maybe<Array<Scalars['String']>>
-  title_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  handle?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  handle_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  handle_matches?: Maybe<Scalars['String']>
-  handle_in?: Maybe<Array<Scalars['String']>>
-  handle_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  shopifyId?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  shopifyId_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  shopifyId_matches?: Maybe<Scalars['String']>
-  shopifyId_in?: Maybe<Array<Scalars['String']>>
-  shopifyId_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
-}
-
-export interface ShopifyCollectionSource {
-  __typename: 'ShopifyCollectionSource'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  image?: Maybe<ShopifySourceImage>
-}
-
-export interface ShopifyImageEdge {
-  __typename: 'ShopifyImageEdge'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  key?: Maybe<Scalars['String']>
-  cursor?: Maybe<Scalars['String']>
-  node?: Maybe<ShopifySourceImage>
-}
-
-export interface ShopifyItem {
-  __typename: 'ShopifyItem'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  itemId?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  itemType?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  originalImage?: Maybe<Scalars['String']>
-  previewImage?: Maybe<Scalars['String']>
-}
-
-export interface ShopifyProduct extends Document {
-  __typename: 'ShopifyProduct'
-  /** Document ID */
-  _id: Scalars['ID']
-  /** Document type */
-  _type: Scalars['String']
-  /** Date the document was created */
-  _createdAt: Scalars['DateTime']
-  /** Date the document was last modified */
-  _updatedAt: Scalars['DateTime']
-  /** Current document revision */
-  _rev: Scalars['String']
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  shopifyId?: Maybe<Scalars['String']>
-  sourceData?: Maybe<ShopifyProductSource>
-  info?: Maybe<Array<Maybe<ProductInfo>>>
-  contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
-  related?: Maybe<Carousel>
-}
-
-export type ShopifyProductFilter = {
-  /** All documents that are equal to given value */
-  _id?: Maybe<Scalars['ID']>
-  /** All documents that are not equal to given value */
-  _id_not?: Maybe<Scalars['ID']>
-  /** All documents contain (match) the given word/words */
-  _id_matches?: Maybe<Scalars['String']>
-  _id_in?: Maybe<Array<Scalars['String']>>
-  _id_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _type?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _type_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _type_matches?: Maybe<Scalars['String']>
-  _type_in?: Maybe<Array<Scalars['String']>>
-  _type_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _createdAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _createdAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _createdAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _createdAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _createdAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** All documents that are not equal to given value */
-  _updatedAt_not?: Maybe<Scalars['DateTime']>
-  /** All documents are less than given value */
-  _updatedAt_lt?: Maybe<Scalars['DateTime']>
-  /** All documents are less than or equal to given value */
-  _updatedAt_lte?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than given value */
-  _updatedAt_gt?: Maybe<Scalars['DateTime']>
-  /** All documents are greater than or equal to given value */
-  _updatedAt_gte?: Maybe<Scalars['DateTime']>
-  /** All documents that are equal to given value */
-  _rev?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _rev_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _rev_matches?: Maybe<Scalars['String']>
-  _rev_in?: Maybe<Array<Scalars['String']>>
-  _rev_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  _key?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  _key_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  _key_matches?: Maybe<Scalars['String']>
-  _key_in?: Maybe<Array<Scalars['String']>>
-  _key_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  title?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  title_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  title_matches?: Maybe<Scalars['String']>
-  title_in?: Maybe<Array<Scalars['String']>>
-  title_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  handle?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  handle_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  handle_matches?: Maybe<Scalars['String']>
-  handle_in?: Maybe<Array<Scalars['String']>>
-  handle_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are equal to given value */
-  shopifyId?: Maybe<Scalars['String']>
-  /** All documents that are not equal to given value */
-  shopifyId_not?: Maybe<Scalars['String']>
-  /** All documents contain (match) the given word/words */
-  shopifyId_matches?: Maybe<Scalars['String']>
-  shopifyId_in?: Maybe<Array<Scalars['String']>>
-  shopifyId_not_in?: Maybe<Array<Scalars['String']>>
-  /** All documents that are drafts */
-  is_draft?: Maybe<Scalars['Boolean']>
-}
-
-export interface ShopifyProductSource {
-  __typename: 'ShopifyProductSource'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  images?: Maybe<ShopifySourceImages>
-}
-
-export interface ShopifySourceImage {
-  __typename: 'ShopifySourceImage'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  altText?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  originalSrc?: Maybe<Scalars['String']>
-  w100?: Maybe<Scalars['String']>
-  w300?: Maybe<Scalars['String']>
-  w800?: Maybe<Scalars['String']>
-}
-
-export interface ShopifySourceImages {
-  __typename: 'ShopifySourceImages'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  edges?: Maybe<Array<Maybe<ShopifyImageEdge>>>
 }
 
 /** Policy that a merchant has configured for their store, such as their refund or privacy policy. */
-export interface ShopPolicy extends Node {
+export interface StorefrontApiShopPolicy extends StorefrontApiNode {
   __typename: 'ShopPolicy'
   /** Policy text, maximum size of 64kb. */
   body: Scalars['String']
@@ -5289,30 +4179,15 @@ export interface ShopPolicy extends Node {
   url: Scalars['URL']
 }
 
-export interface Slug {
-  __typename: 'Slug'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  current?: Maybe<Scalars['String']>
-}
-
-export interface Span {
-  __typename: 'Span'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  marks?: Maybe<Array<Maybe<Scalars['String']>>>
-  text?: Maybe<Scalars['String']>
-}
-
-export interface StringConnection {
+export interface StorefrontApiStringConnection {
   __typename: 'StringConnection'
   /** A list of edges. */
-  edges: Array<StringEdge>
+  edges: Array<StorefrontApiStringEdge>
   /** Information to aid in pagination. */
-  pageInfo: PageInfo
+  pageInfo: StorefrontApiPageInfo
 }
 
-export interface StringEdge {
+export interface StorefrontApiStringEdge {
   __typename: 'StringEdge'
   /** A cursor for use in pagination. */
   cursor: Scalars['String']
@@ -5320,28 +4195,20 @@ export interface StringEdge {
   node: Scalars['String']
 }
 
-export interface SubMenu {
-  __typename: 'SubMenu'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  columns?: Maybe<Array<Maybe<LinkGroupOrRichPageLink>>>
-}
-
 /**
  * Specifies the fields required to complete a checkout with
  * a tokenized payment.
- **/
-export type TokenizedPaymentInput = {
+ */
+export type StorefrontApiTokenizedPaymentInput = {
   /** The amount of the payment. */
   amount: Scalars['Money']
   /**
    * A unique client generated key used to avoid duplicate charges. When a
    * duplicate payment is found, the original is returned instead of creating a new one.
-   **/
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
-  billingAddress: MailingAddressInput
+  billingAddress: StorefrontApiMailingAddressInput
   /** The type of payment token. */
   type: Scalars['String']
   /** A simple string or JSON containing the required payment data for the tokenized payment. */
@@ -5355,45 +4222,48 @@ export type TokenizedPaymentInput = {
 /**
  * Specifies the fields required to complete a checkout with
  * a tokenized payment.
- **/
-export type TokenizedPaymentInputV2 = {
+ */
+export type StorefrontApiTokenizedPaymentInputV2 = {
   /** The amount and currency of the payment. */
-  paymentAmount: MoneyInput
+  paymentAmount: StorefrontApiMoneyInput
   /**
    * A unique client generated key used to avoid duplicate charges. When a
    * duplicate payment is found, the original is returned instead of creating a new one.
-   **/
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
-  billingAddress: MailingAddressInput
-  /** The type of payment token. */
-  type: Scalars['String']
+  billingAddress: StorefrontApiMailingAddressInput
   /** A simple string or JSON containing the required payment data for the tokenized payment. */
   paymentData: Scalars['String']
-  /** Executes the payment in test mode if possible. Defaults to `false`. */
+  /**
+   * Whether to execute the payment in test mode, if possible. Test mode is not
+   * supported in production stores. Defaults to `false`.
+   */
   test?: Maybe<Scalars['Boolean']>
   /** Public Hash Key used for AndroidPay payments only. */
   identifier?: Maybe<Scalars['String']>
+  /** The type of payment token. */
+  type: Scalars['String']
 }
 
 /** An object representing exchange of money for a product or service. */
-export interface Transaction {
+export interface StorefrontApiTransaction {
   __typename: 'Transaction'
   /** The amount of money that the transaction was for. */
   amount: Scalars['Money']
   /** The amount of money that the transaction was for. */
-  amountV2: MoneyV2
+  amountV2: StorefrontApiMoneyV2
   /** The kind of the transaction. */
-  kind: TransactionKind
+  kind: StorefrontApiTransactionKind
   /** The status of the transaction. */
-  status: TransactionStatus
+  status: StorefrontApiTransactionStatus
   /** The status of the transaction. */
-  statusV2?: Maybe<TransactionStatus>
+  statusV2?: Maybe<StorefrontApiTransactionStatus>
   /** Whether the transaction was done in test mode or not. */
   test: Scalars['Boolean']
 }
 
-export enum TransactionKind {
+export enum StorefrontApiTransactionKind {
   Sale = 'SALE',
   Capture = 'CAPTURE',
   Authorization = 'AUTHORIZATION',
@@ -5401,7 +4271,7 @@ export enum TransactionKind {
   Change = 'CHANGE',
 }
 
-export enum TransactionStatus {
+export enum StorefrontApiTransactionStatus {
   Pending = 'PENDING',
   Success = 'SUCCESS',
   Failure = 'FAILURE',
@@ -5409,7 +4279,7 @@ export enum TransactionStatus {
 }
 
 /** Represents an error in the input of a mutation. */
-export interface UserError extends DisplayableError {
+export interface StorefrontApiUserError extends StorefrontApiDisplayableError {
   __typename: 'UserError'
   /** Path to the input field which caused the error. */
   field?: Maybe<Array<Scalars['String']>>
@@ -5418,7 +4288,7 @@ export interface UserError extends DisplayableError {
 }
 
 /** Units of measurement for weight. */
-export enum WeightUnit {
+export enum StorefrontApiWeightUnit {
   /** 1 kilogram equals 1000 grams. */
   Kilograms = 'KILOGRAMS',
   /** Metric system unit of mass. */

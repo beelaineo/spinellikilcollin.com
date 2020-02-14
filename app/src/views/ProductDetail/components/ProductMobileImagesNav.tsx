@@ -1,21 +1,20 @@
 import * as React from 'react'
-import { Variant } from 'use-shopify'
-import { Product, Image } from '../../../types'
+import { ShopifySourceImage } from '../../../types'
 import { FlexContainer } from '../../../components/Layout'
 import { ImageNav, MobileImageNav } from '../styled'
 
 interface ProductMobileImagesNavProps {
-  content: content
+  images: ShopifySourceImage[]
 }
 
 export const ProductMobileImagesNav = ({
-  content,
+  images,
 }: ProductMobileImagesNavProps) => {
   return (
     <MobileImageNav>
       <FlexContainer>
-        {content.map((el) => (
-          <ImageNav />
+        {images.map((el) => (
+          <ImageNav key={el.id || 'some-key'} />
         ))}
       </FlexContainer>
     </MobileImageNav>

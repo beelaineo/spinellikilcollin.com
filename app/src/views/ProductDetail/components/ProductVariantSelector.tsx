@@ -1,24 +1,18 @@
 import * as React from 'react'
-import { UseProductVariant, Variant } from 'use-shopify'
-import {
-  Select,
-  Label,
-  NormalizeDiv,
-  QuantitySelector,
-  Button,
-} from '../styled'
-import { QuantityInput } from 'Components/QuantityInput'
-import { Accordion } from '../../../components/Accordion'
+import { NormalizeDiv } from '../styled'
+import { UseProductVariant } from 'use-shopify'
+import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { ProductOptionSelector } from './ProductOptionSelector'
 
 interface Props extends UseProductVariant {
-  variants: Variant[]
+  variants: ShopifyProductVariant[]
+  product: ShopifyProduct
   quantity: number
   increment: () => void
   decrement: () => void
   setQuantity: (q: number) => void
 }
 
-const mockSizes = [1, 2, 3, 4, 5, 6]
 /**
  * ProductVariantSelector
  *
@@ -32,26 +26,29 @@ export const ProductVariantSelector = (props: Props) => {
     variants,
     currentVariant,
     selectVariant,
-    quantity,
     setQuantity,
-    increment,
-    decrement,
     product,
   } = props
   if (!variants.length) return null
+
   const handleSelect = (e) => {
     selectVariant(e.target.value)
   }
   const handleQuantityInput = (e) => setQuantity(e.target.value)
 
+  console.log(product, variants, currentVariant)
   // information for accordions
-  let { description } = product
+  const description = product?.sourceData?.description
+  const { options } = product
   return (
     <div>
       <NormalizeDiv margin="20px 0">
-        <Accordion content={{ title: 'size', bodyRaw: mockSizes }} />
-        <Accordion content={{ title: 'description', bodyRaw: description }} />
-        <Accordion label={'Shipping'} content={{ title: 'Shipping' }} />
+        {options && options.length
+          ? options.map((option) =>
+              option ? <ProductOptionSelector option={option} /> : null,
+            )
+          : null}
+
         {/* <Label>Size</Label> */}
         {/* <Select
           onChange={handleSelect}
@@ -79,9 +76,6 @@ export const ProductVariantSelector = (props: Props) => {
             <span>&#43;</span>
           </button>
         </QuantitySelector> */}
-        <Button width="100%" background="lightGraybackground" color="dark">
-          CUSTOMIZATION
-        </Button>
       </NormalizeDiv>
     </div>
   )

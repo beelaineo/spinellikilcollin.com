@@ -6,31 +6,39 @@ interface WrapperProps {
   marginVertical?: string
   center?: boolean
   height?: string
-  vertical?: boolean
+  vertical?: string
   padding?: string
   maxwidth?: string
   text?: string
   align?: string
   backgroundColor?: string
+  mobileWidth?: string
+  margin?: string
+  wrap?: string
 }
 
 export const FlexContainer = styled.div`
-  display: flex;
-  flex-wrap: ${(props) => props.wrap};
-  margin: ${(props) => props.theme.layout.spacing[props.margin]};
-  background-size: cover;
   ${({
     theme,
     padding,
     marginVertical,
+    margin,
     center,
     height,
     vertical,
     maxwidth,
     text,
     align,
+    wrap,
     backgroundColor,
-  }: WrapperProps) => `
+  }: WrapperProps) => css`
+ display: flex;
+  flex-wrap: ${wrap};
+  // @ts-ignore
+  margin: ${theme.layout.spacing[margin]};
+  background-size: cover;
+ 
+  // @ts-ignore
 		margin-top: ${theme.layout.spacing[marginVertical] || 'initial'};
 		justify-content: ${center ? 'center' : 'space-between'};
 		height: ${height || 'initial'}; 
@@ -40,6 +48,7 @@ export const FlexContainer = styled.div`
 		text-align: ${text ? text : 'initial'};
 		margin-left: ${align ? 'auto' : 'initial'}
 		margin-right: ${align ? 'auto' : 'initial'};
+  // @ts-ignore
     padding: ${theme.layout.spacing[padding] || 'initial'}; 
     background-color: ${backgroundColor};
     align-items: baseline;
@@ -91,7 +100,9 @@ export const FlexSix = styled.div`
   flex: 6;
   margin: 10px;
   ${({ theme, marginVertical, margin }: WrapperProps) => `
+  // @ts-ignore
 		margin-top: ${theme.layout.spacing[marginVertical] || 'initial'} ;
+  // @ts-ignore
 		margin: ${theme.layout.spacing[margin]};
 	`}
 `

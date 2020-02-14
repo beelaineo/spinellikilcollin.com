@@ -1,7 +1,7 @@
 import styled, { css, DefaultTheme } from 'styled-components'
 import { semiDark } from '../../theme/color'
 
-export const Footer = styled.footer`
+export const FooterWrapper = styled.footer`
   transition: 250ms ease;
   width: 100%;
   ${({ theme }) => css`

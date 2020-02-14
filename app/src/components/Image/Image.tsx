@@ -1,6 +1,10 @@
 import * as React from 'react'
 import styled, { css } from 'styled-components'
-import { ShopifyImage, SanityImageAsset, RichImage } from '../../types'
+import {
+  ShopifySourceImage,
+  Image as SanityImage,
+  RichImage,
+} from '../../types'
 import { Wrapper, Picture, RatioImageFill } from './styled'
 
 export const ImageWrapper = styled.img`
@@ -10,8 +14,8 @@ export const ImageWrapper = styled.img`
 `
 
 interface ImageDetails {
-  src: string
-  altText?: string
+  src: string | null | void
+  altText?: string | null
   // fileType: string
   // TODO srcSet
   // TODO srcSetWebP
@@ -21,23 +25,22 @@ interface ImageDetails {
 
 /* Based on the image type, return a src, srcset, altText, etc */
 const getImageDetails = (
-  image: ShopifyImage | SanityImageAsset | RichImage,
-): null | ImageDetails => {
+  image: ShopifySourceImage | SanityImage | RichImage,
+): ImageDetails => {
   switch (image.__typename) {
     case 'RichImage':
       return {
-        src: image.asset.url,
+        src: image?.asset?.url,
         altText: image.altText,
       }
-    case 'Image':
+    case 'ShopifySourceImage':
       return { src: image.originalSrc, altText: image.altText }
-    case 'SanityImageAsset':
+    case 'Image':
       return {
-        src: image.url,
+        src: image?.asset?.url,
         // TODO get alt text if present
       }
     default:
-      console.log(image)
       // @ts-ignore
       throw new Error(`Image type "${image.__typename}" is not supported`)
   }
@@ -73,7 +76,7 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
 }
 
 interface ImageProps {
-  image: ShopifyImage | SanityImageAsset | RichImage
+  image?: null | ShopifySourceImage | SanityImage | RichImage | void
   ratio?: number
   // TODO sizes?: string
   onLoad?: () => void
@@ -111,7 +114,12 @@ export const Image = ({ image, onLoad, ratio }: ImageProps) => {
       <Picture loaded={loaded}>
         {/* <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} /> */}
         {/* <source type={imageType} srcSet={srcSet} sizes={sizes} /> */}
-        <img src={src} alt={altText} ref={imageRef} onLoad={handleOnLoad} />
+        <img
+          src={src}
+          alt={altText || ''}
+          ref={imageRef}
+          onLoad={handleOnLoad}
+        />
       </Picture>
     </Wrapper>
   )

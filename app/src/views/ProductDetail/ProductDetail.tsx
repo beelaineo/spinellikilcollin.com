@@ -1,16 +1,9 @@
 import * as React from 'react'
-import { RouteComponentProps } from 'react-router-dom'
 import { useQuery } from 'urql'
-import { Link } from 'react-router-dom'
 import { PRODUCT_QUERY, ProductQueryResult } from './query'
-import {
-  Product,
-  ProductInfo,
-  ProductInfoBlock,
-  ShopifyProduct,
-} from '../../types/generated'
-import { useProductVariant, useCheckout, Variant } from 'use-shopify'
-import { unwindEdges } from '../../utils/graphql'
+import { ShopifyProduct, ProductInfo, ShopifyProductVariant } from '../../types'
+import { useProductVariant, useCheckout } from 'use-shopify'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import { NotFound } from '../NotFound'
 import { Column } from '../../components/Layout'
 import {
@@ -23,7 +16,7 @@ import {
   MobileProductHeader,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { useCounter } from 'Utils/hooks'
+import { useCounter } from '../../utils/hooks'
 import {
   Wrapper,
   ProductDetails,
@@ -35,21 +28,23 @@ import {
 import { RichText } from '../../components/RichText'
 import { Accordion } from '../../components/Accordion'
 import { getInfoBlocksByType, getInfoBlocksByTag } from './utils'
-import { Header5, Header6 } from 'Components/Text'
+import { Header5, Header6 } from '../../components/Text'
 
 interface Props {
-  product: Product
-  productExtra: ShopifyProduct
+  product: ShopifyProduct
 }
 
-const ProductDetailMain = ({ product, productExtra }: Props) => {
+export const ProductDetail = ({ product }: Props) => {
   /* get additional info blocks from Sanity */
-  const { info } = productExtra
   const { ready, productInfoBlocks } = useShopData()
   const accordions = productInfoBlocks
     ? [
-        ...getInfoBlocksByType(product.productType, productInfoBlocks),
-        ...getInfoBlocksByTag(product.tags, productInfoBlocks),
+        ...getInfoBlocksByType(
+          product?.sourceData?.productType || 'none',
+          productInfoBlocks,
+        ),
+        // @ts-ignore
+        ...getInfoBlocksByTag(product?.sourceData?.tags, productInfoBlocks),
       ]
     : []
 
@@ -61,17 +56,19 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
     setCount: setQuantity,
   } = useCounter(1, { min: 1 })
   /* get product variant utils */
-  const { currentVariant, selectVariant } = useProductVariant(product)
+  const { currentVariant, selectVariant } = useProductVariant(
+    product.sourceData,
+  )
 
   /* get checkout utils */
-  const { addItemToCheckout } = useCheckout()
-  const [variants] = unwindEdges<Variant>(product.variants)
+  const { addLineItem } = useCheckout()
+  const { variants } = product
 
   /* get product image variants from Shopify */
-  let { images } = product
+  const images = product?.sourceData?.images
 
   return (
-    <Wrapper backgroundColor={'#F5F3F4'}>
+    <Wrapper>
       <Column>
         <ProductDetails>
           <ProductDetailHeader
@@ -93,6 +90,7 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
               quantity={quantity}
               increment={increment}
               decrement={decrement}
+              // @ts-ignore
               variants={variants}
               currentVariant={currentVariant}
               selectVariant={selectVariant}
@@ -100,52 +98,27 @@ const ProductDetailMain = ({ product, productExtra }: Props) => {
             />
             <NormalizeDiv margin="0 0 20px 0">
               <BuyButton
-                addItemToCheckout={addItemToCheckout}
+                addLineItem={addLineItem}
                 currentVariant={currentVariant}
                 quantity={quantity}
-                width="100%"
               />
-              {info
-                ? info.map((a) => <Accordion key={a._key} content={a} />)
+              {accordions
+                ? accordions.map((a) => <Accordion key={a._key} content={a} />)
                 : null}
             </NormalizeDiv>
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>
       {/* Shopify alt images will go here */}
-      <ProductDetailFooter product={product} content={images} />
+      <ProductDetailFooter
+        product={product}
+        // @ts-ignore
+        content={images}
+      />
       {/* Related Products */}
       <ProductRelated product={product} />
       {/* This is currently  from sanity */}
-      <ProductDetailFooter product={product} content={productExtra} />
+      <ProductDetailFooter product={product} />
     </Wrapper>
   )
-}
-
-/**
- * View Wrapper
- */
-
-interface MatchParams {
-  handle: string
-}
-
-export const ProductDetail = ({ match }: RouteComponentProps<MatchParams>) => {
-  /* fetch the product data */
-  const { handle } = match.params
-  const variables = { handle }
-  const [response] = useQuery<ProductQueryResult>({
-    query: PRODUCT_QUERY,
-    variables,
-  })
-  const product =
-    (response && response.data && response.data.productByHandle) || undefined
-
-  const productExtra =
-    (response && response.data && response.data.allShopifyProducts[0]) ||
-    undefined
-  console.log(response)
-  if (response.fetching) return <p>Loading..</p>
-  if (!product) return <NotFound />
-  return <ProductDetailMain product={product} productExtra={productExtra} />
 }

@@ -34,7 +34,7 @@ export const ProductImagesWrapper = styled.div`
   `}
 `
 
-export const MobileProductHeader = styled.div`
+export const MobileProductHeaderWrapper = styled.div`
   ${({ theme }) => css`
     text-align: center;
     padding-top: ${theme.layout.spacing.quadruple};
@@ -114,8 +114,9 @@ interface NormalizeDivProps {
   top?: string
   align?: string
   marginBottom?: string
-  margin: string
-  mobile: string
+  marginTop?: string
+  margin?: string
+  mobile?: string
 }
 
 export const NormalizeDiv = styled.div`
@@ -130,7 +131,11 @@ export const NormalizeDiv = styled.div`
        };
       
        margin-bottom: ${
-         mobile === 'block' ? 0 : theme.layout.spacing[marginBottom]
+         mobile === 'block'
+           ? 0
+           : marginBottom
+           ? theme.layout.spacing[marginBottom]
+           : 0
        };
   `}
 `
@@ -140,13 +145,14 @@ interface BackgroundImageProps {
 }
 
 export const BackgroundImage = styled.div`
-  background-image: url(${(props: BackgroundImageProps) =>
-    props.imageSrc || ''});
-  background-size: cover;
-  background-position: center;
-  a {
-    color: transparent;
-  }
+  ${({ imageSrc }: BackgroundImageProps) => css`
+    background-image: url(${imageSrc});
+    background-size: cover;
+    background-position: center;
+    a {
+      color: transparent;
+    }
+  `}
 `
 
 interface ButtonProps {
@@ -159,7 +165,7 @@ interface ButtonProps {
   transform?: string
   href?: string
   width?: string
-  marginTop: string
+  marginTop?: string
 }
 
 export const Button = styled.button`
@@ -199,28 +205,6 @@ export const Button = styled.button`
 
 export const ButtonPrimary = styled(Button)``
 
-export const Select = styled.select`
-  text-align-last: center;
-  height: 50px;
-  border: 1px solid #f1f1f1;
-  border-radius: 0;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-  font-size: 1rem;
-  cursor: pointer;
-  -moz-appearance: none;
-  appearance: none;
-  -webkit-appearance: none;
-  border: none;
-  background: none;
-  border-radius: 0;
-  border: 1px solid #f1f1f1;
-  padding: 1rem 2rem;
-  font-family: sans-serif;
-  option {
-    font-family: sans-serif;
-  }
-`
 interface QuantitySelector {
   theme: DefaultTheme
   width?: string
@@ -335,14 +319,14 @@ export const MobileImageNav = styled.div`
 
 interface ProductDetailHeaderStyles {
   theme: DefaultTheme
-  mobile: string
+  mobile?: string
 }
 
 export const ProductDetailHeaderStyles = styled.div`
-  ${(props: ProductDetailHeaderStyles) => css`
-    display: ${props.mobile === 'visible' ? 'none' : 'block'};
-    ${props.theme.mediaQueries.tablet} {
-      display: ${props.mobile === 'hidden' ? 'none' : 'block'};
+  ${({ mobile, theme }: ProductDetailHeaderStyles) => css`
+    display: ${mobile === 'visible' ? 'none' : 'block'};
+    ${theme.mediaQueries.tablet} {
+      display: ${mobile === 'hidden' ? 'none' : 'block'};
       text-align: center;
     }
   `}

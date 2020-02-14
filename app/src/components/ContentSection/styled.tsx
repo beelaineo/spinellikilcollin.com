@@ -1,5 +1,4 @@
 import styled, { css, DefaultTheme } from 'styled-components'
-import { Link } from 'react-router-dom'
 import { Header5 } from '../Text'
 import { ContentSection } from '../../types'
 

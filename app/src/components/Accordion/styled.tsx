@@ -4,7 +4,6 @@ import { AccordionButton } from './components/AccordionButton'
 interface WithOpen {
   theme: DefaultTheme
   open: boolean
-  height: string
 }
 
 export const ToggleButton = styled.button`
@@ -33,7 +32,7 @@ export const ToggleButton = styled.button`
   `}
 `
 export const Inner = styled.div`
-  ${({ theme, open, height }: WithOpen) => css`
+  ${({ theme, open }: WithOpen) => css`
     /* display: ${open ? 'block' : 'none'}; */
     max-height: ${open === true ? '200px' : '0'};
     visibility: ${open === true ? 'visible' : 'hidden'};

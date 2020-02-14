@@ -1,9 +1,20 @@
 import * as React from 'react'
-import { BrowserRouter } from 'react-router-dom'
+import fetch from 'isomorphic-unfetch'
 import { ThemeProvider } from 'styled-components'
-import { ShopifyProvider, createUrqlQueries } from 'use-shopify'
-import { createClient, Provider as UrqlProvider } from 'urql'
-import { SHOPIFY_STOREFRONT_TOKEN } from '../config'
+import { ShopifyProvider } from 'use-shopify'
+// @ts-ignore
+import { DocumentNode } from 'graphql'
+import {
+  createClient,
+  createRequest,
+  Provider as UrqlProvider,
+  dedupExchange,
+  cacheExchange,
+  ssrExchange,
+  fetchExchange,
+} from 'urql'
+import { pipe, subscribe } from 'wonka'
+import { SHOPIFY_STOREFRONT_TOKEN, SANITY_GRAPHQL_URL } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 
@@ -19,22 +30,41 @@ interface Props {
   children: React.ReactNode
 }
 
-const client = createClient({
-  url: '/.netlify/functions/graphql',
+// @ts-ignore
+const isServer = typeof window !== 'object' || process.browser
+
+const ssrCache = ssrExchange({ isClient: !isServer })
+
+export const client = createClient({
+  url: SANITY_GRAPHQL_URL,
+  exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
+  fetch,
 })
 
-const queries = createUrqlQueries(client)
+function urqlQuery<Response>(
+  query: string | DocumentNode,
+  variables: object,
+): Promise<Response> {
+  return new Promise((resolve) => {
+    const request = createRequest(query, variables)
+
+    pipe(
+      // @ts-ignore
+      client.executeQuery(request),
+      // @ts-ignore TODO What's up with that? Well, soon urql will have an actual API for this
+      subscribe(resolve),
+    )
+  })
+}
 
 export const Providers = ({ children }: Props) => {
   return (
     <UrqlProvider value={client}>
-      <ShopifyProvider queries={queries}>
+      <ShopifyProvider query={urqlQuery}>
         <ShopDataProvider>
           <ThemeProvider theme={theme}>
-            <BrowserRouter>
-              <GlobalStyles />
-              {children}
-            </BrowserRouter>
+            <GlobalStyles />
+            {children}
           </ThemeProvider>
         </ShopDataProvider>
       </ShopifyProvider>

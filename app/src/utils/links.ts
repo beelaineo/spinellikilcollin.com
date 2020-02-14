@@ -1,4 +1,4 @@
-import { RichPageLink, ExternalLink, InternalLink } from '../types/generated'
+import { RichPageLink, ExternalLink, InternalLink } from '../types'
 import { path } from 'ramda'
 
 type LinkType = RichPageLink | ExternalLink | InternalLink
@@ -8,15 +8,14 @@ export const getPageLinkLabel = (link: LinkType): string | void =>
     ? undefined
     : path(['document', 'title'], link)
 
-export const getPageLinkUrl = (link: LinkType): string => {
+export const getPageLinkUrl = (link: LinkType): string | void => {
   // If it is an external link, return the URL
   if (link.__typename === 'ExternalLink') {
-    return link.url
+    return link.url ? link.url : undefined
   }
   // Otherwise, it is either a RichPageLink or InternalLink,
   // both of which will have a 'document'
   const { document } = link
-  console.log(link, link.document)
   if (!document) throw new Error('This link is missing a document')
   switch (document.__typename) {
     case 'ShopifyCollection':

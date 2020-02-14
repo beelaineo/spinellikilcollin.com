@@ -20,25 +20,11 @@ interface ContentBlockProps {
 export const ContentBlock = ({ content }: ContentBlockProps) => {
   switch (content.__typename) {
     case 'ImageTextBlock':
-      return (
-        //
-        <ImageTextBlock content={content} />
-      )
-    case 'Image':
-      return (
-        //
-        <ImageWithoutText content={content} />
-      )
+      return <ImageTextBlock content={content} />
     case 'Hero':
-      return (
-        //
-        <HeroBlock hero={content} />
-      )
+      return <HeroBlock hero={content} />
     case 'Carousel':
-      return (
-        //
-        <CarouselBlock carousel={content} />
-      )
+      return <CarouselBlock content={content} />
     default:
       // @ts-ignore
       console.warn(`No content block for type "${content.__typename}"`)

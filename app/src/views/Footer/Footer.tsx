@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Footer } from './styled'
+import { FooterWrapper } from './styled'
 import {
   FaFacebookF,
   FaTwitter,
@@ -13,7 +13,7 @@ import { Input, Form } from '../../components/Text'
 export class Footer extends React.Component {
   render() {
     return (
-      <Footer>
+      <FooterWrapper>
         <div className="footer-inner">
           <div className="upper-footer">
             <div>
@@ -66,7 +66,7 @@ export class Footer extends React.Component {
             <div className="copyright">COPYRIGHT © 2019 SPINELLI KILCOLLIN</div>
           </div>
         </div>
-      </Footer>
+      </FooterWrapper>
     )
   }
 }

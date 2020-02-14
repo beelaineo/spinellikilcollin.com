@@ -2,25 +2,21 @@ import * as React from 'react'
 import { useQuery } from 'urql'
 import { homepageQuery, HomepageResponse } from './homepageQuery'
 import { ContentBlock } from '../../components/ContentBlock'
+import { Homepage as HomepageType } from '../../types'
 
-export const Homepage = () => {
-  const [response] = useQuery<HomepageResponse>({ query: homepageQuery })
-  const { fetching, data, error } = response
-  if (error)
-    return (
-      <React.Fragment>
-        <p>error!</p>
-        <pre>{JSON.stringify(error, null, 2)}</pre>
-      </React.Fragment>
-    )
+interface HomepageProps {
+  homepage: HomepageType
+}
 
-  if (fetching || !data || !data.Homepage || !data.Homepage.content) return null
-  const { content } = data.Homepage
+export const Homepage = (props: HomepageProps) => {
+  const { content } = props.homepage
   return (
     <React.Fragment>
-      {content.map((c) => (
-        <ContentBlock key={c._key} content={c} />
-      ))}
+      {content
+        ? content.map((c) =>
+            c && c._key ? <ContentBlock key={c._key} content={c} /> : null,
+          )
+        : null}
     </React.Fragment>
   )
 }

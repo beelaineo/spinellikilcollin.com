@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { Image as ImageType } from '../../Types'
 import { FigureWrapper, ImageWrapper, Caption } from './styled'
 import { Image } from '../Image'
@@ -21,7 +21,7 @@ export const Figure = ({
 }: FigureProps) => {
   const wrapperAs = linkTo ? Link : undefined
 
-  return (
+  const renderInner = () => (
     <FigureWrapper as={wrapperAs} to={linkTo} justify={justify}>
       <ImageWrapper>
         <Image image={image} ratio={imageRatio} />
@@ -33,4 +33,6 @@ export const Figure = ({
       ) : null}
     </FigureWrapper>
   )
+
+  return linkTo ? <Link href={linkTo}>{renderInner()}</Link> : renderInner()
 }

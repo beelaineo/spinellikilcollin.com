@@ -4,10 +4,12 @@ import { IoIosListBox } from 'react-icons/io'
 import { BlockPreview } from '../components/BlockPreview'
 import { getReferencedDocument, getShopifyThumbnail } from '../utils'
 
-const getPreviewValues = async ({ label, link: previewLink }) => {
-  if (!previewLink || !previewLink.document || !previewLink.document._ref)
+const getPreviewValues = async (values) => {
+  const { link, label } = values
+  console.log(link)
+  if (!link || !link.document || !link.document._ref)
     return { title: 'Missing Link' }
-  const linkedDoc = await getReferencedDocument(previewLink.document._ref)
+  const linkedDoc = await getReferencedDocument(link.document._ref)
 
   const shopifyThumbnail =
     linkedDoc &&
@@ -26,12 +28,20 @@ const getPreviewValues = async ({ label, link: previewLink }) => {
 export const MenuLink = {
   name: 'menuLink',
   type: 'object',
-  title: 'Nav Link',
+  title: 'Link',
   fields: [
+    {
+      title: 'Label',
+      name: 'label',
+      type: 'string',
+    },
     {
       title: 'Link',
       name: 'link',
-      type: 'cta',
+      type: 'internalLink',
+      options: {
+        required: true,
+      },
     },
   ],
   preview: {
@@ -43,39 +53,6 @@ export const MenuLink = {
     component: (props) => (
       <BlockPreview {...props} getPreviewValues={getPreviewValues} />
     ),
-  },
-}
-export const linkGroup = {
-  title: 'Link Group',
-  name: 'linkGroup',
-  type: 'object',
-  fields: [
-    {
-      title: 'Group Title',
-      name: 'title',
-      type: 'string',
-    },
-    {
-      title: 'Links',
-      name: 'links',
-      type: 'array',
-      validation: (Rule) => Rule.required().max(12),
-      of: [{ type: 'internalLink' }],
-    },
-  ],
-  preview: {
-    select: {
-      title: 'title',
-      links: 'links',
-    },
-    prepare: ({ title, links }) => {
-      return {
-        title,
-        subtitle: links.length
-          ? `🔗 ${links.length} link${links.length === 1 ? '' : 's'}`
-          : undefined,
-      }
-    },
   },
 }
 
@@ -92,19 +69,19 @@ export const subMenu = {
       validation: (Rule) => Rule.required(),
     },
     {
-      title: 'Submenu Sections',
-      name: 'columns',
+      title: 'Links',
+      name: 'links',
       type: 'array',
-      of: [{ type: 'linkGroup' }, { type: 'richPageLink' }],
+      of: [{ type: 'cta' }],
     },
   ],
   preview: {
     select: {
       title: 'title',
-      columns: 'columns',
+      links: 'links',
     },
-    prepare: ({ title, columns }) => {
-      const byType = groupBy(prop('_type'), columns || {})
+    prepare: ({ title, links }) => {
+      const byType = groupBy(prop('_type'), links || {})
 
       const { richPageLink: richPageLinks, linkGroup: linkGroups } = byType
 

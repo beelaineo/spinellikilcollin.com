@@ -1,43 +1,38 @@
-import { ProductInfo, ProductInfoBlock } from '../../types/generated'
+import { ProductInfoSettings, ProductInfo } from '../../types'
 
 export function getInfoBlocksByType(
   type: string,
-  productInfoBlocks: ProductInfo,
-): ProductInfoBlock[] {
-  const {
-    globalBlocks,
-    ringBlocks,
-    earringBlocks,
-    braceletBlocks,
-    necklaceBlocks,
-  } = productInfoBlocks
-  const byType =
-    type === 'Rings'
-      ? ringBlocks || []
-      : type === 'Earrings'
-      ? earringBlocks || []
-      : type === 'Bracelets'
-      ? braceletBlocks || []
-      : type === 'Necklaces'
-      ? necklaceBlocks || []
-      : []
+  productInfoBlocks: ProductInfoSettings,
+): ProductInfo[] {
+  const { infoByType } = productInfoBlocks
+  if (!infoByType) return []
 
-  const global = globalBlocks || []
-  return [...global, ...byType]
+  const byType = infoByType.find((i) => i && i.type === type)
+  const byTypeInfo = byType ? byType.info : []
+
+  // @ts-ignore
+  return byTypeInfo
 }
 
 export function getInfoBlocksByTag(
   productTags: string[],
-  productInfoBlocks: ProductInfo,
-): ProductInfoBlock[] {
+  productInfoBlocks: ProductInfoSettings,
+): ProductInfo[] {
   if (!productTags) return []
-  const { blocksByTag } = productInfoBlocks
-  return blocksByTag
-    .filter(({ tag, infoBlocks }) => {
-      /* Get matching tags */
-      if (!tag || !infoBlocks) return false
-      return productTags.includes(tag)
-    })
-    .map(({ infoBlocks }) => infoBlocks)
-    .reduce((acc, current) => [...acc, ...current], [])
+  const { infoByTag } = productInfoBlocks
+  if (!infoByTag) return []
+
+  return (
+    infoByTag
+      .filter((productInfo) => {
+        if (!productInfo) return false
+        const { tag, info } = productInfo
+        /* Get matching tags */
+        if (!tag || !info) return false
+        return productTags.includes(tag)
+      })
+      // @ts-ignore
+      .map(({ info }) => info)
+      .reduce((acc, current) => [...acc, ...current], [])
+  )
 }

@@ -1,9 +1,17 @@
 import * as React from 'react'
-import { Header2 } from 'Components/Text'
+import { Header2 } from '../../components/Text'
+import { ShopifyCollection } from '../../types'
 import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
 
-export const ProductListingHeader = (props) => {
-  let { image, title, description } = props.collection
+interface ProductListingHeaderProps {
+  collection: ShopifyCollection
+}
+
+export const ProductListingHeader = ({
+  collection,
+}: ProductListingHeaderProps) => {
+  const { title, sourceData } = collection
+  const { description, image } = sourceData || {}
 
   if (image) {
     return (

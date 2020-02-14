@@ -3,13 +3,9 @@ import { semiDark } from '../../theme/color'
 
 interface Column {
   theme: DefaultTheme
-  backgroundColor: String
 }
 
 export const Column = styled.div`
-  ${({ theme, backgroundColor }: Column) => `
-      background-color: ${(props) => backgroundColor || 'white'}
-  `}
   ${({ theme }) => css`
     margin: 0 auto;
     max-width: calc(
@@ -24,7 +20,6 @@ interface HeroBackground {
 }
 
 export const HeroBackground = styled.div`
-  background-color: pink;
   ${({ theme, background, backgroundMobile }: HeroBackground) => `
       background-image: ${`url(${background})`};
       background-size: cover;
@@ -67,15 +62,15 @@ export const HeroText = styled.div`
   `}
 `
 
-interface ImageText {
+interface ImageTextProps {
   theme: DefaultTheme
-  textAlign: string
+  textAlign?: string | null | void
   background?: string
   width?: string
 }
 
 export const ImageText = styled.div`
-  ${({ theme, textAlign, background, width }: ImageText) => `
+  ${({ theme, textAlign, background, width }: ImageTextProps) => `
       width: ${width === 'fullWidth' ? '100%' : '50%'};
       display: inline-block;
       box-sizing: border-box;
@@ -107,11 +102,12 @@ export const ImageText = styled.div`
 `
 
 interface ImageText {
-  textAlign: string
+  textAlign?: string | null | void
+  theme: DefaultTheme
 }
 
 export const TextOverImage = styled.div`
-  ${({ theme, textAlign }: TextOverImage) => `
+  ${({ theme, textAlign }: ImageText) => `
         display: block;
         position: absolute;
         width: 100%;
@@ -155,12 +151,12 @@ export const TextOverImage = styled.div`
     `}
 `
 
-interface CarouselBlockStyled {
+interface CarouselBlockStyledProps {
   theme: DefaultTheme
 }
 
 export const CarouselBlockStyled = styled.div`
-  ${({ theme }: ImageText) => `
+  ${({ theme }: CarouselBlockStyledProps) => `
         padding: ${theme.layout.spacing.triple};
         text-align: center;
     `};

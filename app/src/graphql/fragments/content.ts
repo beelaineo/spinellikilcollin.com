@@ -1,6 +1,41 @@
+import gql from 'graphql-tag'
 import { richImageFragment } from './media'
 
-export const productInfoFragment = /* GraphQL */ `
+export const shopifySourceImageFragment = gql`
+  fragment ShopifySourceImageFragment on ShopifySourceImage {
+    id
+    altText
+    originalSrc
+    w100
+    w300
+    w800
+  }
+`
+
+export const shopifySourceProductVariantFragment = gql`
+  fragment ShopifySourceProductVariantFragment on ShopifySourceProductVariant {
+    _key
+    _type
+    availableForSale
+    id
+    title
+    image {
+      ...ShopifySourceImageFragment
+    }
+    priceV2 {
+      amount
+      currencyCode
+    }
+    selectedOptions {
+      _key
+      name
+      value
+    }
+  }
+  ${shopifySourceImageFragment}
+`
+
+export const productInfoFragment = gql`
   fragment ProductInfoFragment on ProductInfo {
     _key
     _type
@@ -9,7 +44,7 @@ export const productInfoFragment = /* GraphQL */ `
   }
 `
 
-export const internalLinkFragment = /* GraphQL */ `
+export const internalLinkFragment = gql`
   fragment InternalLinkFragment on InternalLink {
     _key
     _type
@@ -38,7 +73,7 @@ export const internalLinkFragment = /* GraphQL */ `
   }
 `
 
-export const richPageLinkFragment = /* GraphQL */ `
+export const richPageLinkFragment = gql`
   fragment RichPageLinkFragment on RichPageLink {
     _key
     _type
@@ -54,7 +89,7 @@ export const richPageLinkFragment = /* GraphQL */ `
   ${richImageFragment}
 `
 
-export const ctaFragment = /* GraphQL */ `
+export const ctaFragment = gql`
   fragment CTAFragment on Cta {
     _key
     _type
@@ -66,7 +101,7 @@ export const ctaFragment = /* GraphQL */ `
   ${internalLinkFragment}
 `
 
-export const externalLinkFragment = /* GraphQL */ `
+export const externalLinkFragment = gql`
   fragment ExternalLinkFragment on ExternalLink {
     _key
     _type
@@ -75,7 +110,7 @@ export const externalLinkFragment = /* GraphQL */ `
   }
 `
 
-export const imageTextBlockFragment = /* GraphQL */ `
+export const imageTextBlockFragment = gql`
   fragment ImageTextBlockFragment on ImageTextBlock {
     _key
     _type
@@ -103,7 +138,51 @@ export const imageTextBlockFragment = /* GraphQL */ `
   ${richImageFragment}
 `
 
-export const shopifyCollectionFragment = /* GraphQL */ `
+export const shopifyProductFragment = gql`
+  fragment ShopifyProductFragment on ShopifyProduct {
+    _id
+    _key
+    title
+    handle
+    shopifyId
+    sourceData {
+      id
+      title
+      handle
+      tags
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images {
+        edges {
+          cursor
+          node {
+            id
+            altText
+            originalSrc
+          }
+        }
+      }
+    }
+    info {
+      ...ProductInfoFragment
+    }
+    contentAfter {
+      ...ImageTextBlockFragment
+    }
+  }
+  ${productInfoFragment}
+  ${imageTextBlockFragment}
+`
+
+export const shopifyCollectionFragment = gql`
   fragment ShopifyCollectionFragment on ShopifyCollection {
     _id
     _type
@@ -111,10 +190,14 @@ export const shopifyCollectionFragment = /* GraphQL */ `
     title
     handle
     shopifyId
+    products {
+      ...ShopifyProductFragment
+    }
   }
+  ${shopifyProductFragment}
 `
 
-export const carouselFragment = /* GraphQL */ `
+export const carouselFragment = gql`
   fragment CarouselFragment on Carousel {
     _key
     _type
@@ -131,29 +214,7 @@ export const carouselFragment = /* GraphQL */ `
   ${richPageLinkFragment}
 `
 
-export const shopifyProductFragment = /* GraphQL */ `
-  fragment ShopifyProductFragment on ShopifyProduct {
-    _id
-    _key
-    title
-    handle
-    shopifyId
-    info {
-      ...ProductInfoFragment
-    }
-    contentAfter {
-      ...ImageTextBlockFragment
-    }
-    related {
-      ...CarouselFragment
-    }
-  }
-  ${productInfoFragment}
-  ${imageTextBlockFragment}
-  ${carouselFragment}
-`
-
-export const heroFragment = /* GraphQL */ `
+export const heroFragment = gql`
   fragment HeroFragment on Hero {
     _key
     _type

@@ -1,16 +1,16 @@
 import * as React from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import styled, { css } from 'styled-components'
 import { useState, useReducer } from 'react'
-import { PageLink } from 'Components/PageLink'
 import { path } from 'ramda'
+import { PageLink } from '../../components/PageLink'
 import { useCheckout } from 'use-shopify'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { CartSidebar, CloseButton, CartNav } from '../../components/Cart'
-import { unwindEdges } from '../../utils/graphql'
 import { Checkout } from '../Cart/Checkout'
 import { Button } from '../ProductDetail/styled'
-import { MenuLinkOrSubMenu } from '../../types/generated'
+import { MenuLinkOrSubMenu } from '../../types'
 import { SubMenu } from './SubMenu'
 import {
   Wrapper,
@@ -40,14 +40,14 @@ interface NavState {
   currentSubmenuKey: string | void
 }
 
-const OPEN_SUBMENU = 'OPEN_SUBMENU'
 const OPEN_CART = 'OPEN_CART'
 const CLOSE_CART = 'CLOSE_CART'
+const OPEN_MENU = 'OPEN_MENU'
 const CLOSE_MENU = 'CLOSE_MENU'
 
 interface Action {
   type:
-    | typeof OPEN_SUBMENU
+    | typeof OPEN_MENU
     | typeof OPEN_CART
     | typeof CLOSE_MENU
     | typeof CLOSE_CART
@@ -56,12 +56,12 @@ interface Action {
 
 function navReducer(currentState: NavState, action: Action): NavState {
   switch (action.type) {
-    case OPEN_SUBMENU:
+    case OPEN_MENU:
       return {
         ...currentState,
-        currentSubmenuKey: action.menuKey,
         menuOpen: true,
       }
+
     case CLOSE_MENU:
       return {
         ...currentState,
@@ -87,7 +87,6 @@ export const Navigation = () => {
   /* State from Providers */
   const { loading, checkout } = useCheckout()
   const { ready, menu } = useShopData()
-  const [navState, toggleNav] = useState(false)
 
   /* State */
   const [{ cartOpen, menuOpen, currentSubmenuKey }, dispatch] = useReducer(
@@ -103,21 +102,13 @@ export const Navigation = () => {
   const openCart = () => dispatch({ type: OPEN_CART })
   const closeCart = () => dispatch({ type: CLOSE_CART })
 
-  const handleNav = () => {
-    if (navState === true) {
-      toggleNav(false)
-    } else {
-      toggleNav(true)
-    }
-  }
-
-  const openMenu = (menuKey: string) => () =>
-    dispatch({ type: OPEN_SUBMENU, menuKey })
+  const openMenu = () => dispatch({ type: OPEN_MENU })
   const closeMenu = () => dispatch({ type: CLOSE_MENU })
+  const toggleMenu = () => (menuOpen ? closeMenu() : openMenu())
 
   /* Parsing */
-  const menuItems = menu ? menu.menuItems : []
-  const submenus = menuItems.filter((mi) => mi.__typename === 'SubMenu')
+  const menuItems = menu?.menuItems || []
+  const submenus = menuItems.filter((mi) => mi && mi.__typename === 'SubMenu')
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
   const cartCount = loading ? null : lineItems.length || null
 
@@ -125,59 +116,44 @@ export const Navigation = () => {
     <Wrapper>
       <Inner>
         <NavSection ready={ready}>
-          {/* {menuItems.map((menuItem) =>
-						menuItem.__typename === 'SubMenu' ? (
-							<NavHeaderWrapper key={menuItem._key} onMouseEnter={openMenu(menuItem._key)}>
-								<NavHeader transform="uppercase">{menuItem.title}</NavHeader>
-							</NavHeaderWrapper>
-						) : (
-							<NavHeaderWrapper key={menuItem._key} onMouseEnter={closeMenu}>
-								<NavHeader transform="uppercase">
-									<PageLink link={menuItem.link} />
-								</NavHeader>
-							</NavHeaderWrapper>
-						),
-					)} */}
-          <Hamburger onClick={handleNav} open={navState}>
+          <Hamburger onClick={toggleMenu} open={menuOpen}>
             <span></span>
             <span></span>
             <span></span>
           </Hamburger>
-          <SideNavigation open={navState}>
-            <NavigationInner />
+          <SideNavigation open={menuOpen}>
+            <NavigationInner menu={menu} />
           </SideNavigation>
         </NavSection>
 
-        <Link to="/">
-          <Logo src="/static/images/sk-logotype.svg" />
+        <Link href="/">
+          <a>
+            <Logo src="/static/images/sk-logotype.svg" />
+          </a>
         </Link>
         <NavSection ready={ready} align="right">
           <NavHeaderWrapper>
             <NavHeader as="button" onClick={openCart}>
-              <Loading loading={loading}>
+              <Loading isLoading={loading}>
                 <div>
                   <IoIosCart />
                 </div>
                 <div>
-                  {cartCount}
-                  {cartCount === 1 ? ' item' : cartCount >= 2 ? ' items' : ''}
+                  {cartCount ? (
+                    <>
+                      {cartCount}
+                      {cartCount === 1
+                        ? ' item'
+                        : cartCount >= 2
+                        ? ' items'
+                        : ''}
+                    </>
+                  ) : null}
                 </div>
               </Loading>
             </NavHeader>
           </NavHeaderWrapper>
         </NavSection>
-        <SubmenuPane open={menuOpen} onMouseLeave={closeMenu}>
-          {submenus.map((submenu) =>
-            submenu.__typename === 'SubMenu' ? (
-              <SubMenu
-                key={submenu._key}
-                submenu={submenu}
-                active={currentSubmenuKey === submenu._key}
-                justify="start"
-              />
-            ) : null,
-          )}
-        </SubmenuPane>
       </Inner>
       <ModalBackground open={cartOpen} onClick={closeCart} />
       <CartSidebar open={cartOpen}>

@@ -1,15 +1,14 @@
 import * as React from 'react'
 import { FlexContainer, FlexThree, FlexSix } from '../../components/Layout/Flex'
 import { QuantitySelectorCart } from '../ProductDetail/styled'
-import { QuantityInput } from 'Components/QuantityInput'
-import { Header5 } from 'Components/Text'
+import { QuantityInput } from '../../components/QuantityInput'
+import { Header5 } from '../../components/Text'
 import { IoMdClose } from 'react-icons/io'
 import { RemoveCart } from './styled'
 
 const { useState } = React
 
 export const CheckoutProduct = (props) => {
-  console.log(props.lineItem.node)
   const { title, variant, quantity } = props.lineItem.node
   const updateLineItemQuantity = props.updateLineItemQuantity
 

@@ -124,26 +124,32 @@ export const SubMenuColumns = styled.div`
   `}
 `
 
+interface ModalBackgroundProps {
+  open: boolean
+}
+
 export const ModalBackground = styled.div`
-  height: 100vh;
-  position: fixed;
-  background: #0000004d;
-  width: 100vw;
-  top: 0;
-  cursor: pointer;
-  display: ${(props) => (props.open ? 'block' : 'none')};
+  ${({ open }: ModalBackgroundProps) => css`
+    height: 100vh;
+    position: fixed;
+    background: #0000004d;
+    width: 100vw;
+    top: 0;
+    cursor: pointer;
+    display: ${open ? 'block' : 'none'};
+  `}
 `
 
-interface Loading {
+interface LoadingProps {
   theme: DefaultTheme
-  loading?: boolean
+  isLoading?: boolean
 }
 
 export const Loading = styled.div`
   transition: 250ms ease;
   display: flex;
-  ${({ theme, loading }: Loading) => css`
-    opacity: ${loading ? '0.5' : '1'};
+  ${({ theme, isLoading }: LoadingProps) => css`
+    opacity: ${isLoading ? '0.5' : '1'};
 
     div:nth-child(1) {
       margin-right: ${theme.layout.spacing.half};
@@ -177,14 +183,24 @@ interface Hamburger {
 }
 
 export const Hamburger = styled.div`
-  cursor: pointer;
-  transition: 250ms ease;
-  position: relative;
-  z-index: 3;
-  &:hover {
-    opacity: 0.5;
-  }
-  ${({ theme, open }: Hamburger) => css`
+  ${({ open }: Hamburger) => css`
+    cursor: pointer;
+    transition: 250ms ease;
+    position: relative;
+    z-index: 3;
+    &:hover {
+      opacity: 0.5;
+    }
+
+    span {
+      width: 30px;
+      height: 1px;
+      background-color: black;
+      display: block;
+      margin: 9px;
+      transition: 50ms ease;
+    }
+
     span:nth-child(1) {
       transform: ${open
         ? 'rotate(45deg) translateY(1px) translateX(10px)'
@@ -199,14 +215,6 @@ export const Hamburger = styled.div`
       display: ${open ? 'none' : 'block'};
     }
   `}
-  span {
-    width: 30px;
-    height: 1px;
-    background-color: black;
-    display: block;
-    margin: 9px;
-    transition: 50ms ease;
-  }
 `
 
 interface NavInner {
@@ -217,7 +225,7 @@ export const NavInner = styled.div`
   ${({ theme }: NavInner) => css`
     padding: ${theme.layout.spacing.quadruple};
     height: 100vh;
-    border: 1px solid black;
+    border-right: 1px solid black;
     > div {
       margin: ${theme.layout.spacing.triple} 0;
     }
@@ -234,4 +242,14 @@ export const NavInner = styled.div`
       }
     }
   `};
+`
+export const NavItemWrapper = styled.div`
+  ${({ theme }) => css`
+    display: block;
+    padding: ${theme.layout.spacing.single} 0;
+
+    & + & {
+      border-top: 1px solid black;
+    }
+  `}
 `

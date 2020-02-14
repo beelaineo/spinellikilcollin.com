@@ -17,7 +17,7 @@ const HeroWrapper = styled.div`
 
 interface HeroTextProps {
   theme: DefaultTheme
-  textPosition?: string | null
+  textPosition?: string | null | undefined
   textColor?: string | null
   textPositionMobile?: string | null
   textColorMobile?: string | null
@@ -38,10 +38,16 @@ const HeroText = styled.div`
     height: 100%;
     padding: ${theme.layout.spacing.triple};
     display: flex;
-    justify-content: ${theme.utils.getFlexJustification(textPosition)};
-    align-items: ${theme.utils.getFlexAlignment(textPosition)};
-    text-align: ${theme.utils.getTextAlignment(textPosition)};
-    color: ${theme.utils.getColor(textColor, theme)};
+    justify-content: ${textPosition
+      ? theme.utils.getFlexJustification(textPosition)
+      : 'center'};
+    align-items: ${textPosition
+      ? theme.utils.getFlexAlignment(textPosition)
+      : 'center'};
+    text-align: ${textPosition
+      ? theme.utils.getTextAlignment(textPosition)
+      : 'center'};
+    color: ${textColor ? theme.utils.getColor(textColor, theme) : 'inherit'};
 
     .text-container {
       max-width: 400px;
