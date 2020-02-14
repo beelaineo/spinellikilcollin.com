@@ -183,14 +183,24 @@ interface Hamburger {
 }
 
 export const Hamburger = styled.div`
-  cursor: pointer;
-  transition: 250ms ease;
-  position: relative;
-  z-index: 3;
-  &:hover {
-    opacity: 0.5;
-  }
-  ${({ theme, open }: Hamburger) => css`
+  ${({ open }: Hamburger) => css`
+    cursor: pointer;
+    transition: 250ms ease;
+    position: relative;
+    z-index: 3;
+    &:hover {
+      opacity: 0.5;
+    }
+
+    span {
+      width: 30px;
+      height: 1px;
+      background-color: black;
+      display: block;
+      margin: 9px;
+      transition: 50ms ease;
+    }
+
     span:nth-child(1) {
       transform: ${open
         ? 'rotate(45deg) translateY(1px) translateX(10px)'
@@ -205,14 +215,6 @@ export const Hamburger = styled.div`
       display: ${open ? 'none' : 'block'};
     }
   `}
-  span {
-    width: 30px;
-    height: 1px;
-    background-color: black;
-    display: block;
-    margin: 9px;
-    transition: 50ms ease;
-  }
 `
 
 interface NavInner {
@@ -223,7 +225,7 @@ export const NavInner = styled.div`
   ${({ theme }: NavInner) => css`
     padding: ${theme.layout.spacing.quadruple};
     height: 100vh;
-    border: 1px solid black;
+    border-right: 1px solid black;
     > div {
       margin: ${theme.layout.spacing.triple} 0;
     }

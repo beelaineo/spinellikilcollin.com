@@ -1,14 +1,14 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
 import { ShopifyProduct } from '../../src/types'
 import { NotFound, ProductDetail } from '../../src/views'
-import { withApollo } from '../../src/graphql'
 import {
   productInfoFragment,
   imageTextBlockFragment,
   carouselFragment,
   shopifySourceProductVariantFragment,
+  sanityImageFragment,
+  richImageFragment,
   shopifySourceImageFragment,
 } from '../../src/graphql'
 
@@ -19,10 +19,6 @@ interface ProductQueryResult {
 
 interface ProductProps {
   productData: ShopifyProduct
-}
-
-function head<T>(arr: T[]): T | void {
-  return arr ? arr[0] : undefined
 }
 
 const productQuery = gql`
@@ -65,6 +61,24 @@ const productQuery = gql`
           }
         }
       }
+      options {
+        _key
+        _type
+        shopifyOptionId
+        name
+        values {
+          _key
+          _type
+          value
+          descriptionRaw
+          swatch {
+            ...SanityImageFragment
+          }
+          gallery {
+            ...RichImageFragment
+          }
+        }
+      }
       variants {
         _key
         _type
@@ -87,6 +101,8 @@ const productQuery = gql`
   }
   ${shopifySourceProductVariantFragment}
   ${shopifySourceImageFragment}
+  ${sanityImageFragment}
+  ${richImageFragment}
   ${productInfoFragment}
   ${carouselFragment}
   ${imageTextBlockFragment}

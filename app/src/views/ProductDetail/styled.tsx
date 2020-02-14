@@ -205,28 +205,6 @@ export const Button = styled.button`
 
 export const ButtonPrimary = styled(Button)``
 
-export const Select = styled.select`
-  text-align-last: center;
-  height: 50px;
-  border: 1px solid #f1f1f1;
-  border-radius: 0;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-  font-size: 1rem;
-  cursor: pointer;
-  -moz-appearance: none;
-  appearance: none;
-  -webkit-appearance: none;
-  border: none;
-  background: none;
-  border-radius: 0;
-  border: 1px solid #f1f1f1;
-  padding: 1rem 2rem;
-  font-family: sans-serif;
-  option {
-    font-family: sans-serif;
-  }
-`
 interface QuantitySelector {
   theme: DefaultTheme
   width?: string
