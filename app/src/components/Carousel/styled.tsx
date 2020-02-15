@@ -49,10 +49,10 @@ export const SlideContainer = styled.div`
     height: 100%;
     text-align: center;
     width: calc(
-      (100% - (${theme.layout.spacing.double} * ${columnCount - 1})) /
+      (100% - (5 * ${columnCount - 1})) /
         ${columnCount}
     );
-    margin-right: ${theme.layout.spacing.double};
+    margin-right: 5;
     display: inline-flex;
     /* NOTE => Had to remove this to get the related products to sit together vertically when I changed them! */
     /* vertical-align: top; */
@@ -91,11 +91,11 @@ export const CarouselButton = styled.button`
 
     ${direction === 'previous'
       ? css`
-          left: -${theme.layout.spacing.double};
+          left: -5;
         `
       : css`
           left: auto;
-          right: -${theme.layout.spacing.double};
+          right: -5;
         `}
     background: transparent;
 

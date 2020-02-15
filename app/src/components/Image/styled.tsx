@@ -11,23 +11,19 @@ export const Wrapper = styled.div`
 `
 
 export const Picture = styled.picture`
-  ${({ loaded, theme }: PictureProps) => css`
+  ${({ loaded }: PictureProps) => css`
     max-height: 100%;
-    max-width: calc(100vw - (${theme.layout.spacing.three} * 2));
+    max-width: 100%;
     width: auto;
     background-color: transparent;
     display: block;
 
     & > img {
-      opacity: ${loaded ? '1' : '0'};
+      opacity: ${loaded ? 1 : 0};
       transition: 0.3s;
       transition-delay: 0.3s;
       max-width: 100%;
       object-fit: cover;
-    }
-
-    ${theme.mediaQueries.tablet} {
-      max-width: calc(100vw - ${theme.layout.spacing.two});
     }
   `}
 `

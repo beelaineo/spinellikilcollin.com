@@ -7,7 +7,7 @@ export const GalleryWrapper = styled.div`
 
 export const MainImageWrapper = styled.div`
   ${({ theme }) => css`
-    margin-bottom: ${theme.layout.spacing.single};
+    margin-bottom: 3;
     position: relative;
 
     &:hover ${ZoomImageWrapper} {
@@ -20,7 +20,7 @@ export const Thumbnails = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-gap: ${theme.layout.spacing.single};
+    grid-gap: 3;
   `}
 `
 

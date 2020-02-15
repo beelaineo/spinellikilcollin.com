@@ -5,9 +5,9 @@ export const Wrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
     min-height: 100vh;
-    margin: 0 auto ${theme.layout.spacing.triple};
+    margin: 0 auto 6;
     font-family: ${theme.font.family.sans};
-    padding: ${theme.layout.spacing.triple} 0 0;
+    padding: 6 0 0;
     background-color: ${theme.color.lightGraybackground};
   `}
 `
@@ -16,8 +16,8 @@ export const ProductDetails = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: ${theme.layout.spacing.double};
-    margin: 0 ${theme.layout.spacing.double};
+    grid-gap: 5;
+    margin: 0 5;
     min-height: 800px;
     /* background-color: #F5F3F4; */
     ${theme.mediaQueries.tablet} {
@@ -37,13 +37,13 @@ export const ProductImagesWrapper = styled.div`
 export const MobileProductHeaderWrapper = styled.div`
   ${({ theme }) => css`
     text-align: center;
-    padding-top: ${theme.layout.spacing.quadruple};
+    padding-top: 7;
   `}
 `
 
 export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
-    padding-top: ${theme.layout.spacing.quadruple};
+    padding-top: 7;
     max-width: ${theme.layout.columns.small};
     min-width: ${theme.layout.columns.small};
     display: flex;
@@ -51,8 +51,8 @@ export const ProductInfoWrapper = styled.div`
     justify-content: center;
     margin-left: auto;
     ${theme.mediaQueries.tablet} {
-      margin: ${theme.layout.spacing.double} auto;
-      padding-top: ${theme.layout.spacing.double} 0;
+      margin: 5 auto;
+      padding-top: 5 0;
     }
   `}
 `
@@ -73,9 +73,9 @@ export const ProductGalleryImage = styled.div``
 export const ProductGalleryThumbnails = styled.div`
   ${(props) => css`
     flex: 1;
-    padding-right: ${props.theme.layout.spacing.small};
+    padding-right: 3;
     > button {
-      padding: ${props.theme.layout.spacing.small};
+      padding: 3;
     }
   `}
 `
@@ -83,7 +83,7 @@ export const ProductGalleryThumbnails = styled.div`
 export const ProductRelatedWrapper = styled.div`
   ${(props) => css`
     background-color: ${props.theme.color.white};
-    padding: ${props.theme.layout.spacing.quadruple};
+    padding: 7;
     ${props.theme.mediaQueries.tablet} {
       > h2 {
         font-size: ${props.theme.font.size.h2};
@@ -126,17 +126,9 @@ export const NormalizeDiv = styled.div`
   ${({ margin, mobile, align, theme, marginBottom }: NormalizeDivProps) => `
        margin: ${margin || 0};  
        text-align: ${align || 'inherit'};
-       margin-top: ${
-         mobile === 'block' ? theme.layout.spacing.triple : 'inherit'
-       };
+       margin-top: ${mobile === 'block' ? 6 : 'inherit'};
       
-       margin-bottom: ${
-         mobile === 'block'
-           ? 0
-           : marginBottom
-           ? theme.layout.spacing[marginBottom]
-           : 0
-       };
+      };
   `}
 `
 
@@ -177,9 +169,9 @@ export const Button = styled.button`
     width,
     marginTop,
   }: ButtonProps) => css`
-    background-color: ${
-      background ? theme.color[background] : theme.color.dark
-    };
+    background-color: ${background
+      ? theme.color[background]
+      : theme.color.dark};
     color: ${color ? theme.color.color : theme.color.light};
     cursor: ${disabled ? 'auto' : 'pointer'};
     display: inline-block;
@@ -191,15 +183,13 @@ export const Button = styled.button`
     text-align: center;
     text-transform: uppercase;
     transition: 0.2s;
-    padding: ${theme.layout.spacing.singleHalf};
-    margin: ${theme.layout.spacing.double} 0
-      ${theme.layout.spacing.single};
-    margin-top: ${marginTop ? theme.layout.spacing[marginTop] : 'inherit'}
+    padding: 4;
+    margin: 5 0 3;
     opacity: ${disabled ? 0.3 : 1};
     pointer-events: ${disabled ? 'none' : 'auto'};
     border: 1px solid ${theme.color.dark};
     /* max-width: 200px; */
-    width: ${width || 'initial'}; 
+    width: ${width || 'initial'};
   `}
 `
 
@@ -275,7 +265,7 @@ export const Label = styled.label`
 		color: #777;
 		color:${props.theme.color.lightGrayBody};
 		display: block;
-		margin-bottom: ${props.theme.layout.spacing.small};
+		margin-bottom: 3;
 		-moz-appearance: none;
 		appearance: none;
 		-webkit-appearance: none;

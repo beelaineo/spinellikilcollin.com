@@ -33,11 +33,10 @@ const PlusMinusWrapper = styled.div`
 const SubmenuInner = styled.div`
   ${({ theme, open }: SubmenuInnerProps) => css`
     display: ${open ? 'block' : 'none'};
-    padding: ${theme.layout.spacing.single} 0 ${theme.layout.spacing.single}
-      ${theme.layout.spacing.double};
+    padding: 3 0 3 5;
 
     & div + div {
-      margin-top: ${theme.layout.spacing.single};
+      margin-top: 3;
     }
   `}
 `

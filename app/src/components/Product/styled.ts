@@ -31,31 +31,29 @@ export const ProductThumb = styled.div`
 `
 
 export const ProductInfo = styled.div`
-  ${({ theme }) => css`
-    color: black;
-    padding: ${theme.layout.spacing.single} 0;
-    text-align: center;
+  color: black;
+  padding: 3 0;
+  text-align: center;
+  text-transform: capitalize;
+  h3 {
+    text-align: left;
+    margin: 0;
     text-transform: capitalize;
-    h3 {
-      text-align: left;
-      margin: 0;
-      text-transform: capitalize;
-      display: inline-block;
-    }
-    h3:nth-child(1) {
-      text-align: right;
-      padding-right: ${theme.layout.spacing.quarter};
-    }
-  `}
+    display: inline-block;
+  }
+  h3:nth-child(1) {
+    text-align: right;
+    padding-right: 1;
+  }
 `
 
 export const ProductContainer = styled.div`
   ${({ theme }) => css`
     text-align: center;
-    margin: ${theme.layout.spacing.double} 0 ${theme.layout.spacing.single};
+    margin: 5 0 3;
     span {
-      margin: ${theme.layout.spacing.half};
-      padding: ${theme.layout.spacing.half} ${theme.layout.spacing.single};
+      margin: 2;
+      padding: 2 3;
       font-size: ${theme.font.size.badge};
       text-transform: uppercase;
       color: ${theme.color.dark};

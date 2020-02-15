@@ -14,13 +14,13 @@ interface WrapperProps {
 
 const Outer = styled.div`
   ${({ theme }) => css`
-    margin: ${theme.layout.spacing.half} 0;
+    margin: 2 0;
   `}
 `
 
 const Wrapper = styled.a`
   ${({ theme }: WrapperProps) => css`
-    padding: ${theme.layout.spacing.single};
+    padding: 3;
     border: 1px solid;
     color: inherit;
     display: inline;

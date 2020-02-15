@@ -115,7 +115,7 @@ export const Header4Italic = styled.h4`
     letter-spacing: 0.05em;
     color: ${props.theme.color.dark};
     font-family: ${props.theme.font.family.serif};
-    margin: ${props.theme.layout.spacing.small} 0;
+    margin: 3 0;
     ${props.theme.mediaQueries.tablet} {
       font-size: calc(${props.theme.font.size.h4} * 0.8);
     }
@@ -125,7 +125,7 @@ export const Header4Italic = styled.h4`
 export const Header5 = styled.h5`
   ${(props: TextStyleProps) => css`
     ${commonHeaderStyles(props)};
-    margin: ${props.theme.layout.spacing.double} 0;
+    margin: 5 0;
     letter-spacing: 0.05em;
     font-family: ${props.theme.font.family.serif};
     font-size: ${props.theme.font.size.h5};
@@ -171,7 +171,7 @@ export const BlockQuote = styled.blockquote``
 
 const listStyles = css`
   ${({ theme }) => `
-		margin: ${theme.layout.spacing.single} 0;
+		margin: 3 0;
 		padding-left: 2em;
 	`};
 `
@@ -194,7 +194,7 @@ export const Input = styled.input`
   ${({ theme }) => `
 		border: 1px solid ${theme.color.lightGrayBody};
 		width: 100%;
-		padding: ${theme.layout.spacing.small};
+		padding: 3;
 		text-transform: lowercase;
 		font-family: ${theme.font.family.serif};
 	`};

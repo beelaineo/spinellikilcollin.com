@@ -8,11 +8,10 @@ interface Column {
 export const Column = styled.div`
   ${({ theme }) => css`
     margin: 0 auto;
-    max-width: calc(
-      ${theme.layout.columns.xWide} - ${theme.layout.spacing.quadruple}
-    );
+    max-width: calc(${theme.layout.columns.xWide} - 7);
   `}
 `
+
 interface HeroBackground {
   theme: DefaultTheme
   background: string
@@ -24,7 +23,7 @@ export const HeroBackground = styled.div`
       background-image: ${`url(${background})`};
       background-size: cover;
       background-position: 10%;
-      padding: ${theme.layout.spacing.triple};
+      padding: 6;
       height: 90vh;
       position: relative;
       z-index:0;
@@ -33,7 +32,7 @@ export const HeroBackground = styled.div`
       grid-template-columns: 1fr 1fr;
       grid-template-areas: "a b";
       div {
-        padding: ${theme.layout.spacing.triple};
+        padding: 6;
         align-self: center;
         grid-area: b;
       }
@@ -90,11 +89,11 @@ export const ImageText = styled.div`
       a {
         text-transform: capitalize;
         color: ${theme.color.semiDark};
-        margin: ${theme.layout.spacing.small} 0;
+        margin: 3 0;
         display: inline-block;
         font-style: italic;
         text-decoration: none;
-        padding: ${theme.layout.spacing.quarter} 0;
+        padding: 1 0;
         border-bottom: 1px solid  ${theme.color.semiDark};
         font-size: ${theme.font.size.h4};
       }
@@ -111,7 +110,7 @@ export const TextOverImage = styled.div`
         display: block;
         position: absolute;
         width: 100%;
-        padding: ${theme.layout.spacing.triple};
+        padding: 6;
         line-height: initial;
         padding-top: ${
           textAlign === 'middle-center' ? '45%' : theme.layout.spacing.triple
@@ -119,7 +118,7 @@ export const TextOverImage = styled.div`
         p {
           font-size: ${theme.font.size.h3};
           line-height: 32px;
-          margin:${theme.layout.spacing.quarter};
+          margin:1;
         }
         position: ${
           textAlign === 'middle-center'
@@ -157,7 +156,7 @@ interface CarouselBlockStyledProps {
 
 export const CarouselBlockStyled = styled.div`
   ${({ theme }: CarouselBlockStyledProps) => `
-        padding: ${theme.layout.spacing.triple};
+        padding: 6;
         text-align: center;
     `};
 `

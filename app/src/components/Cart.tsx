@@ -26,12 +26,12 @@ export const CartSidebar = styled.div`
       background: transparent;
     }
     > * {
-      padding: ${props.theme.layout.spacing.small};
+      padding: 3;
       margin: 0;
     }
     h3 {
-      margin: ${props.theme.layout.spacing.small};
-      margin-top: ${props.theme.layout.spacing.small} !important;
+      margin: 3;
+      margin-top: 3 !important;
     }
     button {
       background: transparent;
@@ -49,7 +49,7 @@ export const CloseButton = styled.button`
   bottom: 0;
   background-color: black;
   padding: 2rem;
-  padding: ${(props) => props.theme.layout.spacing.small};
+  padding: 3;
 `
 
 export const CartBottom = styled.div`
@@ -57,7 +57,7 @@ export const CartBottom = styled.div`
   position: absolute;
   bottom: 0px;
   left: 0;
-  padding: ${(props) => props.theme.layout.spacing.small};
+  padding: 3;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -66,7 +66,7 @@ export const CartBottom = styled.div`
   background-color: white;
   > div,
   > h6 {
-    margin: ${(props) => props.theme.layout.spacing.small};
+    margin: 3;
   }
 `
 
@@ -83,17 +83,17 @@ export const CartNav = styled.div`
 
 export const CartInner = styled.div`
   ${(props: CartSidebarProps) => css`
-		height: calc( 100vh - 150px);
-		overflow: scroll;
-		padding-bottom: 90px;
-		margin-top: ${props.theme.layout.spacing.singleHalf}
-		::-webkit-scrollbar {
-			width: 0px;  /* Remove scrollbar space */
-			background: transparent;  /* Optional: just make scrollbar invisible */
-		}
-		/* Optional: show position indicator in red */
-		::-webkit-scrollbar-thumb {
-			background: #FF0000;
-		}
-	`}
+    height: calc(100vh - 150px);
+    overflow: scroll;
+    padding-bottom: 90px;
+    margin-top: 4;
+    ::-webkit-scrollbar {
+      width: 0px; /* Remove scrollbar space */
+      background: transparent; /* Optional: just make scrollbar invisible */
+    }
+    /* Optional: show position indicator in red */
+    ::-webkit-scrollbar-thumb {
+      background: #ff0000;
+    }
+  `}
 `

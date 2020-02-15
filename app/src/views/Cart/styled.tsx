@@ -4,7 +4,7 @@ export const CheckoutItem = styled.div`
   ${({ theme }) => css`
     display: flex;
     justify-content: space-between;
-    margin: ${theme.layout.spacing.small};
+    margin: 3;
   `}
 `
 
@@ -15,7 +15,7 @@ export const CheckoutItemImage = styled.img`
 
 export const CheckoutItemInfo = styled.div`
   ${({ theme }) => css`
-    margin: ${theme.layout.spacing.single};
+    margin: 3;
     flex: 6;
   `}
 `

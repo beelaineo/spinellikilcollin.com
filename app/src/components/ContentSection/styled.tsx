@@ -25,13 +25,13 @@ export const Inner = styled.div`
     width: 100%;
     flex-grow: 1;
     max-width: ${theme.layout.columns.xWide};
-    padding: 0 ${theme.layout.spacing.double};
+    padding: 0 5;
     grid-template-rows: calc(
-      ${ROW_HEIGHT} - (${theme.layout.spacing.double} * 2)
+      ${ROW_HEIGHT} - (5 * 2)
     );
     display: ${section.layout === 'carousel' ? 'flex' : 'grid'};
     flex-direction: column;
-    grid-gap: ${theme.layout.spacing.double};
+    grid-gap: 5;
     grid-template-columns: repeat(2, 1fr);
     align-items: center;
     ${() => {
@@ -69,7 +69,7 @@ export const Wrapper = styled.div`
     min-height: ${section.layout === 'carousel'
       ? ROW_HEIGHT_SMALL
       : ROW_HEIGHT};
-    padding: ${theme.layout.spacing.double};
+    padding: 5;
     ${section.backgroundColor
       ? `background-color: ${theme.color[section.backgroundColor]};`
       : ''}

@@ -21,9 +21,9 @@ export const Inner = styled.nav`
     display: grid;
     grid-template-columns: 1fr 220px 1fr;
     align-items: center;
-    padding: 0 ${theme.layout.spacing.triple};
+    padding: 0 6;
     width: 100%;
-    margin: ${theme.layout.spacing.singleHalf} 0;
+    margin: 4 0;
   `}
 `
 
@@ -119,8 +119,8 @@ export const SubMenuColumns = styled.div`
     margin: 0 auto;
     max-width: ${theme.layout.columns.xWide};
     grid-template-columns: repeat(5, 1fr);
-    padding: ${theme.layout.spacing.single} ${theme.layout.spacing.double};
-    grid-column-gap: ${theme.layout.spacing.single};
+    padding: 3 5;
+    grid-column-gap: 3;
   `}
 `
 
@@ -152,7 +152,7 @@ export const Loading = styled.div`
     opacity: ${isLoading ? '0.5' : '1'};
 
     div:nth-child(1) {
-      margin-right: ${theme.layout.spacing.half};
+      margin-right: 2;
       padding-top: 1px;
     }
   `}
@@ -223,19 +223,19 @@ interface NavInner {
 
 export const NavInner = styled.div`
   ${({ theme }: NavInner) => css`
-    padding: ${theme.layout.spacing.quadruple};
+    padding: 7;
     height: 100vh;
     border-right: 1px solid black;
     > div {
-      margin: ${theme.layout.spacing.triple} 0;
+      margin: 6 0;
     }
     ul {
       list-style: none;
       padding: 0;
       li {
         font-family: ${theme.font.family.serif};
-        margin: ${theme.layout.spacing.small} 0;
-        padding: ${theme.layout.spacing.double} 0 ${theme.layout.spacing.small};
+        margin: 3 0;
+        padding: 5 0 3;
         border-top: 1px solid black;
         text-transform: uppercase;
         font-size: ${theme.font.size.h5};
@@ -246,7 +246,7 @@ export const NavInner = styled.div`
 export const NavItemWrapper = styled.div`
   ${({ theme }) => css`
     display: block;
-    padding: ${theme.layout.spacing.single} 0;
+    padding: 3 0;
 
     & + & {
       border-top: 1px solid black;

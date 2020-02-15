@@ -39,15 +39,15 @@ export const Inner = styled.div`
     transition: 150ms linear;
     overflow: hidden;
     p {
-      padding: ${theme.layout.spacing.half} 0 ${theme.layout.spacing.double};
+      padding: 2 0 5;
     }
   `}
 `
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding: ${theme.layout.spacing.singleHalf} 0 0;
-    margin: ${theme.layout.spacing.singleHalf} 0 0;
+    padding: 4 0 0;
+    margin: 4 0 0;
     font-family: ${theme.font.family.serif};
     border-top: 1px solid ${theme.color.dark};
     button {
@@ -64,8 +64,8 @@ interface AccordionButton {
 
 export const AccordionButtonStyles = styled.button`
   ${({ theme, selected, size }: AccordionButton) => css`
-    padding: ${theme.layout.spacing.single} ${theme.layout.spacing.singleHalf};
-    margin: ${theme.layout.spacing.small};
+    padding: 3 4;
+    margin: 3;
     font-family: ${theme.font.family.serif};
     background-color: ${selected ? theme.color.dark : 'transparent'};
     color: ${selected ? theme.color.light : theme.color.dark};
