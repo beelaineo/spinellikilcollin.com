@@ -37,8 +37,8 @@ export const MobileProductHeaderWrapper = styled.div`
 export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
     padding-top: 7;
-    max-width: ${theme.layout.columns.small};
-    min-width: ${theme.layout.columns.small};
+    max-width: small;
+    min-width: small;
     display: flex;
     flex-direction: column;
     justify-content: center;

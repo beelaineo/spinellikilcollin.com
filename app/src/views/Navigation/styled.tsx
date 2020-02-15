@@ -93,36 +93,10 @@ interface WithOpen {
   open: boolean
 }
 
-export const SubmenuPane = styled.div`
-  ${({ theme, open }: WithOpen) => css`
-    opacity: ${open ? 1 : 0};
-    pointer-events: ${open ? 'initial' : 'none'};
-    position: absolute;
-    z-index: calc(${theme.layout.z.navigation} - 1);
-    top: 100%;
-    left: 0;
-    width: 100%;
-    min-height: 200px;
-    background-color: white;
-    transition: 0.2s;
-  `}
-`
-
 interface WithVisible {
   theme: DefaultTheme
   active: Boolean
 }
-
-export const SubMenuColumns = styled.div`
-  ${({ theme, active }: WithVisible) => css`
-    display: ${active ? 'grid' : 'none'};
-    margin: 0 auto;
-    max-width: ${theme.layout.columns.xWide};
-    grid-template-columns: repeat(5, 1fr);
-    padding: 3 5;
-    grid-column-gap: 3;
-  `}
-`
 
 interface ModalBackgroundProps {
   open: boolean

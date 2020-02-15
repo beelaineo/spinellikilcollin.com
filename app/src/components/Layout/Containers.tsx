@@ -5,10 +5,8 @@ interface Column {
 }
 
 export const Column = styled.div`
-  ${({ theme }) => css`
-    margin: 0 auto;
-    max-width: calc(${theme.layout.columns.xWide} - 7);
-  `}
+  margin: 0 auto;
+  max-width: calc(xWide - 7);
 `
 
 interface HeroBackground {

@@ -4,13 +4,26 @@ import '@xstyled/styled-components'
 declare module 'styled-components' {
   export interface DefaultTheme {
     space: number[]
-    sizes: number[]
+    sizes: {
+      small: number
+      medium: number
+      wide: number
+      xWide: number
+    }
     fontSizes: number[]
     fontWeights: number[]
 
     radii: {
       round: string
     }
+
+    columns: {
+      small: string
+      medium: string
+      wide: string
+      xWide: string
+    }
+
     fonts: {
       serif: string
       sans: string
@@ -36,6 +49,11 @@ declare module 'styled-components' {
       aboveMobile: string
       tablet: string
       aboveTablet: string
+    }
+
+    transition: {
+      fast: string
+      slow: string
     }
 
     breakpoints?: {

@@ -3,8 +3,6 @@ import { useQuery } from 'urql'
 import { PRODUCT_QUERY, ProductQueryResult } from './query'
 import { ShopifyProduct, ProductInfo, ShopifyProductVariant } from '../../types'
 import { useProductVariant, useCheckout } from 'use-shopify'
-import { unwindEdges } from '@good-idea/unwind-edges'
-import { NotFound } from '../NotFound'
 import { Column } from '../../components/Layout'
 import {
   ProductVariantSelector,
@@ -25,10 +23,8 @@ import {
   NormalizeDiv,
   ArrowDown,
 } from './styled'
-import { RichText } from '../../components/RichText'
 import { Accordion } from '../../components/Accordion'
 import { getInfoBlocksByType, getInfoBlocksByTag } from './utils'
-import { Header5, Header6 } from '../../components/Text'
 
 interface Props {
   product: ShopifyProduct

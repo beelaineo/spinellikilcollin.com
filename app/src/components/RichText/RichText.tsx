@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as BlockContent from '@sanity/block-content-to-react'
-import {Heading, P, BlockQuote} as Text from '../Text'
+import { Heading, P, BlockQuote } from '../Text'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType

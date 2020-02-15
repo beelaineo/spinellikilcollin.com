@@ -17,11 +17,11 @@ const ROW_HEIGHT = '620px'
 const ROW_HEIGHT_SMALL = '450px'
 
 export const Inner = styled.div`
-  ${({ theme, section }: WithSection) => css`
+  ${({ section }: WithSection) => css`
     margin: 0 auto;
     width: 100%;
     flex-grow: 1;
-    max-width: ${theme.layout.columns.xWide};
+    max-width: xWide;
     padding: 0 5;
     grid-template-rows: calc(${ROW_HEIGHT} - (5 * 2));
     display: ${section.layout === 'carousel' ? 'flex' : 'grid'};

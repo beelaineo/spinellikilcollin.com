@@ -1,5 +1,4 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
-import { semiDark } from '../../theme/color'
 
 export const OverLay = styled.div`
   padding: 7;
@@ -10,17 +9,17 @@ export const OverLay = styled.div`
     margin: 0 auto;
     text-align: center;
     ${(props) => css`
-      transition: all ${props.theme.transition.slow} linear;
+      transition: all slow linear;
       a {
         color: transparent;
-        transition: all ${props.theme.transition.slow} linear;
+        transition: all slow linear;
         text-decoration: none;
       }
       hr {
         width: 120px;
         margin: 24px auto;
         border: 1px solid transparent;
-        transition: all ${props.theme.transition.slow} linear;
+        transition: all slow linear;
       }
       &:hover {
         background-color: rgba(0, 0, 0, 0.8);
@@ -51,7 +50,7 @@ export const OverLay = styled.div`
 export const ProductGrid = styled.div`
   ${({ theme }) => css`
     margin: 0 auto;
-    max-width: ${theme.layout.columns.Xwide};
+    max-width: xWide;
     display: grid;
     grid-template-columns: 32% 32% 32%;
     justify-content: space-evenly;
@@ -79,14 +78,15 @@ interface BackgroundImageProps {
 }
 
 export const BackgroundImage = styled.div`
-  background-image: url(${(props: BackgroundImageProps) =>
-    props.imageSrc || ''});
-  background-size: cover;
-  background-position: center;
-  padding: 45%;
-  a {
-    color: transparent;
-  }
+  ${({ imageSrc }: BackgroundImageProps) => css`
+    background-image: url(${imageSrc});
+    background-size: cover;
+    background-position: center;
+    padding: 45%;
+    a {
+      color: transparent;
+    }
+  `}
 `
 
 // Adding the Filter Styles
@@ -131,7 +131,7 @@ interface FilterBodyProps {
 }
 
 export const FilterBody = styled.div`
-  ${({ theme, open }: FilterBodyProps) => css`
+  ${({ open }: FilterBodyProps) => css`
     transition: 250ms ease-in-out;
     padding: 0 3;
     width: 100%;
@@ -147,43 +147,39 @@ export const FilterBody = styled.div`
 `
 
 export const FilterList = styled.ul`
-  ${({ theme }) => css`
-    list-style: none;
-    padding: 0;
-    li {
-      margin-bottom: 3;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-      input,
-      label {
-        cursor: pointer;
-      }
+  list-style: none;
+  padding: 0;
+  li {
+    margin-bottom: 3;
+    cursor: pointer;
+    &:hover {
+      text-decoration: underline;
     }
-  `}
+    input,
+    label {
+      cursor: pointer;
+    }
+  }
 `
 
 export const Checkbox = styled.input`
-  ${({ theme }) => css`
-    display: inline-block;
-    position: absolute;
-    opacity: 0;
-    z-index: 2;
-    &:checked {
-      ~ span {
-        background-color: black;
-      }
-    }
+  display: inline-block;
+  position: absolute;
+  opacity: 0;
+  z-index: 2;
+  &:checked {
     ~ span {
-      width: 14px;
-      z-index: 1;
-      height: 14px;
-      position: relative;
-      border: 1px solid body.7;
-      border-radius: 2px;
-      margin-right: 3;
-      display: inline-block;
+      background-color: black;
     }
-  `}
+  }
+  ~ span {
+    width: 14px;
+    z-index: 1;
+    height: 14px;
+    position: relative;
+    border: 1px solid body.7;
+    border-radius: 2px;
+    margin-right: 3;
+    display: inline-block;
+  }
 `

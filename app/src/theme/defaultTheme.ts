@@ -33,7 +33,13 @@ export const defaultTheme: DefaultTheme = {
   /* Sizing - applies to:
    * 	width, height, min-width,	max-width, min-height, max-height
    */
-  sizes: [0, 16, 32, 48, 64, 80, 96],
+
+  sizes: {
+    small: 450,
+    medium: 600,
+    wide: 1100,
+    xWide: 1440,
+  },
 
   /* Font Sizes, applies to:
    *   font-size
@@ -69,15 +75,6 @@ export const defaultTheme: DefaultTheme = {
    */
   colors: {
     /**
-     * Primary UI color
-     *
-     * Higher nubmers are more saturated
-     * Using only 0 - 50, since 50 & 60 were nearly identical
-     *
-     * Usage:
-     *   color: primary.0 | primary.1 | primary.2 | primary.3 | primary.4 | primary.5;
-     **/
-    /**
      * Body colors
      *
      * First colors should offset well on the primary background, i.e.
@@ -88,10 +85,13 @@ export const defaultTheme: DefaultTheme = {
     /* Shortcut for main body color */
     bodyMain: grays[0],
     background: grays[6],
-
-    /* 'color: offset.2' should look good on 'background-color: primary.2' */
     /* Used for errors and warnings. */
     error: ['#e6d49e', '#f09e32', '#f04b32'],
+  },
+
+  transition: {
+    fast: '150ms',
+    slow: '250ms',
   },
 
   breakpoints: {
