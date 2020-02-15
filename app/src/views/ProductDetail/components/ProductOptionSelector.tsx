@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ShopifyProductOption } from '../../../types'
-import { Header5 } from '../../../components/Text'
+import { Heading } from '../../../components/Text'
 import { Select } from '../../../components/Forms'
 
 interface ProductOptionSelectorProps {
@@ -10,9 +10,9 @@ interface ProductOptionSelectorProps {
 export const ProductOptionSelector = ({ option }: ProductOptionSelectorProps) =>
   option && option._key && option.name && option.values ? (
     <div style={{ marginBottom: '20px', width: '160px' }}>
-      <Header5 family="sans" style={{ marginBottom: '2px' }}>
+      <Heading level={5} mb={1}>
         {option.name}
-      </Header5>
+      </Heading>
       <Select id={option.name}>
         {option.values.map((v) =>
           v && v._key && v.value ? (

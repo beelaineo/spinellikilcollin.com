@@ -2,7 +2,7 @@ import * as React from 'react'
 import { FlexContainer, FlexThree, FlexSix } from '../../components/Layout/Flex'
 import { QuantitySelectorCart } from '../ProductDetail/styled'
 import { QuantityInput } from '../../components/QuantityInput'
-import { Header5 } from '../../components/Text'
+import { Heading } from '../../components/Text'
 import { IoMdClose } from 'react-icons/io'
 import { RemoveCart } from './styled'
 
@@ -33,14 +33,14 @@ export const CheckoutProduct = (props) => {
         <img src={variant.image.originalSrc} />
       </FlexThree>
       <FlexSix marginVertical="0">
-        <Header5 weight="light" color="dark">
+        <Heading level={5} weight={2} color="dark">
           {title}
-        </Header5>
+        </Heading>
         <div>
           <FlexSix margin="small">
-            <Header5 weight="strong" color="dark">
+            <Heading level={5} weight={5} color="dark">
               ${variant.priceV2.amount}
-            </Header5>
+            </Heading>
           </FlexSix>
           <FlexSix margin="small">
             <QuantitySelectorCart className={hovered} width="40px">

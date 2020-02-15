@@ -3,7 +3,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct, ShopifyCollection } from '../../../types'
 import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
 import { Carousel } from '../../../components/Carousel'
-import { Header2, Header4 } from '../../../components/Text'
+import { Heading } from '../../../components/Text'
 import { ProductThumbnail } from '../../../components/Product'
 import { FlexContainer } from '../../../components/Layout'
 
@@ -22,23 +22,17 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
   return (
     <ProductRelatedWrapper>
       <FlexContainer center>
-        <Header4
-          active
+        <Heading
+          level={5}
           margin="10px"
-          transform="capitalize"
-          color="dark"
-          align="center"
+          textTransform="capitalize"
+          textAlign="center"
         >
           More Like this
-        </Header4>
-        <Header4
-          margin="10px"
-          transform="capitalize"
-          color="dark"
-          align="center"
-        >
+        </Heading>
+        <Heading level={5} m={3} textTransform="capitalize" textAlign="center">
           {collection.title}
-        </Header4>
+        </Heading>
       </FlexContainer>
       <ProductRelatedInner>
         <Carousel>

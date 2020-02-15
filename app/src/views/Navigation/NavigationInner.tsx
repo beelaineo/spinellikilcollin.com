@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { Menu } from '../../types'
 import { NavInner, NavItemWrapper } from './styled'
-import { Header4, Input, Form } from '../../components/Text'
-import { Header3 } from '../../components/Text'
+import { Heading, Input } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'
 import { SubMenu } from './SubMenu'
 import { IoIosSearch } from 'react-icons/io'
@@ -17,13 +16,13 @@ export const NavigationInner = ({ menu }: NavigationInnerProps) => {
   return (
     <NavInner>
       <div>
-        <Header4 fontStyle="italic">What are you looking for?</Header4>
-        <Form>
-          <Input placeholder="search" />
-          <button type="submit">
-            <IoIosSearch />
-          </button>
-        </Form>
+        <Heading level={4} fontStyle="italic">
+          What are you looking for?
+        </Heading>
+        <Input placeholder="search" />
+        <button type="submit">
+          <IoIosSearch />
+        </button>
       </div>
       <div>
         {menuItems.map((menuItem) => {
@@ -45,7 +44,7 @@ export const NavigationInner = ({ menu }: NavigationInnerProps) => {
                     // @ts-ignore
                     link={menuItem.link}
                     render={(inferredLabel) => (
-                      <Header3>
+                      <Heading level={3}>
                         {//
                         // @ts-ignore
                         menuItem.label
@@ -55,7 +54,7 @@ export const NavigationInner = ({ menu }: NavigationInnerProps) => {
                           : inferredLabel
                           ? inferredLabel.toUpperCase()
                           : ''}
-                      </Header3>
+                      </Heading>
                     )}
                   />
                 </NavItemWrapper>

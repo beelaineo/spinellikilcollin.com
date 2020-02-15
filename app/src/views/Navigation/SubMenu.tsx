@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { SubMenu as SubMenuType } from '../../types'
-import { Header3 } from '../../components/Text'
+import { Heading } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'
 import { PlusMinus } from './PlusMinus'
 
@@ -31,7 +31,7 @@ const PlusMinusWrapper = styled.div`
 `
 
 const SubmenuInner = styled.div`
-  ${({ theme, open }: SubmenuInnerProps) => css`
+  ${({ open }: SubmenuInnerProps) => css`
     display: ${open ? 'block' : 'none'};
     padding: 3 0 3 5;
 
@@ -50,7 +50,7 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
     <>
       <SubmenuTop>
         <button onClick={toggleOpen}>
-          <Header3>{title.toUpperCase()}</Header3>
+          <Heading level={3}>{title.toUpperCase()}</Heading>
           <PlusMinusWrapper>
             <PlusMinus open={open} />
           </PlusMinusWrapper>
@@ -61,7 +61,9 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
           cta && cta.link && cta.label ? (
             <div key={cta._key || 'some-key'}>
               <PageLink link={cta.link}>
-                <Header3 fontStyle="italic">{cta.label || ''}</Header3>
+                <Heading level={3} fontStyle="italic">
+                  {cta.label || ''}
+                </Heading>
               </PageLink>
             </div>
           ) : null,

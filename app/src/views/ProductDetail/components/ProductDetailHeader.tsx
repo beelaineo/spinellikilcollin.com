@@ -2,7 +2,7 @@ import * as React from 'react'
 import { formatMoney } from '../../../utils/currency'
 import { ShopifyProduct, ShopifySourceProductVariant } from '../../../types'
 import { NormalizeDiv, ProductDetailHeaderStyles } from '../styled'
-import { Header2, Header4 } from '../../../components/Text'
+import { Heading } from '../../../components/Text'
 
 interface ProductDetailHeaderProps {
   product: ShopifyProduct
@@ -20,13 +20,13 @@ export const ProductDetailHeader = ({
   return (
     <ProductDetailHeaderStyles mobile={mobile}>
       <NormalizeDiv marginBottom="triple" align={align}>
-        <Header2 weight="xlight" color="dark">
+        <Heading level={2} weight={1}>
           {product.title}
-        </Header2>
+        </Heading>
         {currentVariant?.priceV2 ? (
-          <Header4 weight="strong" color="dark">
+          <Heading level={4} weight={4}>
             {formatMoney(currentVariant.priceV2)}
-          </Header4>
+          </Heading>
         ) : null}
       </NormalizeDiv>
     </ProductDetailHeaderStyles>

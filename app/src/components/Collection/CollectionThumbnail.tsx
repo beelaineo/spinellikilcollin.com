@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { ShopifyCollection } from '../../types'
 import { ImageWrapper, TextWrapper } from './styled'
 import { Image } from '../Image'
-import { Header3, Header6 } from '../Text'
+import { Heading } from '../Text'
 
 interface CollectionThumbnailProps {
   collection: ShopifyCollection
@@ -20,9 +20,9 @@ export const CollectionThumbnail = ({
           <Image image={collection?.sourceData?.image} ratio={1} />
         </ImageWrapper>
         <TextWrapper>
-          <Header3>{collection.title}</Header3>
+          <Heading level={3}>{collection.title}</Heading>
           {collection.products && collection.products.length ? (
-            <Header6>{collection.products.length} items</Header6>
+            <Heading level={6}>{collection.products.length} items</Heading>
           ) : null}
         </TextWrapper>
       </a>

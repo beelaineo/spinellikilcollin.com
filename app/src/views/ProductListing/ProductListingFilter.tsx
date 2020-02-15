@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Header2, Header4, Header5 } from '../../components/Text'
+import { Heading } from '../../components/Text'
 import {
   FlexContainer,
   FlexHalf,
@@ -68,7 +68,9 @@ export const ProductListingFilter = ({
             {mockData.map((filter) => {
               return (
                 <FlexThree>
-                  <Header5 transform="uppercase">{filter.name}</Header5>
+                  <Heading level={5} textTransform="uppercase">
+                    {filter.name}
+                  </Heading>
                   <FilterList>
                     <li>
                       <Checkbox
@@ -95,9 +97,9 @@ export const ProductListingFilter = ({
             })}
 
             <FlexFour>
-              <Header5 transform="uppercase">
+              <Heading level={4} textTransform="uppercase">
                 PRICE RANGE: from 1k to 30k
-              </Header5>
+              </Heading>
               <div>
                 <input type="range" id="start" name="price" min="0" max="40" />
                 {/* <label for="price">Volume</label> */}

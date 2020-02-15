@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ShopifyProductVariant, ShopifyProduct } from '../../../types'
 import { NormalizeDiv } from '../styled'
-import { Header2, Header4 } from '../../../components/Text'
+import { Heading } from '../../../components/Text'
 import { formatMoney } from '../../../utils/currency'
 
 interface MobileProductHeaderProps {
@@ -20,13 +20,13 @@ export const MobileProductHeader = ({
       mobile="block"
       align={'center'}
     >
-      <Header2 weight="xlight" color="dark">
+      <Heading level={2} weight={1}>
         {product.title}
-      </Header2>
+      </Heading>
       {currentVariant?.sourceData?.priceV2 ? (
-        <Header4 weight="strong" color="dark">
+        <Heading level={4} weight={4}>
           ${formatMoney(currentVariant.sourceData.priceV2)}
-        </Header4>
+        </Heading>
       ) : null}
     </NormalizeDiv>
   )

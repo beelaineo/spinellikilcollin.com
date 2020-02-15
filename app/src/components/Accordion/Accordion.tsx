@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { RichText } from '../RichText'
-import { Header5 } from '../Text'
+import { Heading } from '../Text'
 import { ProductInfo } from '../../types'
 import { Wrapper, ToggleButton, Inner } from './styled'
 import { useEffect, useRef } from 'react'
@@ -11,7 +11,7 @@ interface AccordionProps {
 }
 
 const AccordionTextWrapper = (props: any) => (
-  <Header5 {...props} weight="normal" />
+  <Heading level={5} {...props} weight="normal" />
 )
 
 export const Accordion = ({ content }: AccordionProps) => {

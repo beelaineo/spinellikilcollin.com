@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as BlockContent from '@sanity/block-content-to-react'
-import * as Text from '../Text'
+import {Heading, P, BlockQuote} as Text from '../Text'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
@@ -24,23 +24,23 @@ const serializers = ({ blockWrapper: Wrapper }: CustomSerializerConfig) => ({
 
     switch (style) {
       case 'h1':
-        return <Text.Header1 {...props} />
+        return <Heading level={1} {...props} />
       case 'h2':
-        return <Text.Header2 {...props} />
+        return <Heading level={2} {...props} />
       case 'h3':
-        return <Text.Header3 {...props} />
+        return <Heading level={3} {...props} />
       case 'h4':
-        return <Text.Header4 {...props} />
+        return <Heading level={4} {...props} />
       case 'h5':
-        return <Text.Header5 {...props} />
+        return <Heading level={5} {...props} />
       case 'h6':
-        return <Text.Header6 {...props} />
+        return <Heading level={6} {...props} />
       case 'blockquote':
-        return <Text.BlockQuote {...props} />
+        return <BlockQuote {...props} />
       case 'normal':
-        return <Text.P {...props} />
+        return <P {...props} />
       default:
-        return <Text.P {...props} />
+        return <P {...props} />
     }
   },
 })

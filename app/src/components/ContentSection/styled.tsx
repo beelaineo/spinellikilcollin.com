@@ -1,14 +1,11 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
-import { Header5 } from '../Text'
 import { ContentSection } from '../../types'
 
 export const TextBlockWrapper = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-  `}
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
 `
 
 interface WithSection {
@@ -26,9 +23,7 @@ export const Inner = styled.div`
     flex-grow: 1;
     max-width: ${theme.layout.columns.xWide};
     padding: 0 5;
-    grid-template-rows: calc(
-      ${ROW_HEIGHT} - (5 * 2)
-    );
+    grid-template-rows: calc(${ROW_HEIGHT} - (5 * 2));
     display: ${section.layout === 'carousel' ? 'flex' : 'grid'};
     flex-direction: column;
     grid-gap: 5;

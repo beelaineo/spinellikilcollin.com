@@ -2,10 +2,8 @@ import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Carousel } from '../../types'
 import { CollectionCarousel, ItemsCarousel } from '../Carousel'
-import { Placeholder } from '../Placeholder'
-import { CarouselBlockStyled, Square } from '../Layout/Containers'
-import { Header2, Header5 } from '../Text'
-import { FlexContainer, FlexSix } from '../Layout/Flex'
+import { CarouselBlockStyled } from '../Layout/Containers'
+import { Heading } from '../Text'
 
 interface CarouselBlockProps {
   content: Carousel
@@ -28,7 +26,7 @@ export const CarouselBlock = ({ content }: CarouselBlockProps) => {
   const { title, collection, items } = content
   return (
     <CarouselBlockStyled>
-      <Header2>{title}</Header2>
+      <Heading level={2}>{title}</Heading>
       <CarouselContainer>
         {collection ? (
           <CollectionCarousel collection={collection} />

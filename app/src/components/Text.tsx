@@ -9,20 +9,19 @@ import styled, {
 interface CustomTextProps {
   theme: DefaultTheme
   fontSize: 1 | 2 | 3 | 4 | 5 | 6
+  fontStyle?: string
   family?: 'mono' | 'sans' | 'display' | 'body'
-  align?: 'left' | 'center' | 'right' | 'inherit'
   weight?: number
   color?: string
   htmlFor?: string
 }
 
 const createTextBase = (as: any) => styled(as)`
-  ${({ family, weight, fontSize, color, align }: CustomTextProps) => css`
+  ${({ family, fontStyle, weight, fontSize }: CustomTextProps) => css`
     font-size: ${fontSize};
     font-family: ${family};
     font-weight: ${weight};
-    text-align: ${align};
-    color: ${color ? color : 'inherit'};
+    font-style: ${fontStyle};
     margin: 2 0 0.5em;
 
     &:last-child {
@@ -37,11 +36,10 @@ const createTextBase = (as: any) => styled(as)`
 `
 
 const TextBase = styled(Box)`
-  ${({ family, weight, fontSize, color, align }: CustomTextProps) => css`
+  ${({ family, weight, fontSize, color }: CustomTextProps) => css`
     font-size: ${fontSize};
     font-family: ${family};
     font-weight: ${weight};
-    text-align: ${align};
     color: ${color ? color : 'inherit'};
     margin: 0 0 0.5em;
 
@@ -70,7 +68,6 @@ const hTags = ['h1', 'h2', 'h3', 'h4', 'h5']
 
 export const Heading = ({
   children,
-  align,
   color,
   family,
   level,
@@ -84,8 +81,6 @@ export const Heading = ({
   return (
     <TextBase
       as={tag}
-      align={align}
-      // @ts-ignore
       fontSize={level}
       family={family}
       weight={weight || 500}

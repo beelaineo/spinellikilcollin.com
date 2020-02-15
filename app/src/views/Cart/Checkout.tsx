@@ -13,7 +13,7 @@ import {
   FlexSix,
 } from '../../components/Layout/Flex'
 import { Loading } from '../Navigation/styled'
-import { Header6, Header5, Header3 } from '../../components/Text'
+import { Heading } from '../../components/Text'
 import { CartBottom, CartInner } from '../../components/Cart'
 import { CheckoutProduct } from './CheckoutProduct'
 
@@ -40,9 +40,9 @@ export const Checkout = () => {
   return (
     // @ts-ignore
     <NormalizeDiv top="0">
-      <Header3 color="dark" align="center">
+      <Heading level={3} color="dark" align="center">
         Your cart
-      </Header3>
+      </Heading>
       <CartInner open={false}>
         {checkout.lineItems.edges.map((lineItem) => {
           const { id, title, variant, quantity } = lineItem.node
@@ -66,23 +66,19 @@ export const Checkout = () => {
             width="100%"
           >
             <FlexHalf>
-              <Header5
-                transform="uppercase"
-                weight="light"
-                color="lightGrayBody"
-              >
+              <Heading level={5} textTransform="uppercase" weight={2}>
                 Subtotal:
-              </Header5>
+              </Heading>
             </FlexHalf>
             <FlexHalf>
-              <Header5
+              <Heading
+                level={5}
                 align="right"
-                transform="uppercase"
-                weight="light"
-                color="dark"
+                textTransform="uppercase"
+                weight={2}
               >
                 ${checkout.paymentDueV2.amount}
-              </Header5>
+              </Heading>
             </FlexHalf>
           </FlexContainer>
         </Loading>
@@ -99,9 +95,9 @@ export const Checkout = () => {
             Checkout
           </Button>
 
-          <Header6 align="center">
+          <Heading level={6} align="center">
             Shipping and discount codes are added at checkout.
-          </Header6>
+          </Heading>
         </NormalizeDiv>
       </CartBottom>
     </NormalizeDiv>

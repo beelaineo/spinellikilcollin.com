@@ -2,7 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct } from '../../types'
-import { Header3, Header6 } from '../Text'
+import { Heading } from '../Text'
 import {
   BackgroundImage,
   ProductInfo,
@@ -36,15 +36,15 @@ export const ProductThumbnail = ({ product }: ProductThumbnail) => {
               })}
           </ProductContainer>
           <ProductInfo>
-            <Header3>{product.title}</Header3>
+            <Heading level={3}>{product.title}</Heading>
             {minVariantPrice &&
             maxVariantPrice &&
             minVariantPrice.amount !== maxVariantPrice.amount ? (
-              <Header3>
+              <Heading level={3}>
                 | ${minVariantPrice.amount} - ${maxVariantPrice.amount}
-              </Header3>
+              </Heading>
             ) : maxVariantPrice ? (
-              <Header3>| ${maxVariantPrice.amount}</Header3>
+              <Heading level={3}>| ${maxVariantPrice.amount}</Heading>
             ) : null}
           </ProductInfo>
         </a>

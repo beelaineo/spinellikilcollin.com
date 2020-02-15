@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { Header2 } from '../../components/Text'
+import { Heading } from '../../components/Text'
 import { ShopifyCollection } from '../../types'
-import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
+import { FlexContainer } from '../../components/Layout/Flex'
 
 interface ProductListingHeaderProps {
   collection: ShopifyCollection
@@ -25,7 +25,7 @@ export const ProductListingHeader = ({
         }}
       >
         {/* <FlexHalf vertical="center" padding="0 60px">
-          <Header2>{title}</Header2>
+          <Heading level={2}>{title}</Heading>
           <p>{description}</p>
         </FlexHalf> */}
         {/* <FlexHalf
@@ -48,7 +48,7 @@ export const ProductListingHeader = ({
         marginVertical="triple"
         margin="triple"
       >
-        <Header2>{title}</Header2>
+        <Heading level={2}>{title}</Heading>
         <p>{description}</p>
       </FlexContainer>
     )
