@@ -1,5 +1,4 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
-import { lightGraybackground } from '../../theme/color'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -8,7 +7,7 @@ export const Wrapper = styled.div`
     margin: 0 auto 6;
     font-family: ${theme.font.family.sans};
     padding: 6 0 0;
-    background-color: ${theme.color.lightGraybackground};
+    background-color: body.2;
   `}
 `
 
@@ -27,18 +26,14 @@ export const ProductDetails = styled.div`
 `
 
 export const ProductImagesWrapper = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  `}
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 `
 
 export const MobileProductHeaderWrapper = styled.div`
-  ${({ theme }) => css`
-    text-align: center;
-    padding-top: 7;
-  `}
+  text-align: center;
+  padding-top: 7;
 `
 
 export const ProductInfoWrapper = styled.div`
@@ -71,42 +66,21 @@ export const ProductGalleryWrapper = styled.div``
 export const ProductGalleryImage = styled.div``
 
 export const ProductGalleryThumbnails = styled.div`
-  ${(props) => css`
-    flex: 1;
-    padding-right: 3;
-    > button {
-      padding: 3;
-    }
-  `}
+  flex: 1;
+  padding-right: 3;
+  > button {
+    padding: 3;
+  }
 `
 
 export const ProductRelatedWrapper = styled.div`
-  ${(props) => css`
-    background-color: ${props.theme.color.white};
-    padding: 7;
-    ${props.theme.mediaQueries.tablet} {
-      > h2 {
-        font-size: ${props.theme.font.size.h2};
-      }
-    }
-  `}
+  background-color: body.0;
+  padding: 7;
 `
 
 export const ProductRelatedInner = styled.div`
-  ${({ theme }) => css`
-    height: 500px;
-  `}
+  height: 500px;
 `
-
-/*
-  NOTE: consider turning this into a "WithMargin" or "Spaced"
-  component that we could use like this:
-
-  <Spaced margin="small">...</Spaced>
-  <Spaced margin="small" top="double">...</Spaced>
-
-  would be nice to have a prop for padding too
-*/
 
 interface NormalizeDivProps {
   theme: DefaultTheme
@@ -161,18 +135,9 @@ interface ButtonProps {
 }
 
 export const Button = styled.button`
-  ${({
-    theme,
-    disabled,
-    background,
-    color,
-    width,
-    marginTop,
-  }: ButtonProps) => css`
-    background-color: ${background
-      ? theme.color[background]
-      : theme.color.dark};
-    color: ${color ? theme.color.color : theme.color.light};
+  ${({ theme, disabled, width }: ButtonProps) => css`
+    background-color: body.8;
+    color: body.1;
     cursor: ${disabled ? 'auto' : 'pointer'};
     display: inline-block;
     font-family: ${theme.font.family.serif};
@@ -187,7 +152,8 @@ export const Button = styled.button`
     margin: 5 0 3;
     opacity: ${disabled ? 0.3 : 1};
     pointer-events: ${disabled ? 'none' : 'auto'};
-    border: 1px solid ${theme.color.dark};
+    border-color: body.8;
+    border: 1px solid;
     /* max-width: 200px; */
     width: ${width || 'initial'};
   `}
@@ -210,7 +176,7 @@ export const QuantitySelector = styled.div`
   button {
     text-align-last: center;
     height: 50px;
-    border: 1px solid #f1f1f1;
+    border: 1px solid body.1;
     border-radius: 0;
     -webkit-transition: 0.2s;
     transition: 0.2s;
@@ -222,7 +188,7 @@ export const QuantitySelector = styled.div`
     border: none;
     background: none;
     border-radius: 0;
-    border: 1px solid #f1f1f1;
+    border: 1px solid body.1;
     padding: 0.5rem 1.2rem;
     font-family: sans-serif;
   }
@@ -233,46 +199,41 @@ export const QuantitySelector = styled.div`
 `
 
 export const QuantitySelectorCart = styled(QuantitySelector)`
-  ${() => `
-		button {
-			text-align-last: center;
-			height: 2rem;
-			border: 1px solid #f1f1f1;
-			border-radius: 0;
-			-webkit-transition: .2s;
-			transition: .2s;
-			font-size: .85rem;
-			cursor: pointer;
-			-moz-appearance: none;
-			appearance: none;
-			-webkit-appearance: none;
-			border: none;
-			background: none;
-			border-radius: 0;
-			border: 1px solid #f1f1f1;
-			padding: .5rem .5rem;
-			font-family: sans-serif;
-		}
-		input {
-			text-align: center;
-			width: 2px;
-		}
-	`}
+  button {
+    text-align-last: center;
+    height: 2rem;
+    border: 1px solid body.1;
+    border-radius: 0;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    font-size: 0.85rem;
+    cursor: pointer;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: none;
+    border-radius: 0;
+    border: 1px solid body.1;
+    padding: 0.5rem 0.5rem;
+    font-family: sans-serif;
+  }
+  input {
+    text-align: center;
+    width: 2px;
+  }
 `
 
 export const Label = styled.label`
-  ${(props) => `
-		color: #777;
-		color:${props.theme.color.lightGrayBody};
-		display: block;
-		margin-bottom: 3;
-		-moz-appearance: none;
-		appearance: none;
-		-webkit-appearance: none;
-		border: none;
-		background: none;
-		border-radius: 0;
-	`}
+  color: body.6;
+  display: block;
+  margin-bottom: 3;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  background: none;
+  border-radius: 0;
 `
 
 export const ArrowDown = styled.div`
@@ -285,7 +246,7 @@ export const ArrowDown = styled.div`
   position: relative;
   top: 17vh;
   font-size: ${(props) => props.theme.font.size.h2};
-  color: ${(props) => props.theme.color.dark};
+  color: body.8;
   ${(props) => props.theme.mediaQueries.tablet} {
     display: none;
   }
@@ -293,7 +254,7 @@ export const ArrowDown = styled.div`
 
 export const ImageNav = styled.div`
   display: block;
-  background-color: ${(props) => props.theme.color.dark};
+  background-color: body.8;
   border-radius: 50%;
   height: 16px;
   width: 16px;

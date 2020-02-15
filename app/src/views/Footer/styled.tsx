@@ -11,7 +11,7 @@ export const FooterWrapper = styled.footer`
       max-width: 1200px;
       > div {
         padding: 6 0;
-        border-top: 2px solid ${theme.color.light};
+        border-top: 2px solid body.1;
       }
     }
     .upper-footer {
@@ -38,13 +38,13 @@ export const FooterWrapper = styled.footer`
       .copyright {
         font-size: ${theme.font.size.h6};
         letter-spacing: 1px;
-        color: ${theme.color.semiDark};
+        color: body.7;
       }
       .socials {
         a {
           display: inline-block;
           margin-right: 5;
-          color: ${theme.color.dark};
+          color: body.8;
         }
       }
     }

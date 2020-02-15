@@ -108,20 +108,6 @@ export const Header4 = styled.h4`
   `};
 `
 
-export const Header4Italic = styled.h4`
-  ${(props: TextStyleProps) => css`
-    ${commonHeaderStyles(props)};
-    font-size: ${props.theme.font.size.h4};
-    letter-spacing: 0.05em;
-    color: ${props.theme.color.dark};
-    font-family: ${props.theme.font.family.serif};
-    margin: 3 0;
-    ${props.theme.mediaQueries.tablet} {
-      font-size: calc(${props.theme.font.size.h4} * 0.8);
-    }
-  `};
-`
-
 export const Header5 = styled.h5`
   ${(props: TextStyleProps) => css`
     ${commonHeaderStyles(props)};
@@ -161,19 +147,13 @@ export const P = styled.p`
   `};
 `
 
-export const TextAnchor = styled.a`
-  ${({ theme }) => `
-		color: ${theme.color.pink};
-	`};
-`
+export const TextAnchor = styled.a``
 
 export const BlockQuote = styled.blockquote``
 
 const listStyles = css`
-  ${({ theme }) => `
-		margin: 3 0;
-		padding-left: 2em;
-	`};
+  margin: 3 0;
+  padding-left: 2em;
 `
 
 export const Ol = styled.ol`
@@ -191,23 +171,21 @@ export const Li = styled.li`
 `
 
 export const Input = styled.input`
-  ${({ theme }) => `
-		border: 1px solid ${theme.color.lightGrayBody};
-		width: 100%;
-		padding: 3;
-		text-transform: lowercase;
-		font-family: ${theme.font.family.serif};
-	`};
+  ${({ theme }) => css`
+    border: 1px solid body.6;
+    width: 100%;
+    padding: 3;
+    text-transform: lowercase;
+    font-family: ${theme.font.family.serif};
+  `};
 `
 
 export const Form = styled.form`
-  ${({ theme }) => `
-		position: relative;
-		[type='submit'] {
-				position: absolute;
-				right: 12px;
-				top: 14px;
-				color: ${theme.color.lightGrayBody};
-			}
-	`};
+  position: relative;
+  [type='submit'] {
+    position: absolute;
+    right: 12px;
+    top: 14px;
+    color: body.3;
+  }
 `

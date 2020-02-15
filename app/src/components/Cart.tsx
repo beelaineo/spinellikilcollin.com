@@ -14,7 +14,7 @@ export const CartSidebar = styled.div`
     max-height: 100vh;
     min-height: 100vh;
     overflow: scroll;
-    background-color: ${props.theme.color.white};
+    background-color: body.0;
     box-shadow: -5px 0 5px rgba(0, 0, 0, 0.1);
     transition: 350ms ease-in-out;
     width: 500px;

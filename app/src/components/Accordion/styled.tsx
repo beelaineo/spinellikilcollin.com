@@ -7,12 +7,12 @@ interface WithOpen {
 }
 
 export const ToggleButton = styled.button`
-  ${({ theme, open }: WithOpen) => css`
+  ${({ theme }) => css`
     font-size: ${theme.font.size.h4};
     font-weight: ${theme.font.weight.semi};
     letter-spacing: 1px;
     text-transform: capitalize;
-    color: ${(props) => props.theme.color.dark};
+    color: body.8;
     background-color: transparent;
     width: 100%;
     text-align: left;
@@ -32,7 +32,7 @@ export const ToggleButton = styled.button`
   `}
 `
 export const Inner = styled.div`
-  ${({ theme, open }: WithOpen) => css`
+  ${({ open }: WithOpen) => css`
     /* display: ${open ? 'block' : 'none'}; */
     max-height: ${open === true ? '200px' : '0'};
     visibility: ${open === true ? 'visible' : 'hidden'};
@@ -49,7 +49,7 @@ export const Wrapper = styled.div`
     padding: 4 0 0;
     margin: 4 0 0;
     font-family: ${theme.font.family.serif};
-    border-top: 1px solid ${theme.color.dark};
+    border-top: 1px solid body.8;
     button {
       font-family: ${theme.font.family.serif};
     }
@@ -67,9 +67,9 @@ export const AccordionButtonStyles = styled.button`
     padding: 3 4;
     margin: 3;
     font-family: ${theme.font.family.serif};
-    background-color: ${selected ? theme.color.dark : 'transparent'};
-    color: ${selected ? theme.color.light : theme.color.dark};
-    border: 1px solid ${theme.color.dark};
+    background-color: ${selected ? 'body.8' : 'transparent'};
+    color: ${selected ? 'body.1' : 'body.8'};
+    border: 1px solid body.8;
     border-radius: ${size === 'large' ? '24px' : '50%'};
   `}
 `

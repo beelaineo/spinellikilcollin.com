@@ -25,16 +25,10 @@ declare module 'styled-components' {
     }
 
     colors: {
-      primary: string[]
-      primaryMain: string
       body: string[]
       bodyMain: string
       background: string
-      highlight: string[]
       error: string[]
-      red: string
-      beige: string
-      bronze: string
     }
 
     mediaQueries: {

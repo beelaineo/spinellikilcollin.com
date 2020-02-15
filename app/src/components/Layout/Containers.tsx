@@ -1,5 +1,4 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
-import { semiDark } from '../../theme/color'
 
 interface Column {
   theme: DefaultTheme
@@ -19,32 +18,32 @@ interface HeroBackground {
 }
 
 export const HeroBackground = styled.div`
-  ${({ theme, background, backgroundMobile }: HeroBackground) => `
-      background-image: ${`url(${background})`};
-      background-size: cover;
-      background-position: 10%;
+  ${({ theme, background, backgroundMobile }: HeroBackground) => css`
+    background-image: ${`url(${background})`};
+    background-size: cover;
+    background-position: 10%;
+    padding: 6;
+    height: 90vh;
+    position: relative;
+    z-index: 0;
+    top: 0px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'a b';
+    div {
       padding: 6;
-      height: 90vh;
-      position: relative;
-      z-index:0;
-      top: 0px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-areas: "a b";
+      align-self: center;
+      grid-area: b;
+    }
+    ${theme.mediaQueries.tablet} {
+      background-image: ${`url(${backgroundMobile})`};
+      grid-template-columns: 1fr;
       div {
-        padding: 6;
-        align-self: center;
-        grid-area: b;
+        grid-area: a;
+        align-self: flex-start;
       }
-      ${theme.mediaQueries.tablet} {
-        background-image: ${`url(${backgroundMobile})`};
-        grid-template-columns: 1fr;
-        div {
-          grid-area: a;
-          align-self: flex-start;
-        }
-      }
-    `}
+    }
+  `}
 `
 
 interface HeroText {
@@ -53,11 +52,11 @@ interface HeroText {
 }
 
 export const HeroText = styled.div`
-  ${({ theme, textAlign }: HeroText) => `
-      text-align: ${textAlign === 'middle-right' ? 'center' : 'left'};
-      max-width: 400px;
-      margin: 0 auto;
-      color: ${theme.color.dark};
+  ${({ textAlign }: HeroText) => css`
+    text-align: ${textAlign === 'middle-right' ? 'center' : 'left'};
+    max-width: 400px;
+    margin: 0 auto;
+    color: body.8;
   `}
 `
 
@@ -69,34 +68,34 @@ interface ImageTextProps {
 }
 
 export const ImageText = styled.div`
-  ${({ theme, textAlign, background, width }: ImageTextProps) => `
-      width: ${width === 'fullWidth' ? '100%' : '50%'};
+  ${({ theme, background, width }: ImageTextProps) => css`
+    width: ${width === 'fullWidth' ? '100%' : '50%'};
+    display: inline-block;
+    box-sizing: border-box;
+    margin: 0 auto;
+    color: body.8;
+    padding: 0;
+    background-image: ${`url(${background})`};
+    background-size: cover;
+    background-position: center;
+    vertical-align: top;
+    position: relative;
+    line-height: 0;
+    ${theme.mediaQueries.tablet} {
+      width: 100%;
+    }
+
+    a {
+      text-transform: capitalize;
+      color: body.7;
+      margin: 3 0;
       display: inline-block;
-      box-sizing: border-box;
-      margin: 0 auto;
-      color: ${theme.color.dark};
-      padding: 0;
-      background-image: ${`url(${background})`};
-      background-size: cover;
-      background-position: center;
-      vertical-align: top;
-      position: relative;
-      line-height: 0;
-      ${theme.mediaQueries.tablet} {
-        width: 100%;
-      }
-      
-      a {
-        text-transform: capitalize;
-        color: ${theme.color.semiDark};
-        margin: 3 0;
-        display: inline-block;
-        font-style: italic;
-        text-decoration: none;
-        padding: 1 0;
-        border-bottom: 1px solid  ${theme.color.semiDark};
-        font-size: ${theme.font.size.h4};
-      }
+      font-style: italic;
+      text-decoration: none;
+      padding: 1 0;
+      border-bottom: 1px solid body.7;
+      font-size: ${theme.font.size.h4};
+    }
   `}
 `
 
@@ -106,15 +105,13 @@ interface ImageText {
 }
 
 export const TextOverImage = styled.div`
-  ${({ theme, textAlign }: ImageText) => `
+  ${({ theme, textAlign }: ImageText) => css`
         display: block;
         position: absolute;
         width: 100%;
         padding: 6;
         line-height: initial;
-        padding-top: ${
-          textAlign === 'middle-center' ? '45%' : theme.layout.spacing.triple
-        };
+        padding-top: ${textAlign === 'middle-center' ? '45%' : '5'};
         p {
           font-size: ${theme.font.size.h3};
           line-height: 32px;
@@ -155,10 +152,8 @@ interface CarouselBlockStyledProps {
 }
 
 export const CarouselBlockStyled = styled.div`
-  ${({ theme }: CarouselBlockStyledProps) => `
-        padding: 6;
-        text-align: center;
-    `};
+  padding: 6;
+  text-align: center;
 `
 
 export const Square = styled.div`

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Menu } from '../../types'
 import { NavInner, NavItemWrapper } from './styled'
-import { Header4Italic, Input, Form } from '../../components/Text'
+import { Header4, Input, Form } from '../../components/Text'
 import { Header3 } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'
 import { SubMenu } from './SubMenu'
@@ -17,7 +17,7 @@ export const NavigationInner = ({ menu }: NavigationInnerProps) => {
   return (
     <NavInner>
       <div>
-        <Header4Italic>What are you looking for?</Header4Italic>
+        <Header4 fontStyle="italic">What are you looking for?</Header4>
         <Form>
           <Input placeholder="search" />
           <button type="submit">

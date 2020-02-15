@@ -2,15 +2,16 @@ import { DefaultTheme } from 'styled-components'
 
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=22#sat_end=0#sat_curve=easeOutQuart#sat_rate=130#lum_start=12#lum_end=100#lum_curve=easeInCubic#minor_steps_map=0 */
 const grays = [
-  '#1c161f',
-  '#453b4a',
-  '#716776',
-  '#BDC2C6',
-  '#b5aeb8',
-  '#dcd9de',
-  '#f0eff1',
-  '#F2F6F9',
-  '#ffffff',
+  '#ffffff', // 0 white
+  '#f9fafa', // 1 light
+  '#f5f3f4', // 2
+  '#e7e6e8', // 3 gray
+  '#d1d1d2', // 4
+  '#b0b0b0', // 5
+  '#818181', // 6 lightGrayBody
+  '#444443', // 7 semiDark
+  '#222222', // 8 dark
+  '#000000', // 9
 ]
 
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=4#sat_end=100#sat_curve=linear#sat_rate=130#lum_start=100#lum_end=100#lum_curve=linear#lock_hex=b879f5#minor_steps_map=0 */
@@ -76,13 +77,6 @@ export const defaultTheme: DefaultTheme = {
      * Usage:
      *   color: primary.0 | primary.1 | primary.2 | primary.3 | primary.4 | primary.5;
      **/
-    primary: reds,
-    primaryMain: cfaRed,
-
-    red: cfaRed,
-    beige,
-    bronze,
-
     /**
      * Body colors
      *
@@ -95,7 +89,6 @@ export const defaultTheme: DefaultTheme = {
     bodyMain: grays[0],
     background: grays[6],
 
-    highlight: blues,
     /* 'color: offset.2' should look good on 'background-color: primary.2' */
     /* Used for errors and warnings. */
     error: ['#e6d49e', '#f09e32', '#f04b32'],

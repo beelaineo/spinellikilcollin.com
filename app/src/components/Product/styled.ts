@@ -17,21 +17,18 @@ export const BackgroundImage = styled.div`
 `
 
 export const ProductThumb = styled.div`
-  ${({ theme }) => css`
-    text-align: left;
-    width: 100%;
-    a {
-      text-decoration: none;
-      &:hover {
-        /* text-decoration: underline; */
-        color: ${theme.color.dark};
-      }
+  text-align: left;
+  width: 100%;
+  a {
+    text-decoration: none;
+    &:hover {
+      /* text-decoration: underline; */
+      color: body.8;
     }
-  `}
+  }
 `
 
 export const ProductInfo = styled.div`
-  color: black;
   padding: 3 0;
   text-align: center;
   text-transform: capitalize;
@@ -51,13 +48,14 @@ export const ProductContainer = styled.div`
   ${({ theme }) => css`
     text-align: center;
     margin: 5 0 3;
+
     span {
       margin: 2;
       padding: 2 3;
       font-size: ${theme.font.size.badge};
       text-transform: uppercase;
-      color: ${theme.color.dark};
-      border: 0.5px solid ${theme.color.semiDark};
+      color: body.8;
+      border: 0.5px solid body.7;
       letter-spacing: 1px;
       border-radius: 25px;
     }

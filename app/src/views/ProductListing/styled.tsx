@@ -58,7 +58,7 @@ export const ProductGrid = styled.div`
     grid-column-gap: 6;
     grid-row-gap: 6;
     padding: 6;
-    background-color: ${theme.color.lightGraybackground};
+    background-color: body.3;
     > a {
       text-decoration: none;
     }
@@ -138,7 +138,7 @@ export const FilterBody = styled.div`
     visibility: ${open === true ? 'visible' : 'hidden'};
     overflow: hidden;
     max-height: ${open === true ? '360px' : '0'};
-    border-top: 1px solid ${theme.color.lightGrayBody};
+    border-top: 1px solid body.6;
     margin-top: 6;
     > div {
       padding: 6 0;
@@ -180,7 +180,7 @@ export const Checkbox = styled.input`
       z-index: 1;
       height: 14px;
       position: relative;
-      border: 1px solid ${theme.color.semiDark};
+      border: 1px solid body.7;
       border-radius: 2px;
       margin-right: 3;
       display: inline-block;
