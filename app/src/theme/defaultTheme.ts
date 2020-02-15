@@ -16,8 +16,8 @@ const grays = [
 
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=4#sat_end=100#sat_curve=linear#sat_rate=130#lum_start=100#lum_end=100#lum_curve=linear#lock_hex=b879f5#minor_steps_map=0 */
 
-const sans = '"Apercu", "Helvetica Neue", helvetica, sans-serif'
-const serif = '"Caecilia LT Std", "Lucida Bright", Georgia, serif'
+const sans = '"Helvetica Neue", helvetica, sans-serif'
+const serif = '"Inferi", Georgia, serif'
 
 export const defaultTheme: DefaultTheme = {
   radii: {
