@@ -1,19 +1,6 @@
-// @flow
 import { DefaultTheme } from '@xstyled/styled-components'
-import * as layout from './layout'
-import * as font from './font'
-import * as color from './color'
-import * as mediaQueries from './mediaQueries'
-import * as utils from './utils'
-import { transition } from './misc'
+import { defaultTheme } from './defaultTheme'
 
-export const theme: DefaultTheme = {
-  layout,
-  font,
-  color,
-  mediaQueries,
-  transition,
-  utils,
-}
+export const theme: DefaultTheme = defaultTheme
 
 export * from './global'

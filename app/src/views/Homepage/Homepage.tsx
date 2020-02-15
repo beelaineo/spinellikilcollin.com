@@ -1,6 +1,4 @@
 import * as React from 'react'
-import { useQuery } from 'urql'
-import { homepageQuery, HomepageResponse } from './homepageQuery'
 import { ContentBlock } from '../../components/ContentBlock'
 import { Homepage as HomepageType } from '../../types'
 

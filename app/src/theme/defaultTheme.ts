@@ -65,9 +65,11 @@ export const defaultTheme: DefaultTheme = {
    *   z-index
    */
   zIndices: {
-    base: 0,
+    main: 0,
     nav: 100,
-    alert: 200,
+    cart: 200,
+    dialog: 300,
+    alert: 400,
   },
 
   /* Colors, applies to:

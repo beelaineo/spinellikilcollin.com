@@ -1,21 +1,13 @@
 import * as React from 'react'
-import { RichText } from '../RichText'
-import { Heading } from '../Text'
-import { ProductInfo } from '../../types'
-import { Wrapper, ToggleButton, Inner } from './styled'
+import { Wrapper, Inner } from './styled'
 import { useEffect, useRef } from 'react'
-import { AccordionButton } from './components/AccordionButton'
 
 interface AccordionProps {
-  content: ProductInfo
+  label: string
+  children: React.ReactNode
 }
 
-const AccordionTextWrapper = (props: any) => (
-  <Heading level={5} {...props} weight="normal" />
-)
-
-export const Accordion = ({ content }: AccordionProps) => {
-  const { title, bodyRaw } = content
+export const Accordion = ({ label, children }: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
   const [height, updateHeight] = React.useState(0)
   const toggleOpen = () => setOpen(!open)
@@ -28,22 +20,9 @@ export const Accordion = ({ content }: AccordionProps) => {
 
   return (
     <Wrapper>
-      <ToggleButton onClick={toggleOpen} open={open}>
-        {title}
-      </ToggleButton>
+      <button onClick={toggleOpen}>{label}+</button>
       <Inner open={open} ref={refContainer}>
-        {title === 'size' && (
-          <AccordionButton size="large">Not sure of my size</AccordionButton>
-        )}
-        {title === 'size' && bodyRaw ? (
-          bodyRaw.map((el) => (
-            <AccordionButton key={el._key} size="small">
-              {el}
-            </AccordionButton>
-          ))
-        ) : bodyRaw ? (
-          <RichText blockWrapper={AccordionTextWrapper} body={bodyRaw} />
-        ) : null}
+        {children}
       </Inner>
     </Wrapper>
   )

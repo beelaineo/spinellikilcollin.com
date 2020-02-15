@@ -8,7 +8,7 @@ import {
   FaInstagram,
   FaLongArrowAltRight,
 } from 'react-icons/fa'
-import { Input, Form } from '../../components/Text'
+import { Input } from '../../components/Text'
 
 export class Footer extends React.Component {
   render() {
@@ -37,12 +37,10 @@ export class Footer extends React.Component {
               <p>
                 Hear about our new releases, and learn more about our world.{' '}
               </p>
-              <Form>
-                <Input type="text" placeholder="Email Address" />
-                <button type="submit">
-                  <FaLongArrowAltRight />
-                </button>
-              </Form>
+              <Input type="text" placeholder="Email Address" />
+              <button type="submit">
+                <FaLongArrowAltRight />
+              </button>
             </div>
           </div>
           <div className="lower-footer">

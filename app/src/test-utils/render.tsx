@@ -2,10 +2,10 @@ import * as React from 'react'
 import { render } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@xstyled/styled-components'
-import { theme } from '../../theme'
+import { theme } from '../theme'
 
 interface Props {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const Providers = ({ children }: Props) => (

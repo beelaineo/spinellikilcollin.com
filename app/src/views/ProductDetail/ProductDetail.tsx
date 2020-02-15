@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { useQuery } from 'urql'
-import { PRODUCT_QUERY, ProductQueryResult } from './query'
-import { ShopifyProduct, ProductInfo, ShopifyProductVariant } from '../../types'
+import { ShopifyProduct } from '../../types'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { Column } from '../../components/Layout'
+import { RichText } from '../../components/RichText'
 import {
   ProductVariantSelector,
   BuyButton,
@@ -11,7 +10,6 @@ import {
   ProductDetailHeader,
   ProductDetailFooter,
   ProductRelated,
-  MobileProductHeader,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useCounter } from '../../utils/hooks'
@@ -99,7 +97,11 @@ export const ProductDetail = ({ product }: Props) => {
                 quantity={quantity}
               />
               {accordions
-                ? accordions.map((a) => <Accordion key={a._key} content={a} />)
+                ? accordions.map((a) => (
+                    <Accordion key={a._key} label={a.title}>
+                      <RichText body={a.bodyraw} />
+                    </Accordion>
+                  ))
                 : null}
             </NormalizeDiv>
           </ProductInfoWrapper>

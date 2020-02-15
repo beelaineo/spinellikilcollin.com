@@ -1,6 +1,12 @@
 import * as React from 'react'
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
-import { Image, ImageWrapper } from '../Image'
+import {
+  getColor,
+  getFlexJustification,
+  getFlexAlignment,
+  getTextAlignment,
+} from '../../theme/utils'
+import { Image } from '../Image'
 import { Hero } from '../../types'
 import { RichText } from '../RichText'
 
@@ -9,10 +15,8 @@ interface HeroBackground {
 }
 
 const HeroWrapper = styled.div`
-  ${({ theme }: HeroBackground) => css`
-    position: relative;
-    z-index: 0;
-  `}
+  position: relative;
+  z-index: 0;
 `
 
 interface HeroTextProps {
@@ -39,25 +43,21 @@ const HeroText = styled.div`
     padding: 6;
     display: flex;
     justify-content: ${textPosition
-      ? theme.utils.getFlexJustification(textPosition)
+      ? getFlexJustification(textPosition)
       : 'center'};
-    align-items: ${textPosition
-      ? theme.utils.getFlexAlignment(textPosition)
-      : 'center'};
-    text-align: ${textPosition
-      ? theme.utils.getTextAlignment(textPosition)
-      : 'center'};
-    color: ${textColor ? theme.utils.getColor(textColor, theme) : 'inherit'};
+    align-items: ${textPosition ? getFlexAlignment(textPosition) : 'center'};
+    text-align: ${textPosition ? getTextAlignment(textPosition) : 'center'};
+    color: ${textColor ? getColor(textColor) : 'inherit'};
 
     .text-container {
       max-width: 400px;
     }
 
     ${theme.mediaQueries.mobile} {
-      justify-content: ${theme.utils.getFlexJustification(textPositionMobile)};
-      align-items: ${theme.utils.getFlexAlignment(textPositionMobile)};
-      text-align: ${theme.utils.getTextAlignment(textPositionMobile)};
-      color: ${theme.utils.getColor(textColorMobile, theme)};
+      justify-content: ${getFlexJustification(textPositionMobile)};
+      align-items: ${getFlexAlignment(textPositionMobile)};
+      text-align: ${getTextAlignment(textPositionMobile)};
+      color: ${getColor(textColorMobile)};
     }
   `}
 `

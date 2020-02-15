@@ -1,6 +1,4 @@
 import * as React from 'react'
-// @ts-ignore
-import { init, last } from 'ramda'
 import { useSwipeable } from 'react-swipeable'
 import {
   CarouselContainer,
@@ -10,14 +8,7 @@ import {
 } from './styled'
 import { Slide, SlideInfo } from './Slide'
 
-const {
-  useContext,
-  useState,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} = React
+const { useState, useEffect, useMemo, useRef } = React
 
 interface CarouselContextProps {
   currentSlide: number | null
@@ -126,6 +117,8 @@ export const Carousel = ({
           />
         ) : null}
         <CarouselMask>
+          {/* 
+           // @ts-ignore */}
           <SlidesContainer
             {...handlers}
             ref={innerRef}

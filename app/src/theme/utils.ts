@@ -47,19 +47,16 @@ export const getFlexJustification = (
   }
 }
 
-export const getColor = (
-  color: string | void | null,
-  theme: DefaultTheme,
-): string => {
+export const getColor = (color: string | void | null): string => {
   switch (color) {
     case 'black':
-      return theme.color.black
+      return 'grays.9'
     case 'darkGray':
-      return theme.color.grays[8]
+      return 'grays.8'
     case 'lightGray':
-      return theme.color.grays[2]
+      return 'grays.3'
     case 'white':
     default:
-      return theme.color.white
+      return 'grays.0'
   }
 }

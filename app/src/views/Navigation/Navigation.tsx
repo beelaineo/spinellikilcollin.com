@@ -1,24 +1,17 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import styled, { css } from '@xstyled/styled-components'
-import { useState, useReducer } from 'react'
-import { path } from 'ramda'
-import { PageLink } from '../../components/PageLink'
+import { useReducer } from 'react'
 import { useCheckout } from 'use-shopify'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { CartSidebar, CloseButton, CartNav } from '../../components/Cart'
+import { CartSidebar, CloseButton } from '../../components/Cart'
 import { Checkout } from '../Cart/Checkout'
-import { Button } from '../ProductDetail/styled'
-import { MenuLinkOrSubMenu } from '../../types'
-import { SubMenu } from './SubMenu'
 import {
   Wrapper,
   Inner,
   NavSection,
   NavHeader,
   NavHeaderWrapper,
-  SubmenuPane,
   Logo,
   ModalBackground,
   Loading,

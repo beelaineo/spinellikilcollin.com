@@ -7,7 +7,6 @@ import {
 import { ImageTextBlock } from './ImageTextBlock'
 import { HeroBlock } from './HeroBlock'
 import { CarouselBlock } from './CarouselBlock'
-import { ImageWithoutText } from './ImageWithoutText'
 
 interface ContentBlockProps {
   content: ImageTextBlockType | Hero | Carousel

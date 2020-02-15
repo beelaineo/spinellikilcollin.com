@@ -40,15 +40,16 @@ export const Checkout = () => {
   return (
     // @ts-ignore
     <NormalizeDiv top="0">
-      <Heading level={3} color="dark" align="center">
+      <Heading level={3} color="dark" textAlign="center">
         Your cart
       </Heading>
-      <CartInner open={false}>
+      <CartInner>
         {checkout.lineItems.edges.map((lineItem) => {
           const { id, title, variant, quantity } = lineItem.node
           // const updateLineItemQuantity = createUpdateLineItemHandler(id)
           return (
             <CheckoutProduct
+              key={id}
               lineItem={lineItem}
               // updateLineItemQuantity={updateLineItemQuantity}
             />
@@ -73,7 +74,7 @@ export const Checkout = () => {
             <FlexHalf>
               <Heading
                 level={5}
-                align="right"
+                textAlign="right"
                 textTransform="uppercase"
                 weight={2}
               >
@@ -95,7 +96,7 @@ export const Checkout = () => {
             Checkout
           </Button>
 
-          <Heading level={6} align="center">
+          <Heading level={6} textAlign="center">
             Shipping and discount codes are added at checkout.
           </Heading>
         </NormalizeDiv>

@@ -1,17 +1,19 @@
 import * as React from 'react'
 import * as BlockContent from '@sanity/block-content-to-react'
-import { Heading, P, BlockQuote } from '../Text'
+import { Heading, P, BlockQuote, Li, Ul, Ol } from '../Text'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
 }
 
+/* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
 const serializers = ({ blockWrapper: Wrapper }: CustomSerializerConfig) => ({
   list: (props) => {
-    if (props.type === 'number') return <Text.Ol {...props} />
-    return <Text.Ul {...props} />
+    if (props.type === 'number') return <Ol {...props} />
+    return <Ul {...props} />
   },
-  listItem: (props) => <Text.Li {...props} />,
+  listItem: (props) => <Li {...props} />,
   block: (props): React.ReactNode => {
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */

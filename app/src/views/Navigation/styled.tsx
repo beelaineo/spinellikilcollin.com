@@ -1,29 +1,25 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 export const Wrapper = styled.nav`
-  ${({ theme }) => css`
-    display: block;
-    position: relative;
-    z-index: ${theme.layout.z.navigation};
-    font-family: serif;
-    position: sticky;
-    top: 20px;
-    left: 0;
-    right: 0;
-    width: 100vw;
-  `}
+  display: block;
+  position: relative;
+  z-index: nav;
+  font-family: serif;
+  position: sticky;
+  top: 20px;
+  left: 0;
+  right: 0;
+  width: 100vw;
 `
 
 export const Inner = styled.nav`
-  ${({ theme }) => css`
-    height: ${theme.layout.navHeight};
-    display: grid;
-    grid-template-columns: 1fr 220px 1fr;
-    align-items: center;
-    padding: 0 6;
-    width: 100%;
-    margin: 4 0;
-  `}
+  height: 50px;
+  display: grid;
+  grid-template-columns: 1fr 220px 1fr;
+  align-items: center;
+  padding: 0 6;
+  width: 100%;
+  margin: 4 0;
 `
 
 interface WithReady {
@@ -95,7 +91,7 @@ interface WithOpen {
 
 interface WithVisible {
   theme: DefaultTheme
-  active: Boolean
+  active: boolean
 }
 
 interface ModalBackgroundProps {

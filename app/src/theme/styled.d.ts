@@ -17,13 +17,6 @@ declare module 'styled-components' {
       round: string
     }
 
-    columns: {
-      small: string
-      medium: string
-      wide: string
-      xWide: string
-    }
-
     fonts: {
       serif: string
       sans: string
@@ -32,8 +25,10 @@ declare module 'styled-components' {
     }
 
     zIndices: {
-      base: number
+      main: number
       nav: number
+      cart: number
+      dialog: number
       alert: number
     }
 
