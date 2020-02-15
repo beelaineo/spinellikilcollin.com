@@ -94,7 +94,7 @@ export const ImageText = styled.div`
       text-decoration: none;
       padding: 1 0;
       border-bottom: 1px solid body.7;
-      font-size: ${theme.font.size.h4};
+      font-size: 4;
     }
   `}
 `
@@ -105,7 +105,7 @@ interface ImageText {
 }
 
 export const TextOverImage = styled.div`
-  ${({ theme, textAlign }: ImageText) => css`
+  ${({ textAlign }: ImageText) => css`
         display: block;
         position: absolute;
         width: 100%;
@@ -113,7 +113,7 @@ export const TextOverImage = styled.div`
         line-height: initial;
         padding-top: ${textAlign === 'middle-center' ? '45%' : '5'};
         p {
-          font-size: ${theme.font.size.h3};
+          font-size: 3;
           line-height: 32px;
           margin:1;
         }

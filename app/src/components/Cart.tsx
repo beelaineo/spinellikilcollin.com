@@ -77,23 +77,21 @@ export const CartNav = styled.div`
   > button {
     min-width: 30px;
     border-radius: 3px;
-    font-size: ${(props) => props.theme.font.size.h3};
+    font-size: 3;
   }
 `
 
 export const CartInner = styled.div`
-  ${(props: CartSidebarProps) => css`
-    height: calc(100vh - 150px);
-    overflow: scroll;
-    padding-bottom: 90px;
-    margin-top: 4;
-    ::-webkit-scrollbar {
-      width: 0px; /* Remove scrollbar space */
-      background: transparent; /* Optional: just make scrollbar invisible */
-    }
-    /* Optional: show position indicator in red */
-    ::-webkit-scrollbar-thumb {
-      background: #ff0000;
-    }
-  `}
+  height: calc(100vh - 150px);
+  overflow: scroll;
+  padding-bottom: 90px;
+  margin-top: 4;
+  ::-webkit-scrollbar {
+    width: 0px; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
+  /* Optional: show position indicator in red */
+  ::-webkit-scrollbar-thumb {
+    background: #ff0000;
+  }
 `

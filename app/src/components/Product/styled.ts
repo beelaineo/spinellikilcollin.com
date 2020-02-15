@@ -45,19 +45,17 @@ export const ProductInfo = styled.div`
 `
 
 export const ProductContainer = styled.div`
-  ${({ theme }) => css`
-    text-align: center;
-    margin: 5 0 3;
+  text-align: center;
+  margin: 5 0 3;
 
-    span {
-      margin: 2;
-      padding: 2 3;
-      font-size: ${theme.font.size.badge};
-      text-transform: uppercase;
-      color: body.8;
-      border: 0.5px solid body.7;
-      letter-spacing: 1px;
-      border-radius: 25px;
-    }
-  `}
+  span {
+    margin: 2;
+    padding: 2 3;
+    font-size: 6;
+    text-transform: uppercase;
+    color: body.8;
+    border: 0.5px solid body.7;
+    letter-spacing: 1px;
+    border-radius: 25px;
+  }
 `

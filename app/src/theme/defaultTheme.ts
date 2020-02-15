@@ -2,16 +2,16 @@ import { DefaultTheme } from 'styled-components'
 
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=22#sat_end=0#sat_curve=easeOutQuart#sat_rate=130#lum_start=12#lum_end=100#lum_curve=easeInCubic#minor_steps_map=0 */
 const grays = [
-  '#ffffff', // 0 white
-  '#f9fafa', // 1 light
-  '#f5f3f4', // 2
-  '#e7e6e8', // 3 gray
-  '#d1d1d2', // 4
-  '#b0b0b0', // 5
-  '#818181', // 6 lightGrayBody
-  '#444443', // 7 semiDark
-  '#222222', // 8 dark
-  '#000000', // 9
+  '#ffffff',
+  '#f9fafa',
+  '#f5f3f4',
+  '#e7e6e8',
+  '#d1d1d2',
+  '#b0b0b0',
+  '#818181',
+  '#444443',
+  '#222222',
+  '#000000',
 ]
 
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=4#sat_end=100#sat_curve=linear#sat_rate=130#lum_start=100#lum_end=100#lum_curve=linear#lock_hex=b879f5#minor_steps_map=0 */
@@ -47,7 +47,7 @@ export const defaultTheme: DefaultTheme = {
     14, // small text: h5, captions
     11, // small text: h6, small captions
   ],
-  fontWeights: [0, 200, 400, 500, 700, 800],
+  fontWeights: [0, 100, 200, 300, 400, 700],
   fonts: {
     serif,
     sans,

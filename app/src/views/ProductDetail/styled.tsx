@@ -1,14 +1,12 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 export const Wrapper = styled.div`
-  ${({ theme }) => css`
-    position: relative;
-    min-height: 100vh;
-    margin: 0 auto 6;
-    font-family: ${theme.font.family.sans};
-    padding: 6 0 0;
-    background-color: body.2;
-  `}
+  position: relative;
+  min-height: 100vh;
+  margin: 0 auto 6;
+  font-family: serif;
+  padding: 6 0 0;
+  background-color: body.2;
 `
 
 export const ProductDetails = styled.div`
@@ -53,12 +51,10 @@ export const ProductInfoWrapper = styled.div`
 `
 
 export const Nav = styled.div`
-  ${({ theme }) => css`
-    width: calc(100% - 4rem);
-    max-width: 1200px;
-    margin: 0 auto;
-    font-family: ${theme.font.family.sans};
-  `}
+  width: calc(100% - 4rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: sans;
 `
 
 export const ProductGalleryWrapper = styled.div``
@@ -135,14 +131,13 @@ interface ButtonProps {
 }
 
 export const Button = styled.button`
-  ${({ theme, disabled, width }: ButtonProps) => css`
+  ${({ disabled, width }: ButtonProps) => css`
     background-color: body.8;
     color: body.1;
     cursor: ${disabled ? 'auto' : 'pointer'};
     display: inline-block;
-    font-family: ${theme.font.family.serif};
-    font-weight: ${theme.font.weight.strong};
-    font-size: ${theme.font.size.h5};
+    font-weight: 5;
+    font-size: 5;
     letter-spacing: 0.095em;
     padding: 0.25rem 0.5rem;
     text-align: center;
@@ -245,7 +240,7 @@ export const ArrowDown = styled.div`
   -webkit-font-smoothing: antialiased;
   position: relative;
   top: 17vh;
-  font-size: ${(props) => props.theme.font.size.h2};
+  font-size: 2;
   color: body.8;
   ${(props) => props.theme.mediaQueries.tablet} {
     display: none;

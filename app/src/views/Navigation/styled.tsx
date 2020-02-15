@@ -1,12 +1,11 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
-import { Header5 } from '../../components/Text'
 
 export const Wrapper = styled.nav`
   ${({ theme }) => css`
     display: block;
     position: relative;
     z-index: ${theme.layout.z.navigation};
-    font-family: ${theme.font.family.sans};
+    font-family: serif;
     position: sticky;
     top: 20px;
     left: 0;
@@ -34,7 +33,7 @@ interface WithReady {
 }
 
 export const NavSection = styled.div`
-  ${({ theme, ready, align }: WithReady) => css`
+  ${({ ready, align }: WithReady) => css`
     transition: 0.3s;
     flex-grow: 1;
     display: flex;
@@ -58,8 +57,9 @@ interface WithActive {
   active?: boolean
 }
 
-export const NavHeader = styled(Header5)`
-  ${({ theme, active }: WithActive) => css`
+export const NavHeader = styled.button`
+  ${({ active }: WithActive) => css`
+    font-size: 5;
     border-top: 2px solid transparent;
     border-bottom: 2px solid ${active ? 'black' : 'transparent'};
     color: inherit;
@@ -146,10 +146,10 @@ interface LoadingProps {
 }
 
 export const Loading = styled.div`
-  transition: 250ms ease;
-  display: flex;
-  ${({ theme, isLoading }: LoadingProps) => css`
+  ${({ isLoading }: LoadingProps) => css`
     opacity: ${isLoading ? '0.5' : '1'};
+    transition: 250ms ease;
+    display: flex;
 
     div:nth-child(1) {
       margin-right: 2;
@@ -164,7 +164,7 @@ interface SideNavigation {
 }
 
 export const SideNavigation = styled.div`
-  ${({ theme, open }: SideNavigation) => css`
+  ${({ open }: SideNavigation) => css`
     transform: ${open ? 'translateX(0px)' : 'translateX(-500px)'};
     width: 500px;
     background-color: white;
@@ -217,39 +217,31 @@ export const Hamburger = styled.div`
   `}
 `
 
-interface NavInner {
-  theme: DefaultTheme
-}
-
 export const NavInner = styled.div`
-  ${({ theme }: NavInner) => css`
-    padding: 7;
-    height: 100vh;
-    border-right: 1px solid black;
-    > div {
-      margin: 6 0;
+  padding: 7;
+  height: 100vh;
+  border-right: 1px solid black;
+  > div {
+    margin: 6 0;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      font-family: serif;
+      margin: 3 0;
+      padding: 5 0 3;
+      border-top: 1px solid black;
+      text-transform: uppercase;
+      font-size: 5;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-      li {
-        font-family: ${theme.font.family.serif};
-        margin: 3 0;
-        padding: 5 0 3;
-        border-top: 1px solid black;
-        text-transform: uppercase;
-        font-size: ${theme.font.size.h5};
-      }
-    }
-  `};
+  }
 `
 export const NavItemWrapper = styled.div`
-  ${({ theme }) => css`
-    display: block;
-    padding: 3 0;
+  display: block;
+  padding: 3 0;
 
-    & + & {
-      border-top: 1px solid black;
-    }
-  `}
+  & + & {
+    border-top: 1px solid black;
+  }
 `

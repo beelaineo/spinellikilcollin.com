@@ -36,7 +36,7 @@ export const FooterWrapper = styled.footer`
         }
       }
       .copyright {
-        font-size: ${theme.font.size.h6};
+        font-size: 6;
         letter-spacing: 1px;
         color: body.7;
       }
@@ -53,7 +53,7 @@ export const FooterWrapper = styled.footer`
       padding: 0;
       li {
         margin: 0 0 5 0;
-        font-size: ${theme.font.size.h5};
+        font-size: 5;
       }
     }
   `}

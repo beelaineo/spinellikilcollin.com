@@ -1,150 +1,144 @@
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import * as React from 'react'
+import styled, {
+  css,
+  DefaultTheme,
+  Box,
+  BoxProps,
+} from '@xstyled/styled-components'
 
-export interface TextStyleProps {
+interface CustomTextProps {
   theme: DefaultTheme
-  fontStyle?: string
-  align?: 'left' | 'center' | 'right'
-  weight?: 'xlight' | 'light' | 'book' | 'normal' | 'semi' | 'strong'
+  fontSize: 1 | 2 | 3 | 4 | 5 | 6
+  family?: 'mono' | 'sans' | 'display' | 'body'
+  align?: 'left' | 'center' | 'right' | 'inherit'
+  weight?: number
   color?: string
-  family?: string
-  transform?: string
-  children: React.ReactNode
-  margin?: string
-  small?: string
-  active?: boolean
+  htmlFor?: string
 }
 
-const commonHeaderStyles = ({
-  theme,
-  align,
-  transform,
-  weight,
-  color,
-  family,
-  margin,
-  fontStyle,
-  active,
-}: TextStyleProps) => css`
-  font-weight: ${weight && theme.font.weight[weight]
-    ? theme.font.weight[weight]
-    : family === 'serif'
-    ? theme.font.weight.normal
-    : theme.font.weight.semi};
-  font-style: ${fontStyle ? fontStyle : 'inherit'};
-  // @ts-ignore
-  font-family: ${theme.font.family[family] || theme.font.family.sans};
-  // @ts-ignore
-  color: ${theme.color[color] || 'inherit'};
-  text-align: ${align || 'inherit'};
-  text-transform: ${transform || 'auto'};
-  margin: ${margin || '0.3em 0'};
-  letter-spacing: 0.75px;
-  border-bottom: ${active ? '1px solid black' : 'inherit'};
-  p {
-    letter-spacing: 1px;
-  }
-  &:first-child {
-    margin-top: 0;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-`
-
-export const Header1 = styled.h2`
-  ${(props: TextStyleProps) => css`
-		${commonHeaderStyles(props)}
-		font-size: ${props.theme.font.size.h2};
-		font-family: ${props.theme.font.family.serif};
-		font-weight: ${props.theme.font.weight.normal};
-		${props.theme.mediaQueries.tablet} {
-			font-size: calc(${props.theme.font.size.h2} * 0.8);
-		}
-		${props.theme.mediaQueries.phone} {
-			font-size: calc(${props.theme.font.size.h2} * 0.7);
-		}
-	`};
-`
-
-export const Header2 = styled.h2`
-  ${(props: TextStyleProps) => css`
-    ${commonHeaderStyles(props)};
-    font-family: ${props.theme.font.family.serif};
-    font-weight: ${props.theme.font.weight.normal};
-
-    ${props.theme.mediaQueries.tablet} {
-      font-size: calc(${props.theme.font.size.h2} * 0.8);
-    }
-    ${props.theme.mediaQueries.phone} {
-      font-size: calc(${props.theme.font.size.h2} * 0.7);
-    }
-  `};
-`
-
-export const Header3 = styled.h3`
-  ${(props: TextStyleProps) => css`
-    ${commonHeaderStyles(props)};
-    font-size: ${props.theme.font.size.h3};
-    font-family: ${props.theme.font.family.serif};
-    ${props.theme.mediaQueries.tablet} {
-      font-size: calc(${props.theme.font.size.h3} * 0.8);
-    }
-    ${props.theme.mediaQueries.phone} {
-      font-size: calc(${props.theme.font.size.h3} * 0.6);
-    }
-  `};
-`
-
-export const Header4 = styled.h4`
-  ${(props: TextStyleProps) => css`
-    ${commonHeaderStyles(props)};
-    font-size: ${props.theme.font.size.h4};
-    letter-spacing: 0.05em;
-    font-family: ${props.theme.font.family.serif};
-    ${props.theme.mediaQueries.tablet} {
-      font-size: calc(${props.theme.font.size.h4} * 0.8);
-    }
-  `};
-`
-
-export const Header5 = styled.h5`
-  ${(props: TextStyleProps) => css`
-    ${commonHeaderStyles(props)};
-    margin: 5 0;
-    letter-spacing: 0.05em;
-    font-family: ${props.theme.font.family.serif};
-    font-size: ${props.theme.font.size.h5};
-  `};
-`
-
-export const Header6 = styled.h6`
-  ${(props: TextStyleProps) => css`
-    ${commonHeaderStyles(props)};
-    letter-spacing: 0.05em;
-    font-size: ${props.theme.font.size.h6};
-  `};
-`
-
-export const P = styled.p`
-  ${({ theme, align }: TextStyleProps) => css`
-    text-align: ${align || 'inherit'};
-    margin: 0.5em 0;
-    font-size: ${theme.font.size.p};
-    font-family: ${theme.font.family.serif};
-
-    /* & + ${P} {
-      margin-top: 1em;
-    } */
-
-    &:first-child {
-      margin-top: 0;
-    }
+const createTextBase = (as: any) => styled(as)`
+  ${({ family, weight, fontSize, color, align }: CustomTextProps) => css`
+    font-size: ${fontSize};
+    font-family: ${family};
+    font-weight: ${weight};
+    text-align: ${align};
+    color: ${color ? color : 'inherit'};
+    margin: 2 0 0.5em;
 
     &:last-child {
       margin-bottom: 0;
     }
-  `};
+
+    a {
+      color: bronze;
+      text-decoration: underline;
+    }
+  `}
+`
+
+const TextBase = styled(Box)`
+  ${({ family, weight, fontSize, color, align }: CustomTextProps) => css`
+    font-size: ${fontSize};
+    font-family: ${family};
+    font-weight: ${weight};
+    text-align: ${align};
+    color: ${color ? color : 'inherit'};
+    margin: 0 0 0.5em;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+    a {
+      color: bronze;
+      text-decoration: underline;
+    }
+  `}
+`
+
+// @ts-ignore
+interface HeadingProps
+  extends Omit<CustomTextProps, 'fontSize' | 'theme'>,
+    BoxProps {
+  children: React.ReactNode
+  level: 1 | 2 | 3 | 4 | 5 | 6
+  /* A default */
+  as?: any
+  htmlFor?: string
+}
+
+const hTags = ['h1', 'h2', 'h3', 'h4', 'h5']
+
+export const Heading = ({
+  children,
+  align,
+  color,
+  family,
+  level,
+  weight,
+  as,
+  htmlFor,
+  ...rest
+}: HeadingProps) => {
+  if (level < 1 || level > 6) throw new Error('Heading level must be 1-5')
+  const tag = as ? as : hTags[level - 1]
+  return (
+    <TextBase
+      as={tag}
+      align={align}
+      // @ts-ignore
+      fontSize={level}
+      family={family}
+      weight={weight || 500}
+      color={color}
+      htmlFor={htmlFor}
+      {...rest}
+    >
+      {children}
+    </TextBase>
+  )
+}
+
+Heading.defaultProps = {
+  family: 'display',
+  color: 'primaryMain',
+  weight: 500,
+}
+
+type PProps = Omit<HeadingProps, 'level'>
+
+export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
+  return (
+    <TextBase
+      as="p"
+      fontSize={4}
+      family={family}
+      weight={weight || 400}
+      color={color}
+      htmlFor={htmlFor}
+    >
+      {children}
+    </TextBase>
+  )
+}
+
+P.defaultProps = {
+  family: 'body',
+  weight: 400,
+  color: 'body',
+}
+
+interface LabelProps {
+  htmlFor: string
+  children: string
+}
+
+const LabelBase = createTextBase('label')
+
+export const Label = styled(LabelBase)`
+  font-size: 4;
+  font-family: sans;
+  color: body.2;
+  margin: 0;
 `
 
 export const TextAnchor = styled.a``
@@ -163,29 +157,18 @@ export const Ol = styled.ol`
 export const Ul = styled.ul`
   ${listStyles};
 `
+const LiBase = createTextBase('li')
 
-export const Li = styled.li`
-  & > ${Ol}, & > ${Ul} {
-    margin: 0;
-  }
+export const Li = styled(LiBase)`
+  font-size: 4;
+  font-family: sans;
+  color: body.2;
+  margin: 0;
 `
 
 export const Input = styled.input`
-  ${({ theme }) => css`
-    border: 1px solid body.6;
-    width: 100%;
-    padding: 3;
-    text-transform: lowercase;
-    font-family: ${theme.font.family.serif};
-  `};
-`
-
-export const Form = styled.form`
-  position: relative;
-  [type='submit'] {
-    position: absolute;
-    right: 12px;
-    top: 14px;
-    color: body.3;
-  }
+  border: 1px solid body.6;
+  width: 100%;
+  padding: 3;
+  text-transform: lowercase;
 `
