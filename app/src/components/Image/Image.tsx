@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css } from '@xstyled/styled-components'
+import styled from '@xstyled/styled-components'
 import {
   ShopifySourceImage,
   Image as SanityImage,
@@ -8,9 +8,7 @@ import {
 import { Wrapper, Picture, RatioImageFill } from './styled'
 
 export const ImageWrapper = styled.img`
-  ${({ theme }) => css`
-    display: block;
-  `}
+  display: block;
 `
 
 interface ImageDetails {

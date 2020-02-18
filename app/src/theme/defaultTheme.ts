@@ -47,10 +47,10 @@ export const defaultTheme: DefaultTheme = {
   fontSizes: [
     99, // stupid high, just don't use fontSizes.0
     50, // h1
-    38, // h2
-    24, // h3
-    17, // readable text: p, h4
-    14, // small text: h5, captions
+    25, // h2
+    17, // h3
+    13, // readable text: p, h4
+    11, // small text: h5, captions
     11, // small text: h6, small captions
   ],
   fontWeights: [0, 100, 200, 300, 400, 700],
@@ -85,8 +85,8 @@ export const defaultTheme: DefaultTheme = {
      */
     body: grays,
     /* Shortcut for main body color */
-    bodyMain: grays[0],
-    background: grays[6],
+    bodyMain: grays[10],
+    background: grays[2],
     /* Used for errors and warnings. */
     error: ['#e6d49e', '#f09e32', '#f04b32'],
   },

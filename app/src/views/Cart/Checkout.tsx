@@ -45,7 +45,7 @@ export const Checkout = () => {
       </Heading>
       <CartInner>
         {checkout.lineItems.edges.map((lineItem) => {
-          const { id, title, variant, quantity } = lineItem.node
+          const { id, title, variant, quantity } = lineItem
           // const updateLineItemQuantity = createUpdateLineItemHandler(id)
           return (
             <CheckoutProduct

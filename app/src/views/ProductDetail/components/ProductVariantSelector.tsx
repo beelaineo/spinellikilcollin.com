@@ -36,7 +36,6 @@ export const ProductVariantSelector = (props: Props) => {
   }
   const handleQuantityInput = (e) => setQuantity(e.target.value)
 
-  console.log(product, variants, currentVariant)
   // information for accordions
   const description = product?.sourceData?.description
   const { options } = product
@@ -45,7 +44,12 @@ export const ProductVariantSelector = (props: Props) => {
       <NormalizeDiv margin="20px 0">
         {options && options.length
           ? options.map((option) =>
-              option ? <ProductOptionSelector option={option} /> : null,
+              option ? (
+                <ProductOptionSelector
+                  key={option._key || 'some-key'}
+                  option={option}
+                />
+              ) : null,
             )
           : null}
 

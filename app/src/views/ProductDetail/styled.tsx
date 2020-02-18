@@ -156,13 +156,13 @@ export const Button = styled.button`
 
 export const ButtonPrimary = styled(Button)``
 
-interface QuantitySelector {
+interface QuantitySelectorProps {
   theme: DefaultTheme
   width?: string
 }
 
 export const QuantitySelector = styled.div`
-  ${(props: QuantitySelector) => css`
+  ${(props: QuantitySelectorProps) => css`
     input[type='text'] {
       min-width: ${props.width ? props.width : 'initial'};
       max-width: ${props.width ? props.width : 'initial'};

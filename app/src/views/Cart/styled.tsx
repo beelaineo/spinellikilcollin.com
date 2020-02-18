@@ -1,11 +1,16 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
+export const CheckoutProductWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-gap: 1;
+  margin: 2;
+`
+
 export const CheckoutItem = styled.div`
-  ${({ theme }) => css`
-    display: flex;
-    justify-content: space-between;
-    margin: 3;
-  `}
+  display: flex;
+  justify-content: space-between;
+  margin: 3;
 `
 
 export const CheckoutItemImage = styled.img`
@@ -14,10 +19,8 @@ export const CheckoutItemImage = styled.img`
 `
 
 export const CheckoutItemInfo = styled.div`
-  ${({ theme }) => css`
-    margin: 3;
-    flex: 6;
-  `}
+  margin: 3;
+  flex: 6;
 `
 
 export const CheckoutPrice = styled.div`

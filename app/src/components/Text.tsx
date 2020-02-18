@@ -10,7 +10,7 @@ interface CustomTextProps {
   theme: DefaultTheme
   fontSize: 1 | 2 | 3 | 4 | 5 | 6
   fontStyle?: string
-  family?: 'mono' | 'sans' | 'display' | 'body'
+  family?: 'mono' | 'sans' | 'serif'
   weight?: number
   color?: string
   htmlFor?: string
@@ -94,9 +94,9 @@ export const Heading = ({
 }
 
 Heading.defaultProps = {
-  family: 'display',
-  color: 'primaryMain',
-  weight: 500,
+  family: 'serif',
+  color: 'bodyMain',
+  weight: 3,
 }
 
 type PProps = Omit<HeadingProps, 'level'>
@@ -131,7 +131,6 @@ const LabelBase = createTextBase('label')
 
 export const Label = styled(LabelBase)`
   font-size: 4;
-  font-family: sans;
   color: body.2;
   margin: 0;
 `
@@ -156,7 +155,6 @@ const LiBase = createTextBase('li')
 
 export const Li = styled(LiBase)`
   font-size: 4;
-  font-family: sans;
   color: body.2;
   margin: 0;
 `

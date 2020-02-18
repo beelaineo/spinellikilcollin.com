@@ -65,11 +65,6 @@ export const ProductDetail = ({ product }: Props) => {
     <Wrapper>
       <Column>
         <ProductDetails>
-          <ProductDetailHeader
-            currentVariant={currentVariant}
-            product={product}
-            mobile={'visible'}
-          />
           <ProductImagesWrapper>
             <ProductImages currentVariant={currentVariant} product={product} />
           </ProductImagesWrapper>
@@ -77,7 +72,6 @@ export const ProductDetail = ({ product }: Props) => {
             <ProductDetailHeader
               currentVariant={currentVariant}
               product={product}
-              mobile={'hidden'}
             />
             <ProductVariantSelector
               setQuantity={setQuantity}
