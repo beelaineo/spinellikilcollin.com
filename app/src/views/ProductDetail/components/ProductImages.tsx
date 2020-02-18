@@ -18,6 +18,7 @@ export const ProductImages = ({
   product,
   currentVariant,
 }: ProductImagesProps) => {
+  console.log(currentVariant)
   // @ts-ignore
   const [images] = unwindEdges<Image>(product?.sourceData?.images)
   if (!images.length) return null

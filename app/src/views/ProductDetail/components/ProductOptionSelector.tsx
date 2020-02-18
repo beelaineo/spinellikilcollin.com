@@ -7,6 +7,7 @@ import { ColorSelector } from './ColorSelector'
 
 interface ProductOptionSelectorProps {
   option: ShopifyProductOption
+  changeValueForOption: (optionId: string) => (value: string) => void
 }
 
 const Wrapper = styled.div`
@@ -19,14 +20,24 @@ const SelectWrapper = styled.div`
   max-width: 200px;
 `
 
-export const ProductOptionSelector = ({ option }: ProductOptionSelectorProps) =>
-  option && option._key && option.name && option.values ? (
+export const ProductOptionSelector = ({
+  option,
+  changeValueForOption,
+}: ProductOptionSelectorProps) => {
+  if (!option || !option.name || !option.shopifyOptionId || !option.values) {
+    console.warn('Missing option config', option)
+    return null
+  }
+
+  const selectOption = changeValueForOption(option.name)
+
+  return (
     <Wrapper>
       <Heading level={4} mb={2}>
         {option.name}
       </Heading>
       {option.name.toLowerCase() === 'color' ? (
-        <ColorSelector option={option} />
+        <ColorSelector selectOption={selectOption} option={option} />
       ) : (
         <SelectWrapper>
           <Select id={option.name}>
@@ -41,4 +52,5 @@ export const ProductOptionSelector = ({ option }: ProductOptionSelectorProps) =>
         </SelectWrapper>
       )}
     </Wrapper>
-  ) : null
+  )
+}

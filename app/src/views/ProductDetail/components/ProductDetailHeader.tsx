@@ -1,14 +1,13 @@
 import * as React from 'react'
 import { formatMoney } from '../../../utils/currency'
 import { ShopifyProduct, ShopifySourceProductVariant } from '../../../types'
-import { NormalizeDiv, ProductDetailHeaderStyles } from '../styled'
+import { ProductDetailHeaderStyles } from '../styled'
 import { Heading } from '../../../components/Text'
 
 interface ProductDetailHeaderProps {
   product: ShopifyProduct
   currentVariant: ShopifySourceProductVariant
   mobile?: string
-  align?: string
 }
 
 const getOptionByName = ({ selectedOptions }: ShopifySourceProductVariant) => (
@@ -35,10 +34,8 @@ export const ProductDetailHeader = ({
   product,
   currentVariant,
   mobile,
-  align,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(currentVariant)
-  console.log(variantTitle)
   return (
     <ProductDetailHeaderStyles mobile={mobile}>
       <Heading level={2} weight={3} mb={2}>

@@ -5,6 +5,7 @@ import { Image } from '../../../components/Image'
 
 interface ColorSelectorProps {
   option: ShopifyProductOption
+  selectOption: (value: string) => void
 }
 
 const SwatchButton = styled.button`
@@ -14,21 +15,26 @@ const SwatchButton = styled.button`
   }
 `
 
-export const ColorSelector = ({ option }: ColorSelectorProps) => {
+export const ColorSelector = ({ option, selectOption }: ColorSelectorProps) => {
   const { values } = option
   if (!values) return null
+  const boop = (value: string) => () => selectOption(value)
   return (
     <>
-      {values.map((value) => {
-        if (!value) return null
-        const swatch = value.swatch
+      {values.map((v) => {
+        if (!v) return null
+        const { swatch, value } = v
         if (!swatch) {
-          console.warn(`There is no swatch for the option "${value.value}"`)
+          console.warn(`There is no swatch for the option "${value}"`)
+          return null
+        }
+        if (!value) {
+          console.warn(`There is no value for the option "${value}"`)
           return null
         }
 
         return (
-          <SwatchButton key={value._key || 'some-key'}>
+          <SwatchButton onClick={boop(value)} key={v._key || 'some-key'}>
             <Image image={swatch} ratio={1} />
           </SwatchButton>
         )

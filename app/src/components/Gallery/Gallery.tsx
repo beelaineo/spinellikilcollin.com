@@ -1,15 +1,9 @@
 import * as React from 'react'
 import { Image as SanityImage, ShopifySourceImage } from '../../types'
 import { Image } from '../Image'
-import {
-  GalleryWrapper,
-  MainImageWrapper,
-  ZoomImageWrapper,
-  ZoomInner,
-  Thumbnails,
-} from './styled'
+import { GalleryWrapper, MainImageWrapper, Thumbnails } from './styled'
 
-const { useState, useEffect, useRef } = React
+const { useState, useEffect } = React
 
 type GalleryImage = SanityImage | ShopifySourceImage
 
@@ -19,8 +13,6 @@ interface GalleryProps {
   images: GalleryImage[]
   currentImageId: string
 }
-
-const ZOOM_AMOUNT = 2
 
 export const Gallery = ({ images, currentImageId }: GalleryProps) => {
   const parsedImages: ImageWithId[] = images.map((image) => ({
@@ -34,12 +26,6 @@ export const Gallery = ({ images, currentImageId }: GalleryProps) => {
     parsedImages.find((i) => i.imageId === imageId)
 
   /* State */
-  const wrapperRef = useRef<HTMLDivElement>(null)
-  const [imageCoordinates, setImageCoordinates] = useState({
-    top: '0%',
-    left: '0%',
-  })
-
   const [currentImage, setCurrentImage] = useState<GalleryImage | void>(
     getImageById(currentImageId) || images[0],
   )
@@ -53,39 +39,14 @@ export const Gallery = ({ images, currentImageId }: GalleryProps) => {
   const changeImage = (imageId: string) => () =>
     setCurrentImage(getImageById(imageId))
 
-  const watchZoom = (e) => {
-    if (!wrapperRef.current) return
-    const {
-      top,
-      left,
-      width,
-      height,
-    } = wrapperRef.current.getBoundingClientRect()
-    const { clientX, clientY } = e
-    const xAmount = (clientX - left) / width
-    const yAmount = (clientY - top) / height
-    const imageLeft = `-${100 * (ZOOM_AMOUNT - 1) * xAmount}%`
-    const imageTop = `-${100 * (ZOOM_AMOUNT - 1) * yAmount}%`
-
-    setImageCoordinates({
-      left: imageLeft,
-      top: imageTop,
-    })
-  }
-
   return (
     <GalleryWrapper>
-      <MainImageWrapper ref={wrapperRef} data-testid="current-image">
+      <MainImageWrapper data-testid="current-image">
         <Image ratio={1} image={currentImage} />
-        <ZoomImageWrapper onMouseMove={watchZoom}>
-          <ZoomInner zoomAmount={ZOOM_AMOUNT} style={imageCoordinates}>
-            <Image ratio={1} image={currentImage} />
-          </ZoomInner>
-        </ZoomImageWrapper>
       </MainImageWrapper>
       {parsedImages.length > 1 && (
         <Thumbnails data-testid="thumbnails">
-          {parsedImages.map((image, i) => (
+          {parsedImages.map((image) => (
             <button key={image.imageId} onClick={changeImage(image.imageId)}>
               <Image ratio={1} image={image} />
             </button>

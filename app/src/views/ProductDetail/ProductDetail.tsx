@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct } from '../../types'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { Column } from '../../components/Layout'
@@ -12,14 +13,11 @@ import {
   ProductRelated,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { useCounter } from '../../utils/hooks'
 import {
   Wrapper,
   ProductDetails,
   ProductInfoWrapper,
   ProductImagesWrapper,
-  NormalizeDiv,
-  ArrowDown,
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { getInfoBlocksByType, getInfoBlocksByTag } from './utils'
@@ -30,7 +28,7 @@ interface Props {
 
 export const ProductDetail = ({ product }: Props) => {
   /* get additional info blocks from Sanity */
-  const { ready, productInfoBlocks } = useShopData()
+  const { productInfoBlocks } = useShopData()
   const accordions = productInfoBlocks
     ? [
         ...getInfoBlocksByType(
@@ -42,17 +40,37 @@ export const ProductDetail = ({ product }: Props) => {
       ]
     : []
 
-  /* hook to manage quantity input */
-  const {
-    count: quantity,
-    increment,
-    decrement,
-    setCount: setQuantity,
-  } = useCounter(1, { min: 1 })
   /* get product variant utils */
   const { currentVariant, selectVariant } = useProductVariant(
     product.sourceData,
   )
+
+  const changeValueForOption = (optionName: string) => (newValue: string) => {
+    // TODO: Move this over to use-shopify
+    const previousOptions = currentVariant.selectedOptions
+    if (!product.sourceData) {
+      throw new Error('Product was loaded without sourceData')
+    }
+    // @ts-ignore
+    const [variants] = unwindEdges(product.sourceData.variants)
+    const newOptions = previousOptions.map(({ name, value }) => {
+      if (name !== optionName) return { name, value }
+      return { name, value: newValue }
+    })
+    const newVariant = variants.find((variant) => {
+      const { selectedOptions } = variant
+
+      const match = newOptions.every(({ name, value }) =>
+        selectedOptions.some((so) => so.name === name && so.value === value),
+      )
+      return match
+    })
+    if (!newVariant) {
+      console.warn('Could not select variant')
+    }
+
+    selectVariant(newVariant.id)
+  }
 
   /* get checkout utils */
   const { addLineItem } = useCheckout()
@@ -74,30 +92,22 @@ export const ProductDetail = ({ product }: Props) => {
               product={product}
             />
             <ProductVariantSelector
-              setQuantity={setQuantity}
-              quantity={quantity}
-              increment={increment}
-              decrement={decrement}
               // @ts-ignore
               variants={variants}
-              currentVariant={currentVariant}
-              selectVariant={selectVariant}
+              changeValueForOption={changeValueForOption}
               product={product}
             />
-            <NormalizeDiv margin="0 0 20px 0">
-              <BuyButton
-                addLineItem={addLineItem}
-                currentVariant={currentVariant}
-                quantity={quantity}
-              />
-              {accordions
-                ? accordions.map((a) => (
-                    <Accordion key={a._key} label={a.title}>
-                      <RichText body={a.bodyraw} />
-                    </Accordion>
-                  ))
-                : null}
-            </NormalizeDiv>
+            <BuyButton
+              addLineItem={addLineItem}
+              currentVariant={currentVariant}
+            />
+            {accordions
+              ? accordions.map((a) => (
+                  <Accordion key={a._key} label={a.title}>
+                    <RichText body={a.bodyraw} />
+                  </Accordion>
+                ))
+              : null}
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>
