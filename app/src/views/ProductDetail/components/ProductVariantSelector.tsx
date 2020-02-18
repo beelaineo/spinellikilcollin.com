@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { NormalizeDiv } from '../styled'
+import { Box } from '@xstyled/styled-components'
 import { UseProductVariant } from 'use-shopify'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
@@ -40,21 +40,20 @@ export const ProductVariantSelector = (props: Props) => {
   const description = product?.sourceData?.description
   const { options } = product
   return (
-    <div>
-      <NormalizeDiv margin="20px 0">
-        {options && options.length
-          ? options.map((option) =>
-              option ? (
-                <ProductOptionSelector
-                  key={option._key || 'some-key'}
-                  option={option}
-                />
-              ) : null,
-            )
-          : null}
+    <Box mt={6} mb={3}>
+      {options && options.length
+        ? options.map((option) =>
+            option ? (
+              <ProductOptionSelector
+                key={option._key || 'some-key'}
+                option={option}
+              />
+            ) : null,
+          )
+        : null}
 
-        {/* <Label>Size</Label> */}
-        {/* <Select
+      {/* <Label>Size</Label> */}
+      {/* <Select
           onChange={handleSelect}
           value={currentVariant.id}
           id="size"
@@ -68,9 +67,7 @@ export const ProductVariantSelector = (props: Props) => {
             )
           })}
         </Select> */}
-      </NormalizeDiv>
-      <NormalizeDiv>
-        {/* <Label>Quantity</Label>
+      {/* <Label>Quantity</Label>
         <QuantitySelector width={'52px'}>
           <button type="button" onClick={decrement}>
             <span>&#8722;</span>
@@ -80,7 +77,6 @@ export const ProductVariantSelector = (props: Props) => {
             <span>&#43;</span>
           </button>
         </QuantitySelector> */}
-      </NormalizeDiv>
-    </div>
+    </Box>
   )
 }
