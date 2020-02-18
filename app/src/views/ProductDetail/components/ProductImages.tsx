@@ -1,33 +1,35 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
+import styled from '@xstyled/styled-components'
 import {
   ShopifyProduct,
   ShopifySourceProductVariant,
-  Image,
+  Image as ImageType,
 } from '../../../types'
-import { Gallery } from '../../../components/Gallery'
+import { Image } from '../../../components/Image'
 import { ProductGalleryWrapper } from '../styled'
-import { ProductMobileImagesNav } from './ProductMobileImagesNav'
 
 interface ProductImagesProps {
   product: ShopifyProduct
   currentVariant: ShopifySourceProductVariant
 }
 
+const MainImage = styled.div``
+
 export const ProductImages = ({
   product,
   currentVariant,
 }: ProductImagesProps) => {
-  console.log(currentVariant)
   // @ts-ignore
-  const [images] = unwindEdges<Image>(product?.sourceData?.images)
+  const [images] = unwindEdges<ImageType>(product?.sourceData?.images)
   if (!images.length) return null
 
-  const currentImageId = currentVariant?.image?.id || images[0].id
+  const currentImage = currentVariant?.image || images[0]
   return (
     <ProductGalleryWrapper>
-      <Gallery images={images} currentImageId={currentImageId} />
-      <ProductMobileImagesNav images={images} />
+      <MainImage>
+        <Image ratio={1} image={currentImage} />
+      </MainImage>
     </ProductGalleryWrapper>
   )
 }

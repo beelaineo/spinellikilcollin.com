@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { UseCheckoutValues } from 'use-shopify'
-import { ButtonPrimary } from '../styled'
+import { Button } from '../../../components/Button'
 import { ShopifySourceProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
 
@@ -20,12 +20,8 @@ export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
   if (currentVariant && !currentVariant.availableForSale)
     return <Placeholder>Out of stock</Placeholder>
   return (
-    <ButtonPrimary
-      width={'100%'}
-      disabled={Boolean(!currentVariant)}
-      onClick={handleClick}
-    >
-      add to cart
-    </ButtonPrimary>
+    <Button disabled={Boolean(!currentVariant)} onClick={handleClick}>
+      Add to cart
+    </Button>
   )
 }
