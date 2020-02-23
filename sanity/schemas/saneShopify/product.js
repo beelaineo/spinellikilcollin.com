@@ -52,6 +52,12 @@ export const product = {
       of: [{ type: 'productInfo' }],
     },
     {
+      name: 'displayShopifyImages',
+      title: 'Display Shopify Images',
+      description: 'Include the images from Shopify before the content blocks',
+      type: 'boolean',
+    },
+    {
       title: 'Content Blocks',
       name: 'contentAfter',
       description:
