@@ -1,4 +1,5 @@
 import * as React from 'react'
+import styled from 'styled-components'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct } from '../../types'
 import { useProductVariant, useCheckout } from 'use-shopify'
@@ -28,18 +29,10 @@ interface Props {
 
 export const ProductDetail = ({ product }: Props) => {
   /* get additional info blocks from Sanity */
-  const { productInfoBlocks } = useShopData()
+  const { getProductInfoBlocks } = useShopData()
+  const productInfoBlocks = getProductInfoBlocks(product)
+  console.log(productInfoBlocks)
   const accordions = productInfoBlocks
-    ? [
-        ...getInfoBlocksByType(
-          product?.sourceData?.productType || 'none',
-          productInfoBlocks,
-        ),
-        // @ts-ignore
-        ...getInfoBlocksByTag(product?.sourceData?.tags, productInfoBlocks),
-      ]
-    : []
-
   /* get product variant utils */
   const { currentVariant, selectVariant } = useProductVariant(
     product.sourceData,
@@ -79,6 +72,7 @@ export const ProductDetail = ({ product }: Props) => {
   /* get product image variants from Shopify */
   const images = product?.sourceData?.images
 
+  console.log(accordions)
   return (
     <Wrapper>
       <Column>
@@ -104,7 +98,7 @@ export const ProductDetail = ({ product }: Props) => {
             {accordions
               ? accordions.map((a) => (
                   <Accordion key={a._key} label={a.title}>
-                    <RichText body={a.bodyraw} />
+                    <RichText body={a.bodyRaw} />
                   </Accordion>
                 ))
               : null}

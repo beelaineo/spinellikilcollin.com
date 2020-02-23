@@ -2,7 +2,6 @@ import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 export const Wrapper = styled.div`
   position: relative;
-  min-height: 100vh;
   margin: 0 auto 6;
   font-family: serif;
   padding: 6 0 0;
@@ -12,11 +11,10 @@ export const Wrapper = styled.div`
 export const ProductDetails = styled.div`
   ${({ theme }) => css`
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 65% 1fr;
     grid-gap: 5;
     margin: 0 5;
-    min-height: 800px;
-    /* background-color: #F5F3F4; */
+    padding: 7 6;
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr;
     }
@@ -36,12 +34,9 @@ export const MobileProductHeaderWrapper = styled.div`
 
 export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
-    padding-top: 7;
-    width: small;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: auto;
     ${theme.mediaQueries.tablet} {
       margin: 5 auto;
       padding-top: 5 0;

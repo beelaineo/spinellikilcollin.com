@@ -28,7 +28,7 @@ export const ProductImages = ({
   return (
     <ProductGalleryWrapper>
       <MainImage>
-        <Image ratio={1} image={currentImage} />
+        <Image ratio={0.8} image={currentImage} />
       </MainImage>
     </ProductGalleryWrapper>
   )

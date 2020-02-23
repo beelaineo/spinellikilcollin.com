@@ -94,7 +94,7 @@ export const Image = ({ image, onLoad, ratio }: ImageProps) => {
     }
   }, [imageRef.current])
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (!onLoad) return
     const timeoutId = setTimeout(onLoad, 800)
     return () => clearTimeout(timeoutId)

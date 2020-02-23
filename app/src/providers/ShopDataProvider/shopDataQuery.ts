@@ -63,5 +63,5 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
 
 export interface ShopDataResponse {
   Menu: Menu
-  ProductInfo: ProductInfoSettings
+  ProductInfoSettings: ProductInfoSettings
 }
