@@ -32,7 +32,6 @@ export const ProductDetail = ({ product }: Props) => {
   /* get additional info blocks from Sanity */
   const { getProductInfoBlocks } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
-  console.log(productInfoBlocks)
   const accordions = productInfoBlocks
   /* get product variant utils */
   const { currentVariant, selectVariant } = useProductVariant(
@@ -73,7 +72,6 @@ export const ProductDetail = ({ product }: Props) => {
   /* get product image variants from Shopify */
   const images = product?.sourceData?.images
   const description = product?.sourceData?.description
-  console.log(product?.sourceData)
 
   return (
     <Wrapper>
@@ -113,15 +111,9 @@ export const ProductDetail = ({ product }: Props) => {
         </ProductDetails>
       </Column>
       {/* Shopify alt images will go here */}
-      <ProductDetailFooter
-        product={product}
-        // @ts-ignore
-        content={images}
-      />
+      <ProductDetailFooter product={product} />
       {/* Related Products */}
       <ProductRelated product={product} />
-      {/* This is currently  from sanity */}
-      <ProductDetailFooter product={product} />
     </Wrapper>
   )
 }

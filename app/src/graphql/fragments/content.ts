@@ -117,6 +117,7 @@ export const imageTextBlockFragment = gql`
     bodyRaw
     ctaText
     textPosition
+    textColor
     layout
     backgroundImage {
       ...RichImageFragment

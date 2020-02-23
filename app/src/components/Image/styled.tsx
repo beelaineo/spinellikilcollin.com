@@ -6,8 +6,24 @@ interface PictureProps {
   loaded: boolean
 }
 
+export const MainImage = styled.img``
+
+export const HoverImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: 0.3s;
+`
+
 export const Wrapper = styled.div`
   position: relative;
+
+  &:hover ${HoverImage} {
+    opacity: 1;
+  }
 `
 
 export const Picture = styled.picture`
@@ -18,7 +34,7 @@ export const Picture = styled.picture`
     background-color: transparent;
     display: block;
 
-    & > img {
+    & > ${MainImage} {
       opacity: ${loaded ? 1 : 0};
       transition: 0.3s;
       transition-delay: 0.3s;

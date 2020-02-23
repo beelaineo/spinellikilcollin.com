@@ -5,11 +5,13 @@ import {
   Image as SanityImage,
   RichImage,
 } from '../../types'
-import { Wrapper, Picture, RatioImageFill } from './styled'
-
-export const ImageWrapper = styled.img`
-  display: block;
-`
+import {
+  MainImage,
+  HoverImage,
+  Wrapper,
+  Picture,
+  RatioImageFill,
+} from './styled'
 
 interface ImageDetails {
   src: string | null | void
@@ -75,17 +77,22 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
 
 interface ImageProps {
   image?: null | ShopifySourceImage | SanityImage | RichImage | void
+  hoverImage?: null | ShopifySourceImage | SanityImage | RichImage | void
   ratio?: number
   // TODO sizes?: string
   onLoad?: () => void
 }
 
-export const Image = ({ image, onLoad, ratio }: ImageProps) => {
+export const Image = ({ image, hoverImage, onLoad, ratio }: ImageProps) => {
   if (!image) return null
   const [loaded, setLoaded] = React.useState(false)
   const imageRef = React.useRef<HTMLImageElement>(null)
 
   const { src, altText } = React.useMemo(() => getImageDetails(image), [image])
+  const hoverDetails = React.useMemo(
+    () => (hoverImage ? getImageDetails(hoverImage) : null),
+    [hoverImage],
+  )
 
   React.useEffect(() => {
     if (imageRef.current === null) return
@@ -112,12 +119,15 @@ export const Image = ({ image, onLoad, ratio }: ImageProps) => {
       <Picture loaded={loaded}>
         {/* <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} /> */}
         {/* <source type={imageType} srcSet={srcSet} sizes={sizes} /> */}
-        <img
+        <MainImage
           src={src}
           alt={altText || ''}
           ref={imageRef}
           onLoad={handleOnLoad}
         />
+        {hoverDetails && hoverDetails.src ? (
+          <HoverImage src={hoverDetails.src} />
+        ) : null}
       </Picture>
     </Wrapper>
   )

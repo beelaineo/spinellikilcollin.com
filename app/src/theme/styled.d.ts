@@ -33,6 +33,7 @@ declare module 'styled-components' {
     }
 
     colors: {
+      grays: string[]
       body: string[]
       bodyMain: string
       background: string

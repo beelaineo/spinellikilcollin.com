@@ -29,26 +29,33 @@ const createTextBase = (as: any) => styled(as)`
     }
 
     a {
-      color: bronze;
       text-decoration: underline;
+      color: bronze;
     }
   `}
 `
 
 const TextBase = styled(Box)`
-  ${({ family, weight, fontSize, color }: CustomTextProps) => css`
+  ${({
+    theme,
+    family,
+    weight,
+    fontStyle,
+    fontSize,
+    color,
+  }: CustomTextProps) => css`
     font-size: ${fontSize};
     font-family: ${family};
     font-weight: ${weight};
-    color: ${color ? color : 'inherit'};
+    font-style: ${fontStyle};
     margin: 0 0 0.5em;
 
     &:last-child {
       margin-bottom: 0;
     }
     a {
-      color: bronze;
       text-decoration: underline;
+      color: bronze;
     }
   `}
 `
@@ -68,8 +75,6 @@ const hTags = ['h1', 'h2', 'h3', 'h4', 'h5']
 
 export const Heading = ({
   children,
-  color,
-  family,
   level,
   weight,
   as,
@@ -82,9 +87,7 @@ export const Heading = ({
     <TextBase
       as={tag}
       fontSize={level}
-      family={family}
       weight={weight || 500}
-      color={color}
       htmlFor={htmlFor}
       {...rest}
     >
@@ -95,7 +98,6 @@ export const Heading = ({
 
 Heading.defaultProps = {
   family: 'serif',
-  color: 'bodyMain',
   weight: 3,
 }
 

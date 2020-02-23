@@ -1,12 +1,13 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
-interface Column {
-  theme: DefaultTheme
+interface ColumnProps {
+  width?: string
 }
-
 export const Column = styled.div`
-  margin: 0 auto;
-  max-width: calc(xWide - 7);
+  ${({ width }: ColumnProps) => css`
+    margin: 0 auto;
+    max-width: ${width ? width : 'xWide'};
+  `}
 `
 
 interface HeroBackground {
@@ -37,8 +38,8 @@ export const HeroBackground = styled.div`
       background-image: ${`url(${backgroundMobile})`};
       grid-template-columns: 1fr;
       div {
-        grid-area: a;
         align-self: flex-start;
+        grid-area: a;
       }
     }
   `}
@@ -56,93 +57,6 @@ export const HeroText = styled.div`
     margin: 0 auto;
     color: body.8;
   `}
-`
-
-interface ImageTextProps {
-  theme: DefaultTheme
-  textAlign?: string | null | void
-  background?: string
-  width?: string
-}
-
-export const ImageText = styled.div`
-  ${({ theme, background, width }: ImageTextProps) => css`
-    width: ${width === 'fullWidth' ? '100%' : '50%'};
-    display: inline-block;
-    box-sizing: border-box;
-    margin: 0 auto;
-    color: body.8;
-    padding: 0;
-    background-image: ${`url(${background})`};
-    background-size: cover;
-    background-position: center;
-    vertical-align: top;
-    position: relative;
-    line-height: 0;
-    ${theme.mediaQueries.tablet} {
-      width: 100%;
-    }
-
-    a {
-      text-transform: capitalize;
-      color: body.7;
-      margin: 3 0;
-      display: inline-block;
-      font-style: italic;
-      text-decoration: none;
-      padding: 1 0;
-      border-bottom: 1px solid body.7;
-      font-size: 4;
-    }
-  `}
-`
-
-interface ImageText {
-  textAlign?: string | null | void
-  theme: DefaultTheme
-}
-
-export const TextOverImage = styled.div`
-  ${({ textAlign }: ImageText) => css`
-        display: block;
-        position: absolute;
-        width: 100%;
-        padding: 6;
-        line-height: initial;
-        padding-top: ${textAlign === 'middle-center' ? '45%' : '5'};
-        p {
-          font-size: 3;
-          line-height: 32px;
-          margin:1;
-        }
-        position: ${
-          textAlign === 'middle-center'
-            ? 'absolute'
-            : textAlign === 'bottom-right'
-            ? 'absolute'
-            : 'absolute'
-        };
-        text-align: ${
-          textAlign === 'middle-center'
-            ? 'center'
-            : textAlign === 'bottom-right'
-            ? 'right'
-            : 'left'
-        };
-        flex-direction: column;
-        justify-content: ${
-          textAlign === 'middle-center'
-            ? 'center'
-            : textAlign === 'bottom-right'
-            ? 'flex-end'
-            : 'left'
-        };
-        top: ${textAlign === 'bottom-right' ? 'initial' : '0'};
-        bottom: ${textAlign === 'bottom-right' ? '0' : 'initial'};
-        left: ${textAlign === 'middle-center' ? '0' : 'initial'};
-        right: ${textAlign === 'middle-center' ? '0' : 'initial'};
-      }
-    `}
 `
 
 interface CarouselBlockStyledProps {

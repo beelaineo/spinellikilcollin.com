@@ -49,7 +49,6 @@ interface DefinitelyProductInfo {
 
 export const ShopDataProvider = ({ children }: Props) => {
   const response = useQuery<ShopDataResponse>(SHOP_DATA_QUERY)
-  console.log(response)
 
   const ready = Boolean(response.data && !response.loading)
   const menu = ready ? response?.data?.Menu : undefined
@@ -91,7 +90,6 @@ export const ShopDataProvider = ({ children }: Props) => {
       infoByType && productType
         ? infoByType.reduce<ProductInfo[]>((acc, current) => {
             if (!current) return acc
-            console.log(current, productType)
             if (
               current.type &&
               productType.toLowerCase() === current.type.toLowerCase()

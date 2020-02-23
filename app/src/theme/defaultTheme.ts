@@ -57,8 +57,8 @@ export const defaultTheme: DefaultTheme = {
   fonts: {
     serif,
     sans,
-    display: sans,
-    body: sans,
+    display: serif,
+    body: serif,
   },
 
   /* Applies to:
@@ -83,9 +83,10 @@ export const defaultTheme: DefaultTheme = {
      * body.0 should be dark for a light theme
      * body.0 should be light for a dark theme
      */
+    grays,
     body: grays,
     /* Shortcut for main body color */
-    bodyMain: grays[10],
+    bodyMain: grays[8],
     background: grays[2],
     /* Used for errors and warnings. */
     error: ['#e6d49e', '#f09e32', '#f04b32'],

@@ -881,6 +881,7 @@ export interface ShopifyProduct extends Document {
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>
   variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
   info?: Maybe<Array<Maybe<ProductInfo>>>
+  displayShopifyImages?: Maybe<Scalars['Boolean']>
   contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
   related?: Maybe<Carousel>
 }
@@ -933,6 +934,8 @@ export type ShopifyProductFilter = {
   shopifyId_matches?: Maybe<Scalars['String']>
   shopifyId_in?: Maybe<Array<Scalars['String']>>
   shopifyId_not_in?: Maybe<Array<Scalars['String']>>
+  displayShopifyImages?: Maybe<Scalars['Boolean']>
+  displayShopifyImages_not?: Maybe<Scalars['Boolean']>
   is_draft?: Maybe<Scalars['Boolean']>
 }
 
