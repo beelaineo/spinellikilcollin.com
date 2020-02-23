@@ -7,20 +7,35 @@ interface WithOpen {
 
 export const Inner = styled.div`
   ${({ open }: WithOpen) => css`
-    /* display: ${open ? 'block' : 'none'}; */
-    max-height: ${open === true ? '200px' : '0'};
-    visibility: ${open === true ? 'visible' : 'hidden'};
     transition: 150ms linear;
-    overflow: hidden;
-    p {
-      padding: 2 0 5;
-    }
+    ${open
+      ? css`
+          display: block;
+          padding: 2 0 4;
+        `
+      : css`
+          display: none;
+        `}
   `}
 `
 
 export const Wrapper = styled.div`
-  padding: 4 0 0;
-  margin: 4 0 0;
-  border-top: 1px solid body.8;
+  border-top: 1px solid;
+
+  &:last-of-type {
+    border-bottom: 1px solid;
+  }
 `
 
+export const Label = styled.button`
+  font-size: 4;
+  font-family: serif;
+  position: relative;
+  padding: 3 0;
+  width: 100%;
+  text-align: left;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`

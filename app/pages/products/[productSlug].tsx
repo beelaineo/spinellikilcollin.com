@@ -35,6 +35,7 @@ const productQuery = gql`
         handle
         tags
         productType
+        description
         options {
           _key
           name

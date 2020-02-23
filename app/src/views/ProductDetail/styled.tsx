@@ -23,8 +23,12 @@ export const ProductDetails = styled.div`
 
 export const ProductImagesWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-direction: column;
+`
+
+export const ProductAccordionsWrapper = styled.div`
+  margin-top: 7;
 `
 
 export const MobileProductHeaderWrapper = styled.div`
@@ -36,7 +40,6 @@ export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
-    justify-content: center;
     ${theme.mediaQueries.tablet} {
       margin: 5 auto;
       padding-top: 5 0;

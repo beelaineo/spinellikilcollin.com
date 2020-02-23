@@ -7,8 +7,8 @@ interface PlusMinusProps {
 
 const Wrapper = styled.div`
   ${({ open }: PlusMinusProps) => css`
-    width: 1em;
-    height: 1em;
+    width: 12px;
+    height: 12px;
     position: relative;
 
     & span {
@@ -21,12 +21,18 @@ const Wrapper = styled.div`
       height: 100%;
       top: 0;
       left: 50%;
+      transition: 0.3s;
+      transform: ${open
+        ? 'translateX(-50%) rotate(-90deg)'
+        : 'translateX(-50%)'};
+      transform: translateX(-50%);
       display: ${open ? 'none' : 'initial'};
     }
 
     & span:nth-of-type(2) {
       width: 100%;
       height: 1px;
+      transform: translateY(-50%);
       left: 0;
       top: 50%;
     }

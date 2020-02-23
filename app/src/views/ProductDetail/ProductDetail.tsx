@@ -19,6 +19,7 @@ import {
   ProductDetails,
   ProductInfoWrapper,
   ProductImagesWrapper,
+  ProductAccordionsWrapper,
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { getInfoBlocksByType, getInfoBlocksByTag } from './utils'
@@ -71,8 +72,9 @@ export const ProductDetail = ({ product }: Props) => {
 
   /* get product image variants from Shopify */
   const images = product?.sourceData?.images
+  const description = product?.sourceData?.description
+  console.log(product?.sourceData)
 
-  console.log(accordions)
   return (
     <Wrapper>
       <Column>
@@ -95,13 +97,18 @@ export const ProductDetail = ({ product }: Props) => {
               addLineItem={addLineItem}
               currentVariant={currentVariant}
             />
-            {accordions
-              ? accordions.map((a) => (
-                  <Accordion key={a._key} label={a.title}>
-                    <RichText body={a.bodyRaw} />
-                  </Accordion>
-                ))
-              : null}
+            <ProductAccordionsWrapper>
+              {description ? (
+                <Accordion label="Description">{description}</Accordion>
+              ) : null}
+              {accordions
+                ? accordions.map((a) => (
+                    <Accordion key={a._key} label={a.title}>
+                      <RichText body={a.bodyRaw} />
+                    </Accordion>
+                  ))
+                : null}
+            </ProductAccordionsWrapper>
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>

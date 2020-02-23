@@ -1,6 +1,8 @@
 import * as React from 'react'
-import { Wrapper, Inner } from './styled'
+import styled from '@xstyled/styled-components'
+import { Label, Wrapper, Inner } from './styled'
 import { useEffect, useRef } from 'react'
+import { PlusMinus } from '../PlusMinus'
 
 interface AccordionProps {
   label: string
@@ -20,7 +22,10 @@ export const Accordion = ({ label, children }: AccordionProps) => {
 
   return (
     <Wrapper>
-      <button onClick={toggleOpen}>{label}+</button>
+      <Label onClick={toggleOpen}>
+        {label}
+        <PlusMinus open={open} />
+      </Label>
       <Inner open={open} ref={refContainer}>
         {children}
       </Inner>

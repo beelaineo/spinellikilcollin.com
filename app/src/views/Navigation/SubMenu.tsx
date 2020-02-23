@@ -3,7 +3,7 @@ import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { SubMenu as SubMenuType } from '../../types'
 import { Heading } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'
-import { PlusMinus } from './PlusMinus'
+import { PlusMinus } from '../../components/PlusMinus'
 
 const { useState } = React
 
