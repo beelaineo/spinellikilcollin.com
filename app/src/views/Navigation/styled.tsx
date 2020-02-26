@@ -17,9 +17,8 @@ export const Inner = styled.nav`
   display: grid;
   grid-template-columns: 1fr 220px 1fr;
   align-items: center;
-  padding: 0 6;
+  padding: 2 6;
   width: 100%;
-  margin: 4 0;
 `
 
 interface WithReady {

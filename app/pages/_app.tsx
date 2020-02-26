@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { ApolloProvider } from '@apollo/react-hooks'
+import styled from '@xstyled/styled-components'
 import { ApolloClient } from 'apollo-client'
-import { getDataFromTree } from '@apollo/react-ssr'
 import { Footer, Navigation } from '../src/views'
 import { Providers } from '../src/providers/AllProviders'
 import { withApollo } from '../src/graphql'
@@ -13,14 +12,20 @@ interface AppProps {
   apollo: ApolloClient<any>
 }
 
+const Main = styled.main`
+  background-color: background;
+`
+
 const App = (props: AppProps) => {
   const { Component, pageProps } = props
 
   return (
     <Providers>
-      <Navigation />
-      <Component {...pageProps} />
-      <Footer />
+      <Main>
+        <Navigation />
+        <Component {...pageProps} />
+        <Footer />
+      </Main>
     </Providers>
   )
 }

@@ -28,7 +28,7 @@ export const defaultTheme: DefaultTheme = {
    *   padding-top, padding-right, padding-bottom, padding-left, grid-gap,
    *   grid-column-gap, grid-row-gap
    */
-  space: [0, 3, 6, 12, 18, 24, 38, 48],
+  space: [0, 3, 6, 12, 18, 24, 38, 42, 48],
 
   /* Sizing - applies to:
    * 	width, height, min-width,	max-width, min-height, max-height
@@ -106,9 +106,9 @@ export const defaultTheme: DefaultTheme = {
   },
 
   mediaQueries: {
-    mobile: 'media screen and (max-width: 650px)',
-    aboveMobile: 'media screen and (min-width: 651px)',
-    tablet: 'media screen and (max-width: 900px)',
-    aboveTablet: 'media screen and (max-width: 901px)',
+    mobile: '@media screen and (max-width: 650px)',
+    aboveMobile: '@media screen and (min-width: 651px)',
+    tablet: '@media screen and (max-width: 900px)',
+    aboveTablet: '@media screen and (max-width: 901px)',
   },
 }

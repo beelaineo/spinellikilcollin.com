@@ -19,23 +19,11 @@ const ContentGrid = styled.div`
 `
 
 export const ProductDetailFooter = ({ product }: ProductDetailFooterProps) => {
-  const { contentAfter, displayShopifyImages, sourceData } = product
-  const shopifyImages =
-    sourceData &&
-    sourceData.images &&
-    sourceData.images.edges &&
-    sourceData.images.edges.length
-      ? /*
-        // @ts-ignore */
-        unwindEdges(sourceData.images)[0]
-      : []
+  const { contentAfter, sourceData } = product
   const content = product.contentAfter || []
 
   return (
     <ContentGrid>
-      {displayShopifyImages && shopifyImages.length
-        ? shopifyImages.map((image) => <Image image={image} key={image.id} />)
-        : null}
       {content.map((contentBlock, index) =>
         contentBlock ? (
           <ContentBlock

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { ShopifyProductOption } from '../../../types'
 import { Heading } from '../../../components/Text'
 import { Select } from '../../../components/Forms'
@@ -17,7 +17,14 @@ const Wrapper = styled.div`
 `
 
 const SelectWrapper = styled.div`
-  max-width: 200px;
+  ${({ theme }) => css`
+    max-width: 200px;
+
+    ${theme.mediaQueries.mobile} {
+      width: 100%;
+      max-width: initial;
+    }
+  `}
 `
 
 export const ProductOptionSelector = ({

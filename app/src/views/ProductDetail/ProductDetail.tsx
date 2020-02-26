@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled from 'styled-components'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct } from '../../types'
 import { useProductVariant, useCheckout } from 'use-shopify'
@@ -22,7 +21,6 @@ import {
   ProductAccordionsWrapper,
 } from './styled'
 import { Accordion } from '../../components/Accordion'
-import { getInfoBlocksByType, getInfoBlocksByTag } from './utils'
 
 interface Props {
   product: ShopifyProduct
@@ -70,7 +68,6 @@ export const ProductDetail = ({ product }: Props) => {
   const { variants } = product
 
   /* get product image variants from Shopify */
-  const images = product?.sourceData?.images
   const description = product?.sourceData?.description
 
   return (
@@ -80,11 +77,11 @@ export const ProductDetail = ({ product }: Props) => {
           <ProductImagesWrapper>
             <ProductImages currentVariant={currentVariant} product={product} />
           </ProductImagesWrapper>
+          <ProductDetailHeader
+            currentVariant={currentVariant}
+            product={product}
+          />
           <ProductInfoWrapper>
-            <ProductDetailHeader
-              currentVariant={currentVariant}
-              product={product}
-            />
             <ProductVariantSelector
               // @ts-ignore
               variants={variants}
@@ -110,9 +107,7 @@ export const ProductDetail = ({ product }: Props) => {
           </ProductInfoWrapper>
         </ProductDetails>
       </Column>
-      {/* Shopify alt images will go here */}
       <ProductDetailFooter product={product} />
-      {/* Related Products */}
       <ProductRelated product={product} />
     </Wrapper>
   )
