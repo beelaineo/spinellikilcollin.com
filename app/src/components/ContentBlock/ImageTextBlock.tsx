@@ -21,6 +21,7 @@ const RichTextWrapper = (props: any) => <Heading level={2} {...props} />
 
 const Wrapper = styled.div`
   position: relative;
+  height: 100%;
 
   &:hover ${HoverImage} {
     opacity: 1;

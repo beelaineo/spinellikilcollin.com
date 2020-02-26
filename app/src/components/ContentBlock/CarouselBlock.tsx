@@ -2,9 +2,13 @@ import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Carousel } from '../../types'
 import { CollectionCarousel, ItemsCarousel } from '../Carousel'
-import { CarouselBlockStyled } from '../Layout/Containers'
 import { Heading } from '../Text'
 
+const CarouselBlockStyled = styled.div`
+  padding: 6;
+  grid-column: span 2;
+  text-align: center;
+`
 interface CarouselBlockProps {
   content: Carousel
 }

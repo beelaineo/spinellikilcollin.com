@@ -17,6 +17,7 @@ interface HeroBackground {
 const HeroWrapper = styled.div`
   position: relative;
   z-index: 0;
+  grid-column: span 2;
 `
 
 interface HeroTextProps {

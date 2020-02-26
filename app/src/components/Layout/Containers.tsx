@@ -59,15 +59,6 @@ export const HeroText = styled.div`
   `}
 `
 
-interface CarouselBlockStyledProps {
-  theme: DefaultTheme
-}
-
-export const CarouselBlockStyled = styled.div`
-  padding: 6;
-  text-align: center;
-`
-
 export const Square = styled.div`
   padding: 50% 0 50%;
   background-color: lightgray;
