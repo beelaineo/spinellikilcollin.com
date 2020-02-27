@@ -1,12 +1,10 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 export const CarouselContainer = styled.div`
-  ${({ theme }) => css`
-    position: relative;
-    height: 100%;
-    width: 100%;
-    flex-grow: 1;
-  `}
+  position: relative;
+  height: 100%;
+  width: 100%;
+  flex-grow: 1;
 `
 
 export const CarouselMask = styled.div`
@@ -24,7 +22,7 @@ interface SlidesContainerProps {
 }
 
 export const SlidesContainer = styled.div`
-  ${({ theme, left }: SlidesContainerProps) => css`
+  ${({ left }: SlidesContainerProps) => css`
     position: absolute;
     height: 100%;
     width: 100%;
@@ -51,8 +49,6 @@ export const SlideContainer = styled.div`
     width: calc((100% - (5 * ${columnCount - 1})) / ${columnCount});
     margin: 0 3;
     display: inline-flex;
-    /* NOTE => Had to remove this to get the related products to sit together vertically when I changed them! */
-    /* vertical-align: top; */
     align-items: center;
 
     &:last-of-type {

@@ -14,6 +14,7 @@ const { useEffect } = React
 interface SwipeableProductImagesProps {
   product: ShopifyProduct
   currentVariant: ShopifySourceProductVariant
+  selectVariant: (variantId: string) => void
 }
 
 const Wrapper = styled.div`
@@ -50,18 +51,15 @@ const SwipeableProductImagesMain = ({
   const unwoundVariants = productVariants ? unwindEdges(productVariants)[0] : []
 
   const variantImages = unwoundVariants.map((pv) => pv.image)
+  const currentVariantIndex = unwoundVariants.findIndex(
+    (v) => v.id === currentVariant.id,
+  )
 
   useEffect(() => {
     if (!currentSlide === null) return
-    // Get the current variant's number
 
-    const currentVariantIndex = unwoundVariants.findIndex(
-      (v) => v.id === currentVariant.id,
-    )
-    if (currentVariantIndex !== currentSlide) {
-      setCurrentSlide(currentVariantIndex)
-    }
-  }, [currentSlide, currentVariant, unwoundVariants])
+    setCurrentSlide(currentVariantIndex)
+  }, [currentVariantIndex])
 
   return (
     <CarouselInner columnCount={1}>
@@ -72,13 +70,23 @@ const SwipeableProductImagesMain = ({
   )
 }
 
-export const SwipeableProductImages = (props: SwipeableProductImagesProps) => (
-  <Wrapper>
-    <GalleryPadding />
-    <CarouselWrapper>
-      <CarouselProvider>
-        <SwipeableProductImagesMain {...props} />
-      </CarouselProvider>
-    </CarouselWrapper>
-  </Wrapper>
-)
+export const SwipeableProductImages = (props: SwipeableProductImagesProps) => {
+  const onSlideChange = (slide: number | null) => {
+    if (!slide) return
+    const variantEdges = props.product?.sourceData?.variants || null
+    // @ts-ignore
+    const [variants] = variantEdges ? unwindEdges(variantEdges) : []
+    const newVariant = variants[slide]
+    props.selectVariant(newVariant.id)
+  }
+  return (
+    <Wrapper>
+      <GalleryPadding />
+      <CarouselWrapper>
+        <CarouselProvider onSlideChange={onSlideChange}>
+          <SwipeableProductImagesMain {...props} />
+        </CarouselProvider>
+      </CarouselWrapper>
+    </Wrapper>
+  )
+}

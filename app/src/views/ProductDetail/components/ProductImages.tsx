@@ -13,6 +13,7 @@ import { SwipeableProductImages } from './SwipeableProductImages'
 interface ProductImagesProps {
   product: ShopifyProduct
   currentVariant: ShopifySourceProductVariant
+  selectVariant: (variantId: string) => void
 }
 
 const MainImage = styled.div`
@@ -26,6 +27,7 @@ const MainImage = styled.div`
 export const ProductImages = ({
   product,
   currentVariant,
+  selectVariant,
 }: ProductImagesProps) => {
   // @ts-ignore
   const [images] = unwindEdges<ImageType>(product?.sourceData?.images)
@@ -38,6 +40,7 @@ export const ProductImages = ({
         <Image ratio={0.8} image={mainImage} />
       </MainImage>
       <SwipeableProductImages
+        selectVariant={selectVariant}
         product={product}
         currentVariant={currentVariant}
       />

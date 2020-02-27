@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useSwipeable } from 'react-swipeable'
+import { Swipeable, EventData } from 'react-swipeable'
 import {
   CarouselContainer,
   SlidesContainer,
@@ -54,11 +54,6 @@ export const CarouselInner = ({
     setCurrentSlide(currentSlide - 1)
   }
 
-  const handlers = useSwipeable({
-    onSwipedLeft: goNext,
-    onSwipedRight: goPrevious,
-  })
-
   const isAtFirst = currentSlide === 0
   const isAtLast = Boolean(
     currentSlide && currentSlide + columnCount >= slides.length,
@@ -95,6 +90,15 @@ export const CarouselInner = ({
     [],
   )
 
+  const handleSwipe = (e: EventData) => {
+    const { dir } = e
+    if (dir === 'Right') {
+      goPrevious()
+    } else if (dir === 'Left') {
+      goNext()
+    }
+  }
+
   return (
     <CarouselContainer ref={outerRef}>
       {children ? (
@@ -105,25 +109,26 @@ export const CarouselInner = ({
           visible={!isAtFirst}
         />
       ) : null}
-      <CarouselMask>
-        {/* 
+      {/* 
            // @ts-ignore */}
-        <SlidesContainer
-          {...handlers}
-          ref={innerRef}
-          left={currentSlide ? -slides[currentSlide].ref.offsetLeft : 0}
-        >
-          {React.Children.map(children, (child, index) => (
-            <Slide
-              addSlide={addSlide}
-              columnCount={columnCount}
-              index={index}
-              key={index}
-            >
-              {child}
-            </Slide>
-          ))}
-        </SlidesContainer>
+      <CarouselMask>
+        <Swipeable onSwiped={handleSwipe}>
+          <SlidesContainer
+            ref={innerRef}
+            left={currentSlide ? -slides[currentSlide].ref.offsetLeft : 0}
+          >
+            {React.Children.map(children, (child, index) => (
+              <Slide
+                addSlide={addSlide}
+                columnCount={columnCount}
+                index={index}
+                key={index}
+              >
+                {child}
+              </Slide>
+            ))}
+          </SlidesContainer>
+        </Swipeable>
       </CarouselMask>
       {children ? (
         <CarouselButton
@@ -139,12 +144,23 @@ export const CarouselInner = ({
 
 interface CarouselProviderProps {
   children: React.ReactNode
+  onSlideChange?: (slideNumber: number | null) => void
+  currentSlide?: number
 }
 
-export const CarouselProvider = ({ children }: CarouselProviderProps) => {
+export const CarouselProvider = ({
+  children,
+  onSlideChange,
+}: CarouselProviderProps) => {
   const [currentSlide, setCurrentSlideState] = useState<number | null>(null)
 
-  const setCurrentSlide = (num: number) => setCurrentSlideState(num)
+  const setCurrentSlide = (num: number) => {
+    setCurrentSlideState(num)
+  }
+
+  useEffect(() => {
+    if (onSlideChange) onSlideChange(currentSlide)
+  }, [currentSlide])
 
   const value = {
     setCurrentSlide,

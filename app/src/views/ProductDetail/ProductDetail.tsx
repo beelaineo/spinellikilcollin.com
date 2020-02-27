@@ -3,6 +3,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct } from '../../types'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { Column } from '../../components/Layout'
+import { CarouselProvider } from '../../components/Carousel'
 import { RichText } from '../../components/RichText'
 import {
   ProductVariantSelector,
@@ -75,7 +76,11 @@ export const ProductDetail = ({ product }: Props) => {
       <Column>
         <ProductDetails>
           <ProductImagesWrapper>
-            <ProductImages currentVariant={currentVariant} product={product} />
+            <ProductImages
+              selectVariant={selectVariant}
+              currentVariant={currentVariant}
+              product={product}
+            />
           </ProductImagesWrapper>
           <ProductDetailHeader
             currentVariant={currentVariant}
