@@ -18,7 +18,7 @@ export const Select = styled.select`
 
   background-image: linear-gradient(45deg, transparent 50%, gray 50%),
     linear-gradient(135deg, gray 50%, transparent 50%);
-  background-position: 91% 50%, calc(91% + 5px) 50%;
+  background-position: calc(100% - 14px) 50%, calc(100% - 10px) 50%;
   background-size: 5px 5px, 5px 5px, 1px 1.5em;
   background-repeat: no-repeat;
 

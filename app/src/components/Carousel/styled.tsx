@@ -45,14 +45,11 @@ interface WithColumnCount {
 }
 
 export const SlideContainer = styled.div`
-  ${({ theme, columnCount }: WithColumnCount) => css`
+  ${({ columnCount }: WithColumnCount) => css`
     height: 100%;
     text-align: center;
-    width: calc(
-      (100% - (5 * ${columnCount - 1})) /
-        ${columnCount}
-    );
-    margin-right: 5;
+    width: calc((100% - (5 * ${columnCount - 1})) / ${columnCount});
+    margin: 0 3;
     display: inline-flex;
     /* NOTE => Had to remove this to get the related products to sit together vertically when I changed them! */
     /* vertical-align: top; */
@@ -60,10 +57,6 @@ export const SlideContainer = styled.div`
 
     &:last-of-type {
       margin-right: 0;
-    }
-
-    ${theme.mediaQueries.tablet} {
-      width: 50%;
     }
   `}
 `

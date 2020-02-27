@@ -1,30 +1,30 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
-import { unwindEdges } from '@good-idea/unwind-edges'
+import styled, { css } from '@xstyled/styled-components'
 import { ShopifyProduct } from '../../../types'
-import { P } from '../../../components/Text'
-import { Accordion } from '../../../components/Accordion'
-import { Image } from '../../../components/Image'
 import { ContentBlock } from '../../../components/ContentBlock/ContentBlock'
-
-const { useState } = React
 
 interface ProductDetailFooterProps {
   product: ShopifyProduct
 }
 
 const ContentGrid = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr;
+    }
+  `}
 `
 
 export const ProductDetailFooter = ({ product }: ProductDetailFooterProps) => {
-  const { contentAfter, sourceData } = product
-  const content = product.contentAfter || []
+  const { contentAfter } = product
+  const content = contentAfter || []
 
   return (
     <ContentGrid>
-      {content.map((contentBlock, index) =>
+      {content.map((contentBlock) =>
         contentBlock ? (
           <ContentBlock
             key={contentBlock._key || 'some-key'}

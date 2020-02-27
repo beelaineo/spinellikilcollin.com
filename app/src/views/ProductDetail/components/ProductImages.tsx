@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import {
   ShopifyProduct,
   ShopifySourceProductVariant,
@@ -8,13 +8,20 @@ import {
 } from '../../../types'
 import { Image } from '../../../components/Image'
 import { ProductGalleryWrapper } from '../styled'
+import { SwipeableProductImages } from './SwipeableProductImages'
 
 interface ProductImagesProps {
   product: ShopifyProduct
   currentVariant: ShopifySourceProductVariant
 }
 
-const MainImage = styled.div``
+const MainImage = styled.div`
+  ${({ theme }) => css`
+    ${theme.mediaQueries.tablet} {
+      display: none;
+    }
+  `}
+`
 
 export const ProductImages = ({
   product,
@@ -24,12 +31,16 @@ export const ProductImages = ({
   const [images] = unwindEdges<ImageType>(product?.sourceData?.images)
   if (!images.length) return null
 
-  const currentImage = currentVariant?.image || images[0]
+  const mainImage = currentVariant?.image || images[0]
   return (
     <ProductGalleryWrapper>
       <MainImage>
-        <Image ratio={0.8} image={currentImage} />
+        <Image ratio={0.8} image={mainImage} />
       </MainImage>
+      <SwipeableProductImages
+        product={product}
+        currentVariant={currentVariant}
+      />
     </ProductGalleryWrapper>
   )
 }
