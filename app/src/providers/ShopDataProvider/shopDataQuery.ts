@@ -1,9 +1,9 @@
 import gql from 'graphql-tag'
-import { Paginated } from '@good-idea/unwind-edges'
-import { Menu, ProductInfoSettings } from '../../types'
+import { Menu, ProductInfoSettings, SiteSettings } from '../../types'
 import {
   productInfoFragment,
   internalLinkFragment,
+  externalLinkFragment,
   ctaFragment,
 } from '../../graphql/fragments'
 
@@ -55,13 +55,29 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         }
       }
     }
+    SiteSettings(id: "site-settings") {
+      _id
+      _type
+      links {
+        ... on ExternalLink {
+          ...ExternalLinkFragment
+        }
+        ... on InternalLink {
+          ...InternalLinkFragment
+        }
+      }
+      mailerTitle
+      mailerSubtitle
+    }
   }
   ${productInfoFragment}
   ${internalLinkFragment}
+  ${externalLinkFragment}
   ${ctaFragment}
 `
 
 export interface ShopDataResponse {
   Menu: Menu
   ProductInfoSettings: ProductInfoSettings
+  SiteSettings: SiteSettings
 }

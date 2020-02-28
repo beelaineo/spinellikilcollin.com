@@ -12,9 +12,7 @@ interface AppProps {
   apollo: ApolloClient<any>
 }
 
-const Main = styled.main`
-  background-color: background;
-`
+const Main = styled.main``
 
 const App = (props: AppProps) => {
   const { Component, pageProps } = props

@@ -1,5 +1,5 @@
 # source: https://spinellikilcollin.myshopify.com/api/graphql
-# timestamp: Sat Feb 22 2020 19:55:16 GMT-0800 (Pacific Standard Time)
+# timestamp: Fri Feb 28 2020 10:37:44 GMT-0800 (Pacific Standard Time)
 
 schema {
   query: QueryRoot

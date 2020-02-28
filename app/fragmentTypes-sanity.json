@@ -6,7 +6,7 @@
         "name": "Document",
         "possibleTypes": [
           {
-            "name": "Menu"
+            "name": "SiteSettings"
           },
           {
             "name": "Page"
@@ -21,6 +21,9 @@
             "name": "SanityImageAsset"
           },
           {
+            "name": "Menu"
+          },
+          {
             "name": "Homepage"
           },
           {
@@ -33,13 +36,13 @@
       },
       {
         "kind": "UNION",
-        "name": "MenuLinkOrSubMenu",
+        "name": "ExternalLinkOrInternalLink",
         "possibleTypes": [
           {
-            "name": "MenuLink"
+            "name": "ExternalLink"
           },
           {
-            "name": "SubMenu"
+            "name": "InternalLink"
           }
         ]
       },
@@ -60,13 +63,13 @@
       },
       {
         "kind": "UNION",
-        "name": "ExternalLinkOrInternalLink",
+        "name": "MenuLinkOrSubMenu",
         "possibleTypes": [
           {
-            "name": "ExternalLink"
+            "name": "MenuLink"
           },
           {
-            "name": "InternalLink"
+            "name": "SubMenu"
           }
         ]
       },

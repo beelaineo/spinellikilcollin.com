@@ -391,6 +391,7 @@ export interface RichPageLink {
 
 export interface RootQuery {
   __typename: 'RootQuery'
+  SiteSettings?: Maybe<SiteSettings>
   Menu?: Maybe<Menu>
   Homepage?: Maybe<Homepage>
   Page?: Maybe<Page>
@@ -399,6 +400,7 @@ export interface RootQuery {
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
   SanityFileAsset?: Maybe<SanityFileAsset>
+  allSiteSettings: Array<SiteSettings>
   allMenus: Array<Menu>
   allHomepages: Array<Homepage>
   allPages: Array<Page>
@@ -407,6 +409,10 @@ export interface RootQuery {
   allShopifyCollections: Array<ShopifyCollection>
   allSanityImageAssets: Array<SanityImageAsset>
   allSanityFileAssets: Array<SanityFileAsset>
+}
+
+export type RootQuerySiteSettingsArgs = {
+  id: Scalars['ID']
 }
 
 export type RootQueryMenuArgs = {
@@ -439,6 +445,12 @@ export type RootQuerySanityImageAssetArgs = {
 
 export type RootQuerySanityFileAssetArgs = {
   id: Scalars['ID']
+}
+
+export type RootQueryAllSiteSettingsArgs = {
+  where?: Maybe<SiteSettingsFilter>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
 }
 
 export type RootQueryAllMenusArgs = {
@@ -881,7 +893,6 @@ export interface ShopifyProduct extends Document {
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>
   variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
   info?: Maybe<Array<Maybe<ProductInfo>>>
-  displayShopifyImages?: Maybe<Scalars['Boolean']>
   contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
   related?: Maybe<Carousel>
 }
@@ -934,8 +945,6 @@ export type ShopifyProductFilter = {
   shopifyId_matches?: Maybe<Scalars['String']>
   shopifyId_in?: Maybe<Array<Scalars['String']>>
   shopifyId_not_in?: Maybe<Array<Scalars['String']>>
-  displayShopifyImages?: Maybe<Scalars['Boolean']>
-  displayShopifyImages_not?: Maybe<Scalars['Boolean']>
   is_draft?: Maybe<Scalars['Boolean']>
 }
 
@@ -1130,6 +1139,65 @@ export interface ShopifySourceSelectedOption {
   _type?: Maybe<Scalars['String']>
   name?: Maybe<Scalars['String']>
   value?: Maybe<Scalars['String']>
+}
+
+export interface SiteSettings extends Document {
+  __typename: 'SiteSettings'
+  _id: Scalars['ID']
+  _type: Scalars['String']
+  _createdAt: Scalars['DateTime']
+  _updatedAt: Scalars['DateTime']
+  _rev: Scalars['String']
+  _key?: Maybe<Scalars['String']>
+  links?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
+  mailerTitle?: Maybe<Scalars['String']>
+  mailerSubtitle?: Maybe<Scalars['String']>
+}
+
+export type SiteSettingsFilter = {
+  _id?: Maybe<Scalars['ID']>
+  _id_not?: Maybe<Scalars['ID']>
+  _id_matches?: Maybe<Scalars['String']>
+  _id_in?: Maybe<Array<Scalars['String']>>
+  _id_not_in?: Maybe<Array<Scalars['String']>>
+  _type?: Maybe<Scalars['String']>
+  _type_not?: Maybe<Scalars['String']>
+  _type_matches?: Maybe<Scalars['String']>
+  _type_in?: Maybe<Array<Scalars['String']>>
+  _type_not_in?: Maybe<Array<Scalars['String']>>
+  _createdAt?: Maybe<Scalars['DateTime']>
+  _createdAt_not?: Maybe<Scalars['DateTime']>
+  _createdAt_lt?: Maybe<Scalars['DateTime']>
+  _createdAt_lte?: Maybe<Scalars['DateTime']>
+  _createdAt_gt?: Maybe<Scalars['DateTime']>
+  _createdAt_gte?: Maybe<Scalars['DateTime']>
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  _updatedAt_not?: Maybe<Scalars['DateTime']>
+  _updatedAt_lt?: Maybe<Scalars['DateTime']>
+  _updatedAt_lte?: Maybe<Scalars['DateTime']>
+  _updatedAt_gt?: Maybe<Scalars['DateTime']>
+  _updatedAt_gte?: Maybe<Scalars['DateTime']>
+  _rev?: Maybe<Scalars['String']>
+  _rev_not?: Maybe<Scalars['String']>
+  _rev_matches?: Maybe<Scalars['String']>
+  _rev_in?: Maybe<Array<Scalars['String']>>
+  _rev_not_in?: Maybe<Array<Scalars['String']>>
+  _key?: Maybe<Scalars['String']>
+  _key_not?: Maybe<Scalars['String']>
+  _key_matches?: Maybe<Scalars['String']>
+  _key_in?: Maybe<Array<Scalars['String']>>
+  _key_not_in?: Maybe<Array<Scalars['String']>>
+  mailerTitle?: Maybe<Scalars['String']>
+  mailerTitle_not?: Maybe<Scalars['String']>
+  mailerTitle_matches?: Maybe<Scalars['String']>
+  mailerTitle_in?: Maybe<Array<Scalars['String']>>
+  mailerTitle_not_in?: Maybe<Array<Scalars['String']>>
+  mailerSubtitle?: Maybe<Scalars['String']>
+  mailerSubtitle_not?: Maybe<Scalars['String']>
+  mailerSubtitle_matches?: Maybe<Scalars['String']>
+  mailerSubtitle_in?: Maybe<Array<Scalars['String']>>
+  mailerSubtitle_not_in?: Maybe<Array<Scalars['String']>>
+  is_draft?: Maybe<Scalars['Boolean']>
 }
 
 export interface Slug {

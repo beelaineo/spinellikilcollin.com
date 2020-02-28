@@ -29,7 +29,6 @@ const productQuery = gql`
       shopifyId
       title
       handle
-      displayShopifyImages
       sourceData {
         id
         title

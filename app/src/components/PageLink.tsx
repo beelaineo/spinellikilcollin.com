@@ -4,7 +4,7 @@ import { RichPageLink, ExternalLink, InternalLink } from '../types'
 import { getPageLinkUrl, getPageLinkLabel } from '../utils/links'
 
 interface LinkProps {
-  link: RichPageLink | ExternalLink | InternalLink
+  link?: RichPageLink | ExternalLink | InternalLink | null
   children?: React.ReactNode
   label?: string
   render?: (label: string | void) => React.ReactNode

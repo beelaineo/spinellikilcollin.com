@@ -162,8 +162,15 @@ export const Li = styled(LiBase)`
 `
 
 export const Input = styled.input`
-  border: 1px solid body.6;
+  border: 1px solid;
+  border-color: body.4;
+  font-family: serif;
+  font-size: 4;
   width: 100%;
-  padding: 3;
-  text-transform: lowercase;
+  height: 32px;
+  padding: 0 3;
+
+  &:focus {
+    border-color: body.6;
+  }
 `
