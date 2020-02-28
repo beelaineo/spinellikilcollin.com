@@ -5,7 +5,7 @@ export const Wrapper = styled.nav`
   position: relative;
   z-index: nav;
   font-family: serif;
-  position: sticky;
+  position: fixed;
   top: 20px;
   left: 0;
   right: 0;

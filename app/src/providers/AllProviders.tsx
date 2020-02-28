@@ -2,19 +2,20 @@ import * as React from 'react'
 import fetch from 'isomorphic-unfetch'
 import { ThemeProvider } from '@xstyled/styled-components'
 import { ShopifyProvider } from 'use-shopify'
-// @ts-ignore
 import { DocumentNode } from 'graphql'
 import {
   createClient,
-  createRequest,
   Provider as UrqlProvider,
   dedupExchange,
   cacheExchange,
   ssrExchange,
   fetchExchange,
 } from 'urql'
-import { pipe, subscribe } from 'wonka'
-import { SHOPIFY_STOREFRONT_TOKEN, SANITY_GRAPHQL_URL } from '../config'
+import {
+  SHOPIFY_STOREFRONT_URL,
+  SHOPIFY_STOREFRONT_TOKEN,
+  SANITY_GRAPHQL_URL,
+} from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 
@@ -41,26 +42,41 @@ export const client = createClient({
   fetch,
 })
 
-function urqlQuery<Response>(
+const deduplicateFragments = (queryString: string) =>
+  queryString
+    .split(/\n\s+\n/)
+    .map((group) => group.replace(/^([\n\s])+/, '').replace(/\n+$/, ''))
+    .reduce<string[]>((acc, current) => {
+      if (acc.includes(current)) return acc
+      return [...acc, current]
+    }, [])
+    .join('\n\n')
+
+async function shopifyQuery<Response>(
   query: string | DocumentNode,
   variables: object,
 ): Promise<Response> {
-  return new Promise((resolve) => {
-    const request = createRequest(query, variables)
-
-    pipe(
-      // @ts-ignore
-      client.executeQuery(request),
-      // @ts-ignore TODO What's up with that? Well, soon urql will have an actual API for this
-      subscribe(resolve),
-    )
-  })
+  const queryString =
+    typeof query === 'string'
+      ? query
+      : //
+        // @ts-ignore
+        deduplicateFragments(query.loc.source.body)
+  const result = await fetch(SHOPIFY_STOREFRONT_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_TOKEN,
+    },
+    body: JSON.stringify({ query: queryString, variables }),
+  }).then((r) => r.json())
+  return result
 }
 
 export const Providers = ({ children }: Props) => {
   return (
     <UrqlProvider value={client}>
-      <ShopifyProvider query={urqlQuery}>
+      <ShopifyProvider query={shopifyQuery}>
         <ShopDataProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyles />

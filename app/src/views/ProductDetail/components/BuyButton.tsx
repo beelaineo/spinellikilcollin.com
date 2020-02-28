@@ -17,8 +17,9 @@ export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
       quantity: quantity || 1,
     })
   }
-  if (currentVariant && !currentVariant.availableForSale)
+  if (currentVariant && !currentVariant.availableForSale) {
     return <Placeholder>Out of stock</Placeholder>
+  }
   return (
     <Button disabled={Boolean(!currentVariant)} onClick={handleClick}>
       Add to cart

@@ -1,23 +1,12 @@
 import * as React from 'react'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
-import {
-  NormalizeDiv,
-  Button,
-  QuantitySelectorCart,
-} from '../ProductDetail/styled'
-import { QuantityInput } from '../../components/QuantityInput'
-import {
-  FlexContainer,
-  FlexHalf,
-  FlexThree,
-  FlexSix,
-} from '../../components/Layout/Flex'
+import { NormalizeDiv, Button } from '../ProductDetail/styled'
+import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
 import { Loading } from '../Navigation/styled'
 import { Heading } from '../../components/Text'
 import { CartBottom, CartInner } from '../../components/Cart'
 import { CheckoutProduct } from './CheckoutProduct'
-
-const { useState } = React
 
 /**
  * Main Checkout view
@@ -36,6 +25,8 @@ export const Checkout = () => {
     // @ts-ignore
     return <NormalizeDiv top="0">Your cart is empty</NormalizeDiv>
   }
+  const lineItems =
+    checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
 
   return (
     // @ts-ignore
@@ -44,12 +35,13 @@ export const Checkout = () => {
         Your cart
       </Heading>
       <CartInner>
-        {checkout.lineItems.edges.map((lineItem) => {
-          const { id, title, variant, quantity } = lineItem
+        {lineItems.map((lineItem) => {
           // const updateLineItemQuantity = createUpdateLineItemHandler(id)
           return (
             <CheckoutProduct
-              key={id}
+              // @ts-ignore
+              key={lineItem.id}
+              // @ts-ignore
               lineItem={lineItem}
               // updateLineItemQuantity={updateLineItemQuantity}
             />

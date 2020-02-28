@@ -1,5 +1,4 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
 import {
   ShopifySourceImage,
   Image as SanityImage,
@@ -27,6 +26,9 @@ interface ImageDetails {
 const getImageDetails = (
   image: ShopifySourceImage | SanityImage | RichImage,
 ): ImageDetails => {
+  // TODO: when use-shopify includes the __typename, the switch below will work
+  // @ts-ignore
+  if (image.originalSrc) return { src: image.originalSrc }
   switch (image.__typename) {
     case 'RichImage':
       return {
