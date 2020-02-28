@@ -18,6 +18,7 @@ import {
 } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
+import { CartProvider } from './CartProvider'
 
 /**
  * App
@@ -78,10 +79,12 @@ export const Providers = ({ children }: Props) => {
     <UrqlProvider value={client}>
       <ShopifyProvider query={shopifyQuery}>
         <ShopDataProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyles />
-            {children}
-          </ThemeProvider>
+          <CartProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyles />
+              {children}
+            </ThemeProvider>
+          </CartProvider>
         </ShopDataProvider>
       </ShopifyProvider>
     </UrqlProvider>

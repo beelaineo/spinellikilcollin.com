@@ -2,6 +2,7 @@ import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
 import { NormalizeDiv, Button } from '../ProductDetail/styled'
+import { useCart } from '../../providers/CartProvider'
 import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
 import { Heading } from '../../components/Text'
 import { CartBottom, CartInner } from '../../components/Cart'
@@ -13,7 +14,7 @@ import { CheckoutProduct } from './CheckoutProduct'
 
 export const Checkout = () => {
   /* State */
-  const values = useCheckout()
+  const { message } = useCart()
   const { checkout, loading } = useCheckout()
 
   // const createUpdateLineItemHandler = (lineItemId: string) => (quantity) => {
@@ -27,11 +28,20 @@ export const Checkout = () => {
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
 
+  const title = message || 'Your Cart'
+
+  // return (
+  //   <CartModal open={open}>
+  //
+  //   </CartModal>
+  //
+  // )
+
   return (
     // @ts-ignore
     <NormalizeDiv top="0">
-      <Heading level={3} color="dark" textAlign="center">
-        Your cart
+      <Heading level={2} color="dark" textAlign="center">
+        {title}
       </Heading>
       <CartInner>
         {lineItems.map((lineItem) => {

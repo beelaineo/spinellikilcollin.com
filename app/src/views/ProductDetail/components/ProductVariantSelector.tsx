@@ -22,7 +22,6 @@ export const ProductVariantSelector = (props: Props) => {
   if (!variants || !variants.length) return null
 
   const { options } = product
-  console.log(variants, currentVariant)
 
   return (
     <Box mt={6} mb={3}>

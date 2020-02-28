@@ -1,5 +1,16 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
+interface CartModalProps {
+  open: boolean
+}
+
+export const CartModal = styled.div`
+  ${({ open }: CartModalProps) => css`
+    opacity: ${open ? '1' : '0'};
+    pointer-events; ${open ? 'initial' : 'none'};
+  `}
+`
+
 export const CheckoutProductWrapper = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;

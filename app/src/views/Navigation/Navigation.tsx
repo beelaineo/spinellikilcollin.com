@@ -4,6 +4,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { useReducer } from 'react'
 import { useCheckout } from 'use-shopify'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useCart } from '../../providers/CartProvider'
 import { CartSidebar, CloseButton } from '../../components/Cart'
 import { Checkout } from '../Cart/Checkout'
 import { Heading } from '../../components/Text'
@@ -20,29 +21,16 @@ import {
 } from './styled'
 import { NavigationInner } from './NavigationInner'
 
-interface MenuProps {
-  activeMenu: null | string
-  openMenu: (menuKey: null | string) => () => void
-  closeMenu: () => void
-}
-
 interface NavState {
-  cartOpen: boolean
   menuOpen: boolean
   currentSubmenuKey: string | void
 }
 
-const OPEN_CART = 'OPEN_CART'
-const CLOSE_CART = 'CLOSE_CART'
 const OPEN_MENU = 'OPEN_MENU'
 const CLOSE_MENU = 'CLOSE_MENU'
 
 interface Action {
-  type:
-    | typeof OPEN_MENU
-    | typeof OPEN_CART
-    | typeof CLOSE_MENU
-    | typeof CLOSE_CART
+  type: typeof OPEN_MENU | typeof CLOSE_MENU
   [key: string]: any
 }
 
@@ -59,17 +47,6 @@ function navReducer(currentState: NavState, action: Action): NavState {
         ...currentState,
         menuOpen: false,
       }
-
-    case OPEN_CART:
-      return {
-        ...currentState,
-        cartOpen: true,
-      }
-    case CLOSE_CART:
-      return {
-        ...currentState,
-        cartOpen: false,
-      }
     default:
       throw new Error(`"${action.type}" is not a valid action type`)
   }
@@ -78,31 +55,27 @@ function navReducer(currentState: NavState, action: Action): NavState {
 export const Navigation = () => {
   /* State from Providers */
   const { loading, checkout } = useCheckout()
-  const { ready, menu } = useShopData()
+  const { menu } = useShopData()
+  const { open: cartOpen, openCart, closeCart } = useCart()
 
   /* State */
-  const [{ cartOpen, menuOpen, currentSubmenuKey }, dispatch] = useReducer(
-    navReducer,
-    {
-      cartOpen: false,
-      menuOpen: false,
-      currentSubmenuKey: undefined,
-    },
-  )
+  const [state, dispatch] = useReducer(navReducer, {
+    menuOpen: false,
+    currentSubmenuKey: undefined,
+  })
+
+  const { menuOpen } = state
 
   /* Handlers */
-  const openCart = () => dispatch({ type: OPEN_CART })
-  const closeCart = () => dispatch({ type: CLOSE_CART })
 
   const openMenu = () => dispatch({ type: OPEN_MENU })
   const closeMenu = () => dispatch({ type: CLOSE_MENU })
   const toggleMenu = () => (menuOpen ? closeMenu() : openMenu())
+  const openCartHandler = () => openCart()
 
   /* Parsing */
-  const menuItems = menu?.menuItems || []
-  const submenus = menuItems.filter((mi) => mi && mi.__typename === 'SubMenu')
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
-  const cartCount = loading ? null : lineItems.length || null
+  const cartCount = loading ? 0 : lineItems.length || 0
 
   return (
     <Wrapper>
@@ -123,7 +96,7 @@ export const Navigation = () => {
             <Logo src="/static/images/sk-logotype.svg" />
           </a>
         </Link>
-        <CartButtonWrapper isLoading={loading} onClick={openCart}>
+        <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
           {cartCount ? (
             <CartBadge>
               <Heading level={4}>{cartCount}</Heading>
