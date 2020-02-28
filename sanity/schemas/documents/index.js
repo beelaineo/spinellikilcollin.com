@@ -1,3 +1,4 @@
+export * from './siteSettings'
 export * from './menu'
 export * from './homepage'
 export * from './page'
