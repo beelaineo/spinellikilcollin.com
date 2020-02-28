@@ -3,7 +3,6 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
 import { NormalizeDiv, Button } from '../ProductDetail/styled'
 import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
-import { Loading } from '../Navigation/styled'
 import { Heading } from '../../components/Text'
 import { CartBottom, CartInner } from '../../components/Cart'
 import { CheckoutProduct } from './CheckoutProduct'
@@ -50,31 +49,26 @@ export const Checkout = () => {
       </CartInner>
 
       <CartBottom>
-        <Loading
+        <FlexContainer
           // @ts-ignore
-          loading={loading}
+          width="100%"
         >
-          <FlexContainer
-            // @ts-ignore
-            width="100%"
-          >
-            <FlexHalf>
-              <Heading level={5} textTransform="uppercase" weight={2}>
-                Subtotal:
-              </Heading>
-            </FlexHalf>
-            <FlexHalf>
-              <Heading
-                level={5}
-                textAlign="right"
-                textTransform="uppercase"
-                weight={2}
-              >
-                ${checkout.paymentDueV2.amount}
-              </Heading>
-            </FlexHalf>
-          </FlexContainer>
-        </Loading>
+          <FlexHalf>
+            <Heading level={5} textTransform="uppercase" weight={2}>
+              Subtotal:
+            </Heading>
+          </FlexHalf>
+          <FlexHalf>
+            <Heading
+              level={5}
+              textAlign="right"
+              textTransform="uppercase"
+              weight={2}
+            >
+              ${checkout.paymentDueV2.amount}
+            </Heading>
+          </FlexHalf>
+        </FlexContainer>
         <NormalizeDiv align="center">
           <Button
             as="a"

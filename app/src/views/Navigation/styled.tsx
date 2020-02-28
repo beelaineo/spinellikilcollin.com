@@ -114,17 +114,32 @@ interface LoadingProps {
   isLoading?: boolean
 }
 
-export const Loading = styled.div`
+export const CartButtonWrapper = styled.button`
   ${({ isLoading }: LoadingProps) => css`
     opacity: ${isLoading ? '0.5' : '1'};
+    position: relative;
     transition: 250ms ease;
     display: flex;
-
-    div:nth-child(1) {
-      margin-right: 2;
-      padding-top: 1px;
+    align-items: center;
+    justify-self: end;
+    svg {
+      display: inline-block;
     }
   `}
+`
+
+export const CartBadge = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: -10px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  background-color: body.8;
+  color: body.0;
+  border-radius: 20px;
 `
 
 interface SideNavigation {

@@ -90,6 +90,7 @@ export const ProductDetail = ({ product }: Props) => {
             <ProductVariantSelector
               // @ts-ignore
               variants={variants}
+              currentVariant={currentVariant}
               changeValueForOption={changeValueForOption}
               product={product}
             />

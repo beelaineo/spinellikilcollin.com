@@ -6,6 +6,7 @@ import { ProductOptionSelector } from './ProductOptionSelector'
 interface Props {
   variants: ShopifyProductVariant[] | null
   product: ShopifyProduct
+  currentVariant: ShopifyProductVariant
   changeValueForOption: (id: string) => (value: string) => void
 }
 
@@ -17,10 +18,11 @@ interface Props {
  */
 
 export const ProductVariantSelector = (props: Props) => {
-  const { variants, changeValueForOption, product } = props
+  const { variants, changeValueForOption, product, currentVariant } = props
   if (!variants || !variants.length) return null
 
   const { options } = product
+  console.log(variants, currentVariant)
 
   return (
     <Box mt={6} mb={3}>
@@ -29,6 +31,8 @@ export const ProductVariantSelector = (props: Props) => {
             option ? (
               <ProductOptionSelector
                 changeValueForOption={changeValueForOption}
+                variants={variants}
+                currentVariant={currentVariant}
                 key={option._key || 'some-key'}
                 option={option}
               />

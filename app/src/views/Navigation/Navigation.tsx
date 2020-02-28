@@ -6,19 +6,18 @@ import { useCheckout } from 'use-shopify'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { CartSidebar, CloseButton } from '../../components/Cart'
 import { Checkout } from '../Cart/Checkout'
+import { Heading } from '../../components/Text'
+import Cart from '../../svg/Cart.svg'
 import {
   Wrapper,
   Inner,
-  NavSection,
-  NavHeader,
-  NavHeaderWrapper,
+  CartBadge,
   Logo,
   ModalBackground,
-  Loading,
+  CartButtonWrapper,
   Hamburger,
   SideNavigation,
 } from './styled'
-import { IoIosCart } from 'react-icons/io'
 import { NavigationInner } from './NavigationInner'
 
 interface MenuProps {
@@ -108,7 +107,7 @@ export const Navigation = () => {
   return (
     <Wrapper>
       <Inner>
-        <NavSection ready={ready}>
+        <div>
           <Hamburger onClick={toggleMenu} open={menuOpen}>
             <span></span>
             <span></span>
@@ -117,36 +116,21 @@ export const Navigation = () => {
           <SideNavigation open={menuOpen}>
             <NavigationInner menu={menu} />
           </SideNavigation>
-        </NavSection>
+        </div>
 
         <Link href="/">
           <a>
             <Logo src="/static/images/sk-logotype.svg" />
           </a>
         </Link>
-        <NavSection ready={ready} align="right">
-          <NavHeaderWrapper>
-            <NavHeader as="button" onClick={openCart}>
-              <Loading isLoading={loading}>
-                <div>
-                  <IoIosCart />
-                </div>
-                <div>
-                  {cartCount ? (
-                    <>
-                      {cartCount}
-                      {cartCount === 1
-                        ? ' item'
-                        : cartCount >= 2
-                        ? ' items'
-                        : ''}
-                    </>
-                  ) : null}
-                </div>
-              </Loading>
-            </NavHeader>
-          </NavHeaderWrapper>
-        </NavSection>
+        <CartButtonWrapper isLoading={loading} onClick={openCart}>
+          {cartCount ? (
+            <CartBadge>
+              <Heading level={4}>{cartCount}</Heading>
+            </CartBadge>
+          ) : null}
+          <Cart />
+        </CartButtonWrapper>
       </Inner>
       <ModalBackground open={cartOpen} onClick={closeCart} />
       <CartSidebar open={cartOpen}>
