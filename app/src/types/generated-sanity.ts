@@ -815,6 +815,7 @@ export interface ShopifyCollection extends Document {
   handle?: Maybe<Scalars['String']>
   shopifyId?: Maybe<Scalars['String']>
   products?: Maybe<Array<Maybe<ShopifyProduct>>>
+  hero?: Maybe<Hero>
   sourceData?: Maybe<ShopifySourceCollection>
 }
 

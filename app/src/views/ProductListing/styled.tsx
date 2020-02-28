@@ -1,5 +1,13 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
+export const Wrapper = styled.div`
+  position: relative;
+  margin: 0 auto 6;
+  font-family: serif;
+  padding: 0;
+  background-color: body.2;
+`
+
 export const OverLay = styled.div`
   padding: 7;
   > div {
@@ -57,7 +65,6 @@ export const ProductGrid = styled.div`
     grid-column-gap: 6;
     grid-row-gap: 6;
     padding: 6;
-    background-color: body.3;
     > a {
       text-decoration: none;
     }

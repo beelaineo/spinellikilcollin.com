@@ -50,6 +50,7 @@ interface ProductListingFilterProps {
 export const ProductListingFilter = ({
   collection,
 }: ProductListingFilterProps) => {
+  return null
   const [open, toggleOpen] = useState(false)
 
   const toggleFilter = () => {

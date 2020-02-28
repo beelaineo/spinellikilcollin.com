@@ -2,7 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { ShopifyCollection } from '../../src/types'
 import { NotFound, ProductListing } from '../../src/views'
-import { shopifySourceImageFragment } from '../../src/graphql'
+import { shopifySourceImageFragment, heroFragment } from '../../src/graphql'
 
 interface CollectionQueryResult {
   allShopifyCollections: [ShopifyCollection]
@@ -17,6 +17,9 @@ export const collectionQuery = gql`
       title
       handle
       shopifyId
+      hero {
+        ...HeroFragment
+      }
       products {
         _id
         _key
@@ -51,6 +54,7 @@ export const collectionQuery = gql`
     }
   }
 
+  ${heroFragment}
   ${shopifySourceImageFragment}
 `
 

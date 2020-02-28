@@ -43,10 +43,12 @@ interface WithColumnCount {
 }
 
 export const SlideContainer = styled.div`
-  ${({ columnCount }: WithColumnCount) => css`
+  ${({ theme, columnCount }: WithColumnCount) => css`
     height: 100%;
     text-align: center;
-    width: calc((100% - (5 * ${columnCount - 1})) / ${columnCount});
+    width: calc(
+      (100% - (${theme.space[5]}px * ${columnCount - 1})) / ${columnCount}
+    );
     margin: 0 3;
     display: inline-flex;
     align-items: center;

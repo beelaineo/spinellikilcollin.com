@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
-import { useQuery } from 'urql'
 import { ShopifyCollection } from '../../types'
-import { ProductGrid } from './styled'
+import { ProductGrid, Wrapper } from './styled'
 import { ProductThumbnail } from '../../components/Product'
+import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { ProductListingHeader } from './ProductListingHeader'
 import { ProductListingFilter } from './ProductListingFilter'
 
@@ -13,22 +12,27 @@ interface ProductListingProps {
 
 export const ProductListing = ({ collection }: ProductListingProps) => {
   const products = collection.products
+  console.log(collection)
+  const { hero } = collection
   return (
-    <React.Fragment>
+    <Wrapper>
       <ProductListingFilter collection={collection} />
+      {hero ? <HeroBlock hero={hero} /> : null}
+
       <ProductListingHeader collection={collection} />
       <ProductGrid>
         {products
           ? products.map((product) =>
               product ? (
                 <ProductThumbnail
-                  key={product._key || 'some-key'}
+                  displayPrice
+                  key={product._id || 'some-key'}
                   product={product}
                 />
               ) : null,
             )
           : null}
       </ProductGrid>
-    </React.Fragment>
+    </Wrapper>
   )
 }
