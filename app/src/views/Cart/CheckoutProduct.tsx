@@ -4,7 +4,11 @@ import { QuantityInput } from '../../components/QuantityInput'
 import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'
 import { IoMdClose } from 'react-icons/io'
-import { CheckoutProductWrapper, RemoveCart } from './styled'
+import {
+  CheckoutProductWrapper,
+  CheckoutItemDetails,
+  RemoveCart,
+} from './styled'
 import { formatMoney } from '../../utils/currency'
 import { StorefrontApiCheckoutLineItem } from '../../types'
 
@@ -31,39 +35,30 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     setHover('invisible')
   }
 
+  console.log(lineItem)
   return (
     <CheckoutProductWrapper onMouseOver={updateHover} onMouseOut={removeHover}>
       <Image image={variant.image} />
-      <Heading level={5} weight={2} color="dark">
-        {title}
-      </Heading>
-      <div>
-        <Heading level={5} weight={5} color="dark">
+      <CheckoutItemDetails>
+        <Heading level={5} weight={2} color="dark" textTransform="uppercase">
+          {title}
+        </Heading>
+        <Heading level={5} weight={2} color="dark" textTransform="uppercase">
           {formatMoney(variant.priceV2)}
         </Heading>
-        <QuantitySelectorCart className={hovered} width="40px">
-          Quantity: {'     '}
-          <button
-            type="button"
-            onClick={() => updateLineItemQuantity(quantity - 1)}
-          >
-            <span>&#8722;</span>
-          </button>
+        <QuantitySelectorCart className={hovered}>
+          <Heading weight={2} color="dark" level={5}>
+            Quantity: {'     '}
+          </Heading>
           <QuantityInput
             quantity={quantity}
             setQuantity={updateLineItemQuantity}
           />
-          <button
-            type="button"
-            onClick={() => updateLineItemQuantity(quantity + 1)}
-          >
-            <span>&#43;</span>
-          </button>
         </QuantitySelectorCart>
-      </div>
-      <RemoveCart onClick={() => updateLineItemQuantity(0)}>
-        <IoMdClose className={hovered} />
-      </RemoveCart>
+        <RemoveCart onClick={() => updateLineItemQuantity(0)}>
+          <IoMdClose className={hovered} />
+        </RemoveCart>
+      </CheckoutItemDetails>
     </CheckoutProductWrapper>
   )
 }

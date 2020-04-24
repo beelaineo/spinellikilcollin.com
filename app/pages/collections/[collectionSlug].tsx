@@ -78,8 +78,6 @@ Collection.getInitialProps = async (ctx: any) => {
     query: collectionQuery,
     variables,
   })
-  console.log(variables)
-  console.log(response.data)
 
   const collections = response?.data?.allShopifyCollections
   const collection = collections.length ? collections[0] : undefined

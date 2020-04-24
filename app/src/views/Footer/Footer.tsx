@@ -58,36 +58,3 @@ export const Footer = () => {
     </FooterWrapper>
   )
 }
-
-// return (
-//   <FooterWrapper>
-//
-//     <div className="footer-inner">
-//       <div className="upper-footer">
-//         <div>
-//           <ul>
-//             <li>About</li>
-//             <li>Contact</li>
-//             <li>Press</li>
-//             <li>.925</li>
-//           </ul>
-//         </div>
-//         <div>
-//           <ul>
-//             <li>Shipping & Returns</li>
-//             <li>SK Ethics</li>
-//             <li>Diamond Education</li>
-//             <li>Find Us</li>
-//           </ul>
-//         </div>
-//         <div className="footer-newsletter">
-//           <h2>Keep In Touch</h2>
-//           <p>Hear about our new releases, and learn more about our world. </p>
-//           <Input type="text" placeholder="Email Address" />
-//           <button type="submit">
-//             <FaLongArrowAltRight />
-//           </button>
-//         </div>
-//       </div>
-//   </FooterWrapper>
-// )

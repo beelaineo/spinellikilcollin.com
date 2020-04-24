@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { UseCounterValues } from '../utils/hooks'
 import { $PropertyType } from 'utility-types'
+import { Input } from './Forms'
 
 interface Props {
   quantity: $PropertyType<UseCounterValues, 'count'>
@@ -11,7 +12,7 @@ export const QuantityInput = (props: Props) => {
   const [tempInput, setTempInput] = React.useState<string | void>(undefined)
   const { quantity, setQuantity } = props
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     const { value } = e.target
     if (value === '' || value === '-') {
       setTempInput(value)
@@ -27,5 +28,5 @@ export const QuantityInput = (props: Props) => {
 
   const value = tempInput !== undefined ? tempInput : quantity
 
-  return <input type="text" onChange={handleInputChange} value={value || ''} />
+  return <Input type="text" onChange={handleInputChange} value={value || ''} />
 }

@@ -192,12 +192,6 @@ interface QuantitySelectorProps {
 }
 
 export const QuantitySelector = styled.div`
-  ${(props: QuantitySelectorProps) => css`
-    input[type='text'] {
-      min-width: ${props.width ? props.width : 'initial'};
-      max-width: ${props.width ? props.width : 'initial'};
-    }
-  `}
   button {
     text-align-last: center;
     height: 50px;
@@ -224,29 +218,9 @@ export const QuantitySelector = styled.div`
 `
 
 export const QuantitySelectorCart = styled(QuantitySelector)`
-  button {
-    text-align-last: center;
-    height: 2rem;
-    border: 1px solid body.1;
-    border-radius: 0;
-    -webkit-transition: 0.2s;
-    transition: 0.2s;
-    font-size: 0.85rem;
-    cursor: pointer;
-    -moz-appearance: none;
-    appearance: none;
-    -webkit-appearance: none;
-    border: none;
-    background: none;
-    border-radius: 0;
-    border: 1px solid body.1;
-    padding: 0.5rem 0.5rem;
-    font-family: sans-serif;
-  }
-  input {
-    text-align: center;
-    width: 2px;
-  }
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 `
 
 export const Label = styled.label`

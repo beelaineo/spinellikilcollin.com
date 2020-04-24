@@ -1,12 +1,11 @@
 import { RichPageLink, ExternalLink, InternalLink } from '../types'
-import { path } from 'ramda'
 
 type LinkType = RichPageLink | ExternalLink | InternalLink
 
 export const getPageLinkLabel = (link: LinkType): string | void =>
   link.__typename === 'ExternalLink'
     ? undefined
-    : path(['document', 'title'], link)
+    : link?.document?.title || undefined
 
 export const getPageLinkUrl = (link: LinkType): string | void => {
   // If it is an external link, return the URL

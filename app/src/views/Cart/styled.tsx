@@ -13,7 +13,7 @@ export const CartModal = styled.div`
 
 export const CheckoutProductWrapper = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   grid-gap: 1;
   margin: 2;
 `
@@ -24,26 +24,12 @@ export const CheckoutItem = styled.div`
   margin: 3;
 `
 
-export const CheckoutItemImage = styled.img`
-  flex: 1 1 33%;
-  max-width: 33%;
-`
-
-export const CheckoutItemInfo = styled.div`
-  margin: 3;
-  flex: 6;
-`
-
-export const CheckoutPrice = styled.div`
+export const CheckoutItemDetails = styled.div`
   display: flex;
-  justify-content: space-between;
-
-  & > div {
-    flex-basis: 50%;
-  }
+  flex-direction: column;
 `
 
-export const RemoveCart = styled.div`
+export const RemoveCart = styled.button`
   &:hover {
     cursor: pointer;
   }

@@ -3,7 +3,8 @@ import styled from '@xstyled/styled-components'
 export const Select = styled.select`
   height: 32px;
   width: 100%;
-  border: 2px solid #d8d8d8;
+  border: 2px solid;
+  border-color: body.6;
   border-radius: 0;
   transition: 0.2s;
   font-size: 1rem;
@@ -26,4 +27,17 @@ export const Select = styled.select`
     color: body.7;
     font-family: serif;
   }
+`
+
+export const Input = styled.input`
+  font-size: 4;
+  font-family: serif;
+  border: 1px solid currentColor;
+  border-color: body.7;
+  padding: 2 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 32px;
+  min-width: 32px;
 `
