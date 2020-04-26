@@ -2780,6 +2780,13 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
+"@good-idea/leaky-bucket@^3.1.2":
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/@good-idea/leaky-bucket/-/leaky-bucket-3.1.2.tgz#f3911d9db3bf014c242a2cee1a01ace8c01b46b6"
+  integrity sha512-oyx4p5GcEYC2+Ol1JxaEb3cx5doDpDJfdPD083UCs2torlQoEllywCZzPlwTC5RK8JmR80fjQTM7JuLbt4WF3g==
+  dependencies:
+    debug "^4.1.1"
+
 "@good-idea/unwind-edges@^1.1.3":
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/@good-idea/unwind-edges/-/unwind-edges-1.1.3.tgz#a2ab0983e058f564f6f3ac8c945c68268108a664"
@@ -4510,28 +4517,30 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sane-shopify/sanity-plugin@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@sane-shopify/sanity-plugin/-/sanity-plugin-0.10.2.tgz#f2f6fce0f88e528d2903035758a8121b4a1028dd"
-  integrity sha512-3dS7J/ePUmJpv1IWdwnWFaHTnqIwEWQ9TTb2qsUUenoAKrR+xszszSTKb+vuvMKu41+P1K2mbl41SQvpBgcyew==
+"@sane-shopify/sanity-plugin@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/@sane-shopify/sanity-plugin/-/sanity-plugin-0.11.1.tgz#ed8a52517bc0b30f2c6957f3716227809fcd231b"
+  integrity sha512-ToPhVthBBWvoO8Kqa73XmZOgSeSJ8nS/SiDZ5/ISNw+dUbOuxcznKz+mx5Bd3qZ4ImlyUOAMinipsO87vJP/cw==
   dependencies:
     "@good-idea/unwind-edges" "^1.3.0"
-    "@sane-shopify/sync-utils" "^0.10.2"
-    "@sane-shopify/types" "^0.10.1"
+    "@sane-shopify/sync-utils" "^0.11.0"
+    "@sane-shopify/types" "^0.11.0"
     "@sanity/base" "^1.149.10"
     "@sanity/components" "^1.149.10"
     "@sanity/form-builder" "^1.149.7"
     lodash "^4.17.15"
     react-icons "^3.9.0"
 
-"@sane-shopify/sync-utils@^0.10.2":
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/@sane-shopify/sync-utils/-/sync-utils-0.10.2.tgz#221800426b7b351461f4b207deda5a95f88b0c89"
-  integrity sha512-A+GT69CN8kGTIXsBFfohrsSL4mSdMQbvcDAF0YRnLeJpiBA3IsV/OcQkvH5oxu9xCy1t1yjDfPzOaqG+8tYrqw==
+"@sane-shopify/sync-utils@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@sane-shopify/sync-utils/-/sync-utils-0.11.0.tgz#ac4dcc8ba83e5c2c3498ef7c24b1f7b307b64c3d"
+  integrity sha512-yaiLKP61OCOzEnj6v3VPukkvR8N8IW3yS5iNq0l2ggYExGcWzxEmtcc1axoPTNHGDoffXFI9k12p3PZHl98EsA==
   dependencies:
+    "@good-idea/leaky-bucket" "^3.1.2"
     "@good-idea/unwind-edges" "^1.3.0"
-    "@sane-shopify/types" "^0.10.1"
+    "@sane-shopify/types" "^0.11.0"
     "@sanity/client" "^1.149.7"
+    axios "^0.19.2"
     debug "^4.1.1"
     es6-promise "^4.2.8"
     graphql-tag "^2.10.3"
@@ -4539,10 +4548,10 @@
     p-queue "^6.3.0"
     xstate "^4.9.0"
 
-"@sane-shopify/types@^0.10.1":
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/@sane-shopify/types/-/types-0.10.1.tgz#d32de3b7a0f5fe4f06263533bde70e49f7bdb297"
-  integrity sha512-a4EEBuD1uDrpDnTdwtUJoQn1kdeJmfSjUg8itS1cXPyfoP6UJ3yUQeRUSpMHI5SlZyP1yMIwnJWmBFUgHYpevA==
+"@sane-shopify/types@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@sane-shopify/types/-/types-0.11.0.tgz#1b7cd7b2afdc69992b45e8d3b5c54a7055a1df52"
+  integrity sha512-yY03B/Kh5JL6PZvItXgSXrIdQL+nP2NYeex1Y2c5DSjH1K2QZ59Fo+jiTGiYGnn+fXPGF+AXUQALPs1TIzVafA==
 
 "@sanity/base@1.149.10", "@sanity/base@^1.149.10":
   version "1.149.10"
@@ -7251,6 +7260,13 @@ axios@^0.19.0:
   dependencies:
     follow-redirects "1.5.10"
     is-buffer "^2.0.2"
+
+axios@^0.19.2:
+  version "0.19.2"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.19.2.tgz#3ea36c5d8818d0d5f8a8a97a6d36b86cdc00cb27"
+  integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
+  dependencies:
+    follow-redirects "1.5.10"
 
 axobject-query@^2.0.2:
   version "2.0.2"
@@ -10903,10 +10919,10 @@ eslint-config-prettier@^6.10.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-config-prettier@^6.10.1:
-  version "6.10.1"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.10.1.tgz#129ef9ec575d5ddc0e269667bf09defcd898642a"
-  integrity sha512-svTy6zh1ecQojvpbJSgH3aei/Rt7C6i090l5f2WQ4aB05lYHeZIR1qL4wZyyILTbtmnbHP5Yn8MrsOJMGa8RkQ==
+eslint-config-prettier@^6.11.0:
+  version "6.11.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-6.11.0.tgz#f6d2238c1290d01c859a8b5c1f7d352a0b0da8b1"
+  integrity sha512-oB8cpLWSAjOVFEJhhyMZh6NOEOtBVziaqdDQ86+qhDHFbZXoRTM7pNSvFRfW/W/L/LrQ38C99J5CGuRBBzBsdA==
   dependencies:
     get-stdin "^6.0.0"
 
@@ -20199,6 +20215,13 @@ react-icons@^2.2.7:
   integrity sha512-0n4lcGqzJFcIQLoQytLdJCE0DKSA9dkwEZRYoGrIDJZFvIT6Hbajx5mv9geqhqFiNjUgtxg8kPyDfjlhymbGFg==
   dependencies:
     react-icon-base "2.1.0"
+
+react-icons@^3.10.0:
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/react-icons/-/react-icons-3.10.0.tgz#6c217a2dde2e8fa8d293210023914b123f317297"
+  integrity sha512-WsQ5n1JToG9VixWilSo1bHv842Cj5aZqTGiS3Ud47myF6aK7S/IUY2+dHcBdmkQcCFRuHsJ9OMUI0kTDfjyZXQ==
+  dependencies:
+    camelcase "^5.0.0"
 
 react-icons@^3.7.0:
   version "3.7.0"
