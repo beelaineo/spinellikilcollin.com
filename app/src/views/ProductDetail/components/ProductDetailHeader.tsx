@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { formatMoney } from '../../../utils/currency'
 import { ShopifyProduct, ShopifySourceProductVariant } from '../../../types'
-import { TitleWrapper, AffirmWrapper } from '../styled'
+import { TitleWrapper } from '../styled'
+import { Affirm } from './Affirm'
 import { Heading } from '../../../components/Text'
 
 interface ProductDetailHeaderProps {
@@ -35,6 +36,7 @@ export const ProductDetailHeader = ({
   currentVariant,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(currentVariant)
+  console.log(currentVariant)
   return (
     <>
       <TitleWrapper>
@@ -52,11 +54,7 @@ export const ProductDetailHeader = ({
           </Heading>
         ) : null}
       </TitleWrapper>
-      <AffirmWrapper>
-        <Heading level={4} weight={2} my={2}>
-          Prequalify with Affirm. Todo.
-        </Heading>
-      </AffirmWrapper>
+      <Affirm currentVariant={currentVariant} />
     </>
   )
 }
