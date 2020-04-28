@@ -11,3 +11,5 @@ yalc.lock
 sanity/dist
 
 yarn-error.log
+.now
+.env*
