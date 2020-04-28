@@ -24,13 +24,13 @@ export const PageLink = ({ link, children, render, label }: LinkProps) => {
   // if no link, just return the children un-wrapped
   if (!link) return <>{children}</>
 
-  const linkTo = getPageLinkUrl(link)
-  if (!linkTo) {
+  const { href, as } = getPageLinkUrl(link) || {}
+  if (!href) {
     console.warn('Could not make a link', { link })
     return null
   }
 
-  const isExternal = linkTo.startsWith('http')
+  const isExternal = href.startsWith('http')
 
   const inner = () => {
     const inferredLabel = getPageLinkLabel(link)
@@ -43,14 +43,14 @@ export const PageLink = ({ link, children, render, label }: LinkProps) => {
 
   if (isExternal) {
     return (
-      <a href={linkTo} rel="noopener noreferrer" target="_blank">
+      <a href={href} rel="noopener noreferrer" target="_blank">
         {inner()}
       </a>
     )
   }
 
   return (
-    <NextLink href={linkTo}>
+    <NextLink as={as} href={href}>
       <a style={linkStyles}>{inner()}</a>
     </NextLink>
   )

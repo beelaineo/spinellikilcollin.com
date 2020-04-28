@@ -6,7 +6,6 @@ import { Heading } from '../Text'
 import { RichText } from '../RichText'
 import { PageLink } from '../PageLink'
 import { Image, HoverImage } from '../Image'
-import { getPageLinkUrl } from '../../utils'
 import {
   getFlexJustification,
   getFlexAlignment,

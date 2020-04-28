@@ -36,7 +36,6 @@ export const ProductDetailHeader = ({
   currentVariant,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(currentVariant)
-  console.log(currentVariant)
   return (
     <>
       <TitleWrapper>

@@ -26,7 +26,7 @@ export const Affirm = ({ currentVariant }: AffirmProps) => {
       // @ts-ignore
       window.affirm.ui.refresh()
     }
-  }, [isMounted, currentVariant])
+  }, [isMounted, price])
 
   if (!price) return null
   if (!isMounted) return null

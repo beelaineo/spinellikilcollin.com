@@ -14,7 +14,7 @@ export const CollectionThumbnail = ({
 }: CollectionThumbnailProps) => {
   const to = `/collections/${collection.handle}`
   return (
-    <Link href={to}>
+    <Link href="/collections/[collectionSlug]" as={to}>
       <a>
         <ImageWrapper>
           <Image image={collection?.sourceData?.image} ratio={1} />

@@ -34,6 +34,7 @@ export const TitleWrapper = styled.div`
 
 export const AffirmWrapper = styled.div`
   ${({ theme }) => css`
+    min-height: 28px;
     ${theme.mediaQueries.tablet} {
       grid-row: 3;
       margin: 0 auto;

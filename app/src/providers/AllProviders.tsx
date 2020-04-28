@@ -4,14 +4,6 @@ import { ThemeProvider } from '@xstyled/styled-components'
 import { ShopifyProvider } from 'use-shopify'
 import { DocumentNode } from 'graphql'
 import {
-  createClient,
-  Provider as UrqlProvider,
-  dedupExchange,
-  cacheExchange,
-  ssrExchange,
-  fetchExchange,
-} from 'urql'
-import {
   SHOPIFY_STOREFRONT_URL,
   SHOPIFY_STOREFRONT_TOKEN,
   SANITY_GRAPHQL_URL,
@@ -34,14 +26,6 @@ interface Props {
 
 // @ts-ignore
 const isServer = typeof window !== 'object' || process.browser
-
-const ssrCache = ssrExchange({ isClient: !isServer })
-
-export const client = createClient({
-  url: SANITY_GRAPHQL_URL,
-  exchanges: [dedupExchange, cacheExchange, ssrCache, fetchExchange],
-  fetch,
-})
 
 const deduplicateFragments = (queryString: string) =>
   queryString
@@ -76,17 +60,15 @@ async function shopifyQuery<Response>(
 
 export const Providers = ({ children }: Props) => {
   return (
-    <UrqlProvider value={client}>
-      <ShopifyProvider query={shopifyQuery}>
-        <ShopDataProvider>
-          <CartProvider>
-            <ThemeProvider theme={theme}>
-              <GlobalStyles />
-              {children}
-            </ThemeProvider>
-          </CartProvider>
-        </ShopDataProvider>
-      </ShopifyProvider>
-    </UrqlProvider>
+    <ShopifyProvider query={shopifyQuery}>
+      <ShopDataProvider>
+        <CartProvider>
+          <ThemeProvider theme={theme}>
+            <GlobalStyles />
+            {children}
+          </ThemeProvider>
+        </CartProvider>
+      </ShopDataProvider>
+    </ShopifyProvider>
   )
 }

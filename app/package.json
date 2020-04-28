@@ -76,7 +76,6 @@
 		"react-router-dom": "^5.1.2",
 		"react-swipeable": "^5.5.1",
 		"styled-components": "^5.0.1",
-		"urql": "^1.9.0",
 		"use-shopify": "^0.7.0",
 		"utf-8-validate": "^5.0.2"
 	},

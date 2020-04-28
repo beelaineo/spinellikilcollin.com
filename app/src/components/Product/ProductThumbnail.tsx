@@ -28,7 +28,7 @@ export const ProductThumbnail = ({
   const tags = product?.sourceData?.tags
   return (
     <ProductThumb>
-      <Link href={`/products/${product.handle}`}>
+      <Link href="/products/[productSlug]" as={`/products/${product.handle}`}>
         <a>
           <BackgroundImage key={product._id} imageSrc={imageSrc} />
           <ProductContainer style={{ display: 'none' }}>

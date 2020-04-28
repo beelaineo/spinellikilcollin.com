@@ -2,15 +2,20 @@ import { RichPageLink, ExternalLink, InternalLink } from '../types'
 
 type LinkType = RichPageLink | ExternalLink | InternalLink
 
+interface LinkInfo {
+  href: string
+  as?: string
+}
+
 export const getPageLinkLabel = (link: LinkType): string | void =>
   link.__typename === 'ExternalLink'
     ? undefined
     : link?.document?.title || undefined
 
-export const getPageLinkUrl = (link: LinkType): string | void => {
+export const getPageLinkUrl = (link: LinkType): LinkInfo | void => {
   // If it is an external link, return the URL
   if (link.__typename === 'ExternalLink') {
-    return link.url ? link.url : undefined
+    return link.url ? { href: link.url } : undefined
   }
   // Otherwise, it is either a RichPageLink or InternalLink,
   // both of which will have a 'document'
@@ -18,14 +23,26 @@ export const getPageLinkUrl = (link: LinkType): string | void => {
   if (!document) throw new Error('This link is missing a document')
   switch (document.__typename) {
     case 'ShopifyCollection':
-      return `/collections/${document.handle}`
+      return {
+        href: `/collections/[collectionSlug]`,
+        as: `/collections/${document.handle}`,
+      }
     case 'ShopifyProduct':
-      return `/products/${document.handle}`
+      return {
+        href: `/products/[productSlug]`,
+        as: `/products/${document.handle}`,
+      }
+
     case 'Page':
       if (!document.slug || !document.slug.current) {
         throw new Error('This page does not have a slug')
       }
-      return `/${document.slug.current}`
+
+      return {
+        href: '/[pageSlug]',
+        as: `/${document.slug.current}`,
+      }
+
     default:
       throw new Error(
         // @ts-ignore

@@ -23,14 +23,14 @@ const Wrapper = styled.a`
 export const CTA = ({ cta }: CTAProps) => {
   const { label, link } = cta
   if (!link) return null
-  const href = getPageLinkUrl(link)
+  const { as, href } = getPageLinkUrl(link) || {}
   if (!href) {
     console.warn('No link href created for link:', link)
     return null
   }
   return (
     <Outer>
-      <Link href={href}>
+      <Link as={as} href={href}>
         <Wrapper>{label}</Wrapper>
       </Link>
     </Outer>

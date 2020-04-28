@@ -5,6 +5,12 @@ import { Heading } from '../../../components/Text'
 import { Select } from '../../../components/Forms'
 import { ColorSelector } from './ColorSelector'
 
+const ProductSelect = styled(Select)`
+  border: 1px solid;
+  border-color: body.4;
+  color: body.8;
+`
+
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
   currentVariant: ShopifyProductVariant
@@ -55,7 +61,10 @@ export const ProductOptionSelector = ({
         <ColorSelector selectOption={selectOption} option={option} />
       ) : (
         <SelectWrapper>
-          <Select id={option.name} onChange={handleSelectChange(option.name)}>
+          <ProductSelect
+            id={option.name}
+            onChange={handleSelectChange(option.name)}
+          >
             {option.values.map((v) =>
               v && v._key && v.value ? (
                 <option key={v._key} value={v.value}>
@@ -63,7 +72,7 @@ export const ProductOptionSelector = ({
                 </option>
               ) : null,
             )}
-          </Select>
+          </ProductSelect>
         </SelectWrapper>
       )}
     </Wrapper>
