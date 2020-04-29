@@ -1,0 +1,8 @@
+
+node_modules
+app/node_modules
+migrate
+proxy
+sanity
+_working
+.vscode
