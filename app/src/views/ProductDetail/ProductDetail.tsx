@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { ShopifyProduct } from '../../types'
 import { useProductVariant, useCheckout } from 'use-shopify'
+import { ShopifyProduct } from '../../types'
+import { definitely } from '../../utils'
 import { Column } from '../../components/Layout'
-import { CarouselProvider } from '../../components/Carousel'
 import { RichText } from '../../components/RichText'
 import {
   ProductVariantSelector,
@@ -37,39 +37,65 @@ export const ProductDetail = ({ product }: Props) => {
     product.sourceData,
   )
 
+  const { addLineItem } = useCheckout()
+  const { variants: maybeVariants } = product
+
+  const variants = definitely(maybeVariants)
+
+  /* get product image variants from Shopify */
+  const description = product?.sourceData?.description
+
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     // TODO: Move this over to use-shopify
     const previousOptions = currentVariant.selectedOptions
     if (!product.sourceData) {
       throw new Error('Product was loaded without sourceData')
     }
-    // @ts-ignore
     const [variants] = unwindEdges(product.sourceData.variants)
+
     const newOptions = previousOptions.map(({ name, value }) => {
       if (name !== optionName) return { name, value }
       return { name, value: newValue }
     })
     const newVariant = variants.find((variant) => {
       const { selectedOptions } = variant
+      if (!selectedOptions) return false
 
       const match = newOptions.every(({ name, value }) =>
-        selectedOptions.some((so) => so.name === name && so.value === value),
+        selectedOptions.some(
+          (so) => so && so.name === name && so.value === value,
+        ),
       )
       return match
     })
-    if (!newVariant) {
-      console.warn('Could not select variant')
+
+    // If a variant match is not found, find the best option based on the updated selection.
+    // This can happen if a particular option does not exist, i.e.:
+    // - Color: Black Gold, Size: 1
+    // - Color: Black Gold, Size: 2
+    // - Color: Yellow Gold, Size: 2
+    //
+    // If a user has currently selected BG/1, then changes the color option to "Yellow Gold",
+    // YG/1 does not exist, so, default to YG/2
+    const bestVariant = newVariant
+      ? newVariant
+      : variants.find((variant) => {
+          const { selectedOptions } = variant
+
+          if (!selectedOptions) return false
+          const match = Boolean(
+            selectedOptions.find(
+              (so) => so && so.name === optionName && so.value === newValue,
+            ),
+          )
+          return match
+        })
+
+    if (!bestVariant || !bestVariant.id) {
+      throw new Error('No variant was found for these options')
     }
-
-    selectVariant(newVariant.id)
+    selectVariant(bestVariant.id)
   }
-
-  /* get checkout utils */
-  const { addLineItem } = useCheckout()
-  const { variants } = product
-
-  /* get product image variants from Shopify */
-  const description = product?.sourceData?.description
 
   return (
     <Wrapper>
@@ -88,7 +114,6 @@ export const ProductDetail = ({ product }: Props) => {
           />
           <ProductInfoWrapper>
             <ProductVariantSelector
-              // @ts-ignore
               variants={variants}
               currentVariant={currentVariant}
               changeValueForOption={changeValueForOption}
