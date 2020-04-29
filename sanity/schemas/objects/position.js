@@ -15,5 +15,4 @@ export const position = {
       { title: '↘️ Bottom Right', value: 'bottom-right' },
     ],
   },
-  validation: (Rule) => Rule.required(),
 }
