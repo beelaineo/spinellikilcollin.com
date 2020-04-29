@@ -61,11 +61,15 @@ const SwipeableProductImagesMain = ({
     setCurrentSlide(currentVariantIndex)
   }, [currentVariantIndex])
 
+  if (!variantImages || !variantImages.length) return null
+
   return (
     <CarouselInner columnCount={1}>
-      {variantImages.map((image) => (
-        <Image key={image.id} ratio={0.8} image={image} />
-      ))}
+      {variantImages.map((image) =>
+        image ? (
+          <Image key={image.id || 'some-key'} ratio={0.8} image={image} />
+        ) : null,
+      )}
     </CarouselInner>
   )
 }
@@ -76,8 +80,9 @@ export const SwipeableProductImages = (props: SwipeableProductImagesProps) => {
     const variantEdges = props.product?.sourceData?.variants || null
     // @ts-ignore
     const [variants] = variantEdges ? unwindEdges(variantEdges) : []
+    if (!variants) return null
     const newVariant = variants[slide]
-    props.selectVariant(newVariant.id)
+    if (newVariant.id) props.selectVariant(newVariant.id)
   }
   return (
     <Wrapper>

@@ -30,7 +30,9 @@ export const ProductThumbnail = ({
     <ProductThumb>
       <Link href="/products/[productSlug]" as={`/products/${product.handle}`}>
         <a>
-          <BackgroundImage key={product._id} imageSrc={imageSrc} />
+          {imageSrc ? (
+            <BackgroundImage key={product._id} imageSrc={imageSrc} />
+          ) : null}
           <ProductContainer style={{ display: 'none' }}>
             {tags &&
               tags.length > 0 &&
