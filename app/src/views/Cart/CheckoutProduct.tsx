@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { CheckoutLineItem as CheckoutLineItemType } from 'use-shopify'
 import { QuantitySelectorCart } from '../ProductDetail/styled'
 import { QuantityInput } from '../../components/QuantityInput'
 import { Heading } from '../../components/Text'
@@ -10,12 +11,11 @@ import {
   RemoveCart,
 } from './styled'
 import { formatMoney } from '../../utils/currency'
-import { StorefrontApiCheckoutLineItem } from '../../types'
 
 const { useState } = React
 
 interface CheckoutLineItemProps {
-  lineItem: StorefrontApiCheckoutLineItem
+  lineItem: CheckoutLineItemType
 }
 
 export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
@@ -25,6 +25,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   const updateLineItemQuantity = (args: any) => alert('todo')
 
   const [hovered, setHover] = useState('invisible')
+  console.log(lineItem)
   if (!variant) throw new Error('no variant how?')
 
   /* Handlers */

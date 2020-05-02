@@ -21,21 +21,18 @@ export const Checkout = () => {
   //   updateQuantity({ id: lineItemId, quantity: Math.max(quantity, 0) })
   // }
 
-  if (!checkout || checkout.lineItems.length < 1) {
-    // @ts-ignore
-    return <NormalizeDiv top="0">Your cart is empty</NormalizeDiv>
+  if (
+    !checkout ||
+    !checkout.lineItems ||
+    !checkout.lineItems.edges ||
+    checkout.lineItems.edges.length < 1
+  ) {
+    return <NormalizeDiv>Your cart is empty</NormalizeDiv>
   }
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
 
   const title = message || 'Your Cart'
-
-  // return (
-  //   <CartModal open={open}>
-  //
-  //   </CartModal>
-  //
-  // )
 
   return (
     // @ts-ignore
@@ -45,40 +42,33 @@ export const Checkout = () => {
       </Heading>
       <CartInner>
         {lineItems.map((lineItem) => {
-          // const updateLineItemQuantity = createUpdateLineItemHandler(id)
-          return (
-            <CheckoutProduct
-              // @ts-ignore
-              key={lineItem.id}
-              // @ts-ignore
-              lineItem={lineItem}
-              // updateLineItemQuantity={updateLineItemQuantity}
-            />
-          )
+          return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
         })}
       </CartInner>
 
       <CartBottom>
-        <FlexContainer
-          // @ts-ignore
-          width="100%"
-        >
-          <FlexHalf>
-            <Heading level={5} textTransform="uppercase" weight={2}>
-              Subtotal:
-            </Heading>
-          </FlexHalf>
-          <FlexHalf>
-            <Heading
-              level={5}
-              textAlign="right"
-              textTransform="uppercase"
-              weight={2}
-            >
-              ${checkout.paymentDueV2.amount}
-            </Heading>
-          </FlexHalf>
-        </FlexContainer>
+        {checkout?.paymentDueV2?.amount ? (
+          <FlexContainer
+            // @ts-ignore
+            width="100%"
+          >
+            <FlexHalf>
+              <Heading level={5} textTransform="uppercase" weight={2}>
+                Subtotal:
+              </Heading>
+            </FlexHalf>
+            <FlexHalf>
+              <Heading
+                level={5}
+                textAlign="right"
+                textTransform="uppercase"
+                weight={2}
+              >
+                ${checkout.paymentDueV2.amount}
+              </Heading>
+            </FlexHalf>
+          </FlexContainer>
+        ) : null}
         <NormalizeDiv align="center">
           <Button
             as="a"

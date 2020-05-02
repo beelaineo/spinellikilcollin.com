@@ -6,14 +6,14 @@ import {
   CarouselProvider,
   CarouselInner,
 } from '../../../components/Carousel'
-import { ShopifyProduct, ShopifySourceProductVariant } from '../../../types'
+import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Image } from '../../../components/Image'
 
 const { useEffect } = React
 
 interface SwipeableProductImagesProps {
   product: ShopifyProduct
-  currentVariant: ShopifySourceProductVariant
+  currentVariant: ShopifyProductVariant
   selectVariant: (variantId: string) => void
 }
 
@@ -52,7 +52,8 @@ const SwipeableProductImagesMain = ({
 
   const variantImages = unwoundVariants.map((pv) => pv.image)
   const currentVariantIndex = unwoundVariants.findIndex(
-    (v) => v.id === currentVariant.id,
+    (v) =>
+      currentVariant.sourceData?.id && v.id === currentVariant.sourceData.id,
   )
 
   useEffect(() => {

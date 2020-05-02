@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
+import { Product } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
 import { Heading } from '../Text'
 import { formatMoney } from '../../utils'

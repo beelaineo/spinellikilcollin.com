@@ -11,9 +11,16 @@
     "target": "es6",
     "sourceMap": true,
     "jsx": "preserve",
-    "lib": ["es6", "es7", "dom"],
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
     "outDir": "./dist",
-    "types": ["node", "jest"],
+    "types": [
+      "node",
+      "jest"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -23,7 +30,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": ["./src", "./pages"],
+  "include": [
+    "./src",
+    "./pages"
+  ],
   "exclude": [
     "node_modules",
     "../node_modules",

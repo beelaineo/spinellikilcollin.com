@@ -13,8 +13,7 @@ interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
 export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
   const { openCart } = useCart()
   const handleClick = async () => {
-    console.log(currentVariant)
-    if (!currentVariant) return
+    if (!currentVariant || !currentVariant.id) return
     await addLineItem({
       variantId: currentVariant.id,
       quantity: quantity || 1,

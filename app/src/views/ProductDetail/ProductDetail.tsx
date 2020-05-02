@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
-import { ShopifyProduct } from '../../types'
+import { ShopifyProduct, ShopifyProductVariant } from '../../types'
 import { definitely } from '../../utils'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
@@ -32,10 +32,14 @@ export const ProductDetail = ({ product }: Props) => {
   const { getProductInfoBlocks } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
+
   /* get product variant utils */
+  if (!product.sourceData) return null
   const { currentVariant, selectVariant } = useProductVariant(
     product.sourceData,
   )
+
+  const v: ShopifyProductVariant = currentVariant
 
   const { addLineItem } = useCheckout()
   const { variants: maybeVariants } = product
@@ -47,7 +51,7 @@ export const ProductDetail = ({ product }: Props) => {
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     // TODO: Move this over to use-shopify
-    const previousOptions = currentVariant.selectedOptions
+    const previousOptions = currentVariant.selectedOptions || []
     if (!product.sourceData) {
       throw new Error('Product was loaded without sourceData')
     }

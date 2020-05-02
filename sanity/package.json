@@ -32,8 +32,8 @@
     "@sanity/desk-tool": "^1.149.10",
     "@sanity/vision": "^1.149.0",
     "prop-types": "^15.7",
-    "react": "16.13",
-    "react-dom": "16.13",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
     "react-icons": "^3.10.0"
   },
   "devDependencies": {

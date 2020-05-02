@@ -1,19 +1,20 @@
 import * as React from 'react'
 import { formatMoney } from '../../../utils/currency'
-import { ShopifyProduct, ShopifySourceProductVariant } from '../../../types'
+import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { TitleWrapper } from '../styled'
 import { Affirm } from './Affirm'
 import { Heading } from '../../../components/Text'
 
 interface ProductDetailHeaderProps {
   product: ShopifyProduct
-  currentVariant: ShopifySourceProductVariant
+  currentVariant: ShopifyProductVariant
   mobile?: string
 }
 
-const getOptionByName = ({ selectedOptions }: ShopifySourceProductVariant) => (
+const getOptionByName = (variant: ShopifyProductVariant) => (
   name: string,
 ): string | void => {
+  const selectedOptions = variant?.sourceData?.selectedOptions
   if (!selectedOptions) return
   const option = selectedOptions.find((option) => {
     if (!option || !option.name) return undefined
@@ -22,9 +23,7 @@ const getOptionByName = ({ selectedOptions }: ShopifySourceProductVariant) => (
   return option ? option.value || undefined : undefined
 }
 
-const getVariantTitle = (
-  variant: ShopifySourceProductVariant,
-): string | void => {
+const getVariantTitle = (variant: ShopifyProductVariant): string | void => {
   const getOptionBy = getOptionByName(variant)
   const color = getOptionBy('color')
   if (color) return color
@@ -47,9 +46,9 @@ export const ProductDetailHeader = ({
             {variantTitle}
           </Heading>
         ) : null}
-        {currentVariant?.priceV2 ? (
+        {currentVariant?.sourceData?.priceV2 ? (
           <Heading level={3} weight={2} mt={3}>
-            {formatMoney(currentVariant.priceV2)}
+            {formatMoney(currentVariant?.sourceData?.priceV2)}
           </Heading>
         ) : null}
       </TitleWrapper>

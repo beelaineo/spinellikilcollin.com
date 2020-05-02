@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { ShopifySourceProductVariant } from '../../../types'
+import { ShopifyProductVariant } from '../../../types'
 import { AffirmWrapper } from '../styled'
 import { Heading } from '../../../components/Text'
 
 const { useState, useEffect } = React
 
 interface AffirmProps {
-  currentVariant: ShopifySourceProductVariant
+  currentVariant: ShopifyProductVariant
 }
 
 const toCents = (shopifyPrice: string | number): number =>
@@ -14,7 +14,7 @@ const toCents = (shopifyPrice: string | number): number =>
 
 export const Affirm = ({ currentVariant }: AffirmProps) => {
   const [isMounted, setIsMounted] = useState(false)
-  const price = currentVariant?.priceV2?.amount
+  const price = currentVariant?.sourceData?.priceV2?.amount
 
   useEffect(() => {
     setIsMounted(true)
@@ -22,7 +22,7 @@ export const Affirm = ({ currentVariant }: AffirmProps) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (window && window.affirm) {
+    if (window && window.affirm && window.affirm.ui.refresh) {
       // @ts-ignore
       window.affirm.ui.refresh()
     }

@@ -15,7 +15,8 @@
     { "src": "/favicon.ico", "dest": "app/favicon.ico" },
     {
       "src": "/(.*)",
-      "dest": "app/$1"
+      "dest": "app/$1",
+      "continue": true
     }
   ],
   "build": {
