@@ -7,13 +7,11 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   parserOptions: {
-    ecmaVersion: 2018,
     sourceType: 'module',
   },
-  ecmaFeatures: {
-    jsx: true,
-  },
   rules: {
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 1,
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     '@typescript-eslint/explicit-member-accessibility': 'off',
     '@typescript-eslint/ban-ts-ignore': 'off',
