@@ -6,22 +6,22 @@ import styled, {
   BoxProps,
 } from '@xstyled/styled-components'
 
-interface CustomTextProps {
+interface CustomTextProps extends BoxProps {
   theme: DefaultTheme
   fontSize: 1 | 2 | 3 | 4 | 5 | 6
   fontStyle?: string
   family?: 'mono' | 'sans' | 'serif'
   weight?: number
-  color?: string
   htmlFor?: string
 }
 
 const createTextBase = (as: any) => styled(as)`
-  ${({ family, fontStyle, weight, fontSize }: CustomTextProps) => css`
+  ${({ family, color, fontStyle, weight, fontSize }: CustomTextProps) => css`
     font-size: ${fontSize};
     font-family: ${family};
     font-weight: ${weight};
     font-style: ${fontStyle};
+    color: ${color};
     margin: 2 0 0.5em;
 
     &:last-child {
@@ -32,23 +32,25 @@ const createTextBase = (as: any) => styled(as)`
       text-decoration: underline;
       color: bronze;
     }
+
+    strong {
+      font-weight: 4;
+    }
+
+    em {
+      font-style: italic;
+    }
   `}
 `
 
 const TextBase = styled(Box)`
-  ${({
-    theme,
-    family,
-    weight,
-    fontStyle,
-    fontSize,
-    color,
-  }: CustomTextProps) => css`
+  ${({ family, weight, fontStyle, fontSize, color }: CustomTextProps) => css`
     font-size: ${fontSize};
     font-family: ${family};
     font-weight: ${weight};
     font-style: ${fontStyle};
     margin: 0 0 0.5em;
+    color: ${color}
 
     &:last-child {
       margin-bottom: 0;
@@ -60,7 +62,6 @@ const TextBase = styled(Box)`
   `}
 `
 
-// @ts-ignore
 interface HeadingProps
   extends Omit<CustomTextProps, 'fontSize' | 'theme'>,
     BoxProps {
@@ -110,8 +111,10 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
       fontSize={4}
       family={family}
       weight={weight || 400}
+      // @ts-ignore
       color={color}
       htmlFor={htmlFor}
+      lineHeight="1.3em"
     >
       {children}
     </TextBase>
@@ -121,7 +124,7 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
 P.defaultProps = {
   family: 'body',
   weight: 400,
-  color: 'body',
+  color: 'bodyMain',
 }
 
 interface LabelProps {
@@ -137,12 +140,17 @@ export const Label = styled(LabelBase)`
   margin: 0;
 `
 
+export const Span = styled(createTextBase('span'))`
+  font-size: inherit;
+`
+
 export const TextAnchor = styled.a``
 
 export const BlockQuote = styled.blockquote``
 
 const listStyles = css`
   margin: 3 0;
+  line-height: 1.1em;
   padding-left: 2em;
 `
 
@@ -157,9 +165,14 @@ const LiBase = createTextBase('li')
 
 export const Li = styled(LiBase)`
   font-size: 4;
-  color: body.2;
   margin: 0;
 `
+
+Li.defaultProps = {
+  family: 'body',
+  weight: 400,
+  color: 'bodyMain',
+}
 
 export const Input = styled.input`
   border: 1px solid;

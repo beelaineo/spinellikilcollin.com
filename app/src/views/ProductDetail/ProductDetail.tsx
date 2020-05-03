@@ -2,7 +2,7 @@ import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct, ShopifyProductVariant } from '../../types'
-import { definitely } from '../../utils'
+import { parseHTML, definitely } from '../../utils'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import {
@@ -35,11 +35,20 @@ export const ProductDetail = ({ product }: Props) => {
 
   /* get product variant utils */
   if (!product.sourceData) return null
-  const { currentVariant, selectVariant } = useProductVariant(
+  if (!product.variants) return null
+  const {
+    currentVariant: currentVariantSource,
+    selectVariant,
+  } = useProductVariant(
+    // @ts-ignore
     product.sourceData,
   )
 
-  const v: ShopifyProductVariant = currentVariant
+  const currentVariant = product.variants.find(
+    (v) => v && v.shopifyVariantID === currentVariantSource.id,
+  )
+
+  if (!currentVariant) return null
 
   const { addLineItem } = useCheckout()
   const { variants: maybeVariants } = product
@@ -47,17 +56,17 @@ export const ProductDetail = ({ product }: Props) => {
   const variants = definitely(maybeVariants)
 
   /* get product image variants from Shopify */
-  const description = product?.sourceData?.description
+  const description = parseHTML(product?.sourceData?.descriptionHtml)
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     // TODO: Move this over to use-shopify
-    const previousOptions = currentVariant.selectedOptions || []
+    const previousOptions = currentVariant?.sourceData?.selectedOptions || []
     if (!product.sourceData) {
       throw new Error('Product was loaded without sourceData')
     }
     const [variants] = unwindEdges(product.sourceData.variants)
 
-    const newOptions = previousOptions.map(({ name, value }) => {
+    const newOptions = definitely(previousOptions).map(({ name, value }) => {
       if (name !== optionName) return { name, value }
       return { name, value: newValue }
     })

@@ -25,7 +25,7 @@ declare module '@xstyled/styled-components' {
     [Key in keyof Props]?: Props[Key] | BreakpointObject<Props[Key]>
   }
 
-  interface BoxPropsBase {
+  interface BoxPropsBase extends JSX.IntrinsicElements {
     /* See props documentation at:
      * https://www.smooth-code.com/open-source/smooth-ui/docs/box/#box-2
      */

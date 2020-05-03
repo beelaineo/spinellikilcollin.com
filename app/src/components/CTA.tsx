@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import styled from '@xstyled/styled-components'
-import { Cta, RichPageLink } from '../types'
+import { Cta } from '../types'
 import { getPageLinkUrl } from '../utils/links'
 
 interface CTAProps {
