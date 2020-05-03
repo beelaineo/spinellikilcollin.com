@@ -12,7 +12,6 @@ interface ProductListingProps {
 
 export const ProductListing = ({ collection }: ProductListingProps) => {
   const products = collection.products
-  console.log(collection)
   const { hero } = collection
   return (
     <Wrapper>

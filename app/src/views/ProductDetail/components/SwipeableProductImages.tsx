@@ -47,7 +47,6 @@ const SwipeableProductImagesMain = ({
   const { currentSlide, setCurrentSlide } = useCarousel()
 
   const productVariants = product?.sourceData?.variants
-  // @ts-ignore
   const unwoundVariants = productVariants ? unwindEdges(productVariants)[0] : []
 
   const variantImages = unwoundVariants.map((pv) => pv.image)

@@ -1,26 +1,26 @@
 import * as React from 'react'
 import { UseCheckoutValues } from 'use-shopify'
 import { Button } from '../../../components/Button'
-import { ShopifySourceProductVariant } from '../../../types'
+import { ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
 import { useCart } from '../../../providers/CartProvider'
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
-  currentVariant?: Pick<ShopifySourceProductVariant, 'id' | 'availableForSale'>
+  currentVariant?: ShopifyProductVariant
   quantity?: number
 }
 
 export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
   const { openCart } = useCart()
   const handleClick = async () => {
-    if (!currentVariant || !currentVariant.id) return
+    if (!currentVariant || !currentVariant.shopifyVariantID) return
     await addLineItem({
-      variantId: currentVariant.id,
+      variantId: currentVariant.shopifyVariantID,
       quantity: quantity || 1,
     })
     openCart('Product Added to Cart!')
   }
-  if (currentVariant && !currentVariant.availableForSale) {
+  if (currentVariant && !currentVariant?.sourceData?.availableForSale) {
     return <Placeholder>Out of stock</Placeholder>
   }
   return (

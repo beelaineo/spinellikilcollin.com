@@ -24,8 +24,8 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   //
   const updateLineItemQuantity = (args: any) => alert('todo')
 
-  const [hovered, setHover] = useState('invisible')
   console.log(lineItem)
+  const [hovered, setHover] = useState('invisible')
   if (!variant) throw new Error('no variant how?')
 
   /* Handlers */
