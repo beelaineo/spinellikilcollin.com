@@ -52,6 +52,12 @@ export const product = {
       of: [{ type: 'productInfo' }],
     },
     {
+      title: 'Gallery',
+      name: 'gallery',
+      type: 'array',
+      of: [{ type: 'richImage' }],
+    },
+    {
       title: 'Content Blocks',
       name: 'contentAfter',
       description:
