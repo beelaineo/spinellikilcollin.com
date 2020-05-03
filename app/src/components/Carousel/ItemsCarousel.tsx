@@ -13,9 +13,9 @@ export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
     <Carousel>
       {items.map((item) =>
         item && item.__typename === 'ShopifyProduct' ? (
-          <ProductThumbnail key={item._id} product={item} />
+          <ProductThumbnail key={item._id || 'some-key'} product={item} />
         ) : item && item.__typename === 'ShopifyCollection' ? (
-          <CollectionThumbnail key={item._id} collection={item} />
+          <CollectionThumbnail key={item._id || 'some-key'} collection={item} />
         ) : null,
       )}
     </Carousel>

@@ -123,7 +123,7 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
 
 P.defaultProps = {
   family: 'body',
-  weight: 400,
+  weight: 300,
   color: 'bodyMain',
 }
 

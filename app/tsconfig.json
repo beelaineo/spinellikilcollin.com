@@ -10,19 +10,12 @@
     "experimentalDecorators": true,
     "target": "es6",
     "sourceMap": true,
-    "jsx": "preserve",
-    "lib": [
-      "es6",
-      "es7",
-      "dom"
-    ],
-    "outDir": "./dist",
-    "types": [
-      "node",
-      "jest"
-    ],
-    "allowJs": true,
     "skipLibCheck": true,
+    "jsx": "preserve",
+    "lib": ["es6", "es7", "dom"],
+    "outDir": "./dist",
+    "types": ["node", "jest"],
+    "allowJs": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
@@ -30,13 +23,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "include": [
-    "./src",
-    "./pages"
-  ],
+  "include": ["./src", "./pages"],
   "exclude": [
     "node_modules",
     "../node_modules",
+    "../node_modules/**/*",
     "**/*.spec.ts",
     "**/*.test.ts",
     "**/__tests__/*",

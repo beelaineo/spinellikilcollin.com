@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Product } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
 import { Heading } from '../Text'
 import { formatMoney } from '../../utils'
@@ -32,7 +31,10 @@ export const ProductThumbnail = ({
       <Link href="/products/[productSlug]" as={`/products/${product.handle}`}>
         <a>
           {imageSrc ? (
-            <BackgroundImage key={product._id} imageSrc={imageSrc} />
+            <BackgroundImage
+              key={product._id || 'some-key'}
+              imageSrc={imageSrc}
+            />
           ) : null}
           <ProductContainer style={{ display: 'none' }}>
             {tags &&
