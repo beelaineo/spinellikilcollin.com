@@ -13,6 +13,11 @@ interface AppProps {
   apollo: ApolloClient<any>
 }
 
+export interface PageContext {
+  query: any
+  apolloClient: ApolloClient<any>
+}
+
 const Main = styled.main``
 
 const App = (props: AppProps) => {

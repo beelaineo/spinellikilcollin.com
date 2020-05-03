@@ -3,6 +3,7 @@ import gql from 'graphql-tag'
 import { ShopifyCollection } from '../../src/types'
 import { NotFound, ProductListing } from '../../src/views'
 import { shopifySourceImageFragment, heroFragment } from '../../src/graphql'
+import { PageContext } from '../_app'
 
 interface CollectionQueryResult {
   allShopifyCollections: [ShopifyCollection]
@@ -10,7 +11,7 @@ interface CollectionQueryResult {
 
 export const collectionQuery = gql`
   query CollectionPageQuery($handle: String) {
-    allShopifyCollections(where: { handle: $handle }) {
+    allShopifyCollection(where: { handle: { eq: $handle } }) {
       _id
       _type
       _key
@@ -66,20 +67,24 @@ interface CollectionPageProps {
   collection: ShopifyCollection
 }
 
+interface Response {
+  allShopifyCollection: ShopifyCollection[]
+}
+
 const Collection = ({ collection }: CollectionPageProps) => {
   if (!collection) return <NotFound />
   return <ProductListing collection={collection} />
 }
 
-Collection.getInitialProps = async (ctx: any) => {
+Collection.getInitialProps = async (ctx: PageContext) => {
   const { apolloClient, query } = ctx
   const variables = { handle: query.collectionSlug }
-  const response = await apolloClient.query({
+  const response = await apolloClient.query<Response>({
     query: collectionQuery,
     variables,
   })
 
-  const collections = response?.data?.allShopifyCollections
+  const collections = response?.data?.allShopifyCollection
   const collection = collections.length ? collections[0] : undefined
 
   return { collection }

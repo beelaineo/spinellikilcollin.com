@@ -11,6 +11,7 @@ import {
   richImageFragment,
   shopifySourceImageFragment,
 } from '../../src/graphql'
+import { PageContext } from '../_app'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -23,7 +24,7 @@ interface ProductProps {
 
 const productQuery = gql`
   query ProductsPageQuery($handle: String) {
-    allShopifyProducts(where: { handle: $handle }) {
+    allShopifyProduct(where: { handle: { eq: $handle } }) {
       _id
       _key
       shopifyId
@@ -102,6 +103,9 @@ const productQuery = gql`
       contentAfter {
         ...ImageTextBlockFragment
       }
+      gallery {
+        ...RichImageFragment
+      }
       related {
         ...CarouselFragment
       }
@@ -116,6 +120,10 @@ const productQuery = gql`
   ${imageTextBlockFragment}
 `
 
+interface Response {
+  allShopifyProduct: ShopifyProduct[]
+}
+
 interface ProductPageProps {
   product: ShopifyProduct
 }
@@ -125,11 +133,15 @@ const Product = ({ product }: ProductPageProps) => {
   return <ProductDetail product={product} />
 }
 
-Product.getInitialProps = async (ctx: any) => {
+Product.getInitialProps = async (ctx: PageContext) => {
   const { apolloClient, query } = ctx
   const variables = { handle: query.productSlug }
-  const response = await apolloClient.query({ query: productQuery, variables })
-  const products = response?.data?.allShopifyProducts
+  const response = await apolloClient.query<Response>({
+    query: productQuery,
+    variables,
+  })
+  const products = response?.data?.allShopifyProduct
+
   const product = products.length ? products[0] : undefined
   return { product }
 }

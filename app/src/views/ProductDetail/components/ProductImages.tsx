@@ -33,6 +33,7 @@ export const ProductImages = ({
   const [images] = unwindEdges<ImageType>(product?.sourceData?.images)
   if (!images.length) return null
 
+  console.log(product)
   const mainImage = currentVariant?.sourceData?.image || images[0]
   return (
     <ProductGalleryWrapper>
