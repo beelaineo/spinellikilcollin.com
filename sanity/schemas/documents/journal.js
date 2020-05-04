@@ -1,8 +1,17 @@
-export const page = {
-  title: 'Page',
+export const journal = {
+  title: 'Journal Entry',
   type: 'document',
-  name: 'page',
+  name: 'journalEntry',
   fields: [
+    {
+      name: 'publishDate',
+      label: 'Publish Date',
+      type: 'date',
+      validation: (Rule) => Rule.required(),
+      options: {
+        dateFormat: 'MMMM D, YYYY',
+      },
+    },
     {
       name: 'title',
       label: 'Title',
@@ -22,6 +31,17 @@ export const page = {
         source: 'title',
       },
       validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'thumbnail',
+      label: 'Thumbnail',
+      type: 'richImage',
+    },
+    {
+      name: 'tags',
+      label: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
     },
     {
       name: 'body',

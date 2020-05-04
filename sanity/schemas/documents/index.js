@@ -1,4 +1,5 @@
 export * from './siteSettings'
+export * from './journal'
 export * from './menu'
 export * from './homepage'
 export * from './page'

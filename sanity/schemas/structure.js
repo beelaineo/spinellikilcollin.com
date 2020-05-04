@@ -1,5 +1,6 @@
 import S from '@sanity/desk-tool/structure-builder'
 import { MdSettings, MdHome, MdInfoOutline } from 'react-icons/md'
+import { FaPencilAlt } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
 
@@ -49,6 +50,13 @@ export default () =>
         .title('Collections')
         .icon(TiThSmallOutline)
         .child(S.documentTypeList('shopifyCollection')),
+
+      // Journal
+      S.listItem()
+        .id('journal')
+        .title('Journal')
+        .icon(FaPencilAlt)
+        .child(S.documentTypeList('journalEntry')),
 
       // Static pages: About, Contact
       S.listItem()
