@@ -16,7 +16,7 @@
   "scripts": {
     "start": "sanity start",
     "test": "sanity check",
-    "deploy": "yarn deploy:cms && yarn deploy:graphql",
+    "deploy": "yarn deploy:graphql && yarn deploy:cms",
     "deploy:cms": "yarn sanity deploy",
     "deploy:graphql": "yarn sanity graphql deploy --generation gen2 --playground"
   },
