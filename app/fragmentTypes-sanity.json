@@ -21,6 +21,9 @@
             "name": "SanityImageAsset"
           },
           {
+            "name": "JournalEntry"
+          },
+          {
             "name": "Menu"
           },
           {
@@ -85,6 +88,18 @@
           },
           {
             "name": "ImageTextBlock"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "BlockOrRichImage",
+        "possibleTypes": [
+          {
+            "name": "Block"
+          },
+          {
+            "name": "RichImage"
           }
         ]
       }

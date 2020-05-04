@@ -14,6 +14,8 @@ const grays = [
   '#000000',
 ]
 
+const pink = '#F7D7D5'
+
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=4#sat_end=100#sat_curve=linear#sat_rate=130#lum_start=100#lum_end=100#lum_curve=linear#lock_hex=b879f5#minor_steps_map=0 */
 
 const sans = '"Helvetica Neue", helvetica, sans-serif'
@@ -90,6 +92,8 @@ export const defaultTheme: DefaultTheme = {
     background: grays[2],
     /* Used for errors and warnings. */
     error: ['#e6d49e', '#f09e32', '#f04b32'],
+    /* Used for highlights */
+    highlightLow: pink,
   },
 
   transition: {

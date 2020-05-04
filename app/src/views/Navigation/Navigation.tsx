@@ -91,7 +91,7 @@ export const Navigation = () => {
           </SideNavigation>
         </div>
 
-        <Link href="/" as="/index">
+        <Link href="/index" as="/">
           <a>
             <Logo src="/static/images/sk-logotype.svg" />
           </a>

@@ -38,6 +38,7 @@ declare module 'styled-components' {
       bodyMain: string
       background: string
       error: string[]
+      highlightLow: string
     }
 
     mediaQueries: {

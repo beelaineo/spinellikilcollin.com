@@ -1,5 +1,3 @@
-import { DefaultTheme } from '@xstyled/styled-components'
-
 export const getTextAlignment = (position: string | void | null): string => {
   if (!position) return 'center'
   const split = position.split('-')

@@ -31,6 +31,8 @@ export interface Block {
   list?: Maybe<Scalars['String']>
 }
 
+export type BlockOrRichImage = Block | RichImage
+
 export type BooleanFilter = {
   /** Checks if the value is equal to the given input. */
   eq?: Maybe<Scalars['Boolean']>
@@ -402,6 +404,58 @@ export type IntFilter = {
   lte?: Maybe<Scalars['Int']>
 }
 
+export interface JournalEntry extends Document {
+  __typename: 'JournalEntry'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  publishDate?: Maybe<Scalars['Date']>
+  title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  slug?: Maybe<Slug>
+  thumbnail?: Maybe<RichImage>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+  bodyRaw?: Maybe<Scalars['JSON']>
+}
+
+export type JournalEntryFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  publishDate?: Maybe<DateFilter>
+  title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
+  slug?: Maybe<SlugFilter>
+  thumbnail?: Maybe<RichImageFilter>
+}
+
+export type JournalEntrySorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  publishDate?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
+  slug?: Maybe<SlugSorting>
+  thumbnail?: Maybe<RichImageSorting>
+}
+
 export interface Menu extends Document {
   __typename: 'Menu'
   /** Document ID */
@@ -476,7 +530,9 @@ export interface Page extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
   slug?: Maybe<Slug>
+  bodyRaw?: Maybe<Scalars['JSON']>
 }
 
 export type PageFilter = {
@@ -489,6 +545,7 @@ export type PageFilter = {
   _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
   slug?: Maybe<SlugFilter>
 }
 
@@ -527,6 +584,7 @@ export type PageSorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
   slug?: Maybe<SlugSorting>
 }
 
@@ -701,6 +759,7 @@ export type RichPageLinkSorting = {
 export interface RootQuery {
   __typename: 'RootQuery'
   SiteSettings?: Maybe<SiteSettings>
+  JournalEntry?: Maybe<JournalEntry>
   Menu?: Maybe<Menu>
   Homepage?: Maybe<Homepage>
   Page?: Maybe<Page>
@@ -710,6 +769,7 @@ export interface RootQuery {
   SanityImageAsset?: Maybe<SanityImageAsset>
   SanityFileAsset?: Maybe<SanityFileAsset>
   allSiteSettings: Array<SiteSettings>
+  allJournalEntry: Array<JournalEntry>
   allMenu: Array<Menu>
   allHomepage: Array<Homepage>
   allPage: Array<Page>
@@ -721,6 +781,10 @@ export interface RootQuery {
 }
 
 export type RootQuerySiteSettingsArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryJournalEntryArgs = {
   id: Scalars['ID']
 }
 
@@ -759,6 +823,13 @@ export type RootQuerySanityFileAssetArgs = {
 export type RootQueryAllSiteSettingsArgs = {
   where?: Maybe<SiteSettingsFilter>
   sort?: Maybe<Array<SiteSettingsSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllJournalEntryArgs = {
+  where?: Maybe<JournalEntryFilter>
+  sort?: Maybe<Array<JournalEntrySorting>>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
 }
@@ -1322,7 +1393,6 @@ export interface ShopifyProductOptionValue {
   value?: Maybe<Scalars['String']>
   descriptionRaw?: Maybe<Scalars['JSON']>
   swatch?: Maybe<Image>
-  gallery?: Maybe<Array<Maybe<RichImage>>>
 }
 
 export type ShopifyProductOptionValueFilter = {
