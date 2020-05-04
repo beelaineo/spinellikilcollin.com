@@ -611,6 +611,7 @@ export interface ProductInfoSettings extends Document {
   globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
   infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
   infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
+  tagBadges?: Maybe<Array<Maybe<TagBadge>>>
 }
 
 export type ProductInfoSettingsFilter = {
@@ -1928,4 +1929,28 @@ export type SubMenuSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
+}
+
+export interface TagBadge {
+  __typename: 'TagBadge'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** The tag to match from Shopify */
+  tag?: Maybe<Scalars['String']>
+  /** (optional) An alternate label to display in the badge */
+  label?: Maybe<Scalars['String']>
+}
+
+export type TagBadgeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  tag?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+}
+
+export type TagBadgeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  tag?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
 }

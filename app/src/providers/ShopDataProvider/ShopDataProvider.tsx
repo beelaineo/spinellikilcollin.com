@@ -6,6 +6,7 @@ import {
   Scalars,
   ShopifyProduct,
   ProductInfo,
+  ProductInfoSettings,
   SiteSettings,
 } from '../../types'
 import { definitely } from '../../utils'
@@ -17,6 +18,7 @@ interface ShopDataContextValue {
   menu?: Menu
   getProductInfoBlocks: (product: ShopifyProduct) => DefinitelyProductInfo[]
   siteSettings?: SiteSettings
+  productInfoSettings?: ProductInfoSettings
 }
 
 const ShopDataContext = React.createContext<ShopDataContextValue | undefined>(
@@ -54,6 +56,9 @@ export const ShopDataProvider = ({ children }: Props) => {
   const ready = Boolean(response.data && !response.loading)
   const menu = ready ? response?.data?.Menu : undefined
   const siteSettings = ready ? response?.data?.SiteSettings : undefined
+  const productInfoSettings = ready
+    ? response?.data?.ProductInfoSettings
+    : undefined
   const productInfoBlocks = ready
     ? response?.data?.ProductInfoSettings
     : undefined
@@ -124,6 +129,7 @@ export const ShopDataProvider = ({ children }: Props) => {
     ready,
     menu,
     siteSettings,
+    productInfoSettings,
     getProductInfoBlocks,
   }
 

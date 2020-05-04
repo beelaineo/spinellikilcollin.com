@@ -23,9 +23,10 @@ export const collectionQuery = gql`
       hero {
         ...HeroFragment
       }
-      products(where: { archived: { neq: true } }) {
+      products {
         _id
         _key
+        archived
         shopifyId
         title
         handle

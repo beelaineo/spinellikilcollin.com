@@ -3,13 +3,9 @@ import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct } from '../../types'
 import { Heading } from '../Text'
+import { TagBadges } from './TagBadges'
 import { formatMoney } from '../../utils'
-import {
-  BackgroundImage,
-  ProductInfo,
-  ProductThumb,
-  ProductContainer,
-} from './styled'
+import { BackgroundImage, ProductInfo, ProductThumb } from './styled'
 
 interface ProductThumbnail {
   product: ShopifyProduct
@@ -20,12 +16,12 @@ export const ProductThumbnail = ({
   product,
   displayPrice,
 }: ProductThumbnail) => {
-  // @ts-ignore
-  const [images] = unwindEdges(product.sourceData.images)
+  const images = product.sourceData?.images
+    ? unwindEdges(product.sourceData.images)[0]
+    : []
   const imageSrc = images.length ? images[0].originalSrc : undefined
   const { minVariantPrice, maxVariantPrice } =
     product?.sourceData?.priceRange || {}
-  const tags = product?.sourceData?.tags
   return (
     <ProductThumb>
       <Link href="/products/[productSlug]" as={`/products/${product.handle}`}>
@@ -36,15 +32,7 @@ export const ProductThumbnail = ({
               imageSrc={imageSrc}
             />
           ) : null}
-          <ProductContainer style={{ display: 'none' }}>
-            {tags &&
-              tags.length > 0 &&
-              tags.map((tag, index) => {
-                if (index < 1) {
-                  return <span key={tag || 'some-tag'}>{tag}</span>
-                }
-              })}
-          </ProductContainer>
+          <TagBadges product={product} />
           <ProductInfo>
             <Heading level={3}>{product.title}</Heading>
             {displayPrice ? (

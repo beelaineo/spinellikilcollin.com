@@ -32,6 +32,7 @@ const productQuery = gql`
       shopifyId
       title
       handle
+      archived
       sourceData {
         id
         title

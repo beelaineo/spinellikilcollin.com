@@ -44,18 +44,20 @@ export const ProductInfo = styled.div`
   }
 `
 
-export const ProductContainer = styled.div`
-  text-align: center;
-  margin: 5 0 3;
+export const TagBadgeWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`
 
-  span {
-    margin: 2;
-    padding: 2 3;
-    font-size: 6;
-    text-transform: uppercase;
-    color: body.8;
-    border: 0.5px solid body.7;
-    letter-spacing: 1px;
-    border-radius: 25px;
-  }
+export const TagBadge = styled.div`
+  border: 1px solid;
+  border-radius: 20px;
+  margin: 0 1;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 3;
+  margin-bottom: 2;
 `

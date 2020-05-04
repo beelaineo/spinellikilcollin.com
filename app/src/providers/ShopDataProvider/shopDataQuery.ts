@@ -54,6 +54,11 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           ...ProductInfoFragment
         }
       }
+      tagBadges {
+        _key
+        tag
+        label
+      }
     }
     SiteSettings(id: "site-settings") {
       _id

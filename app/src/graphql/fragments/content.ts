@@ -145,6 +145,7 @@ export const shopifyProductFragment = gql`
     _key
     title
     handle
+    archived
     shopifyId
     sourceData {
       id
@@ -190,6 +191,7 @@ export const shopifyCollectionFragment = gql`
     _key
     title
     handle
+    archived
     shopifyId
     products {
       ...ShopifyProductFragment
