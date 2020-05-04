@@ -41,7 +41,7 @@ export const ProductThumbnail = ({
               tags.length > 0 &&
               tags.map((tag, index) => {
                 if (index < 1) {
-                  return <span>{tag}</span>
+                  return <span key={tag || 'some-tag'}>{tag}</span>
                 }
               })}
           </ProductContainer>

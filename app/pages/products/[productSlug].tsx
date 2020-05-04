@@ -24,7 +24,9 @@ interface ProductProps {
 
 const productQuery = gql`
   query ProductsPageQuery($handle: String) {
-    allShopifyProduct(where: { handle: { eq: $handle } }) {
+    allShopifyProduct(
+      where: { handle: { eq: $handle }, archived: { neq: true } }
+    ) {
       _id
       _key
       shopifyId

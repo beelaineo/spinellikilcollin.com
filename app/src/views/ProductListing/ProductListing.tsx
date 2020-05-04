@@ -21,15 +21,17 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       <ProductListingHeader collection={collection} />
       <ProductGrid>
         {products
-          ? products.map((product) =>
-              product ? (
-                <ProductThumbnail
-                  displayPrice
-                  key={product._id || 'some-key'}
-                  product={product}
-                />
-              ) : null,
-            )
+          ? products
+              .filter((p) => p && p.archived !== true)
+              .map((product) =>
+                product ? (
+                  <ProductThumbnail
+                    displayPrice
+                    key={product._id || 'some-key'}
+                    product={product}
+                  />
+                ) : null,
+              )
           : null}
       </ProductGrid>
     </Wrapper>

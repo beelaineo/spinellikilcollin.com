@@ -11,7 +11,9 @@ interface CollectionQueryResult {
 
 export const collectionQuery = gql`
   query CollectionPageQuery($handle: String) {
-    allShopifyCollection(where: { handle: { eq: $handle } }) {
+    allShopifyCollection(
+      where: { handle: { eq: $handle }, archived: { neq: true } }
+    ) {
       _id
       _type
       _key
@@ -21,7 +23,7 @@ export const collectionQuery = gql`
       hero {
         ...HeroFragment
       }
-      products {
+      products(where: { archived: { neq: true } }) {
         _id
         _key
         shopifyId
