@@ -61,3 +61,32 @@ export const TagBadge = styled.div`
   padding: 0 3;
   margin-bottom: 2;
 `
+
+export const SwatchesWrapper = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+`
+
+export const SwatchLabel = styled.div`
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  text-align: center;
+  white-space: nowrap;
+  transform: translate(-50%);
+  transition: 0.2s;
+  opacity: 0;
+`
+
+export const SwatchWrapper = styled.div`
+  position: relative;
+  width: 25px;
+  margin: 0 4px;
+
+  &:hover {
+    ${SwatchLabel} {
+      opacity: 1;
+    }
+  }
+`

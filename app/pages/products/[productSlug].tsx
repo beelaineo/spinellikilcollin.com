@@ -86,9 +86,6 @@ const productQuery = gql`
           swatch {
             ...SanityImageFragment
           }
-          gallery {
-            ...RichImageFragment
-          }
         }
       }
       variants {

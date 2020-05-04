@@ -4,6 +4,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { ShopifyProduct } from '../../types'
 import { Heading } from '../Text'
 import { TagBadges } from './TagBadges'
+import { ProductSwatches } from './ProductSwatches'
 import { formatMoney } from '../../utils'
 import { BackgroundImage, ProductInfo, ProductThumb } from './styled'
 
@@ -50,6 +51,7 @@ export const ProductThumbnail = ({
               </>
             ) : null}
           </ProductInfo>
+          <ProductSwatches product={product} />
         </a>
       </Link>
     </ProductThumb>

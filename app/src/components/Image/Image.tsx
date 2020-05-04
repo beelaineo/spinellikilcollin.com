@@ -81,7 +81,7 @@ interface ImageProps {
   image?: null | ShopifySourceImage | SanityImage | RichImage | void
   hoverImage?: null | ShopifySourceImage | SanityImage | RichImage | void
   ratio?: number
-  // TODO sizes?: string
+  sizes?: string
   onLoad?: () => void
 }
 
