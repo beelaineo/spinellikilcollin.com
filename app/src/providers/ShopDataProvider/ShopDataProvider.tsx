@@ -16,7 +16,7 @@ const { useContext } = React
 interface ShopDataContextValue {
   ready: boolean
   menu?: Menu
-  getProductInfoBlocks: (product: ShopifyProduct) => DefinitelyProductInfo[]
+  getProductInfoBlocks: (product: ShopifyProduct) => ProductInfo[]
   siteSettings?: SiteSettings
   productInfoSettings?: ProductInfoSettings
 }
@@ -42,14 +42,6 @@ interface Person {
   name: string
 }
 
-interface DefinitelyProductInfo {
-  __typename: 'ProductInfo'
-  _key: string
-  _type: string
-  title: string
-  bodyRaw?: Scalars['JSON']
-}
-
 export const ShopDataProvider = ({ children }: Props) => {
   const response = useQuery<ShopDataResponse>(SHOP_DATA_QUERY)
 
@@ -63,10 +55,9 @@ export const ShopDataProvider = ({ children }: Props) => {
     ? response?.data?.ProductInfoSettings
     : undefined
 
-  const getProductInfoBlocks = (
-    product: ShopifyProduct,
-  ): DefinitelyProductInfo[] => {
-    if (!productInfoBlocks) return []
+  const getProductInfoBlocks = (product: ShopifyProduct): ProductInfo[] => {
+    const productBlocks = definitely(product.info)
+    if (!productInfoBlocks) return productBlocks
     const { globalInfo, infoByType, infoByTag } = productInfoBlocks
     const globalBlocks = globalInfo ? definitely(globalInfo) : []
     const sourceTags = product?.sourceData?.tags
@@ -111,18 +102,13 @@ export const ShopDataProvider = ({ children }: Props) => {
           }, [])
         : []
 
-    const allBlocks = [...globalBlocks, ...tagBlocks, ...typeBlocks]
-    const filteredBlocks = allBlocks.reduce<DefinitelyProductInfo[]>(
-      (acc, block) => {
-        const { _key, _type, title, bodyRaw, __typename } = block
-        if (_key && _type && title && bodyRaw) {
-          return [...acc, { __typename, _key, _type, title, bodyRaw }]
-        }
-        return acc
-      },
-      [],
-    )
-    return filteredBlocks
+    const allBlocks: ProductInfo[] = [
+      ...productBlocks,
+      ...globalBlocks,
+      ...tagBlocks,
+      ...typeBlocks,
+    ]
+    return allBlocks
   }
 
   const value = {

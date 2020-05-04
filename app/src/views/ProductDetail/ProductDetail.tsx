@@ -32,6 +32,7 @@ export const ProductDetail = ({ product }: Props) => {
   const { getProductInfoBlocks } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
+  console.log(accordions)
 
   /* get product variant utils */
   if (!product.sourceData) return null
@@ -141,11 +142,13 @@ export const ProductDetail = ({ product }: Props) => {
                 <Accordion label="Description">{description}</Accordion>
               ) : null}
               {accordions
-                ? accordions.map((a) => (
-                    <Accordion key={a._key} label={a.title}>
-                      <RichText body={a.bodyRaw} />
-                    </Accordion>
-                  ))
+                ? accordions.map((a) =>
+                    a.title ? (
+                      <Accordion key={a._key || 'some-key'} label={a.title}>
+                        <RichText body={a.bodyRaw} />
+                      </Accordion>
+                    ) : null,
+                  )
                 : null}
             </ProductAccordionsWrapper>
           </ProductInfoWrapper>
