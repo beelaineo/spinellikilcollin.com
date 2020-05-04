@@ -24,14 +24,6 @@ export const productOptionValue = {
       name: 'swatch',
       type: 'image',
     },
-    {
-      title: 'Alternate Gallery',
-      name: 'gallery',
-      description:
-        'An alternate gallery of photos to display when this option is selected',
-      type: 'array',
-      of: [{ type: 'richImage' }],
-    },
   ],
   preview: {
     select: {
