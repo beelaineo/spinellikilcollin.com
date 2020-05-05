@@ -6,19 +6,22 @@ export const Wrapper = styled.nav`
   z-index: nav;
   font-family: serif;
   position: fixed;
-  top: 20px;
+  top: 0px;
+  padding-top: 5;
   left: 0;
   right: 0;
   width: 100vw;
 `
 
 export const Inner = styled.nav`
-  height: 50px;
-  display: grid;
-  grid-template-columns: 1fr 220px 1fr;
-  align-items: center;
-  padding: 2 6;
-  width: 100%;
+  ${({ theme }) => css`
+    height: ${theme.navHeight};
+    display: grid;
+    grid-template-columns: 1fr 220px 1fr;
+    align-items: center;
+    padding: 2 6;
+    width: 100%;
+  `}
 `
 
 interface WithReady {

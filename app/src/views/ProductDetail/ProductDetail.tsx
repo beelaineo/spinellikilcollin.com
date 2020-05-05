@@ -32,7 +32,6 @@ export const ProductDetail = ({ product }: Props) => {
   const { getProductInfoBlocks } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
-  console.log(accordions)
 
   /* get product variant utils */
   if (!product.sourceData) return null

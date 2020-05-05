@@ -24,7 +24,6 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   //
   const updateLineItemQuantity = (args: any) => alert('todo')
 
-  console.log(lineItem)
   const [hovered, setHover] = useState('invisible')
   if (!variant) throw new Error('no variant how?')
 
@@ -36,7 +35,6 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     setHover('invisible')
   }
 
-  console.log(lineItem)
   return (
     <CheckoutProductWrapper onMouseOver={updateHover} onMouseOut={removeHover}>
       <Image image={variant.image} />

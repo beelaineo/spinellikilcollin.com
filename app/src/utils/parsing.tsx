@@ -33,7 +33,7 @@ const transform: TransformFunction = (node, index) => {
         case 'h5':
         case 'h6':
           return (
-            <Heading level={3} key={index}>
+            <Heading style={styles} level={3} key={index}>
               {node.children.map(transform)}
             </Heading>
           )
@@ -89,7 +89,7 @@ const transform: TransformFunction = (node, index) => {
             </a>
           )
         default:
-          console.log(node)
+          console.warn('Did not parse node:', node)
           return null
       }
     default:

@@ -16,6 +16,7 @@ declare module 'styled-components' {
     radii: {
       round: string
     }
+    navHeight: string
 
     fonts: {
       serif: string

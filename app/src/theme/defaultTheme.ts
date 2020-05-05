@@ -1,4 +1,4 @@
-import { DefaultTheme } from 'styled-components'
+import { DefaultTheme } from '@xstyled/styled-components'
 
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=22#sat_end=0#sat_curve=easeOutQuart#sat_rate=130#lum_start=12#lum_end=100#lum_curve=easeInCubic#minor_steps_map=0 */
 const grays = [
@@ -25,6 +25,7 @@ export const defaultTheme: DefaultTheme = {
   radii: {
     round: '9px',
   },
+  navHeight: '50px',
   /* Spacing - applies to:
    *   margin, margin-top, margin-right, margin-bottom, margin-left, padding,
    *   padding-top, padding-right, padding-bottom, padding-left, grid-gap,

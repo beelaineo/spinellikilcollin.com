@@ -10,18 +10,27 @@ interface CustomTextProps extends BoxProps {
   theme: DefaultTheme
   fontSize: 1 | 2 | 3 | 4 | 5 | 6
   fontStyle?: string
+  textDecoration?: string
   family?: 'mono' | 'sans' | 'serif'
   weight?: number
   htmlFor?: string
 }
 
 const createTextBase = (as: any) => styled(as)`
-  ${({ family, color, fontStyle, weight, fontSize }: CustomTextProps) => css`
+  ${({
+    family,
+    color,
+    fontStyle,
+    textDecoration,
+    weight,
+    fontSize,
+  }: CustomTextProps) => css`
     font-size: ${fontSize};
     font-family: ${family};
     font-weight: ${weight};
     font-style: ${fontStyle};
     color: ${color};
+    text-decoration: ${textDecoration};
     margin: 2 0 0.5em;
 
     &:last-child {
@@ -44,11 +53,19 @@ const createTextBase = (as: any) => styled(as)`
 `
 
 const TextBase = styled(Box)`
-  ${({ family, weight, fontStyle, fontSize, color }: CustomTextProps) => css`
+  ${({
+    family,
+    weight,
+    fontStyle,
+    textDecoration,
+    fontSize,
+    color,
+  }: CustomTextProps) => css`
     font-size: ${fontSize};
     font-family: ${family};
     font-weight: ${weight};
     font-style: ${fontStyle};
+    text-decoration: ${textDecoration};
     margin: 0 0 0.5em;
     color: ${color}
 
@@ -67,7 +84,8 @@ interface HeadingProps
     BoxProps {
   children: React.ReactNode
   level: 1 | 2 | 3 | 4 | 5 | 6
-  /* A default */
+  // TODO: type these properly
+  style?: any
   as?: any
   htmlFor?: string
 }
@@ -111,7 +129,6 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
       fontSize={4}
       family={family}
       weight={weight || 400}
-      // @ts-ignore
       color={color}
       htmlFor={htmlFor}
       lineHeight="1.3em"

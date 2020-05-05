@@ -1,14 +1,16 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { ThemeProvider } from '@xstyled/styled-components'
 import { JournalEntry } from '../../src/types'
 import { richImageFragment } from '../../src/graphql'
 import { PageContext } from '../_app'
 import { JournalPage } from '../../src/views/JournalPage'
 
 const journalPageQuery = gql`
-  query JournalPageQuery {
-    allJournalEntry {
+  query JournalPageQuery($currentDate: Date) {
+    allJournalEntry(
+      where: { publishDate: { lte: $currentDate } }
+      sort: { publishDate: DESC }
+    ) {
       _id
       _type
       publishDate
@@ -45,11 +47,7 @@ Journal.getInitialProps = async (
   const now = new Date()
   const currentDate = [
     now.getFullYear(),
-    now
-      //
-      .getMonth()
-      .toString()
-      .padStart(2, '0'),
+    (now.getMonth() + 1).toString().padStart(2, '0'),
     now
       //
       .getDate()
