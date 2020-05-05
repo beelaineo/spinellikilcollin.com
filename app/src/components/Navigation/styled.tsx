@@ -7,19 +7,22 @@ export const Wrapper = styled.nav`
   font-family: serif;
   position: fixed;
   top: 0px;
-  padding-top: 5;
+  margin-top: 3;
   left: 0;
   right: 0;
   width: 100vw;
 `
 
-export const Inner = styled.nav`
+export const Inner = styled.div`
   ${({ theme }) => css`
     height: ${theme.navHeight};
     display: grid;
+    border-bottom: 1px solid;
     grid-template-columns: 1fr 220px 1fr;
     align-items: center;
-    padding: 2 6;
+    padding: 2 0;
+    margin: 0 auto;
+    max-width: calc(100% - ${theme.space[6]}px);
     width: 100%;
   `}
 `

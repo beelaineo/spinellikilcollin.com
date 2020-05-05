@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
-import { NormalizeDiv, Button } from '../ProductDetail/styled'
+import { Button } from '../Button'
 import { useCart } from '../../providers/CartProvider'
 import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
 import { Heading } from '../../components/Text'
@@ -17,17 +17,13 @@ export const Checkout = () => {
   const { message } = useCart()
   const { checkout, loading } = useCheckout()
 
-  // const createUpdateLineItemHandler = (lineItemId: string) => (quantity) => {
-  //   updateQuantity({ id: lineItemId, quantity: Math.max(quantity, 0) })
-  // }
-
   if (
     !checkout ||
     !checkout.lineItems ||
     !checkout.lineItems.edges ||
     checkout.lineItems.edges.length < 1
   ) {
-    return <NormalizeDiv>Your cart is empty</NormalizeDiv>
+    return <div>Your cart is empty</div>
   }
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
@@ -35,8 +31,7 @@ export const Checkout = () => {
   const title = message || 'Your Cart'
 
   return (
-    // @ts-ignore
-    <NormalizeDiv top="0">
+    <div>
       <Heading level={2} color="dark" textAlign="center">
         {title}
       </Heading>
@@ -69,24 +64,16 @@ export const Checkout = () => {
             </FlexHalf>
           </FlexContainer>
         ) : null}
-        <NormalizeDiv align="center">
-          <Button
-            as="a"
-            href={checkout.webUrl}
-            background="dark"
-            color="light"
-            weight="semi"
-            width="100%"
-            disabled={loading}
-          >
+        <div>
+          <Button as="a" href={checkout.webUrl} disabled={loading}>
             Checkout
           </Button>
 
           <Heading level={6} textAlign="center">
             Shipping and discount codes are added at checkout.
           </Heading>
-        </NormalizeDiv>
+        </div>
       </CartBottom>
-    </NormalizeDiv>
+    </div>
   )
 }

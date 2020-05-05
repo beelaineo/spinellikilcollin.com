@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { CheckoutLineItem as CheckoutLineItemType } from 'use-shopify'
-import { QuantitySelectorCart } from '../ProductDetail/styled'
+import { QuantitySelectorCart } from './styled'
 import { QuantityInput } from '../../components/QuantityInput'
 import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'

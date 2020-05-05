@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { ShopifyCollection } from '../../types'
-import { ProductGrid, Wrapper } from './styled'
+import { PageWrapper } from '../../components/Layout'
+import { ProductGrid } from './styled'
 import { ProductThumbnail } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { ProductListingHeader } from './ProductListingHeader'
@@ -14,7 +15,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const products = collection.products
   const { hero } = collection
   return (
-    <Wrapper>
+    <PageWrapper>
       <ProductListingFilter collection={collection} />
       {hero ? <HeroBlock hero={hero} /> : null}
 
@@ -34,6 +35,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
               )
           : null}
       </ProductGrid>
-    </Wrapper>
+    </PageWrapper>
   )
 }

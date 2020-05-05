@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
-import { ShopifyProduct, ShopifyProductVariant } from '../../types'
+import { ShopifyProduct } from '../../types'
 import { parseHTML, definitely } from '../../utils'
-import { Column } from '../../components/Layout'
+import { Column, PageWrapper } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import {
   ProductVariantSelector,
@@ -111,7 +111,7 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   return (
-    <Wrapper>
+    <PageWrapper>
       <Column>
         <ProductDetails>
           <ProductImagesWrapper>
@@ -155,6 +155,6 @@ export const ProductDetail = ({ product }: Props) => {
       </Column>
       <ProductDetailFooter product={product} />
       <ProductRelated product={product} />
-    </Wrapper>
+    </PageWrapper>
   )
 }

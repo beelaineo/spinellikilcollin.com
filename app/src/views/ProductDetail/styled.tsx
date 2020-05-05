@@ -187,43 +187,6 @@ export const Button = styled.button`
 
 export const ButtonPrimary = styled(Button)``
 
-interface QuantitySelectorProps {
-  theme: DefaultTheme
-  width?: string
-}
-
-export const QuantitySelector = styled.div`
-  button {
-    text-align-last: center;
-    height: 50px;
-    border: 1px solid body.1;
-    border-radius: 0;
-    -webkit-transition: 0.2s;
-    transition: 0.2s;
-    font-size: 0.85rem;
-    cursor: pointer;
-    -moz-appearance: none;
-    appearance: none;
-    -webkit-appearance: none;
-    border: none;
-    background: none;
-    border-radius: 0;
-    border: 1px solid body.1;
-    padding: 0.5rem 1.2rem;
-    font-family: sans-serif;
-  }
-  input {
-    text-align: center;
-    width: 109px;
-  }
-`
-
-export const QuantitySelectorCart = styled(QuantitySelector)`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`
-
 export const Label = styled.label`
   color: body.6;
   display: block;

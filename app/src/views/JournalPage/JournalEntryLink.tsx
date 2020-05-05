@@ -83,7 +83,7 @@ const TagLink = ({ tag }: TagLinkProps) => {
 export const JournalEntryLink = ({ entry, isFirst }: JournalEntryLinkProps) => {
   const { publishDate, thumbnail, title, slug, tags } = entry
   if (!slug || !slug.current) return null
-  const href = '/journal/[journalSlug]'
+  const href = '/journal/[entrySlug]'
   const as = `/journal/${slug.current}`
 
   return (

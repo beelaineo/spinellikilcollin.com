@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { ContentBlock } from '../../components/ContentBlock'
+import { definitely } from '../../utils'
 import { Homepage as HomepageType } from '../../types'
 
 interface HomepageProps {
@@ -17,9 +18,9 @@ export const Homepage = (props: HomepageProps) => {
   return (
     <Grid>
       {content
-        ? content.map((c) =>
-            c && c._key ? <ContentBlock key={c._key} content={c} /> : null,
-          )
+        ? definitely(content).map((c) => (
+            <ContentBlock key={c._key || 'some-key'} content={c} />
+          ))
         : null}
     </Grid>
   )
