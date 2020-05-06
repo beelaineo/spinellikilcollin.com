@@ -68,6 +68,7 @@ export const internalLink = {
       to: [
         { type: 'shopifyProduct' },
         { type: 'shopifyCollection' },
+        { type: 'journal' },
         { type: 'page' },
       ],
     },
