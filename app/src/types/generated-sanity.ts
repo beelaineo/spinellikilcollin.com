@@ -12,14 +12,14 @@ export type Scalars = {
    * 8601 standard for representation of dates and times using the Gregorian calendar.
    */
   DateTime: Date
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { [key: string]: any }
   /**
    * A date string, such as 2007-12-03, compliant with the `full-date` format
    * outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
    * representation of dates and times using the Gregorian calendar.
    */
   Date: any
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: { [key: string]: any }
 }
 
 export interface Block {
@@ -66,6 +66,54 @@ export type CarouselSorting = {
   title?: Maybe<SortOrder>
 }
 
+export interface Contact extends Document {
+  __typename: 'Contact'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type ContactFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =
+  | Contact
+  | Customize
+  | JournalEntry
+  | JournalPage
+  | Magazine
+  | Page
+  | ShopifyCollection
+  | ShopifyProduct
+
+export type ContactSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
 export interface Cta {
   __typename: 'Cta'
   _key?: Maybe<Scalars['String']>
@@ -86,6 +134,44 @@ export type CtaSorting = {
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+}
+
+export interface Customize extends Document {
+  __typename: 'Customize'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type CustomizeFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type CustomizeSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
 }
 
 export type DateFilter = {
@@ -376,7 +462,9 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
+  document?: Maybe<
+    ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct
+  >
 }
 
 export type InternalLinkFilter = {
@@ -454,6 +542,82 @@ export type JournalEntrySorting = {
   subtitle?: Maybe<SortOrder>
   slug?: Maybe<SlugSorting>
   thumbnail?: Maybe<RichImageSorting>
+}
+
+export interface JournalPage extends Document {
+  __typename: 'JournalPage'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type JournalPageFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type JournalPageSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
+export interface Magazine extends Document {
+  __typename: 'Magazine'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type MagazineFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type MagazineSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
 }
 
 export interface Menu extends Document {
@@ -760,20 +924,28 @@ export interface RootQuery {
   __typename: 'RootQuery'
   SiteSettings?: Maybe<SiteSettings>
   JournalEntry?: Maybe<JournalEntry>
+  JournalPage?: Maybe<JournalPage>
   Menu?: Maybe<Menu>
   Homepage?: Maybe<Homepage>
   Page?: Maybe<Page>
   ProductInfoSettings?: Maybe<ProductInfoSettings>
+  Magazine?: Maybe<Magazine>
+  Contact?: Maybe<Contact>
+  Customize?: Maybe<Customize>
   ShopifyProduct?: Maybe<ShopifyProduct>
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
   SanityFileAsset?: Maybe<SanityFileAsset>
   allSiteSettings: Array<SiteSettings>
   allJournalEntry: Array<JournalEntry>
+  allJournalPage: Array<JournalPage>
   allMenu: Array<Menu>
   allHomepage: Array<Homepage>
   allPage: Array<Page>
   allProductInfoSettings: Array<ProductInfoSettings>
+  allMagazine: Array<Magazine>
+  allContact: Array<Contact>
+  allCustomize: Array<Customize>
   allShopifyProduct: Array<ShopifyProduct>
   allShopifyCollection: Array<ShopifyCollection>
   allSanityImageAsset: Array<SanityImageAsset>
@@ -785,6 +957,10 @@ export type RootQuerySiteSettingsArgs = {
 }
 
 export type RootQueryJournalEntryArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryJournalPageArgs = {
   id: Scalars['ID']
 }
 
@@ -801,6 +977,18 @@ export type RootQueryPageArgs = {
 }
 
 export type RootQueryProductInfoSettingsArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryMagazineArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryContactArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryCustomizeArgs = {
   id: Scalars['ID']
 }
 
@@ -834,6 +1022,13 @@ export type RootQueryAllJournalEntryArgs = {
   offset?: Maybe<Scalars['Int']>
 }
 
+export type RootQueryAllJournalPageArgs = {
+  where?: Maybe<JournalPageFilter>
+  sort?: Maybe<Array<JournalPageSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
 export type RootQueryAllMenuArgs = {
   where?: Maybe<MenuFilter>
   sort?: Maybe<Array<MenuSorting>>
@@ -858,6 +1053,27 @@ export type RootQueryAllPageArgs = {
 export type RootQueryAllProductInfoSettingsArgs = {
   where?: Maybe<ProductInfoSettingsFilter>
   sort?: Maybe<Array<ProductInfoSettingsSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllMagazineArgs = {
+  where?: Maybe<MagazineFilter>
+  sort?: Maybe<Array<MagazineSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllContactArgs = {
+  where?: Maybe<ContactFilter>
+  sort?: Maybe<Array<ContactSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllCustomizeArgs = {
+  where?: Maybe<CustomizeFilter>
+  sort?: Maybe<Array<CustomizeSorting>>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
 }
@@ -1560,6 +1776,8 @@ export interface ShopifySourceImage {
   w100?: Maybe<Scalars['String']>
   w300?: Maybe<Scalars['String']>
   w800?: Maybe<Scalars['String']>
+  w1200?: Maybe<Scalars['String']>
+  w1600?: Maybe<Scalars['String']>
 }
 
 export interface ShopifySourceImageEdge {
@@ -1596,6 +1814,8 @@ export type ShopifySourceImageFilter = {
   w100?: Maybe<StringFilter>
   w300?: Maybe<StringFilter>
   w800?: Maybe<StringFilter>
+  w1200?: Maybe<StringFilter>
+  w1600?: Maybe<StringFilter>
 }
 
 export interface ShopifySourceImages {
@@ -1619,6 +1839,8 @@ export type ShopifySourceImageSorting = {
   w100?: Maybe<SortOrder>
   w300?: Maybe<SortOrder>
   w800?: Maybe<SortOrder>
+  w1200?: Maybe<SortOrder>
+  w1600?: Maybe<SortOrder>
 }
 
 export type ShopifySourceImagesSorting = {

@@ -17,7 +17,7 @@
 		"dev": "next",
 		"build": "next build",
 		"install-types": "typesync && yarn install",
-		"generate-types": "graphql get-schema && graphql-codegen && prettier ./src/types/**/* --write",
+		"generate-types": "graphql-codegen -r dotenv/config && prettier ./src/types/**/* --write",
 		"test": "jest",
 		"test:watch": "jest --watch"
 	},
@@ -56,6 +56,8 @@
 		"@good-idea/unwind-edges": "^1.4.0",
 		"@sane-shopify/server": "^0.11.2",
 		"@sanity/block-content-to-react": "^2.0.7",
+		"@sanity/client": "^1.149.7",
+		"@sanity/image-url": "^0.140.18",
 		"@xstyled/styled-components": "^1.17.1",
 		"apollo-cache-inmemory": "^1.6.5",
 		"apollo-client": "^2.6.8",

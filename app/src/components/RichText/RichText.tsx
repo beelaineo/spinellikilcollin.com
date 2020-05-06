@@ -1,14 +1,24 @@
 import * as React from 'react'
+import styled from '@xstyled/styled-components'
 import * as BlockContent from '@sanity/block-content-to-react'
 import { Heading, P, BlockQuote, Li, Ul, Ol } from '../Text'
+import { Image } from '../Image'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
+  imageSizes?: string
 }
+
+const RichTextWrapper = styled.div`
+  line-height: 1.4em;
+`
 
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
-const serializers = ({ blockWrapper: Wrapper }: CustomSerializerConfig) => ({
+const serializers = ({
+  blockWrapper: Wrapper,
+  imageSizes,
+}: CustomSerializerConfig) => ({
   list: (props) => {
     if (props.type === 'number') return <Ol {...props} />
     return <Ul {...props} />
@@ -17,26 +27,27 @@ const serializers = ({ blockWrapper: Wrapper }: CustomSerializerConfig) => ({
   block: (props): React.ReactNode => {
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
-
     if (Wrapper) return <Wrapper {...props} />
 
     const style = props.node.style || 'normal'
-    // if (props.node._type === 'image') return <SanityImage image={props.node} />
+    if (/image|richImage/.test(props.node._type)) {
+      return <Image image={props.node} sizes={imageSizes} />
+    }
     // if (props.node._type === 'videoEmbed') return <VideoEmbed video={props.node} />
 
     switch (style) {
       case 'h1':
-        return <Heading level={1} {...props} />
+        return <Heading level={1} weight={4} {...props} />
       case 'h2':
-        return <Heading level={2} {...props} />
+        return <Heading level={2} weight={4} {...props} />
       case 'h3':
-        return <Heading level={3} {...props} />
+        return <Heading level={3} weight={4} {...props} />
       case 'h4':
-        return <Heading level={4} {...props} />
+        return <Heading level={4} weight={4} {...props} />
       case 'h5':
-        return <Heading level={5} {...props} />
+        return <Heading level={5} weight={4} {...props} />
       case 'h6':
-        return <Heading level={6} {...props} />
+        return <Heading level={6} weight={4} {...props} />
       case 'blockquote':
         return <BlockQuote {...props} />
       case 'normal':
@@ -50,9 +61,23 @@ const serializers = ({ blockWrapper: Wrapper }: CustomSerializerConfig) => ({
 interface RichTextProps {
   body?: { [key: string]: any } | null
   blockWrapper?: React.ComponentType
+  wrapper?: React.ComponentType
+  imageSizes?: string
 }
 
-export const RichText = ({ body, blockWrapper }: RichTextProps) =>
-  body ? (
-    <BlockContent blocks={body} serializers={serializers({ blockWrapper })} />
+export const RichText = ({
+  body,
+  blockWrapper,
+  wrapper: CustomWrapper,
+  imageSizes,
+}: RichTextProps) => {
+  const Wrapper = CustomWrapper || RichTextWrapper
+  return body ? (
+    <Wrapper>
+      <BlockContent
+        blocks={body}
+        serializers={serializers({ blockWrapper, imageSizes })}
+      />
+    </Wrapper>
   ) : null
+}

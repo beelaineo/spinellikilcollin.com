@@ -1,9 +1,6 @@
 import * as React from 'react'
-import {
-  ShopifySourceImage,
-  Image as SanityImage,
-  RichImage,
-} from '../../types'
+import { Maybe } from '../../types'
+import { ImageType, getImageDetails } from './utils'
 import {
   MainImage,
   HoverImage,
@@ -11,42 +8,6 @@ import {
   Picture,
   RatioImageFill,
 } from './styled'
-
-interface ImageDetails {
-  src: string | null | void
-  altText?: string | null
-  // fileType: string
-  // TODO srcSet
-  // TODO srcSetWebP
-  // TODO dimensions: Dimensions
-  // TODO fileType: fileType
-}
-
-/* Based on the image type, return a src, srcset, altText, etc */
-const getImageDetails = (
-  image: ShopifySourceImage | SanityImage | RichImage,
-): ImageDetails => {
-  // TODO: when use-shopify includes the __typename, the switch below will work
-  // @ts-ignore
-  if (image.originalSrc) return { src: image.originalSrc }
-  switch (image.__typename) {
-    case 'RichImage':
-      return {
-        src: image?.asset?.url,
-        altText: image.altText,
-      }
-    case 'ShopifySourceImage':
-      return { src: image.originalSrc, altText: image.altText }
-    case 'Image':
-      return {
-        src: image?.asset?.url,
-        // TODO get alt text if present
-      }
-    default:
-      // @ts-ignore
-      throw new Error(`Image type "${image.__typename}" is not supported`)
-  }
-}
 
 /**
  * A placeholder box to enforce image size
@@ -78,19 +39,29 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
 }
 
 interface ImageProps {
-  image?: null | ShopifySourceImage | SanityImage | RichImage | void
-  hoverImage?: null | ShopifySourceImage | SanityImage | RichImage | void
+  image?: Maybe<ImageType>
+  hoverImage?: Maybe<ImageType>
   ratio?: number
   sizes?: string
   onLoad?: () => void
 }
 
-export const Image = ({ image, hoverImage, onLoad, ratio }: ImageProps) => {
+export const Image = ({
+  image,
+  sizes: customSizes,
+  hoverImage,
+  onLoad,
+  ratio,
+}: ImageProps) => {
   if (!image) return null
+  const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
   const imageRef = React.useRef<HTMLImageElement>(null)
 
-  const { src, altText } = React.useMemo(() => getImageDetails(image), [image])
+  const { src, altText, srcSet, srcSetWebp } = React.useMemo(
+    () => getImageDetails(image),
+    [image],
+  )
   const hoverDetails = React.useMemo(
     () => (hoverImage ? getImageDetails(hoverImage) : null),
     [hoverImage],
@@ -119,8 +90,12 @@ export const Image = ({ image, hoverImage, onLoad, ratio }: ImageProps) => {
     <Wrapper>
       {ratio ? <RatioPadding ratio={ratio} /> : null}
       <Picture loaded={loaded}>
-        {/* <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} /> */}
-        {/* <source type={imageType} srcSet={srcSet} sizes={sizes} /> */}
+        {srcSetWebp ? (
+          <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
+        ) : null}
+        {srcSet ? (
+          <source type="image/jpg" srcSet={srcSet} sizes={sizes} />
+        ) : null}
         <MainImage
           src={src}
           alt={altText || ''}
@@ -128,7 +103,11 @@ export const Image = ({ image, hoverImage, onLoad, ratio }: ImageProps) => {
           onLoad={handleOnLoad}
         />
         {hoverDetails && hoverDetails.src ? (
-          <HoverImage src={hoverDetails.src} />
+          <HoverImage
+            src={hoverDetails.src}
+            sizes={sizes}
+            srcSet={srcSetWebp || srcSet || undefined}
+          />
         ) : null}
       </Picture>
     </Wrapper>

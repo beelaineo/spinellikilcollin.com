@@ -1,10 +1,11 @@
+overwrite: true
 generates:
-  fragmentTypes-sanity.json:
-    schema: https://i21fjdbi.api.sanity.io/v1/graphql/production/default
+  ./fragmentTypes-sanity.json:
+    schema: ${SANITY_GRAPHQL_URL}
     plugins:
       - fragment-matcher
-  src/types/generated-sanity.ts:
-    schema: https://i21fjdbi.api.sanity.io/v1/graphql/production/default
+  ./src/types/generated-sanity.ts:
+    schema: ${SANITY_GRAPHQL_URL}
     plugins:
       - typescript
     config:
@@ -14,13 +15,28 @@ generates:
         JSON: '{ [key: string]: any }'
       declarationKind:
         type: 'interface'
-  src/types/generated-shopify.ts:
-    schema: ./schema-shopify.graphql
+  # ./fragmentTypes-shopify.json:
+  #   schema:
+  #     - https://spinellikilcollin.myshopify.com/api/graphql:
+  #         headers:
+  #           X-ShopifyStorefront-Access-Token: 0d3e3d2a74d125f799cd78a72e6c0000
+  #   plugins:
+  #     - fragment-matcher
+  ./src/types/generated-shopify.ts:
+    schema:
+      - https://good-idea-dev.myshopify.com/api/graphql:
+          headers:
+            X-Shopify-Storefront-Access-Token: 'd1fda2e02fbf98d5f82fbba3530b7771'
+    # IDK WHY the spinelli api errors. But the type are the same..
+    # schema:
+    #   - https://spinellikilcollin.myshopify.com/api/graphql:
+    #       headers:
+    #         X-ShopifyStorefront-Access-Token: '0d3e3d2a74d125f799cd78a72e6c0000'
     plugins:
       - typescript
     config:
       nonOptionalTypename: true
-      typesPrefix: 'StorefrontApi'
+      typesPrefix: 'ShopifyStorefront'
       scalars:
         DateTime: Date
         JSON: '{ [key: string]: any }'

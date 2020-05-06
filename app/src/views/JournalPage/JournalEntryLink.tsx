@@ -5,6 +5,7 @@ import { JournalEntry } from '../../types'
 import { Image } from '../../components/Image'
 import { Heading } from '../../components/Text'
 import { definitely, niceDate } from '../../utils'
+import { TagLink } from '../../components/Tags'
 
 interface JournalEntryLinkProps {
   entry: JournalEntry
@@ -62,23 +63,6 @@ const DateTags = styled.divBox<WrapperProps>`
     margin-bottom: ${isFirst ? 2 : 0};
   `}
 `
-
-interface TagLinkProps {
-  tag: string
-}
-
-const TagLink = ({ tag }: TagLinkProps) => {
-  return (
-    <Heading
-      ml={3}
-      level={5}
-      textDecoration="underline"
-      textTransform="uppercase"
-    >
-      {tag}
-    </Heading>
-  )
-}
 
 export const JournalEntryLink = ({ entry, isFirst }: JournalEntryLinkProps) => {
   const { publishDate, thumbnail, title, slug, tags } = entry

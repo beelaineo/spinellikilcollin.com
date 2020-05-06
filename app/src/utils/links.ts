@@ -1,18 +1,20 @@
-import { RichPageLink, ExternalLink, InternalLink } from '../types'
-
-type LinkType = RichPageLink | ExternalLink | InternalLink
+import { ExternalLinkOrInternalLink } from '../types'
 
 interface LinkInfo {
   href: string
   as?: string
 }
 
-export const getPageLinkLabel = (link: LinkType): string | void =>
+export const getPageLinkLabel = (
+  link: ExternalLinkOrInternalLink,
+): string | void =>
   link.__typename === 'ExternalLink'
     ? undefined
     : link?.document?.title || undefined
 
-export const getPageLinkUrl = (link: LinkType): LinkInfo | void => {
+export const getPageLinkUrl = (
+  link: ExternalLinkOrInternalLink,
+): LinkInfo | void => {
   // If it is an external link, return the URL
   if (link.__typename === 'ExternalLink') {
     return link.url ? { href: link.url } : undefined

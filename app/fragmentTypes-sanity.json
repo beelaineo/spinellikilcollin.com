@@ -9,6 +9,24 @@
             "name": "SiteSettings"
           },
           {
+            "name": "Contact"
+          },
+          {
+            "name": "Customize"
+          },
+          {
+            "name": "JournalEntry"
+          },
+          {
+            "name": "SanityImageAsset"
+          },
+          {
+            "name": "JournalPage"
+          },
+          {
+            "name": "Magazine"
+          },
+          {
             "name": "Page"
           },
           {
@@ -16,12 +34,6 @@
           },
           {
             "name": "ShopifyProduct"
-          },
-          {
-            "name": "SanityImageAsset"
-          },
-          {
-            "name": "JournalEntry"
           },
           {
             "name": "Menu"
@@ -46,6 +58,36 @@
           },
           {
             "name": "InternalLink"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct",
+        "possibleTypes": [
+          {
+            "name": "Contact"
+          },
+          {
+            "name": "Customize"
+          },
+          {
+            "name": "JournalEntry"
+          },
+          {
+            "name": "JournalPage"
+          },
+          {
+            "name": "Magazine"
+          },
+          {
+            "name": "Page"
+          },
+          {
+            "name": "ShopifyCollection"
+          },
+          {
+            "name": "ShopifyProduct"
           }
         ]
       },
