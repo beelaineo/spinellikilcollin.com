@@ -1,3 +1,4 @@
+export * from './team'
 export * from './siteSettings'
 export * from './journal'
 export * from './journalPage'

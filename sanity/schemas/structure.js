@@ -9,6 +9,15 @@ export default () =>
     .title('Site')
     .items([
       S.listItem()
+        .title('Site Settings')
+        .icon(MdSettings)
+        .child(
+          S.editor()
+            .id('config')
+            .schemaType('siteSettings')
+            .documentId('site-settings'),
+        ),
+      S.listItem()
         .title('Homepage')
         .icon(MdHome)
         .child(
@@ -111,12 +120,11 @@ export default () =>
         ),
 
       S.listItem()
-        .title('Site Settings')
-        .icon(MdSettings)
+        .title('Team')
         .child(
           S.editor()
-            .id('config')
-            .schemaType('siteSettings')
-            .documentId('site-settings'),
+            .id('teamPage')
+            .schemaType('teamPage')
+            .documentId('teamPage'),
         ),
     ])
