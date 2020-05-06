@@ -6,7 +6,6 @@ import { getReferencedDocument, getShopifyThumbnail } from '../utils'
 
 const getPreviewValues = async (values) => {
   const { link, label } = values
-  console.log(link)
   if (!link || !link.document || !link.document._ref)
     return { title: 'Missing Link' }
   const linkedDoc = await getReferencedDocument(link.document._ref)

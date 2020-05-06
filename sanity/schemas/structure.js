@@ -32,7 +32,11 @@ export default () =>
         .id('products')
         .title('Products')
         .icon(TiDevicePhone)
-        .child(S.documentTypeList('shopifyProduct')),
+        .child(
+          S.documentList()
+            .title('Products')
+            .filter('_type == "shopifyProduct" && archived != true'),
+        ),
 
       S.listItem()
         .title('Product Info')
@@ -49,21 +53,62 @@ export default () =>
         .id('collections')
         .title('Collections')
         .icon(TiThSmallOutline)
-        .child(S.documentTypeList('shopifyCollection')),
+        .child(
+          S.documentList()
+            .title('Collections')
+            .filter('_type == "shopifyCollection" && archived != true'),
+        ),
 
       // Journal
+
+      S.listItem()
+        .title('Journal (Main Page)')
+        .icon(FaPencilAlt)
+        .child(
+          S.editor()
+            .id('journalPage')
+            .schemaType('journalPage')
+            .documentId('journalPage'),
+        ),
+
       S.listItem()
         .id('journal')
         .title('Journal')
         .icon(FaPencilAlt)
         .child(S.documentTypeList('journalEntry')),
 
-      // Static pages: About, Contact
       S.listItem()
         .id('pages')
         .title('Pages')
         .icon(TiDocument)
         .child(S.documentTypeList('page')),
+
+      S.listItem()
+        .title('.925')
+        .child(
+          S.editor()
+            .id('magazine')
+            .schemaType('magazine')
+            .documentId('magazine'),
+        ),
+
+      S.listItem()
+        .title('Contact')
+        .child(
+          S.editor()
+            .id('contact')
+            .schemaType('contact')
+            .documentId('contact'),
+        ),
+
+      S.listItem()
+        .title('Customize')
+        .child(
+          S.editor()
+            .id('customize')
+            .schemaType('customize')
+            .documentId('customize'),
+        ),
 
       S.listItem()
         .title('Site Settings')
