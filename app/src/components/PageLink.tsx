@@ -1,10 +1,10 @@
 import * as React from 'react'
 import NextLink from 'next/link'
-import { RichPageLink, ExternalLink, InternalLink } from '../types'
+import { RichPageLink, ExternalLinkOrInternalLink } from '../types'
 import { getPageLinkUrl, getPageLinkLabel } from '../utils/links'
 
 interface LinkProps {
-  link?: RichPageLink | ExternalLink | InternalLink | null
+  link?: RichPageLink | ExternalLinkOrInternalLink | null
   children?: React.ReactNode
   label?: string
   render?: (label: string | void) => React.ReactNode

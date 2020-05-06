@@ -1,23 +1,22 @@
-import { ExternalLinkOrInternalLink } from '../types'
+import { RichPageLink, ExternalLinkOrInternalLink } from '../types'
+
+type LinkType = RichPageLink | ExternalLinkOrInternalLink
 
 interface LinkInfo {
   href: string
   as?: string
 }
 
-export const getPageLinkLabel = (
-  link: ExternalLinkOrInternalLink,
-): string | void =>
+export const getPageLinkLabel = (link: LinkType): string | void =>
   link.__typename === 'ExternalLink'
     ? undefined
     : link?.document?.title || undefined
 
-export const getPageLinkUrl = (
-  link: ExternalLinkOrInternalLink,
-): LinkInfo | void => {
+export const getPageLinkUrl = (link: LinkType): LinkInfo => {
   // If it is an external link, return the URL
   if (link.__typename === 'ExternalLink') {
-    return link.url ? { href: link.url } : undefined
+    if (!link.url) throw new Error('External link does not have a url')
+    return { href: link.url }
   }
   // Otherwise, it is either a RichPageLink or InternalLink,
   // both of which will have a 'document'
@@ -33,6 +32,34 @@ export const getPageLinkUrl = (
       return {
         href: `/products/[productSlug]`,
         as: `/products/${document.handle}`,
+      }
+
+    case 'Magazine':
+      return {
+        href: '/925',
+      }
+
+    case 'Customize':
+      return {
+        href: '/customize',
+      }
+
+    case 'JournalPage':
+      return {
+        href: '/journal',
+      }
+
+    case 'JournalEntry':
+      const slug = document?.slug?.current
+      if (!slug) throw new Error(`Page "${document.title}" has no slug`)
+      return {
+        href: '/journal/[entrySlug]',
+        as: `/journal/${slug}`,
+      }
+
+    case 'Contact':
+      return {
+        href: '/contact',
       }
 
     case 'Page':

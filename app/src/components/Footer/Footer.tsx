@@ -14,6 +14,7 @@ export const Footer = () => {
   const footerLinks = shopData?.siteSettings?.links ?? []
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''
   const mailerSubtitle = shopData?.siteSettings?.mailerSubtitle ?? ''
+  console.log(footerLinks)
   return (
     <FooterWrapper>
       <FooterInner>

@@ -49,6 +49,36 @@ export const internalLinkFragment = gql`
     _key
     _type
     document {
+      ... on Contact {
+        _type
+        _key
+        title
+      }
+      ... on Customize {
+        _type
+        _key
+        title
+      }
+      ... on JournalEntry {
+        _type
+        _key
+        title
+        slug {
+          current
+        }
+      }
+      ... on JournalPage {
+        _type
+        _key
+        title
+      }
+
+      ... on Magazine {
+        _type
+        _key
+        title
+      }
+
       ... on Page {
         _type
         _key

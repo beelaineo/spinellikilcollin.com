@@ -66,7 +66,6 @@ const getSanityImageDetails = (
     })),
   )
 
-  console.log(srcSet)
   const { altText } = image
 
   return { src, srcSet, srcSetWebp, altText }
