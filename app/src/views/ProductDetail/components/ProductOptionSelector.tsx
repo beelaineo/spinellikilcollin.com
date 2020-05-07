@@ -2,14 +2,15 @@ import React, { SyntheticEvent } from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { ShopifyProductOption, ShopifyProductVariant } from '../../../types'
 import { Heading } from '../../../components/Text'
-import { Select } from '../../../components/Forms'
+import { Form, Field } from '../../../components/Forms'
 import { ColorSelector } from './ColorSelector'
+import { definitely } from '../../../utils'
 
-const ProductSelect = styled(Select)`
-  border: 1px solid;
-  border-color: body.4;
-  color: body.8;
-`
+// const ProductSelect = styled(Select)`
+//   border: 1px solid;
+//   border-color: body.4;
+//   color: body.8;
+// `
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
@@ -46,12 +47,26 @@ export const ProductOptionSelector = ({
 
   const selectOption = changeValueForOption(option.name)
 
-  const handleSelectChange = (optionId: string) => (
-    e: SyntheticEvent<HTMLSelectElement>,
-  ) => {
-    const value = e.currentTarget.value
+  const handleSelectChange = (optionId: string) => (value: string) => {
     changeValueForOption(optionId)(value)
   }
+
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault()
+  }
+
+  const options = definitely(
+    definitely(option.values).map(({ value }) =>
+      value
+        ? {
+            value: value,
+            id: value,
+            label: value,
+          }
+        : null,
+    ),
+  )
+
   return (
     <Wrapper>
       <Heading level={4} mb={2}>
@@ -61,18 +76,14 @@ export const ProductOptionSelector = ({
         <ColorSelector selectOption={selectOption} option={option} />
       ) : (
         <SelectWrapper>
-          <ProductSelect
-            id={option.name}
-            onChange={handleSelectChange(option.name)}
-          >
-            {option.values.map((v) =>
-              v && v._key && v.value ? (
-                <option key={v._key} value={v.value}>
-                  {v.value}
-                </option>
-              ) : null,
-            )}
-          </ProductSelect>
+          <Form onSubmit={handleSubmit}>
+            <Field
+              type="select"
+              name={option.name}
+              onChange={handleSelectChange(option.name)}
+              options={options}
+            />
+          </Form>
         </SelectWrapper>
       )}
     </Wrapper>

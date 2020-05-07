@@ -26,7 +26,8 @@ export const createValidator = (
   }
 }
 
-export interface CountryOption extends Option {
+export interface CountryPhoneOption extends Option {
+  value: string
   meta: {
     phoneFormat: string
     flagEmoji: string
@@ -34,20 +35,21 @@ export interface CountryOption extends Option {
   }
 }
 
-export const countryOptions = countries
+export const countryOptions: CountryPhoneOption[] = countries
   .filter(
-    (country) => country.flags === '' || country.flags.includes('phone_only'),
+    (country) =>
+      country?.flags &&
+      (country.flags === '' || country.flags.includes('phone_only')),
   )
-  .map(({ countryCode, english, spanish, ...meta }) => {
-    const label = [
-      currentLanguage === ES ? spanish : english,
-      meta.flagEmoji,
-      `+ ${meta.dialingCode}`,
-    ].join('  ')
+  .map(({ countryCode, english, dialingCode, ...meta }) => {
+    const label = [english, meta.flagEmoji, `+ ${dialingCode}`].join('  ')
     const id = [countryCode, english].join('-')
     return {
       value: countryCode,
-      meta,
+      meta: {
+        dialingCode: dialingCode.toString(),
+        ...meta,
+      },
       id,
       label,
     }

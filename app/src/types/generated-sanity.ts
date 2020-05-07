@@ -596,6 +596,8 @@ export interface Magazine extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
+  descriptionRaw?: Maybe<Scalars['JSON']>
+  coverImage?: Maybe<RichImage>
 }
 
 export type MagazineFilter = {
@@ -608,6 +610,7 @@ export type MagazineFilter = {
   _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
+  coverImage?: Maybe<RichImageFilter>
 }
 
 export type MagazineSorting = {
@@ -618,6 +621,7 @@ export type MagazineSorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
+  coverImage?: Maybe<RichImageSorting>
 }
 
 export interface Menu extends Document {
@@ -922,6 +926,7 @@ export type RichPageLinkSorting = {
 
 export interface RootQuery {
   __typename: 'RootQuery'
+  TeamPage?: Maybe<TeamPage>
   SiteSettings?: Maybe<SiteSettings>
   JournalEntry?: Maybe<JournalEntry>
   JournalPage?: Maybe<JournalPage>
@@ -936,6 +941,7 @@ export interface RootQuery {
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
   SanityFileAsset?: Maybe<SanityFileAsset>
+  allTeamPage: Array<TeamPage>
   allSiteSettings: Array<SiteSettings>
   allJournalEntry: Array<JournalEntry>
   allJournalPage: Array<JournalPage>
@@ -950,6 +956,10 @@ export interface RootQuery {
   allShopifyCollection: Array<ShopifyCollection>
   allSanityImageAsset: Array<SanityImageAsset>
   allSanityFileAsset: Array<SanityFileAsset>
+}
+
+export type RootQueryTeamPageArgs = {
+  id: Scalars['ID']
 }
 
 export type RootQuerySiteSettingsArgs = {
@@ -1006,6 +1016,13 @@ export type RootQuerySanityImageAssetArgs = {
 
 export type RootQuerySanityFileAssetArgs = {
   id: Scalars['ID']
+}
+
+export type RootQueryAllTeamPageArgs = {
+  where?: Maybe<TeamPageFilter>
+  sort?: Maybe<Array<TeamPageSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
 }
 
 export type RootQueryAllSiteSettingsArgs = {
@@ -2245,4 +2262,65 @@ export type TagBadgeSorting = {
   _type?: Maybe<SortOrder>
   tag?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
+}
+
+export interface TeamMember {
+  __typename: 'TeamMember'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  headshot?: Maybe<RichImage>
+}
+
+export type TeamMemberFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  name?: Maybe<StringFilter>
+  headshot?: Maybe<RichImageFilter>
+}
+
+export type TeamMemberSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  name?: Maybe<SortOrder>
+  headshot?: Maybe<RichImageSorting>
+}
+
+export interface TeamPage extends Document {
+  __typename: 'TeamPage'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  teamMembers?: Maybe<Array<Maybe<TeamMember>>>
+}
+
+export type TeamPageFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type TeamPageSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
 }

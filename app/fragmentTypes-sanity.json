@@ -6,6 +6,12 @@
         "name": "Document",
         "possibleTypes": [
           {
+            "name": "TeamPage"
+          },
+          {
+            "name": "SanityImageAsset"
+          },
+          {
             "name": "SiteSettings"
           },
           {
@@ -16,9 +22,6 @@
           },
           {
             "name": "JournalEntry"
-          },
-          {
-            "name": "SanityImageAsset"
           },
           {
             "name": "JournalPage"

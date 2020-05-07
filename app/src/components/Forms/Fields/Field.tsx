@@ -76,11 +76,10 @@ export const Field = (fieldProps: FieldProps) => {
   const className = `field field--${fieldProps.type} field--${fieldProps.name}`
 
   const noBorder = type === 'checkbox' || type === 'number'
-  const noBackground = type === 'checkbox'
 
   return (
     <div className={className}>
-      <FieldWrapper noBorder={noBorder} noBackground={noBackground}>
+      <FieldWrapper noBorder={noBorder}>
         {children ? children : renderInner()}
       </FieldWrapper>
       {helpText ? (

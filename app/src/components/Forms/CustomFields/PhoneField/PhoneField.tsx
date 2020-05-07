@@ -13,8 +13,12 @@ import {
 
 type PhoneFieldProps = Omit<FieldProps, 'type' | 'placeholder'>
 
+interface Values {
+  phoneCountryCode: string
+}
+
 export const PhoneField = (props: PhoneFieldProps) => {
-  const { values } = useFormikContext()
+  const { values } = useFormikContext<Values>()
   const options = countryOptions
   const currentOption = options.find((o) => o.value === values.phoneCountryCode)
   const mask = maskFromPhoneFormat(currentOption?.meta?.phoneFormat)

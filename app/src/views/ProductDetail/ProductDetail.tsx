@@ -15,7 +15,6 @@ import {
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import {
-  Wrapper,
   ProductDetails,
   ProductInfoWrapper,
   ProductImagesWrapper,
@@ -111,50 +110,52 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   return (
-    <PageWrapper>
-      <Column>
-        <ProductDetails>
-          <ProductImagesWrapper>
-            <ProductImages
-              selectVariant={selectVariant}
+    <>
+      <PageWrapper>
+        <Column>
+          <ProductDetails>
+            <ProductImagesWrapper>
+              <ProductImages
+                selectVariant={selectVariant}
+                currentVariant={currentVariant}
+                product={product}
+              />
+            </ProductImagesWrapper>
+            <ProductDetailHeader
               currentVariant={currentVariant}
               product={product}
             />
-          </ProductImagesWrapper>
-          <ProductDetailHeader
-            currentVariant={currentVariant}
-            product={product}
-          />
-          <ProductInfoWrapper>
-            <ProductVariantSelector
-              variants={variants}
-              currentVariant={currentVariant}
-              changeValueForOption={changeValueForOption}
-              product={product}
-            />
-            <BuyButton
-              addLineItem={addLineItem}
-              currentVariant={currentVariant}
-            />
-            <ProductAccordionsWrapper>
-              {description ? (
-                <Accordion label="Description">{description}</Accordion>
-              ) : null}
-              {accordions
-                ? accordions.map((a) =>
-                    a.title ? (
-                      <Accordion key={a._key || 'some-key'} label={a.title}>
-                        <RichText body={a.bodyRaw} />
-                      </Accordion>
-                    ) : null,
-                  )
-                : null}
-            </ProductAccordionsWrapper>
-          </ProductInfoWrapper>
-        </ProductDetails>
-      </Column>
+            <ProductInfoWrapper>
+              <ProductVariantSelector
+                variants={variants}
+                currentVariant={currentVariant}
+                changeValueForOption={changeValueForOption}
+                product={product}
+              />
+              <BuyButton
+                addLineItem={addLineItem}
+                currentVariant={currentVariant}
+              />
+              <ProductAccordionsWrapper>
+                {description ? (
+                  <Accordion label="Description">{description}</Accordion>
+                ) : null}
+                {accordions
+                  ? accordions.map((a) =>
+                      a.title ? (
+                        <Accordion key={a._key || 'some-key'} label={a.title}>
+                          <RichText body={a.bodyRaw} />
+                        </Accordion>
+                      ) : null,
+                    )
+                  : null}
+              </ProductAccordionsWrapper>
+            </ProductInfoWrapper>
+          </ProductDetails>
+        </Column>
+      </PageWrapper>
       <ProductDetailFooter product={product} />
       <ProductRelated product={product} />
-    </PageWrapper>
+    </>
   )
 }

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { ShopifyCollection } from '../../src/types'
+import { ShopifyProduct, ShopifyCollection } from '../../src/types'
 import { NotFound, ProductListing } from '../../src/views'
 import {
   shopifySourceImageFragment,
@@ -9,11 +9,7 @@ import {
 } from '../../src/graphql'
 import { PageContext } from '../_app'
 
-interface CollectionQueryResult {
-  allShopifyCollections: [ShopifyCollection]
-}
-
-export const collectionQuery = gql`
+const collectionQuery = gql`
   query CollectionPageQuery($handle: String) {
     allShopifyCollection(
       where: { handle: { eq: $handle }, archived: { neq: true } }
@@ -27,49 +23,58 @@ export const collectionQuery = gql`
       hero {
         ...HeroFragment
       }
-      products {
-        _id
+    }
+  }
+
+  ${heroFragment}
+`
+
+const productsQuery = gql`
+  query AllCollectionProducts($collectionId: ID) {
+    allShopifyProduct(
+      where: { _: { references: $collectionId }, archived: { neq: true } }
+    ) {
+      _id
+      _key
+      archived
+      shopifyId
+      title
+      handle
+      options {
         _key
-        archived
-        shopifyId
-        title
-        handle
-        options {
+        _type
+        shopifyOptionId
+        name
+        values {
           _key
           _type
-          shopifyOptionId
-          name
-          values {
-            _key
-            _type
-            value
-            descriptionRaw
-            swatch {
-              ...SanityImageFragment
-            }
+          value
+          descriptionRaw
+          swatch {
+            ...SanityImageFragment
           }
         }
-        sourceData {
-          id
-          title
-          handle
-          tags
-          priceRange {
-            minVariantPrice {
-              amount
-              currencyCode
-            }
-            maxVariantPrice {
-              amount
-              currencyCode
-            }
+      }
+      sourceData {
+        id
+        title
+        handle
+        tags
+        priceRange {
+          minVariantPrice {
+            amount
+            currencyCode
           }
-          images {
-            edges {
-              cursor
-              node {
-                ...ShopifySourceImageFragment
-              }
+          maxVariantPrice {
+            amount
+            currencyCode
+          }
+        }
+        images {
+          edges {
+            cursor
+            node {
+              ...ShopifySourceImageFragment
             }
           }
         }
@@ -78,7 +83,6 @@ export const collectionQuery = gql`
   }
 
   ${sanityImageFragment}
-  ${heroFragment}
   ${shopifySourceImageFragment}
 `
 
@@ -86,31 +90,44 @@ export interface CollectionResult {
   Collection: ShopifyCollection
 }
 
-interface CollectionPageProps {
-  collection: ShopifyCollection
-}
-
-interface Response {
+interface CollectionResponse {
   allShopifyCollection: ShopifyCollection[]
 }
 
-const Collection = ({ collection }: CollectionPageProps) => {
+interface ProductsResponse {
+  allShopifyProduct: ShopifyProduct[]
+}
+
+interface CollectionPageProps {
+  collection: ShopifyCollection
+  products: ShopifyProduct[]
+}
+
+const Collection = ({ collection, products }: CollectionPageProps) => {
   if (!collection) return <NotFound />
-  return <ProductListing collection={collection} />
+  return <ProductListing collection={collection} products={products} />
 }
 
 Collection.getInitialProps = async (ctx: PageContext) => {
   const { apolloClient, query } = ctx
-  const variables = { handle: query.collectionSlug }
-  const response = await apolloClient.query<Response>({
+  const collectionResponse = await apolloClient.query<CollectionResponse>({
     query: collectionQuery,
-    variables,
+    variables: { handle: query.collectionSlug },
   })
 
-  const collections = response?.data?.allShopifyCollection
+  const collections = collectionResponse?.data?.allShopifyCollection
   const collection = collections.length ? collections[0] : undefined
 
-  return { collection }
+  const productsResponse = collection
+    ? await apolloClient.query<ProductsResponse>({
+        query: productsQuery,
+        variables: { collectionId: collection._id },
+      })
+    : undefined
+
+  const products = productsResponse?.data?.allShopifyProduct || []
+
+  return { collection, products }
 }
 
 export default Collection

@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
-import { CountryOption } from './utils'
+import { CountryPhoneOption } from './utils'
 
 interface HiddenSelectProps {
-  options: CountryOption[]
+  options: CountryPhoneOption[]
   name: string
 }
 

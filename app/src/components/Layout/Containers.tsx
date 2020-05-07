@@ -13,6 +13,6 @@ export const Column = styled.div`
 
 export const PageWrapper = styled.div`
   ${({ theme }) => css`
-    padding: calc(${theme.navHeight} + ${theme.space[5]}px) 5 5;
+    padding: calc(${theme.navHeight} + ${theme.space[6]}px) 5 5;
   `}
 `

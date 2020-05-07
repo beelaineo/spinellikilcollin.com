@@ -3,26 +3,19 @@ import { Label as BaseLabel } from '../../Text'
 
 interface FieldWrapperProps {
   noBorder?: boolean
-  noBackground?: boolean
 }
 
 export const FieldWrapper = styled.div`
-  ${({ noBorder, noBackground }: FieldWrapperProps) => css`
+  ${({ noBorder }: FieldWrapperProps) => css`
     ${noBorder
       ? ``
       : css`
-          border: 1px solid;
-          border-color: highlight.0;
-          padding: 2;
+          color: body.8;
+          font-family: serif;
+          font-size: 4;
         `}
     text-align: left;
-    border-radius: round;
-    ${noBackground
-      ? ''
-      : css`
-          background-color: white;
-        `}
-
+    background-color: transparent;
     & + & {
       margin-top: 3;
     }
@@ -66,16 +59,18 @@ export const InputWrapper = styled.div`
 
 export const Input = styled.input`
   ${({ color, theme }) => css`
-    padding: 0 0;
+    padding: 2;
+    height: 32px;
     width: 100%;
     display: block;
-    border: 1px solid transparent;
-    font-size: 3;
-    font-family: sans;
-    background-color: transparent;
-    color: ${color ? theme.colors[color] : theme.colors.body[0]};
+    border: 1px solid;
+    border-color: body.5;
+    font-size: 4;
+    font-family: serif;
+    background-color: white;
+    color: ${color ? theme.colors[color] : theme.colors.body[8]};
     &::placeholder {
-      color: body.3;
+      color: body.6;
     }
 
     & + ${Label} {
@@ -85,13 +80,30 @@ export const Input = styled.input`
 `
 
 export const SelectElement = styled.select`
-  padding: 1 0 0;
-  margin-top: 1;
+  height: 32px;
   width: 100%;
-  border: LL;
-  display: block;
-  height: 42px;
-  font-size: 3;
-  font-family: sans;
-  background-color: transparent;
+  border: 1px solid;
+  border-color: body.5;
+  border-radius: 0;
+  transition: 0.2s;
+  font-size: 1rem;
+  cursor: pointer;
+  background: none;
+  padding: 0 5 0 3;
+  font-family: serif;
+  appearance: none;
+  -webkit-border-radius: 0px;
+  color: body.6;
+  font-size: 4;
+
+  background-image: linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%);
+  background-position: calc(100% - 14px) 50%, calc(100% - 10px) 50%;
+  background-size: 5px 5px, 5px 5px, 1px 1.5em;
+  background-repeat: no-repeat;
+
+  option {
+    color: body.7;
+    font-family: serif;
+  }
 `
