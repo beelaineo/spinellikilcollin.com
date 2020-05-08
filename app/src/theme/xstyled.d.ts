@@ -144,7 +144,7 @@ declare module '@xstyled/styled-components' {
 
   export const Box: ThemeStyledFunction<'div', DefaultTheme, BoxProps>
 
-  const breakpoints: (
+  export const breakpoints: (
     styles: BreakpointObject<FlattenSimpleInterpolation | string>,
   ) => TemplateStringsArray
 

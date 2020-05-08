@@ -40,6 +40,7 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
 
 interface ImageProps {
   image?: Maybe<ImageType>
+  altText?: Maybe<string>
   hoverImage?: Maybe<ImageType>
   ratio?: number
   sizes?: string
@@ -50,6 +51,7 @@ export const Image = ({
   image,
   sizes: customSizes,
   hoverImage,
+  altText: customAltText,
   onLoad,
   ratio,
 }: ImageProps) => {
@@ -58,10 +60,12 @@ export const Image = ({
   const [loaded, setLoaded] = React.useState(false)
   const imageRef = React.useRef<HTMLImageElement>(null)
 
-  const { src, altText, srcSet, srcSetWebp } = React.useMemo(
+  const { src, altText: cmsAltText, srcSet, srcSetWebp } = React.useMemo(
     () => getImageDetails(image),
     [image],
   )
+
+  const altText = customAltText || cmsAltText
   const hoverDetails = React.useMemo(
     () => (hoverImage ? getImageDetails(hoverImage) : null),
     [hoverImage],

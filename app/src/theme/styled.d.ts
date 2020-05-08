@@ -7,6 +7,7 @@ declare module 'styled-components' {
     sizes: {
       small: number
       medium: number
+      mediumWide: number
       wide: number
       xWide: number
     }

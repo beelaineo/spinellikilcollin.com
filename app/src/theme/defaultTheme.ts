@@ -40,6 +40,7 @@ export const defaultTheme: DefaultTheme = {
   sizes: {
     small: 340,
     medium: 600,
+    mediumWide: 720,
     wide: 1100,
     xWide: 1440,
   },
