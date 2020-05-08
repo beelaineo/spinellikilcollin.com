@@ -10,12 +10,28 @@ export const teamMember = {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    },
+    {
+      name: 'email',
+      title: 'Email',
+      type: 'email',
+    },
+    {
       name: 'headshot',
-      title: 'headshot',
+      title: 'Headshot',
       type: 'richImage',
       validation: (Rule) => Rule.required(),
     },
   ],
+  preview: {
+    select: {
+      title: 'name',
+      media: 'headshot',
+    },
+  },
 }
 
 export const teamPage = {
