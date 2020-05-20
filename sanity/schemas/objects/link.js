@@ -41,6 +41,7 @@ export const externalLink = {
       🔗
     </span>
   ),
+
   fields: [
     {
       name: 'url',
@@ -73,6 +74,13 @@ export const internalLink = {
   description: 'Link to a Page, Product, or Collection',
   name: 'internalLink',
   type: 'object',
+  blockEditor: {
+    icon: () => (
+      <span role="img" aria-label="Link" style={{ fontSize: '1em' }}>
+        🔗
+      </span>
+    ),
+  },
   fields: [
     {
       name: 'document',
