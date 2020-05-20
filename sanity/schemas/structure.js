@@ -70,6 +70,16 @@ export default () =>
             .defaultOrdering([{ field: 'title', direction: 'asc' }]),
         ),
 
+      S.listItem()
+        .title('Product Listing Settings')
+        .icon(MdInfoOutline)
+        .child(
+          S.editor()
+            .id('productListingSettings')
+            .schemaType('productListingSettings')
+            .documentId('productListingSettings'),
+        ),
+
       // Journal
 
       S.listItem()

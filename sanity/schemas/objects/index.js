@@ -1,4 +1,5 @@
 export * from './link'
+export * from './filter'
 export * from './subMenu'
 export * from './cta'
 export * from './images'

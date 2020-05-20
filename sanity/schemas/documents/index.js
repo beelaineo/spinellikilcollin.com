@@ -1,4 +1,5 @@
 export * from './team'
+export * from './productListingSettings'
 export * from './siteSettings'
 export * from './journal'
 export * from './journalPage'
