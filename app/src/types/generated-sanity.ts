@@ -6,12 +6,922 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  /**
+   * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
+   * `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
+   * 8601 standard for representation of dates and times using the Gregorian calendar.
+   */
   DateTime: Date
-  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  /**
+   * A date string, such as 2007-12-03, compliant with the `full-date` format
+   * outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
+   * representation of dates and times using the Gregorian calendar.
+   */
   Date: any
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { [key: string]: any }
+}
+
+export interface Block {
+  __typename: 'Block'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  children?: Maybe<Array<Maybe<Span>>>
+  style?: Maybe<Scalars['String']>
+  list?: Maybe<Scalars['String']>
+}
+
+export type BlockOrRichImage = Block | RichImage
+
+export type BooleanFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['Boolean']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['Boolean']>
+}
+
+export interface Carousel {
+  __typename: 'Carousel'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  subtitleRaw?: Maybe<Scalars['JSON']>
+  /** Create a carousel from a collection. If a collection is used, items linked to below be ignored. */
+  collection?: Maybe<ShopifyCollection>
+  items?: Maybe<Array<Maybe<RichPageLink>>>
+}
+
+export type CarouselFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  collection?: Maybe<ShopifyCollectionFilter>
+}
+
+export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
+
+export type CarouselSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
+export interface Contact extends Document {
+  __typename: 'Contact'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type ContactFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =
+  | Contact
+  | Customize
+  | JournalEntry
+  | JournalPage
+  | Magazine
+  | Page
+  | ShopifyCollection
+  | ShopifyProduct
+
+export type ContactSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
+export interface Cta {
+  __typename: 'Cta'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  label?: Maybe<Scalars['String']>
+  link?: Maybe<InternalLink>
+}
+
+export type CtaFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+  link?: Maybe<InternalLinkFilter>
+}
+
+export type CtaSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
+  link?: Maybe<InternalLinkSorting>
+}
+
+export interface Customize extends Document {
+  __typename: 'Customize'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type CustomizeFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type CustomizeSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
+export type DateFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['Date']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['Date']>
+  /** Checks if the value is greater than the given input. */
+  gt?: Maybe<Scalars['Date']>
+  /** Checks if the value is greater than or equal to the given input. */
+  gte?: Maybe<Scalars['Date']>
+  /** Checks if the value is lesser than the given input. */
+  lt?: Maybe<Scalars['Date']>
+  /** Checks if the value is lesser than or equal to the given input. */
+  lte?: Maybe<Scalars['Date']>
+}
+
+export type DatetimeFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['DateTime']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['DateTime']>
+  /** Checks if the value is greater than the given input. */
+  gt?: Maybe<Scalars['DateTime']>
+  /** Checks if the value is greater than or equal to the given input. */
+  gte?: Maybe<Scalars['DateTime']>
+  /** Checks if the value is lesser than the given input. */
+  lt?: Maybe<Scalars['DateTime']>
+  /** Checks if the value is lesser than or equal to the given input. */
+  lte?: Maybe<Scalars['DateTime']>
+}
+
+/** A Sanity document */
+export type Document = {
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+}
+
+export type DocumentFilter = {
+  /** All documents referencing the given document ID. */
+  references?: Maybe<Scalars['ID']>
+  /** All documents that are drafts. */
+  is_draft?: Maybe<Scalars['Boolean']>
+}
+
+export interface ExternalLink {
+  __typename: 'ExternalLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  url?: Maybe<Scalars['String']>
+  newTab?: Maybe<Scalars['Boolean']>
+}
+
+export type ExternalLinkFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  url?: Maybe<StringFilter>
+  newTab?: Maybe<BooleanFilter>
+}
+
+export type ExternalLinkOrInternalLink = ExternalLink | InternalLink
+
+export type ExternalLinkSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  url?: Maybe<SortOrder>
+  newTab?: Maybe<SortOrder>
+}
+
+export interface File {
+  __typename: 'File'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  asset?: Maybe<SanityFileAsset>
+}
+
+export type FileFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  asset?: Maybe<SanityFileAssetFilter>
+}
+
+export type FileSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+}
+
+export type FloatFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['Float']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['Float']>
+  /** Checks if the value is greater than the given input. */
+  gt?: Maybe<Scalars['Float']>
+  /** Checks if the value is greater than or equal to the given input. */
+  gte?: Maybe<Scalars['Float']>
+  /** Checks if the value is lesser than the given input. */
+  lt?: Maybe<Scalars['Float']>
+  /** Checks if the value is lesser than or equal to the given input. */
+  lte?: Maybe<Scalars['Float']>
+}
+
+export interface Geopoint {
+  __typename: 'Geopoint'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  lat?: Maybe<Scalars['Float']>
+  lng?: Maybe<Scalars['Float']>
+  alt?: Maybe<Scalars['Float']>
+}
+
+export type GeopointFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  lat?: Maybe<FloatFilter>
+  lng?: Maybe<FloatFilter>
+  alt?: Maybe<FloatFilter>
+}
+
+export type GeopointSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  lat?: Maybe<SortOrder>
+  lng?: Maybe<SortOrder>
+  alt?: Maybe<SortOrder>
+}
+
+export interface Hero {
+  __typename: 'Hero'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+  textPosition?: Maybe<Scalars['String']>
+  textColor?: Maybe<Scalars['String']>
+  image?: Maybe<RichImage>
+  backgroundColor?: Maybe<Scalars['String']>
+  mobileImage?: Maybe<RichImage>
+  mobileBackgroundColor?: Maybe<Scalars['String']>
+  textPositionMobile?: Maybe<Scalars['String']>
+  textColorMobile?: Maybe<Scalars['String']>
+}
+
+export type HeroFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  textPosition?: Maybe<StringFilter>
+  textColor?: Maybe<StringFilter>
+  image?: Maybe<RichImageFilter>
+  backgroundColor?: Maybe<StringFilter>
+  mobileImage?: Maybe<RichImageFilter>
+  mobileBackgroundColor?: Maybe<StringFilter>
+  textPositionMobile?: Maybe<StringFilter>
+  textColorMobile?: Maybe<StringFilter>
+}
+
+export type HeroSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  textPosition?: Maybe<SortOrder>
+  textColor?: Maybe<SortOrder>
+  image?: Maybe<RichImageSorting>
+  backgroundColor?: Maybe<SortOrder>
+  mobileImage?: Maybe<RichImageSorting>
+  mobileBackgroundColor?: Maybe<SortOrder>
+  textPositionMobile?: Maybe<SortOrder>
+  textColorMobile?: Maybe<SortOrder>
+}
+
+export interface Homepage extends Document {
+  __typename: 'Homepage'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  content?: Maybe<Array<Maybe<CarouselOrHeroOrImageTextBlock>>>
+}
+
+export type HomepageFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+}
+
+export type HomepageSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+}
+
+export type IdFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['ID']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['ID']>
+  /** Checks if the value matches the given word/words. */
+  matches?: Maybe<Scalars['ID']>
+  in?: Maybe<Array<Scalars['ID']>>
+  nin?: Maybe<Array<Scalars['ID']>>
+}
+
+export interface Image {
+  __typename: 'Image'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  asset?: Maybe<SanityImageAsset>
+  hotspot?: Maybe<SanityImageHotspot>
+  crop?: Maybe<SanityImageCrop>
+}
+
+export type ImageFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  asset?: Maybe<SanityImageAssetFilter>
+  hotspot?: Maybe<SanityImageHotspotFilter>
+  crop?: Maybe<SanityImageCropFilter>
+}
+
+export type ImageSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  hotspot?: Maybe<SanityImageHotspotSorting>
+  crop?: Maybe<SanityImageCropSorting>
+}
+
+export interface ImageTextBlock {
+  __typename: 'ImageTextBlock'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+  ctaText?: Maybe<Scalars['String']>
+  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
+  textPosition?: Maybe<Scalars['String']>
+  textColor?: Maybe<Scalars['String']>
+  layout?: Maybe<Scalars['String']>
+  backgroundImage?: Maybe<RichImage>
+  backgroundColor?: Maybe<Scalars['String']>
+  hoverImage?: Maybe<RichImage>
+}
+
+export type ImageTextBlockFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  ctaText?: Maybe<StringFilter>
+  textPosition?: Maybe<StringFilter>
+  textColor?: Maybe<StringFilter>
+  layout?: Maybe<StringFilter>
+  backgroundImage?: Maybe<RichImageFilter>
+  backgroundColor?: Maybe<StringFilter>
+  hoverImage?: Maybe<RichImageFilter>
+}
+
+export type ImageTextBlockSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  ctaText?: Maybe<SortOrder>
+  textPosition?: Maybe<SortOrder>
+  textColor?: Maybe<SortOrder>
+  layout?: Maybe<SortOrder>
+  backgroundImage?: Maybe<RichImageSorting>
+  backgroundColor?: Maybe<SortOrder>
+  hoverImage?: Maybe<RichImageSorting>
+}
+
+export interface InternalLink {
+  __typename: 'InternalLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  document?: Maybe<
+    ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct
+  >
+}
+
+export type InternalLinkFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+}
+
+export type InternalLinkSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+}
+
+export type IntFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['Int']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['Int']>
+  /** Checks if the value is greater than the given input. */
+  gt?: Maybe<Scalars['Int']>
+  /** Checks if the value is greater than or equal to the given input. */
+  gte?: Maybe<Scalars['Int']>
+  /** Checks if the value is lesser than the given input. */
+  lt?: Maybe<Scalars['Int']>
+  /** Checks if the value is lesser than or equal to the given input. */
+  lte?: Maybe<Scalars['Int']>
+}
+
+export interface JournalEntry extends Document {
+  __typename: 'JournalEntry'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  publishDate?: Maybe<Scalars['Date']>
+  title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  slug?: Maybe<Slug>
+  thumbnail?: Maybe<RichImage>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+  bodyRaw?: Maybe<Scalars['JSON']>
+}
+
+export type JournalEntryFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  publishDate?: Maybe<DateFilter>
+  title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
+  slug?: Maybe<SlugFilter>
+  thumbnail?: Maybe<RichImageFilter>
+}
+
+export type JournalEntrySorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  publishDate?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
+  slug?: Maybe<SlugSorting>
+  thumbnail?: Maybe<RichImageSorting>
+}
+
+export interface JournalPage extends Document {
+  __typename: 'JournalPage'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type JournalPageFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type JournalPageSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
+export interface Magazine extends Document {
+  __typename: 'Magazine'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  descriptionRaw?: Maybe<Scalars['JSON']>
+  coverImage?: Maybe<RichImage>
+}
+
+export type MagazineFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  coverImage?: Maybe<RichImageFilter>
+}
+
+export type MagazineSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  coverImage?: Maybe<RichImageSorting>
+}
+
+export interface Menu extends Document {
+  __typename: 'Menu'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  menuItems?: Maybe<Array<Maybe<MenuLinkOrSubMenu>>>
+}
+
+export type MenuFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+}
+
+export interface MenuLink {
+  __typename: 'MenuLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  label?: Maybe<Scalars['String']>
+  link?: Maybe<InternalLink>
+}
+
+export type MenuLinkFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+  link?: Maybe<InternalLinkFilter>
+}
+
+export type MenuLinkOrSubMenu = MenuLink | SubMenu
+
+export type MenuLinkSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
+  link?: Maybe<InternalLinkSorting>
+}
+
+export type MenuSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+}
+
+export interface Page extends Document {
+  __typename: 'Page'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  slug?: Maybe<Slug>
+  bodyRaw?: Maybe<Scalars['JSON']>
+}
+
+export type PageFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
+  slug?: Maybe<SlugFilter>
+}
+
+export interface PageInfo {
+  __typename: 'PageInfo'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  hasNextPage?: Maybe<Scalars['Boolean']>
+  hasPreviousPage?: Maybe<Scalars['Boolean']>
+}
+
+export type PageInfoFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  hasNextPage?: Maybe<BooleanFilter>
+  hasPreviousPage?: Maybe<BooleanFilter>
+}
+
+export type PageInfoSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  hasNextPage?: Maybe<SortOrder>
+  hasPreviousPage?: Maybe<SortOrder>
+}
+
+export type PageOrShopifyCollectionOrShopifyProduct =
+  | Page
+  | ShopifyCollection
+  | ShopifyProduct
+
+export type PageSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
+  slug?: Maybe<SlugSorting>
+}
+
+export interface ProductInfo {
+  __typename: 'ProductInfo'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+}
+
+export interface ProductInfoByTag {
+  __typename: 'ProductInfoByTag'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** Tag to match from Shopify. */
+  tag?: Maybe<Scalars['String']>
+  info?: Maybe<Array<Maybe<ProductInfo>>>
+}
+
+export type ProductInfoByTagFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  tag?: Maybe<StringFilter>
+}
+
+export type ProductInfoByTagSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  tag?: Maybe<SortOrder>
+}
+
+export interface ProductInfoByType {
+  __typename: 'ProductInfoByType'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** Type to match from Shopify. */
+  type?: Maybe<Scalars['String']>
+  info?: Maybe<Array<Maybe<ProductInfo>>>
+}
+
+export type ProductInfoByTypeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  type?: Maybe<StringFilter>
+}
+
+export type ProductInfoByTypeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  type?: Maybe<SortOrder>
+}
+
+export type ProductInfoFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export interface ProductInfoSettings extends Document {
+  __typename: 'ProductInfoSettings'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  /**
+   * Use these fields to add snippets of descriptions to all or some projects. For
+   * instance, you could add a 'Shipping and Returns' accordion on all items, a
+   * 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold'
+   * accordion to any product tagged with 'Black Gold'. These accordions will be
+   * displayed in accordion-dropdowns below the main product information. You can
+   * also add info accordions to individual items on their page here in the CMS.
+   */
+  helpText?: Maybe<Scalars['String']>
+  globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
+  infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
+  infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
+  tagBadges?: Maybe<Array<Maybe<TagBadge>>>
+}
+
+export type ProductInfoSettingsFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  helpText?: Maybe<StringFilter>
+}
+
+export type ProductInfoSettingsSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  helpText?: Maybe<SortOrder>
+}
+
+export type ProductInfoSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
+export interface RichImage {
+  __typename: 'RichImage'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** A short description of the image. Helps with accessibility and SEO */
+  altText?: Maybe<Scalars['String']>
+  asset?: Maybe<SanityImageAsset>
+  hotspot?: Maybe<SanityImageHotspot>
+  crop?: Maybe<SanityImageCrop>
+}
+
+export type RichImageFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  altText?: Maybe<StringFilter>
+  asset?: Maybe<SanityImageAssetFilter>
+  hotspot?: Maybe<SanityImageHotspotFilter>
+  crop?: Maybe<SanityImageCropFilter>
+}
+
+export type RichImageSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  altText?: Maybe<SortOrder>
+  hotspot?: Maybe<SanityImageHotspotSorting>
+  crop?: Maybe<SanityImageCropSorting>
+}
+
+export interface RichPageLink {
+  __typename: 'RichPageLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
+  /** If left empty, the title of the linked page, product, or collection will be used. */
+  title?: Maybe<Scalars['String']>
+  captionRaw?: Maybe<Scalars['JSON']>
+  image?: Maybe<RichImage>
+  hoverImage?: Maybe<RichImage>
+}
+
+export type RichPageLinkFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  image?: Maybe<RichImageFilter>
+  hoverImage?: Maybe<RichImageFilter>
+}
+
+export type RichPageLinkSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  image?: Maybe<RichImageSorting>
+  hoverImage?: Maybe<RichImageSorting>
 }
 
 export interface RootQuery {
@@ -213,139 +1123,6 @@ export type RootQueryAllSanityFileAssetArgs = {
   offset?: Maybe<Scalars['Int']>
 }
 
-export interface TeamPage extends Document {
-  __typename: 'TeamPage'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  teamMembers?: Maybe<Array<Maybe<TeamMember>>>
-}
-
-/** A Sanity document */
-export type Document = {
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-}
-
-export interface TeamMember {
-  __typename: 'TeamMember'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  name?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  email?: Maybe<Scalars['String']>
-  headshot?: Maybe<RichImage>
-}
-
-export interface RichImage {
-  __typename: 'RichImage'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** A short description of the image. Helps with accessibility and SEO */
-  altText?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityImageAsset>
-  hotspot?: Maybe<SanityImageHotspot>
-  crop?: Maybe<SanityImageCrop>
-}
-
-export interface SanityImageAsset extends Document {
-  __typename: 'SanityImageAsset'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  originalFilename?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  sha1hash?: Maybe<Scalars['String']>
-  extension?: Maybe<Scalars['String']>
-  mimeType?: Maybe<Scalars['String']>
-  size?: Maybe<Scalars['Float']>
-  assetId?: Maybe<Scalars['String']>
-  path?: Maybe<Scalars['String']>
-  url?: Maybe<Scalars['String']>
-  metadata?: Maybe<SanityImageMetadata>
-  source?: Maybe<SanityAssetSourceData>
-}
-
-export interface SanityImageMetadata {
-  __typename: 'SanityImageMetadata'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  location?: Maybe<Geopoint>
-  dimensions?: Maybe<SanityImageDimensions>
-  palette?: Maybe<SanityImagePalette>
-  lqip?: Maybe<Scalars['String']>
-  hasAlpha?: Maybe<Scalars['Boolean']>
-  isOpaque?: Maybe<Scalars['Boolean']>
-}
-
-export interface Geopoint {
-  __typename: 'Geopoint'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  lat?: Maybe<Scalars['Float']>
-  lng?: Maybe<Scalars['Float']>
-  alt?: Maybe<Scalars['Float']>
-}
-
-export interface SanityImageDimensions {
-  __typename: 'SanityImageDimensions'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  height?: Maybe<Scalars['Float']>
-  width?: Maybe<Scalars['Float']>
-  aspectRatio?: Maybe<Scalars['Float']>
-}
-
-export interface SanityImagePalette {
-  __typename: 'SanityImagePalette'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  darkMuted?: Maybe<SanityImagePaletteSwatch>
-  lightVibrant?: Maybe<SanityImagePaletteSwatch>
-  darkVibrant?: Maybe<SanityImagePaletteSwatch>
-  vibrant?: Maybe<SanityImagePaletteSwatch>
-  dominant?: Maybe<SanityImagePaletteSwatch>
-  lightMuted?: Maybe<SanityImagePaletteSwatch>
-  muted?: Maybe<SanityImagePaletteSwatch>
-}
-
-export interface SanityImagePaletteSwatch {
-  __typename: 'SanityImagePaletteSwatch'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  background?: Maybe<Scalars['String']>
-  foreground?: Maybe<Scalars['String']>
-  population?: Maybe<Scalars['Float']>
-  title?: Maybe<Scalars['String']>
-}
-
 export interface SanityAssetSourceData {
   __typename: 'SanityAssetSourceData'
   _key?: Maybe<Scalars['String']>
@@ -358,628 +1135,20 @@ export interface SanityAssetSourceData {
   url?: Maybe<Scalars['String']>
 }
 
-export interface SanityImageHotspot {
-  __typename: 'SanityImageHotspot'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  x?: Maybe<Scalars['Float']>
-  y?: Maybe<Scalars['Float']>
-  height?: Maybe<Scalars['Float']>
-  width?: Maybe<Scalars['Float']>
+export type SanityAssetSourceDataFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  name?: Maybe<StringFilter>
+  id?: Maybe<StringFilter>
+  url?: Maybe<StringFilter>
 }
 
-export interface SanityImageCrop {
-  __typename: 'SanityImageCrop'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  top?: Maybe<Scalars['Float']>
-  bottom?: Maybe<Scalars['Float']>
-  left?: Maybe<Scalars['Float']>
-  right?: Maybe<Scalars['Float']>
-}
-
-export interface SiteSettings extends Document {
-  __typename: 'SiteSettings'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  links?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
-  mailerTitle?: Maybe<Scalars['String']>
-  mailerSubtitle?: Maybe<Scalars['String']>
-}
-
-export type ExternalLinkOrInternalLink = ExternalLink | InternalLink
-
-export interface ExternalLink {
-  __typename: 'ExternalLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  url?: Maybe<Scalars['String']>
-  newTab?: Maybe<Scalars['Boolean']>
-}
-
-export interface InternalLink {
-  __typename: 'InternalLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  document?: Maybe<
-    ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct
-  >
-}
-
-export type ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =
-  | Contact
-  | Customize
-  | JournalEntry
-  | JournalPage
-  | Magazine
-  | Page
-  | ShopifyCollection
-  | ShopifyProduct
-
-export interface Contact extends Document {
-  __typename: 'Contact'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-}
-
-export interface Customize extends Document {
-  __typename: 'Customize'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-}
-
-export interface JournalEntry extends Document {
-  __typename: 'JournalEntry'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  publishDate?: Maybe<Scalars['Date']>
-  title?: Maybe<Scalars['String']>
-  subtitle?: Maybe<Scalars['String']>
-  slug?: Maybe<Slug>
-  thumbnail?: Maybe<RichImage>
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>
-  bodyRaw?: Maybe<Scalars['JSON']>
-}
-
-export interface Slug {
-  __typename: 'Slug'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  current?: Maybe<Scalars['String']>
-}
-
-export interface JournalPage extends Document {
-  __typename: 'JournalPage'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-}
-
-export interface Magazine extends Document {
-  __typename: 'Magazine'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  descriptionRaw?: Maybe<Scalars['JSON']>
-  coverImage?: Maybe<RichImage>
-}
-
-export interface Page extends Document {
-  __typename: 'Page'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  subtitle?: Maybe<Scalars['String']>
-  slug?: Maybe<Slug>
-  bodyRaw?: Maybe<Scalars['JSON']>
-}
-
-export interface ShopifyCollection extends Document {
-  __typename: 'ShopifyCollection'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  shopifyId?: Maybe<Scalars['String']>
-  archived?: Maybe<Scalars['Boolean']>
-  sourceData?: Maybe<ShopifySourceCollection>
-  products?: Maybe<Array<Maybe<ShopifyProduct>>>
-  hero?: Maybe<Hero>
-}
-
-export interface ShopifySourceCollection {
-  __typename: 'ShopifySourceCollection'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  descriptionHtml?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  image?: Maybe<ShopifySourceImage>
-  products?: Maybe<ShopifySourceProductsConnection>
-}
-
-export interface ShopifySourceImage {
-  __typename: 'ShopifySourceImage'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  altText?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  originalSrc?: Maybe<Scalars['String']>
-  w100?: Maybe<Scalars['String']>
-  w300?: Maybe<Scalars['String']>
-  w800?: Maybe<Scalars['String']>
-  w1200?: Maybe<Scalars['String']>
-  w1600?: Maybe<Scalars['String']>
-}
-
-export interface ShopifySourceProductsConnection {
-  __typename: 'ShopifySourceProductsConnection'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  pageInfo?: Maybe<PageInfo>
-  edges?: Maybe<Array<Maybe<ShopifySourceProductEdge>>>
-}
-
-export interface PageInfo {
-  __typename: 'PageInfo'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  hasNextPage?: Maybe<Scalars['Boolean']>
-  hasPreviousPage?: Maybe<Scalars['Boolean']>
-}
-
-export interface ShopifySourceProductEdge {
-  __typename: 'ShopifySourceProductEdge'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  cursor?: Maybe<Scalars['String']>
-  node?: Maybe<ShopifySourceProductNode>
-}
-
-export interface ShopifySourceProductNode {
-  __typename: 'ShopifySourceProductNode'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-}
-
-export interface ShopifyProduct extends Document {
-  __typename: 'ShopifyProduct'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  shopifyId?: Maybe<Scalars['String']>
-  archived?: Maybe<Scalars['Boolean']>
-  sourceData?: Maybe<ShopifySourceProduct>
-  collections?: Maybe<Array<Maybe<ShopifyCollection>>>
-  options?: Maybe<Array<Maybe<ShopifyProductOption>>>
-  variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
-  info?: Maybe<Array<Maybe<ProductInfo>>>
-  gallery?: Maybe<Array<Maybe<RichImage>>>
-  contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
-  related?: Maybe<Carousel>
-}
-
-export interface ShopifySourceProduct {
-  __typename: 'ShopifySourceProduct'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  availableForSale?: Maybe<Scalars['Boolean']>
-  priceRange?: Maybe<ShopifySourceProductPriceRange>
-  productType?: Maybe<Scalars['String']>
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>
-  handle?: Maybe<Scalars['String']>
-  description?: Maybe<Scalars['String']>
-  descriptionHtml?: Maybe<Scalars['String']>
-  vendor?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-  images?: Maybe<ShopifySourceImages>
-  options?: Maybe<Array<Maybe<ShopifySourceProductOption>>>
-  variants?: Maybe<ShopifySourceProductVariantsConnection>
-  collections?: Maybe<ShopifySourceCollectionsConnection>
-}
-
-export interface ShopifySourceProductPriceRange {
-  __typename: 'ShopifySourceProductPriceRange'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  minVariantPrice?: Maybe<ShopifyMoneyV2>
-  maxVariantPrice?: Maybe<ShopifyMoneyV2>
-}
-
-export interface ShopifyMoneyV2 {
-  __typename: 'ShopifyMoneyV2'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  amount?: Maybe<Scalars['String']>
-  currencyCode?: Maybe<Scalars['String']>
-}
-
-export interface ShopifySourceImages {
-  __typename: 'ShopifySourceImages'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  edges?: Maybe<Array<Maybe<ShopifySourceImageEdge>>>
-}
-
-export interface ShopifySourceImageEdge {
-  __typename: 'ShopifySourceImageEdge'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  key?: Maybe<Scalars['String']>
-  cursor?: Maybe<Scalars['String']>
-  node?: Maybe<ShopifySourceImage>
-}
-
-export interface ShopifySourceProductOption {
-  __typename: 'ShopifySourceProductOption'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  name?: Maybe<Scalars['String']>
-  values?: Maybe<Array<Maybe<Scalars['String']>>>
-}
-
-export interface ShopifySourceProductVariantsConnection {
-  __typename: 'ShopifySourceProductVariantsConnection'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  pageInfo?: Maybe<PageInfo>
-  edges?: Maybe<Array<Maybe<ShopifySourceProductVariantEdge>>>
-}
-
-export interface ShopifySourceProductVariantEdge {
-  __typename: 'ShopifySourceProductVariantEdge'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  cursor?: Maybe<Scalars['String']>
-  node?: Maybe<ShopifySourceProductVariant>
-}
-
-export interface ShopifySourceProductVariant {
-  __typename: 'ShopifySourceProductVariant'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  availableForSale?: Maybe<Scalars['Boolean']>
-  id?: Maybe<Scalars['String']>
-  image?: Maybe<ShopifySourceImage>
-  priceV2?: Maybe<ShopifyMoneyV2>
-  selectedOptions?: Maybe<Array<Maybe<ShopifySourceSelectedOption>>>
-  requiresShipping?: Maybe<Scalars['Boolean']>
-  sku?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  weight?: Maybe<Scalars['Float']>
-  weightUnit?: Maybe<Scalars['String']>
-}
-
-export interface ShopifySourceSelectedOption {
-  __typename: 'ShopifySourceSelectedOption'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  name?: Maybe<Scalars['String']>
-  value?: Maybe<Scalars['String']>
-}
-
-export interface ShopifySourceCollectionsConnection {
-  __typename: 'ShopifySourceCollectionsConnection'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  pageInfo?: Maybe<PageInfo>
-  edges?: Maybe<Array<Maybe<ShopifySourceCollectionEdge>>>
-}
-
-export interface ShopifySourceCollectionEdge {
-  __typename: 'ShopifySourceCollectionEdge'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  cursor?: Maybe<Scalars['String']>
-  node?: Maybe<ShopifySourceCollectionNode>
-}
-
-export interface ShopifySourceCollectionNode {
-  __typename: 'ShopifySourceCollectionNode'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  handle?: Maybe<Scalars['String']>
-  id?: Maybe<Scalars['String']>
-}
-
-export interface ShopifyProductOption {
-  __typename: 'ShopifyProductOption'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  shopifyOptionId?: Maybe<Scalars['String']>
-  name?: Maybe<Scalars['String']>
-  values?: Maybe<Array<Maybe<ShopifyProductOptionValue>>>
-}
-
-export interface ShopifyProductOptionValue {
-  __typename: 'ShopifyProductOptionValue'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  value?: Maybe<Scalars['String']>
-  descriptionRaw?: Maybe<Scalars['JSON']>
-  swatch?: Maybe<Image>
-}
-
-export interface Image {
-  __typename: 'Image'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityImageAsset>
-  hotspot?: Maybe<SanityImageHotspot>
-  crop?: Maybe<SanityImageCrop>
-}
-
-export interface ShopifyProductVariant {
-  __typename: 'ShopifyProductVariant'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  shopifyVariantID?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  sourceData?: Maybe<ShopifySourceProductVariant>
-}
-
-export interface ProductInfo {
-  __typename: 'ProductInfo'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-}
-
-export interface ImageTextBlock {
-  __typename: 'ImageTextBlock'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-  ctaText?: Maybe<Scalars['String']>
-  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
-  textPosition?: Maybe<Scalars['String']>
-  textColor?: Maybe<Scalars['String']>
-  layout?: Maybe<Scalars['String']>
-  backgroundImage?: Maybe<RichImage>
-  backgroundColor?: Maybe<Scalars['String']>
-  hoverImage?: Maybe<RichImage>
-}
-
-export interface Carousel {
-  __typename: 'Carousel'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  subtitleRaw?: Maybe<Scalars['JSON']>
-  /** Create a carousel from a collection. If a collection is used, items linked to below be ignored. */
-  collection?: Maybe<ShopifyCollection>
-  items?: Maybe<Array<Maybe<RichPageLink>>>
-}
-
-export interface RichPageLink {
-  __typename: 'RichPageLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  document?: Maybe<PageOrShopifyCollectionOrShopifyProduct>
-  /** If left empty, the title of the linked page, product, or collection will be used. */
-  title?: Maybe<Scalars['String']>
-  captionRaw?: Maybe<Scalars['JSON']>
-  image?: Maybe<RichImage>
-  hoverImage?: Maybe<RichImage>
-}
-
-export type PageOrShopifyCollectionOrShopifyProduct =
-  | Page
-  | ShopifyCollection
-  | ShopifyProduct
-
-export interface Hero {
-  __typename: 'Hero'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
-  textPosition?: Maybe<Scalars['String']>
-  textColor?: Maybe<Scalars['String']>
-  image?: Maybe<RichImage>
-  backgroundColor?: Maybe<Scalars['String']>
-  mobileImage?: Maybe<RichImage>
-  mobileBackgroundColor?: Maybe<Scalars['String']>
-  textPositionMobile?: Maybe<Scalars['String']>
-  textColorMobile?: Maybe<Scalars['String']>
-}
-
-export interface Menu extends Document {
-  __typename: 'Menu'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  menuItems?: Maybe<Array<Maybe<MenuLinkOrSubMenu>>>
-}
-
-export type MenuLinkOrSubMenu = MenuLink | SubMenu
-
-export interface MenuLink {
-  __typename: 'MenuLink'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  link?: Maybe<InternalLink>
-}
-
-export interface SubMenu {
-  __typename: 'SubMenu'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  title?: Maybe<Scalars['String']>
-  links?: Maybe<Array<Maybe<Cta>>>
-}
-
-export interface Cta {
-  __typename: 'Cta'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  link?: Maybe<InternalLink>
-}
-
-export interface Homepage extends Document {
-  __typename: 'Homepage'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  content?: Maybe<Array<Maybe<CarouselOrHeroOrImageTextBlock>>>
-}
-
-export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
-
-export interface ProductInfoSettings extends Document {
-  __typename: 'ProductInfoSettings'
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>
-  /** Document type */
-  _type?: Maybe<Scalars['String']>
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>
-  _key?: Maybe<Scalars['String']>
-  /** Use these fields to add snippets of descriptions to all or some projects. For instance, you could add a 'Shipping and Returns' accordion on all items, a 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold' accordion to any product tagged with 'Black Gold'. These accordions will be displayed in accordion-dropdowns below the main product information. You can also add info accordions to individual items on their page here in the CMS. */
-  helpText?: Maybe<Scalars['String']>
-  globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
-  infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
-  infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
-  tagBadges?: Maybe<Array<Maybe<TagBadge>>>
-}
-
-export interface ProductInfoByType {
-  __typename: 'ProductInfoByType'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** Type to match from Shopify. */
-  type?: Maybe<Scalars['String']>
-  info?: Maybe<Array<Maybe<ProductInfo>>>
-}
-
-export interface ProductInfoByTag {
-  __typename: 'ProductInfoByTag'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** Tag to match from Shopify. */
-  tag?: Maybe<Scalars['String']>
-  info?: Maybe<Array<Maybe<ProductInfo>>>
-}
-
-export interface TagBadge {
-  __typename: 'TagBadge'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  /** The tag to match from Shopify */
-  tag?: Maybe<Scalars['String']>
-  /** (optional) An alternate label to display in the badge */
-  label?: Maybe<Scalars['String']>
+export type SanityAssetSourceDataSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  name?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+  url?: Maybe<SortOrder>
 }
 
 export interface SanityFileAsset extends Document {
@@ -1007,846 +1176,6 @@ export interface SanityFileAsset extends Document {
   path?: Maybe<Scalars['String']>
   url?: Maybe<Scalars['String']>
   source?: Maybe<SanityAssetSourceData>
-}
-
-export type TeamPageFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-}
-
-export type DocumentFilter = {
-  /** All documents referencing the given document ID. */
-  references?: Maybe<Scalars['ID']>
-  /** All documents that are drafts. */
-  is_draft?: Maybe<Scalars['Boolean']>
-}
-
-export type IdFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['ID']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['ID']>
-  /** Checks if the value matches the given word/words. */
-  matches?: Maybe<Scalars['ID']>
-  in?: Maybe<Array<Scalars['ID']>>
-  nin?: Maybe<Array<Scalars['ID']>>
-}
-
-export type StringFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['String']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['String']>
-  /** Checks if the value matches the given word/words. */
-  matches?: Maybe<Scalars['String']>
-  in?: Maybe<Array<Scalars['String']>>
-  nin?: Maybe<Array<Scalars['String']>>
-}
-
-export type DatetimeFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['DateTime']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['DateTime']>
-  /** Checks if the value is greater than the given input. */
-  gt?: Maybe<Scalars['DateTime']>
-  /** Checks if the value is greater than or equal to the given input. */
-  gte?: Maybe<Scalars['DateTime']>
-  /** Checks if the value is lesser than the given input. */
-  lt?: Maybe<Scalars['DateTime']>
-  /** Checks if the value is lesser than or equal to the given input. */
-  lte?: Maybe<Scalars['DateTime']>
-}
-
-export type TeamPageSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export enum SortOrder {
-  /** Sorts on the value in ascending order. */
-  Asc = 'ASC',
-  /** Sorts on the value in descending order. */
-  Desc = 'DESC',
-}
-
-export type SiteSettingsFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  mailerTitle?: Maybe<StringFilter>
-  mailerSubtitle?: Maybe<StringFilter>
-}
-
-export type SiteSettingsSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  mailerTitle?: Maybe<SortOrder>
-  mailerSubtitle?: Maybe<SortOrder>
-}
-
-export type JournalEntryFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  publishDate?: Maybe<DateFilter>
-  title?: Maybe<StringFilter>
-  subtitle?: Maybe<StringFilter>
-  slug?: Maybe<SlugFilter>
-  thumbnail?: Maybe<RichImageFilter>
-}
-
-export type DateFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['Date']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['Date']>
-  /** Checks if the value is greater than the given input. */
-  gt?: Maybe<Scalars['Date']>
-  /** Checks if the value is greater than or equal to the given input. */
-  gte?: Maybe<Scalars['Date']>
-  /** Checks if the value is lesser than the given input. */
-  lt?: Maybe<Scalars['Date']>
-  /** Checks if the value is lesser than or equal to the given input. */
-  lte?: Maybe<Scalars['Date']>
-}
-
-export type SlugFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  current?: Maybe<StringFilter>
-}
-
-export type RichImageFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  altText?: Maybe<StringFilter>
-  asset?: Maybe<SanityImageAssetFilter>
-  hotspot?: Maybe<SanityImageHotspotFilter>
-  crop?: Maybe<SanityImageCropFilter>
-}
-
-export type SanityImageAssetFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  originalFilename?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  description?: Maybe<StringFilter>
-  sha1hash?: Maybe<StringFilter>
-  extension?: Maybe<StringFilter>
-  mimeType?: Maybe<StringFilter>
-  size?: Maybe<FloatFilter>
-  assetId?: Maybe<StringFilter>
-  path?: Maybe<StringFilter>
-  url?: Maybe<StringFilter>
-  metadata?: Maybe<SanityImageMetadataFilter>
-  source?: Maybe<SanityAssetSourceDataFilter>
-}
-
-export type FloatFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['Float']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['Float']>
-  /** Checks if the value is greater than the given input. */
-  gt?: Maybe<Scalars['Float']>
-  /** Checks if the value is greater than or equal to the given input. */
-  gte?: Maybe<Scalars['Float']>
-  /** Checks if the value is lesser than the given input. */
-  lt?: Maybe<Scalars['Float']>
-  /** Checks if the value is lesser than or equal to the given input. */
-  lte?: Maybe<Scalars['Float']>
-}
-
-export type SanityImageMetadataFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  location?: Maybe<GeopointFilter>
-  dimensions?: Maybe<SanityImageDimensionsFilter>
-  palette?: Maybe<SanityImagePaletteFilter>
-  lqip?: Maybe<StringFilter>
-  hasAlpha?: Maybe<BooleanFilter>
-  isOpaque?: Maybe<BooleanFilter>
-}
-
-export type GeopointFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  lat?: Maybe<FloatFilter>
-  lng?: Maybe<FloatFilter>
-  alt?: Maybe<FloatFilter>
-}
-
-export type SanityImageDimensionsFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  height?: Maybe<FloatFilter>
-  width?: Maybe<FloatFilter>
-  aspectRatio?: Maybe<FloatFilter>
-}
-
-export type SanityImagePaletteFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  darkMuted?: Maybe<SanityImagePaletteSwatchFilter>
-  lightVibrant?: Maybe<SanityImagePaletteSwatchFilter>
-  darkVibrant?: Maybe<SanityImagePaletteSwatchFilter>
-  vibrant?: Maybe<SanityImagePaletteSwatchFilter>
-  dominant?: Maybe<SanityImagePaletteSwatchFilter>
-  lightMuted?: Maybe<SanityImagePaletteSwatchFilter>
-  muted?: Maybe<SanityImagePaletteSwatchFilter>
-}
-
-export type SanityImagePaletteSwatchFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  background?: Maybe<StringFilter>
-  foreground?: Maybe<StringFilter>
-  population?: Maybe<FloatFilter>
-  title?: Maybe<StringFilter>
-}
-
-export type BooleanFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['Boolean']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['Boolean']>
-}
-
-export type SanityAssetSourceDataFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  name?: Maybe<StringFilter>
-  id?: Maybe<StringFilter>
-  url?: Maybe<StringFilter>
-}
-
-export type SanityImageHotspotFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  x?: Maybe<FloatFilter>
-  y?: Maybe<FloatFilter>
-  height?: Maybe<FloatFilter>
-  width?: Maybe<FloatFilter>
-}
-
-export type SanityImageCropFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  top?: Maybe<FloatFilter>
-  bottom?: Maybe<FloatFilter>
-  left?: Maybe<FloatFilter>
-  right?: Maybe<FloatFilter>
-}
-
-export type JournalEntrySorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  publishDate?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  subtitle?: Maybe<SortOrder>
-  slug?: Maybe<SlugSorting>
-  thumbnail?: Maybe<RichImageSorting>
-}
-
-export type SlugSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  current?: Maybe<SortOrder>
-}
-
-export type RichImageSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  altText?: Maybe<SortOrder>
-  hotspot?: Maybe<SanityImageHotspotSorting>
-  crop?: Maybe<SanityImageCropSorting>
-}
-
-export type SanityImageHotspotSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  x?: Maybe<SortOrder>
-  y?: Maybe<SortOrder>
-  height?: Maybe<SortOrder>
-  width?: Maybe<SortOrder>
-}
-
-export type SanityImageCropSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  top?: Maybe<SortOrder>
-  bottom?: Maybe<SortOrder>
-  left?: Maybe<SortOrder>
-  right?: Maybe<SortOrder>
-}
-
-export type JournalPageFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-}
-
-export type JournalPageSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export type MenuFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-}
-
-export type MenuSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-}
-
-export type HomepageFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-}
-
-export type HomepageSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-}
-
-export type PageFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  subtitle?: Maybe<StringFilter>
-  slug?: Maybe<SlugFilter>
-}
-
-export type PageSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  subtitle?: Maybe<SortOrder>
-  slug?: Maybe<SlugSorting>
-}
-
-export type ProductInfoSettingsFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  helpText?: Maybe<StringFilter>
-}
-
-export type ProductInfoSettingsSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  helpText?: Maybe<SortOrder>
-}
-
-export type MagazineFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  coverImage?: Maybe<RichImageFilter>
-}
-
-export type MagazineSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  coverImage?: Maybe<RichImageSorting>
-}
-
-export type ContactFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-}
-
-export type ContactSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export type CustomizeFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-}
-
-export type CustomizeSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export type ShopifyProductFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  handle?: Maybe<StringFilter>
-  shopifyId?: Maybe<StringFilter>
-  archived?: Maybe<BooleanFilter>
-  sourceData?: Maybe<ShopifySourceProductFilter>
-  related?: Maybe<CarouselFilter>
-}
-
-export type ShopifySourceProductFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  availableForSale?: Maybe<BooleanFilter>
-  priceRange?: Maybe<ShopifySourceProductPriceRangeFilter>
-  productType?: Maybe<StringFilter>
-  handle?: Maybe<StringFilter>
-  description?: Maybe<StringFilter>
-  descriptionHtml?: Maybe<StringFilter>
-  vendor?: Maybe<StringFilter>
-  id?: Maybe<StringFilter>
-  images?: Maybe<ShopifySourceImagesFilter>
-  variants?: Maybe<ShopifySourceProductVariantsConnectionFilter>
-  collections?: Maybe<ShopifySourceCollectionsConnectionFilter>
-}
-
-export type ShopifySourceProductPriceRangeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  minVariantPrice?: Maybe<ShopifyMoneyV2Filter>
-  maxVariantPrice?: Maybe<ShopifyMoneyV2Filter>
-}
-
-export type ShopifyMoneyV2Filter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  amount?: Maybe<StringFilter>
-  currencyCode?: Maybe<StringFilter>
-}
-
-export type ShopifySourceImagesFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-}
-
-export type ShopifySourceProductVariantsConnectionFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  pageInfo?: Maybe<PageInfoFilter>
-}
-
-export type PageInfoFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  hasNextPage?: Maybe<BooleanFilter>
-  hasPreviousPage?: Maybe<BooleanFilter>
-}
-
-export type ShopifySourceCollectionsConnectionFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  pageInfo?: Maybe<PageInfoFilter>
-}
-
-export type CarouselFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  collection?: Maybe<ShopifyCollectionFilter>
-}
-
-export type ShopifyCollectionFilter = {
-  /** Apply filters on document level */
-  _?: Maybe<DocumentFilter>
-  _id?: Maybe<IdFilter>
-  _type?: Maybe<StringFilter>
-  _createdAt?: Maybe<DatetimeFilter>
-  _updatedAt?: Maybe<DatetimeFilter>
-  _rev?: Maybe<StringFilter>
-  _key?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  handle?: Maybe<StringFilter>
-  shopifyId?: Maybe<StringFilter>
-  archived?: Maybe<BooleanFilter>
-  sourceData?: Maybe<ShopifySourceCollectionFilter>
-  hero?: Maybe<HeroFilter>
-}
-
-export type ShopifySourceCollectionFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  handle?: Maybe<StringFilter>
-  description?: Maybe<StringFilter>
-  descriptionHtml?: Maybe<StringFilter>
-  id?: Maybe<StringFilter>
-  image?: Maybe<ShopifySourceImageFilter>
-  products?: Maybe<ShopifySourceProductsConnectionFilter>
-}
-
-export type ShopifySourceImageFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  altText?: Maybe<StringFilter>
-  id?: Maybe<StringFilter>
-  originalSrc?: Maybe<StringFilter>
-  w100?: Maybe<StringFilter>
-  w300?: Maybe<StringFilter>
-  w800?: Maybe<StringFilter>
-  w1200?: Maybe<StringFilter>
-  w1600?: Maybe<StringFilter>
-}
-
-export type ShopifySourceProductsConnectionFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  pageInfo?: Maybe<PageInfoFilter>
-}
-
-export type HeroFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  textPosition?: Maybe<StringFilter>
-  textColor?: Maybe<StringFilter>
-  image?: Maybe<RichImageFilter>
-  backgroundColor?: Maybe<StringFilter>
-  mobileImage?: Maybe<RichImageFilter>
-  mobileBackgroundColor?: Maybe<StringFilter>
-  textPositionMobile?: Maybe<StringFilter>
-  textColorMobile?: Maybe<StringFilter>
-}
-
-export type ShopifyProductSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  handle?: Maybe<SortOrder>
-  shopifyId?: Maybe<SortOrder>
-  archived?: Maybe<SortOrder>
-  sourceData?: Maybe<ShopifySourceProductSorting>
-  related?: Maybe<CarouselSorting>
-}
-
-export type ShopifySourceProductSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  availableForSale?: Maybe<SortOrder>
-  priceRange?: Maybe<ShopifySourceProductPriceRangeSorting>
-  productType?: Maybe<SortOrder>
-  handle?: Maybe<SortOrder>
-  description?: Maybe<SortOrder>
-  descriptionHtml?: Maybe<SortOrder>
-  vendor?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
-  images?: Maybe<ShopifySourceImagesSorting>
-  variants?: Maybe<ShopifySourceProductVariantsConnectionSorting>
-  collections?: Maybe<ShopifySourceCollectionsConnectionSorting>
-}
-
-export type ShopifySourceProductPriceRangeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  minVariantPrice?: Maybe<ShopifyMoneyV2Sorting>
-  maxVariantPrice?: Maybe<ShopifyMoneyV2Sorting>
-}
-
-export type ShopifyMoneyV2Sorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  amount?: Maybe<SortOrder>
-  currencyCode?: Maybe<SortOrder>
-}
-
-export type ShopifySourceImagesSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-}
-
-export type ShopifySourceProductVariantsConnectionSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  pageInfo?: Maybe<PageInfoSorting>
-}
-
-export type PageInfoSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  hasNextPage?: Maybe<SortOrder>
-  hasPreviousPage?: Maybe<SortOrder>
-}
-
-export type ShopifySourceCollectionsConnectionSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  pageInfo?: Maybe<PageInfoSorting>
-}
-
-export type CarouselSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export type ShopifyCollectionSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  handle?: Maybe<SortOrder>
-  shopifyId?: Maybe<SortOrder>
-  archived?: Maybe<SortOrder>
-  sourceData?: Maybe<ShopifySourceCollectionSorting>
-  hero?: Maybe<HeroSorting>
-}
-
-export type ShopifySourceCollectionSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  handle?: Maybe<SortOrder>
-  description?: Maybe<SortOrder>
-  descriptionHtml?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
-  image?: Maybe<ShopifySourceImageSorting>
-  products?: Maybe<ShopifySourceProductsConnectionSorting>
-}
-
-export type ShopifySourceImageSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  altText?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
-  originalSrc?: Maybe<SortOrder>
-  w100?: Maybe<SortOrder>
-  w300?: Maybe<SortOrder>
-  w800?: Maybe<SortOrder>
-  w1200?: Maybe<SortOrder>
-  w1600?: Maybe<SortOrder>
-}
-
-export type ShopifySourceProductsConnectionSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  pageInfo?: Maybe<PageInfoSorting>
-}
-
-export type HeroSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  textPosition?: Maybe<SortOrder>
-  textColor?: Maybe<SortOrder>
-  image?: Maybe<RichImageSorting>
-  backgroundColor?: Maybe<SortOrder>
-  mobileImage?: Maybe<RichImageSorting>
-  mobileBackgroundColor?: Maybe<SortOrder>
-  textPositionMobile?: Maybe<SortOrder>
-  textColorMobile?: Maybe<SortOrder>
-}
-
-export type SanityImageAssetSorting = {
-  _id?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  _createdAt?: Maybe<SortOrder>
-  _updatedAt?: Maybe<SortOrder>
-  _rev?: Maybe<SortOrder>
-  _key?: Maybe<SortOrder>
-  originalFilename?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  description?: Maybe<SortOrder>
-  sha1hash?: Maybe<SortOrder>
-  extension?: Maybe<SortOrder>
-  mimeType?: Maybe<SortOrder>
-  size?: Maybe<SortOrder>
-  assetId?: Maybe<SortOrder>
-  path?: Maybe<SortOrder>
-  url?: Maybe<SortOrder>
-  metadata?: Maybe<SanityImageMetadataSorting>
-  source?: Maybe<SanityAssetSourceDataSorting>
-}
-
-export type SanityImageMetadataSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  location?: Maybe<GeopointSorting>
-  dimensions?: Maybe<SanityImageDimensionsSorting>
-  palette?: Maybe<SanityImagePaletteSorting>
-  lqip?: Maybe<SortOrder>
-  hasAlpha?: Maybe<SortOrder>
-  isOpaque?: Maybe<SortOrder>
-}
-
-export type GeopointSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  lat?: Maybe<SortOrder>
-  lng?: Maybe<SortOrder>
-  alt?: Maybe<SortOrder>
-}
-
-export type SanityImageDimensionsSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  height?: Maybe<SortOrder>
-  width?: Maybe<SortOrder>
-  aspectRatio?: Maybe<SortOrder>
-}
-
-export type SanityImagePaletteSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  darkMuted?: Maybe<SanityImagePaletteSwatchSorting>
-  lightVibrant?: Maybe<SanityImagePaletteSwatchSorting>
-  darkVibrant?: Maybe<SanityImagePaletteSwatchSorting>
-  vibrant?: Maybe<SanityImagePaletteSwatchSorting>
-  dominant?: Maybe<SanityImagePaletteSwatchSorting>
-  lightMuted?: Maybe<SanityImagePaletteSwatchSorting>
-  muted?: Maybe<SanityImagePaletteSwatchSorting>
-}
-
-export type SanityImagePaletteSwatchSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  background?: Maybe<SortOrder>
-  foreground?: Maybe<SortOrder>
-  population?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export type SanityAssetSourceDataSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  name?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
-  url?: Maybe<SortOrder>
 }
 
 export type SanityFileAssetFilter = {
@@ -1893,145 +1222,448 @@ export type SanityFileAssetSorting = {
   source?: Maybe<SanityAssetSourceDataSorting>
 }
 
-export type BlockOrRichImage = Block | RichImage
-
-export interface Block {
-  __typename: 'Block'
-  _key?: Maybe<Scalars['String']>
+export interface SanityImageAsset extends Document {
+  __typename: 'SanityImageAsset'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
   _type?: Maybe<Scalars['String']>
-  children?: Maybe<Array<Maybe<Span>>>
-  style?: Maybe<Scalars['String']>
-  list?: Maybe<Scalars['String']>
-}
-
-export interface Span {
-  __typename: 'Span'
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  marks?: Maybe<Array<Maybe<Scalars['String']>>>
-  text?: Maybe<Scalars['String']>
+  originalFilename?: Maybe<Scalars['String']>
+  label?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  sha1hash?: Maybe<Scalars['String']>
+  extension?: Maybe<Scalars['String']>
+  mimeType?: Maybe<Scalars['String']>
+  size?: Maybe<Scalars['Float']>
+  assetId?: Maybe<Scalars['String']>
+  path?: Maybe<Scalars['String']>
+  url?: Maybe<Scalars['String']>
+  metadata?: Maybe<SanityImageMetadata>
+  source?: Maybe<SanityAssetSourceData>
 }
 
-export interface File {
-  __typename: 'File'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityFileAsset>
-}
-
-export type IntFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['Int']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['Int']>
-  /** Checks if the value is greater than the given input. */
-  gt?: Maybe<Scalars['Int']>
-  /** Checks if the value is greater than or equal to the given input. */
-  gte?: Maybe<Scalars['Int']>
-  /** Checks if the value is lesser than the given input. */
-  lt?: Maybe<Scalars['Int']>
-  /** Checks if the value is lesser than or equal to the given input. */
-  lte?: Maybe<Scalars['Int']>
-}
-
-export type ImageFilter = {
-  _key?: Maybe<StringFilter>
+export type SanityImageAssetFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
   _type?: Maybe<StringFilter>
-  asset?: Maybe<SanityImageAssetFilter>
-  hotspot?: Maybe<SanityImageHotspotFilter>
-  crop?: Maybe<SanityImageCropFilter>
-}
-
-export type FileFilter = {
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  asset?: Maybe<SanityFileAssetFilter>
-}
-
-export type TeamMemberFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  name?: Maybe<StringFilter>
-  title?: Maybe<StringFilter>
-  email?: Maybe<StringFilter>
-  headshot?: Maybe<RichImageFilter>
-}
-
-export type TagBadgeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  tag?: Maybe<StringFilter>
+  originalFilename?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
-}
-
-export type ExternalLinkFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  description?: Maybe<StringFilter>
+  sha1hash?: Maybe<StringFilter>
+  extension?: Maybe<StringFilter>
+  mimeType?: Maybe<StringFilter>
+  size?: Maybe<FloatFilter>
+  assetId?: Maybe<StringFilter>
+  path?: Maybe<StringFilter>
   url?: Maybe<StringFilter>
-  newTab?: Maybe<BooleanFilter>
+  metadata?: Maybe<SanityImageMetadataFilter>
+  source?: Maybe<SanityAssetSourceDataFilter>
 }
 
-export type InternalLinkFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
+export type SanityImageAssetSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  originalFilename?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  description?: Maybe<SortOrder>
+  sha1hash?: Maybe<SortOrder>
+  extension?: Maybe<SortOrder>
+  mimeType?: Maybe<SortOrder>
+  size?: Maybe<SortOrder>
+  assetId?: Maybe<SortOrder>
+  path?: Maybe<SortOrder>
+  url?: Maybe<SortOrder>
+  metadata?: Maybe<SanityImageMetadataSorting>
+  source?: Maybe<SanityAssetSourceDataSorting>
 }
 
-export type RichPageLinkFilter = {
+export interface SanityImageCrop {
+  __typename: 'SanityImageCrop'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  top?: Maybe<Scalars['Float']>
+  bottom?: Maybe<Scalars['Float']>
+  left?: Maybe<Scalars['Float']>
+  right?: Maybe<Scalars['Float']>
+}
+
+export type SanityImageCropFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
+  top?: Maybe<FloatFilter>
+  bottom?: Maybe<FloatFilter>
+  left?: Maybe<FloatFilter>
+  right?: Maybe<FloatFilter>
+}
+
+export type SanityImageCropSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  top?: Maybe<SortOrder>
+  bottom?: Maybe<SortOrder>
+  left?: Maybe<SortOrder>
+  right?: Maybe<SortOrder>
+}
+
+export interface SanityImageDimensions {
+  __typename: 'SanityImageDimensions'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  height?: Maybe<Scalars['Float']>
+  width?: Maybe<Scalars['Float']>
+  aspectRatio?: Maybe<Scalars['Float']>
+}
+
+export type SanityImageDimensionsFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  height?: Maybe<FloatFilter>
+  width?: Maybe<FloatFilter>
+  aspectRatio?: Maybe<FloatFilter>
+}
+
+export type SanityImageDimensionsSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  height?: Maybe<SortOrder>
+  width?: Maybe<SortOrder>
+  aspectRatio?: Maybe<SortOrder>
+}
+
+export interface SanityImageHotspot {
+  __typename: 'SanityImageHotspot'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  x?: Maybe<Scalars['Float']>
+  y?: Maybe<Scalars['Float']>
+  height?: Maybe<Scalars['Float']>
+  width?: Maybe<Scalars['Float']>
+}
+
+export type SanityImageHotspotFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  x?: Maybe<FloatFilter>
+  y?: Maybe<FloatFilter>
+  height?: Maybe<FloatFilter>
+  width?: Maybe<FloatFilter>
+}
+
+export type SanityImageHotspotSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  x?: Maybe<SortOrder>
+  y?: Maybe<SortOrder>
+  height?: Maybe<SortOrder>
+  width?: Maybe<SortOrder>
+}
+
+export interface SanityImageMetadata {
+  __typename: 'SanityImageMetadata'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  location?: Maybe<Geopoint>
+  dimensions?: Maybe<SanityImageDimensions>
+  palette?: Maybe<SanityImagePalette>
+  lqip?: Maybe<Scalars['String']>
+  hasAlpha?: Maybe<Scalars['Boolean']>
+  isOpaque?: Maybe<Scalars['Boolean']>
+}
+
+export type SanityImageMetadataFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  location?: Maybe<GeopointFilter>
+  dimensions?: Maybe<SanityImageDimensionsFilter>
+  palette?: Maybe<SanityImagePaletteFilter>
+  lqip?: Maybe<StringFilter>
+  hasAlpha?: Maybe<BooleanFilter>
+  isOpaque?: Maybe<BooleanFilter>
+}
+
+export type SanityImageMetadataSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  location?: Maybe<GeopointSorting>
+  dimensions?: Maybe<SanityImageDimensionsSorting>
+  palette?: Maybe<SanityImagePaletteSorting>
+  lqip?: Maybe<SortOrder>
+  hasAlpha?: Maybe<SortOrder>
+  isOpaque?: Maybe<SortOrder>
+}
+
+export interface SanityImagePalette {
+  __typename: 'SanityImagePalette'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  darkMuted?: Maybe<SanityImagePaletteSwatch>
+  lightVibrant?: Maybe<SanityImagePaletteSwatch>
+  darkVibrant?: Maybe<SanityImagePaletteSwatch>
+  vibrant?: Maybe<SanityImagePaletteSwatch>
+  dominant?: Maybe<SanityImagePaletteSwatch>
+  lightMuted?: Maybe<SanityImagePaletteSwatch>
+  muted?: Maybe<SanityImagePaletteSwatch>
+}
+
+export type SanityImagePaletteFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  darkMuted?: Maybe<SanityImagePaletteSwatchFilter>
+  lightVibrant?: Maybe<SanityImagePaletteSwatchFilter>
+  darkVibrant?: Maybe<SanityImagePaletteSwatchFilter>
+  vibrant?: Maybe<SanityImagePaletteSwatchFilter>
+  dominant?: Maybe<SanityImagePaletteSwatchFilter>
+  lightMuted?: Maybe<SanityImagePaletteSwatchFilter>
+  muted?: Maybe<SanityImagePaletteSwatchFilter>
+}
+
+export type SanityImagePaletteSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  darkMuted?: Maybe<SanityImagePaletteSwatchSorting>
+  lightVibrant?: Maybe<SanityImagePaletteSwatchSorting>
+  darkVibrant?: Maybe<SanityImagePaletteSwatchSorting>
+  vibrant?: Maybe<SanityImagePaletteSwatchSorting>
+  dominant?: Maybe<SanityImagePaletteSwatchSorting>
+  lightMuted?: Maybe<SanityImagePaletteSwatchSorting>
+  muted?: Maybe<SanityImagePaletteSwatchSorting>
+}
+
+export interface SanityImagePaletteSwatch {
+  __typename: 'SanityImagePaletteSwatch'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  background?: Maybe<Scalars['String']>
+  foreground?: Maybe<Scalars['String']>
+  population?: Maybe<Scalars['Float']>
+  title?: Maybe<Scalars['String']>
+}
+
+export type SanityImagePaletteSwatchFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  background?: Maybe<StringFilter>
+  foreground?: Maybe<StringFilter>
+  population?: Maybe<FloatFilter>
   title?: Maybe<StringFilter>
-  image?: Maybe<RichImageFilter>
-  hoverImage?: Maybe<RichImageFilter>
 }
 
-export type MenuLinkFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
-  link?: Maybe<InternalLinkFilter>
+export type SanityImagePaletteSwatchSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  background?: Maybe<SortOrder>
+  foreground?: Maybe<SortOrder>
+  population?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
 }
 
-export type SubMenuFilter = {
-  _key?: Maybe<StringFilter>
+export interface ShopifyCollection extends Document {
+  __typename: 'ShopifyCollection'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  handle?: Maybe<Scalars['String']>
+  shopifyId?: Maybe<Scalars['String']>
+  archived?: Maybe<Scalars['Boolean']>
+  sourceData?: Maybe<ShopifySourceCollection>
+  products?: Maybe<Array<Maybe<ShopifyProduct>>>
+  hero?: Maybe<Hero>
+}
+
+export type ShopifyCollectionFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
   _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
+  handle?: Maybe<StringFilter>
+  shopifyId?: Maybe<StringFilter>
+  archived?: Maybe<BooleanFilter>
+  sourceData?: Maybe<ShopifySourceCollectionFilter>
+  hero?: Maybe<HeroFilter>
 }
 
-export type CtaFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
-  link?: Maybe<InternalLinkFilter>
+export type ShopifyCollectionSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  handle?: Maybe<SortOrder>
+  shopifyId?: Maybe<SortOrder>
+  archived?: Maybe<SortOrder>
+  sourceData?: Maybe<ShopifySourceCollectionSorting>
+  hero?: Maybe<HeroSorting>
 }
 
-export type ImageTextBlockFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  ctaText?: Maybe<StringFilter>
-  textPosition?: Maybe<StringFilter>
-  textColor?: Maybe<StringFilter>
-  layout?: Maybe<StringFilter>
-  backgroundImage?: Maybe<RichImageFilter>
-  backgroundColor?: Maybe<StringFilter>
-  hoverImage?: Maybe<RichImageFilter>
+export interface ShopifyMoneyV2 {
+  __typename: 'ShopifyMoneyV2'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  amount?: Maybe<Scalars['String']>
+  currencyCode?: Maybe<Scalars['String']>
 }
 
-export type ProductInfoFilter = {
+export type ShopifyMoneyV2Filter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
+  amount?: Maybe<StringFilter>
+  currencyCode?: Maybe<StringFilter>
+}
+
+export type ShopifyMoneyV2Sorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  amount?: Maybe<SortOrder>
+  currencyCode?: Maybe<SortOrder>
+}
+
+export interface ShopifyProduct extends Document {
+  __typename: 'ShopifyProduct'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  handle?: Maybe<Scalars['String']>
+  shopifyId?: Maybe<Scalars['String']>
+  archived?: Maybe<Scalars['Boolean']>
+  sourceData?: Maybe<ShopifySourceProduct>
+  collections?: Maybe<Array<Maybe<ShopifyCollection>>>
+  options?: Maybe<Array<Maybe<ShopifyProductOption>>>
+  variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
+  info?: Maybe<Array<Maybe<ProductInfo>>>
+  gallery?: Maybe<Array<Maybe<RichImage>>>
+  contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
+  related?: Maybe<Carousel>
+}
+
+export type ShopifyProductFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
+  handle?: Maybe<StringFilter>
+  shopifyId?: Maybe<StringFilter>
+  archived?: Maybe<BooleanFilter>
+  sourceData?: Maybe<ShopifySourceProductFilter>
+  related?: Maybe<CarouselFilter>
 }
 
-export type ProductInfoByTypeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  type?: Maybe<StringFilter>
+export interface ShopifyProductOption {
+  __typename: 'ShopifyProductOption'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  shopifyOptionId?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  values?: Maybe<Array<Maybe<ShopifyProductOptionValue>>>
 }
 
-export type ProductInfoByTagFilter = {
+export type ShopifyProductOptionFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
-  tag?: Maybe<StringFilter>
+  shopifyOptionId?: Maybe<StringFilter>
+  name?: Maybe<StringFilter>
+}
+
+export type ShopifyProductOptionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  shopifyOptionId?: Maybe<SortOrder>
+  name?: Maybe<SortOrder>
+}
+
+export interface ShopifyProductOptionValue {
+  __typename: 'ShopifyProductOptionValue'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  value?: Maybe<Scalars['String']>
+  descriptionRaw?: Maybe<Scalars['JSON']>
+  swatch?: Maybe<Image>
+}
+
+export type ShopifyProductOptionValueFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  value?: Maybe<StringFilter>
+  swatch?: Maybe<ImageFilter>
+}
+
+export type ShopifyProductOptionValueSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  value?: Maybe<SortOrder>
+  swatch?: Maybe<ImageSorting>
+}
+
+export type ShopifyProductSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  handle?: Maybe<SortOrder>
+  shopifyId?: Maybe<SortOrder>
+  archived?: Maybe<SortOrder>
+  sourceData?: Maybe<ShopifySourceProductSorting>
+  related?: Maybe<CarouselSorting>
+}
+
+export interface ShopifyProductVariant {
+  __typename: 'ShopifyProductVariant'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  shopifyVariantID?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  sourceData?: Maybe<ShopifySourceProductVariant>
 }
 
 export type ShopifyProductVariantFilter = {
@@ -2040,6 +1672,395 @@ export type ShopifyProductVariantFilter = {
   shopifyVariantID?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
   sourceData?: Maybe<ShopifySourceProductVariantFilter>
+}
+
+export type ShopifyProductVariantSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  shopifyVariantID?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  sourceData?: Maybe<ShopifySourceProductVariantSorting>
+}
+
+export interface ShopifySourceCollection {
+  __typename: 'ShopifySourceCollection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  handle?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  descriptionHtml?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  image?: Maybe<ShopifySourceImage>
+  products?: Maybe<ShopifySourceProductsConnection>
+}
+
+export interface ShopifySourceCollectionEdge {
+  __typename: 'ShopifySourceCollectionEdge'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  cursor?: Maybe<Scalars['String']>
+  node?: Maybe<ShopifySourceCollectionNode>
+}
+
+export type ShopifySourceCollectionEdgeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  cursor?: Maybe<StringFilter>
+  node?: Maybe<ShopifySourceCollectionNodeFilter>
+}
+
+export type ShopifySourceCollectionEdgeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  cursor?: Maybe<SortOrder>
+  node?: Maybe<ShopifySourceCollectionNodeSorting>
+}
+
+export type ShopifySourceCollectionFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  handle?: Maybe<StringFilter>
+  description?: Maybe<StringFilter>
+  descriptionHtml?: Maybe<StringFilter>
+  id?: Maybe<StringFilter>
+  image?: Maybe<ShopifySourceImageFilter>
+  products?: Maybe<ShopifySourceProductsConnectionFilter>
+}
+
+export interface ShopifySourceCollectionNode {
+  __typename: 'ShopifySourceCollectionNode'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  handle?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+}
+
+export type ShopifySourceCollectionNodeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  handle?: Maybe<StringFilter>
+  id?: Maybe<StringFilter>
+}
+
+export type ShopifySourceCollectionNodeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  handle?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+}
+
+export interface ShopifySourceCollectionsConnection {
+  __typename: 'ShopifySourceCollectionsConnection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  pageInfo?: Maybe<PageInfo>
+  edges?: Maybe<Array<Maybe<ShopifySourceCollectionEdge>>>
+}
+
+export type ShopifySourceCollectionsConnectionFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  pageInfo?: Maybe<PageInfoFilter>
+}
+
+export type ShopifySourceCollectionsConnectionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  pageInfo?: Maybe<PageInfoSorting>
+}
+
+export type ShopifySourceCollectionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  handle?: Maybe<SortOrder>
+  description?: Maybe<SortOrder>
+  descriptionHtml?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+  image?: Maybe<ShopifySourceImageSorting>
+  products?: Maybe<ShopifySourceProductsConnectionSorting>
+}
+
+export interface ShopifySourceImage {
+  __typename: 'ShopifySourceImage'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  altText?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  originalSrc?: Maybe<Scalars['String']>
+  w100?: Maybe<Scalars['String']>
+  w300?: Maybe<Scalars['String']>
+  w800?: Maybe<Scalars['String']>
+  w1200?: Maybe<Scalars['String']>
+  w1600?: Maybe<Scalars['String']>
+}
+
+export interface ShopifySourceImageEdge {
+  __typename: 'ShopifySourceImageEdge'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  key?: Maybe<Scalars['String']>
+  cursor?: Maybe<Scalars['String']>
+  node?: Maybe<ShopifySourceImage>
+}
+
+export type ShopifySourceImageEdgeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  key?: Maybe<StringFilter>
+  cursor?: Maybe<StringFilter>
+  node?: Maybe<ShopifySourceImageFilter>
+}
+
+export type ShopifySourceImageEdgeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  key?: Maybe<SortOrder>
+  cursor?: Maybe<SortOrder>
+  node?: Maybe<ShopifySourceImageSorting>
+}
+
+export type ShopifySourceImageFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  altText?: Maybe<StringFilter>
+  id?: Maybe<StringFilter>
+  originalSrc?: Maybe<StringFilter>
+  w100?: Maybe<StringFilter>
+  w300?: Maybe<StringFilter>
+  w800?: Maybe<StringFilter>
+  w1200?: Maybe<StringFilter>
+  w1600?: Maybe<StringFilter>
+}
+
+export interface ShopifySourceImages {
+  __typename: 'ShopifySourceImages'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  edges?: Maybe<Array<Maybe<ShopifySourceImageEdge>>>
+}
+
+export type ShopifySourceImagesFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+}
+
+export type ShopifySourceImageSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  altText?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+  originalSrc?: Maybe<SortOrder>
+  w100?: Maybe<SortOrder>
+  w300?: Maybe<SortOrder>
+  w800?: Maybe<SortOrder>
+  w1200?: Maybe<SortOrder>
+  w1600?: Maybe<SortOrder>
+}
+
+export type ShopifySourceImagesSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+}
+
+export interface ShopifySourceProduct {
+  __typename: 'ShopifySourceProduct'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  availableForSale?: Maybe<Scalars['Boolean']>
+  priceRange?: Maybe<ShopifySourceProductPriceRange>
+  productType?: Maybe<Scalars['String']>
+  tags?: Maybe<Array<Maybe<Scalars['String']>>>
+  handle?: Maybe<Scalars['String']>
+  description?: Maybe<Scalars['String']>
+  descriptionHtml?: Maybe<Scalars['String']>
+  vendor?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+  images?: Maybe<ShopifySourceImages>
+  options?: Maybe<Array<Maybe<ShopifySourceProductOption>>>
+  variants?: Maybe<ShopifySourceProductVariantsConnection>
+  collections?: Maybe<ShopifySourceCollectionsConnection>
+}
+
+export interface ShopifySourceProductEdge {
+  __typename: 'ShopifySourceProductEdge'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  cursor?: Maybe<Scalars['String']>
+  node?: Maybe<ShopifySourceProductNode>
+}
+
+export type ShopifySourceProductEdgeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  cursor?: Maybe<StringFilter>
+  node?: Maybe<ShopifySourceProductNodeFilter>
+}
+
+export type ShopifySourceProductEdgeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  cursor?: Maybe<SortOrder>
+  node?: Maybe<ShopifySourceProductNodeSorting>
+}
+
+export type ShopifySourceProductFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  availableForSale?: Maybe<BooleanFilter>
+  priceRange?: Maybe<ShopifySourceProductPriceRangeFilter>
+  productType?: Maybe<StringFilter>
+  handle?: Maybe<StringFilter>
+  description?: Maybe<StringFilter>
+  descriptionHtml?: Maybe<StringFilter>
+  vendor?: Maybe<StringFilter>
+  id?: Maybe<StringFilter>
+  images?: Maybe<ShopifySourceImagesFilter>
+  variants?: Maybe<ShopifySourceProductVariantsConnectionFilter>
+  collections?: Maybe<ShopifySourceCollectionsConnectionFilter>
+}
+
+export interface ShopifySourceProductNode {
+  __typename: 'ShopifySourceProductNode'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  handle?: Maybe<Scalars['String']>
+  id?: Maybe<Scalars['String']>
+}
+
+export type ShopifySourceProductNodeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  handle?: Maybe<StringFilter>
+  id?: Maybe<StringFilter>
+}
+
+export type ShopifySourceProductNodeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  handle?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+}
+
+export interface ShopifySourceProductOption {
+  __typename: 'ShopifySourceProductOption'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  values?: Maybe<Array<Maybe<Scalars['String']>>>
+}
+
+export type ShopifySourceProductOptionFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  name?: Maybe<StringFilter>
+}
+
+export type ShopifySourceProductOptionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  name?: Maybe<SortOrder>
+}
+
+export interface ShopifySourceProductPriceRange {
+  __typename: 'ShopifySourceProductPriceRange'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  minVariantPrice?: Maybe<ShopifyMoneyV2>
+  maxVariantPrice?: Maybe<ShopifyMoneyV2>
+}
+
+export type ShopifySourceProductPriceRangeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  minVariantPrice?: Maybe<ShopifyMoneyV2Filter>
+  maxVariantPrice?: Maybe<ShopifyMoneyV2Filter>
+}
+
+export type ShopifySourceProductPriceRangeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  minVariantPrice?: Maybe<ShopifyMoneyV2Sorting>
+  maxVariantPrice?: Maybe<ShopifyMoneyV2Sorting>
+}
+
+export interface ShopifySourceProductsConnection {
+  __typename: 'ShopifySourceProductsConnection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  pageInfo?: Maybe<PageInfo>
+  edges?: Maybe<Array<Maybe<ShopifySourceProductEdge>>>
+}
+
+export type ShopifySourceProductsConnectionFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  pageInfo?: Maybe<PageInfoFilter>
+}
+
+export type ShopifySourceProductsConnectionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  pageInfo?: Maybe<PageInfoSorting>
+}
+
+export type ShopifySourceProductSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  availableForSale?: Maybe<SortOrder>
+  priceRange?: Maybe<ShopifySourceProductPriceRangeSorting>
+  productType?: Maybe<SortOrder>
+  handle?: Maybe<SortOrder>
+  description?: Maybe<SortOrder>
+  descriptionHtml?: Maybe<SortOrder>
+  vendor?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+  images?: Maybe<ShopifySourceImagesSorting>
+  variants?: Maybe<ShopifySourceProductVariantsConnectionSorting>
+  collections?: Maybe<ShopifySourceCollectionsConnectionSorting>
+}
+
+export interface ShopifySourceProductVariant {
+  __typename: 'ShopifySourceProductVariant'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  availableForSale?: Maybe<Scalars['Boolean']>
+  id?: Maybe<Scalars['String']>
+  image?: Maybe<ShopifySourceImage>
+  priceV2?: Maybe<ShopifyMoneyV2>
+  selectedOptions?: Maybe<Array<Maybe<ShopifySourceSelectedOption>>>
+  requiresShipping?: Maybe<Scalars['Boolean']>
+  sku?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  weight?: Maybe<Scalars['Float']>
+  weightUnit?: Maybe<Scalars['String']>
+}
+
+export interface ShopifySourceProductVariantEdge {
+  __typename: 'ShopifySourceProductVariantEdge'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  cursor?: Maybe<Scalars['String']>
+  node?: Maybe<ShopifySourceProductVariant>
+}
+
+export type ShopifySourceProductVariantEdgeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  cursor?: Maybe<StringFilter>
+  node?: Maybe<ShopifySourceProductVariantFilter>
+}
+
+export type ShopifySourceProductVariantEdgeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  cursor?: Maybe<SortOrder>
+  node?: Maybe<ShopifySourceProductVariantSorting>
 }
 
 export type ShopifySourceProductVariantFilter = {
@@ -2056,180 +2077,24 @@ export type ShopifySourceProductVariantFilter = {
   weightUnit?: Maybe<StringFilter>
 }
 
-export type ShopifyProductOptionFilter = {
+export interface ShopifySourceProductVariantsConnection {
+  __typename: 'ShopifySourceProductVariantsConnection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  pageInfo?: Maybe<PageInfo>
+  edges?: Maybe<Array<Maybe<ShopifySourceProductVariantEdge>>>
+}
+
+export type ShopifySourceProductVariantsConnectionFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
-  shopifyOptionId?: Maybe<StringFilter>
-  name?: Maybe<StringFilter>
+  pageInfo?: Maybe<PageInfoFilter>
 }
 
-export type ShopifyProductOptionValueFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  value?: Maybe<StringFilter>
-  swatch?: Maybe<ImageFilter>
-}
-
-export type ShopifySourceImageEdgeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  key?: Maybe<StringFilter>
-  cursor?: Maybe<StringFilter>
-  node?: Maybe<ShopifySourceImageFilter>
-}
-
-export type ShopifySourceProductOptionFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  name?: Maybe<StringFilter>
-}
-
-export type ShopifySourceCollectionNodeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  handle?: Maybe<StringFilter>
-  id?: Maybe<StringFilter>
-}
-
-export type ShopifySourceCollectionEdgeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  cursor?: Maybe<StringFilter>
-  node?: Maybe<ShopifySourceCollectionNodeFilter>
-}
-
-export type ShopifySourceProductVariantEdgeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  cursor?: Maybe<StringFilter>
-  node?: Maybe<ShopifySourceProductVariantFilter>
-}
-
-export type ShopifySourceSelectedOptionFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  name?: Maybe<StringFilter>
-  value?: Maybe<StringFilter>
-}
-
-export type ShopifySourceProductNodeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  handle?: Maybe<StringFilter>
-  id?: Maybe<StringFilter>
-}
-
-export type ShopifySourceProductEdgeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  cursor?: Maybe<StringFilter>
-  node?: Maybe<ShopifySourceProductNodeFilter>
-}
-
-export type ImageSorting = {
+export type ShopifySourceProductVariantsConnectionSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  hotspot?: Maybe<SanityImageHotspotSorting>
-  crop?: Maybe<SanityImageCropSorting>
-}
-
-export type FileSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-}
-
-export type TeamMemberSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  name?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  email?: Maybe<SortOrder>
-  headshot?: Maybe<RichImageSorting>
-}
-
-export type TagBadgeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  tag?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
-}
-
-export type ExternalLinkSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  url?: Maybe<SortOrder>
-  newTab?: Maybe<SortOrder>
-}
-
-export type InternalLinkSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-}
-
-export type RichPageLinkSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  image?: Maybe<RichImageSorting>
-  hoverImage?: Maybe<RichImageSorting>
-}
-
-export type MenuLinkSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
-  link?: Maybe<InternalLinkSorting>
-}
-
-export type SubMenuSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export type CtaSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
-  link?: Maybe<InternalLinkSorting>
-}
-
-export type ImageTextBlockSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  ctaText?: Maybe<SortOrder>
-  textPosition?: Maybe<SortOrder>
-  textColor?: Maybe<SortOrder>
-  layout?: Maybe<SortOrder>
-  backgroundImage?: Maybe<RichImageSorting>
-  backgroundColor?: Maybe<SortOrder>
-  hoverImage?: Maybe<RichImageSorting>
-}
-
-export type ProductInfoSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-}
-
-export type ProductInfoByTypeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  type?: Maybe<SortOrder>
-}
-
-export type ProductInfoByTagSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  tag?: Maybe<SortOrder>
-}
-
-export type ShopifyProductVariantSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  shopifyVariantID?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  sourceData?: Maybe<ShopifySourceProductVariantSorting>
+  pageInfo?: Maybe<PageInfoSorting>
 }
 
 export type ShopifySourceProductVariantSorting = {
@@ -2246,53 +2111,19 @@ export type ShopifySourceProductVariantSorting = {
   weightUnit?: Maybe<SortOrder>
 }
 
-export type ShopifyProductOptionSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  shopifyOptionId?: Maybe<SortOrder>
-  name?: Maybe<SortOrder>
+export interface ShopifySourceSelectedOption {
+  __typename: 'ShopifySourceSelectedOption'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  value?: Maybe<Scalars['String']>
 }
 
-export type ShopifyProductOptionValueSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  value?: Maybe<SortOrder>
-  swatch?: Maybe<ImageSorting>
-}
-
-export type ShopifySourceImageEdgeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  key?: Maybe<SortOrder>
-  cursor?: Maybe<SortOrder>
-  node?: Maybe<ShopifySourceImageSorting>
-}
-
-export type ShopifySourceProductOptionSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  name?: Maybe<SortOrder>
-}
-
-export type ShopifySourceCollectionNodeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  handle?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
-}
-
-export type ShopifySourceCollectionEdgeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  cursor?: Maybe<SortOrder>
-  node?: Maybe<ShopifySourceCollectionNodeSorting>
-}
-
-export type ShopifySourceProductVariantEdgeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  cursor?: Maybe<SortOrder>
-  node?: Maybe<ShopifySourceProductVariantSorting>
+export type ShopifySourceSelectedOptionFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  name?: Maybe<StringFilter>
+  value?: Maybe<StringFilter>
 }
 
 export type ShopifySourceSelectedOptionSorting = {
@@ -2302,16 +2133,200 @@ export type ShopifySourceSelectedOptionSorting = {
   value?: Maybe<SortOrder>
 }
 
-export type ShopifySourceProductNodeSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  handle?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
+export interface SiteSettings extends Document {
+  __typename: 'SiteSettings'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  links?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
+  mailerTitle?: Maybe<Scalars['String']>
+  mailerSubtitle?: Maybe<Scalars['String']>
 }
 
-export type ShopifySourceProductEdgeSorting = {
+export type SiteSettingsFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  mailerTitle?: Maybe<StringFilter>
+  mailerSubtitle?: Maybe<StringFilter>
+}
+
+export type SiteSettingsSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  mailerTitle?: Maybe<SortOrder>
+  mailerSubtitle?: Maybe<SortOrder>
+}
+
+export interface Slug {
+  __typename: 'Slug'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  current?: Maybe<Scalars['String']>
+}
+
+export type SlugFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  current?: Maybe<StringFilter>
+}
+
+export type SlugSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  cursor?: Maybe<SortOrder>
-  node?: Maybe<ShopifySourceProductNodeSorting>
+  current?: Maybe<SortOrder>
+}
+
+export enum SortOrder {
+  /** Sorts on the value in ascending order. */
+  Asc = 'ASC',
+  /** Sorts on the value in descending order. */
+  Desc = 'DESC',
+}
+
+export interface Span {
+  __typename: 'Span'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  marks?: Maybe<Array<Maybe<Scalars['String']>>>
+  text?: Maybe<Scalars['String']>
+}
+
+export type StringFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['String']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['String']>
+  /** Checks if the value matches the given word/words. */
+  matches?: Maybe<Scalars['String']>
+  in?: Maybe<Array<Scalars['String']>>
+  nin?: Maybe<Array<Scalars['String']>>
+}
+
+export interface SubMenu {
+  __typename: 'SubMenu'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  links?: Maybe<Array<Maybe<Cta>>>
+}
+
+export type SubMenuFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type SubMenuSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+}
+
+export interface TagBadge {
+  __typename: 'TagBadge'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** The tag to match from Shopify */
+  tag?: Maybe<Scalars['String']>
+  /** (optional) An alternate label to display in the badge */
+  label?: Maybe<Scalars['String']>
+}
+
+export type TagBadgeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  tag?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+}
+
+export type TagBadgeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  tag?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
+}
+
+export interface TeamMember {
+  __typename: 'TeamMember'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  name?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  email?: Maybe<Scalars['String']>
+  headshot?: Maybe<RichImage>
+}
+
+export type TeamMemberFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  name?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  email?: Maybe<StringFilter>
+  headshot?: Maybe<RichImageFilter>
+}
+
+export type TeamMemberSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  name?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  email?: Maybe<SortOrder>
+  headshot?: Maybe<RichImageSorting>
+}
+
+export interface TeamPage extends Document {
+  __typename: 'TeamPage'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  teamMembers?: Maybe<Array<Maybe<TeamMember>>>
+}
+
+export type TeamPageFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+}
+
+export type TeamPageSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
 }

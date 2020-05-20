@@ -6,20 +6,20 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  /** An ISO-8601 encoded UTC date time string. Example value: `"2019-07-03T20:47:55Z"`. */
-  DateTime: Date
-  /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
-  Decimal: any
-  /** A string containing HTML code. Example value: `"<p>Grey cotton knit sweater.</p>"`. */
-  HTML: any
-  /** A monetary value string. Example value: `"100.57"`. */
-  Money: any
   /**
    * An RFC 3986 and RFC 3987 compliant URI string.
    *
    * Example value: `"https://johns-apparel.myshopify.com"`.
    */
   URL: any
+  /** A string containing HTML code. Example value: `"<p>Grey cotton knit sweater.</p>"`. */
+  HTML: any
+  /** An ISO-8601 encoded UTC date time string. Example value: `"2019-07-03T20:47:55Z"`. */
+  DateTime: Date
+  /** A monetary value string. Example value: `"100.57"`. */
+  Money: any
+  /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
+  Decimal: any
 }
 
 /** A version of the API. */
@@ -349,11 +349,15 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   /** The Order Status Page for this Checkout, null when checkout is not completed. */
   orderStatusUrl?: Maybe<Scalars['URL']>
   /**
-   * The amount left to be paid. This is equal to the cost of the line items, taxes and shipping minus discounts and gift cards.
+   * The amount left to be paid. This is equal to the cost of the line items, taxes
+   * and shipping minus discounts and gift cards.
    * @deprecated Use `paymentDueV2` instead
    */
   paymentDue: Scalars['Money']
-  /** The amount left to be paid. This is equal to the cost of the line items, taxes and shipping minus discounts and gift cards. */
+  /**
+   * The amount left to be paid. This is equal to the cost of the line items, taxes
+   * and shipping minus discounts and gift cards.
+   */
   paymentDueV2: ShopifyStorefrontMoneyV2
   /**
    * Whether or not the Checkout is ready and can be completed. Checkouts may
@@ -894,18 +898,6 @@ export type ShopifyStorefrontCheckoutLineItemInput = {
   variantId: Scalars['ID']
 }
 
-/** Specifies the input fields to update a line item on the checkout. */
-export type ShopifyStorefrontCheckoutLineItemUpdateInput = {
-  /** The identifier of the line item. */
-  id?: Maybe<Scalars['ID']>
-  /** The variant identifier of the line item. */
-  variantId?: Maybe<Scalars['ID']>
-  /** The quantity of the line item. */
-  quantity?: Maybe<Scalars['Int']>
-  /** Extra information in the form of an array of Key-Value pairs about the line item. */
-  customAttributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
-}
-
 /** Return type for `checkoutLineItemsAdd` mutation. */
 export interface ShopifyStorefrontCheckoutLineItemsAddPayload {
   __typename: 'CheckoutLineItemsAddPayload'
@@ -955,6 +947,18 @@ export interface ShopifyStorefrontCheckoutLineItemsUpdatePayload {
    * @deprecated Use `checkoutUserErrors` instead
    */
   userErrors: Array<ShopifyStorefrontUserError>
+}
+
+/** Specifies the input fields to update a line item on the checkout. */
+export type ShopifyStorefrontCheckoutLineItemUpdateInput = {
+  /** The identifier of the line item. */
+  id?: Maybe<Scalars['ID']>
+  /** The variant identifier of the line item. */
+  variantId?: Maybe<Scalars['ID']>
+  /** The quantity of the line item. */
+  quantity?: Maybe<Scalars['Int']>
+  /** Extra information in the form of an array of Key-Value pairs about the line item. */
+  customAttributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
 }
 
 /** Return type for `checkoutShippingAddressUpdate` mutation. */
@@ -1011,7 +1015,10 @@ export interface ShopifyStorefrontCheckoutUserError
   message: Scalars['String']
 }
 
-/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
+/**
+ * A collection represents a grouping of products that a shop owner can create to
+ * organize them or make their shops easier to browse.
+ */
 export interface ShopifyStorefrontCollection extends ShopifyStorefrontNode {
   __typename: 'Collection'
   /** Stripped description of the collection, single line with HTML tags removed. */
@@ -1035,12 +1042,18 @@ export interface ShopifyStorefrontCollection extends ShopifyStorefrontNode {
   updatedAt: Scalars['DateTime']
 }
 
-/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
+/**
+ * A collection represents a grouping of products that a shop owner can create to
+ * organize them or make their shops easier to browse.
+ */
 export type ShopifyStorefrontCollectionDescriptionArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
-/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
+/**
+ * A collection represents a grouping of products that a shop owner can create to
+ * organize them or make their shops easier to browse.
+ */
 export type ShopifyStorefrontCollectionImageArgs = {
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
@@ -1048,7 +1061,10 @@ export type ShopifyStorefrontCollectionImageArgs = {
   scale?: Maybe<Scalars['Int']>
 }
 
-/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
+/**
+ * A collection represents a grouping of products that a shop owner can create to
+ * organize them or make their shops easier to browse.
+ */
 export type ShopifyStorefrontCollectionProductsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -1649,7 +1665,10 @@ export interface ShopifyStorefrontCreditCard {
 export type ShopifyStorefrontCreditCardPaymentInput = {
   /** The amount of the payment. */
   amount: Scalars['Money']
-  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. */
+  /**
+   * A unique client generated key used to avoid duplicate charges. When a
+   * duplicate payment is found, the original is returned instead of creating a new one.
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
@@ -1666,7 +1685,10 @@ export type ShopifyStorefrontCreditCardPaymentInput = {
 export type ShopifyStorefrontCreditCardPaymentInputV2 = {
   /** The amount and currency of the payment. */
   paymentAmount: ShopifyStorefrontMoneyInput
-  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. */
+  /**
+   * A unique client generated key used to avoid duplicate charges. When a
+   * duplicate payment is found, the original is returned instead of creating a new one.
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
@@ -1978,7 +2000,11 @@ export enum ShopifyStorefrontCurrencyCode {
   Zmw = 'ZMW',
 }
 
-/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
+/**
+ * A customer represents a customer account with the shop. Customer accounts store
+ * contact information for the customer, saving logged-in customers the trouble of
+ * having to provide it at every checkout.
+ */
 export interface ShopifyStorefrontCustomer {
   __typename: 'Customer'
   /** Indicates whether the customer has consented to be sent marketing material via email. */
@@ -2014,7 +2040,11 @@ export interface ShopifyStorefrontCustomer {
   updatedAt: Scalars['DateTime']
 }
 
-/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
+/**
+ * A customer represents a customer account with the shop. Customer accounts store
+ * contact information for the customer, saving logged-in customers the trouble of
+ * having to provide it at every checkout.
+ */
 export type ShopifyStorefrontCustomerAddressesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -2023,7 +2053,11 @@ export type ShopifyStorefrontCustomerAddressesArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
+/**
+ * A customer represents a customer account with the shop. Customer accounts store
+ * contact information for the customer, saving logged-in customers the trouble of
+ * having to provide it at every checkout.
+ */
 export type ShopifyStorefrontCustomerOrdersArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -2878,7 +2912,10 @@ export interface ShopifyStorefrontMutation {
   checkoutAttributesUpdateV2?: Maybe<
     ShopifyStorefrontCheckoutAttributesUpdateV2Payload
   >
-  /** Completes a checkout without providing payment information. You can use this mutation for free items or items whose purchase price is covered by a gift card. */
+  /**
+   * Completes a checkout without providing payment information. You can use this
+   * mutation for free items or items whose purchase price is covered by a gift card.
+   */
   checkoutCompleteFree?: Maybe<ShopifyStorefrontCheckoutCompleteFreePayload>
   /**
    * Completes a checkout using a credit card token from Shopify's Vault.
@@ -2887,7 +2924,11 @@ export interface ShopifyStorefrontMutation {
   checkoutCompleteWithCreditCard?: Maybe<
     ShopifyStorefrontCheckoutCompleteWithCreditCardPayload
   >
-  /** Completes a checkout using a credit card token from Shopify's card vault. Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you need to  [_request payment processing_](https://help.shopify.com/api/guides/sales-channel-sdk/getting-started#request-payment-processing). */
+  /**
+   * Completes a checkout using a credit card token from Shopify's card vault.
+   * Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you
+   * need to  [_request payment processing_](https://help.shopify.com/api/guides/sales-channel-sdk/getting-started#request-payment-processing).
+   */
   checkoutCompleteWithCreditCardV2?: Maybe<
     ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload
   >
@@ -3294,7 +3335,11 @@ export type ShopifyStorefrontNode = {
   id: Scalars['ID']
 }
 
-/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
+/**
+ * An order is a customer’s completed request to purchase one or more products from
+ * a shop. An order is created when a customer completes the checkout process,
+ * during which time they provides an email address, billing address and payment information.
+ */
 export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   __typename: 'Order'
   /** The code of the currency used for the payment. */
@@ -3371,7 +3416,11 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   totalTaxV2?: Maybe<ShopifyStorefrontMoneyV2>
 }
 
-/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
+/**
+ * An order is a customer’s completed request to purchase one or more products from
+ * a shop. An order is created when a customer completes the checkout process,
+ * during which time they provides an email address, billing address and payment information.
+ */
 export type ShopifyStorefrontOrderDiscountApplicationsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -3380,7 +3429,11 @@ export type ShopifyStorefrontOrderDiscountApplicationsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
+/**
+ * An order is a customer’s completed request to purchase one or more products from
+ * a shop. An order is created when a customer completes the checkout process,
+ * during which time they provides an email address, billing address and payment information.
+ */
 export type ShopifyStorefrontOrderLineItemsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -3389,7 +3442,11 @@ export type ShopifyStorefrontOrderLineItemsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
+/**
+ * An order is a customer’s completed request to purchase one or more products from
+ * a shop. An order is created when a customer completes the checkout process,
+ * during which time they provides an email address, billing address and payment information.
+ */
 export type ShopifyStorefrontOrderSuccessfulFulfillmentsArgs = {
   first?: Maybe<Scalars['Int']>
 }
@@ -3457,7 +3514,10 @@ export enum ShopifyStorefrontOrderSortKeys {
   Relevance = 'RELEVANCE',
 }
 
-/** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
+/**
+ * Shopify merchants can create pages to hold static HTML content. Each Page object
+ * represents a custom page on the online store.
+ */
 export interface ShopifyStorefrontPage extends ShopifyStorefrontNode {
   __typename: 'Page'
   /** The description of the page, complete with HTML formatting. */
@@ -3560,7 +3620,10 @@ export interface ShopifyStorefrontPaymentSettings {
   countryCode: ShopifyStorefrontCountryCode
   /** The three-letter code for the shop's primary currency. */
   currencyCode: ShopifyStorefrontCurrencyCode
-  /** A list of enabled currencies (ISO 4217 format) that the shop accepts. Merchants can enable currencies from their Shopify Payments settings in the Shopify admin. */
+  /**
+   * A list of enabled currencies (ISO 4217 format) that the shop accepts.
+   * Merchants can enable currencies from their Shopify Payments settings in the Shopify admin.
+   */
   enabledPresentmentCurrencies: Array<ShopifyStorefrontCurrencyCode>
   /** The shop’s Shopify Payments account id. */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>
@@ -3582,7 +3645,9 @@ export type ShopifyStorefrontPricingValue =
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export interface ShopifyStorefrontProduct
   extends ShopifyStorefrontNode,
@@ -3649,7 +3714,9 @@ export interface ShopifyStorefrontProduct
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductCollectionsArgs = {
   first?: Maybe<Scalars['Int']>
@@ -3661,7 +3728,9 @@ export type ShopifyStorefrontProductCollectionsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductDescriptionArgs = {
   truncateAt?: Maybe<Scalars['Int']>
@@ -3669,7 +3738,9 @@ export type ShopifyStorefrontProductDescriptionArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductImagesArgs = {
   first?: Maybe<Scalars['Int']>
@@ -3686,7 +3757,9 @@ export type ShopifyStorefrontProductImagesArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductMetafieldArgs = {
   namespace: Scalars['String']
@@ -3695,7 +3768,9 @@ export type ShopifyStorefrontProductMetafieldArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductMetafieldsArgs = {
   namespace?: Maybe<Scalars['String']>
@@ -3708,7 +3783,9 @@ export type ShopifyStorefrontProductMetafieldsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductOptionsArgs = {
   first?: Maybe<Scalars['Int']>
@@ -3716,7 +3793,9 @@ export type ShopifyStorefrontProductOptionsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductPresentmentPriceRangesArgs = {
   presentmentCurrencies?: Maybe<Array<ShopifyStorefrontCurrencyCode>>
@@ -3729,7 +3808,9 @@ export type ShopifyStorefrontProductPresentmentPriceRangesArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductVariantBySelectedOptionsArgs = {
   selectedOptions: Array<ShopifyStorefrontSelectedOptionInput>
@@ -3737,7 +3818,9 @@ export type ShopifyStorefrontProductVariantBySelectedOptionsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also
+ * qualifies as a product, as do services (such as equipment rental, work for hire,
+ * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductVariantsArgs = {
   first?: Maybe<Scalars['Int']>
@@ -3884,11 +3967,15 @@ export interface ShopifyStorefrontProductVariant
   /** Indicates if the product variant is available for sale. */
   availableForSale: Scalars['Boolean']
   /**
-   * The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`.
+   * The compare at price of the variant. This can be used to mark a variant as on
+   * sale, when `compareAtPrice` is higher than `price`.
    * @deprecated Use `compareAtPriceV2` instead
    */
   compareAtPrice?: Maybe<Scalars['Money']>
-  /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPriceV2` is higher than `priceV2`. */
+  /**
+   * The compare at price of the variant. This can be used to mark a variant as on
+   * sale, when `compareAtPriceV2` is higher than `priceV2`.
+   */
   compareAtPriceV2?: Maybe<ShopifyStorefrontMoneyV2>
   /** Globally unique identifier. */
   id: Scalars['ID']
@@ -4165,15 +4252,6 @@ export type ShopifyStorefrontQueryRootProductsArgs = {
   query?: Maybe<Scalars['String']>
 }
 
-/** SEO information. */
-export interface ShopifyStorefrontSeo {
-  __typename: 'SEO'
-  /** The meta description. */
-  description?: Maybe<Scalars['String']>
-  /** The SEO title. */
-  title?: Maybe<Scalars['String']>
-}
-
 /**
  * Script discount applications capture the intentions of a discount that
  * was created by a Shopify Script.
@@ -4216,6 +4294,15 @@ export type ShopifyStorefrontSelectedOptionInput = {
   name: Scalars['String']
   /** The product option’s value. */
   value: Scalars['String']
+}
+
+/** SEO information. */
+export interface ShopifyStorefrontSeo {
+  __typename: 'SEO'
+  /** The meta description. */
+  description?: Maybe<Scalars['String']>
+  /** The SEO title. */
+  title?: Maybe<Scalars['String']>
 }
 
 /** A shipping rate to be applied to a checkout. */
@@ -4410,7 +4497,10 @@ export interface ShopifyStorefrontStringEdge {
 export type ShopifyStorefrontTokenizedPaymentInput = {
   /** The amount of the payment. */
   amount: Scalars['Money']
-  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. */
+  /**
+   * A unique client generated key used to avoid duplicate charges. When a
+   * duplicate payment is found, the original is returned instead of creating a new one.
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
@@ -4431,13 +4521,19 @@ export type ShopifyStorefrontTokenizedPaymentInput = {
 export type ShopifyStorefrontTokenizedPaymentInputV2 = {
   /** The amount and currency of the payment. */
   paymentAmount: ShopifyStorefrontMoneyInput
-  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. */
+  /**
+   * A unique client generated key used to avoid duplicate charges. When a
+   * duplicate payment is found, the original is returned instead of creating a new one.
+   */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
   /** A simple string or JSON containing the required payment data for the tokenized payment. */
   paymentData: Scalars['String']
-  /** Whether to execute the payment in test mode, if possible. Test mode is not supported in production stores. Defaults to `false`. */
+  /**
+   * Whether to execute the payment in test mode, if possible. Test mode is not
+   * supported in production stores. Defaults to `false`.
+   */
   test?: Maybe<Scalars['Boolean']>
   /** Public Hash Key used for AndroidPay payments only. */
   identifier?: Maybe<Scalars['String']>
