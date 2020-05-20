@@ -1,6 +1,14 @@
 import client from 'part:@sanity/base/client'
 import { path } from 'ramda'
 
+export const getTypeText = (doc) => {
+  if (!doc) return ''
+  if (doc._type === 'shopifyProduct') return 'Product'
+  if (doc._type === 'shopifyCollection') return 'Collection'
+  if (doc._type === 'page') return 'Page'
+  return ''
+}
+
 export const getReferencedDocument = async (ref) => client.getDocument(ref)
 
 export const blocksToPlainText = (blocks, lineBreaks = false) =>

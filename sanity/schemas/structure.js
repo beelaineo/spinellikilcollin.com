@@ -44,7 +44,8 @@ export default () =>
         .child(
           S.documentList()
             .title('Products')
-            .filter('_type == "shopifyProduct" && archived != true'),
+            .filter('_type == "shopifyProduct" && archived != true')
+            .defaultOrdering([{ field: 'title', direction: 'asc' }]),
         ),
 
       S.listItem()
@@ -65,7 +66,8 @@ export default () =>
         .child(
           S.documentList()
             .title('Collections')
-            .filter('_type == "shopifyCollection" && archived != true'),
+            .filter('_type == "shopifyCollection" && archived != true')
+            .defaultOrdering([{ field: 'title', direction: 'asc' }]),
         ),
 
       // Journal

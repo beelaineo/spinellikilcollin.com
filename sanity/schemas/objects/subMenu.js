@@ -17,9 +17,16 @@ const getPreviewValues = async (values) => {
       ? getShopifyThumbnail(linkedDoc)
       : undefined
 
+  const subtitles = [
+    linkedDoc ? `🔗${linkedDoc.title}` : null,
+    linkedDoc && linkedDoc.archived === true
+      ? `🛑 This collection is archived and will not be displayed on the site.`
+      : undefined,
+  ].filter(Boolean)
+
   return {
     title: label || linkedDoc.title,
-    subtitles: [linkedDoc ? `🔗${linkedDoc.title}` : null].filter(Boolean),
+    subtitles,
     src: shopifyThumbnail,
   }
 }

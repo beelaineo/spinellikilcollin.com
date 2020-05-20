@@ -1,6 +1,10 @@
 import * as React from 'react'
 import { BlockPreview } from '../components/BlockPreview'
-import { getReferencedDocument, getShopifyThumbnail } from '../utils'
+import {
+  getTypeText,
+  getReferencedDocument,
+  getShopifyThumbnail,
+} from '../utils'
 
 const getPreviewValues = async (values) => {
   const { document } = values
@@ -13,9 +17,18 @@ const getPreviewValues = async (values) => {
     doc && (doc._type === 'shopifyProduct' || doc._type === 'shopifyCollection')
       ? getShopifyThumbnail(doc)
       : undefined
+
+  const subtitles = [
+    `🔗 ${getTypeText(doc)}: ${doc.title}`,
+    doc && doc.archived === true
+      ? `🛑 This collection is archived and will not be displayed on the site.`
+      : undefined,
+  ].filter(Boolean)
+
   return {
     src,
     title: doc.title,
+    subtitles,
   }
 }
 

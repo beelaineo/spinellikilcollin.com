@@ -13,3 +13,5 @@ sanity/dist
 yarn-error.log
 .now
 .env*
+
+*.tar.gz
