@@ -18,7 +18,12 @@
     "test": "sanity check",
     "deploy": "yarn deploy:graphql && yarn deploy:cms",
     "deploy:cms": "yarn sanity deploy",
-    "deploy:graphql": "yarn sanity graphql deploy --generation gen2 --playground"
+    "deploy:graphql": "yarn sanity graphql deploy --generation gen2 --playground",
+    "sync:export": "sanity dataset export production",
+    "sync:reset": "sanity dataset delete staging && yarn sanity dataset create staging",
+    "sync:import": "sanity dataset import production.tar.gz staging --replace",
+    "sync:cleanup": "rm production.tar.gz",
+    "sync": "yarn sync:reset && yarn sync:export && yarn sync:import && yarn sync:cleanup"
   },
   "dependencies": {
     "@sane-shopify/sanity-plugin": "^0.12.0",
@@ -38,6 +43,7 @@
   },
   "devDependencies": {
     "@good-idea/unwind-edges": "^1.4.0",
+    "@sanity/client": "^1.149.13",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.0.0",
     "eslint-config-airbnb": "^18.1.0",
@@ -45,6 +51,8 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.20.0",
+    "lodash": "^4.17.15",
+    "ndjson-parse": "^1.0.4",
     "ramda": "^0.27.0",
     "react-hot-loader": "^4.12.21"
   },

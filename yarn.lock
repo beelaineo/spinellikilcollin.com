@@ -3226,7 +3226,7 @@
   resolved "https://registry.yarnpkg.com/@sane-shopify/types/-/types-0.12.0.tgz#586e9b9f2e6d6116d1cca2320a4c3eb43044a05e"
   integrity sha512-u9EnfRXFn7giaxl17d6bWFUn+4teBXSetM6WlBpOi8sGfr7Xdynuv6YEAqQc0TQ/Nm9Gk7HjWoVDWgsrIcgecA==
 
-"@sanity/base@1.149.10", "@sanity/base@^1.149.10":
+"@sanity/base@1.149.10":
   version "1.149.10"
   resolved "https://registry.yarnpkg.com/@sanity/base/-/base-1.149.10.tgz#4b813600b707f4ddc0ea579189d125258d434b49"
   integrity sha512-88F3CXHTQ9oy8Tvs9mNOGT5hkIIDINQbBsxTk1X/nTw8eMB/yz7po1JZXf3fZLYhyeDQJQm5F/4IVtljp0p9UQ==
@@ -3259,7 +3259,7 @@
     semver-compare "^1.0.0"
     shallow-equals "^1.0.0"
 
-"@sanity/base@1.149.15", "@sanity/base@^1.149.15":
+"@sanity/base@1.149.15", "@sanity/base@^1.149.10", "@sanity/base@^1.149.15":
   version "1.149.15"
   resolved "https://registry.yarnpkg.com/@sanity/base/-/base-1.149.15.tgz#47dc275619b67166a80b6c7448f3a175b37e5c8f"
   integrity sha512-UbbHkAFpjQNAXAVy9zRvtVegtQUpYeM1LlCskOkPETPgMCnBr2FAI+vtT5JRc/2FGnHvtkI3xHfxNBhUr965ng==
@@ -3334,7 +3334,7 @@
   resolved "https://registry.yarnpkg.com/@sanity/cli/-/cli-1.149.13.tgz#1052d6d011906e5ca9c52292a8728760ea7a0b29"
   integrity sha512-+iuK4z5iJQqzVKN//YSklpWxBdaOe5UTawLkkiPvRcb99iTojc26zex0UIf1jnLBm85+YBcFGTVhk2DuPMpbrA==
 
-"@sanity/client@1.149.13":
+"@sanity/client@1.149.13", "@sanity/client@^1.149.13":
   version "1.149.13"
   resolved "https://registry.yarnpkg.com/@sanity/client/-/client-1.149.13.tgz#c4ce89c46143d1bde5fe5657623f300904bdc8e7"
   integrity sha512-v0ldaedx3UPiu8A+2ZFTyI8fEYTSR6PNk1gGtvbOzv+wwvr8AVXS0I3RQ4V0GjdPSsXWYWKknuwr+iOsO9S5TQ==
@@ -14937,6 +14937,11 @@ natural-orderby@^2.0.1:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/natural-orderby/-/natural-orderby-2.0.3.tgz#8623bc518ba162f8ff1cdb8941d74deb0fdcc016"
   integrity sha512-p7KTHxU0CUrcOXe62Zfrb5Z13nLvPhSWR/so3kFulUQU0sgUll2Z0LwpsLN351eOOD+hRGu/F1g+6xDfPeD++Q==
+
+ndjson-parse@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/ndjson-parse/-/ndjson-parse-1.0.4.tgz#65c031147ea1b5fa6f692e4fd63ab75f89dbf648"
+  integrity sha512-xwglvz2dMbxvX4NAVKnww8xEJ4kp4+CKVseQQdtkA79yI3abPqyBYqk6A6HvNci5oS0cUsSHheMEV1c+9MWlEw==
 
 negotiator@0.6.2:
   version "0.6.2"

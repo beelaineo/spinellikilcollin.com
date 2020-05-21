@@ -15,3 +15,5 @@ yarn-error.log
 .env*
 
 *.tar.gz
+production-export*
+staging-export*
