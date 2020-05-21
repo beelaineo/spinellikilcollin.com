@@ -21,7 +21,6 @@ const routes: ThemeRoute[] = [
 
 export const getThemeByRoute = (path: string): DefaultTheme => {
   const route = routes.find((r) => r.pattern.test(path))
-  console.log(path, route)
   if (!route) return defaultTheme
   const { theme } = route
   if (typeof theme === 'function') {

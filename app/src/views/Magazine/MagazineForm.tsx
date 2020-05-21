@@ -4,6 +4,8 @@ import { Form, Field } from '../../components/Forms'
 import { Button } from '../../components/Button'
 import countries from '../../data/countries.json'
 
+const { useState } = React
+
 const countryOptions = countries
   .map((c) => c.english)
   .map((name) => ({
@@ -34,12 +36,47 @@ const FieldsWrapper = styled.div`
   `}
 `
 
+interface FormValues {
+  firstName: string
+  lastName: string
+  emailAddress: string
+  address1: string
+  address2?: string
+  city: string
+  state: string
+  postalCode: string
+  country: string
+}
+
+const initialValues = {
+  firstName: '',
+  lastName: '',
+  emailAddress: '',
+  address1: '',
+  address2: '',
+  city: '',
+  state: '',
+  postalCode: '',
+  country: 'United States',
+}
+
 export const MagazineForm = () => {
-  const handleSubmit = (values: any) => {
-    alert('todo')
+  const [submitting, setSubmitting] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const handleSubmit = async (values: FormValues) => {
+    setSubmitting(true)
+    const result = await fetch('/api/925signup', {
+      method: 'POST',
+      body: JSON.stringify(values),
+    }).then((r) => r.json())
+    setSuccess(true)
   }
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form<FormValues>
+      disabled={submitting || success}
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+    >
       <FieldsWrapper>
         <Field name="firstName" placeholder="First Name" required />
         <Field name="lastName" placeholder="Last Name" required />
@@ -49,12 +86,8 @@ export const MagazineForm = () => {
           placeholder="email address"
           required
         />
-        <Field
-          name="mailingAddress1"
-          placeholder="Mailing Address Line 1"
-          required
-        />
-        <Field name="mailingAddress2" placeholder="Mailing Address Line 2" />
+        <Field name="address1" placeholder="Mailing Address Line 1" required />
+        <Field name="address2" placeholder="Mailing Address Line 2" />
         <Field name="city" placeholder="City" required />
         <Field name="state" placeholder="State" required />
         <Field name="postalCode" placeholder="Postal Code" required />
@@ -65,7 +98,9 @@ export const MagazineForm = () => {
           options={countryOptions}
           required
         />
-        <Button type="submit">Submit</Button>
+        <Button disabled={submitting || success} type="submit">
+          Submit
+        </Button>
       </FieldsWrapper>
     </Form>
   )

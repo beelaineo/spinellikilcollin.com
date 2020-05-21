@@ -19,17 +19,17 @@ const FormElement = styled.form`
       : ''}
 `
 
-interface FormProps {
+interface FormProps<Values> {
   title?: string
   description?: string
   disabled?: boolean
-  onSubmit: any
-  initialValues?: any
+  onSubmit: (values: Values) => void | Promise<void>
+  initialValues: Values
   children: React.ReactNode
   validationSchema?: FormikValues['validationSchema']
 }
 
-export const Form = ({
+export function Form<Values extends FormikValues>({
   title,
   description,
   onSubmit,
@@ -37,9 +37,9 @@ export const Form = ({
   initialValues,
   children,
   validationSchema,
-}: FormProps) => {
+}: FormProps<Values>) {
   return (
-    <FormWrapper>
+    <FormWrapper disabled={disabled}>
       {title ? (
         <Heading level={2} color="primaryMain">
           {title}
@@ -50,8 +50,8 @@ export const Form = ({
           {description}
         </Heading>
       ) : null}
-      <Formik
-        initialValues={initialValues || {}}
+      <Formik<Values>
+        initialValues={initialValues}
         onSubmit={onSubmit}
         validationSchema={validationSchema}
       >

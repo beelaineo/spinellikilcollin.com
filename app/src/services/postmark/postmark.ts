@@ -1,0 +1,69 @@
+import { ServerClient, Message, Errors } from 'postmark'
+import Debug from 'debug'
+import { Sentry } from '../sentry'
+import { magazineSignup, MagazineSignupArgs } from './emails'
+
+const debug = Debug('app:emails')
+
+export const DEAR = 'Spinelli Kilcollin dear@spinellikilcollin.com'
+
+/**
+ * Client Setup
+ */
+
+type PostmarkResponse =
+  | {
+      success: true
+      message: Message
+    }
+  | {
+      success: false
+      error: Errors.PostmarkError | null
+    }
+
+const POSTMARK_KEY = process.env.POSTMARK_KEY
+
+interface PostmarkService {
+  sendMagazineSignup: (args: MagazineSignupArgs) => Promise<PostmarkResponse>
+}
+
+if (!POSTMARK_KEY || !POSTMARK_KEY.length)
+  throw new Error('You must provide a Postmark key')
+
+const TEST_MODE = POSTMARK_KEY === 'POSTMARK_API_TEST'
+if (TEST_MODE) debug('Postmark is in test mode')
+const client = new ServerClient(POSTMARK_KEY)
+
+const mockSend = (message: Message) => {
+  debug(' -- MOCKING POSTMARK -- in test mode')
+  debug('Sending email:')
+  debug('To: ', message.To)
+  debug('TextBody:', message.TextBody)
+  if (message.HtmlBody) debug('HtmlBody:', message.HtmlBody)
+}
+
+export const postmark: PostmarkService = {
+  sendMagazineSignup: async (args: MagazineSignupArgs) => {
+    const message = magazineSignup(args)
+    if (TEST_MODE) {
+      mockSend(message)
+      return {
+        success: true,
+        message,
+      }
+    }
+    try {
+      await client.sendEmail(message)
+      return {
+        success: true,
+        message,
+      }
+    } catch (error) {
+      Sentry.captureException(error)
+      return {
+        success: false,
+        error,
+      }
+    }
+  },
+}
