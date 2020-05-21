@@ -6,10 +6,22 @@
         "name": "Document",
         "possibleTypes": [
           {
-            "name": "TeamPage"
+            "name": "About"
           },
           {
             "name": "SanityImageAsset"
+          },
+          {
+            "name": "Customize"
+          },
+          {
+            "name": "Magazine"
+          },
+          {
+            "name": "Page"
+          },
+          {
+            "name": "TeamPage"
           },
           {
             "name": "ProductListingSettings"
@@ -21,19 +33,10 @@
             "name": "Contact"
           },
           {
-            "name": "Customize"
-          },
-          {
             "name": "JournalEntry"
           },
           {
             "name": "JournalPage"
-          },
-          {
-            "name": "Magazine"
-          },
-          {
-            "name": "Page"
           },
           {
             "name": "ShopifyCollection"
@@ -52,6 +55,24 @@
           },
           {
             "name": "SanityFileAsset"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CustomizeOrMagazineOrPageOrTeamPage",
+        "possibleTypes": [
+          {
+            "name": "Customize"
+          },
+          {
+            "name": "Magazine"
+          },
+          {
+            "name": "Page"
+          },
+          {
+            "name": "TeamPage"
           }
         ]
       },

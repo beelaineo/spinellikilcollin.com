@@ -12,14 +12,54 @@ export type Scalars = {
    * 8601 standard for representation of dates and times using the Gregorian calendar.
    */
   DateTime: Date
+  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
+  JSON: { [key: string]: any }
   /**
    * A date string, such as 2007-12-03, compliant with the `full-date` format
    * outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
    * representation of dates and times using the Gregorian calendar.
    */
   Date: any
-  /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
-  JSON: { [key: string]: any }
+}
+
+export interface About extends Document {
+  __typename: 'About'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  hero?: Maybe<Hero>
+  introTextRaw?: Maybe<Scalars['JSON']>
+  pageLinks?: Maybe<Array<Maybe<PageLink>>>
+}
+
+export type AboutFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  hero?: Maybe<HeroFilter>
+}
+
+export type AboutSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  hero?: Maybe<HeroSorting>
 }
 
 export interface Block {
@@ -163,6 +203,12 @@ export type CustomizeFilter = {
   _key?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
 }
+
+export type CustomizeOrMagazineOrPageOrTeamPage =
+  | Customize
+  | Magazine
+  | Page
+  | TeamPage
 
 export type CustomizeSorting = {
   _id?: Maybe<SortOrder>
@@ -825,6 +871,35 @@ export type PageInfoSorting = {
   hasPreviousPage?: Maybe<SortOrder>
 }
 
+export interface PageLink {
+  __typename: 'PageLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  linkedPage?: Maybe<CustomizeOrMagazineOrPageOrTeamPage>
+  image?: Maybe<RichImage>
+  /** Optional. By default the linked page title will be used. */
+  title?: Maybe<Scalars['String']>
+  summaryRaw?: Maybe<Scalars['JSON']>
+  /** Optional. Defaults to "Learn more" */
+  ctaText?: Maybe<Scalars['String']>
+}
+
+export type PageLinkFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  image?: Maybe<RichImageFilter>
+  title?: Maybe<StringFilter>
+  ctaText?: Maybe<StringFilter>
+}
+
+export type PageLinkSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  image?: Maybe<RichImageSorting>
+  title?: Maybe<SortOrder>
+  ctaText?: Maybe<SortOrder>
+}
+
 export type PageOrShopifyCollectionOrShopifyProduct =
   | Page
   | ShopifyCollection
@@ -1078,6 +1153,7 @@ export type RichPageLinkSorting = {
 
 export interface RootQuery {
   __typename: 'RootQuery'
+  About?: Maybe<About>
   TeamPage?: Maybe<TeamPage>
   ProductListingSettings?: Maybe<ProductListingSettings>
   SiteSettings?: Maybe<SiteSettings>
@@ -1094,6 +1170,7 @@ export interface RootQuery {
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
   SanityFileAsset?: Maybe<SanityFileAsset>
+  allAbout: Array<About>
   allTeamPage: Array<TeamPage>
   allProductListingSettings: Array<ProductListingSettings>
   allSiteSettings: Array<SiteSettings>
@@ -1110,6 +1187,10 @@ export interface RootQuery {
   allShopifyCollection: Array<ShopifyCollection>
   allSanityImageAsset: Array<SanityImageAsset>
   allSanityFileAsset: Array<SanityFileAsset>
+}
+
+export type RootQueryAboutArgs = {
+  id: Scalars['ID']
 }
 
 export type RootQueryTeamPageArgs = {
@@ -1174,6 +1255,13 @@ export type RootQuerySanityImageAssetArgs = {
 
 export type RootQuerySanityFileAssetArgs = {
   id: Scalars['ID']
+}
+
+export type RootQueryAllAboutArgs = {
+  where?: Maybe<AboutFilter>
+  sort?: Maybe<Array<AboutSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
 }
 
 export type RootQueryAllTeamPageArgs = {

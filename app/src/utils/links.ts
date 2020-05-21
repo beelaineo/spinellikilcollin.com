@@ -1,27 +1,55 @@
-import { RichPageLink, ExternalLinkOrInternalLink } from '../types'
+import {
+  ShopifyProduct,
+  ShopifyCollection,
+  Page,
+  About,
+  Magazine,
+  Customize,
+  TeamPage,
+  JournalPage,
+  JournalEntry,
+  Contact,
+} from '../types'
 
-type LinkType = RichPageLink | ExternalLinkOrInternalLink
+type Document =
+  | ShopifyProduct
+  | ShopifyCollection
+  | Page
+  | TeamPage
+  | About
+  | Magazine
+  | Customize
+  | JournalPage
+  | JournalEntry
+  | Contact
 
 interface LinkInfo {
   href: string
   as?: string
 }
 
-export const getPageLinkLabel = (link: LinkType): string | void =>
-  link.__typename === 'ExternalLink'
-    ? undefined
-    : link?.document?.title || undefined
-
-export const getPageLinkUrl = (link: LinkType): LinkInfo => {
-  // If it is an external link, return the URL
-  if (link.__typename === 'ExternalLink') {
-    if (!link.url) throw new Error('External link does not have a url')
-    return { href: link.url }
+export const getPageLinkLabel = (document: Document): string | null | void => {
+  switch (document.__typename) {
+    case 'ShopifyCollection':
+    case 'ShopifyProduct':
+    case 'Magazine':
+    case 'Customize':
+    case 'JournalPage':
+    case 'JournalEntry':
+    case 'Contact':
+    case 'Page':
+    case 'TeamPage':
+      return document.title
+    case 'About':
+      return 'About'
+    default:
+      // @ts-ignore
+      throw new Error(`Could not get label for type ${document.__typename}`)
   }
-  // Otherwise, it is either a RichPageLink or InternalLink,
-  // both of which will have a 'document'
-  const { document } = link
-  if (!document) throw new Error('This link is missing a document')
+}
+
+export const getPageLinkUrl = (document: Document): LinkInfo => {
+  if (!document) throw new Error('No document was provided')
   switch (document.__typename) {
     case 'ShopifyCollection':
       return {
@@ -68,10 +96,17 @@ export const getPageLinkUrl = (link: LinkType): LinkInfo => {
       }
 
       return {
-        href: '/[pageSlug]',
-        as: `/${document.slug.current}`,
+        href: '/about/[pageSlug]',
+        as: `/about/${document.slug.current}`,
       }
-
+    case 'TeamPage':
+      return {
+        href: '/about/team',
+      }
+    case 'About':
+      return {
+        href: '/about',
+      }
     default:
       throw new Error(
         // @ts-ignore

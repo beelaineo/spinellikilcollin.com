@@ -1,10 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { PageContext } from './_app'
-import { Maybe, TeamPage as TeamPageType } from '../src/types'
-import { richImageFragment } from '../src/graphql'
-import { NotFound } from '../src/views/NotFound'
-import { TeamView } from '../src/views/TeamView'
+import { PageContext } from '../_app'
+import { Maybe, TeamPage as TeamPageType } from '../../src/types'
+import { richImageFragment } from '../../src/graphql'
+import { NotFound } from '../../src/views/NotFound'
+import { TeamView } from '../../src/views/TeamView'
 
 const teamQuery = gql`
   query TeamPageQuery {

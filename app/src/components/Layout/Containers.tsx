@@ -4,7 +4,7 @@ interface ColumnProps {
   width?: string
 }
 
-export const Column = styled.div`
+export const Column = styled.divBox`
   ${({ width }: ColumnProps) => css`
     margin: 0 auto;
     max-width: ${width ? width : 'xWide'};
