@@ -1,3 +1,4 @@
+export * from './about'
 export * from './team'
 export * from './productListingSettings'
 export * from './siteSettings'

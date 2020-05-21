@@ -1,5 +1,8 @@
 import S from '@sanity/desk-tool/structure-builder'
-import { MdSettings, MdHome, MdInfoOutline } from 'react-icons/md'
+import { GiDiamondRing } from 'react-icons/gi'
+import { MdSettings, MdHome, MdInfoOutline, MdLocalPhone } from 'react-icons/md'
+import { AiOutlineTeam } from 'react-icons/ai'
+import { BsTools, BsBookHalf } from 'react-icons/bs'
 import { FaPencilAlt } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
@@ -40,7 +43,7 @@ export default () =>
       S.listItem()
         .id('products')
         .title('Products')
-        .icon(TiDevicePhone)
+        .icon(GiDiamondRing)
         .child(
           S.documentList()
             .title('Products')
@@ -50,7 +53,7 @@ export default () =>
 
       S.listItem()
         .title('Product Info')
-        .icon(MdInfoOutline)
+        .icon(GiDiamondRing)
         .child(
           S.editor()
             .id('productInfoSettings')
@@ -71,8 +74,8 @@ export default () =>
         ),
 
       S.listItem()
-        .title('Product Listing Settings')
-        .icon(MdInfoOutline)
+        .title('Collection Settings')
+        .icon(TiThSmallOutline)
         .child(
           S.editor()
             .id('productListingSettings')
@@ -99,13 +102,24 @@ export default () =>
         .child(S.documentTypeList('journalEntry')),
 
       S.listItem()
+        .title('About (Main Page)')
+        .icon(MdInfoOutline)
+        .child(
+          S.editor()
+            .id('about')
+            .schemaType('about')
+            .documentId('about'),
+        ),
+
+      S.listItem()
         .id('pages')
-        .title('Pages')
-        .icon(TiDocument)
+        .title('About Pages')
+        .icon(MdInfoOutline)
         .child(S.documentTypeList('page')),
 
       S.listItem()
         .title('.925')
+        .icon(BsBookHalf)
         .child(
           S.editor()
             .id('magazine')
@@ -115,6 +129,7 @@ export default () =>
 
       S.listItem()
         .title('Contact')
+        .icon(MdLocalPhone)
         .child(
           S.editor()
             .id('contact')
@@ -124,6 +139,7 @@ export default () =>
 
       S.listItem()
         .title('Customize')
+        .icon(BsTools)
         .child(
           S.editor()
             .id('customize')
@@ -133,6 +149,7 @@ export default () =>
 
       S.listItem()
         .title('Team')
+        .icon(AiOutlineTeam)
         .child(
           S.editor()
             .id('teamPage')
