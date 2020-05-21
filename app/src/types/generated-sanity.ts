@@ -267,67 +267,65 @@ export type FileSorting = {
   _type?: Maybe<SortOrder>
 }
 
-export interface FilterByOption {
-  __typename: 'FilterByOption'
+export interface Filter {
+  __typename: 'Filter'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
-  optionFilters?: Maybe<Array<Maybe<OptionFilter>>>
+  matches?: Maybe<Array<Maybe<FilterMatch>>>
 }
 
-export type FilterByOptionFilter = {
+export type FilterFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
 }
 
-export type FilterByOptionOrFilterByTagOrFilterByTypeOrPriceRangeFilter =
-  | FilterByOption
-  | FilterByTag
-  | FilterByType
-  | PriceRangeFilter
+export interface FilterMatch {
+  __typename: 'FilterMatch'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  type?: Maybe<Scalars['String']>
+  match?: Maybe<Scalars['String']>
+}
 
-export type FilterByOptionSorting = {
+export type FilterMatchFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  type?: Maybe<StringFilter>
+  match?: Maybe<StringFilter>
+}
+
+export type FilterMatchSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
+  type?: Maybe<SortOrder>
+  match?: Maybe<SortOrder>
 }
 
-export interface FilterByTag {
-  __typename: 'FilterByTag'
+export interface FilterSet {
+  __typename: 'FilterSet'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  tagFilters?: Maybe<Array<Maybe<TagFilter>>>
+  heading?: Maybe<Scalars['String']>
+  filters?: Maybe<Array<Maybe<Filter>>>
 }
 
-export type FilterByTagFilter = {
+export type FilterSetFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
+  heading?: Maybe<StringFilter>
 }
 
-export type FilterByTagSorting = {
+export type FilterSetOrPriceRangeFilter = FilterSet | PriceRangeFilter
+
+export type FilterSetSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
+  heading?: Maybe<SortOrder>
 }
 
-export interface FilterByType {
-  __typename: 'FilterByType'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  typeFilters?: Maybe<Array<Maybe<TypeFilter>>>
-}
-
-export type FilterByTypeFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
-}
-
-export type FilterByTypeSorting = {
+export type FilterSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
@@ -772,26 +770,6 @@ export type MenuSorting = {
   _key?: Maybe<SortOrder>
 }
 
-export interface OptionFilter {
-  __typename: 'OptionFilter'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  matches?: Maybe<Array<Maybe<Scalars['String']>>>
-}
-
-export type OptionFilterFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
-}
-
-export type OptionFilterSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
-}
-
 export interface Page extends Document {
   __typename: 'Page'
   /** Document ID */
@@ -1017,9 +995,7 @@ export interface ProductListingSettings extends Document {
    * Collection within their own documents.
    */
   helpText?: Maybe<Scalars['String']>
-  defaultFilter?: Maybe<
-    Array<Maybe<FilterByOptionOrFilterByTagOrFilterByTypeOrPriceRangeFilter>>
-  >
+  defaultFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
 }
 
 export type ProductListingSettingsFilter = {
@@ -1685,9 +1661,7 @@ export interface ShopifyCollection extends Document {
   sourceData?: Maybe<ShopifySourceCollection>
   products?: Maybe<Array<Maybe<ShopifyProduct>>>
   hero?: Maybe<Hero>
-  customFilter?: Maybe<
-    Array<Maybe<FilterByOptionOrFilterByTagOrFilterByTypeOrPriceRangeFilter>>
-  >
+  customFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
 }
 
 export type ShopifyCollectionFilter = {
@@ -2456,26 +2430,6 @@ export type TagBadgeSorting = {
   label?: Maybe<SortOrder>
 }
 
-export interface TagFilter {
-  __typename: 'TagFilter'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  matches?: Maybe<Array<Maybe<Scalars['String']>>>
-}
-
-export type TagFilterFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
-}
-
-export type TagFilterSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
-}
-
 export interface TeamMember {
   __typename: 'TeamMember'
   _key?: Maybe<Scalars['String']>
@@ -2560,24 +2514,4 @@ export type TextActionSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   actionType?: Maybe<SortOrder>
-}
-
-export interface TypeFilter {
-  __typename: 'TypeFilter'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  label?: Maybe<Scalars['String']>
-  matches?: Maybe<Array<Maybe<Scalars['String']>>>
-}
-
-export type TypeFilterFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  label?: Maybe<StringFilter>
-}
-
-export type TypeFilterSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  label?: Maybe<SortOrder>
 }
