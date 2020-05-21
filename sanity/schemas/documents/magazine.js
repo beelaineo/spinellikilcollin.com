@@ -20,5 +20,11 @@ export const magazine = {
       type: 'richImage',
       validation: (Rule) => Rule.required(),
     },
+    {
+      title: 'Success Message',
+      name: 'successMessage',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
   ],
 }

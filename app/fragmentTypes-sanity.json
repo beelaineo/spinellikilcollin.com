@@ -12,6 +12,9 @@
             "name": "SanityImageAsset"
           },
           {
+            "name": "ProductListingSettings"
+          },
+          {
             "name": "SiteSettings"
           },
           {
@@ -49,6 +52,24 @@
           },
           {
             "name": "SanityFileAsset"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "FilterByOptionOrFilterByTagOrFilterByTypeOrPriceRangeFilter",
+        "possibleTypes": [
+          {
+            "name": "FilterByOption"
+          },
+          {
+            "name": "FilterByTag"
+          },
+          {
+            "name": "FilterByType"
+          },
+          {
+            "name": "PriceRangeFilter"
           }
         ]
       },

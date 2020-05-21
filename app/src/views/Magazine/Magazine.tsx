@@ -25,7 +25,7 @@ interface MagazineProps {
 }
 
 export const MagazineView = ({ magazine }: MagazineProps) => {
-  const { title, coverImage, descriptionRaw } = magazine
+  const { title, successMessage, coverImage, descriptionRaw } = magazine
   return (
     <PageWrapper>
       <Column width="wide">
@@ -38,7 +38,7 @@ export const MagazineView = ({ magazine }: MagazineProps) => {
           </ImageWrapper>
           <FormWrapper>
             <RichText body={descriptionRaw} />
-            <MagazineForm />
+            <MagazineForm successMessage={successMessage || 'Thank you!'} />
           </FormWrapper>
         </Inner>
       </Column>

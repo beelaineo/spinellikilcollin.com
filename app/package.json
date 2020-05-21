@@ -14,7 +14,7 @@
 		"lib"
 	],
 	"scripts": {
-		"dev": "next",
+		"dev": "DEBUG=app* next",
 		"build": "yarn build:json && yarn build:next",
 		"build:next": "next build",
 		"build:json": "DEBUG=build:json yarn ts-node --project tsconfig.scripts.json src/scripts/getIntlJSON.ts",
@@ -63,6 +63,8 @@
 		"@sanity/block-content-to-react": "^2.0.7",
 		"@sanity/client": "^1.149.7",
 		"@sanity/image-url": "^0.140.18",
+		"@sentry/integrations": "^5.15.5",
+		"@sentry/node": "^5.15.5",
 		"@xstyled/styled-components": "^1.17.1",
 		"apollo-cache-inmemory": "^1.6.5",
 		"apollo-client": "^2.6.8",

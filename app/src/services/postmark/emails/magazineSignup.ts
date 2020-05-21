@@ -22,8 +22,7 @@ const textTemplate = (args: MagazineSignupArgs): string => stripIndents`
   ${args.emailAddress}
 
   ${args.firstName} ${args.lastName}
-  ${args.address1}
-  ${args.address2 || ''}
+  ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
   ${args.city}, ${args.state} ${args.postalCode}
   ${args.country}
 `

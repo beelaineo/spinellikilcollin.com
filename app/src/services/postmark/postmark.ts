@@ -45,15 +45,19 @@ const mockSend = (message: Message) => {
 export const postmark: PostmarkService = {
   sendMagazineSignup: async (args: MagazineSignupArgs) => {
     const message = magazineSignup(args)
-    if (TEST_MODE) {
-      mockSend(message)
-      return {
-        success: true,
-        message,
-      }
-    }
+
     try {
-      await client.sendEmail(message)
+      if (TEST_MODE) {
+        mockSend(message)
+        return {
+          success: true,
+          message,
+        }
+      }
+      const response = await client.sendEmail(message)
+      debug(
+        `Sent email "${message.Subject} to ${message.To} - Postmark ID: ${response.MessageID}"`,
+      )
       return {
         success: true,
         message,
