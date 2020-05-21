@@ -1,14 +1,4 @@
-// const OptionPreview = ({ matches, label }) => {
-//   return null
-// }
-//
-const prepareMatchPreview = ({ matches, label }) => {
-  const subtitle = ['matches: ', matches.join(', ')].join('')
-  return {
-    title: label,
-    subtitle,
-  }
-}
+import * as React from 'react'
 
 export const filterByPriceRange = {
   name: 'priceRangeFilter',
@@ -44,142 +34,159 @@ export const filterByPriceRange = {
   },
 }
 
-export const optionFilter = {
-  name: 'optionFilter',
+const FilterMatchPreview = ({ value }) => {
+  const { match, type } = value
+  if (!type || !match) {
+    return <h2>(empty)</h2>
+  }
+  const titlePrefix =
+    type === 'tag'
+      ? 'Product tags include'
+      : type === 'type'
+      ? 'Product type equals'
+      : type === 'option'
+      ? 'Product options include'
+      : type === 'title'
+      ? 'Product title includes'
+      : null
+  if (!titlePrefix) {
+    throw new Error(`Could not generate title prefix for type "${type}"`)
+  }
+
+  return (
+    <h4 style={{ fontWeight: 400, margin: 0 }}>
+      {titlePrefix}:{' '}
+      <pre
+        style={{
+          display: 'inline',
+          padding: '0 4px',
+          backgroundColor: '#f3eded',
+        }}
+      >
+        {match}
+      </pre>
+    </h4>
+  )
+}
+
+export const filterMatch = {
+  name: 'filterMatch',
+  title: 'Filter Match',
   type: 'object',
-  title: 'Option Filter',
+  fields: [
+    {
+      name: 'type',
+      type: 'string',
+      options: {
+        layout: 'radio',
+        list: [
+          { title: 'By Tag', value: 'tag' },
+          { title: 'By Product Type', value: 'type' },
+          { title: 'By Product Title', value: 'title' },
+          { title: 'By Option Name', value: 'option' },
+        ],
+      },
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'match',
+      type: 'string',
+      title: 'Match',
+      validation: (Rule) => Rule.required(),
+    },
+  ],
+  preview: {
+    select: {
+      type: 'type',
+      match: 'match',
+    },
+    component: FilterMatchPreview,
+  },
+}
+
+const FilterPreview = ({ value }) => {
+  const { label, matches } = value
+  const tagMatches = matches.filter((m) => m.type === 'tag')
+  const typeMatches = matches.filter((m) => m.type === 'type')
+  const titleMatches = matches.filter((m) => m.type === 'title')
+  const optionMatches = matches.filter((m) => m.type === 'option')
+  const subtitles = [
+    titleMatches.length
+      ? `Matches title: ${titleMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    tagMatches.length
+      ? `Matches tags: ${tagMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    optionMatches.length
+      ? `Matches options: ${optionMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    typeMatches.length
+      ? `Matches type: ${typeMatches.map(({ match }) => match).join(', ')}`
+      : null,
+  ].filter(Boolean)
+  return (
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <h4 style={{ fontWeight: 500, margin: '0 15px 0 0' }}>{label}</h4>
+      <div>
+        {subtitles.map((subtitle) => (
+          <h6
+            key={subtitle}
+            style={{ color: 'gray', fontWeight: 400, margin: 0 }}
+          >
+            {subtitle}
+          </h6>
+        ))}
+      </div>
+    </div>
+  )
+  return {
+    title: label,
+    subtitle: subtitle,
+  }
+}
+
+export const filter = {
+  name: 'filter',
+  type: 'object',
+  title: 'Filter',
   fields: [
     {
       name: 'label',
-      title: 'Button Label',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
       name: 'matches',
+      title: 'Matches any of:',
       type: 'array',
-      description:
-        'Enter option values to match from shopify. These are case-insensitive and will match any option values that contain this text. I.e. a value of "black" will match "Black Gold"',
-      of: [{ type: 'string' }],
+      of: [{ type: 'filterMatch' }],
     },
   ],
   preview: {
     select: {
-      matches: 'matches',
       label: 'label',
+      matches: 'matches',
     },
-    prepare: prepareMatchPreview,
+    component: FilterPreview,
   },
 }
 
-export const filterByOption = {
-  name: 'filterByOption',
+export const filterSet = {
+  name: 'filterSet',
+  title: 'Filter Set',
   type: 'object',
-  title: 'Filter by Option',
   fields: [
     {
-      name: 'label',
-      title: 'Group Label',
+      name: 'heading',
+      title: 'Heading',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
     {
-      name: 'optionFilters',
+      name: 'filters',
+      title: 'Filters',
       type: 'array',
-      of: [{ type: 'optionFilter' }],
-    },
-  ],
-}
-
-export const typeFilter = {
-  name: 'typeFilter',
-  type: 'object',
-  title: 'Type Filter',
-  fields: [
-    {
-      name: 'label',
-      title: 'Button Label',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'matches',
-      type: 'array',
-      description:
-        'Enter product types to match from shopify (case-insensitive)',
-      of: [{ type: 'string' }],
-    },
-  ],
-  preview: {
-    select: {
-      matches: 'matches',
-      label: 'label',
-    },
-    prepare: prepareMatchPreview,
-  },
-}
-
-export const filterByType = {
-  name: 'filterByType',
-  type: 'object',
-  title: 'Filter by Product Type',
-  fields: [
-    {
-      name: 'label',
-      title: 'Group Label',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'typeFilters',
-      type: 'array',
-      of: [{ type: 'typeFilter' }],
-    },
-  ],
-}
-
-export const tagFilter = {
-  name: 'tagFilter',
-  type: 'object',
-  title: 'Tag Filter',
-  fields: [
-    {
-      name: 'label',
-      title: 'Button Label',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'matches',
-      type: 'array',
-      description: 'Enter tags to match from shopify (case-insensitive)',
-      of: [{ type: 'string' }],
-    },
-  ],
-  preview: {
-    select: {
-      matches: 'matches',
-      label: 'label',
-    },
-    prepare: prepareMatchPreview,
-  },
-}
-
-export const filterByTag = {
-  name: 'filterByTag',
-  type: 'object',
-  title: 'Filter by Tag',
-  fields: [
-    {
-      name: 'label',
-      title: 'Group Label',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    },
-    {
-      name: 'tagFilters',
-      type: 'array',
-      of: [{ type: 'tagFilter' }],
+      of: [{ type: 'filter' }],
     },
   ],
 }
@@ -188,10 +195,5 @@ export const productFilter = {
   name: 'productFilter',
   type: 'array',
   title: 'Product Listing Filter',
-  of: [
-    { type: 'filterByTag' },
-    { type: 'filterByOption' },
-    { type: 'filterByType' },
-    { type: 'priceRangeFilter' },
-  ],
+  of: [{ type: 'filterSet' }, { type: 'priceRangeFilter' }],
 }
