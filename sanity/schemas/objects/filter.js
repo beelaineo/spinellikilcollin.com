@@ -106,6 +106,7 @@ export const filterMatch = {
 
 const FilterPreview = ({ value }) => {
   const { label, matches } = value
+  if (!matches) return null
   const tagMatches = matches.filter((m) => m.type === 'tag')
   const typeMatches = matches.filter((m) => m.type === 'type')
   const titleMatches = matches.filter((m) => m.type === 'title')
