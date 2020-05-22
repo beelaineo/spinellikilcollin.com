@@ -89,8 +89,7 @@ const transform: TransformFunction = (node, index) => {
             </a>
           )
         default:
-          console.warn('Did not parse node:', node)
-          return null
+          return <>{node.children.map(transform)}</>
       }
     default:
       return null

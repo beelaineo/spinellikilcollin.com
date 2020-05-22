@@ -38,11 +38,6 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
         <Carousel>
           {products.slice(0, 10).map((product) => {
             if (!product) return null
-            const { title } = product
-            // @ts-ignore
-            const [images] = unwindEdges(product.sourceData.images)
-            const productLink = `/products/${product.handle}`
-
             return (
               <ProductThumbnail
                 key={product._key || 'some-key'}

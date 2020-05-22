@@ -71,11 +71,20 @@ const getSanityImageDetails = (
   return { src, srcSet, srcSetWebp, altText }
 }
 
+const widths = [100, 300, 800, 1200, 1600]
+
 const getShopifyImageDetails = (image: ShopifySourceImage): ImageDetails => {
   const src = image.originalSrc
   const { altText } = image
   const { w100, w300, w800, w1200, w1600 } = image
-  const srcSet = `${w100} 100w, ${w300} 300w, ${w800} 800w, ${w1200} 1200w, ${w1600} 1600w`
+  const srcSet = widths
+    .map((width) => {
+      const key = `w${width}`
+      if (!image[key]) return null
+      return `${image[key]} ${width}w`
+    })
+    .filter(Boolean)
+    .join(', ')
   return { src, srcSet, altText }
 }
 
@@ -85,7 +94,7 @@ const isSanityRawImage = (image: ImageType): image is SanityRawImage =>
   Boolean(image._type && /image|richImage/.test(image._type))
 
 const isSanityImage = (image: ImageType): image is RichImage =>
-  Boolean(image.__typename && /Image|RichImage/.test(image.__typename))
+  Boolean(image.__typename && /^Image|^RichImage/.test(image.__typename))
 
 const isShopifyImage = (image: ImageType): image is ShopifySourceImage =>
   image.__typename === 'ShopifySourceImage'
