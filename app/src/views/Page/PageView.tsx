@@ -17,7 +17,7 @@ export const PageView = ({ page }: PageViewProps) => {
         {title}
       </Heading>
       {subtitle ? <Heading level={2}>{subtitle}</Heading> : null}
-      <Column width="medium">
+      <Column columnWidth="medium">
         <RichText body={bodyRaw} imageSizes="(max-width: 600px) 100vw, 600px" />
       </Column>
     </PageWrapper>

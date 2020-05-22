@@ -1,18 +1,18 @@
 import styled, { css } from '@xstyled/styled-components'
 
 interface ColumnProps {
-  width?: string
+  columnWidth?: string
 }
 
 export const Column = styled.divBox`
-  ${({ width }: ColumnProps) => css`
+  ${({ columnWidth }: ColumnProps) => css`
     margin: 0 auto;
-    max-width: ${width ? width : 'xWide'};
+    max-width: ${columnWidth ? columnWidth : 'xWide'};
   `}
 `
 
 export const PageWrapper = styled.div`
   ${({ theme }) => css`
-    padding: calc(${theme.navHeight} + ${theme.space[6]}px) 5 5;
+    padding: calc(${theme.navHeight} + ${theme.space[9]}px) 10 5;
   `}
 `

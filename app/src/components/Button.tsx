@@ -5,14 +5,14 @@ interface ButtonProps {
   disabled?: boolean
 }
 
-export const Button = styled.button`
+export const Button = styled.buttonBox`
   ${({ level, disabled }: ButtonProps) => css`
     pointer-events: ${disabled ? 'none' : 'auto'};
     opacity: ${disabled ? 0.3 : 1};
     font-family: serif;
     text-transform: uppercase;
     height: 42px;
-    padding: 0 2;
+    padding: 0 3;
     font-size: 4;
     ${level === undefined || level === 1
       ? css`

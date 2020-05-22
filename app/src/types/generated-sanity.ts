@@ -120,6 +120,7 @@ export interface Contact extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
+  contactLines?: Maybe<Array<Maybe<ContactLine>>>
 }
 
 export type ContactFilter = {
@@ -132,6 +133,28 @@ export type ContactFilter = {
   _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
+}
+
+export interface ContactLine {
+  __typename: 'ContactLine'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  label?: Maybe<Scalars['String']>
+  contact?: Maybe<Scalars['String']>
+}
+
+export type ContactLineFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+  contact?: Maybe<StringFilter>
+}
+
+export type ContactLineSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
+  contact?: Maybe<SortOrder>
 }
 
 export type ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =

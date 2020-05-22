@@ -17,7 +17,7 @@ export const AboutView = ({ about }: AboutViewProps) => {
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
       <PageWrapper>
-        <Column width="small" textAlign="center">
+        <Column columnWidth="small" textAlign="center">
           <RichText body={introTextRaw} />
         </Column>
         <PageLinksWrapper>
