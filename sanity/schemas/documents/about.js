@@ -26,7 +26,7 @@ export const pageLink = {
     {
       name: 'summary',
       title: 'Summary',
-      type: 'richText',
+      type: 'text',
     },
     {
       name: 'ctaText',
@@ -62,7 +62,7 @@ export const about = {
     {
       name: 'introText',
       title: 'Intro Text',
-      type: 'richText',
+      type: 'text',
     },
     {
       name: 'pageLinks',

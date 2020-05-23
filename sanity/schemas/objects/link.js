@@ -87,10 +87,13 @@ export const internalLink = {
       title: 'Linked Page',
       type: 'reference',
       to: [
-        { type: 'shopifyProduct' },
-        { type: 'shopifyCollection' },
+        // TODO: disabled for now, the frontend needs to
+        // run an extra query to get the page slug :/
+        //
+        // { type: 'shopifyProduct' },
+        // { type: 'shopifyCollection' },
         { type: 'journalPage' },
-        { type: 'journalEntry' },
+        // { type: 'journalEntry' },
         { type: 'magazine' },
         { type: 'contact' },
         { type: 'customize' },
