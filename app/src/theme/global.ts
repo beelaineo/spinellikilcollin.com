@@ -1,12 +1,10 @@
 import { createGlobalStyle } from '@xstyled/styled-components'
 import normalized from './normalized'
-import fontFaces from './fontFaces'
 import { defaultTheme } from './defaultTheme'
 
 export const GlobalStyles = createGlobalStyle`
 
 	${normalized}
-	${fontFaces}
 
 	* {
 		box-sizing: border-box;

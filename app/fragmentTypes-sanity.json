@@ -33,22 +33,22 @@
             "name": "Contact"
           },
           {
-            "name": "JournalEntry"
-          },
-          {
             "name": "JournalPage"
           },
           {
-            "name": "ShopifyCollection"
-          },
-          {
-            "name": "ShopifyProduct"
+            "name": "JournalEntry"
           },
           {
             "name": "Menu"
           },
           {
             "name": "Homepage"
+          },
+          {
+            "name": "ShopifyCollection"
+          },
+          {
+            "name": "ShopifyProduct"
           },
           {
             "name": "ProductInfoSettings"
@@ -102,16 +102,13 @@
       },
       {
         "kind": "UNION",
-        "name": "ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct",
+        "name": "ContactOrCustomizeOrJournalPageOrMagazineOrPage",
         "possibleTypes": [
           {
             "name": "Contact"
           },
           {
             "name": "Customize"
-          },
-          {
-            "name": "JournalEntry"
           },
           {
             "name": "JournalPage"
@@ -121,27 +118,6 @@
           },
           {
             "name": "Page"
-          },
-          {
-            "name": "ShopifyCollection"
-          },
-          {
-            "name": "ShopifyProduct"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "PageOrShopifyCollectionOrShopifyProduct",
-        "possibleTypes": [
-          {
-            "name": "Page"
-          },
-          {
-            "name": "ShopifyCollection"
-          },
-          {
-            "name": "ShopifyProduct"
           }
         ]
       },
@@ -169,6 +145,21 @@
           },
           {
             "name": "ImageTextBlock"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "PageOrShopifyCollectionOrShopifyProduct",
+        "possibleTypes": [
+          {
+            "name": "Page"
+          },
+          {
+            "name": "ShopifyCollection"
+          },
+          {
+            "name": "ShopifyProduct"
           }
         ]
       },

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag'
-import { Menu, ProductInfoSettings, SiteSettings } from '../../types'
+import { Page, Menu, ProductInfoSettings, SiteSettings } from '../../types'
 import {
   productInfoFragment,
   internalLinkFragment,
@@ -9,6 +9,12 @@ import {
 
 export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   {
+    allPage {
+      _id
+      slug {
+        current
+      }
+    }
     Menu(id: "menu-settings") {
       _id
       _type
@@ -85,4 +91,5 @@ export interface ShopDataResponse {
   Menu: Menu
   ProductInfoSettings: ProductInfoSettings
   SiteSettings: SiteSettings
+  allPage: Page[]
 }

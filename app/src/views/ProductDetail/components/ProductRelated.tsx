@@ -1,11 +1,9 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
-import { ShopifyProduct, ShopifyCollection } from '../../../types'
+import { ShopifyProduct } from '../../../types'
 import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
 import { Carousel } from '../../../components/Carousel'
 import { Heading } from '../../../components/Text'
 import { ProductThumbnail } from '../../../components/Product'
-import { FlexContainer } from '../../../components/Layout'
 
 interface ProductRelatedProps {
   product: ShopifyProduct
@@ -21,19 +19,9 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
   if (!products || !products.length) return null
   return (
     <ProductRelatedWrapper>
-      <FlexContainer center>
-        <Heading
-          level={5}
-          margin="10px"
-          textTransform="capitalize"
-          textAlign="center"
-        >
-          More Like this
-        </Heading>
-        <Heading level={5} m={3} textTransform="capitalize" textAlign="center">
-          {collection.title}
-        </Heading>
-      </FlexContainer>
+      <Heading level={3} m={3} textTransform="capitalize" textAlign="center">
+        {collection.title}
+      </Heading>
       <ProductRelatedInner>
         <Carousel>
           {products.slice(0, 10).map((product) => {

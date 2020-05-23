@@ -9,6 +9,8 @@ export const shopifySourceImageFragment = gql`
     w100
     w300
     w800
+    w1200
+    w1600
   }
 `
 
@@ -169,6 +171,56 @@ export const imageTextBlockFragment = gql`
   ${richImageFragment}
 `
 
+export const shopifySourceProductFragment = gql`
+  fragment ShopifySourceProductFragment on ShopifySourceProduct {
+    id
+    title
+    handle
+    tags
+    collections {
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        node {
+          handle
+          id
+        }
+      }
+    }
+    variants {
+      edges {
+        cursor
+        node {
+          ...ShopifySourceProductVariantFragment
+        }
+      }
+    }
+
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    images {
+      edges {
+        cursor
+        node {
+          id
+          altText
+          originalSrc
+        }
+      }
+    }
+  }
+`
+
 export const shopifyProductFragment = gql`
   fragment ShopifyProductFragment on ShopifyProduct {
     _id
@@ -178,30 +230,7 @@ export const shopifyProductFragment = gql`
     archived
     shopifyId
     sourceData {
-      id
-      title
-      handle
-      tags
-      priceRange {
-        minVariantPrice {
-          amount
-          currencyCode
-        }
-        maxVariantPrice {
-          amount
-          currencyCode
-        }
-      }
-      images {
-        edges {
-          cursor
-          node {
-            id
-            altText
-            originalSrc
-          }
-        }
-      }
+      ...ShopifySourceProductFragment
     }
     info {
       ...ProductInfoFragment
@@ -211,6 +240,7 @@ export const shopifyProductFragment = gql`
     }
   }
   ${productInfoFragment}
+  ${shopifySourceProductFragment}
   ${imageTextBlockFragment}
 `
 

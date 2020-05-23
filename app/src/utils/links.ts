@@ -23,7 +23,7 @@ type Document =
   | JournalEntry
   | Contact
 
-interface LinkInfo {
+export interface LinkInfo {
   href: string
   as?: string
 }

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { About } from '../../types'
 import { PageWrapper, Column } from '../../components/Layout'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
-import { RichText } from '../../components/RichText'
+import { Heading } from '../../components/Text'
 import { definitely } from '../../utils'
 import { PageLinksWrapper } from './styled'
 import { PageLink } from './PageLink'
@@ -12,17 +12,23 @@ interface AboutViewProps {
 }
 
 export const AboutView = ({ about }: AboutViewProps) => {
-  const { hero, introTextRaw, pageLinks } = about
+  const { hero, introText, pageLinks } = about
   return (
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
       <PageWrapper>
-        <Column columnWidth="small" textAlign="center">
-          <RichText body={introTextRaw} />
+        <Column columnWidth="medium" textAlign="center">
+          <Heading fontWeight={1} level={2}>
+            {introText}
+          </Heading>
         </Column>
         <PageLinksWrapper>
-          {definitely(pageLinks).map((pageLink) => (
-            <PageLink key={pageLink._key || 'some-key'} pageLink={pageLink} />
+          {definitely(pageLinks).map((pageLink, index) => (
+            <PageLink
+              key={pageLink._key || 'some-key'}
+              index={index}
+              pageLink={pageLink}
+            />
           ))}
         </PageLinksWrapper>
       </PageWrapper>

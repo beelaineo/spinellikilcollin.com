@@ -8,7 +8,15 @@ interface SelectProps extends FieldProps {
 }
 
 export const Select = (props: SelectProps) => {
-  const { options, label, name, required, disabled, placeholder } = props
+  const {
+    options,
+    label,
+    name,
+    required,
+    disabled,
+    placeholder,
+    onChange,
+  } = props
   if (!options) return null
   return (
     <FormikField name={name}>
@@ -26,6 +34,7 @@ export const Select = (props: SelectProps) => {
             required={required}
             placeholder={placeholder}
             disabled={disabled}
+            onChange={onChange}
           >
             {placeholder ? (
               <option key="__placeholder" value="" disabled>

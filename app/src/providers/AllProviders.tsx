@@ -7,6 +7,7 @@ import { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 import { CartProvider } from './CartProvider'
+import { ModalProvider } from './ModalProvider'
 
 /**
  * App
@@ -58,7 +59,7 @@ export const Providers = ({ children }: Props) => {
         <CartProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyles />
-            {children}
+            <ModalProvider>{children}</ModalProvider>
           </ThemeProvider>
         </CartProvider>
       </ShopDataProvider>

@@ -4,7 +4,7 @@ import styled, { css } from '@xstyled/styled-components'
 import {
   ShopifyProductVariant,
   ShopifyProduct,
-  Image as ImageType,
+  ShopifySourceImage,
 } from '../../../types'
 import { Image } from '../../../components/Image'
 import { ProductGalleryWrapper } from '../styled'
@@ -29,8 +29,7 @@ export const ProductImages = ({
   currentVariant,
   selectVariant,
 }: ProductImagesProps) => {
-  // @ts-ignore
-  const [images] = unwindEdges<ImageType>(product?.sourceData?.images)
+  const [images] = unwindEdges<ShopifySourceImage>(product?.sourceData?.images)
   if (!images.length) return null
 
   const mainImage = currentVariant?.sourceData?.image || images[0]

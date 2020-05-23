@@ -9,6 +9,8 @@ import {
   shopifySourceProductVariantFragment,
   sanityImageFragment,
   richImageFragment,
+  shopifyCollectionFragment,
+  shopifySourceProductFragment,
   shopifySourceImageFragment,
 } from '../../src/graphql'
 import { PageContext } from '../_app'
@@ -34,44 +36,10 @@ const productQuery = gql`
       handle
       archived
       sourceData {
-        id
-        title
-        handle
-        tags
-        productType
-        description
-        descriptionHtml
-        options {
-          _key
-          name
-          values
-        }
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-          maxVariantPrice {
-            amount
-            currencyCode
-          }
-        }
-        variants {
-          edges {
-            cursor
-            node {
-              ...ShopifySourceProductVariantFragment
-            }
-          }
-        }
-        images {
-          edges {
-            cursor
-            node {
-              ...ShopifySourceImageFragment
-            }
-          }
-        }
+        ...ShopifySourceProductFragment
+      }
+      collections {
+        ...ShopifyCollectionFragment
       }
       options {
         _key
@@ -111,8 +79,10 @@ const productQuery = gql`
       }
     }
   }
+  ${shopifySourceProductFragment}
   ${shopifySourceProductVariantFragment}
   ${shopifySourceImageFragment}
+  ${shopifyCollectionFragment}
   ${sanityImageFragment}
   ${richImageFragment}
   ${productInfoFragment}

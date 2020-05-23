@@ -8,14 +8,14 @@ import { richImageFragment, heroFragment } from '../../src/graphql'
 const query = gql`
   query AboutPageQuery {
     About(id: "about") {
-      introTextRaw
+      introText
       hero {
         ...HeroFragment
       }
       pageLinks {
         _key
         title
-        summaryRaw
+        summary
         ctaText
         image {
           ...RichImageFragment

@@ -36,7 +36,7 @@ export interface About extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   hero?: Maybe<Hero>
-  introTextRaw?: Maybe<Scalars['JSON']>
+  introText?: Maybe<Scalars['String']>
   pageLinks?: Maybe<Array<Maybe<PageLink>>>
 }
 
@@ -50,6 +50,7 @@ export type AboutFilter = {
   _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
   hero?: Maybe<HeroFilter>
+  introText?: Maybe<StringFilter>
 }
 
 export type AboutSorting = {
@@ -60,6 +61,7 @@ export type AboutSorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
+  introText?: Maybe<SortOrder>
 }
 
 export interface Block {
@@ -157,15 +159,12 @@ export type ContactLineSorting = {
   contact?: Maybe<SortOrder>
 }
 
-export type ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =
+export type ContactOrCustomizeOrJournalPageOrMagazineOrPage =
   | Contact
   | Customize
-  | JournalEntry
   | JournalPage
   | Magazine
   | Page
-  | ShopifyCollection
-  | ShopifyProduct
 
 export type ContactSorting = {
   _id?: Maybe<SortOrder>
@@ -595,9 +594,7 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  document?: Maybe<
-    ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct
-  >
+  document?: Maybe<ContactOrCustomizeOrJournalPageOrMagazineOrPage>
 }
 
 export type InternalLinkFilter = {
@@ -902,7 +899,7 @@ export interface PageLink {
   image?: Maybe<RichImage>
   /** Optional. By default the linked page title will be used. */
   title?: Maybe<Scalars['String']>
-  summaryRaw?: Maybe<Scalars['JSON']>
+  summary?: Maybe<Scalars['String']>
   /** Optional. Defaults to "Learn more" */
   ctaText?: Maybe<Scalars['String']>
 }
@@ -912,6 +909,7 @@ export type PageLinkFilter = {
   _type?: Maybe<StringFilter>
   image?: Maybe<RichImageFilter>
   title?: Maybe<StringFilter>
+  summary?: Maybe<StringFilter>
   ctaText?: Maybe<StringFilter>
 }
 
@@ -920,6 +918,7 @@ export type PageLinkSorting = {
   _type?: Maybe<SortOrder>
   image?: Maybe<RichImageSorting>
   title?: Maybe<SortOrder>
+  summary?: Maybe<SortOrder>
   ctaText?: Maybe<SortOrder>
 }
 

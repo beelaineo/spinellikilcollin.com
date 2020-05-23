@@ -6,12 +6,6 @@ import { Form, Field } from '../../../components/Forms'
 import { ColorSelector } from './ColorSelector'
 import { definitely } from '../../../utils'
 
-// const ProductSelect = styled(Select)`
-//   border: 1px solid;
-//   border-color: body.4;
-//   color: body.8;
-// `
-
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
   currentVariant: ShopifyProductVariant
@@ -47,12 +41,13 @@ export const ProductOptionSelector = ({
 
   const selectOption = changeValueForOption(option.name)
 
-  const handleSelectChange = (optionId: string) => (value: string) => {
-    changeValueForOption(optionId)(value)
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target
+    selectOption(value)
   }
 
-  const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault()
+  const handleSubmit = (values: any) => {
+    console.log(values)
   }
 
   const options = definitely(
@@ -76,11 +71,11 @@ export const ProductOptionSelector = ({
         <ColorSelector selectOption={selectOption} option={option} />
       ) : (
         <SelectWrapper>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} initialValues={{}}>
             <Field
               type="select"
               name={option.name}
-              onChange={handleSelectChange(option.name)}
+              onChange={handleSelectChange}
               options={options}
             />
           </Form>

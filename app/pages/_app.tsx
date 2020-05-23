@@ -38,6 +38,7 @@ const App = (props: AppProps) => {
     <Providers>
       <ThemeProvider theme={getThemeByRoute(path)}>
         <Head>
+          <link rel="stylesheet" href="/static/fonts/fonts.css" />
           <script
             dangerouslySetInnerHTML={{
               __html: `
@@ -58,6 +59,7 @@ const App = (props: AppProps) => {
           </ComponentWrapper>
           <Footer />
         </Main>
+        <div id="modal" />
       </ThemeProvider>
     </Providers>
   )

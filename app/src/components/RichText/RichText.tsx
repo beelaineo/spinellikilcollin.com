@@ -1,12 +1,19 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
+import Link from 'next/link'
 import * as BlockContent from '@sanity/block-content-to-react'
-import { Heading, P, BlockQuote, Li, Ul, Ol } from '../Text'
+import { Heading, Span, P, BlockQuote, Li, Ul, Ol } from '../Text'
 import { Image } from '../Image'
+import { useModal, ModalName } from '../../providers/ModalProvider'
+import { useCart } from '../../providers/CartProvider'
+import { useShopData } from '../../providers/ShopDataProvider'
+import { LinkData } from '../../utils'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
   imageSizes?: string
+  openModal: (name: ModalName) => void
+  getLinkByRef: (ref: string) => LinkData | null
 }
 
 const RichTextWrapper = styled.div`
@@ -18,10 +25,48 @@ const RichTextWrapper = styled.div`
 const serializers = ({
   blockWrapper: Wrapper,
   imageSizes,
+  openModal,
+  openCart,
+  getLinkByRef,
 }: CustomSerializerConfig) => ({
   list: (props) => {
     if (props.type === 'number') return <Ol {...props} />
     return <Ul {...props} />
+  },
+  marks: {
+    internalLink: ({ children, mark }) => {
+      console.log(mark)
+      const linkData = getLinkByRef(mark?.document?._ref)
+      console.log(linkData)
+      if (!linkData) return <>{children}</>
+      const { href, as } = linkData
+      return (
+        <Link href={href} as={as}>
+          <a>{children}</a>
+        </Link>
+      )
+      return null
+    },
+    action: ({ children, mark }) => {
+      const { actionType } = mark
+      const onClick =
+        actionType === 'openCart'
+          ? openCart
+          : actionType === 'launchCustomizationModal'
+          ? () => openModal('customization')
+          : actionType === 'launchRingSizerModal'
+          ? () => openModal('ringSizer')
+          : null
+      if (!actionType) {
+        console.warn(`Action type "${actionType}" is not a valid option`)
+        return <>{children}</>
+      }
+      return (
+        <Span role="button" cursor="pointer" onClick={onClick}>
+          {children}
+        </Span>
+      )
+    },
   },
   listItem: (props) => <Li {...props} />,
   block: (props): React.ReactNode => {
@@ -71,12 +116,21 @@ export const RichText = ({
   wrapper: CustomWrapper,
   imageSizes,
 }: RichTextProps) => {
+  const { openCart } = useCart()
+  const { openModal } = useModal()
+  const { getLinkByRef } = useShopData()
   const Wrapper = CustomWrapper || RichTextWrapper
   return body ? (
     <Wrapper>
       <BlockContent
         blocks={body}
-        serializers={serializers({ blockWrapper, imageSizes })}
+        serializers={serializers({
+          blockWrapper,
+          imageSizes,
+          openModal,
+          getLinkByRef,
+          openCart,
+        })}
       />
     </Wrapper>
   ) : null

@@ -45,7 +45,8 @@ export interface FieldProps {
   color?: string
   options?: Option[]
   validate?: FieldValidator
-  onChange?: (value: string) => void
+  /* eslint-disable-next-line */
+  onChange?: (e: React.ChangeEvent<any>) => void
   readOnly?: boolean
 }
 

@@ -3,13 +3,12 @@ import { useQuery } from '@apollo/react-hooks'
 import { SHOP_DATA_QUERY, ShopDataResponse } from './shopDataQuery'
 import {
   Menu,
-  Scalars,
   ShopifyProduct,
   ProductInfo,
   ProductInfoSettings,
   SiteSettings,
 } from '../../types'
-import { definitely } from '../../utils'
+import { definitely, getPageLinkUrl, LinkInfo } from '../../utils'
 
 const { useContext } = React
 
@@ -19,6 +18,7 @@ interface ShopDataContextValue {
   getProductInfoBlocks: (product: ShopifyProduct) => ProductInfo[]
   siteSettings?: SiteSettings
   productInfoSettings?: ProductInfoSettings
+  getLinkByRef: (ref: string) => LinkInfo | null
 }
 
 const ShopDataContext = React.createContext<ShopDataContextValue | undefined>(
@@ -46,14 +46,25 @@ export const ShopDataProvider = ({ children }: Props) => {
   const response = useQuery<ShopDataResponse>(SHOP_DATA_QUERY)
 
   const ready = Boolean(response.data && !response.loading)
-  const menu = ready ? response?.data?.Menu : undefined
-  const siteSettings = ready ? response?.data?.SiteSettings : undefined
-  const productInfoSettings = ready
-    ? response?.data?.ProductInfoSettings
-    : undefined
-  const productInfoBlocks = ready
-    ? response?.data?.ProductInfoSettings
-    : undefined
+  const menu = response?.data?.Menu
+  const siteSettings = response?.data?.SiteSettings
+  const productInfoSettings = response?.data?.ProductInfoSettings
+  const productInfoBlocks = response?.data?.ProductInfoSettings
+  const allPages = response?.data?.allPage || []
+
+  const getLinkByRef = (ref: string): LinkInfo | null => {
+    if (!ref) return null
+    if (ref === 'customize') return getPageLinkUrl({ __typename: 'Customize' })
+    if (ref === 'journalPage') {
+      return getPageLinkUrl({ __typename: 'JournalPage' })
+    }
+    if (ref === 'magazine') return getPageLinkUrl({ __typename: 'Magazine' })
+    if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
+    console.log(ref, { allPages })
+    const page = allPages.find((page) => page._id === ref)
+    if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
+    return null
+  }
 
   const getProductInfoBlocks = (product: ShopifyProduct): ProductInfo[] => {
     const productBlocks = definitely(product.info)
@@ -117,6 +128,7 @@ export const ShopDataProvider = ({ children }: Props) => {
     siteSettings,
     productInfoSettings,
     getProductInfoBlocks,
+    getLinkByRef,
   }
 
   return (

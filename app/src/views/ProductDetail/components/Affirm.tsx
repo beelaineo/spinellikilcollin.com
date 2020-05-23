@@ -37,6 +37,7 @@ export const Affirm = ({ currentVariant }: AffirmProps) => {
     <AffirmWrapper>
       <Heading level={4} weight={2} my={2}>
         <span
+          style={{ minHeight: '31px', display: 'block' }}
           className="affirm-as-low-as"
           data-amount={amount}
           data-affirm-color="black"

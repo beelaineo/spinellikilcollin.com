@@ -159,6 +159,11 @@ export const Label = styled(LabelBase)`
 
 export const Span = styled(createTextBase('span'))`
   font-size: inherit;
+
+  &[role='button'] {
+    cursor: pointer;
+    text-decoration: underline;
+  }
 `
 
 export const TextAnchor = styled.a``
