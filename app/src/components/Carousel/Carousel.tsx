@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Swipeable, EventData } from 'react-swipeable'
+import { useSwipeable, EventData } from 'react-swipeable'
 import {
   CarouselContainer,
   SlidesContainer,
@@ -7,6 +7,7 @@ import {
   CarouselMask,
 } from './styled'
 import { Slide, SlideInfo } from './Slide'
+import { useViewportSize } from '../../utils'
 
 const { useState, useEffect, useMemo, useRef } = React
 
@@ -37,11 +38,9 @@ export const CarouselInner = ({
 }: CarouselProps) => {
   const columnCount = customColumnCount || 4
   const { currentSlide, setCurrentSlide } = useCarousel()
-  const [hideButtons, setHideButtons] = useState(false)
+  const { width: viewportWidth } = useViewportSize()
   const [hasOverflow, setHasOverflow] = useState(false)
-  const [attempts, setAttempts] = useState(0)
   const [slides, setSlides] = useState<SlideInfo[]>([])
-  const innerRef = useRef<HTMLDivElement>(null)
   const outerRef = useRef<HTMLDivElement>(null)
 
   const goNext = () => {
@@ -71,18 +70,15 @@ export const CarouselInner = ({
       0,
     )
     /* Give it 5 attempts to load images & get a width greater than 0 */
-    if (accWidth === 0) {
-      if (attempts === 5) return
-      const timeoutId = setTimeout(() => {
-        setAttempts(attempts + 1)
-      }, 100)
-      return () => clearTimeout(timeoutId)
-    }
     if (accWidth > outerRef.current.offsetWidth) {
       setHasOverflow(true)
     }
-  }, [outerRef.current, attempts])
+  }, [outerRef.current, viewportWidth])
 
+  // useEffect(() => {
+  //   setCurrentSlide(currentSlide || 0)
+  // }, [viewportWidth])
+  //
   const addSlide = useMemo(
     () => (newSlide: SlideInfo) => {
       setSlides((prevSlides) => [...prevSlides, newSlide])
@@ -99,40 +95,38 @@ export const CarouselInner = ({
     }
   }
 
+  const handlers = useSwipeable({ onSwiped: handleSwipe })
+
   return (
     <CarouselContainer ref={outerRef}>
       {children ? (
         <CarouselButton
+          visible={hasOverflow && !isAtFirst}
           aria-label="previous slide"
           direction="previous"
           onClick={goPrevious}
-          visible={!isAtFirst}
         />
       ) : null}
-      {/* 
-           // @ts-ignore */}
       <CarouselMask>
-        <Swipeable onSwiped={handleSwipe}>
-          <SlidesContainer
-            ref={innerRef}
-            left={currentSlide ? -slides[currentSlide].ref.offsetLeft : 0}
-          >
-            {React.Children.map(children, (child, index) => (
-              <Slide
-                addSlide={addSlide}
-                columnCount={columnCount}
-                index={index}
-                key={index}
-              >
-                {child}
-              </Slide>
-            ))}
-          </SlidesContainer>
-        </Swipeable>
+        <SlidesContainer
+          left={currentSlide ? -slides[currentSlide].ref.offsetLeft : 0}
+          {...handlers}
+        >
+          {React.Children.map(children, (child, index) => (
+            <Slide
+              addSlide={addSlide}
+              columnCount={columnCount}
+              index={index}
+              key={index}
+            >
+              {child}
+            </Slide>
+          ))}
+        </SlidesContainer>
       </CarouselMask>
       {children ? (
         <CarouselButton
-          visible={!isAtLast}
+          visible={hasOverflow && !isAtLast}
           direction="next"
           aria-label="next slide"
           onClick={goNext}

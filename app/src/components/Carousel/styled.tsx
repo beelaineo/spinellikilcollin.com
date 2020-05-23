@@ -8,11 +8,6 @@ export const CarouselContainer = styled.div`
 `
 
 export const CarouselMask = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
 `
 
@@ -23,12 +18,12 @@ interface SlidesContainerProps {
 
 export const SlidesContainer = styled.div`
   ${({ left }: SlidesContainerProps) => css`
-    position: absolute;
+    position: relative;
     height: 100%;
     width: 100%;
     top: 0;
     white-space: nowrap;
-    left: ${left}px;
+    transform: translate(${left}px);
     transition: 0.4s cubic-bezier(0.57, 0.06, 0.05, 0.95);
 
     & > * {
@@ -49,12 +44,19 @@ export const SlideContainer = styled.div`
     width: calc(
       (100% - (${theme.space[5]}px * ${columnCount - 1})) / ${columnCount}
     );
-    margin: 0 3;
+    margin-right: 5;
     display: inline-flex;
-    align-items: center;
+    vertical-align: top;
 
     &:last-of-type {
       margin-right: 0;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      width: calc((100% - (${theme.space[4]}px * 2)) / 3);
+    }
+    ${theme.mediaQueries.mobile} {
+      width: calc((100% - (${theme.space[4]}px * 1)) / 2);
     }
   `}
 `
@@ -75,18 +77,17 @@ export const CarouselButton = styled.button`
     pointer-events: ${visible ? 'auto' : 'none'};
     position: absolute;
     width: ${WIDTH}px;
-    z-index: 10;
+    z-index: 15;
     height: ${HEIGHT}px;
     top: calc(50% - 30px);
     transition: 0.2s;
 
     ${direction === 'previous'
       ? css`
-          left: -5;
+          left: -25px;
         `
       : css`
-          left: auto;
-          right: -5;
+          right: -25px;
         `}
     background: transparent;
 
@@ -127,7 +128,7 @@ export const CarouselButton = styled.button`
           }
         `}
 
-    ${theme.mediaQueries.tablet} {
+    ${theme.mediaQueries.mobile} {
       display: none;
     }
   `}
