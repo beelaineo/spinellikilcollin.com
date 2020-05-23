@@ -1,11 +1,11 @@
 import { FieldValidator } from 'formik'
-import { Mask, Option } from '../../Fields'
+import { Option } from '../../Fields'
 import countries from '../../../../data/countries.json'
 
-export const maskFromPhoneFormat = (format?: string): undefined | Mask =>
-  format && format !== '#N/A'
-    ? format.split('').map((char) => (/\d/.test(char) ? /\d/ : char))
-    : undefined
+// export const maskFromPhoneFormat = (format?: string): undefined | Mask =>
+//   format && format !== '#N/A'
+//     ? format.split('').map((char) => (/\d/.test(char) ? /\d/ : char))
+//     : undefined
 
 export const placeholderFromPhoneFormat = (
   format?: string,

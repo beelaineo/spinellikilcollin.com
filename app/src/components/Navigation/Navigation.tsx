@@ -5,7 +5,6 @@ import { useReducer } from 'react'
 import { useCheckout } from 'use-shopify'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useCart } from '../../providers/CartProvider'
-import { CartSidebar, CloseButton } from '../../components/Cart'
 import { Checkout } from '../Cart/Checkout'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
@@ -14,7 +13,6 @@ import {
   Inner,
   CartBadge,
   Logo,
-  ModalBackground,
   CartButtonWrapper,
   Hamburger,
   SideNavigation,
@@ -105,11 +103,7 @@ export const Navigation = () => {
           <Cart />
         </CartButtonWrapper>
       </Inner>
-      <ModalBackground open={cartOpen} onClick={closeCart} />
-      <CartSidebar open={cartOpen}>
-        <Checkout />
-        <CloseButton onClick={closeCart}>close</CloseButton>
-      </CartSidebar>
+      <Checkout />
     </Wrapper>
   )
 }

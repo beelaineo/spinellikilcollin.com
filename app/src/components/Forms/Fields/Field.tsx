@@ -28,13 +28,10 @@ export type WithFormik<T> = T & {
   formik: FormikFieldProps
 }
 
-export type Mask = Array<string | RegExp>
-
 export interface FieldProps {
   label?: string | React.ReactNode
   name: string
   helpText?: string
-  mask?: Mask
   children?: React.ReactNode
   disabled?: boolean
   placeholder?: string

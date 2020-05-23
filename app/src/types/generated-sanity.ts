@@ -159,12 +159,15 @@ export type ContactLineSorting = {
   contact?: Maybe<SortOrder>
 }
 
-export type ContactOrCustomizeOrJournalPageOrMagazineOrPage =
+export type ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =
   | Contact
   | Customize
+  | JournalEntry
   | JournalPage
   | Magazine
   | Page
+  | ShopifyCollection
+  | ShopifyProduct
 
 export type ContactSorting = {
   _id?: Maybe<SortOrder>
@@ -594,7 +597,9 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  document?: Maybe<ContactOrCustomizeOrJournalPageOrMagazineOrPage>
+  document?: Maybe<
+    ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct
+  >
 }
 
 export type InternalLinkFilter = {

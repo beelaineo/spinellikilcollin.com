@@ -7,7 +7,6 @@ import { CountryCodeSelector } from './CountryCodeSelector'
 import {
   countryOptions,
   placeholderFromPhoneFormat,
-  maskFromPhoneFormat,
   createValidator,
 } from './utils'
 
@@ -21,7 +20,6 @@ export const PhoneField = (props: PhoneFieldProps) => {
   const { values } = useFormikContext<Values>()
   const options = countryOptions
   const currentOption = options.find((o) => o.value === values.phoneCountryCode)
-  const mask = maskFromPhoneFormat(currentOption?.meta?.phoneFormat)
   const placeholder = placeholderFromPhoneFormat(
     currentOption?.meta?.phoneFormat,
   )
@@ -35,7 +33,6 @@ export const PhoneField = (props: PhoneFieldProps) => {
         name={props.name}
         validate={validate}
         placeholder={placeholder}
-        mask={mask}
         renderBeforeInput={() => (
           <CountryCodeSelector
             currentOption={currentOption}

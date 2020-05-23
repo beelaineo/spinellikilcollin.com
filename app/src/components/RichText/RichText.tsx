@@ -7,13 +7,14 @@ import { Image } from '../Image'
 import { useModal, ModalName } from '../../providers/ModalProvider'
 import { useCart } from '../../providers/CartProvider'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { LinkData } from '../../utils'
+import { LinkInfo } from '../../utils'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
   imageSizes?: string
   openModal: (name: ModalName) => void
-  getLinkByRef: (ref: string) => LinkData | null
+  openCart: () => void
+  getLinkByRef: (ref: string) => LinkInfo | null
 }
 
 const RichTextWrapper = styled.div`
@@ -35,9 +36,7 @@ const serializers = ({
   },
   marks: {
     internalLink: ({ children, mark }) => {
-      console.log(mark)
       const linkData = getLinkByRef(mark?.document?._ref)
-      console.log(linkData)
       if (!linkData) return <>{children}</>
       const { href, as } = linkData
       return (

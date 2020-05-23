@@ -86,7 +86,7 @@
 		"react-swipeable": "^5.5.1",
 		"react-text-mask": "^5.4.3",
 		"styled-components": "^5.1.0",
-		"use-shopify": "^0.7.6",
+		"use-shopify": "^0.8.0",
 		"utf-8-validate": "^5.0.2"
 	},
 	"resolutions": {

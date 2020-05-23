@@ -21,11 +21,6 @@ export interface ImageDetails {
   altText?: string | null
   srcSet?: string | null
   srcSetWebp?: string | null
-  // fileType: string
-  // TODO srcSet
-  // TODO srcSetWebP
-  // TODO dimensions: Dimensions
-  // TODO fileType: fileType
 }
 
 interface ImageWidth {
@@ -76,7 +71,6 @@ const widths = [100, 300, 800, 1200, 1600]
 const getShopifyImageDetails = (image: ShopifySourceImage): ImageDetails => {
   const src = image.originalSrc
   const { altText } = image
-  const { w100, w300, w800, w1200, w1600 } = image
   const srcSet = widths
     .map((width) => {
       const key = `w${width}`
@@ -97,12 +91,13 @@ const isSanityImage = (image: ImageType): image is RichImage =>
   Boolean(image.__typename && /^Image|^RichImage/.test(image.__typename))
 
 const isShopifyImage = (image: ImageType): image is ShopifySourceImage =>
-  image.__typename === 'ShopifySourceImage'
+  'originalSrc' in image || image.__typename === 'ShopifySourceImage'
 
 export const getImageDetails = (image: ImageType): ImageDetails => {
+  console.log(image)
+  if (isShopifyImage(image)) return getShopifyImageDetails(image)
   if (isSanityRawImage(image)) return getSanityImageDetails(image)
   if (isSanityImage(image)) return getSanityImageDetails(image)
-  if (isShopifyImage(image)) return getShopifyImageDetails(image)
 
   console.warn('Could not parse image details:', image)
   throw new Error(

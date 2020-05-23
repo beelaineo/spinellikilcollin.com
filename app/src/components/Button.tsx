@@ -14,15 +14,30 @@ export const Button = styled.buttonBox`
     height: 42px;
     padding: 0 3;
     font-size: 4;
+    svg {
+      display: inline-block;
+      margin: 0 0.2em;
+      height: 1em;
+    }
+
     ${level === undefined || level === 1
       ? css`
           color: body.1;
           background-color: body.9;
         `
-      : css`
+      : level === 2
+      ? css`
           color: body.9;
           background-color: transparent;
           border: 1px solid;
+        `
+      : css`
+          display: inline;
+          margin: 0;
+          padding: 0;
+          width: auto;
+          height: auto;
+          border: none;
         `}
   `}
 `

@@ -47,7 +47,7 @@ export const ProductOptionSelector = ({
   }
 
   const handleSubmit = (values: any) => {
-    console.log(values)
+    //
   }
 
   const options = definitely(

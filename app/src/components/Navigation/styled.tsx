@@ -99,22 +99,6 @@ interface WithVisible {
   active: boolean
 }
 
-interface ModalBackgroundProps {
-  open: boolean
-}
-
-export const ModalBackground = styled.div`
-  ${({ open }: ModalBackgroundProps) => css`
-    height: 100vh;
-    position: fixed;
-    background: #0000004d;
-    width: 100vw;
-    top: 0;
-    cursor: pointer;
-    display: ${open ? 'block' : 'none'};
-  `}
-`
-
 interface LoadingProps {
   theme: DefaultTheme
   isLoading?: boolean

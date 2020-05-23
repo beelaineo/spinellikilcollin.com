@@ -21300,10 +21300,10 @@ use-onclickoutside@^0.3.1:
     are-passive-events-supported "^1.1.0"
     use-latest "^1.0.0"
 
-use-shopify@^0.7.6:
-  version "0.7.6"
-  resolved "https://registry.yarnpkg.com/use-shopify/-/use-shopify-0.7.6.tgz#bc1e677c85811cfb8caedcb634b65875ef91e619"
-  integrity sha512-gfVr7miETN1rcP4HZe2A8i5uPcDB8BXIXGxlfwYhShztZUdGWjcRT+rNI8HXNzJFD2Hjuy5R8FvGNoOXnlGGbQ==
+use-shopify@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/use-shopify/-/use-shopify-0.8.0.tgz#187ddcfa5a9a349464c1d246792bade0606807e8"
+  integrity sha512-1i29cpsBTktqMcSvRKIQMKH8N+aG7uhEsZJ+0Aw9jx09R/jdBidhzLNBNMsgCL97zTl3KDo7A+juYseJi/f9FA==
   dependencies:
     "@good-idea/unwind-edges" "^1.4.0"
     "@thi.ng/memoize" "^2.0.9"

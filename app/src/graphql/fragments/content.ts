@@ -197,7 +197,6 @@ export const shopifySourceProductFragment = gql`
         }
       }
     }
-
     priceRange {
       minVariantPrice {
         amount
@@ -219,6 +218,7 @@ export const shopifySourceProductFragment = gql`
       }
     }
   }
+  ${shopifySourceProductVariantFragment}
 `
 
 export const shopifyProductFragment = gql`

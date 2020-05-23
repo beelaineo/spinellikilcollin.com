@@ -3,77 +3,90 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
 import { Button } from '../Button'
 import { useCart } from '../../providers/CartProvider'
-import { FlexContainer, FlexHalf } from '../../components/Layout/Flex'
+import { Form, Field } from '../../components/Forms'
 import { Heading } from '../../components/Text'
-import { CartBottom, CartInner } from '../../components/Cart'
+import { ModalBackground, CartSidebar, CartBottom, CartInner } from './styled'
 import { CheckoutProduct } from './CheckoutProduct'
+import { Affirm } from '../../components/Affirm'
 
 /**
  * Main Checkout view
  */
 
+interface FormValues {
+  note?: string
+}
+
 export const Checkout = () => {
   /* State */
-  const { message } = useCart()
-  const { checkout, loading } = useCheckout()
+  const { message, open: cartOpen, closeCart } = useCart()
+  const { checkout, loading, addNote } = useCheckout()
 
-  if (
-    !checkout ||
-    !checkout.lineItems ||
-    !checkout.lineItems.edges ||
-    checkout.lineItems.edges.length < 1
-  ) {
-    return <div>Your cart is empty</div>
-  }
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
 
   const title = message || 'Your Cart'
 
+  const handleSubmit = async (values: FormValues) => {
+    if (!checkout) throw new Error('There is no checkout')
+    const { note } = values
+    if (note) await addNote(note)
+    // @ts-ignore
+    window.location = checkout.webUrl
+  }
+
   return (
-    <div>
-      <Heading level={2} color="dark" textAlign="center">
-        {title}
-      </Heading>
-      <CartInner>
-        {lineItems.map((lineItem) => {
-          return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
-        })}
-      </CartInner>
+    <>
+      <ModalBackground open={cartOpen} onClick={closeCart} />
+      <CartSidebar open={cartOpen}>
+        <Heading my={4} level={2} color="dark" textAlign="center">
+          {title}
+        </Heading>
+        {lineItems.length === 0 ? (
+          <CartInner>
+            <Heading level={3}>Your cart is empty</Heading>
+          </CartInner>
+        ) : (
+          <>
+            <CartInner>
+              {lineItems.map((lineItem) => {
+                return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
+              })}
+            </CartInner>
 
-      <CartBottom>
-        {checkout?.paymentDueV2?.amount ? (
-          <FlexContainer
-            // @ts-ignore
-            width="100%"
-          >
-            <FlexHalf>
-              <Heading level={5} textTransform="uppercase" weight={2}>
-                Subtotal:
-              </Heading>
-            </FlexHalf>
-            <FlexHalf>
-              <Heading
-                level={5}
-                textAlign="right"
-                textTransform="uppercase"
-                weight={2}
-              >
-                ${checkout.paymentDueV2.amount}
-              </Heading>
-            </FlexHalf>
-          </FlexContainer>
-        ) : null}
-        <div>
-          <Button as="a" href={checkout.webUrl} disabled={loading}>
-            Checkout
-          </Button>
+            <CartBottom>
+              {checkout && checkout?.paymentDueV2?.amount ? (
+                <>
+                  <Heading level={3} weight={2}>
+                    Total:
+                  </Heading>
+                  <div>
+                    <Heading level={3} textTransform="uppercase" weight={2}>
+                      ${checkout.paymentDueV2.amount}
+                    </Heading>
+                    <Affirm price={checkout.paymentDueV2} />
+                  </div>
+                </>
+              ) : null}
+              <div>
+                <Form<FormValues> onSubmit={handleSubmit} initialValues={{}}>
+                  <Heading level={4} textAlign="center">
+                    Please leave special instructions below
+                  </Heading>
+                  <Field type="textarea" name="notes" />
+                  <Button type="submit" level={1} disabled={loading}>
+                    Checkout
+                  </Button>
 
-          <Heading level={6} textAlign="center">
-            Shipping and discount codes are added at checkout.
-          </Heading>
-        </div>
-      </CartBottom>
-    </div>
+                  <Heading level={6} textAlign="center">
+                    Shipping and discount codes are added at checkout.
+                  </Heading>
+                </Form>
+              </div>
+            </CartBottom>
+          </>
+        )}
+      </CartSidebar>
+    </>
   )
 }

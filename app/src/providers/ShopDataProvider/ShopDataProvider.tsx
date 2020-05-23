@@ -60,7 +60,6 @@ export const ShopDataProvider = ({ children }: Props) => {
     }
     if (ref === 'magazine') return getPageLinkUrl({ __typename: 'Magazine' })
     if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
-    console.log(ref, { allPages })
     const page = allPages.find((page) => page._id === ref)
     if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
     return null

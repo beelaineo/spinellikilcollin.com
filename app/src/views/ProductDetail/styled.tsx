@@ -23,15 +23,6 @@ export const ProductDetails = styled.div`
   `}
 `
 
-export const TitleWrapper = styled.div`
-  ${({ theme }) => css`
-    ${theme.mediaQueries.tablet} {
-      text-align: center;
-      grid-row: 1;
-    }
-  `}
-`
-
 export const AffirmWrapper = styled.div`
   ${({ theme }) => css`
     min-height: 28px;
@@ -40,6 +31,15 @@ export const AffirmWrapper = styled.div`
       margin: 0 auto;
       width: 100%;
       max-width: 380px;
+    }
+  `}
+`
+
+export const TitleWrapper = styled.div`
+  ${({ theme }) => css`
+    ${theme.mediaQueries.tablet} {
+      text-align: center;
+      grid-row: 1;
     }
   `}
 `
