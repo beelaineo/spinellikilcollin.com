@@ -39,7 +39,11 @@ const productQuery = gql`
         ...ShopifySourceProductFragment
       }
       collections {
-        ...ShopifyCollectionFragment
+        _id
+        _key
+        title
+        handle
+        shopifyId
       }
       options {
         _key
