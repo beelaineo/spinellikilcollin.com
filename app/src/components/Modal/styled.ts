@@ -25,7 +25,7 @@ export const Background = styled.button<WithOpen>`
     top: 0;
     left: 0;
     z-index: 1;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(192, 192, 192, 0.5);
     padding: 0;
     margin: 0;
     transition: 0.2s;
@@ -37,11 +37,14 @@ export const Background = styled.button<WithOpen>`
 export const ModalWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
-    padding: 8 4;
+    padding: 4;
     max-width: calc(100% - ${theme.space[4]}px);
+    min-width: 375px;
     z-index: 2;
-    box-shadow: 0 2px 2px 2px rgba(0, 0, 0, 0.2);
-    background-color: body.2;
+    box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
+    border: 1px solid;
+    border-color: body.7;
+    background-color: body.0;
 
     cursor: initial;
   `}
@@ -53,16 +56,16 @@ export const CloseButton = styled.button`
     top: ${theme.space[3]}px;
     right: ${theme.space[3]}px;
     background-color: transparent;
-    width: 30px;
-    height: 30px;
+    width: 12px;
+    height: 12px;
 
     &:before,
     &:after {
       content: '';
       position: absolute;
-      top: 15px;
+      top: 50%;
       left: 55%;
-      width: 110%;
+      width: 115%;
       height: 2px;
       background-color: body.9;
     }

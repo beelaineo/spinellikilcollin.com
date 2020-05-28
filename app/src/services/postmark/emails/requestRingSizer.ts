@@ -2,7 +2,7 @@ import { stripIndents } from 'common-tags'
 import { Message } from 'postmark'
 import { DEAR } from '../postmark'
 
-export interface MagazineSignupArgs {
+export interface RequestRingSizerArgs {
   name: string
   emailAddress: string
   address1: string
@@ -11,12 +11,13 @@ export interface MagazineSignupArgs {
   state: string
   postalCode: string
   country: string
+  productName: string
 }
 
-const Subject = 'New .925 signup'
+const Subject = 'New ring sizer request'
 
-const textTemplate = (args: MagazineSignupArgs): string => stripIndents`
-  New .925 subscription request:
+const textTemplate = (args: RequestRingSizerArgs): string => stripIndents`
+  New ring sizer:
 
   ${args.emailAddress}
 
@@ -24,15 +25,17 @@ const textTemplate = (args: MagazineSignupArgs): string => stripIndents`
   ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
   ${args.city}, ${args.state} ${args.postalCode}
   ${args.country}
+
+  Interested in: ${args.productName}
 `
 
-export const magazineSignup = (args: MagazineSignupArgs): Message => {
+export const requestRingSizer = (args: RequestRingSizerArgs): Message => {
   return {
     From: DEAR,
     To: DEAR,
     Subject,
     TextBody: textTemplate(args),
-    Tag: '925',
+    Tag: 'ringSizer',
     TrackOpens: false,
   }
 }

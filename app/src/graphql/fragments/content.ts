@@ -177,6 +177,7 @@ export const shopifySourceProductFragment = gql`
     title
     handle
     tags
+    productType
     collections {
       pageInfo {
         hasNextPage

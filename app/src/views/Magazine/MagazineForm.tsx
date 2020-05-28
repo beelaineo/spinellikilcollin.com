@@ -3,17 +3,8 @@ import styled, { css, Box } from '@xstyled/styled-components'
 import { Form, Field } from '../../components/Forms'
 import { Button } from '../../components/Button'
 import { Heading } from '../../components/Text'
-import countries from '../../data/countries.json'
 
 const { useState } = React
-
-const countryOptions = countries
-  .map((c) => c.english)
-  .map((name) => ({
-    id: name,
-    value: name,
-    label: name,
-  }))
 
 const FieldsWrapper = styled.div`
   ${({ theme }) => css`
@@ -89,7 +80,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
           onSubmit={handleSubmit}
         >
           <FieldsWrapper>
-            <Field name="firstName" placeholder="First Name" required />
+            <Field name="name" label="First and last name" required />
             <Field name="lastName" placeholder="Last Name" required />
             <Field
               name="emailAddress"
@@ -108,9 +99,8 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
             <Field name="postalCode" placeholder="Postal Code" required />
             <Field
               name="country"
-              type="select"
+              type="countrySelect"
               placeholder="Country"
-              options={countryOptions}
               required
             />
             <Button disabled={submitting || success} type="submit">

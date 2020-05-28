@@ -7,8 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
     return
   }
   const body = JSON.parse(req.body)
-  await postmark.sendMagazineSignup(body)
-
+  await postmark.sendRequestRingSizer(body)
   res.status(200).send({ success: true })
 }
 

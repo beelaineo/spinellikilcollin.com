@@ -5,13 +5,22 @@ import {
   FieldProps as FormikFieldProps,
   FieldValidator,
 } from 'formik'
-import { Heading } from '../../Text'
+import { Heading, Label } from '../../Text'
 import { Checkbox } from './Checkbox'
 import { Radio } from './Radio'
 import { Input } from './Input'
 import { NumberInput } from './Number'
 import { Select } from './Select'
 import { FieldWrapper } from './styled'
+import countries from '../../../data/countries.json'
+
+const countryOptions = countries
+  .map((c) => c.english)
+  .map((name) => ({
+    id: name,
+    value: name,
+    label: name,
+  }))
 
 /**
  * Base Field
@@ -48,7 +57,7 @@ export interface FieldProps {
 }
 
 export const Field = (fieldProps: FieldProps) => {
-  const { type, helpText, children } = fieldProps
+  const { label, name, required, type, helpText, children } = fieldProps
   if (fieldProps.type === 'hidden') {
     return (
       <FormikField name={fieldProps.name}>
@@ -67,6 +76,9 @@ export const Field = (fieldProps: FieldProps) => {
         return <NumberInput {...fieldProps} />
       case 'select':
         return <Select {...fieldProps} />
+      case 'countrySelector':
+        return <Select {...fieldProps} options={countryOptions} />
+
       default:
         return <Input {...fieldProps} />
     }
@@ -77,6 +89,11 @@ export const Field = (fieldProps: FieldProps) => {
 
   return (
     <div className={className}>
+      {label ? (
+        <Label required={required} htmlFor={name}>
+          {label}
+        </Label>
+      ) : null}
       <FieldWrapper noBorder={noBorder}>
         {children ? children : renderInner()}
       </FieldWrapper>

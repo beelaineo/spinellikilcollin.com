@@ -94,7 +94,6 @@ const isShopifyImage = (image: ImageType): image is ShopifySourceImage =>
   'originalSrc' in image || image.__typename === 'ShopifySourceImage'
 
 export const getImageDetails = (image: ImageType): ImageDetails => {
-  console.log(image)
   if (isShopifyImage(image)) return getShopifyImageDetails(image)
   if (isSanityRawImage(image)) return getSanityImageDetails(image)
   if (isSanityImage(image)) return getSanityImageDetails(image)

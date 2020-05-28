@@ -64,9 +64,6 @@ export const NumberInput = ({ label, name, required }: NumberProps) => (
       }
       return (
         <Outer>
-          <Label required={required} htmlFor={name}>
-            {label}
-          </Label>
           <Wrapper>
             <NumberButton type="button" onClick={decrement}>
               -

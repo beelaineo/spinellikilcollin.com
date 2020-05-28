@@ -12,6 +12,7 @@ import {
   ProductDetailHeader,
   ProductDetailFooter,
   ProductRelated,
+  RingSizerButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import {
@@ -39,6 +40,8 @@ export const ProductDetail = ({ product }: Props) => {
     currentVariant: currentVariantSource,
     selectVariant,
   } = useProductVariant(product.sourceData)
+
+  const productType = product?.sourceData?.productType
 
   const currentVariant = product.variants.find(
     (v) => v && v.shopifyVariantID === currentVariantSource?.id,
@@ -146,6 +149,9 @@ export const ProductDetail = ({ product }: Props) => {
                       ) : null,
                     )
                   : null}
+                {productType === 'Ring' ? (
+                  <RingSizerButton product={product} mobile />
+                ) : null}
               </ProductAccordionsWrapper>
             </ProductInfoWrapper>
           </ProductDetails>

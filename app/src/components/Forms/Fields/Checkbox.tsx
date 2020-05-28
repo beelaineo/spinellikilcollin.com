@@ -1,7 +1,6 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
-import { Label } from './styled'
 import { FieldProps } from './Field'
 
 const CheckboxElement = styled.input`
@@ -63,10 +62,6 @@ export const Checkbox = ({
               disabled={disabled}
             />
           </div>
-
-          <Label htmlFor={name} required={required}>
-            {label}
-          </Label>
         </CheckboxWrapper>
       )}
     </FormikField>

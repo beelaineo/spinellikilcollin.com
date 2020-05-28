@@ -1,7 +1,12 @@
 import { ServerClient, Message, Errors } from 'postmark'
 import Debug from 'debug'
 import { Sentry } from '../sentry'
-import { magazineSignup, MagazineSignupArgs } from './emails'
+import {
+  requestRingSizer,
+  RequestRingSizerArgs,
+  magazineSignup,
+  MagazineSignupArgs,
+} from './emails'
 
 const debug = Debug('app:emails')
 
@@ -25,6 +30,9 @@ const POSTMARK_KEY = process.env.POSTMARK_KEY
 
 interface PostmarkService {
   sendMagazineSignup: (args: MagazineSignupArgs) => Promise<PostmarkResponse>
+  sendRequestRingSizer: (
+    args: RequestRingSizerArgs,
+  ) => Promise<PostmarkResponse>
 }
 
 if (!POSTMARK_KEY || !POSTMARK_KEY.length)
@@ -42,32 +50,39 @@ const mockSend = (message: Message) => {
   if (message.HtmlBody) debug('HtmlBody:', message.HtmlBody)
 }
 
-export const postmark: PostmarkService = {
-  sendMagazineSignup: async (args: MagazineSignupArgs) => {
-    const message = magazineSignup(args)
-
-    try {
-      if (TEST_MODE) {
-        mockSend(message)
-        return {
-          success: true,
-          message,
-        }
-      }
-      const response = await client.sendEmail(message)
-      debug(
-        `Sent email "${message.Subject} to ${message.To} - Postmark ID: ${response.MessageID}"`,
-      )
+const send = async (message: Message): Promise<PostmarkResponse> => {
+  try {
+    if (TEST_MODE) {
+      mockSend(message)
       return {
         success: true,
         message,
       }
-    } catch (error) {
-      Sentry.captureException(error)
-      return {
-        success: false,
-        error,
-      }
     }
+    const response = await client.sendEmail(message)
+    debug(
+      `Sent email "${message.Subject} to ${message.To} - Postmark ID: ${response.MessageID}"`,
+    )
+    return {
+      success: true,
+      message,
+    }
+  } catch (error) {
+    Sentry.captureException(error)
+    return {
+      success: false,
+      error,
+    }
+  }
+}
+
+export const postmark: PostmarkService = {
+  sendRequestRingSizer: async (args: RequestRingSizerArgs) => {
+    const message = requestRingSizer(args)
+    return send(message)
+  },
+  sendMagazineSignup: async (args: MagazineSignupArgs) => {
+    const message = magazineSignup(args)
+    return send(message)
   },
 }

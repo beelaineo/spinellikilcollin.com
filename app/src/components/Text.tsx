@@ -153,7 +153,7 @@ const LabelBase = createTextBase('label')
 
 export const Label = styled(LabelBase)`
   font-size: 4;
-  color: body.2;
+  color: body.6;
   margin: 0;
 `
 
