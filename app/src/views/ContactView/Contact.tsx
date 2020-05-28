@@ -33,7 +33,13 @@ const ContactLine = ({ contactLine }: ContactLineProps) => {
 }
 
 const Chat = () => {
-  const launchChat = () => alert('todo')
+  const launchChat = () => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.Intercom) {
+      // @ts-ignore
+      window.Intercom('show')
+    }
+  }
   return (
     <div>
       <ChatBox />
