@@ -1,4 +1,4 @@
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 
 export const FooterWrapper = styled.footer`
   padding: 2 11 6;
@@ -50,6 +50,31 @@ export const MailerInput = styled.form`
   input:focus ~ button {
     color: body.7;
   }
+`
+
+interface WithVisible {
+  visible: boolean
+}
+
+export const InputWrapper = styled.div<WithVisible>`
+  ${({ visible }) => css`
+    opacity: ${visible ? 1 : 0};
+    pointer-events: ${visible ? 'inherit' : 'none'};
+    transition: 0.2s;
+  `}
+`
+export const SuccessWrapper = styled.div<WithVisible>`
+  ${({ visible }) => css`
+    opacity: ${visible ? 1 : 0};
+    pointer-events: ${visible ? 'inherit' : 'none'};
+    transition: 0.2s;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `}
 `
 
 export const Socials = styled.div`
