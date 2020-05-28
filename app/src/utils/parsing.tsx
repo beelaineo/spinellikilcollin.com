@@ -40,14 +40,15 @@ const transform: TransformFunction = (node, index) => {
         case 'p':
         case 'span':
           if (node.parent) {
+            console.log(styles)
             return (
-              <Span key={index} style={styles} weight={3}>
+              <Span key={index} style={styles}>
                 {node.children.map(transform)}
               </Span>
             )
           }
           return (
-            <P key={index} style={styles} weight={3}>
+            <P key={index} style={styles} weight={2}>
               {node.children.map(transform)}
             </P>
           )

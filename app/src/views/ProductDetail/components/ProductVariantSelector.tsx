@@ -46,15 +46,14 @@ export const ProductVariantSelector = (props: Props) => {
       {options && options.length
         ? options.map((option) =>
             option ? (
-              <OptionWrapper>
+              <OptionWrapper key={option._key || 'some-key'}>
                 <ProductOptionSelector
                   changeValueForOption={changeValueForOption}
                   variants={variants}
                   currentVariant={currentVariant}
-                  key={option._key || 'some-key'}
                   option={option}
                 />
-                {productType === 'Ring' ? (
+                {productType === 'Ring' && option.name === 'Size' ? (
                   <RingSizerButton product={product} />
                 ) : null}
               </OptionWrapper>

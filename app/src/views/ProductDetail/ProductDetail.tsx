@@ -2,7 +2,7 @@ import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
-import { parseHTML, definitely } from '../../utils'
+import { parseHTML, definitely, getSelectedOptionValues } from '../../utils'
 import { Column, PageWrapper } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import {
@@ -56,6 +56,13 @@ export const ProductDetail = ({ product }: Props) => {
 
   /* get product image variants from Shopify */
   const description = parseHTML(product?.sourceData?.descriptionHtml)
+  const selectedOptions = getSelectedOptionValues(product, currentVariant)
+
+  const optionDescriptions = definitely(
+    selectedOptions.map(({ _key, descriptionRaw }) =>
+      descriptionRaw ? { _key, descriptionRaw } : null,
+    ),
+  )
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     // TODO: Move this over to use-shopify
@@ -137,8 +144,18 @@ export const ProductDetail = ({ product }: Props) => {
                 currentVariant={currentVariant}
               />
               <ProductAccordionsWrapper>
-                {description ? (
-                  <Accordion label="Description">{description}</Accordion>
+                {description || optionDescriptions.length ? (
+                  <Accordion label="Description">
+                    {description ? description : null}
+                    {optionDescriptions.length
+                      ? optionDescriptions.map((description) => (
+                          <RichText
+                            key={description._key || 'some-key'}
+                            body={description.descriptionRaw}
+                          />
+                        ))
+                      : null}
+                  </Accordion>
                 ) : null}
                 {accordions
                   ? accordions.map((a) =>
