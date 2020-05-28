@@ -40,6 +40,14 @@ if (ENV === 'production' || ENV === 'staging' || FORCE) {
       }),
     ],
   })
+  Sentry.configureScope((scope) => {
+    scope.addEventProcessor((event) => {
+      debug('Captured exception:')
+      debug('Event ID:', event.event_id)
+      if (event.message) debug('Message:', event.message)
+      return event
+    })
+  })
 } else {
   debug('Mocking local sentry')
   const noop = () => {}
