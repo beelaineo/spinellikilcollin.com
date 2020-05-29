@@ -8,17 +8,29 @@ import {
 } from '../types'
 import { definitely } from '../utils'
 
+export const isValidSwatchOption = (option: ShopifyProductOption): boolean =>
+  definitely(option.values).every(({ swatch }) =>
+    Boolean(swatch && swatch.asset),
+  )
+
 export const getSwatchOptions = (
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>,
 ): ShopifyProductOption[] =>
-  definitely(options).filter(({ values }) =>
-    definitely(values).every(({ swatch }) => Boolean(swatch && swatch.asset)),
-  )
+  definitely(options).filter((option) => isValidSwatchOption(option))
 
 export const getSwatchImages = ({ values }: ShopifyProductOption): Image[] =>
   definitely(values)
     .map(({ swatch }) => swatch)
     .reduce<Image[]>((acc, o) => (o ? [...acc, o] : acc), [])
+
+export const optionMatchesVariant = (
+  optionName: string,
+  option: ShopifyProductOptionValue,
+  variant: ShopifyProductVariant,
+): boolean =>
+  definitely(variant?.sourceData?.selectedOptions).some(
+    (vso) => optionName === vso.name && option.value === vso.value,
+  )
 
 export const getSelectedOptionValues = (
   product: ShopifyProduct,
@@ -31,9 +43,7 @@ export const getSelectedOptionValues = (
     ShopifyProductOptionValue[]
   >((acc, currentOption) => {
     const currentOptionValues = definitely(currentOption?.values).filter((co) =>
-      definitely(variantSelectedOptions).some(
-        (vso) => currentOption.name === vso.name && co.value === vso.value,
-      ),
+      optionMatchesVariant(currentOption?.name || 'foo', co, variant),
     )
     return [...acc, ...currentOptionValues]
   }, [])

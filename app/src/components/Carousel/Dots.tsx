@@ -13,7 +13,7 @@ interface WithActive {
 
 const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 2 0;
 `
 

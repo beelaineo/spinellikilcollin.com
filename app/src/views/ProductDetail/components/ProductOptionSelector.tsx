@@ -1,10 +1,18 @@
-import React, { SyntheticEvent } from 'react'
+import React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import { ShopifyProductOption, ShopifyProductVariant } from '../../../types'
+import {
+  ShopifyProductOption,
+  ShopifyProductVariant,
+  ShopifyProductOptionValue,
+} from '../../../types'
 import { Heading } from '../../../components/Text'
 import { Form, Field } from '../../../components/Forms'
-import { ColorSelector } from './ColorSelector'
-import { definitely } from '../../../utils'
+import { OptionSwatches } from '../../../components/Product/ProductSwatches'
+import {
+  optionMatchesVariant,
+  isValidSwatchOption,
+  definitely,
+} from '../../../utils'
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
@@ -13,10 +21,10 @@ interface ProductOptionSelectorProps {
   changeValueForOption: (optionId: string) => (value: string) => void
 }
 
-const Wrapper = styled.div`
-  & + & {
-    margin-top: 5;
-  }
+const Wrapper = styled.div``
+
+const SwatchesWrapper = styled.div`
+  display: flex;
 `
 
 const SelectWrapper = styled.div`
@@ -33,6 +41,7 @@ const SelectWrapper = styled.div`
 export const ProductOptionSelector = ({
   option,
   changeValueForOption,
+  currentVariant,
 }: ProductOptionSelectorProps) => {
   if (!option || !option.name || !option.shopifyOptionId || !option.values) {
     console.warn('Missing option config', option)
@@ -44,6 +53,14 @@ export const ProductOptionSelector = ({
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
     selectOption(value)
+  }
+
+  const handleSwatchClick = ({ value }: ShopifyProductOptionValue) => () => {
+    if (value) selectOption(value)
+  }
+
+  const isSwatchActive = (value: ShopifyProductOptionValue): boolean => {
+    return optionMatchesVariant(option.name || 'foo', value, currentVariant)
   }
 
   const handleSubmit = (values: any) => {
@@ -67,10 +84,16 @@ export const ProductOptionSelector = ({
       <Heading level={4} mb={2}>
         {option.name}
       </Heading>
-      {option.name.toLowerCase() === 'color' ? (
-        <ColorSelector selectOption={selectOption} option={option} />
-      ) : (
-        <SelectWrapper>
+      <SelectWrapper>
+        {isValidSwatchOption(option) ? (
+          <SwatchesWrapper>
+            <OptionSwatches
+              onSwatchClick={handleSwatchClick}
+              isSwatchActive={isSwatchActive}
+              option={option}
+            />
+          </SwatchesWrapper>
+        ) : (
           <Form onSubmit={handleSubmit} initialValues={{}}>
             <Field
               type="select"
@@ -79,8 +102,8 @@ export const ProductOptionSelector = ({
               options={options}
             />
           </Form>
-        </SelectWrapper>
-      )}
+        )}
+      </SelectWrapper>
     </Wrapper>
   )
 }

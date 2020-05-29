@@ -25,7 +25,6 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     alert('TODO')
-    console.log(e.target.value)
   }
 
   if (!variant) throw new Error('no variant how?')

@@ -40,7 +40,6 @@ const transform: TransformFunction = (node, index) => {
         case 'p':
         case 'span':
           if (node.parent) {
-            console.log(styles)
             return (
               <Span key={index} style={styles}>
                 {node.children.map(transform)}

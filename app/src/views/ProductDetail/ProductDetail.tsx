@@ -123,7 +123,6 @@ export const ProductDetail = ({ product }: Props) => {
           <ProductDetails>
             <ProductImagesWrapper>
               <ProductImages
-                selectVariant={selectVariant}
                 currentVariant={currentVariant}
                 product={product}
               />

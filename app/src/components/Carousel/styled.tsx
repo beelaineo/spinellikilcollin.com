@@ -41,9 +41,6 @@ export const SlideContainer = styled.div`
   ${({ theme, columnCount }: WithColumnCount) => css`
     height: 100%;
     text-align: center;
-    width: calc(
-      (100% - (${theme.space[5]}px * ${columnCount - 1})) / ${columnCount}
-    );
     margin-right: 5;
     display: inline-flex;
     vertical-align: top;

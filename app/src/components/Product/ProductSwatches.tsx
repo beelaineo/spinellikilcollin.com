@@ -1,34 +1,61 @@
 import * as React from 'react'
 import { Image } from '../../components/Image'
-import { Heading } from '../../components/Text'
-import { ShopifyProduct } from '../../types'
+import {
+  ShopifyProduct,
+  ShopifyProductOption,
+  ShopifyProductOptionValue,
+} from '../../types'
 import { getSwatchOptions, definitely } from '../../utils'
-import { SwatchesWrapper, SwatchLabel, SwatchWrapper } from './styled'
+import { SwatchesWrapper, SwatchWrapper } from './styled'
+
+interface OptionSwatchesProps {
+  option: ShopifyProductOption
+  onSwatchClick?: (value: ShopifyProductOptionValue) => () => void
+  isSwatchActive?: (value: ShopifyProductOptionValue) => boolean
+}
+
+const noop = () => undefined
+
+export const OptionSwatches = ({
+  option,
+  onSwatchClick,
+  isSwatchActive,
+}: OptionSwatchesProps) => (
+  <SwatchesWrapper>
+    {definitely(option.values).map((value) => (
+      <SwatchWrapper
+        key={value._key || 'some-type'}
+        as={onSwatchClick ? 'button' : undefined}
+        clickable={Boolean(onSwatchClick)}
+        onClick={onSwatchClick ? onSwatchClick(value) : noop}
+        active={isSwatchActive ? isSwatchActive(value) : false}
+      >
+        <Image image={value.swatch} ratio={1} sizes="40px" />
+      </SwatchWrapper>
+    ))}
+  </SwatchesWrapper>
+)
 
 interface ProductSwatchesProps {
   product: ShopifyProduct
+  onSwatchClick?: (value: ShopifyProductOptionValue) => () => void
 }
 
-export const ProductSwatches = ({ product }: ProductSwatchesProps) => {
+export const ProductSwatches = ({
+  product,
+  onSwatchClick,
+}: ProductSwatchesProps) => {
   const swatchOptions = getSwatchOptions(product.options)
   if (!swatchOptions.length) return null
-  const option = swatchOptions[0]
-  if (!option) return null
-
   return (
-    <SwatchesWrapper>
-      {definitely(option.values).map((value) => (
-        <SwatchWrapper key={value._key || 'some-type'}>
-          <Image image={value.swatch} ratio={1} sizes="40px" />
-          {value.value ? (
-            <SwatchLabel>
-              <Heading level={5} weight={2}>
-                {value.value}
-              </Heading>
-            </SwatchLabel>
-          ) : null}
-        </SwatchWrapper>
+    <>
+      {swatchOptions.map((option) => (
+        <OptionSwatches
+          option={option}
+          key={option._key || 'some-key'}
+          onSwatchClick={onSwatchClick}
+        />
       ))}
-    </SwatchesWrapper>
+    </>
   )
 }

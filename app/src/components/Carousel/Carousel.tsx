@@ -80,16 +80,22 @@ export const CarouselInner = ({
     }
   }, [outerRef.current, viewportWidth])
 
-  // useEffect(() => {
-  //   setCurrentSlide(currentSlide || 0)
-  // }, [viewportWidth])
-  //
   const addSlide = useMemo(
     () => (newSlide: SlideInfo) => {
-      setSlides((prevSlides) => [...prevSlides, newSlide])
+      setSlides((prevSlides) =>
+        [...prevSlides, newSlide].sort((a, b) => a.index - b.index),
+      )
     },
     [],
   )
+
+  const removeSlide = (index: number) => {
+    setSlides((prevSlides) =>
+      [...prevSlides.slice(0, index), ...prevSlides.slice(index + 1)].sort(
+        (a, b) => a.index - b.index,
+      ),
+    )
+  }
 
   const handleSwipe = (e: EventData) => {
     const { dir } = e
@@ -120,6 +126,7 @@ export const CarouselInner = ({
           {React.Children.map(children, (child, index) => (
             <Slide
               addSlide={addSlide}
+              removeSlide={removeSlide}
               columnCount={columnCount}
               index={index}
               key={index}

@@ -37,7 +37,7 @@ const getKey = (image: ShopifySourceImage | RichImage): string => {
     case 'ShopifySourceImage':
       return image.id || 'some-key'
     case 'RichImage':
-      return image._key || 'some-key'
+      return image?.asset?._id || 'some-key'
     default:
       // @ts-ignore
       throw new Error(`Could not get key for image type ${image.__typename}`)

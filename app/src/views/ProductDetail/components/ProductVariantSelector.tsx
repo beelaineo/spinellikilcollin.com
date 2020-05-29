@@ -4,11 +4,16 @@ import { Box } from '@xstyled/styled-components'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
 import { RingSizerButton } from './RingSizerButton'
+import { definitely } from '../../../utils'
 
 const OptionWrapper = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   display: flex;
+
+  & + & {
+    margin-top: 3;
+  }
 
   & > *:nth-child(1),
   & > *:nth-child(2) {
@@ -43,23 +48,19 @@ export const ProductVariantSelector = (props: Props) => {
 
   return (
     <Box mt={6} mb={3}>
-      {options && options.length
-        ? options.map((option) =>
-            option ? (
-              <OptionWrapper key={option._key || 'some-key'}>
-                <ProductOptionSelector
-                  changeValueForOption={changeValueForOption}
-                  variants={variants}
-                  currentVariant={currentVariant}
-                  option={option}
-                />
-                {productType === 'Ring' && option.name === 'Size' ? (
-                  <RingSizerButton product={product} />
-                ) : null}
-              </OptionWrapper>
-            ) : null,
-          )
-        : null}
+      {definitely(options).map((option) => (
+        <OptionWrapper key={option._key || 'some-key'}>
+          <ProductOptionSelector
+            changeValueForOption={changeValueForOption}
+            variants={variants}
+            currentVariant={currentVariant}
+            option={option}
+          />
+          {productType === 'Ring' && option.name === 'Size' ? (
+            <RingSizerButton product={product} />
+          ) : null}
+        </OptionWrapper>
+      ))}
     </Box>
   )
 }

@@ -79,14 +79,25 @@ export const SwatchLabel = styled.div`
   opacity: 0;
 `
 
-export const SwatchWrapper = styled.div`
-  position: relative;
-  width: 25px;
-  margin: 0 4px;
+interface WithClickable {
+  clickable: boolean
+  active: boolean
+}
 
-  &:hover {
-    ${SwatchLabel} {
-      opacity: 1;
+export const SwatchWrapper = styled.div<WithClickable>`
+  ${({ clickable, active }) => css`
+    position: relative;
+    width: 25px;
+    margin: 0 4px;
+    padding-bottom: 2;
+    cursor: ${clickable ? 'pointer' : 'auto'};
+    border-bottom: ${active ? '2px solid' : 'none'};
+    border-color: body.5;
+
+    &:hover {
+      ${SwatchLabel} {
+        opacity: 1;
+      }
     }
-  }
+  `}
 `
