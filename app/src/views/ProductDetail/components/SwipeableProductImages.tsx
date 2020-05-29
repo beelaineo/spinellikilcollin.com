@@ -8,6 +8,7 @@ import {
 } from '../../../components/Carousel'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Image } from '../../../components/Image'
+import { definitely } from '../../../utils'
 
 const { useEffect } = React
 
@@ -18,13 +19,8 @@ interface SwipeableProductImagesProps {
 }
 
 const Wrapper = styled.div`
-  ${({ theme }) => css`
-    display: none;
-    position: relative;
-    ${theme.mediaQueries.tablet} {
-      display: block;
-    }
-  `}
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 `
 
 const GalleryPadding = styled.div`
@@ -63,35 +59,42 @@ const SwipeableProductImagesMain = ({
 
   if (!variantImages || !variantImages.length) return null
 
+  const variantImage = currentVariant?.sourceData?.image ?? null
+  const productImages = definitely(product?.gallery)
+  const images = definitely([variantImage, ...productImages])
+
   return (
-    <CarouselInner columnCount={1}>
-      {variantImages.map((image) =>
-        image ? (
-          <Image key={image.id || 'some-key'} ratio={0.8} image={image} />
-        ) : null,
+    <CarouselInner columnCount={4}>
+      {images.map((image) =>
+        image ? <Image key={'some-key'} ratio={0.8} image={image} /> : null,
       )}
     </CarouselInner>
   )
 }
 
-export const SwipeableProductImages = (props: SwipeableProductImagesProps) => {
-  const onSlideChange = (slide: number | null) => {
-    if (!slide) return
-    const variantEdges = props.product?.sourceData?.variants || null
-    // @ts-ignore
-    const [variants] = variantEdges ? unwindEdges(variantEdges) : []
-    if (!variants) return null
-    const newVariant = variants[slide]
-    if (newVariant.id) props.selectVariant(newVariant.id)
-  }
+export const SwipeableProductImages = ({
+  product,
+  currentVariant,
+}: SwipeableProductImagesProps) => {
+  // const onSlideChange = (slide: number | null) => {
+  //   if (!slide) return
+  //   const variantEdges = product?.sourceData?.variants || null
+  //   // @ts-ignore
+  //   const [variants] = variantEdges ? unwindEdges(variantEdges) : []
+  //   if (!variants) return null
+  //   const newVariant = variants[slide]
+  //   if (newVariant.id) selectVariant(newVariant.id)
+  // }
+  //
+  const variantImage = currentVariant?.sourceData?.image ?? null
+  const productImages = definitely(product?.gallery)
+  const images = definitely([variantImage, ...productImages])
+
   return (
     <Wrapper>
-      <GalleryPadding />
-      <CarouselWrapper>
-        <CarouselProvider onSlideChange={onSlideChange}>
-          <SwipeableProductImagesMain {...props} />
-        </CarouselProvider>
-      </CarouselWrapper>
+      {images.map((image) => (
+        <Image key="some-key" ratio={1} image={image} sizes="120px" />
+      ))}
     </Wrapper>
   )
 }

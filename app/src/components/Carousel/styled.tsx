@@ -34,7 +34,7 @@ export const SlidesContainer = styled.div`
 
 interface WithColumnCount {
   theme: DefaultTheme
-  columnCount: number
+  columnCount?: number
 }
 
 export const SlideContainer = styled.div`
@@ -52,12 +52,22 @@ export const SlideContainer = styled.div`
       margin-right: 0;
     }
 
-    ${theme.mediaQueries.tablet} {
-      width: calc((100% - (${theme.space[4]}px * 2)) / 3);
-    }
-    ${theme.mediaQueries.mobile} {
-      width: calc((100% - (${theme.space[4]}px * 1)) / 2);
-    }
+    ${columnCount
+      ? css`
+          width: calc(
+            (100% - (${theme.space[5]}px * ${columnCount - 1})) / ${columnCount}
+          );
+        `
+      : css`
+          width: calc((100% - (${theme.space[5]}px * 3)) / 4);
+
+          ${theme.mediaQueries.tablet} {
+            width: calc((100% - (${theme.space[4]}px * 2)) / 3);
+          }
+          ${theme.mediaQueries.mobile} {
+            width: calc((100% - (${theme.space[4]}px * 1)) / 2);
+          }
+        `}
   `}
 `
 

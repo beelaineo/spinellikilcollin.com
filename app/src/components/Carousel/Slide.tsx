@@ -10,7 +10,7 @@ export interface SlideInfo {
 export interface SlideProps {
   index: number
   children: React.ReactNode
-  columnCount: number
+  columnCount?: number
   addSlide: (slide: SlideInfo) => void
 }
 

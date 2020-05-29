@@ -14,8 +14,6 @@ export const ProductDetails = styled.div`
     grid-template-columns: 65% 1fr;
     grid-template-rows: auto auto 1fr;
     grid-column-gap: 5;
-    margin: 0 5;
-    padding: 7 6;
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr;
       padding: 0 0 7;
@@ -88,6 +86,33 @@ export const Nav = styled.div`
 export const ProductGalleryWrapper = styled.div`
   position: sticky;
   top: 0;
+`
+
+export const Thumbnails = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 2;
+  margin-top: 3;
+`
+
+export const DesktopWrapper = styled.div`
+  ${({ theme }) => css`
+    ${theme.mediaQueries.tablet} {
+      display: none;
+    }
+  `}
+`
+export const MobileWrapper = styled.div`
+  ${({ theme }) => css`
+    display: none;
+    ${theme.mediaQueries.tablet} {
+      display: block;
+    }
+  `}
+`
+
+export const ThumbnailButton = styled.div`
+  cursor: pointer;
 `
 
 export const ProductGalleryImage = styled.div``

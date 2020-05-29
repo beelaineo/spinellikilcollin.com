@@ -7,6 +7,7 @@ import {
   CarouselMask,
 } from './styled'
 import { Slide, SlideInfo } from './Slide'
+import { Dots } from './Dots'
 import { useViewportSize } from '../../utils'
 
 const { useState, useEffect, useMemo, useRef } = React
@@ -30,18 +31,22 @@ export const useCarousel = () => {
 interface CarouselProps {
   children: React.ReactNode
   columnCount?: number
+  buttons?: boolean
+  dots?: boolean
 }
 
 export const CarouselInner = ({
   children,
-  columnCount: customColumnCount,
+  columnCount,
+  dots,
+  buttons: customButtons,
 }: CarouselProps) => {
-  const columnCount = customColumnCount || 4
   const { currentSlide, setCurrentSlide } = useCarousel()
   const { width: viewportWidth } = useViewportSize()
   const [hasOverflow, setHasOverflow] = useState(false)
   const [slides, setSlides] = useState<SlideInfo[]>([])
   const outerRef = useRef<HTMLDivElement>(null)
+  const buttons = customButtons !== undefined ? customButtons : true
 
   const goNext = () => {
     if (currentSlide === null || currentSlide === slides.length - 1) return
@@ -55,7 +60,7 @@ export const CarouselInner = ({
 
   const isAtFirst = currentSlide === 0
   const isAtLast = Boolean(
-    currentSlide && currentSlide + columnCount >= slides.length,
+    currentSlide && currentSlide + (columnCount || 4) >= slides.length,
   )
 
   useEffect(() => {
@@ -99,7 +104,7 @@ export const CarouselInner = ({
 
   return (
     <CarouselContainer ref={outerRef}>
-      {children ? (
+      {children && buttons ? (
         <CarouselButton
           visible={hasOverflow && !isAtFirst}
           aria-label="previous slide"
@@ -124,13 +129,16 @@ export const CarouselInner = ({
           ))}
         </SlidesContainer>
       </CarouselMask>
-      {children ? (
+      {children && buttons ? (
         <CarouselButton
           visible={hasOverflow && !isAtLast}
           direction="next"
           aria-label="next slide"
           onClick={goNext}
         />
+      ) : null}
+      {dots && currentSlide !== null ? (
+        <Dots currentSlide={currentSlide} totalSlides={slides.length} />
       ) : null}
     </CarouselContainer>
   )
@@ -168,10 +176,17 @@ export const CarouselProvider = ({
   )
 }
 
-export const Carousel = ({ children, columnCount }: CarouselProps) => {
+export const Carousel = ({
+  buttons,
+  children,
+  columnCount,
+  dots,
+}: CarouselProps) => {
   return (
     <CarouselProvider>
-      <CarouselInner columnCount={columnCount}>{children}</CarouselInner>
+      <CarouselInner buttons={buttons} dots={dots} columnCount={columnCount}>
+        {children}
+      </CarouselInner>
     </CarouselProvider>
   )
 }

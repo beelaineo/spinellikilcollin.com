@@ -1,19 +1,27 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
 import styled, { css } from '@xstyled/styled-components'
 import {
+  ShopifySourceImage,
+  RichImage,
   ShopifyProductVariant,
   ShopifyProduct,
-  ShopifySourceImage,
 } from '../../../types'
 import { Image } from '../../../components/Image'
-import { ProductGalleryWrapper } from '../styled'
-import { SwipeableProductImages } from './SwipeableProductImages'
+import { Carousel } from '../../../components/Carousel'
+import {
+  ProductGalleryWrapper,
+  Thumbnails,
+  ThumbnailButton,
+  MobileWrapper,
+  DesktopWrapper,
+} from '../styled'
+import { definitely } from '../../../utils'
+
+const { useState } = React
 
 interface ProductImagesProps {
   product: ShopifyProduct
   currentVariant: ShopifyProductVariant
-  selectVariant: (variantId: string) => void
 }
 
 const MainImage = styled.div`
@@ -24,25 +32,56 @@ const MainImage = styled.div`
   `}
 `
 
+const getKey = (image: ShopifySourceImage | RichImage): string => {
+  switch (image.__typename) {
+    case 'ShopifySourceImage':
+      return image.id || 'some-key'
+    case 'RichImage':
+      return image._key || 'some-key'
+    default:
+      // @ts-ignore
+      throw new Error(`Could not get key for image type ${image.__typename}`)
+  }
+}
+
 export const ProductImages = ({
   product,
   currentVariant,
-  selectVariant,
 }: ProductImagesProps) => {
-  const [images] = unwindEdges<ShopifySourceImage>(product?.sourceData?.images)
-  if (!images.length) return null
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-  const mainImage = currentVariant?.sourceData?.image || images[0]
+  const variantImage = currentVariant?.sourceData?.image ?? null
+  const productImages = definitely(product?.gallery)
+  const images = definitely([variantImage, ...productImages])
+
+  const changeMainImage = (index: number) => () => setCurrentImageIndex(index)
+
+  if (!images.length) return null
+  const mainImage = images[currentImageIndex]
   return (
     <ProductGalleryWrapper>
-      <MainImage>
-        <Image ratio={0.8} image={mainImage} />
-      </MainImage>
-      <SwipeableProductImages
-        selectVariant={selectVariant}
-        product={product}
-        currentVariant={currentVariant}
-      />
+      <DesktopWrapper>
+        <MainImage>
+          <Image ratio={0.8} image={mainImage} />
+        </MainImage>
+        <Thumbnails>
+          {images.map((image, index) => (
+            <ThumbnailButton
+              onClick={changeMainImage(index)}
+              key={getKey(image)}
+            >
+              <Image key="some-key" ratio={1} image={image} sizes="120px" />
+            </ThumbnailButton>
+          ))}
+        </Thumbnails>
+      </DesktopWrapper>
+      <MobileWrapper>
+        <Carousel dots buttons={false} columnCount={1}>
+          {images.map((image) => (
+            <Image key={getKey(image)} ratio={1} image={image} sizes="90vw" />
+          ))}
+        </Carousel>
+      </MobileWrapper>
     </ProductGalleryWrapper>
   )
 }
