@@ -38,12 +38,12 @@ export const imageTextBlock = {
     },
     {
       name: 'textPosition',
-      title: 'Text Position',
+      title: 'text position',
       type: 'position',
     },
     {
       name: 'textColor',
-      title: 'Text Color',
+      title: 'text color',
       type: 'colorPicker',
     },
     {
