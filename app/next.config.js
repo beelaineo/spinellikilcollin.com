@@ -1,21 +1,15 @@
 const dotEnv = require('dotenv')
-const withBundleAnalyzer = require('@next/bundle-analyzer')
+const bundleAnalyzer = require('@next/bundle-analyzer')
 dotEnv.config()
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+})
 
 module.exports = withBundleAnalyzer({
   env: {
     SANITY_PROJECT_ID: process.env.SANITY_PROJECT_ID,
     SANITY_DATASET: process.env.SANITY_DATASET,
     SANITY_READ_TOKEN: process.env.SANITY_READ_TOKEN,
-  },
-  typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has type errors.
-    //
-    // This option is rarely needed, and should be reserved for advanced
-    // setups. You may be looking for `ignoreDevErrors` instead.
-    // !! WARN !!
-    // ignoreBuildErrors: true,
   },
 })

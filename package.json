@@ -5,6 +5,7 @@
 		"setup": "yarn install",
 		"test": "yarn workspace spinellikilcollin-app test",
 		"build": "yarn workspace spinellikilcollin-app build",
+		"build:analyze": "yarn workspace spinellikilcollin-app build:analyze",
 		"start:app": "yarn workspace spinellikilcollin-app start"
 	},
 	"devDependencies": {
