@@ -141,7 +141,6 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
 P.defaultProps = {
   family: 'body',
   weight: 300,
-  color: 'bodyMain',
 }
 
 interface LabelProps {

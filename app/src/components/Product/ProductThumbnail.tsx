@@ -35,7 +35,9 @@ export const ProductThumbnail = ({
           ) : null}
           <TagBadges product={product} />
           <ProductInfo>
-            <Heading level={3}>{product.title}</Heading>
+            <Heading textAlign="center" level={3}>
+              {product.title}
+            </Heading>
             {displayPrice ? (
               <>
                 {minVariantPrice &&

@@ -1153,7 +1153,7 @@ export interface ShopifyStorefrontCommentEdge {
 export enum ShopifyStorefrontCountryCode {
   /** Afghanistan. */
   Af = 'AF',
-  /** Aland Islands. */
+  /** Åland Islands. */
   Ax = 'AX',
   /** Albania. */
   Al = 'AL',
@@ -1165,7 +1165,7 @@ export enum ShopifyStorefrontCountryCode {
   Ao = 'AO',
   /** Anguilla. */
   Ai = 'AI',
-  /** Antigua And Barbuda. */
+  /** Antigua & Barbuda. */
   Ag = 'AG',
   /** Argentina. */
   Ar = 'AR',
@@ -1201,7 +1201,7 @@ export enum ShopifyStorefrontCountryCode {
   Bt = 'BT',
   /** Bolivia. */
   Bo = 'BO',
-  /** Bosnia And Herzegovina. */
+  /** Bosnia & Herzegovina. */
   Ba = 'BA',
   /** Botswana. */
   Bw = 'BW',
@@ -1245,9 +1245,9 @@ export enum ShopifyStorefrontCountryCode {
   Co = 'CO',
   /** Comoros. */
   Km = 'KM',
-  /** Congo. */
+  /** Congo - Brazzaville. */
   Cg = 'CG',
-  /** Congo, The Democratic Republic Of The. */
+  /** Congo - Kinshasa. */
   Cd = 'CD',
   /** Cook Islands. */
   Ck = 'CK',
@@ -1261,9 +1261,9 @@ export enum ShopifyStorefrontCountryCode {
   Cw = 'CW',
   /** Cyprus. */
   Cy = 'CY',
-  /** Czech Republic. */
+  /** Czechia. */
   Cz = 'CZ',
-  /** Côte d'Ivoire. */
+  /** Côte d’Ivoire. */
   Ci = 'CI',
   /** Denmark. */
   Dk = 'DK',
@@ -1289,7 +1289,7 @@ export enum ShopifyStorefrontCountryCode {
   Sz = 'SZ',
   /** Ethiopia. */
   Et = 'ET',
-  /** Falkland Islands (Malvinas). */
+  /** Falkland Islands. */
   Fk = 'FK',
   /** Faroe Islands. */
   Fo = 'FO',
@@ -1331,19 +1331,19 @@ export enum ShopifyStorefrontCountryCode {
   Gg = 'GG',
   /** Guinea. */
   Gn = 'GN',
-  /** Guinea Bissau. */
+  /** Guinea-Bissau. */
   Gw = 'GW',
   /** Guyana. */
   Gy = 'GY',
   /** Haiti. */
   Ht = 'HT',
-  /** Heard Island And Mcdonald Islands. */
+  /** Heard & McDonald Islands. */
   Hm = 'HM',
-  /** Holy See (Vatican City State). */
+  /** Vatican City. */
   Va = 'VA',
   /** Honduras. */
   Hn = 'HN',
-  /** Hong Kong. */
+  /** Hong Kong SAR China. */
   Hk = 'HK',
   /** Hungary. */
   Hu = 'HU',
@@ -1353,13 +1353,13 @@ export enum ShopifyStorefrontCountryCode {
   In = 'IN',
   /** Indonesia. */
   Id = 'ID',
-  /** Iran, Islamic Republic Of. */
+  /** Iran. */
   Ir = 'IR',
   /** Iraq. */
   Iq = 'IQ',
   /** Ireland. */
   Ie = 'IE',
-  /** Isle Of Man. */
+  /** Isle of Man. */
   Im = 'IM',
   /** Israel. */
   Il = 'IL',
@@ -1379,7 +1379,7 @@ export enum ShopifyStorefrontCountryCode {
   Ke = 'KE',
   /** Kiribati. */
   Ki = 'KI',
-  /** Korea, Democratic People's Republic Of. */
+  /** North Korea. */
   Kp = 'KP',
   /** Kosovo. */
   Xk = 'XK',
@@ -1387,7 +1387,7 @@ export enum ShopifyStorefrontCountryCode {
   Kw = 'KW',
   /** Kyrgyzstan. */
   Kg = 'KG',
-  /** Lao People's Democratic Republic. */
+  /** Laos. */
   La = 'LA',
   /** Latvia. */
   Lv = 'LV',
@@ -1397,7 +1397,7 @@ export enum ShopifyStorefrontCountryCode {
   Ls = 'LS',
   /** Liberia. */
   Lr = 'LR',
-  /** Libyan Arab Jamahiriya. */
+  /** Libya. */
   Ly = 'LY',
   /** Liechtenstein. */
   Li = 'LI',
@@ -1405,7 +1405,7 @@ export enum ShopifyStorefrontCountryCode {
   Lt = 'LT',
   /** Luxembourg. */
   Lu = 'LU',
-  /** Macao. */
+  /** Macao SAR China. */
   Mo = 'MO',
   /** Madagascar. */
   Mg = 'MG',
@@ -1429,7 +1429,7 @@ export enum ShopifyStorefrontCountryCode {
   Yt = 'YT',
   /** Mexico. */
   Mx = 'MX',
-  /** Moldova, Republic of. */
+  /** Moldova. */
   Md = 'MD',
   /** Monaco. */
   Mc = 'MC',
@@ -1443,7 +1443,7 @@ export enum ShopifyStorefrontCountryCode {
   Ma = 'MA',
   /** Mozambique. */
   Mz = 'MZ',
-  /** Myanmar. */
+  /** Myanmar (Burma). */
   Mm = 'MM',
   /** Namibia. */
   Na = 'NA',
@@ -1477,7 +1477,7 @@ export enum ShopifyStorefrontCountryCode {
   Om = 'OM',
   /** Pakistan. */
   Pk = 'PK',
-  /** Palestinian Territory, Occupied. */
+  /** Palestinian Territories. */
   Ps = 'PS',
   /** Panama. */
   Pa = 'PA',
@@ -1489,7 +1489,7 @@ export enum ShopifyStorefrontCountryCode {
   Pe = 'PE',
   /** Philippines. */
   Ph = 'PH',
-  /** Pitcairn. */
+  /** Pitcairn Islands. */
   Pn = 'PN',
   /** Poland. */
   Pl = 'PL',
@@ -1497,9 +1497,9 @@ export enum ShopifyStorefrontCountryCode {
   Pt = 'PT',
   /** Qatar. */
   Qa = 'QA',
-  /** Republic of Cameroon. */
+  /** Cameroon. */
   Cm = 'CM',
-  /** Reunion. */
+  /** Réunion. */
   Re = 'RE',
   /** Romania. */
   Ro = 'RO',
@@ -1507,23 +1507,23 @@ export enum ShopifyStorefrontCountryCode {
   Ru = 'RU',
   /** Rwanda. */
   Rw = 'RW',
-  /** Saint Barthélemy. */
+  /** St. Barthélemy. */
   Bl = 'BL',
-  /** Saint Helena. */
+  /** St. Helena. */
   Sh = 'SH',
-  /** Saint Kitts And Nevis. */
+  /** St. Kitts & Nevis. */
   Kn = 'KN',
-  /** Saint Lucia. */
+  /** St. Lucia. */
   Lc = 'LC',
-  /** Saint Martin. */
+  /** St. Martin. */
   Mf = 'MF',
-  /** Saint Pierre And Miquelon. */
+  /** St. Pierre & Miquelon. */
   Pm = 'PM',
   /** Samoa. */
   Ws = 'WS',
   /** San Marino. */
   Sm = 'SM',
-  /** Sao Tome And Principe. */
+  /** São Tomé & Príncipe. */
   St = 'ST',
   /** Saudi Arabia. */
   Sa = 'SA',
@@ -1549,7 +1549,7 @@ export enum ShopifyStorefrontCountryCode {
   So = 'SO',
   /** South Africa. */
   Za = 'ZA',
-  /** South Georgia And The South Sandwich Islands. */
+  /** South Georgia & South Sandwich Islands. */
   Gs = 'GS',
   /** South Korea. */
   Kr = 'KR',
@@ -1559,13 +1559,13 @@ export enum ShopifyStorefrontCountryCode {
   Es = 'ES',
   /** Sri Lanka. */
   Lk = 'LK',
-  /** St. Vincent. */
+  /** St. Vincent & Grenadines. */
   Vc = 'VC',
   /** Sudan. */
   Sd = 'SD',
   /** Suriname. */
   Sr = 'SR',
-  /** Svalbard And Jan Mayen. */
+  /** Svalbard & Jan Mayen. */
   Sj = 'SJ',
   /** Sweden. */
   Se = 'SE',
@@ -1577,11 +1577,11 @@ export enum ShopifyStorefrontCountryCode {
   Tw = 'TW',
   /** Tajikistan. */
   Tj = 'TJ',
-  /** Tanzania, United Republic Of. */
+  /** Tanzania. */
   Tz = 'TZ',
   /** Thailand. */
   Th = 'TH',
-  /** Timor Leste. */
+  /** Timor-Leste. */
   Tl = 'TL',
   /** Togo. */
   Tg = 'TG',
@@ -1589,7 +1589,7 @@ export enum ShopifyStorefrontCountryCode {
   Tk = 'TK',
   /** Tonga. */
   To = 'TO',
-  /** Trinidad and Tobago. */
+  /** Trinidad & Tobago. */
   Tt = 'TT',
   /** Tunisia. */
   Tn = 'TN',
@@ -1597,7 +1597,7 @@ export enum ShopifyStorefrontCountryCode {
   Tr = 'TR',
   /** Turkmenistan. */
   Tm = 'TM',
-  /** Turks and Caicos Islands. */
+  /** Turks & Caicos Islands. */
   Tc = 'TC',
   /** Tuvalu. */
   Tv = 'TV',
@@ -1611,7 +1611,7 @@ export enum ShopifyStorefrontCountryCode {
   Gb = 'GB',
   /** United States. */
   Us = 'US',
-  /** United States Minor Outlying Islands. */
+  /** U.S. Outlying Islands. */
   Um = 'UM',
   /** Uruguay. */
   Uy = 'UY',
@@ -1623,9 +1623,9 @@ export enum ShopifyStorefrontCountryCode {
   Ve = 'VE',
   /** Vietnam. */
   Vn = 'VN',
-  /** Virgin Islands, British. */
+  /** British Virgin Islands. */
   Vg = 'VG',
-  /** Wallis And Futuna. */
+  /** Wallis & Futuna. */
   Wf = 'WF',
   /** Western Sahara. */
   Eh = 'EH',

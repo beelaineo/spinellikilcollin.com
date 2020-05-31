@@ -15,6 +15,7 @@ interface CustomSerializerConfig {
   openModal: (name: ModalName) => void
   openCart: () => void
   getLinkByRef: (ref: string) => LinkInfo | null
+  weight?: number
 }
 
 const RichTextWrapper = styled.div`
@@ -29,6 +30,7 @@ const serializers = ({
   openModal,
   openCart,
   getLinkByRef,
+  weight: customWeight,
 }: CustomSerializerConfig) => ({
   list: (props) => {
     if (props.type === 'number') return <Ol {...props} />
@@ -72,6 +74,7 @@ const serializers = ({
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
     if (Wrapper) return <Wrapper {...props} />
+    const weight = customWeight ?? 4
 
     const style = props.node.style || 'normal'
     if (/image|richImage/.test(props.node._type)) {
@@ -81,17 +84,17 @@ const serializers = ({
 
     switch (style) {
       case 'h1':
-        return <Heading level={1} weight={4} {...props} />
+        return <Heading level={1} weight={weight} {...props} />
       case 'h2':
-        return <Heading level={2} weight={4} {...props} />
+        return <Heading level={2} weight={weight} {...props} />
       case 'h3':
-        return <Heading level={3} weight={4} {...props} />
+        return <Heading level={3} weight={weight} {...props} />
       case 'h4':
-        return <Heading level={4} weight={4} {...props} />
+        return <Heading level={4} weight={weight} {...props} />
       case 'h5':
-        return <Heading level={5} weight={4} {...props} />
+        return <Heading level={5} weight={weight} {...props} />
       case 'h6':
-        return <Heading level={6} weight={4} {...props} />
+        return <Heading level={6} weight={weight} {...props} />
       case 'blockquote':
         return <BlockQuote {...props} />
       case 'normal':
@@ -107,6 +110,7 @@ interface RichTextProps {
   blockWrapper?: React.ComponentType
   wrapper?: React.ComponentType
   imageSizes?: string
+  weight?: number
 }
 
 export const RichText = ({
@@ -114,6 +118,7 @@ export const RichText = ({
   blockWrapper,
   wrapper: CustomWrapper,
   imageSizes,
+  weight,
 }: RichTextProps) => {
   const { openCart } = useCart()
   const { openModal } = useModal()
@@ -129,6 +134,7 @@ export const RichText = ({
           openModal,
           getLinkByRef,
           openCart,
+          weight,
         })}
       />
     </Wrapper>

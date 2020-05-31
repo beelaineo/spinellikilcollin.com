@@ -32,16 +32,6 @@ export const ProductInfo = styled.div`
   padding: 3 0;
   text-align: center;
   text-transform: capitalize;
-  h3 {
-    text-align: left;
-    margin: 0;
-    text-transform: capitalize;
-    display: inline-block;
-  }
-  h3:nth-child(1) {
-    text-align: right;
-    padding-right: 1;
-  }
 `
 
 export const TagBadgeWrapper = styled.div`

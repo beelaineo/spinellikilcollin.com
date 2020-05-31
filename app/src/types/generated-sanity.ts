@@ -108,6 +108,41 @@ export type CarouselSorting = {
   title?: Maybe<SortOrder>
 }
 
+export interface CollectionBlock {
+  __typename: 'CollectionBlock'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  position?: Maybe<Scalars['Float']>
+  format?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+  textPosition?: Maybe<Scalars['String']>
+  textColor?: Maybe<Scalars['String']>
+  backgroundImage?: Maybe<RichImage>
+  backgroundColor?: Maybe<Scalars['String']>
+}
+
+export type CollectionBlockFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  position?: Maybe<FloatFilter>
+  format?: Maybe<StringFilter>
+  textPosition?: Maybe<StringFilter>
+  textColor?: Maybe<StringFilter>
+  backgroundImage?: Maybe<RichImageFilter>
+  backgroundColor?: Maybe<StringFilter>
+}
+
+export type CollectionBlockSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  position?: Maybe<SortOrder>
+  format?: Maybe<SortOrder>
+  textPosition?: Maybe<SortOrder>
+  textColor?: Maybe<SortOrder>
+  backgroundImage?: Maybe<RichImageSorting>
+  backgroundColor?: Maybe<SortOrder>
+}
+
 export interface Contact extends Document {
   __typename: 'Contact'
   /** Document ID */
@@ -1776,6 +1811,7 @@ export interface ShopifyCollection extends Document {
   sourceData?: Maybe<ShopifySourceCollection>
   products?: Maybe<Array<Maybe<ShopifyProduct>>>
   hero?: Maybe<Hero>
+  collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
   customFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
 }
 

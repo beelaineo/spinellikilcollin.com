@@ -62,9 +62,10 @@ export const ProductGrid = styled.div`
     display: grid;
     grid-template-columns: 32% 32% 32%;
     justify-content: space-evenly;
-    grid-column-gap: 6;
-    grid-row-gap: 6;
+    grid-gap: 4;
     padding: 6;
+    grid-auto-rows: min-content;
+    grid-auto-flow: row dense;
     > a {
       text-decoration: none;
     }
@@ -75,6 +76,48 @@ export const ProductGrid = styled.div`
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 1fr;
       padding: 3;
+    }
+  `}
+`
+
+interface WithFormat {
+  format?: string | null
+}
+
+export const ProductGridItem = styled.div<WithFormat>`
+  ${({ theme, format }) => css`
+    grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
+    grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
+    position: relative;
+    &::before {
+      content: '';
+      display: inline-block;
+      width: 1px;
+      height: 0;
+      padding-bottom: ${format === 'wide'
+        ? '50%'
+        : format === 'tall'
+        ? '200%'
+        : 'auto'};
+    }
+
+    & > * {
+      position: ${format === 'tall' || format === 'wide'
+        ? 'absolute'
+        : 'relative'};
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
+      grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
+    }
+    ${theme.mediaQueries.mobile} {
+      grid-column: ${format === 'wide' ? 'span 1' : 'auto'};
+      grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     }
   `}
 `
@@ -95,4 +138,3 @@ export const BackgroundImage = styled.div`
     }
   `}
 `
-

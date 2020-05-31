@@ -47,6 +47,8 @@ interface ImageProps {
   onLoad?: () => void
 }
 
+export const ImageWrapper = Wrapper
+
 export const Image = ({
   image,
   sizes: customSizes,

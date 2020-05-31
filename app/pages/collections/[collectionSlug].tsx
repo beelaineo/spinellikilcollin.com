@@ -5,6 +5,7 @@ import { NotFound, ProductListing } from '../../src/views'
 import {
   shopifySourceImageFragment,
   sanityImageFragment,
+  richImageFragment,
   heroFragment,
 } from '../../src/graphql'
 import { PageContext } from '../_app'
@@ -23,9 +24,20 @@ const collectionQuery = gql`
       hero {
         ...HeroFragment
       }
+      collectionBlocks {
+        _key
+        format
+        bodyRaw
+        position
+        textColor
+        backgroundColor
+        backgroundImage {
+          ...RichImageFragment
+        }
+      }
     }
   }
-
+  ${richImageFragment}
   ${heroFragment}
 `
 
