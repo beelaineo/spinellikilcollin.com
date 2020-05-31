@@ -9,7 +9,6 @@ import {
   shopifySourceProductVariantFragment,
   sanityImageFragment,
   richImageFragment,
-  shopifyCollectionFragment,
   shopifySourceProductFragment,
   shopifySourceImageFragment,
 } from '../../src/graphql'
@@ -86,7 +85,6 @@ const productQuery = gql`
   ${shopifySourceProductFragment}
   ${shopifySourceProductVariantFragment}
   ${shopifySourceImageFragment}
-  ${shopifyCollectionFragment}
   ${sanityImageFragment}
   ${richImageFragment}
   ${productInfoFragment}

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import fetch from 'isomorphic-unfetch'
+import { ApolloProvider } from '@apollo/client'
 import { ThemeProvider } from '@xstyled/styled-components'
 import { ShopifyProvider } from 'use-shopify'
 import { DocumentNode } from 'graphql'
@@ -8,6 +9,7 @@ import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
+import { createApolloClient } from '../graphql'
 
 /**
  * App
@@ -52,17 +54,21 @@ async function shopifyQuery<Response>(
   return result
 }
 
+const client = createApolloClient()
+
 export const Providers = ({ children }: Props) => {
   return (
-    <ShopifyProvider query={shopifyQuery}>
-      <ShopDataProvider>
-        <CartProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyles />
-            <ModalProvider>{children}</ModalProvider>
-          </ThemeProvider>
-        </CartProvider>
-      </ShopDataProvider>
-    </ShopifyProvider>
+    <ApolloProvider client={client}>
+      <ShopifyProvider query={shopifyQuery}>
+        <ShopDataProvider>
+          <CartProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyles />
+              <ModalProvider>{children}</ModalProvider>
+            </ThemeProvider>
+          </CartProvider>
+        </ShopDataProvider>
+      </ShopifyProvider>
+    </ApolloProvider>
   )
 }

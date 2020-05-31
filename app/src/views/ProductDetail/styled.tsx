@@ -46,6 +46,7 @@ export const ProductInfoWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: column;
+    margin-top: 6;
 
     ${theme.mediaQueries.tablet} {
       margin: 0 auto;

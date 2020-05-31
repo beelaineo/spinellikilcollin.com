@@ -58,6 +58,7 @@
 		"utility-types": "^3.10.0"
 	},
 	"dependencies": {
+		"@apollo/client": "^3.0.0-beta.50",
 		"@apollo/react-hooks": "^3.1.5",
 		"@apollo/react-ssr": "^3.1.5",
 		"@good-idea/unwind-edges": "^1.4.0",

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { SHOP_DATA_QUERY, ShopDataResponse } from './shopDataQuery'
 import {
   Menu,

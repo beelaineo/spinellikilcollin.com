@@ -52,16 +52,19 @@ export const internalLinkFragment = gql`
     _type
     document {
       ... on Contact {
+        _id
         _type
         _key
         title
       }
       ... on Customize {
+        _id
         _type
         _key
         title
       }
       ... on JournalEntry {
+        _id
         _type
         _key
         title
@@ -70,18 +73,21 @@ export const internalLinkFragment = gql`
         }
       }
       ... on JournalPage {
+        _id
         _type
         _key
         title
       }
 
       ... on Magazine {
+        _id
         _type
         _key
         title
       }
 
       ... on Page {
+        _id
         _type
         _key
         title
@@ -90,12 +96,14 @@ export const internalLinkFragment = gql`
         }
       }
       ... on ShopifyProduct {
+        _id
         _key
         _type
         title
         handle
       }
       ... on ShopifyCollection {
+        _id
         _key
         _type
         title
@@ -270,13 +278,18 @@ export const carouselFragment = gql`
     title
     subtitleRaw
     collection {
-      ...ShopifyCollectionFragment
+      _id
+      _type
+      _key
+      title
+      handle
+      archived
+      shopifyId
     }
     items {
       ...RichPageLinkFragment
     }
   }
-  ${shopifyCollectionFragment}
   ${richPageLinkFragment}
 `
 

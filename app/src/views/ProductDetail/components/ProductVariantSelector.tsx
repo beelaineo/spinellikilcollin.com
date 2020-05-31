@@ -44,11 +44,12 @@ export const ProductVariantSelector = (props: Props) => {
   if (!variants || !variants.length) return null
   const productType = product?.sourceData?.productType
 
-  const { options } = product
+  const options = definitely(product.options)
+  if (options.length < 2) return null
 
   return (
-    <Box mt={6} mb={3}>
-      {definitely(options).map((option) => (
+    <Box mb={3}>
+      {options.map((option) => (
         <OptionWrapper key={option._key || 'some-key'}>
           <ProductOptionSelector
             changeValueForOption={changeValueForOption}

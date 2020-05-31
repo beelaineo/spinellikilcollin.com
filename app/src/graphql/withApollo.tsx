@@ -2,27 +2,37 @@ import React from 'react'
 import App from 'next/app'
 import Head from 'next/head'
 import { ApolloProvider } from '@apollo/react-hooks'
-import { ApolloClient } from 'apollo-client'
-import {
-  InMemoryCache,
-  IntrospectionFragmentMatcher,
-} from 'apollo-cache-inmemory'
-import { HttpLink } from 'apollo-link-http'
+import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client'
 import fetch from 'isomorphic-unfetch'
 import { SANITY_GRAPHQL_URL } from '../config'
-import introspectionQueryResultData from '../../fragmentTypes-sanity.json'
 
 let globalApolloClient = null
-
-const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData,
-})
-
 /**
  * Creates and configures the ApolloClient
  * @param  {Object} [initialState={}]
  */
-const createApolloClient = (initialState = {}) => {
+
+const typePolicies = {
+  About: { keyFields: ['_id'] },
+  Contact: { keyFields: ['_id'] },
+  Customize: { keyFields: ['_id'] },
+  Homepage: { keyFields: ['_id'] },
+  JournalEntry: { keyFields: ['_id'] },
+  JournalPage: { keyFields: ['_id'] },
+  Magazine: { keyFields: ['_id'] },
+  Menu: { keyFields: ['_id'] },
+  Page: { keyFields: ['_id'] },
+  ProductInfoSettings: { keyFields: ['_id'] },
+  ProductListingSettings: { keyFields: ['_id'] },
+  SanityFileAsset: { keyFields: ['_id'] },
+  SanityImageAsset: { keyFields: ['_id'] },
+  ShopifyCollection: { keyFields: ['_id'] },
+  ShopifyProduct: { keyFields: ['_id'] },
+  SiteSettings: { keyFields: ['_id'] },
+  TeamPage: { keyFields: ['_id'] },
+}
+
+export const createApolloClient = (initialState = {}) => {
   // Check out https://github.com/zeit/next.js/pull/4611 if you want to use the AWSAppSyncClient
   return new ApolloClient({
     ssrMode: typeof window === 'undefined', // Disables forceFetch on the server (so queries are only run once)
@@ -31,7 +41,7 @@ const createApolloClient = (initialState = {}) => {
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
       fetch,
     }),
-    cache: new InMemoryCache({ fragmentMatcher }).restore(initialState),
+    cache: new InMemoryCache({ typePolicies }).restore(initialState),
   })
 }
 
