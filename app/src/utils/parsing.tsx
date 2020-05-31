@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
-import ReactHtmlParser, { TransformFunction } from 'react-html-parser'
+import HTMLParser from 'html-parser-lite'
 import { getLinkFromHref } from '../utils'
 import { Heading, P, Ol, Ul, Li, Span } from '../components/Text'
 
@@ -18,87 +18,86 @@ const wrapBareText = (text: string) =>
 
 const internalUrlRegex = /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
 
-const transform: TransformFunction = (node, index) => {
-  const styles = css2obj(node?.attribs?.style ?? '')
-  switch (node.type) {
-    case 'text':
-      return <React.Fragment key={index}>{node.data}</React.Fragment>
-    case 'tag':
-      if (!node.children || node.children.length === 0) return null
-      switch (node.name) {
-        case 'h1':
-        case 'h2':
-        case 'h3':
-        case 'h4':
-        case 'h5':
-        case 'h6':
-          return (
-            <Heading style={styles} level={3} key={index}>
-              {node.children.map(transform)}
-            </Heading>
-          )
-        case 'p':
-        case 'span':
-          if (node.parent) {
-            return (
-              <Span key={index} style={styles}>
-                {node.children.map(transform)}
-              </Span>
-            )
-          }
-          return (
-            <P key={index} style={styles} weight={2}>
-              {node.children.map(transform)}
-            </P>
-          )
-        case 'ul':
-          return <Ul key={index}>{node.children.map(transform)}</Ul>
-        case 'ol':
-          return <Ol key={index}>{node.children.map(transform)}</Ol>
-        case 'li':
-          return (
-            <Li weight={3} key={index}>
-              {node.children.map(transform)}
-            </Li>
-          )
-        case 'em':
-          return <em key={index}>{node.children.map(transform)}</em>
-        case 'strong':
-          return <strong key={index}>{node.children.map(transform)}</strong>
-        case 'a':
-          const href = node.attribs.href
-          if (!href) return null
+const parser = new HTMLParser()
 
-          const isInternal = internalUrlRegex.test(href)
-          if (isInternal) {
-            const { href: aHref, as } = getLinkFromHref(href)
-            return (
-              <Link key={index} href={aHref} as={as}>
-                <a>{node.children.map(transform)}</a>
-              </Link>
-            )
-          }
-          return (
-            <a
-              key={index}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {node.children.map(transform)}
-            </a>
-          )
-        default:
-          return <>{node.children.map(transform)}</>
+const transform = (node, index) => {
+  const styles = css2obj(node?.attribs?.style ?? '')
+  switch (node.tagName) {
+    case 'document':
+      return (
+        <React.Fragment key={index}>
+          {node.childNodes.map(transform)}
+        </React.Fragment>
+      )
+
+    case 'text':
+      return <React.Fragment key={index}>{node.textContent}</React.Fragment>
+    case 'h1':
+    case 'h2':
+    case 'h3':
+    case 'h4':
+    case 'h5':
+    case 'h6':
+      return (
+        <Heading style={styles} level={3} key={index}>
+          {node.childNodes.map(transform)}
+        </Heading>
+      )
+    case 'p':
+    case 'span':
+      if (node.parentNode && node.parentNode.tagName !== 'document') {
+        return (
+          <Span key={index} style={styles}>
+            {node.childNodes.map(transform)}
+          </Span>
+        )
       }
-    default:
+      return (
+        <P key={index} style={styles} weight={2}>
+          {node.childNodes.map(transform)}
+        </P>
+      )
+    case 'ul':
+      return <Ul key={index}>{node.childNodes.map(transform)}</Ul>
+    case 'ol':
+      return <Ol key={index}>{node.childNodes.map(transform)}</Ol>
+    case 'li':
+      return (
+        <Li weight={3} key={index}>
+          {node.childNodes.map(transform)}
+        </Li>
+      )
+    case 'em':
+      return <em key={index}>{node.childNodes.map(transform)}</em>
+    case 'strong':
+      return <strong key={index}>{node.childNodes.map(transform)}</strong>
+    case 'a':
+      const href = node.attribs.href
+      if (!href) return null
+
+      const isInternal = internalUrlRegex.test(href)
+      if (isInternal) {
+        const { href: aHref, as } = getLinkFromHref(href)
+        return (
+          <Link key={index} href={aHref} as={as}>
+            <a>{node.childNodes.map(transform)}</a>
+          </Link>
+        )
+      }
+      return (
+        <a key={index} href={href} target="_blank" rel="noopener noreferrer">
+          {node.childNodes.map(transform)}
+        </a>
+      )
+    case 'meta':
       return null
+    default:
+      return <>{node.childNodes.map(transform)}</>
   }
 }
 
 export const parseHTML = (htmlString?: string | null): React.ReactNode => {
   if (!htmlString) return null
-  return ReactHtmlParser(wrapBareText(htmlString), {
-    transform,
-  })
+  const parsed = parser.parse(wrapBareText(htmlString))
+  return transform(parsed, 'root')
 }

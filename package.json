@@ -4,9 +4,8 @@
 	"scripts": {
 		"setup": "yarn install",
 		"test": "yarn workspace spinellikilcollin-app test",
-		"build": "yarn workspace spinellikilcollin-app build && yarn workspace spinellikilcollin-proxy build",
-		"start:app": "yarn workspace spinellikilcollin-app start",
-		"start:proxy": "yarn workspace spinellikilcollin-proxy start"
+		"build": "yarn workspace spinellikilcollin-app build",
+		"start:app": "yarn workspace spinellikilcollin-app start"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^8.1.0",
@@ -27,8 +26,7 @@
 	},
 	"workspaces": [
 		"app",
-		"sanity",
-		"proxy"
+		"sanity"
 	],
 	"husky": {
 		"hooks": {
