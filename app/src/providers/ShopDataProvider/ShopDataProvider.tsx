@@ -6,6 +6,7 @@ import {
   ShopifyProduct,
   ProductInfo,
   ProductInfoSettings,
+  ProductListingSettings,
   SiteSettings,
 } from '../../types'
 import { definitely, getPageLinkUrl, LinkInfo } from '../../utils'
@@ -18,6 +19,7 @@ interface ShopDataContextValue {
   getProductInfoBlocks: (product: ShopifyProduct) => ProductInfo[]
   siteSettings?: SiteSettings
   productInfoSettings?: ProductInfoSettings
+  productListingSettings?: ProductListingSettings
   getLinkByRef: (ref: string) => LinkInfo | null
 }
 
@@ -49,7 +51,7 @@ export const ShopDataProvider = ({ children }: Props) => {
   const menu = response?.data?.Menu
   const siteSettings = response?.data?.SiteSettings
   const productInfoSettings = response?.data?.ProductInfoSettings
-  const productInfoBlocks = response?.data?.ProductInfoSettings
+  const productListingSettings = response?.data?.ProductListingSettings
   const allPages = response?.data?.allPage || []
 
   const getLinkByRef = (ref: string): LinkInfo | null => {
@@ -67,8 +69,8 @@ export const ShopDataProvider = ({ children }: Props) => {
 
   const getProductInfoBlocks = (product: ShopifyProduct): ProductInfo[] => {
     const productBlocks = definitely(product.info)
-    if (!productInfoBlocks) return productBlocks
-    const { globalInfo, infoByType, infoByTag } = productInfoBlocks
+    if (!productInfoSettings) return productBlocks
+    const { globalInfo, infoByType, infoByTag } = productInfoSettings
     const globalBlocks = globalInfo ? definitely(globalInfo) : []
     const sourceTags = product?.sourceData?.tags
     const productType = product?.sourceData?.productType
@@ -126,6 +128,7 @@ export const ShopDataProvider = ({ children }: Props) => {
     menu,
     siteSettings,
     productInfoSettings,
+    productListingSettings,
     getProductInfoBlocks,
     getLinkByRef,
   }

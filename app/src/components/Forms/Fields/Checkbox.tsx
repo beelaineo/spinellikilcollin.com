@@ -3,26 +3,26 @@ import styled from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
 import { FieldProps } from './Field'
 
-const CheckboxElement = styled.input`
+export const CheckboxElement = styled.input`
   -webkit-appearance: none;
   border-radius: 0;
   border: 1px solid;
-  border-color: highlight.0;
-  width: 20px;
-  height: 20px;
+  border-color: body.6;
   background-color: white;
-  box-shadow: inset 0 2px 4px 0px rgba(0, 0, 0, 0.2);
+
+  width: 12px;
+  height: 12px;
   position: relative;
 
   &:checked {
-    background-color: highlight.2;
-    box-shadow: inset 0 0px 0px 2px white;
+    background-color: body.6;
   }
 `
 
-const CheckboxWrapper = styled.div`
+export const CheckboxWrapper = styled.div`
   display: grid;
   grid-template-columns: 35px 1fr;
+  cursor: pointer;
 
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     display: flex;

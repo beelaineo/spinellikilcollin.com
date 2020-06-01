@@ -1,10 +1,18 @@
 import gql from 'graphql-tag'
-import { Page, Menu, ProductInfoSettings, SiteSettings } from '../../types'
+import {
+  Page,
+  Menu,
+  ProductInfoSettings,
+  ProductListingSettings,
+  SiteSettings,
+} from '../../types'
 import {
   productInfoFragment,
   internalLinkFragment,
   externalLinkFragment,
   ctaFragment,
+  filterSetFragment,
+  priceRangeFilterFragment,
 } from '../../graphql/fragments'
 
 export const SHOP_DATA_QUERY = /* GraphQL */ gql`
@@ -37,6 +45,18 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
               ...CTAFragment
             }
           }
+        }
+      }
+    }
+    ProductListingSettings(id: "productListingSettings") {
+      _id
+      _type
+      defaultFilter {
+        ... on FilterSet {
+          ...FilterSetFragment
+        }
+        ... on PriceRangeFilter {
+          ...PriceRangeFilterFragment
         }
       }
     }
@@ -85,10 +105,13 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   ${internalLinkFragment}
   ${externalLinkFragment}
   ${ctaFragment}
+  ${filterSetFragment}
+  ${priceRangeFilterFragment}
 `
 
 export interface ShopDataResponse {
   Menu: Menu
+  ProductListingSettings: ProductListingSettings
   ProductInfoSettings: ProductInfoSettings
   SiteSettings: SiteSettings
   allPage: Page[]

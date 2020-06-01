@@ -129,6 +129,30 @@ export const richPageLinkFragment = gql`
   ${richImageFragment}
 `
 
+export const filterSetFragment = gql`
+  fragment FilterSetFragment on FilterSet {
+    _key
+    heading
+    filters {
+      _key
+      label
+      matches {
+        _key
+        type
+        match
+      }
+    }
+  }
+`
+
+export const priceRangeFilterFragment = gql`
+  fragment PriceRangeFilterFragment on PriceRangeFilter {
+    _key
+    minPrice
+    maxPrice
+  }
+`
+
 export const ctaFragment = gql`
   fragment CTAFragment on Cta {
     _key
