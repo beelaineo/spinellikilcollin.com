@@ -34,6 +34,8 @@ export const Label = styled(BaseLabel)`
     position: relative;
     display: inline-block;
     margin-bottom: 1;
+    font-weight: 2;
+    cursor: inherit;
 
     a {
       color: higlight.0;

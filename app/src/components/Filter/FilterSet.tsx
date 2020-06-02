@@ -5,6 +5,7 @@ import { definitely } from '../../utils'
 import { CheckboxElement, CheckboxWrapper } from '../Forms/Fields/Checkbox'
 import { Label } from '../Forms/Fields/styled'
 import { FilterSetState } from './reducer'
+import { FilterSetWrapper } from './styled'
 
 interface FilterCheckboxProps {
   filter: Filter
@@ -58,6 +59,7 @@ export const FilterSet = ({
   }
   const { heading, filters } = filterSet
   const { activeMatchKeys } = filterSetState
+  if (!filters || !filters.length) return null
 
   const resetKey = `${setKey}-disable`
   const viewAllFilter = {
@@ -65,8 +67,9 @@ export const FilterSet = ({
     label: 'View All',
   }
   const isDisabled = filterSetState.activeMatchKeys.length === 0
+  const span = Math.floor(filters.length)
   return (
-    <div>
+    <FilterSetWrapper span={span}>
       <Heading level={4}>{heading}</Heading>
       <FilterCheckbox
         matchKey={resetKey}
@@ -83,6 +86,6 @@ export const FilterSet = ({
           checked={activeMatchKeys.includes(filter._key || 'foo')}
         />
       ))}
-    </div>
+    </FilterSetWrapper>
   )
 }

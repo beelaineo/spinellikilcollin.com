@@ -22,7 +22,7 @@ export const Inner = styled.div`
     align-items: center;
     padding: 2 0;
     margin: 0 auto;
-    max-width: calc(100% - ${theme.space[6]}px);
+    max-width: calc(100% - (${theme.space[4]}px * 2));
     width: 100%;
   `}
 `

@@ -14,7 +14,7 @@
 		"lib"
 	],
 	"scripts": {
-		"dev": "DEBUG=app* next",
+		"start": "DEBUG=app* next",
 		"build": "yarn build:json && yarn build:next",
 		"build:next": "next build",
 		"build:analyze": "ANALYZE=true next build",

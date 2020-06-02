@@ -21,7 +21,8 @@ export const CheckboxElement = styled.input`
 
 export const CheckboxWrapper = styled.div`
   display: grid;
-  grid-template-columns: 35px 1fr;
+  grid-template-columns: 25px 1fr;
+  margin: 2 0;
   cursor: pointer;
 
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
@@ -40,7 +41,6 @@ export interface CheckboxProps extends FieldProps {
 }
 
 export const Checkbox = ({
-  label,
   required,
   type,
   placeholder,

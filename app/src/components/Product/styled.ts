@@ -80,7 +80,7 @@ export const SwatchWrapper = styled.div<WithClickable>`
     width: 25px;
     margin: 0 4px;
     padding-bottom: 2;
-    cursor: ${clickable ? 'pointer' : 'auto'};
+    cursor: ${clickable ? 'pointer' : 'inherit'};
     border-bottom: ${active ? '2px solid' : 'none'};
     border-color: body.5;
 

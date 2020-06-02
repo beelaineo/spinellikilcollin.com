@@ -6,7 +6,14 @@ import {
   RichImage,
   ShopifySourceImage,
 } from '../../types'
-import { sanityClient } from '../../services/sanity'
+
+const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID
+const SANITY_DATASET = process.env.SANITY_DATASET
+
+if (!SANITY_PROJECT_ID)
+  throw new Error('You must include a SANITY_PROJECT_ID variable')
+if (!SANITY_DATASET)
+  throw new Error('You must include a SANITY_DATASET variable')
 
 export type ImageType =
   | ShopifySourceImage
@@ -14,7 +21,10 @@ export type ImageType =
   | RichImage
   | SanityRawImage
 
-const builder = imageUrlBuilder(sanityClient)
+const builder = imageUrlBuilder({
+  projectId: SANITY_PROJECT_ID,
+  dataset: SANITY_DATASET,
+})
 
 export interface ImageDetails {
   src: string | null | void

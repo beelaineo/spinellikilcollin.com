@@ -156,7 +156,9 @@ export const Label = styled(LabelBase)`
   margin: 0;
 `
 
-export const Span = styled(createTextBase('span'))`
+const SpanBase = styled.spanBox``
+
+export const Span = styled(createTextBase(SpanBase))`
   font-size: inherit;
 
   &[role='button'] {

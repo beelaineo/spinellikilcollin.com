@@ -14,6 +14,8 @@ import { CollectionBlock } from './CollectionBlock'
 import { definitely } from '../../utils'
 import { ProductGrid, ProductGridItem } from './styled'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useSanityQuery } from '../../hooks'
+import { buildQuery, FilterResponse } from './filterQuery'
 
 interface ProductListingProps {
   collection: ShopifyCollection
@@ -27,21 +29,30 @@ export const ProductListing = ({
   products,
 }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
+  const { state, executeQuery } = useSanityQuery<ShopifyProduct>()
+  const filterResults = state.results
   const defaultFilter = productListingSettings?.defaultFilter
   const filters = definitely(defaultFilter)
   const { hero, collectionBlocks } = collection
+
   // If there are collection blocks, insert them in the array
   // of products by position
-  const items = collectionBlocks?.length
+  const items = filterResults
+    ? filterResults
+    : collectionBlocks?.length
     ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
         if (!current?.position) return acc
         const index = current.position - 1
         return [...acc.slice(0, index), current, ...acc.slice(index)]
       }, definitely(products))
     : definitely(products)
-  const applyFilters = (filters: FilterMatch[][]) => {
-    //
+
+  const applyFilters = async (filters: FilterMatch[][]) => {
+    if (!filters.length) return
+    const query = buildQuery(filters)
+    executeQuery(query)
   }
+
   return (
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
@@ -51,7 +62,7 @@ export const ProductListing = ({
         ) : null}
         <ProductListingHeader collection={collection} />
         <ProductGrid>
-          {items.map((item) => {
+          {definitely(items).map((item) => {
             switch (item.__typename) {
               case 'CollectionBlock':
                 return (
