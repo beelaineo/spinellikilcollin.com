@@ -45,7 +45,7 @@ export const ProductVariantSelector = (props: Props) => {
   const productType = product?.sourceData?.productType
 
   const options = definitely(product.options)
-  if (options.length < 2) return null
+  if (options.length < 1) return null
 
   return (
     <Box mb={3}>

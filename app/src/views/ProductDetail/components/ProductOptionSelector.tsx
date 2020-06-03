@@ -48,6 +48,8 @@ export const ProductOptionSelector = ({
     return null
   }
 
+  if (option.values.length === 0) return null
+
   const selectOption = changeValueForOption(option.name)
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

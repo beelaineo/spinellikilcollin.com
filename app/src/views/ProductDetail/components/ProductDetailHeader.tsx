@@ -11,39 +11,19 @@ interface ProductDetailHeaderProps {
   mobile?: string
 }
 
-const getOptionByName = (variant: ShopifyProductVariant) => (
-  name: string,
-): string | void => {
-  const selectedOptions = variant?.sourceData?.selectedOptions
-  if (!selectedOptions) return
-  const option = selectedOptions.find((option) => {
-    if (!option || !option.name) return undefined
-    return option.name.toLowerCase() === name.toLowerCase()
-  })
-  return option ? option.value || undefined : undefined
-}
-
-const getVariantTitle = (variant: ShopifyProductVariant): string | void => {
-  const getOptionBy = getOptionByName(variant)
-  const color = getOptionBy('color')
-  if (color) return color
-  return undefined
-}
-
 export const ProductDetailHeader = ({
   product,
   currentVariant,
 }: ProductDetailHeaderProps) => {
-  const variantTitle = getVariantTitle(currentVariant)
   return (
     <>
       <TitleWrapper>
         <Heading level={2} weight={3} mb={2}>
           {product.title}
         </Heading>
-        {variantTitle ? (
+        {currentVariant?.title ? (
           <Heading weight={2} level={3} mb={0}>
-            {variantTitle}
+            {currentVariant.title}
           </Heading>
         ) : null}
         {currentVariant?.sourceData?.priceV2 ? (
