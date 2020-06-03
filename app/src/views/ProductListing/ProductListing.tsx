@@ -15,7 +15,7 @@ import { definitely } from '../../utils'
 import { ProductGrid, ProductGridItem } from './styled'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useSanityQuery } from '../../hooks'
-import { buildQuery, FilterResponse } from './filterQuery'
+import { buildQuery } from './filterQuery'
 
 interface ProductListingProps {
   collection: ShopifyCollection
@@ -24,12 +24,19 @@ interface ProductListingProps {
 
 type Item = ShopifyProduct | CollectionBlockType
 
+interface FilterVariables {
+  collectionId: string
+}
+
 export const ProductListing = ({
   collection,
   products,
 }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
-  const { state, executeQuery } = useSanityQuery<ShopifyProduct>()
+  const { state, executeQuery } = useSanityQuery<
+    ShopifyProduct,
+    FilterVariables
+  >()
   const filterResults = state.results
   const defaultFilter = productListingSettings?.defaultFilter
   const filters = definitely(defaultFilter)
@@ -50,7 +57,13 @@ export const ProductListing = ({
   const applyFilters = async (filters: FilterMatch[][]) => {
     if (!filters.length) return
     const query = buildQuery(filters)
-    executeQuery(query)
+    if (!collection._id) {
+      throw new Error('No _id for this collection was supplied')
+    }
+    const params = {
+      collectionId: collection._id,
+    }
+    executeQuery(query, params)
   }
 
   return (

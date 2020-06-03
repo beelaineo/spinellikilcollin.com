@@ -1,12 +1,23 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { ShopifyProduct } from '../../types'
+import {
+  ShopifyProduct,
+  ShopifyProductOption,
+  ShopifyProductOptionValue,
+} from '../../types'
 import { Heading } from '../Text'
+import { Image } from '../Image'
 import { TagBadges } from './TagBadges'
 import { ProductSwatches } from './ProductSwatches'
-import { formatMoney } from '../../utils'
-import { BackgroundImage, ProductInfo, ProductThumb } from './styled'
+import {
+  formatMoney,
+  getVariantBySelectedOption,
+  optionMatchesVariant,
+} from '../../utils'
+import { ProductInfo, ProductThumb } from './styled'
+
+const { useState } = React
 
 interface ProductThumbnail {
   product: ShopifyProduct
@@ -17,22 +28,61 @@ export const ProductThumbnail = ({
   product,
   displayPrice,
 }: ProductThumbnail) => {
-  const images = product.sourceData?.images
+  const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
-  const imageSrc = images.length ? images[0].originalSrc : undefined
+  const [variants] = unwindEdges(product?.sourceData?.variants)
+  const [currentVariant, setCurrentVariant] = useState(variants[0])
+
+  const productImage = currentVariant?.image
+    ? currentVariant.image
+    : productImages.length
+    ? productImages[0]
+    : undefined
+
   const { minVariantPrice, maxVariantPrice } =
     product?.sourceData?.priceRange || {}
+
+  const onSwatchHover = (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ) => () => {
+    if (!value.value) return
+    const currentSelection = {
+      name: option.name || 'foo',
+      currentValue: value.value,
+    }
+    const newVariant = getVariantBySelectedOption(variants, currentSelection)
+    if (newVariant) setCurrentVariant(newVariant)
+  }
+
+  const isSwatchActive = (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ): boolean => {
+    const matches = optionMatchesVariant(
+      option.name || 'foo',
+      value,
+      currentVariant,
+    )
+    return matches
+  }
+  const altText = [product?.title, currentVariant?.title]
+    .filter(Boolean)
+    .join(' - ')
+
+  const linkAs = `/products/${product.handle}`
   return (
     <ProductThumb>
-      <Link href="/products/[productSlug]" as={`/products/${product.handle}`}>
+      <Link href="/products/[productSlug]" as={linkAs}>
         <a>
-          {imageSrc ? (
-            <BackgroundImage
-              key={product._id || 'some-key'}
-              imageSrc={imageSrc}
-            />
-          ) : null}
+          <Image
+            image={productImage}
+            ratio={1}
+            sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
+            altText={altText}
+          />
+
           <TagBadges product={product} />
           <ProductInfo>
             <Heading textAlign="center" level={3}>
@@ -53,7 +103,11 @@ export const ProductThumbnail = ({
               </>
             ) : null}
           </ProductInfo>
-          <ProductSwatches product={product} />
+          <ProductSwatches
+            onSwatchHover={onSwatchHover}
+            isSwatchActive={isSwatchActive}
+            product={product}
+          />
         </a>
       </Link>
     </ProductThumb>

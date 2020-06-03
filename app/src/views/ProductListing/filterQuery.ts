@@ -6,7 +6,8 @@ export type FilterResponse = ShopifyProduct[]
 const filterQuery = (filterString?: string) => `
 *[
   _type == "shopifyProduct" &&
-  defined(shopifyId) 
+    defined(shopifyId) &&
+    references($collectionId) 
   ${filterString ? `&& ${filterString}` : ''}
 ]{
   _type,
@@ -18,7 +19,8 @@ const filterQuery = (filterString?: string) => `
   sourceData{
   	images,
   	tags,
- 		priceRange
+    priceRange,
+    variants
 	},
 	options
 }

@@ -4,18 +4,6 @@ interface BackgroundImageProps {
   imageSrc: string
 }
 
-export const BackgroundImage = styled.div`
-  ${({ imageSrc }: BackgroundImageProps) => css`
-    background-image: url(${imageSrc});
-    background-size: cover;
-    background-position: center;
-    padding: 45%;
-    a {
-      color: transparent;
-    }
-  `}
-`
-
 export const ProductThumb = styled.div`
   text-align: left;
   width: 100%;

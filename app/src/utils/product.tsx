@@ -1,12 +1,17 @@
 import {
   ShopifyProduct,
-  ShopifyProductVariant,
   ShopifyProductOptionValue,
   ShopifyProductOption,
+  ShopifySourceProductVariant,
   Maybe,
   Image,
 } from '../types'
 import { definitely } from '../utils'
+
+export interface SelectedProductOption {
+  name: string
+  currentValue: string
+}
 
 export const isValidSwatchOption = (option: ShopifyProductOption): boolean =>
   definitely(option.values).every(({ swatch }) =>
@@ -26,17 +31,17 @@ export const getSwatchImages = ({ values }: ShopifyProductOption): Image[] =>
 export const optionMatchesVariant = (
   optionName: string,
   option: ShopifyProductOptionValue,
-  variant: ShopifyProductVariant,
+  variant: ShopifySourceProductVariant,
 ): boolean =>
-  definitely(variant?.sourceData?.selectedOptions).some(
+  definitely(variant?.selectedOptions).some(
     (vso) => optionName === vso.name && option.value === vso.value,
   )
 
 export const getSelectedOptionValues = (
   product: ShopifyProduct,
-  variant: ShopifyProductVariant,
+  variant: ShopifySourceProductVariant,
 ): ShopifyProductOptionValue[] => {
-  const variantSelectedOptions = variant?.sourceData?.selectedOptions
+  const variantSelectedOptions = variant?.selectedOptions
   if (!product.options || !variantSelectedOptions) return []
 
   const selectedOptionValues = definitely(product?.options).reduce<
@@ -49,3 +54,19 @@ export const getSelectedOptionValues = (
   }, [])
   return definitely(selectedOptionValues)
 }
+
+/**
+ * Get the first variant that matches the selected option
+ */
+export const getVariantBySelectedOption = (
+  variants: ShopifySourceProductVariant[],
+  currentOption: SelectedProductOption,
+): ShopifySourceProductVariant | void =>
+  variants.find((variant) => {
+    const { selectedOptions } = variant
+    return definitely(selectedOptions).some(
+      (option) =>
+        option.name === currentOption.name &&
+        option.value === currentOption.currentValue,
+    )
+  })

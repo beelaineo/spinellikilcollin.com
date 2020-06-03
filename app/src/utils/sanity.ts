@@ -16,8 +16,7 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
 }
 
 export const buildFilters = (filters: FilterMatch[][]): string => {
-  console.log(filters)
-  const f = filters
+  return filters
     .map((filterGroup) =>
       filterGroup
         //
@@ -27,6 +26,4 @@ export const buildFilters = (filters: FilterMatch[][]): string => {
         .replace(/(.*)/, '($1)'),
     )
     .join(' && ')
-  console.log(f)
-  return f
 }

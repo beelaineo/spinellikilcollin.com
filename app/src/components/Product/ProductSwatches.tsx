@@ -10,16 +10,25 @@ import { SwatchesWrapper, SwatchWrapper } from './styled'
 
 interface OptionSwatchesProps {
   option: ShopifyProductOption
-  onSwatchClick?: (value: ShopifyProductOptionValue) => () => void
-  isSwatchActive?: (value: ShopifyProductOptionValue) => boolean
+  onSwatchHover?: (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ) => () => void
+  onSwatchClick?: (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ) => () => void
+  isSwatchActive?: (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ) => boolean
 }
-
-const noop = () => undefined
 
 export const OptionSwatches = ({
   option,
   onSwatchClick,
   isSwatchActive,
+  onSwatchHover,
 }: OptionSwatchesProps) => (
   <SwatchesWrapper>
     {definitely(option.values).map((value) => (
@@ -27,8 +36,9 @@ export const OptionSwatches = ({
         key={value._key || 'some-type'}
         as={onSwatchClick ? 'button' : undefined}
         clickable={Boolean(onSwatchClick)}
-        onClick={onSwatchClick ? onSwatchClick(value) : noop}
-        active={isSwatchActive ? isSwatchActive(value) : false}
+        onClick={onSwatchClick ? onSwatchClick(option, value) : undefined}
+        onMouseEnter={onSwatchHover ? onSwatchHover(option, value) : undefined}
+        active={isSwatchActive ? isSwatchActive(option, value) : false}
       >
         <Image image={value.swatch} ratio={1} sizes="40px" />
       </SwatchWrapper>
@@ -38,12 +48,25 @@ export const OptionSwatches = ({
 
 interface ProductSwatchesProps {
   product: ShopifyProduct
-  onSwatchClick?: (value: ShopifyProductOptionValue) => () => void
+  onSwatchHover?: (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ) => () => void
+  onSwatchClick?: (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ) => () => void
+  isSwatchActive?: (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ) => boolean
 }
 
 export const ProductSwatches = ({
   product,
   onSwatchClick,
+  onSwatchHover,
+  isSwatchActive,
 }: ProductSwatchesProps) => {
   const swatchOptions = getSwatchOptions(product.options)
   if (!swatchOptions.length) return null
@@ -54,6 +77,8 @@ export const ProductSwatches = ({
           option={option}
           key={option._key || 'some-key'}
           onSwatchClick={onSwatchClick}
+          onSwatchHover={onSwatchHover}
+          isSwatchActive={isSwatchActive}
         />
       ))}
     </>

@@ -246,13 +246,12 @@ export const shopifySourceProductFragment = gql`
       edges {
         cursor
         node {
-          id
-          altText
-          originalSrc
+          ...ShopifySourceImageFragment
         }
       }
     }
   }
+  ${shopifySourceImageFragment}
   ${shopifySourceProductVariantFragment}
 `
 

@@ -5,6 +5,7 @@ import { NotFound, ProductListing } from '../../src/views'
 import {
   shopifySourceImageFragment,
   sanityImageFragment,
+  shopifySourceProductFragment,
   richImageFragment,
   heroFragment,
 } from '../../src/graphql'
@@ -68,34 +69,14 @@ const productsQuery = gql`
         }
       }
       sourceData {
-        id
-        title
-        handle
-        tags
-        priceRange {
-          minVariantPrice {
-            amount
-            currencyCode
-          }
-          maxVariantPrice {
-            amount
-            currencyCode
-          }
-        }
-        images {
-          edges {
-            cursor
-            node {
-              ...ShopifySourceImageFragment
-            }
-          }
-        }
+        ...ShopifySourceProductFragment
       }
     }
   }
 
   ${sanityImageFragment}
   ${shopifySourceImageFragment}
+  ${shopifySourceProductFragment}
 `
 
 export interface CollectionResult {

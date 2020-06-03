@@ -3,8 +3,6 @@ import type { SanityClient } from '@sanity/client'
 import type { Reducer } from 'react'
 import { withTypenames } from './withTypenames'
 
-type QueryParams = { [key: string]: any }
-
 const RESET = 'RESET'
 const SUCCESS = 'SUCCESS'
 const FETCH = 'FETCH'
@@ -64,7 +62,12 @@ interface Document {
 
 type Response = Document[]
 
-export const useSanityQuery = <R extends Document>() => {
+type Variables = { [key: string]: any }
+
+export const useSanityQuery = <
+  R extends Document,
+  V extends Variables = Variables
+>() => {
   const [sanityClient, setSanityClient] = useState<SanityClient | null>(null)
   const [state, dispatch] = useReducer<Reducer<State<R>, Action<R>>>(
     reducer,
@@ -81,10 +84,11 @@ export const useSanityQuery = <R extends Document>() => {
 
   const reset = () => dispatch({ type: RESET })
 
-  const executeQuery = async (query: string, params?: QueryParams) => {
+  const executeQuery = async (query: string, customParams: V) => {
     dispatch({ type: FETCH })
     const client = await fetchOrGetClient()
-    const results = await client.fetch<R>(query, params || {})
+    const params = customParams ? customParams : {}
+    const results = await client.fetch<R>(query, params)
     // @ts-ignore ???
     const r = withTypenames<R>(results)
     dispatch({ type: SUCCESS, results: r })
