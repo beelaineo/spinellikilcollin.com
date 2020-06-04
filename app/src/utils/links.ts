@@ -108,9 +108,10 @@ export const getPageLinkUrl = (document: Document): LinkInfo => {
         href: '/about',
       }
     default:
+      console.log(document)
       throw new Error(
         // @ts-ignore
-        `Unable do create a link URL for type "${document.__typename}"`,
+        `Unable to create a link URL for type "${document.__typename}"`,
       )
   }
 }

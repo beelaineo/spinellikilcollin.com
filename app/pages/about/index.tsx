@@ -1,9 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
+import { GetStaticProps } from 'next'
 import { AboutView, NotFound } from '../../src/views'
-import { PageContext } from '../_app'
 import { About } from '../../src/types'
 import { richImageFragment, heroFragment } from '../../src/graphql'
+import { request } from '../../src/graphql'
 
 const query = gql`
   query AboutPageQuery {
@@ -21,6 +22,7 @@ const query = gql`
           ...RichImageFragment
         }
         linkedPage {
+          __typename
           ... on Customize {
             _type
           }
@@ -59,12 +61,15 @@ const AboutIndex = ({ about }: AboutIndexProps) => {
   return <AboutView about={about} />
 }
 
-AboutIndex.getInitialProps = async (ctx: PageContext) => {
-  const { apolloClient } = ctx
-  const response = await apolloClient.query<Response>({ query })
-  const about = response?.data?.About
+/**
+ * Initial Props
+ */
 
-  return { about }
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const response = await request<Response>(query)
+  const about = response?.About || null
+
+  return { props: { about } }
 }
 
 export default AboutIndex

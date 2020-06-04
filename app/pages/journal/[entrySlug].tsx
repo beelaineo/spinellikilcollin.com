@@ -48,7 +48,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const response = await request<Response>(journalEntryQuery, variables)
   const entries = response?.allJournalEntry
 
-  const entry = entries && entries.length ? entries[0] : undefined
+  const entry = entries && entries.length ? entries[0] : null
   return { props: { entry } }
 }
 
@@ -59,7 +59,6 @@ const pageHandlesQuery = gql`
   query JournalEntriesHandlesQuery {
     allJournalEntry {
       _id
-      shopifyId
       slug {
         current
       }

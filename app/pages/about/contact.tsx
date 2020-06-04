@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps } from 'next'
 import { Maybe, Contact } from '../../src/types'
 import { NotFound, ContactView } from '../../src/views'
 import { request } from '../../src/graphql'
@@ -39,20 +39,9 @@ interface Response {
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await request<Response>(query)
-  const contact = response?.Contact
+  const contact = response?.Contact || null
 
   return { props: { contact } }
-}
-
-/**
- * Static Paths
- */
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
 }
 
 export default ContactPage

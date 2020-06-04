@@ -1,11 +1,5 @@
 import { FieldValidator } from 'formik'
 import { Option } from '../../Fields'
-import countries from '../../../../data/countries.json'
-
-// export const maskFromPhoneFormat = (format?: string): undefined | Mask =>
-//   format && format !== '#N/A'
-//     ? format.split('').map((char) => (/\d/.test(char) ? /\d/ : char))
-//     : undefined
 
 export const placeholderFromPhoneFormat = (
   format?: string,
@@ -35,22 +29,25 @@ export interface CountryPhoneOption extends Option {
   }
 }
 
-export const countryOptions: CountryPhoneOption[] = countries
-  .filter(
-    (country) =>
-      country?.flags &&
-      (country.flags === '' || country.flags.includes('phone_only')),
-  )
-  .map(({ countryCode, english, dialingCode, ...meta }) => {
-    const label = [english, meta.flagEmoji, `+ ${dialingCode}`].join('  ')
-    const id = [countryCode, english].join('-')
-    return {
-      value: countryCode,
-      meta: {
-        dialingCode: dialingCode.toString(),
-        ...meta,
-      },
-      id,
-      label,
-    }
-  })
+export const getCountryOptions = async (): Promise<CountryPhoneOption[]> => {
+  const countryData = await import('../../../../data/countries.json')
+  return countryData
+    .filter(
+      (country) =>
+        country?.flags &&
+        (country.flags === '' || country.flags.includes('phone_only')),
+    )
+    .map(({ countryCode, english, dialingCode, ...meta }) => {
+      const label = [english, meta.flagEmoji, `+ ${dialingCode}`].join('  ')
+      const id = [countryCode, english].join('-')
+      return {
+        value: countryCode,
+        meta: {
+          dialingCode: dialingCode.toString(),
+          ...meta,
+        },
+        id,
+        label,
+      }
+    })
+}

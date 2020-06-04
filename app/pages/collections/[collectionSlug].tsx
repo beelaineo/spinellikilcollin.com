@@ -100,7 +100,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const products = productsResponse?.allShopifyProduct || []
 
-  return { props: { products, collection } }
+  return {
+    props: { products: products || null, collection: collection || null },
+  }
 }
 
 /**

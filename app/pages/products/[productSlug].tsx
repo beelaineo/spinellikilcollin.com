@@ -123,7 +123,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const response = await request<Response>(productQuery, variables)
   const products = response?.allShopifyProduct
 
-  const product = products && products.length ? products[0] : undefined
+  const product = products && products.length ? products[0] : null
   return { props: { product } }
 }
 

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps } from 'next'
 import { Maybe, TeamPage as TeamPageType } from '../../src/types'
 import { richImageFragment } from '../../src/graphql'
 import { NotFound } from '../../src/views/NotFound'
@@ -45,22 +45,11 @@ interface TeamPageResponse {
  * Initial Props
  */
 
-export const getStaticProps: GetStaticProps = async (ctx) => {
+export const getStaticProps: GetStaticProps = async () => {
   const response = await request<TeamPageResponse>(teamQuery)
-  const teamPage = response?.TeamPage
+  const teamPage = response?.TeamPage || null
 
   return { props: { teamPage } }
-}
-
-/**
- * Static Paths
- */
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
 }
 
 export default TeamPage

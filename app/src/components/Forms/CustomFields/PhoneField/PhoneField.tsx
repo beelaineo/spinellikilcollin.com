@@ -5,19 +5,34 @@ import { Field } from '../../Fields'
 import { Input } from '../../Fields/Input'
 import { CountryCodeSelector } from './CountryCodeSelector'
 import {
-  countryOptions,
+  getCountryOptions,
+  CountryPhoneOption,
   placeholderFromPhoneFormat,
   createValidator,
 } from './utils'
 
 type PhoneFieldProps = Omit<FieldProps, 'type' | 'placeholder'>
 
+const { useState, useEffect } = React
+
 interface Values {
   phoneCountryCode: string
 }
 
 export const PhoneField = (props: PhoneFieldProps) => {
+  const [ready, setReady] = useState(false)
+  const [countryOptions, setCountryOptions] = useState<CountryPhoneOption[]>([])
+
+  useEffect(() => {
+    const load = async () => {
+      const options = await getCountryOptions()
+      setCountryOptions(options)
+      setReady(true)
+    }
+    load()
+  }, [])
   const { values } = useFormikContext<Values>()
+  if (!ready) return null
   const options = countryOptions
   const currentOption = options.find((o) => o.value === values.phoneCountryCode)
   const placeholder = placeholderFromPhoneFormat(

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps } from 'next'
 import { Homepage as HomepageType } from '../src/types'
 import { NotFound, Homepage as HomepageView } from '../src/views'
 import {
@@ -54,19 +54,8 @@ export const Homepage = ({ homepage }: HomepageProps) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await request<HomepageResponse>(homepageQuery)
-  const homepage = response?.Homepage
+  const homepage = response?.Homepage || null
   return { props: { homepage } }
-}
-
-/**
- * Static Paths
- */
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
 }
 
 export default Homepage

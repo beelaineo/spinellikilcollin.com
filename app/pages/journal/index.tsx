@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps } from 'next'
 import { JournalEntry } from '../../src/types'
 import { richImageFragment } from '../../src/graphql'
 import { JournalPage } from '../../src/views/JournalPage'
@@ -60,17 +60,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const response = await request<Response>(journalPageQuery, variables)
   const entries = response?.allJournalEntry ?? []
   return { props: { entries } }
-}
-
-/**
- * Static Paths
- */
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
 }
 
 export default Journal

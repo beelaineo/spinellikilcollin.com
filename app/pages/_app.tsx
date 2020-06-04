@@ -1,12 +1,10 @@
 import * as React from 'react'
 import { NextRouter } from 'next/router'
 import styled, { ThemeProvider } from '@xstyled/styled-components'
-import { ApolloClient } from 'apollo-client'
 import Head from 'next/head'
 import { Footer } from '../src/components/Footer'
 import { Navigation } from '../src/components/Navigation'
 import { Providers } from '../src/providers/AllProviders'
-import { withApollo } from '../src/graphql'
 
 import { getThemeByRoute } from '../src/theme'
 
@@ -14,12 +12,6 @@ interface AppProps {
   Component: React.ComponentType
   pageProps: any
   router: NextRouter
-  apollo: ApolloClient<any>
-}
-
-export interface PageContext {
-  query: any
-  apolloClient: ApolloClient<any>
 }
 
 const Main = styled.main`

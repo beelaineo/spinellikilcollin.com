@@ -62,10 +62,9 @@ export const Image = ({
   const [loaded, setLoaded] = React.useState(false)
   const imageRef = React.useRef<HTMLImageElement>(null)
 
-  const { src, altText: cmsAltText, srcSet, srcSetWebp } = React.useMemo(
-    () => getImageDetails(image),
-    [image],
-  )
+  const imageDetails = React.useMemo(() => getImageDetails(image), [image])
+  if (!imageDetails) return null
+  const { src, altText: cmsAltText, srcSet, srcSetWebp } = imageDetails
 
   const altText = customAltText || cmsAltText
   const hoverDetails = React.useMemo(

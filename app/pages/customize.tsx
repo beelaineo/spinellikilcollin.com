@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps } from 'next'
 import { Maybe, Customize as CustomizeType } from '../src/types'
 import { NotFound } from '../src/views/NotFound'
 import { Customize as CustomizeView } from '../src/views/Customize'
@@ -35,19 +35,8 @@ interface CustomizeResponse {
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await request<CustomizeResponse>(customizeQuery)
-  const customize = response?.Customize
+  const customize = response?.Customize || null
   return { props: { customize } }
-}
-
-/**
- * Static Paths
- */
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
 }
 
 export default Customize

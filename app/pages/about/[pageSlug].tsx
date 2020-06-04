@@ -42,7 +42,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const variables = { slug: params.pageSlug }
   const response = await request<PageResponse>(pageQuery, variables)
   const pages = response?.allPage
-  const page = pages && pages.length ? pages[0] : undefined
+  const page = pages && pages.length ? pages[0] : null
   return { props: { page } }
 }
 

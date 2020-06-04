@@ -51,7 +51,8 @@ const defaultSizes = [100, 300, 600, 800, 1200, 1600]
 const getSanityImageDetails = (
   image: SanityRawImage | RichImage,
   sizes = defaultSizes,
-): ImageDetails => {
+): ImageDetails | null => {
+  if (!image?.asset) return null
   const source = builder.image(image)
   const src = source.url()
   const srcSet = buildSrcSet(
@@ -78,7 +79,9 @@ const getSanityImageDetails = (
 
 const widths = [100, 300, 800, 1200, 1600]
 
-const getShopifyImageDetails = (image: ShopifySourceImage): ImageDetails => {
+const getShopifyImageDetails = (
+  image: ShopifySourceImage,
+): ImageDetails | null => {
   const src = image.originalSrc
   const { altText } = image
   const srcSet = widths
@@ -103,7 +106,7 @@ const isSanityImage = (image: ImageType): image is RichImage =>
 const isShopifyImage = (image: ImageType): image is ShopifySourceImage =>
   'originalSrc' in image || image.__typename === 'ShopifySourceImage'
 
-export const getImageDetails = (image: ImageType): ImageDetails => {
+export const getImageDetails = (image: ImageType): ImageDetails | null => {
   if (isShopifyImage(image)) return getShopifyImageDetails(image)
   if (isSanityRawImage(image)) return getSanityImageDetails(image)
   if (isSanityImage(image)) return getSanityImageDetails(image)

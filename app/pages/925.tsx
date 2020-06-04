@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { GetStaticProps, GetStaticPaths } from 'next'
+import { GetStaticProps } from 'next'
 import { Magazine, Maybe } from '../src/types'
 import { richImageFragment } from '../src/graphql'
 import { NotFound } from '../src/views/NotFound'
@@ -41,19 +41,8 @@ interface MagazineResponse {
 
 export const getStaticProps: GetStaticProps = async () => {
   const response = await request<MagazineResponse>(magazineQuery)
-  const magazine = response?.Magazine
+  const magazine = response?.Magazine || null
   return { props: { magazine } }
-}
-
-/**
- * Static Paths
- */
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
 }
 
 export default MagazinePage

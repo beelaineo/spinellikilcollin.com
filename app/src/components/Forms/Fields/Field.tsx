@@ -12,15 +12,7 @@ import { Input } from './Input'
 import { NumberInput } from './Number'
 import { Select } from './Select'
 import { FieldWrapper } from './styled'
-import countries from '../../../data/countries.json'
-
-const countryOptions = countries
-  .map((c) => c.english)
-  .map((name) => ({
-    id: name,
-    value: name,
-    label: name,
-  }))
+import { countryOptions } from '../CustomFields/countryOptions'
 
 /**
  * Base Field
@@ -78,7 +70,6 @@ export const Field = (fieldProps: FieldProps) => {
         return <Select {...fieldProps} />
       case 'countrySelector':
         return <Select {...fieldProps} options={countryOptions} />
-
       default:
         return <Input {...fieldProps} />
     }
