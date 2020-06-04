@@ -3236,14 +3236,14 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sane-shopify/sanity-plugin@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@sane-shopify/sanity-plugin/-/sanity-plugin-0.13.1.tgz#8940b7d5d54c5089ec97df87a3521ca6ec50fd86"
-  integrity sha512-TK+P4mCIu2rsIDon8SLjm+ropeYbbPNErhnyMHAyx8xaFjmyBN9mvzKCRatAs8sqk8PIokPyRUqeNPYmehkqjA==
+"@sane-shopify/sanity-plugin@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@sane-shopify/sanity-plugin/-/sanity-plugin-0.14.1.tgz#e925bb58383d9477ff3dfc09d541c7e04c0abd46"
+  integrity sha512-MOgNzTw39GJBkIXRP/MvGYB4TUmQj7+danqpfQlHf1Rc8r8FLGB6BtuY4aLxcOpris+IAtlpRLn7DeHpsPw3hg==
   dependencies:
     "@good-idea/unwind-edges" "^1.3.0"
-    "@sane-shopify/sync-utils" "^0.13.1"
-    "@sane-shopify/types" "^0.13.0"
+    "@sane-shopify/sync-utils" "^0.14.1"
+    "@sane-shopify/types" "^0.14.0"
     "@sanity/base" "^1.149.10"
     "@sanity/components" "^1.149.10"
     "@sanity/form-builder" "^1.149.7"
@@ -3281,14 +3281,14 @@
     p-queue "^6.3.0"
     xstate "^4.9.0"
 
-"@sane-shopify/sync-utils@^0.13.1":
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/@sane-shopify/sync-utils/-/sync-utils-0.13.1.tgz#fba30c6b29b48e875da17014e046aa76f163a641"
-  integrity sha512-rMbiQWVqyyL1J1vSsesn79HnaoPtsdP8j1bNlX8z+Ude9NMdnGJkG2owf97BVctNYrnkm7w8k6Zie7P9G9NqgQ==
+"@sane-shopify/sync-utils@^0.14.1":
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/@sane-shopify/sync-utils/-/sync-utils-0.14.1.tgz#ce9ca5b781de532b6512ee9eadb39574b8f69ee7"
+  integrity sha512-Ti0dJw78QlQGv7TEaF45xkZYWx6HMYXnP7lLBRNxsnAYEkhDyEVkcbFNQS/E4O4vKtNYnULqHn5AXFfB+Tq3Bw==
   dependencies:
     "@good-idea/leaky-bucket" "^3.1.2"
     "@good-idea/unwind-edges" "^1.3.0"
-    "@sane-shopify/types" "^0.13.0"
+    "@sane-shopify/types" "^0.14.0"
     "@sanity/client" "^1.149.7"
     axios "^0.19.2"
     debug "^4.1.1"
@@ -3303,6 +3303,11 @@
   version "0.13.0"
   resolved "https://registry.yarnpkg.com/@sane-shopify/types/-/types-0.13.0.tgz#5fc818d5c7649b26583338adb742b3964de9c062"
   integrity sha512-ePq/ArftHsQwsSafbXfoNzH/foJsKMV/JkQZD/C3jYVzN1Gcy7OGkW9iil52P+SvEGp1uwU4GtiXyhqBeMzW0w==
+
+"@sane-shopify/types@^0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@sane-shopify/types/-/types-0.14.0.tgz#771e6e8c541a2f49b22f600325fe65188889788e"
+  integrity sha512-5utKqXqV7Tt9K9ikgz239AvIl83RuXYC0p4xHrSCxsgvghyBxGYGD2Q+ZaFCPg/DSllfURQzZaB0c4+agEiLlA==
 
 "@sanity/base@1.149.10":
   version "1.149.10"
