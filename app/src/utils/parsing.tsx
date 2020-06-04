@@ -72,7 +72,7 @@ const transform = (node, index) => {
     case 'strong':
       return <strong key={index}>{node.childNodes.map(transform)}</strong>
     case 'a':
-      const href = node.attribs.href
+      const href = node?.attrs?.href
       if (!href) return null
 
       const isInternal = internalUrlRegex.test(href)
