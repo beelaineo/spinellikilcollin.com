@@ -1,10 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { PageContext } from './_app'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { Maybe, Customize as CustomizeType } from '../src/types'
-import { richImageFragment } from '../src/graphql'
 import { NotFound } from '../src/views/NotFound'
 import { Customize as CustomizeView } from '../src/views/Customize'
+import { request } from '../src/graphql'
 
 const customizeQuery = gql`
   query CustomizeQuery {
@@ -14,7 +14,6 @@ const customizeQuery = gql`
       title
     }
   }
-  ${richImageFragment}
 `
 
 interface CustomizeProps {
@@ -30,14 +29,25 @@ interface CustomizeResponse {
   Customize?: Maybe<CustomizeType>
 }
 
-Customize.getInitialProps = async (ctx: PageContext) => {
-  const { apolloClient } = ctx
-  const customizeResponse = await apolloClient.query<CustomizeResponse>({
-    query: customizeQuery,
-  })
+/**
+ * Initial Props
+ */
 
-  const customize = customizeResponse?.data?.Customize
-  return { customize }
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await request<CustomizeResponse>(customizeQuery)
+  const customize = response?.Customize
+  return { props: { customize } }
+}
+
+/**
+ * Static Paths
+ */
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  }
 }
 
 export default Customize

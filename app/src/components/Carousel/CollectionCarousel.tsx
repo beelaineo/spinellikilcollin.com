@@ -1,28 +1,30 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { useLazyQuery } from '@apollo/client'
-import { ShopifyCollection } from '../../types'
+import { ShopifyCollection, ShopifyProduct } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
 import { definitely } from '../../utils'
-import { shopifyCollectionFragment } from '../../graphql'
+import { useLazyRequest, shopifyProductThumbnailFragment } from '../../graphql'
 
 const { useEffect } = React
 
 const query = gql`
-  query CarouselCollectionQuery($shopifyId: String!) {
-    allShopifyCollection(where: { shopifyId: { eq: $shopifyId } }) {
-      ...ShopifyCollectionFragment
+  query CarouselCollectionQuery($collectionId: ID!) {
+    allShopifyProduct(
+      where: { _: { references: $collectionId }, archived: { neq: true } }
+      limit: 10
+    ) {
+      ...ShopifyProductThumbnailFragment
     }
   }
-  ${shopifyCollectionFragment}
+  ${shopifyProductThumbnailFragment}
 `
 
 interface Response {
-  allShopifyCollection: ShopifyCollection[]
+  allShopifyProduct: ShopifyProduct[]
 }
 interface Variables {
-  shopifyId: string | null | undefined
+  collectionId: string | null | undefined
 }
 
 interface CollectionCarouselProps {
@@ -32,19 +34,20 @@ interface CollectionCarouselProps {
 export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
   const collectionProducts = collection?.products
   const variables = {
-    shopifyId: collection.shopifyId,
+    collectionId: collection._id,
   }
-  const [getCarousel, { data }] = useLazyQuery<Response, Variables>(query)
+  const [getCarousel, response] = useLazyRequest<Response, Variables>(query)
+  const { data } = response
 
   useEffect(() => {
-    if (!variables.shopifyId) return
+    if (Boolean(data)) return
+    if (!variables.collectionId) return
     if (collectionProducts && collectionProducts.length) return
-    getCarousel({ variables })
+    getCarousel(variables)
   }, [])
 
-  const queryProducts = data?.allShopifyCollection[0]?.products
-
-  const products = definitely(collectionProducts || queryProducts)
+  const products = definitely(collectionProducts || data?.allShopifyProduct)
+  console.log(products)
 
   if (!products.length) return null
 

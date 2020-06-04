@@ -1,8 +1,9 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { PageContext } from '../_app'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { Maybe, Contact } from '../../src/types'
 import { NotFound, ContactView } from '../../src/views'
+import { request } from '../../src/graphql'
 
 const query = gql`
   query ContactPageQuery {
@@ -32,13 +33,25 @@ interface Response {
   Contact: Maybe<Contact>
 }
 
-ContactPage.getInitialProps = async (ctx: PageContext) => {
-  const { apolloClient } = ctx
-  const response = await apolloClient.query({ query })
+/**
+ * Initial Props
+ */
 
-  const contact = response?.data?.Contact
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await request<Response>(query)
+  const contact = response?.Contact
+
+  return { props: { contact } }
+}
+
+/**
+ * Static Paths
+ */
+
+export const getStaticPaths: GetStaticPaths = async () => {
   return {
-    contact,
+    paths: [],
+    fallback: true,
   }
 }
 

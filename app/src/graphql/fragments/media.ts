@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 
 export const sanityImageAssetFragment = gql`
   fragment SanityImageAssetFragment on SanityImageAsset {
+    __typename
     _id
     _type
     _key
@@ -21,10 +22,12 @@ export const sanityImageAssetFragment = gql`
 
 export const sanityImageFragment = gql`
   fragment SanityImageFragment on Image {
+    __typename
     asset {
       ...SanityImageAssetFragment
     }
     hotspot {
+      __typename
       _key
       _type
       x
@@ -33,6 +36,7 @@ export const sanityImageFragment = gql`
       width
     }
     crop {
+      __typename
       _key
       _type
       top
@@ -46,11 +50,13 @@ export const sanityImageFragment = gql`
 
 export const richImageFragment = gql`
   fragment RichImageFragment on RichImage {
+    __typename
     altText
     asset {
       ...SanityImageAssetFragment
     }
     hotspot {
+      __typename
       _key
       _type
       x
@@ -59,6 +65,7 @@ export const richImageFragment = gql`
       width
     }
     crop {
+      __typename
       _key
       _type
       top

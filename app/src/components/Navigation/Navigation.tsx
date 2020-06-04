@@ -1,10 +1,11 @@
 import * as React from 'react'
 import Link from 'next/link'
+import { NextRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useReducer } from 'react'
 import { useCheckout } from 'use-shopify'
-import { useShopData } from '../../providers/ShopDataProvider'
 import { useCart } from '../../providers/CartProvider'
+import { useShopData } from '../../providers/ShopDataProvider'
 import { Checkout } from '../Cart/Checkout'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
@@ -18,6 +19,8 @@ import {
   SideNavigation,
 } from './styled'
 import { NavigationInner } from './NavigationInner'
+
+const { useEffect } = React
 
 interface NavState {
   menuOpen: boolean
@@ -50,11 +53,15 @@ function navReducer(currentState: NavState, action: Action): NavState {
   }
 }
 
-export const Navigation = () => {
+interface NavigationProps {
+  router: NextRouter
+}
+
+export const Navigation = ({ router }: NavigationProps) => {
   /* State from Providers */
   const { loading, checkout } = useCheckout()
   const { menu } = useShopData()
-  const { open: cartOpen, openCart, closeCart } = useCart()
+  const { openCart } = useCart()
 
   /* State */
   const [state, dispatch] = useReducer(navReducer, {
@@ -70,6 +77,12 @@ export const Navigation = () => {
   const closeMenu = () => dispatch({ type: CLOSE_MENU })
   const toggleMenu = () => (menuOpen ? closeMenu() : openMenu())
   const openCartHandler = () => openCart()
+
+  /* Effects */
+
+  useEffect(() => {
+    closeMenu()
+  }, [router.asPath])
 
   /* Parsing */
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []

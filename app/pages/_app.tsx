@@ -7,6 +7,7 @@ import { Footer } from '../src/components/Footer'
 import { Navigation } from '../src/components/Navigation'
 import { Providers } from '../src/providers/AllProviders'
 import { withApollo } from '../src/graphql'
+
 import { getThemeByRoute } from '../src/theme'
 
 interface AppProps {
@@ -72,7 +73,7 @@ const App = (props: AppProps) => {
           />
         </Head>
         <Main>
-          <Navigation />
+          <Navigation router={router} />
           <ComponentWrapper>
             <Component {...pageProps} />
           </ComponentWrapper>
@@ -84,4 +85,4 @@ const App = (props: AppProps) => {
   )
 }
 
-export default withApollo()(App)
+export default App

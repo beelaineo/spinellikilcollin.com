@@ -1,9 +1,11 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { JournalEntry as JournalEntryType } from '../../src/types'
-import { PageContext } from '../_app'
 import { NotFound } from '../../src/views/NotFound'
 import { JournalEntryPage } from '../../src/views/JournalEntryPage'
+import { request } from '../../src/graphql'
+import { definitely } from '../../src/utils'
 
 const journalEntryQuery = gql`
   query JournalEntryQuery($slug: String) {
@@ -35,17 +37,47 @@ interface Response {
   allJournalEntry: JournalEntryType[]
 }
 
-JournalEntry.getInitialProps = async (ctx: PageContext) => {
-  const { apolloClient, query } = ctx
-  const variables = { slug: query.entrySlug }
-  const response = await apolloClient.query<Response>({
-    query: journalEntryQuery,
-    variables,
-  })
-  const entries = response?.data?.allJournalEntry
+/**
+ * Initial Props
+ */
 
-  const entry = entries.length ? entries[0] : undefined
-  return { entry }
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { params } = ctx
+  if (!params) return { props: { entry: undefined } }
+  const variables = { handle: params.entrySlug }
+  const response = await request<Response>(journalEntryQuery, variables)
+  const entries = response?.allJournalEntry
+
+  const entry = entries && entries.length ? entries[0] : undefined
+  return { props: { entry } }
+}
+
+/**
+ * Static Paths
+ */
+const pageHandlesQuery = gql`
+  query JournalEntriesHandlesQuery {
+    allJournalEntry {
+      _id
+      shopifyId
+      slug {
+        current
+      }
+    }
+  }
+`
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const result = await request<Response>(pageHandlesQuery)
+  const entries = definitely(result?.allJournalEntry)
+  const paths = entries.map((entry) => ({
+    params: { entrySlug: entry?.slug?.current ?? undefined },
+  }))
+
+  return {
+    paths,
+    fallback: true,
+  }
 }
 
 export default JournalEntry

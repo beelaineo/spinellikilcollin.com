@@ -1,10 +1,11 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { PageContext } from '../_app'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { Maybe, TeamPage as TeamPageType } from '../../src/types'
 import { richImageFragment } from '../../src/graphql'
 import { NotFound } from '../../src/views/NotFound'
 import { TeamView } from '../../src/views/TeamView'
+import { request } from '../../src/graphql'
 
 const teamQuery = gql`
   query TeamPageQuery {
@@ -40,14 +41,26 @@ interface TeamPageResponse {
   TeamPage?: Maybe<TeamPageType>
 }
 
-TeamPage.getInitialProps = async (ctx: PageContext) => {
-  const { apolloClient } = ctx
-  const teamPageResponse = await apolloClient.query<TeamPageResponse>({
-    query: teamQuery,
-  })
+/**
+ * Initial Props
+ */
 
-  const teamPage = teamPageResponse?.data?.TeamPage
-  return { teamPage }
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const response = await request<TeamPageResponse>(teamQuery)
+  const teamPage = response?.TeamPage
+
+  return { props: { teamPage } }
+}
+
+/**
+ * Static Paths
+ */
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  }
 }
 
 export default TeamPage

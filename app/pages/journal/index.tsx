@@ -1,9 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { JournalEntry } from '../../src/types'
 import { richImageFragment } from '../../src/graphql'
-import { PageContext } from '../_app'
 import { JournalPage } from '../../src/views/JournalPage'
+import { request } from '../../src/graphql'
 
 const journalPageQuery = gql`
   query JournalPageQuery($currentDate: Date) {
@@ -40,10 +41,11 @@ const Journal = ({ entries }: JournalPageProps) => {
   return <JournalPage entries={entries} />
 }
 
-Journal.getInitialProps = async (
-  ctx: PageContext,
-): Promise<JournalPageProps> => {
-  const { apolloClient } = ctx
+/**
+ * Initial Props
+ */
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
   const now = new Date()
   const currentDate = [
     now.getFullYear(),
@@ -55,12 +57,20 @@ Journal.getInitialProps = async (
       .padStart(2, '0'),
   ].join('-')
   const variables = { currentDate }
-  const response = await apolloClient.query<Response>({
-    query: journalPageQuery,
-    variables,
-  })
-  const entries = response.data.allJournalEntry || []
-  return { entries }
+  const response = await request<Response>(journalPageQuery, variables)
+  const entries = response?.allJournalEntry ?? []
+  return { props: { entries } }
+}
+
+/**
+ * Static Paths
+ */
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  }
 }
 
 export default Journal

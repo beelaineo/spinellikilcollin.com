@@ -1,13 +1,14 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { Homepage as HomepageType } from '../src/types'
-import { Homepage as HomepageView } from '../src/views'
+import { NotFound, Homepage as HomepageView } from '../src/views'
 import {
   imageTextBlockFragment,
   carouselFragment,
   heroFragment,
 } from '../src/graphql'
+import { request } from '../src/graphql'
 
 const homepageQuery = gql`
   query HomepageQuery {
@@ -35,24 +36,37 @@ const homepageQuery = gql`
 `
 
 export interface HomepageResponse {
-  Homepage: HomepageType
+  Homepage?: HomepageType
 }
 
-export const Homepage = () => {
-  const { data, loading, error } = useQuery<HomepageResponse>(homepageQuery)
-  if (error)
-    return (
-      <React.Fragment>
-        <p>error!</p>
-        <pre>{JSON.stringify(error, null, 2)}</pre>
-      </React.Fragment>
-    )
+interface HomepageProps {
+  homepage?: HomepageType
+}
 
-  if (loading) return <p>Loading...</p>
-  const homepage = data?.Homepage
-  if (!homepage) throw new Error('No homepage data fetched')
-
+export const Homepage = ({ homepage }: HomepageProps) => {
+  if (!homepage) return <NotFound />
   return <HomepageView homepage={homepage} />
+}
+
+/**
+ * Initial Props
+ */
+
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await request<HomepageResponse>(homepageQuery)
+  const homepage = response?.Homepage
+  return { props: { homepage } }
+}
+
+/**
+ * Static Paths
+ */
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  }
 }
 
 export default Homepage

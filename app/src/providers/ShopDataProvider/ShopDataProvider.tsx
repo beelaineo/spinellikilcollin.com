@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useQuery } from '@apollo/client'
 import { SHOP_DATA_QUERY, ShopDataResponse } from './shopDataQuery'
 import {
   Menu,
@@ -9,6 +8,7 @@ import {
   ProductListingSettings,
   SiteSettings,
 } from '../../types'
+import { useRequest } from '../../graphql'
 import { definitely, getPageLinkUrl, LinkInfo } from '../../utils'
 
 const { useContext } = React
@@ -45,9 +45,9 @@ interface Person {
 }
 
 export const ShopDataProvider = ({ children }: Props) => {
-  const response = useQuery<ShopDataResponse>(SHOP_DATA_QUERY)
+  const response = useRequest<ShopDataResponse>(SHOP_DATA_QUERY)
 
-  const ready = Boolean(response.data && !response.loading)
+  const ready = Boolean(response.data)
   const menu = response?.data?.Menu
   const siteSettings = response?.data?.SiteSettings
   const productInfoSettings = response?.data?.ProductInfoSettings

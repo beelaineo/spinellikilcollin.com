@@ -54,7 +54,6 @@ export const ProductListing = ({
     : definitely(products)
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
-    console.log(filters)
     if (!filters?.length) {
       resetQueryResults()
       return

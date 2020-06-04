@@ -1,8 +1,9 @@
 import gql from 'graphql-tag'
-import { richImageFragment } from './media'
+import { sanityImageFragment, richImageFragment } from './media'
 
 export const shopifySourceImageFragment = gql`
   fragment ShopifySourceImageFragment on ShopifySourceImage {
+    __typename
     id
     altText
     originalSrc
@@ -16,6 +17,7 @@ export const shopifySourceImageFragment = gql`
 
 export const shopifySourceProductVariantFragment = gql`
   fragment ShopifySourceProductVariantFragment on ShopifySourceProductVariant {
+    __typename
     _key
     _type
     availableForSale
@@ -25,10 +27,12 @@ export const shopifySourceProductVariantFragment = gql`
       ...ShopifySourceImageFragment
     }
     priceV2 {
+      __typename
       amount
       currencyCode
     }
     selectedOptions {
+      __typename
       _key
       name
       value
@@ -39,6 +43,7 @@ export const shopifySourceProductVariantFragment = gql`
 
 export const productInfoFragment = gql`
   fragment ProductInfoFragment on ProductInfo {
+    __typename
     _key
     _type
     title
@@ -48,9 +53,11 @@ export const productInfoFragment = gql`
 
 export const internalLinkFragment = gql`
   fragment InternalLinkFragment on InternalLink {
+    __typename
     _key
     _type
     document {
+      __typename
       ... on Contact {
         _id
         _type
@@ -115,6 +122,7 @@ export const internalLinkFragment = gql`
 
 export const richPageLinkFragment = gql`
   fragment RichPageLinkFragment on RichPageLink {
+    __typename
     _key
     _type
     title
@@ -131,12 +139,15 @@ export const richPageLinkFragment = gql`
 
 export const filterSetFragment = gql`
   fragment FilterSetFragment on FilterSet {
+    __typename
     _key
     heading
     filters {
+      __typename
       _key
       label
       matches {
+        __typename
         _key
         type
         match
@@ -147,6 +158,7 @@ export const filterSetFragment = gql`
 
 export const priceRangeFilterFragment = gql`
   fragment PriceRangeFilterFragment on PriceRangeFilter {
+    __typename
     _key
     minPrice
     maxPrice
@@ -155,6 +167,7 @@ export const priceRangeFilterFragment = gql`
 
 export const ctaFragment = gql`
   fragment CTAFragment on Cta {
+    __typename
     _key
     _type
     label
@@ -167,6 +180,7 @@ export const ctaFragment = gql`
 
 export const externalLinkFragment = gql`
   fragment ExternalLinkFragment on ExternalLink {
+    __typename
     _key
     _type
     url
@@ -176,6 +190,7 @@ export const externalLinkFragment = gql`
 
 export const imageTextBlockFragment = gql`
   fragment ImageTextBlockFragment on ImageTextBlock {
+    __typename
     _key
     _type
     bodyRaw
@@ -205,6 +220,7 @@ export const imageTextBlockFragment = gql`
 
 export const shopifySourceProductFragment = gql`
   fragment ShopifySourceProductFragment on ShopifySourceProduct {
+    __typename
     id
     title
     handle
@@ -213,19 +229,25 @@ export const shopifySourceProductFragment = gql`
     description
     descriptionHtml
     collections {
+      __typename
       pageInfo {
+        __typename
         hasNextPage
         hasPreviousPage
       }
       edges {
+        __typename
         node {
+          __typename
           handle
           id
         }
       }
     }
     variants {
+      __typename
       edges {
+        __typename
         cursor
         node {
           ...ShopifySourceProductVariantFragment
@@ -233,17 +255,22 @@ export const shopifySourceProductFragment = gql`
       }
     }
     priceRange {
+      __typename
       minVariantPrice {
+        __typename
         amount
         currencyCode
       }
       maxVariantPrice {
+        __typename
         amount
         currencyCode
       }
     }
     images {
+      __typename
       edges {
+        __typename
         cursor
         node {
           ...ShopifySourceImageFragment
@@ -257,6 +284,7 @@ export const shopifySourceProductFragment = gql`
 
 export const shopifyProductFragment = gql`
   fragment ShopifyProductFragment on ShopifyProduct {
+    __typename
     _id
     _key
     title
@@ -280,6 +308,7 @@ export const shopifyProductFragment = gql`
 
 export const shopifyCollectionFragment = gql`
   fragment ShopifyCollectionFragment on ShopifyCollection {
+    __typename
     _id
     _type
     _key
@@ -296,11 +325,13 @@ export const shopifyCollectionFragment = gql`
 
 export const carouselFragment = gql`
   fragment CarouselFragment on Carousel {
+    __typename
     _key
     _type
     title
     subtitleRaw
     collection {
+      __typename
       _id
       _type
       _key
@@ -318,6 +349,7 @@ export const carouselFragment = gql`
 
 export const heroFragment = gql`
   fragment HeroFragment on Hero {
+    __typename
     _key
     _type
     bodyRaw
@@ -331,4 +363,40 @@ export const heroFragment = gql`
     }
   }
   ${richImageFragment}
+`
+
+export const shopifyProductThumbnailFragment = gql`
+  fragment ShopifyProductThumbnailFragment on ShopifyProduct {
+    __typename
+    _id
+    _key
+    archived
+    shopifyId
+    title
+    handle
+    options {
+      __typename
+      _key
+      _type
+      shopifyOptionId
+      name
+      values {
+        __typename
+        _key
+        _type
+        value
+        descriptionRaw
+        swatch {
+          ...SanityImageFragment
+        }
+      }
+    }
+    sourceData {
+      ...ShopifySourceProductFragment
+    }
+  }
+
+  ${sanityImageFragment}
+  ${shopifySourceImageFragment}
+  ${shopifySourceProductFragment}
 `

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
+import { GetStaticProps, GetStaticPaths } from 'next'
 import { ShopifyProduct } from '../../src/types'
 import { NotFound, ProductDetail } from '../../src/views'
 import {
@@ -12,7 +13,8 @@ import {
   shopifySourceProductFragment,
   shopifySourceImageFragment,
 } from '../../src/graphql'
-import { PageContext } from '../_app'
+import { request } from '../../src/graphql'
+import { definitely } from '../../src/utils'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -28,6 +30,7 @@ const productQuery = gql`
     allShopifyProduct(
       where: { handle: { eq: $handle }, archived: { neq: true } }
     ) {
+      __typename
       _id
       _key
       shopifyId
@@ -38,6 +41,7 @@ const productQuery = gql`
         ...ShopifySourceProductFragment
       }
       collections {
+        __typename
         _id
         _key
         title
@@ -45,11 +49,13 @@ const productQuery = gql`
         shopifyId
       }
       options {
+        __typename
         _key
         _type
         shopifyOptionId
         name
         values {
+          __typename
           _key
           _type
           value
@@ -60,6 +66,7 @@ const productQuery = gql`
         }
       }
       variants {
+        __typename
         _key
         _type
         shopifyVariantID
@@ -105,17 +112,45 @@ const Product = ({ product }: ProductPageProps) => {
   return <ProductDetail product={product} />
 }
 
-Product.getInitialProps = async (ctx: PageContext) => {
-  const { apolloClient, query } = ctx
-  const variables = { handle: query.productSlug }
-  const response = await apolloClient.query<Response>({
-    query: productQuery,
-    variables,
-  })
-  const products = response?.data?.allShopifyProduct
+/**
+ * Initial Props
+ */
 
-  const product = products.length ? products[0] : undefined
-  return { product }
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  const { params } = ctx
+  if (!params) return { props: { product: undefined } }
+  const variables = { handle: params.productSlug }
+  const response = await request<Response>(productQuery, variables)
+  const products = response?.allShopifyProduct
+
+  const product = products && products.length ? products[0] : undefined
+  return { props: { product } }
+}
+
+/**
+ * Static Paths
+ */
+const pageHandlesQuery = gql`
+  query ProductHandlesQuery {
+    allShopifyProduct {
+      _id
+      shopifyId
+      handle
+    }
+  }
+`
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const result = await request<Response>(pageHandlesQuery)
+  const products = definitely(result?.allShopifyProduct)
+  const paths = products.map((product) => ({
+    params: { productSlug: product.handle ? product.handle : undefined },
+  }))
+
+  return {
+    paths,
+    fallback: true,
+  }
 }
 
 export default Product
