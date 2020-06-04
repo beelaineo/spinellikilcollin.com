@@ -1,4 +1,4 @@
-import { ShopifyProduct, FilterMatch } from '../../types'
+import { ShopifyProduct, FilterConfiguration } from '../../types'
 import { buildFilters } from '../../utils/sanity'
 
 export type FilterResponse = ShopifyProduct[]
@@ -26,7 +26,7 @@ const filterQuery = (filterString?: string) => `
 }
 `
 
-export const buildQuery = (filters: FilterMatch[][]) => {
+export const buildQuery = (filters: FilterConfiguration) => {
   const filterString = buildFilters(filters)
   return filterQuery(filterString)
 }

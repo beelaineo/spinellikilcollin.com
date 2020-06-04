@@ -4,9 +4,16 @@ import {
   PriceRangeFilter as PriceRangeFilterType,
 } from '../../types'
 
-export interface FilterSetState {
+export type FilterValues<T = string | number | boolean | undefined> = {
+  [key: string]: T
+}
+
+export interface FilterSetState<
+  FilterValueType = string | number | boolean | undefined
+> {
   key: string
   activeMatchKeys: string[]
+  values?: FilterValues<FilterValueType>
 }
 
 interface State {
@@ -18,6 +25,7 @@ const RESET_SET = 'RESET_SET'
 const ENABLE = 'ENABLE'
 const DISABLE = 'DISABLE'
 const TOGGLE = 'TOGGLE'
+const SET_VALUES = 'SET_VALUES'
 
 interface ResetAllAction {
   type: typeof RESET_ALL
@@ -46,12 +54,20 @@ interface ToggleAction {
   matchKey: string
 }
 
+interface SetValuesAction {
+  type: typeof SET_VALUES
+  setKey: string
+  matchKey: string
+  values: FilterValues
+}
+
 type Action =
   | ResetAllAction
   | ResetSetAction
   | EnableAction
   | DisableAction
   | ToggleAction
+  | SetValuesAction
 
 const unique = <T>(array: T[]): T[] => {
   const set = new Set(array)
@@ -127,6 +143,18 @@ const reducer = (state: State, action: Action) => {
             : set,
         ),
       }
+    case SET_VALUES:
+      return {
+        filterSetStates: state.filterSetStates.map((set) =>
+          set.key === action.setKey
+            ? {
+                ...set,
+                values: action.values,
+              }
+            : set,
+        ),
+      }
+
     default:
       // @ts-ignore
       throw new Error(`"${action.type} is not a valid action type"`)
@@ -143,6 +171,9 @@ interface UseFilterReducer {
   enable: (setKey: string) => (matchKey: string) => () => void
   disable: (setKey: string) => (matchKey: string) => () => void
   toggle: (setKey: string) => (matchKey: string) => () => void
+  setValues: (
+    setKey: string,
+  ) => (matchKey: string, values: FilterValues) => void
 }
 
 export const useFilterState = (filters: Filters): UseFilterReducer => {
@@ -150,6 +181,13 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
     filterSetStates: filters.map((filter) => ({
       key: filter._key || 'some-key',
       activeMatchKeys: [],
+      values:
+        filter.__typename === 'PriceRangeFilter'
+          ? {
+              minPrice: filter?.minPrice || 0,
+              maxPrice: filter?.maxPrice || 0,
+            }
+          : {},
     })),
   }
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -164,6 +202,10 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
     dispatch({ type: DISABLE, setKey, matchKey })
   const toggle = (setKey: string) => (matchKey: string) => () =>
     dispatch({ type: TOGGLE, setKey, matchKey })
+  const setValues = (setKey: string) => (
+    matchKey: string,
+    values: FilterValues,
+  ) => dispatch({ type: SET_VALUES, setKey, matchKey, values })
   return {
     filterSetStates,
     resetAll,
@@ -171,5 +213,6 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
     enable,
     disable,
     toggle,
+    setValues,
   }
 }

@@ -3640,8 +3640,8 @@ export interface ShopifyStorefrontPricingPercentageValue {
 
 /** The price value (fixed or percentage) for a discount application. */
 export type ShopifyStorefrontPricingValue =
-  | ShopifyStorefrontPricingPercentageValue
   | ShopifyStorefrontMoneyV2
+  | ShopifyStorefrontPricingPercentageValue
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.

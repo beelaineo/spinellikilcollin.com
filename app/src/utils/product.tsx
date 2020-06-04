@@ -3,6 +3,7 @@ import {
   ShopifyProductOptionValue,
   ShopifyProductOption,
   ShopifySourceProductVariant,
+  ShopifyProductVariant,
   Maybe,
   Image,
 } from '../types'
@@ -31,17 +32,23 @@ export const getSwatchImages = ({ values }: ShopifyProductOption): Image[] =>
 export const optionMatchesVariant = (
   optionName: string,
   option: ShopifyProductOptionValue,
-  variant: ShopifySourceProductVariant,
-): boolean =>
-  definitely(variant?.selectedOptions).some(
+  variant: ShopifyProductVariant | ShopifySourceProductVariant,
+): boolean => {
+  const selectedOptions =
+    variant.__typename === 'ShopifyProductVariant'
+      ? variant?.sourceData?.selectedOptions
+      : variant?.selectedOptions
+
+  return definitely(selectedOptions).some(
     (vso) => optionName === vso.name && option.value === vso.value,
   )
+}
 
 export const getSelectedOptionValues = (
   product: ShopifyProduct,
-  variant: ShopifySourceProductVariant,
+  variant: ShopifyProductVariant,
 ): ShopifyProductOptionValue[] => {
-  const variantSelectedOptions = variant?.selectedOptions
+  const variantSelectedOptions = variant?.sourceData?.selectedOptions
   if (!product.options || !variantSelectedOptions) return []
 
   const selectedOptionValues = definitely(product?.options).reduce<

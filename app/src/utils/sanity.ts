@@ -1,4 +1,9 @@
-import { FilterMatch } from '../types'
+import {
+  FilterMatch,
+  PRICE_RANGE_FILTER,
+  FILTER_MATCH_GROUP,
+  FilterConfiguration,
+} from '../types'
 
 const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
   switch (type) {
@@ -15,15 +20,31 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
   }
 }
 
-export const buildFilters = (filters: FilterMatch[][]): string => {
+export const buildFilters = (filters: FilterConfiguration): string => {
   return filters
-    .map((filterGroup) =>
-      filterGroup
-        //
-        .map(parseFilterMatch)
-        .filter(Boolean)
-        .join(' || ')
-        .replace(/(.*)/, '($1)'),
-    )
+    .map((filterGroup) => {
+      if (filterGroup.filterType === FILTER_MATCH_GROUP) {
+        return filterGroup.matches
+          .map(parseFilterMatch)
+          .filter(Boolean)
+          .join(' || ')
+          .replace(/(.*)/, '($1)')
+      } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
+        const { minPrice, maxPrice } = filterGroup
+        return [
+          '(',
+          'minVariantPrice',
+          ' >= ',
+          Math.floor(minPrice),
+          ' && ',
+          'maxVariantPrice',
+          ' <= ',
+          Math.ceil(maxPrice),
+          ')',
+        ].join('')
+      }
+      throw new Error('This kind of filter cannot be parsed')
+    })
+
     .join(' && ')
 }

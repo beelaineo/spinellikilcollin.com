@@ -1885,6 +1885,8 @@ export interface ShopifyProduct extends Document {
   title?: Maybe<Scalars['String']>
   handle?: Maybe<Scalars['String']>
   shopifyId?: Maybe<Scalars['String']>
+  minVariantPrice?: Maybe<Scalars['Float']>
+  maxVariantPrice?: Maybe<Scalars['Float']>
   archived?: Maybe<Scalars['Boolean']>
   sourceData?: Maybe<ShopifySourceProduct>
   collections?: Maybe<Array<Maybe<ShopifyCollection>>>
@@ -1908,6 +1910,8 @@ export type ShopifyProductFilter = {
   title?: Maybe<StringFilter>
   handle?: Maybe<StringFilter>
   shopifyId?: Maybe<StringFilter>
+  minVariantPrice?: Maybe<FloatFilter>
+  maxVariantPrice?: Maybe<FloatFilter>
   archived?: Maybe<BooleanFilter>
   sourceData?: Maybe<ShopifySourceProductFilter>
   related?: Maybe<CarouselFilter>
@@ -1969,6 +1973,8 @@ export type ShopifyProductSorting = {
   title?: Maybe<SortOrder>
   handle?: Maybe<SortOrder>
   shopifyId?: Maybe<SortOrder>
+  minVariantPrice?: Maybe<SortOrder>
+  maxVariantPrice?: Maybe<SortOrder>
   archived?: Maybe<SortOrder>
   sourceData?: Maybe<ShopifySourceProductSorting>
   related?: Maybe<CarouselSorting>

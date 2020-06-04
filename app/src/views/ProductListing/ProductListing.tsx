@@ -3,13 +3,12 @@ import {
   ShopifyCollection,
   ShopifyProduct,
   CollectionBlock as CollectionBlockType,
-  FilterMatch,
+  FilterConfiguration,
 } from '../../types'
 import { PageWrapper } from '../../components/Layout'
 import { ProductThumbnail } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Filter } from '../../components/Filter'
-import { ProductListingHeader } from './ProductListingHeader'
 import { CollectionBlock } from './CollectionBlock'
 import { definitely } from '../../utils'
 import { ProductGrid, ProductGridItem } from './styled'
@@ -33,7 +32,7 @@ export const ProductListing = ({
   products,
 }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
-  const { state, executeQuery } = useSanityQuery<
+  const { state, executeQuery, reset: resetQueryResults } = useSanityQuery<
     ShopifyProduct,
     FilterVariables
   >()
@@ -54,8 +53,12 @@ export const ProductListing = ({
       }, definitely(products))
     : definitely(products)
 
-  const applyFilters = async (filters: FilterMatch[][]) => {
-    if (!filters.length) return
+  const applyFilters = async (filters: null | FilterConfiguration) => {
+    console.log(filters)
+    if (!filters?.length) {
+      resetQueryResults()
+      return
+    }
     const query = buildQuery(filters)
     if (!collection._id) {
       throw new Error('No _id for this collection was supplied')
@@ -66,6 +69,8 @@ export const ProductListing = ({
     executeQuery(query, params)
   }
 
+  const displayPrice = Boolean(filterResults?.length)
+
   return (
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
@@ -73,7 +78,6 @@ export const ProductListing = ({
         {filters && filters.length ? (
           <Filter applyFilters={applyFilters} filters={filters} />
         ) : null}
-        <ProductListingHeader collection={collection} />
         <ProductGrid>
           {definitely(items).map((item) => {
             switch (item.__typename) {
@@ -89,7 +93,10 @@ export const ProductListing = ({
               case 'ShopifyProduct':
                 return (
                   <ProductGridItem key={item._id || 'some-key'}>
-                    <ProductThumbnail product={item} />
+                    <ProductThumbnail
+                      product={item}
+                      displayPrice={displayPrice}
+                    />
                   </ProductGridItem>
                 )
             }

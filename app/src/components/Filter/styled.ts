@@ -1,4 +1,5 @@
 import styled, { css } from '@xstyled/styled-components'
+import { Button } from '../Button'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
@@ -10,6 +11,28 @@ export const Wrapper = styled.div`
   `}
 `
 
+export const Header = styled.div`
+  padding: 0 4;
+`
+
+interface WithOpen {
+  open: boolean
+}
+
+export const Inner = styled.div<WithOpen>`
+  ${({ open }) => css`
+    display: ${open ? 'block' : 'none'};
+  `}
+`
+
+export const OpenButton = styled(Button)`
+  text-transform: initial;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 4;
+  align-items: center;
+`
+
 export const FilterSets = styled.div`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -18,7 +41,7 @@ export const FilterSets = styled.div`
   border-top: 1px solid;
   border-bottom: 1px solid;
   margin-bottom: 4;
-  margin: 0 4;
+  margin: 4 4 0;
 `
 
 interface WithSpan {

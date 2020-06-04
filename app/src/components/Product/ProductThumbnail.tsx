@@ -94,11 +94,11 @@ export const ProductThumbnail = ({
                 maxVariantPrice &&
                 minVariantPrice.amount !== maxVariantPrice.amount ? (
                   <Heading level={3}>
-                    | {formatMoney(minVariantPrice)} -{' '}
+                    {formatMoney(minVariantPrice)} -{' '}
                     {formatMoney(maxVariantPrice)}
                   </Heading>
                 ) : maxVariantPrice ? (
-                  <Heading level={3}>| {formatMoney(maxVariantPrice)}</Heading>
+                  <Heading level={3}>{formatMoney(maxVariantPrice)}</Heading>
                 ) : null}
               </>
             ) : null}

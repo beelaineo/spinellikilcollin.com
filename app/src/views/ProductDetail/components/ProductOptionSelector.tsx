@@ -57,11 +57,17 @@ export const ProductOptionSelector = ({
     selectOption(value)
   }
 
-  const handleSwatchClick = ({ value }: ShopifyProductOptionValue) => () => {
+  const handleSwatchClick = (
+    option: ShopifyProductOption,
+    { value }: ShopifyProductOptionValue,
+  ) => () => {
     if (value) selectOption(value)
   }
 
-  const isSwatchActive = (value: ShopifyProductOptionValue): boolean => {
+  const isSwatchActive = (
+    option: ShopifyProductOption,
+    value: ShopifyProductOptionValue,
+  ): boolean => {
     return optionMatchesVariant(option.name || 'foo', value, currentVariant)
   }
 

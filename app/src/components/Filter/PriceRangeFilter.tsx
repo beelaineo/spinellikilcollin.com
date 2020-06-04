@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
+import { FilterSetState, FilterValues } from './reducer'
 import { PriceRangeFilterWrapper } from './styled'
 import { Heading, Span } from '../Text'
 import { Slider, KnobHandle, KnobDot, KnobLabel } from './styled'
@@ -9,12 +10,18 @@ const { useEffect, useState } = React
 
 const roundTo = (number: number, to: number) => Math.round(number / to) * to
 
-const parsePrice = (price: number): string => {
-  const rounded = roundTo(price, 100).toString()
+const roundPrice = (price: number): number => roundTo(price, 100)
+
+const parsePriceString = (price: number): string => {
+  const roundedPrice = roundPrice(price)
+
   const amount =
     price < 1000
-      ? rounded
-      : rounded.replace(/(.*)(\d)00$/, `$1.$2k`).replace('.0', '')
+      ? roundedPrice.toString()
+      : roundedPrice
+          .toString()
+          .replace(/(.*)(\d)00$/, `$1.$2k`)
+          .replace('.0', '')
   return ['$', amount].join('')
 }
 
@@ -43,6 +50,7 @@ const Knob = ({
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!mouseDown || !container) return
+
     const mouseX = e.clientX
     const { offsetWidth, offsetLeft } = container
     const diffPx = mouseX - offsetLeft
@@ -64,7 +72,7 @@ const Knob = ({
     <KnobHandle position={position}>
       <KnobDot onMouseDown={handleMouseDown} onMouseUp={release} />
       <KnobLabel>
-        <Heading level={4}>{parsePrice(amount)}</Heading>
+        <Heading level={4}>{parsePriceString(amount)}</Heading>
       </KnobLabel>
     </KnobHandle>
   )
@@ -72,13 +80,20 @@ const Knob = ({
 
 interface PriceRangeFilterProps {
   priceRangeFilter: PriceRangeFilterType
+  filterSetState?: FilterSetState
+  setValues: (matchKey: string, values: FilterValues) => void
+  resetSet: () => void
+  setKey: string
 }
 
-export const PriceRangeFilter = ({
+export function PriceRangeFilter({
   priceRangeFilter,
-}: PriceRangeFilterProps) => {
+  filterSetState,
+  setValues,
+}: PriceRangeFilterProps) {
   const { minPrice, maxPrice, _key } = priceRangeFilter
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
+
   const [currentMinPrice, setCurrentMinPrice] = useState<number | null>(
     minPrice || null,
   )
@@ -86,29 +101,62 @@ export const PriceRangeFilter = ({
     maxPrice || null,
   )
 
+  if (!minPrice) {
+    throw new Error(
+      'The price range filter was not configured with a min price',
+    )
+  }
+  if (!maxPrice) {
+    throw new Error(
+      'The price range filter was not configured with a max price',
+    )
+  }
+
+  if (!filterSetState?.values) {
+    throw new Error('The price range filter was not set up with initial values')
+  }
+
+  if (typeof currentMinPrice !== 'number') {
+    throw new Error('currentMinPrice must be a number')
+  }
+
+  if (typeof currentMaxPrice !== 'number') {
+    throw new Error('currentMaxPrice must be a number')
+  }
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setValues('', { minPrice: currentMinPrice, maxPrice: currentMaxPrice })
+    }, 300)
+    return () => clearTimeout(timeout)
+  }, [currentMinPrice, currentMaxPrice])
+
   if (
     maxPrice === undefined ||
     minPrice === undefined ||
     maxPrice === null ||
     minPrice === null ||
-    currentMaxPrice === null ||
     currentMinPrice === null ||
-    currentMaxPrice === null
+    currentMaxPrice === null ||
+    currentMinPrice === undefined ||
+    currentMaxPrice === undefined
   ) {
     return null
   }
-
   const setContainer = (el: HTMLDivElement) => setContainerState(el)
 
   const currentMinPosition = currentMinPrice / maxPrice
   const currentMaxPosition = currentMaxPrice / maxPrice
-  const updateMinPosition = (pos: number) => setCurrentMinPrice(maxPrice * pos)
-  const updateMaxPosition = (pos: number) => setCurrentMaxPrice(maxPrice * pos)
+  const updateMinPosition = (pos: number) =>
+    setCurrentMinPrice(Math.floor(maxPrice * pos))
+  const updateMaxPosition = (pos: number) =>
+    setCurrentMaxPrice(Math.ceil(maxPrice * pos))
   return (
     <PriceRangeFilterWrapper>
       <Label htmlFor={_key || 'some-key'}>
         <Span textTransform="uppercase">Price Range:</Span>
-        From {parsePrice(currentMinPrice)} to {parsePrice(currentMaxPrice)}
+        From {parsePriceString(currentMinPrice)} to{' '}
+        {parsePriceString(currentMaxPrice)}
       </Label>
       <Slider ref={setContainer}>
         <Knob
