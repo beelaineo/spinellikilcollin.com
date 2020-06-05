@@ -94,6 +94,7 @@ export const internalLink = {
         { type: 'magazine' },
         { type: 'contact' },
         { type: 'customize' },
+        { type: 'about' },
         { type: 'page' },
       ],
     },
