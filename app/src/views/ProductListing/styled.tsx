@@ -74,8 +74,11 @@ export const ProductGrid = styled.div`
       padding: 5;
     }
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       padding: 3;
+    }
+    @media screen and (max-width: 420px) {
+      grid-template-columns: 1fr;
     }
   `}
 `

@@ -18,9 +18,7 @@ interface CustomSerializerConfig {
   weight?: number
 }
 
-const RichTextWrapper = styled.div`
-  line-height: 1.4em;
-`
+const RichTextWrapper = styled.div``
 
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */
@@ -69,12 +67,12 @@ const serializers = ({
       )
     },
   },
-  listItem: (props) => <Li {...props} />,
+  listItem: (props) => <Li weight={3} {...props} />,
   block: (props): React.ReactNode => {
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
     if (Wrapper) return <Wrapper {...props} />
-    const weight = customWeight ?? 4
+    const weight = customWeight ?? 3
 
     const style = props.node.style || 'normal'
     if (/image|richImage/.test(props.node._type)) {
@@ -84,13 +82,13 @@ const serializers = ({
 
     switch (style) {
       case 'h1':
-        return <Heading level={1} weight={weight} {...props} />
+        return <Heading level={0} weight={weight} {...props} />
       case 'h2':
-        return <Heading level={2} weight={weight} {...props} />
+        return <Heading level={1} weight={weight} {...props} />
       case 'h3':
-        return <Heading level={3} weight={weight} {...props} />
+        return <Heading level={2} weight={weight} {...props} />
       case 'h4':
-        return <Heading level={4} weight={weight} {...props} />
+        return <Heading level={3} weight={weight} {...props} />
       case 'h5':
         return <Heading level={5} weight={weight} {...props} />
       case 'h6':

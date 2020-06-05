@@ -47,14 +47,10 @@ export const getFlexJustification = (
 
 export const getColor = (color: string | void | null): string => {
   switch (color) {
-    case 'black':
-      return 'grays.9'
-    case 'darkGray':
-      return 'grays.8'
-    case 'lightGray':
-      return 'grays.3'
-    case 'white':
+    case 'light':
+      return 'body.1'
+    case 'dark':
     default:
-      return 'grays.0'
+      return 'body.9'
   }
 }

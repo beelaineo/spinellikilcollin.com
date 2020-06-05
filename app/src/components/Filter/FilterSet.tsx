@@ -5,7 +5,7 @@ import { definitely } from '../../utils'
 import { CheckboxElement, CheckboxWrapper } from '../Forms/Fields/Checkbox'
 import { Label } from '../Forms/Fields/styled'
 import { FilterSetState } from './reducer'
-import { FilterSetWrapper } from './styled'
+import { HeadingWrapper, FilterSetWrapper } from './styled'
 
 interface FilterCheckboxProps {
   filter: Filter
@@ -70,7 +70,9 @@ export const FilterSet = ({
   const span = Math.floor(filters.length)
   return (
     <FilterSetWrapper span={span}>
-      <Heading level={4}>{heading}</Heading>
+      <HeadingWrapper>
+        <Heading level={4}>{heading}</Heading>
+      </HeadingWrapper>
       <FilterCheckbox
         matchKey={resetKey}
         onChange={resetSet}

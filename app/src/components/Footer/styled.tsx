@@ -1,33 +1,67 @@
 import styled, { css } from '@xstyled/styled-components'
 
 export const FooterWrapper = styled.footer`
-  padding: 2 11 6;
+  ${({ theme }) => css`
+    padding: 2 11 6;
+    background-color: body.0;
+
+    ${theme.mediaQueries.tablet} {
+      padding: 2 8 6;
+    }
+    ${theme.mediaQueries.mobile} {
+      padding: 2 4 6;
+    }
+  `}
 `
 
 export const FooterInner = styled.div`
-  display: grid;
-  padding: 6 0;
-  grid-template-columns: 40% 20% 1fr;
-  grid-column-gap: 3;
-  border-top: 1px solid;
-  border-bottom: 1px solid;
-  border-color: body.4;
+  ${({ theme }) => css`
+    display: grid;
+    padding: 6 0;
+    grid-template-columns: 40% 20% 1fr;
+    grid-column-gap: 3;
 
-  &:nth-of-type(2) {
-    align-items: center;
-  }
+    &:nth-of-type(2) {
+      align-items: center;
+    }
 
-  & + & {
-    border-top: initial;
-  }
+    & + & {
+      border-top: 1px solid;
+      border-top-color: body.4;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 6 4 0;
+      display: flex;
+      flex-direction: column;
+
+      & + & {
+        border-top: none;
+      }
+    }
+  `}
 `
 
 export const FooterLinks = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  ${({ theme }) => css`
+    display: grid;
+    grid-column-gap: 3;
+    grid-template-columns: 1fr 1fr;
+
+    ${theme.mediaQueries.mobile} {
+      order: 2;
+    }
+  `}
 `
 
-export const MailerWrapper = styled.div``
+export const MailerWrapper = styled.div`
+  ${({ theme }) => css`
+    ${theme.mediaQueries.mobile} {
+      order: 1;
+      margin-bottom: 8;
+    }
+  `}
+`
 
 export const MailerInput = styled.form`
   position: relative;
@@ -78,13 +112,23 @@ export const SuccessWrapper = styled.div<WithVisible>`
 `
 
 export const Socials = styled.div`
-  color: body.8;
-  font-size: 2;
-  display: flex;
-  a {
+  ${({ theme }) => css`
+    color: body.8;
+    font-size: 2;
     display: flex;
-  }
-  a + a {
-    margin-left: 7;
-  }
+    a {
+      display: flex;
+    }
+    a + a {
+      margin-left: 7;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 6 0;
+      border-top: 1px solid;
+      border-bottom: 1px solid;
+      border-color: body.4;
+      margin-bottom: 4;
+    }
+  `}
 `

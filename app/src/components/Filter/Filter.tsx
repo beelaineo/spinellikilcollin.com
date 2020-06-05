@@ -22,6 +22,7 @@ import { definitely } from '../../utils'
 import { useFilterState, FilterSetState } from './reducer'
 import { Button } from '../../components/Button'
 import { PlusMinus } from '../../components/PlusMinus'
+import { FilterWrapper } from './FilterWrapper'
 
 const { useState } = React
 
@@ -117,27 +118,35 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
           {open
             ? filters.map((filter) =>
                 filter.__typename === 'FilterSet' ? (
-                  <FilterSet
+                  <FilterWrapper
                     key={filter._key || 'some-key'}
-                    setKey={filter._key || 'some-key'}
-                    filterSetState={filterSetStates.find(
-                      (s) => s.key === filter._key,
-                    )}
-                    resetSet={resetSet(filter._key || 'some-key')}
-                    toggleMatch={toggle(filter._key || 'some-key')}
-                    filterSet={filter}
-                  />
+                    heading={filter.heading}
+                  >
+                    <FilterSet
+                      setKey={filter._key || 'some-key'}
+                      filterSetState={filterSetStates.find(
+                        (s) => s.key === filter._key,
+                      )}
+                      resetSet={resetSet(filter._key || 'some-key')}
+                      toggleMatch={toggle(filter._key || 'some-key')}
+                      filterSet={filter}
+                    />
+                  </FilterWrapper>
                 ) : filter.__typename === 'PriceRangeFilter' ? (
-                  <PriceRangeFilter
+                  <FilterWrapper
+                    heading="Price Range"
                     key={filter._key || 'some-key'}
-                    setKey={filter._key || 'some-key'}
-                    filterSetState={filterSetStates.find(
-                      (s) => s.key === filter._key,
-                    )}
-                    setValues={setValues(filter._key || 'some-key')}
-                    resetSet={resetSet(filter._key || 'some-key')}
-                    priceRangeFilter={filter}
-                  />
+                  >
+                    <PriceRangeFilter
+                      setKey={filter._key || 'some-key'}
+                      filterSetState={filterSetStates.find(
+                        (s) => s.key === filter._key,
+                      )}
+                      setValues={setValues(filter._key || 'some-key')}
+                      resetSet={resetSet(filter._key || 'some-key')}
+                      priceRangeFilter={filter}
+                    />
+                  </FilterWrapper>
                 ) : null,
               )
             : null}

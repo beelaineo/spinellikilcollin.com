@@ -21,7 +21,7 @@ const linkStyles = {
 // by the linked page, or by a label passed in as a prop
 
 export const PageLink = ({ link, children, render, label }: LinkProps) => {
-  if (!link) return null
+  if (!link) return <>{children}</>
   if (link.__typename === 'ExternalLink') {
     if (!link.url) return <>{children}</>
     return (

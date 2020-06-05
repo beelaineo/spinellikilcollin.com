@@ -27,30 +27,22 @@ export const NavigationInner = ({ menu }: NavigationInnerProps) => {
       <div>
         {menuItems.map((menuItem) => {
           if (!menuItem) return null
-          switch (menuItem._type) {
-            case 'subMenu':
+          switch (menuItem.__typename) {
+            case 'SubMenu':
               return (
                 <NavItemWrapper key={menuItem._key || 'some-key'}>
-                  <SubMenu
-                    // @ts-ignore
-                    subMenu={menuItem}
-                  />
+                  <SubMenu subMenu={menuItem} />
                 </NavItemWrapper>
               )
-            case 'menuLink':
+            case 'MenuLink':
               return (
                 <NavItemWrapper key={menuItem._key || 'some-key'}>
                   <PageLink
-                    // @ts-ignore
                     link={menuItem.link}
                     render={(inferredLabel) => (
-                      <Heading level={3}>
-                        {//
-                        // @ts-ignore
-                        menuItem.label
-                          ? //
-                            // @ts-ignore
-                            menuItem.label.toUpperCase()
+                      <Heading m={0} level={3}>
+                        {menuItem.label
+                          ? menuItem.label.toUpperCase()
                           : inferredLabel
                           ? inferredLabel.toUpperCase()
                           : ''}

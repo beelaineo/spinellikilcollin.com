@@ -8,16 +8,23 @@ export const CarouselContainer = styled.div`
 `
 
 export const CarouselMask = styled.div`
-  overflow: hidden;
+  ${({ theme }) => css`
+    overflow: hidden;
+
+    ${theme.mediaQueries.mobile} {
+      overflow: visible;
+    }
+  `}
 `
 
 interface SlidesContainerProps {
   left: number
+  columnCount?: number
   theme: DefaultTheme
 }
 
 export const SlidesContainer = styled.div`
-  ${({ left }: SlidesContainerProps) => css`
+  ${({ left, theme, columnCount }: SlidesContainerProps) => css`
     position: relative;
     height: 100%;
     width: 100%;
@@ -28,6 +35,10 @@ export const SlidesContainer = styled.div`
 
     & > * {
       white-space: initial;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: ${columnCount !== 1 ? '0 calc(28vw)' : ''};
     }
   `}
 `
@@ -60,9 +71,10 @@ export const SlideContainer = styled.div`
 
           ${theme.mediaQueries.tablet} {
             width: calc((100% - (${theme.space[4]}px * 2)) / 3);
+            margin-right: 4;
           }
           ${theme.mediaQueries.mobile} {
-            width: calc((100% - (${theme.space[4]}px * 1)) / 2);
+            width: calc((100%) / 1);
           }
         `}
   `}

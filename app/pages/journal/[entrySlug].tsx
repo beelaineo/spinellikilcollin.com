@@ -44,7 +44,7 @@ interface Response {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
   if (!params) return { props: { entry: undefined } }
-  const variables = { handle: params.entrySlug }
+  const variables = { slug: params.entrySlug }
   const response = await request<Response>(journalEntryQuery, variables)
   const entries = response?.allJournalEntry
 

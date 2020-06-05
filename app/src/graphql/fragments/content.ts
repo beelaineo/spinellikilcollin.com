@@ -406,6 +406,7 @@ export const heroFragment = gql`
     _key
     _type
     bodyRaw
+    textColor
     textPosition
     textPositionMobile
     mobileImage {

@@ -11,6 +11,12 @@ interface SubMenuProps {
   subMenu: SubMenuType
 }
 
+const SubmenuButton = styled.button`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 const SubmenuTop = styled.div`
   position: relative;
   button {
@@ -24,16 +30,10 @@ interface SubmenuInnerProps {
   theme: DefaultTheme
 }
 
-const PlusMinusWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
-`
-
 const SubmenuInner = styled.div`
   ${({ open }: SubmenuInnerProps) => css`
     display: ${open ? 'block' : 'none'};
-    padding: 3 0 3 5;
+    padding: 3 0 0 5;
 
     & div + div {
       margin-top: 3;
@@ -49,12 +49,12 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
   return (
     <>
       <SubmenuTop>
-        <button onClick={toggleOpen}>
-          <Heading level={3}>{title.toUpperCase()}</Heading>
-          <PlusMinusWrapper>
-            <PlusMinus open={open} />
-          </PlusMinusWrapper>
-        </button>
+        <SubmenuButton onClick={toggleOpen}>
+          <Heading m={0} level={3}>
+            {title.toUpperCase()}
+          </Heading>
+          <PlusMinus open={open} />
+        </SubmenuButton>
       </SubmenuTop>
       <SubmenuInner open={open}>
         {links.map((cta) =>

@@ -1,21 +1,26 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { Carousel } from '../../types'
 import { CollectionCarousel, ItemsCarousel } from '../Carousel'
 import { Heading } from '../Text'
 
 const CarouselBlockStyled = styled.div`
-  padding: 6;
-  grid-column: span 2;
-  text-align: center;
+  ${({ theme }) => css`
+    padding: 6;
+    grid-column: span 2;
+    text-align: center;
+
+    ${theme.mediaQueries.mobile} {
+      padding: 5 0;
+      overflow: hidden;
+    }
+  `}
 `
 interface CarouselBlockProps {
   content: Carousel
 }
 
-const CarouselContainer = styled.div`
-  height: 400px;
-`
+const CarouselContainer = styled.div``
 
 /**
  * Carousel Block

@@ -59,6 +59,8 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
             <ProductThumbnail
               key={product._key || 'some-key'}
               product={product}
+              displaySwatches={false}
+              displayTags={false}
             />
           )
         })}

@@ -3,7 +3,13 @@ import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
 import { FilterSetState, FilterValues } from './reducer'
 import { PriceRangeFilterWrapper } from './styled'
 import { Heading, Span } from '../Text'
-import { Slider, KnobHandle, KnobDot, KnobLabel } from './styled'
+import {
+  HeadingWrapper,
+  Slider,
+  KnobHandle,
+  KnobDot,
+  KnobLabel,
+} from './styled'
 import { Label } from '../Forms/Fields/styled'
 
 const { useEffect, useState } = React
@@ -154,7 +160,9 @@ export function PriceRangeFilter({
   return (
     <PriceRangeFilterWrapper>
       <Label htmlFor={_key || 'some-key'}>
-        <Span textTransform="uppercase">Price Range:</Span>
+        <HeadingWrapper>
+          <Span textTransform="uppercase">Price Range:</Span>
+        </HeadingWrapper>
         From {parsePriceString(currentMinPrice)} to{' '}
         {parsePriceString(currentMaxPrice)}
       </Label>

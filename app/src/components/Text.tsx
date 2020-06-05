@@ -8,7 +8,7 @@ import styled, {
 
 interface CustomTextProps extends BoxProps {
   theme: DefaultTheme
-  fontSize: 1 | 2 | 3 | 4 | 5 | 6
+  level: 1 | 2 | 3 | 4 | 5 | 6
   fontStyle?: string
   textDecoration?: string
   family?: 'mono' | 'sans' | 'serif'
@@ -16,21 +16,34 @@ interface CustomTextProps extends BoxProps {
   htmlFor?: string
 }
 
+const getCustomTextStyles = ({
+  family,
+  color,
+  fontStyle,
+  textDecoration,
+  weight,
+  level,
+  theme,
+}: CustomTextProps) => css`
+  font-size: ${level};
+  font-family: ${family};
+  font-weight: ${weight};
+  font-style: ${fontStyle};
+  color: ${color};
+  text-decoration: ${textDecoration};
+  ${theme.mediaQueries.tablet} {
+    ${level
+      ? css`
+          font-size: ${theme.mobileFontSizes[level]}px;
+        `
+      : ''}
+  }
+`
+
 const createTextBase = (as: any) => styled(as)`
-  ${({
-    family,
-    color,
-    fontStyle,
-    textDecoration,
-    weight,
-    fontSize,
-  }: CustomTextProps) => css`
-    font-size: ${fontSize};
-    font-family: ${family};
-    font-weight: ${weight};
-    font-style: ${fontStyle};
-    color: ${color};
-    text-decoration: ${textDecoration};
+  ${(props: CustomTextProps) => css`
+    ${getCustomTextStyles(props)}
+    line-height: 1.4em;
     margin: 2 0 0.5em;
 
     &:last-child {
@@ -52,32 +65,7 @@ const createTextBase = (as: any) => styled(as)`
   `}
 `
 
-const TextBase = styled(Box)`
-  ${({
-    family,
-    weight,
-    fontStyle,
-    textDecoration,
-    fontSize,
-    color,
-  }: CustomTextProps) => css`
-    font-size: ${fontSize};
-    font-family: ${family};
-    font-weight: ${weight};
-    font-style: ${fontStyle};
-    text-decoration: ${textDecoration};
-    margin: 0 0 0.5em;
-    color: ${color}
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-    a {
-      text-decoration: underline;
-      color: bronze;
-    }
-  `}
-`
+const TextBase = createTextBase(Box)
 
 interface HeadingProps
   extends Omit<CustomTextProps, 'fontSize' | 'theme'>,
@@ -105,8 +93,8 @@ export const Heading = ({
   return (
     <TextBase
       as={tag}
-      fontSize={level}
-      weight={weight || 500}
+      level={level}
+      weight={weight}
       htmlFor={htmlFor}
       {...rest}
     >
@@ -126,9 +114,9 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
   return (
     <TextBase
       as="p"
-      fontSize={4}
+      level={4}
       family={family}
-      weight={weight || 400}
+      weight={weight}
       color={color}
       htmlFor={htmlFor}
       lineHeight="1.3em"
@@ -140,7 +128,7 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
 
 P.defaultProps = {
   family: 'body',
-  weight: 300,
+  weight: 3,
 }
 
 interface LabelProps {
@@ -193,7 +181,6 @@ export const Li = styled(LiBase)`
 
 Li.defaultProps = {
   family: 'body',
-  weight: 400,
   color: 'bodyMain',
 }
 

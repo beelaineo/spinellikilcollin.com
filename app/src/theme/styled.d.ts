@@ -11,7 +11,8 @@ declare module 'styled-components' {
       wide: number
       xWide: number
     }
-    fontSizes: number[]
+    fontSizes: Array<number | number[]>
+    mobileFontSizes: number[]
     fontWeights: number[]
 
     radii: {

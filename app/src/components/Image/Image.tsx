@@ -57,14 +57,12 @@ export const Image = ({
   onLoad,
   ratio,
 }: ImageProps) => {
-  if (!image) return null
   const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
   const imageRef = React.useRef<HTMLImageElement>(null)
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
-  if (!imageDetails) return null
-  const { src, altText: cmsAltText, srcSet, srcSetWebp } = imageDetails
+  const { src, altText: cmsAltText, srcSet, srcSetWebp } = imageDetails || {}
 
   const altText = customAltText || cmsAltText
   const hoverDetails = React.useMemo(
@@ -89,32 +87,32 @@ export const Image = ({
     setLoaded(true)
   }
 
-  if (!src) return null
-
   return (
     <Wrapper>
       {ratio ? <RatioPadding ratio={ratio} /> : null}
-      <Picture loaded={loaded}>
-        {srcSetWebp ? (
-          <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
-        ) : null}
-        {srcSet ? (
-          <source type="image/jpg" srcSet={srcSet} sizes={sizes} />
-        ) : null}
-        <MainImage
-          src={src}
-          alt={altText || ''}
-          ref={imageRef}
-          onLoad={handleOnLoad}
-        />
-        {hoverDetails && hoverDetails.src ? (
-          <HoverImage
-            src={hoverDetails.src}
-            sizes={sizes}
-            srcSet={srcSetWebp || srcSet || undefined}
+      {src ? (
+        <Picture loaded={loaded}>
+          {srcSetWebp ? (
+            <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
+          ) : null}
+          {srcSet ? (
+            <source type="image/jpg" srcSet={srcSet} sizes={sizes} />
+          ) : null}
+          <MainImage
+            src={src}
+            alt={altText || ''}
+            ref={imageRef}
+            onLoad={handleOnLoad}
           />
-        ) : null}
-      </Picture>
+          {hoverDetails && hoverDetails.src ? (
+            <HoverImage
+              src={hoverDetails.src}
+              sizes={sizes}
+              srcSet={srcSetWebp || srcSet || undefined}
+            />
+          ) : null}
+        </Picture>
+      ) : null}
     </Wrapper>
   )
 }

@@ -40,9 +40,13 @@ type LazyRequestTuple<R, V extends Variables = Variables> = [
 export const useLazyRequest = <R, V extends Variables = Variables>(
   query: DocumentNode,
 ): LazyRequestTuple<R, V> => {
-  const response = useSWR<R | null>(print(query), () => {
-    return null
-  })
+  const response = useSWR<R | null>(
+    print(query),
+    () => {
+      return null
+    },
+    { revalidateOnFocus: false },
+  )
 
   const executeQuery = async (variables?: V) => {
     const result = await request<R>(query, variables)

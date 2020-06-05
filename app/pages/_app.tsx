@@ -19,10 +19,6 @@ const Main = styled.main`
   transition: background-color 0.3s;
 `
 
-const ComponentWrapper = styled.div`
-  min-height: 100vh;
-`
-
 const App = (props: AppProps) => {
   const { Component, pageProps, router } = props
   const path = router.pathname
@@ -66,9 +62,7 @@ const App = (props: AppProps) => {
         </Head>
         <Main>
           <Navigation router={router} />
-          <ComponentWrapper>
-            <Component {...pageProps} />
-          </ComponentWrapper>
+          <Component {...pageProps} />
           <Footer />
         </Main>
         <div id="modal" />

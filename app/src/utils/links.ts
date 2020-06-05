@@ -12,7 +12,7 @@ import {
   Contact,
 } from '../types'
 
-type Document =
+export type Document =
   | ShopifyProduct
   | ShopifyCollection
   | Page

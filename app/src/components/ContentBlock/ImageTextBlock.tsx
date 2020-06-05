@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled, { Box, css } from '@xstyled/styled-components'
-import { Placeholder } from '../Placeholder'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
 import { Heading } from '../Text'
 import { RichText } from '../RichText'
@@ -21,6 +20,7 @@ const RichTextWrapper = (props: any) => <Heading level={2} {...props} />
 const Wrapper = styled.div`
   position: relative;
   height: 100%;
+  background-color: body.0;
 
   &:hover ${HoverImage} {
     opacity: 1;
@@ -59,28 +59,23 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
   const link = content.link ? content.link[0] : undefined
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
-  const renderInner = () => (
+  return (
     <Wrapper>
       <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
       <TextWrapper textPosition={textPosition}>
-        <Box color={textColor}>
-          <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
-          {ctaText ? (
-            <CtaWrapper>
-              <Heading level={3} mt={2} fontStyle="italic">
-                {ctaText}
-              </Heading>
-            </CtaWrapper>
-          ) : null}
-        </Box>
+        <PageLink link={link}>
+          <Box color={textColor}>
+            <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
+            {ctaText ? (
+              <CtaWrapper>
+                <Heading level={3} mt={2} fontStyle="italic">
+                  {ctaText}
+                </Heading>
+              </CtaWrapper>
+            ) : null}
+          </Box>
+        </PageLink>
       </TextWrapper>
     </Wrapper>
-  )
-
-  return link ? (
-    // @ts-ignore
-    <PageLink link={link}>{renderInner()}</PageLink>
-  ) : (
-    renderInner()
   )
 }

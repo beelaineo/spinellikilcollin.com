@@ -120,6 +120,7 @@ export const CarouselInner = ({
       ) : null}
       <CarouselMask>
         <SlidesContainer
+          columnCount={columnCount}
           left={currentSlide ? -slides[currentSlide].ref.offsetLeft : 0}
           {...handlers}
         >

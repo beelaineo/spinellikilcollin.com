@@ -8,6 +8,14 @@ export const Wrapper = styled.div`
     width: calc(100% + (${theme.space[10]}px * 2));
     margin-left: -${theme.space[10]}px;
     margin-bottom: 4;
+    ${theme.mediaQueries.tablet} {
+      width: calc(100% + (${theme.space[8]}px * 2));
+      margin-left: -${theme.space[8]}px;
+    }
+    ${theme.mediaQueries.mobile} {
+      width: calc(100% + (${theme.space[3]}px * 2));
+      margin-left: -${theme.space[3]}px;
+    }
   `}
 `
 
@@ -26,27 +34,56 @@ export const Inner = styled.div<WithOpen>`
 `
 
 export const OpenButton = styled(Button)`
-  text-transform: initial;
-  display: grid;
-  grid-template-columns: auto auto;
-  grid-gap: 4;
-  align-items: center;
+  ${({ theme }) => css`
+    text-transform: initial;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 4;
+    align-items: center;
+
+    ${theme.mediaQueries.mobile} {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+    }
+  `}
 `
 
 export const FilterSets = styled.div`
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  grid-column-gap: 3;
-  padding: 6 0;
-  border-top: 1px solid;
-  border-bottom: 1px solid;
-  margin-bottom: 4;
-  margin: 4 4 0;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 3;
+    padding: 6 0;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    margin-bottom: 4;
+    margin: 4 4 0;
+
+    ${theme.mediaQueries.tablet} {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 2 0;
+      display: block;
+      border-bottom: none;
+    }
+  `}
 `
 
 interface WithSpan {
   span: number
 }
+
+export const HeadingWrapper = styled.div`
+  ${({ theme }) => css`
+    ${theme.mediaQueries.mobile} {
+      display: none;
+    }
+  `}
+`
 
 export const FilterSetWrapper = styled.div<WithSpan>`
   ${({ span }) => css`
@@ -70,6 +107,8 @@ export const PriceRangeFilterWrapper = styled.div`
 export const Slider = styled.div`
   position: relative;
   padding: 3 0;
+  max-width: 300px;
+  margin-bottom: 6;
   &:after {
     content: '';
     width: 100%;

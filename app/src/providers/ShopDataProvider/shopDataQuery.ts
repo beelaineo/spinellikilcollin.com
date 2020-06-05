@@ -29,6 +29,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       _key
       _createdAt
       menuItems {
+        __typename
         ... on MenuLink {
           _key
           _type
