@@ -39,7 +39,7 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
 }
 
 interface ImageProps {
-  image?: Maybe<ImageType>
+  image?: Maybe<ImageType> | void
   altText?: Maybe<string>
   hoverImage?: Maybe<ImageType>
   ratio?: number

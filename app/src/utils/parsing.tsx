@@ -92,7 +92,11 @@ const transform = (node, index) => {
     case 'meta':
       return null
     default:
-      return <>{node.childNodes.map(transform)}</>
+      return (
+        <React.Fragment key={index}>
+          {node.childNodes.map(transform)}
+        </React.Fragment>
+      )
   }
 }
 

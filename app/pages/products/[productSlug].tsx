@@ -109,7 +109,7 @@ interface ProductPageProps {
 
 const Product = ({ product }: ProductPageProps) => {
   if (!product) return <NotFound />
-  return <ProductDetail product={product} />
+  return <ProductDetail key={product._id || 'some-key'} product={product} />
 }
 
 /**

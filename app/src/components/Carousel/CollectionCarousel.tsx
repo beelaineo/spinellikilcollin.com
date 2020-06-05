@@ -44,7 +44,7 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
     if (!variables.collectionId) return
     if (collectionProducts && collectionProducts.length) return
     getCarousel(variables)
-  }, [])
+  }, [data])
 
   const products = definitely(collectionProducts || data?.allShopifyProduct)
 

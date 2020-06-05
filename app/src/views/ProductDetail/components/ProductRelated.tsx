@@ -31,13 +31,16 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
   return (
     <ProductRelatedWrapper>
       <Heading level={3} m={3} textTransform="capitalize" textAlign="center">
-        {carousel.title}
+        {carousel.title || 'More like this'}
       </Heading>
       <ProductRelatedInner>
         {carousel.__typename === 'Carousel' && carousel.items ? (
           <ItemsCarousel items={carousel.items} />
         ) : carousel.__typename === 'ShopifyCollection' ? (
-          <CollectionCarousel collection={carousel} />
+          <CollectionCarousel
+            key={product._id || 'some-key'}
+            collection={carousel}
+          />
         ) : null}
       </ProductRelatedInner>
     </ProductRelatedWrapper>

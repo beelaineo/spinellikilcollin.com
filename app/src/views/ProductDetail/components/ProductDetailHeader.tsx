@@ -4,6 +4,7 @@ import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { TitleWrapper, AffirmWrapper } from '../styled'
 import { Affirm } from '../../../components/Affirm'
 import { Heading } from '../../../components/Text'
+import { definitely } from '../../../utils'
 
 interface ProductDetailHeaderProps {
   product: ShopifyProduct
@@ -11,19 +12,38 @@ interface ProductDetailHeaderProps {
   mobile?: string
 }
 
+const getVariantTitle = (
+  product: ShopifyProduct,
+  variant: ShopifyProductVariant,
+): string | null | undefined => {
+  if (product?.variants?.length && product.variants.length < 2) return null
+  if (variant?.sourceData?.selectedOptions?.length) {
+    return definitely(variant.sourceData.selectedOptions)
+      .map((option) => {
+        if (option.name === 'Size') return null
+        return option.value
+      })
+      .filter(Boolean)
+      .join(' | ')
+  }
+
+  return variant?.title
+}
+
 export const ProductDetailHeader = ({
   product,
   currentVariant,
 }: ProductDetailHeaderProps) => {
+  const variantTitle = getVariantTitle(product, currentVariant)
   return (
     <>
       <TitleWrapper>
         <Heading level={2} weight={3} mb={2}>
           {product.title}
         </Heading>
-        {currentVariant?.title ? (
+        {variantTitle ? (
           <Heading weight={2} level={3} mb={0}>
-            {currentVariant.title}
+            {variantTitle}
           </Heading>
         ) : null}
         {currentVariant?.sourceData?.priceV2 ? (

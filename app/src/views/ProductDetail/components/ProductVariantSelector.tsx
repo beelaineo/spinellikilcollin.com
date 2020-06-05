@@ -49,19 +49,21 @@ export const ProductVariantSelector = (props: Props) => {
 
   return (
     <Box mb={3}>
-      {options.map((option) => (
-        <OptionWrapper key={option._key || 'some-key'}>
-          <ProductOptionSelector
-            changeValueForOption={changeValueForOption}
-            variants={variants}
-            currentVariant={currentVariant}
-            option={option}
-          />
-          {productType === 'Ring' && option.name === 'Size' ? (
-            <RingSizerButton product={product} />
-          ) : null}
-        </OptionWrapper>
-      ))}
+      {options.map((option) =>
+        option?.values && option.values.length > 1 ? (
+          <OptionWrapper key={option._key || 'some-key'}>
+            <ProductOptionSelector
+              changeValueForOption={changeValueForOption}
+              variants={variants}
+              currentVariant={currentVariant}
+              option={option}
+            />
+            {productType === 'Ring' && option.name === 'Size' ? (
+              <RingSizerButton product={product} />
+            ) : null}
+          </OptionWrapper>
+        ) : null,
+      )}
     </Box>
   )
 }

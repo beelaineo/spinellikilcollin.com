@@ -120,23 +120,6 @@ export const internalLinkFragment = gql`
   }
 `
 
-export const richPageLinkFragment = gql`
-  fragment RichPageLinkFragment on RichPageLink {
-    __typename
-    _key
-    _type
-    title
-    captionRaw
-    image {
-      ...RichImageFragment
-    }
-    hoverImage {
-      ...RichImageFragment
-    }
-  }
-  ${richImageFragment}
-`
-
 export const filterSetFragment = gql`
   fragment FilterSetFragment on FilterSet {
     __typename
@@ -322,6 +305,76 @@ export const shopifyCollectionFragment = gql`
   }
   ${shopifyProductFragment}
 `
+export const shopifyProductThumbnailFragment = gql`
+  fragment ShopifyProductThumbnailFragment on ShopifyProduct {
+    __typename
+    _id
+    _key
+    archived
+    shopifyId
+    title
+    handle
+    options {
+      __typename
+      _key
+      _type
+      shopifyOptionId
+      name
+      values {
+        __typename
+        _key
+        _type
+        value
+        descriptionRaw
+        swatch {
+          ...SanityImageFragment
+        }
+      }
+    }
+    sourceData {
+      ...ShopifySourceProductFragment
+    }
+  }
+
+  ${sanityImageFragment}
+  ${shopifySourceImageFragment}
+  ${shopifySourceProductFragment}
+`
+
+export const richPageLinkFragment = gql`
+  fragment RichPageLinkFragment on RichPageLink {
+    __typename
+    _key
+    _type
+    title
+    captionRaw
+    document {
+      __typename
+      ... on Page {
+        title
+        slug {
+          current
+        }
+      }
+      ... on ShopifyCollection {
+        shopifyId
+        handle
+        title
+      }
+      ... on ShopifyProduct {
+        ...ShopifyProductThumbnailFragment
+      }
+    }
+    image {
+      ...RichImageFragment
+    }
+    hoverImage {
+      ...RichImageFragment
+    }
+  }
+  ${richImageFragment}
+  ${shopifyProductThumbnailFragment}
+`
 
 export const carouselFragment = gql`
   fragment CarouselFragment on Carousel {
@@ -363,40 +416,4 @@ export const heroFragment = gql`
     }
   }
   ${richImageFragment}
-`
-
-export const shopifyProductThumbnailFragment = gql`
-  fragment ShopifyProductThumbnailFragment on ShopifyProduct {
-    __typename
-    _id
-    _key
-    archived
-    shopifyId
-    title
-    handle
-    options {
-      __typename
-      _key
-      _type
-      shopifyOptionId
-      name
-      values {
-        __typename
-        _key
-        _type
-        value
-        descriptionRaw
-        swatch {
-          ...SanityImageFragment
-        }
-      }
-    }
-    sourceData {
-      ...ShopifySourceProductFragment
-    }
-  }
-
-  ${sanityImageFragment}
-  ${shopifySourceImageFragment}
-  ${shopifySourceProductFragment}
 `

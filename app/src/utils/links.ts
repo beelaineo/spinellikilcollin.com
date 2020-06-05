@@ -1,5 +1,6 @@
 import {
   ShopifyProduct,
+  ShopifySourceImage,
   ShopifyCollection,
   Page,
   About,
@@ -28,7 +29,10 @@ export interface LinkInfo {
   as?: string
 }
 
-export const getPageLinkLabel = (document: Document): string | null | void => {
+export const getPageLinkLabel = (
+  document: Document | null | void,
+): string | null | void => {
+  if (!document) return null
   switch (document.__typename) {
     case 'ShopifyCollection':
     case 'ShopifyProduct':
@@ -108,7 +112,6 @@ export const getPageLinkUrl = (document: Document): LinkInfo => {
         href: '/about',
       }
     default:
-      console.log(document)
       throw new Error(
         // @ts-ignore
         `Unable to create a link URL for type "${document.__typename}"`,
@@ -125,4 +128,26 @@ export const getLinkFromHref = (href: string): LinkInfo => {
     return { href: '/collections/[collectionSlug]', as: pathname }
   }
   return { href: '/[pageSlug]', as: pathname }
+}
+
+export const getDocumentLinkImage = (
+  // document?: PageOrShopifyCollectionOrShopifyProduct,
+  document?: Document | null,
+): ShopifySourceImage | void | null => {
+  if (!document) return undefined
+  switch (document.__typename) {
+    case 'ShopifyCollection':
+      return document?.sourceData?.image
+    case 'ShopifyProduct':
+      const imageEdges = document?.sourceData?.images?.edges
+      if (!imageEdges || imageEdges.length === 0 || imageEdges[0] === null) {
+        return undefined
+      }
+      return imageEdges[0].node
+    case 'Page':
+      return undefined
+    default:
+      // @ts-ignore
+      throw new Error(`Cannot get image for type "${document.__typename}"`)
+  }
 }

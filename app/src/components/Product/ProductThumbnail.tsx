@@ -22,11 +22,15 @@ const { useState } = React
 interface ProductThumbnail {
   product: ShopifyProduct
   displayPrice?: boolean
+  displayTags?: boolean
+  displaySwatches?: boolean
 }
 
 export const ProductThumbnail = ({
   product,
   displayPrice,
+  displayTags,
+  displaySwatches,
 }: ProductThumbnail) => {
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
@@ -83,7 +87,7 @@ export const ProductThumbnail = ({
             altText={altText}
           />
 
-          <TagBadges product={product} />
+          {displayTags ? <TagBadges product={product} /> : null}
           <ProductInfo>
             <Heading textAlign="center" level={3}>
               {product.title}
@@ -103,13 +107,21 @@ export const ProductThumbnail = ({
               </>
             ) : null}
           </ProductInfo>
-          <ProductSwatches
-            onSwatchHover={onSwatchHover}
-            isSwatchActive={isSwatchActive}
-            product={product}
-          />
+          {displaySwatches ? (
+            <ProductSwatches
+              onSwatchHover={onSwatchHover}
+              isSwatchActive={isSwatchActive}
+              product={product}
+            />
+          ) : null}
         </a>
       </Link>
     </ProductThumb>
   )
+}
+
+ProductThumbnail.defaultProps = {
+  displayPrice: false,
+  displayTags: true,
+  displaySwatches: true,
 }
