@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const response = await request<TeamPageResponse>(teamQuery)
   const teamPage = response?.TeamPage || null
 
-  return { props: { teamPage } }
+  return { props: { teamPage }, unstable_revalidate: 60 }
 }
 
 export default TeamPage

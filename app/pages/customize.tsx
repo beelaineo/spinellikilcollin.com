@@ -36,7 +36,7 @@ interface CustomizeResponse {
 export const getStaticProps: GetStaticProps = async () => {
   const response = await request<CustomizeResponse>(customizeQuery)
   const customize = response?.Customize || null
-  return { props: { customize } }
+  return { props: { customize }, unstable_revalidate: 60 }
 }
 
 export default Customize

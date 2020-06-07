@@ -42,7 +42,7 @@ interface MagazineResponse {
 export const getStaticProps: GetStaticProps = async () => {
   const response = await request<MagazineResponse>(magazineQuery)
   const magazine = response?.Magazine || null
-  return { props: { magazine } }
+  return { props: { magazine }, unstable_revalidate: 60 }
 }
 
 export default MagazinePage

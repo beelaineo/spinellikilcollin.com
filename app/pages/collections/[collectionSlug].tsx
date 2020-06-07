@@ -102,6 +102,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   return {
     props: { products: products || null, collection: collection || null },
+    unstable_revalidate: 60,
   }
 }
 

@@ -124,7 +124,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const products = response?.allShopifyProduct
 
   const product = products && products.length ? products[0] : null
-  return { props: { product } }
+  return { props: { product }, unstable_revalidate: 60 }
 }
 
 /**

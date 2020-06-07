@@ -59,7 +59,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const variables = { currentDate }
   const response = await request<Response>(journalPageQuery, variables)
   const entries = response?.allJournalEntry ?? []
-  return { props: { entries } }
+  return { props: { entries }, unstable_revalidate: 60 }
 }
 
 export default Journal

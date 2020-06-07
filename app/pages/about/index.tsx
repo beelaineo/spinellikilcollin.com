@@ -69,7 +69,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const response = await request<Response>(query)
   const about = response?.About || null
 
-  return { props: { about } }
+  return { props: { about }, unstable_revalidate: 60 }
 }
 
 export default AboutIndex
