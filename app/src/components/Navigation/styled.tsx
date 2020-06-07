@@ -58,6 +58,11 @@ interface WithActive {
   active?: boolean
 }
 
+export const LogoWrapper = styled.div`
+  max-width: calc(100vw - 160px);
+  margin: 0 auto;
+`
+
 export const NavHeader = styled.button`
   ${({ active }: WithActive) => css`
     font-size: 5;
@@ -125,6 +130,7 @@ export const CartBadge = styled.div`
   align-items: center;
   top: -10px;
   left: -10px;
+  padding-top: 1px;
   width: 20px;
   height: 20px;
   background-color: body.8;
@@ -157,7 +163,7 @@ interface Hamburger {
 }
 
 export const Hamburger = styled.div`
-  ${({ open }: Hamburger) => css`
+  ${({ open, theme }: Hamburger) => css`
     cursor: pointer;
     transition: 250ms ease;
     position: relative;
@@ -171,7 +177,7 @@ export const Hamburger = styled.div`
       height: 1px;
       background-color: black;
       display: block;
-      margin: 9px;
+      margin: 9px 0;
       transition: 50ms ease;
     }
 
@@ -188,28 +194,54 @@ export const Hamburger = styled.div`
     span:nth-child(2) {
       display: ${open ? 'none' : 'block'};
     }
+    ${theme.mediaQueries.mobile} {
+      span {
+        margin: 6px 0;
+        width: 20px;
+      }
+
+      span:nth-child(1) {
+        transform: ${open
+          ? 'rotate(45deg) translateY(1px) translateX(8px)'
+          : 'rotate(0) translateY(0px)'};
+      }
+      span:nth-child(3) {
+        transform: ${open
+          ? 'rotate(-45deg) translateY(3px) translateX(4px)'
+          : 'rotate(0) translateY(0px)'};
+      }
+    }
   `}
 `
 
 export const NavInner = styled.div`
-  padding: 7;
-  height: 100vh;
-  border-right: 1px solid black;
-  > div {
-    margin: 6 0;
-  }
-  ul {
-    list-style: none;
-    padding: 0;
-    li {
-      font-family: serif;
-      margin: 3 0;
-      padding: 5 0 3;
-      border-top: 1px solid black;
-      text-transform: uppercase;
-      font-size: 5;
+  ${({ theme }) => css`
+    padding: 7;
+    height: 100vh;
+    overflow: scroll;
+    border-right: 1px solid black;
+    max-width: calc(100vw + 1px);
+
+    > div {
+      margin: 6 0;
     }
-  }
+    ul {
+      list-style: none;
+      padding: 0;
+      li {
+        font-family: serif;
+        margin: 3 0;
+        padding: 5 0 3;
+        border-top: 1px solid black;
+        text-transform: uppercase;
+        font-size: 5;
+      }
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 5;
+    }
+  `}
 `
 export const NavItemWrapper = styled.div`
   display: block;

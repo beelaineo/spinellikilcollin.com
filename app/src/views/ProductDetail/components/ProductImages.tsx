@@ -64,16 +64,18 @@ export const ProductImages = ({
         <MainImage>
           <Image ratio={0.8} image={mainImage} />
         </MainImage>
-        <Thumbnails>
-          {images.map((image, index) => (
-            <ThumbnailButton
-              onClick={changeMainImage(index)}
-              key={getKey(image)}
-            >
-              <Image key="some-key" ratio={1} image={image} sizes="120px" />
-            </ThumbnailButton>
-          ))}
-        </Thumbnails>
+        {images.length > 1 ? (
+          <Thumbnails>
+            {images.map((image, index) => (
+              <ThumbnailButton
+                onClick={changeMainImage(index)}
+                key={getKey(image)}
+              >
+                <Image key="some-key" ratio={1} image={image} sizes="120px" />
+              </ThumbnailButton>
+            ))}
+          </Thumbnails>
+        ) : null}
       </DesktopWrapper>
       <MobileWrapper>
         <Carousel dots buttons={false} columnCount={1}>

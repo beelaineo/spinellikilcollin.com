@@ -5,6 +5,10 @@ export const CarouselContainer = styled.div`
   height: 100%;
   width: 100%;
   flex-grow: 1;
+  img,
+  picture {
+    pointer-events: none;
+  }
 `
 
 export const CarouselMask = styled.div`
@@ -12,7 +16,7 @@ export const CarouselMask = styled.div`
     overflow: hidden;
 
     ${theme.mediaQueries.mobile} {
-      overflow: visible;
+      max-width: 100%;
     }
   `}
 `
@@ -20,18 +24,24 @@ export const CarouselMask = styled.div`
 interface SlidesContainerProps {
   left: number
   columnCount?: number
+  isSwiping: boolean
   theme: DefaultTheme
 }
 
-export const SlidesContainer = styled.div`
-  ${({ left, theme, columnCount }: SlidesContainerProps) => css`
+export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
+  (props) => ({
+    style: {
+      transform: `translateX(${props.left}px)`,
+    },
+  }),
+)`
+  ${({ theme, isSwiping, columnCount }: SlidesContainerProps) => css`
     position: relative;
     height: 100%;
     width: 100%;
     top: 0;
     white-space: nowrap;
-    transform: translate(${left}px);
-    transition: 0.4s cubic-bezier(0.57, 0.06, 0.05, 0.95);
+    transition: ${isSwiping ? 0 : '0.4s cubic-bezier(0.57, 0.06, 0.05, 0.95)'};
 
     & > * {
       white-space: initial;

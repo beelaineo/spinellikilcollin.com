@@ -86,7 +86,6 @@
 		"react-icons": "^3.10.0",
 		"react-router": "^5.2.0",
 		"react-router-dom": "^5.2.0",
-		"react-swipeable": "^5.5.1",
 		"react-text-mask": "^5.4.3",
 		"request": "^2.88.2",
 		"rxjs": "^6.5.5",

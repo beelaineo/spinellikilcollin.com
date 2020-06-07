@@ -9,7 +9,7 @@ interface CartSidebarProps {
 export const CartSidebar = styled.div`
   ${(props: CartSidebarProps) => css`
     position: fixed;
-    right: ${props.open ? '0px' : '-500px'};
+    right: ${props.open ? '5px' : '-500px'};
     top: 0;
     max-width: 100%;
     width: 500px;
@@ -67,6 +67,7 @@ export const CartNav = styled.div`
 
 export const CartInner = styled.div`
   height: calc(100vh - 150px);
+  max-width: calc(100vw + 1px);
   overflow: scroll;
   padding-bottom: 90px;
   padding: 0 4;

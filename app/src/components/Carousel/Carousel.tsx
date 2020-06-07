@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useSwipeable, EventData } from 'react-swipeable'
 import {
   CarouselContainer,
   SlidesContainer,
@@ -9,6 +8,7 @@ import {
 import { Slide, SlideInfo } from './Slide'
 import { Dots } from './Dots'
 import { useViewportSize } from '../../utils'
+import { useSwipeReducer } from './swipeReducer'
 
 const { useState, useEffect, useMemo, useRef } = React
 
@@ -28,6 +28,10 @@ export const useCarousel = () => {
   return ctx
 }
 
+function reverse<T>(arr: T[]): T[] {
+  return arr.reduce<T[]>((acc, current) => [...acc, current], [])
+}
+
 interface CarouselProps {
   children: React.ReactNode
   columnCount?: number
@@ -44,9 +48,12 @@ export const CarouselInner = ({
   const { currentSlide, setCurrentSlide } = useCarousel()
   const { width: viewportWidth } = useViewportSize()
   const [hasOverflow, setHasOverflow] = useState(false)
-  const [slides, setSlides] = useState<SlideInfo[]>([])
   const outerRef = useRef<HTMLDivElement>(null)
+  const innerRef = useRef<HTMLDivElement>(null)
+  const [slides, setSlides] = useState<SlideInfo[]>([])
   const buttons = customButtons !== undefined ? customButtons : true
+
+  const { state, startSwipe } = useSwipeReducer(outerRef.current)
 
   const goNext = () => {
     if (currentSlide === null || currentSlide === slides.length - 1) return
@@ -67,6 +74,28 @@ export const CarouselInner = ({
     setCurrentSlide(0)
   }, [Boolean(slides.length)])
 
+  useEffect(() => {
+    if (
+      currentSlide === null ||
+      !innerRef.current ||
+      state.active ||
+      state.diff === 0
+    ) {
+      return
+    }
+    if (!outerRef.current) return
+    const containerWidth = outerRef.current.getBoundingClientRect().right
+
+    const lastSlideRight = slides[slides.length - 1].ref.getBoundingClientRect()
+      .right
+    if (lastSlideRight < containerWidth) return
+
+    const newSlide = slides.findIndex(
+      (slide) => slide.ref.offsetLeft > -state.diff,
+    )
+    setCurrentSlide(Math.max(0, newSlide || 0))
+  }, [state.active, state.diff])
+
   /* Only show the next button if there is carousel overflow */
   useEffect(() => {
     if (!outerRef.current) return
@@ -74,7 +103,6 @@ export const CarouselInner = ({
       (acc, slide) => acc + slide.ref.offsetWidth,
       0,
     )
-    /* Give it 5 attempts to load images & get a width greater than 0 */
     if (accWidth > outerRef.current.offsetWidth) {
       setHasOverflow(true)
     }
@@ -97,16 +125,11 @@ export const CarouselInner = ({
     )
   }
 
-  const handleSwipe = (e: EventData) => {
-    const { dir } = e
-    if (dir === 'Right') {
-      goPrevious()
-    } else if (dir === 'Left') {
-      goNext()
-    }
-  }
-
-  const handlers = useSwipeable({ onSwiped: handleSwipe })
+  const containerLeft = state.active
+    ? state.diff
+    : currentSlide !== null && slides[currentSlide]?.ref
+    ? -slides[currentSlide].ref.offsetLeft
+    : 0
 
   return (
     <CarouselContainer ref={outerRef}>
@@ -120,9 +143,12 @@ export const CarouselInner = ({
       ) : null}
       <CarouselMask>
         <SlidesContainer
+          ref={innerRef}
           columnCount={columnCount}
-          left={currentSlide ? -slides[currentSlide].ref.offsetLeft : 0}
-          {...handlers}
+          isSwiping={state.active}
+          left={containerLeft}
+          onMouseDown={startSwipe(containerLeft)}
+          onTouchStart={startSwipe(containerLeft)}
         >
           {React.Children.map(children, (child, index) => (
             <Slide

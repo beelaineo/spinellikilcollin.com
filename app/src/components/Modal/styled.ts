@@ -47,6 +47,10 @@ export const ModalWrapper = styled.div`
     background-color: body.0;
 
     cursor: initial;
+
+    ${theme.mediaQueries.mobile} {
+      width: calc(100vw - ${theme.space[4]}px);
+    }
   `}
 `
 

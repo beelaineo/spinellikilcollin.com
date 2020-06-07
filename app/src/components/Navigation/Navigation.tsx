@@ -9,6 +9,7 @@ import { useShopData } from '../../providers/ShopDataProvider'
 import { Checkout } from '../Cart/Checkout'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
+import { useLockScroll } from '../LockScroll'
 import {
   Wrapper,
   Inner,
@@ -17,6 +18,7 @@ import {
   CartButtonWrapper,
   Hamburger,
   SideNavigation,
+  LogoWrapper,
 } from './styled'
 import { NavigationInner } from './NavigationInner'
 
@@ -62,6 +64,7 @@ export const Navigation = ({ router }: NavigationProps) => {
   const { loading, checkout } = useCheckout()
   const { menu } = useShopData()
   const { openCart } = useCart()
+  const { lockScroll, unlockScroll } = useLockScroll()
 
   /* State */
   const [state, dispatch] = useReducer(navReducer, {
@@ -80,9 +83,27 @@ export const Navigation = ({ router }: NavigationProps) => {
 
   /* Effects */
 
+  const handleKeyup = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      closeMenu()
+    }
+  }
+
   useEffect(() => {
     closeMenu()
   }, [router.asPath])
+
+  useEffect(() => {
+    if (menuOpen) {
+      lockScroll()
+      document.addEventListener('keyup', handleKeyup)
+      return () => {
+        document.removeEventListener('keyup', handleKeyup)
+      }
+    } else {
+      unlockScroll()
+    }
+  }, [menuOpen])
 
   /* Parsing */
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
@@ -102,15 +123,19 @@ export const Navigation = ({ router }: NavigationProps) => {
           </SideNavigation>
         </div>
 
-        <Link href="/index" as="/">
-          <a>
-            <Logo src="/static/images/sk-logotype.svg" />
-          </a>
-        </Link>
+        <LogoWrapper>
+          <Link href="/index" as="/">
+            <a>
+              <Logo src="/static/images/sk-logotype.svg" />
+            </a>
+          </Link>
+        </LogoWrapper>
         <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
           {cartCount ? (
             <CartBadge>
-              <Heading level={4}>{cartCount}</Heading>
+              <Heading m={0} fontFamily="sans" fontWeight={4} level={4}>
+                {cartCount}
+              </Heading>
             </CartBadge>
           ) : null}
           <Cart />
