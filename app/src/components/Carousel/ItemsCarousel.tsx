@@ -8,14 +8,17 @@ import {
 import { ProductThumbnail } from '../Product'
 import { CollectionThumbnail } from '../Collection'
 import { RichPageLink } from '../RichPageLink'
+import { useViewportSize } from '../../utils'
 
 interface ItemsCarouselProps {
   items: Array<null | ShopifyCollection | ShopifyProduct | RichPageLinkType>
 }
 
 export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
+  const { width: viewportWidth } = useViewportSize()
+  const initialSlide = viewportWidth < 650 ? 1 : 0
   return (
-    <Carousel>
+    <Carousel initialSlide={initialSlide}>
       {items.map((item) => {
         if (!item) return null
         const { _key } = item

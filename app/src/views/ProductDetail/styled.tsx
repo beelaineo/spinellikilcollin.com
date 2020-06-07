@@ -64,6 +64,7 @@ export const ProductImagesWrapper = styled.div`
     flex-direction: column;
     ${theme.mediaQueries.tablet} {
       grid-row: 2;
+      margin: 0 -${theme.space[3]}px;
     }
   `}
 `
@@ -127,8 +128,13 @@ export const ProductGalleryThumbnails = styled.div`
 `
 
 export const ProductRelatedWrapper = styled.div`
-  background-color: body.0;
-  padding: 7;
+  ${({ theme }) => css`
+    background-color: body.0;
+    padding: 7;
+    ${theme.mediaQueries.mobile} {
+      padding: 7 0;
+    }
+  `}
 `
 
 export const ProductRelatedInner = styled.div`

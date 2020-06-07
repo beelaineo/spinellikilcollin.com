@@ -44,8 +44,8 @@ export const useCounter = (
 }
 
 interface ViewportSize {
-  width: number | null
-  height: number | null
+  width: number
+  height: number
 }
 
 interface UseViewportArgs {
@@ -54,8 +54,11 @@ interface UseViewportArgs {
 
 export const useViewportSize = (args?: UseViewportArgs): ViewportSize => {
   const debounce = args?.debounce ?? 400
-  const [width, setCurrentWidth] = useState<number | null>(null)
-  const [height, setCurrentHeight] = useState<number | null>(null)
+  const initialWidth = typeof window !== 'undefined' ? window.innerWidth : 1000
+  const initialHeight =
+    typeof window !== 'undefined' ? window.innerHeight : 1000
+  const [width, setCurrentWidth] = useState<number>(initialWidth)
+  const [height, setCurrentHeight] = useState<number>(initialHeight)
 
   const updateWidth = () => {
     setCurrentWidth(window.innerWidth)

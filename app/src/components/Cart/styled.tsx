@@ -1,5 +1,6 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { Input } from '../../components/Forms/Fields/styled'
+import { Hamburger } from '../Hamburger'
 
 interface CartSidebarProps {
   theme: DefaultTheme
@@ -9,10 +10,11 @@ interface CartSidebarProps {
 export const CartSidebar = styled.div`
   ${(props: CartSidebarProps) => css`
     position: fixed;
-    right: ${props.open ? '5px' : '-500px'};
+    z-index: cart;
+    right: ${props.open ? '0px' : '-500px'};
     top: 0;
-    max-width: 100%;
-    width: 500px;
+    width: 100vw;
+    max-width: 500px;
     height: 100vh;
     background-color: body.0;
     box-shadow: -5px 0 5px rgba(0, 0, 0, 0.1);
@@ -21,14 +23,10 @@ export const CartSidebar = styled.div`
   `}
 `
 
-export const CloseButton = styled.button`
-  color: white;
+export const CloseButtonWrapper = styled.div`
   position: absolute;
-  right: 10px;
-  bottom: 0;
-  background-color: black;
-  padding: 2rem;
-  padding: 3;
+  top: 18px;
+  left: 18px;
 `
 
 interface ModalBackgroundProps {

@@ -10,13 +10,13 @@ import { Checkout } from '../Cart/Checkout'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
 import { useLockScroll } from '../LockScroll'
+import { Hamburger } from '../Hamburger'
 import {
   Wrapper,
   Inner,
   CartBadge,
   Logo,
   CartButtonWrapper,
-  Hamburger,
   SideNavigation,
   LogoWrapper,
 } from './styled'
@@ -113,11 +113,7 @@ export const Navigation = ({ router }: NavigationProps) => {
     <Wrapper>
       <Inner>
         <div>
-          <Hamburger onClick={toggleMenu} open={menuOpen}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </Hamburger>
+          <Hamburger onClick={toggleMenu} open={menuOpen} />
           <SideNavigation open={menuOpen}>
             <NavigationInner menu={menu} />
           </SideNavigation>

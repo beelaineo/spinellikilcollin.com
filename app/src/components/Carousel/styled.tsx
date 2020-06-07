@@ -1,14 +1,20 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 export const CarouselContainer = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
-  flex-grow: 1;
-  img,
-  picture {
-    pointer-events: none;
-  }
+  ${({ theme }) => css`
+    position: relative;
+    height: 100%;
+    width: 100%;
+    flex-grow: 1;
+    img,
+    picture {
+      pointer-events: none;
+    }
+    ${theme.mediaQueries.mobile} {
+      overflow: hidden;
+      padding: 0 22vw;
+    }
+  `}
 `
 
 export const CarouselMask = styled.div`
@@ -17,13 +23,13 @@ export const CarouselMask = styled.div`
 
     ${theme.mediaQueries.mobile} {
       max-width: 100%;
+      overflow: visible;
     }
   `}
 `
 
 interface SlidesContainerProps {
   left: number
-  columnCount?: number
   isSwiping: boolean
   theme: DefaultTheme
 }
@@ -35,7 +41,7 @@ export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
     },
   }),
 )`
-  ${({ theme, isSwiping, columnCount }: SlidesContainerProps) => css`
+  ${({ theme, isSwiping }: SlidesContainerProps) => css`
     position: relative;
     height: 100%;
     width: 100%;
@@ -48,7 +54,7 @@ export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: ${columnCount !== 1 ? '0 calc(28vw)' : ''};
+      padding: 0;
     }
   `}
 `

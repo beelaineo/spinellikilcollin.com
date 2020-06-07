@@ -3,11 +3,18 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
 import { Button } from '../Button'
 import { useCart } from '../../providers/CartProvider'
-import { Form, Field } from '../../components/Forms'
-import { Heading } from '../../components/Text'
-import { ModalBackground, CartSidebar, CartBottom, CartInner } from './styled'
+import { Form, Field } from '../Forms'
+import { Heading } from '../Text'
+import { Hamburger } from '../Hamburger'
+import {
+  ModalBackground,
+  CartSidebar,
+  CloseButtonWrapper,
+  CartBottom,
+  CartInner,
+} from './styled'
 import { CheckoutProduct } from './CheckoutProduct'
-import { Affirm } from '../../components/Affirm'
+import { Affirm } from '../Affirm'
 
 /**
  * Main Checkout view
@@ -39,6 +46,9 @@ export const Checkout = () => {
     <>
       <ModalBackground open={cartOpen} onClick={closeCart} />
       <CartSidebar open={cartOpen}>
+        <CloseButtonWrapper>
+          <Hamburger open={true} onClick={closeCart} />
+        </CloseButtonWrapper>
         <Heading my={4} level={2} color="dark" textAlign="center">
           {title}
         </Heading>

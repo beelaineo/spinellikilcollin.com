@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { ShopifyCollection, ShopifyProduct } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
-import { definitely } from '../../utils'
+import { definitely, useViewportSize } from '../../utils'
 import { useLazyRequest, shopifyProductThumbnailFragment } from '../../graphql'
 
 const { useEffect } = React
@@ -33,6 +33,7 @@ interface CollectionCarouselProps {
 
 export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
   const collectionProducts = collection?.products
+  const { width: viewportWidth } = useViewportSize()
   const variables = {
     collectionId: collection._id,
   }
@@ -50,8 +51,9 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
 
   if (!products.length) return null
 
+  const initialSlide = viewportWidth < 650 ? 1 : 0
   return (
-    <Carousel>
+    <Carousel initialSlide={initialSlide}>
       {definitely(products)
         .filter((product) => product?.archived !== true)
         .map((product) => {
