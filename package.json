@@ -9,21 +9,21 @@
 		"start:app": "yarn workspace spinellikilcollin-app start"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^8.1.0",
-		"@commitlint/config-conventional": "^8.1.0",
-		"@typescript-eslint/eslint-plugin": "^2.30.0",
-		"@typescript-eslint/parser": "^2.30.0",
-		"dotenv": "^8.0.0",
-		"eslint": "^6.8.0",
+		"@commitlint/cli": "^8.3.5",
+		"@commitlint/config-conventional": "^8.3.4",
+		"@typescript-eslint/eslint-plugin": "^3.1.0",
+		"@typescript-eslint/parser": "^3.1.0",
+		"dotenv": "^8.2.0",
+		"eslint": "^7.2.0",
 		"eslint-config-prettier": "^6.11.0",
 		"eslint-plugin-prettier": "^3.1.3",
-		"eslint-plugin-react": "^7.19.0",
-		"husky": "^4.2.1",
-		"lerna": "^3.16.4",
-		"netlify-cli": "^2.12.0",
-		"prettier": "^1.19.1",
+		"eslint-plugin-react": "^7.20.0",
+		"husky": "^4.2.5",
+		"lerna": "^3.22.0",
+		"netlify-cli": "^2.53.0",
+		"prettier": "^2.0.5",
 		"pretty-quick": "^2.0.1",
-		"yarnhook": "^0.4.2"
+		"yarnhook": "^0.4.3"
 	},
 	"workspaces": [
 		"app",
@@ -39,7 +39,7 @@
 		}
 	},
 	"dependencies": {
-		"react-icons": "^3.7.0"
+		"react-icons": "^3.10.0"
 	},
 
     "resolutions": {
