@@ -4,6 +4,7 @@ import { SubMenu as SubMenuType } from '../../types'
 import { Heading } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'
 import { PlusMinus } from '../../components/PlusMinus'
+import { definitely } from '../../utils'
 
 const { useState } = React
 
@@ -45,6 +46,7 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
   const [open, setOpen] = useState(false)
   const { title, links } = subMenu
   const toggleOpen = () => setOpen(!open)
+  console.log(title, links)
   if (!title || !links || !links.length) return null
   return (
     <>
@@ -57,17 +59,22 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
         </SubmenuButton>
       </SubmenuTop>
       <SubmenuInner open={open}>
-        {links.map((cta) =>
-          cta && cta.link && cta.label ? (
-            <div key={cta._key || 'some-key'}>
-              <PageLink link={cta.link}>
-                <Heading level={3} fontStyle="italic">
-                  {cta.label || ''}
-                </Heading>
-              </PageLink>
-            </div>
-          ) : null,
-        )}
+        {definitely(links).map((link) => {
+          switch (link.__typename) {
+            case 'Cta':
+              return (
+                <div key={link._key || 'some-key'}>
+                  <PageLink link={link.link}>
+                    <Heading level={3} fontStyle="italic">
+                      {link.label || ''}
+                    </Heading>
+                  </PageLink>
+                </div>
+              )
+            case 'SubMenu':
+              return <SubMenu key={link._key || 'some-key'} subMenu={link} />
+          }
+        })}
       </SubmenuInner>
     </>
   )

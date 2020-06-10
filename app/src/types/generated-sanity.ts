@@ -6,19 +6,11 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  /**
-   * A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the
-   * `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO
-   * 8601 standard for representation of dates and times using the Gregorian calendar.
-   */
+  /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: Date
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { [key: string]: any }
-  /**
-   * A date string, such as 2007-12-03, compliant with the `full-date` format
-   * outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for
-   * representation of dates and times using the Gregorian calendar.
-   */
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   Date: any
 }
 
@@ -52,6 +44,17 @@ export type AboutFilter = {
   hero?: Maybe<HeroFilter>
   introText?: Maybe<StringFilter>
 }
+
+export type AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =
+  | About
+  | Contact
+  | Customize
+  | JournalEntry
+  | JournalPage
+  | Magazine
+  | Page
+  | ShopifyCollection
+  | ShopifyProduct
 
 export type AboutSorting = {
   _id?: Maybe<SortOrder>
@@ -194,16 +197,6 @@ export type ContactLineSorting = {
   contact?: Maybe<SortOrder>
 }
 
-export type ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct =
-  | Contact
-  | Customize
-  | JournalEntry
-  | JournalPage
-  | Magazine
-  | Page
-  | ShopifyCollection
-  | ShopifyProduct
-
 export type ContactSorting = {
   _id?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
@@ -228,6 +221,8 @@ export type CtaFilter = {
   label?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
 }
+
+export type CtaOrSubMenu = Cta | SubMenu
 
 export type CtaSorting = {
   _key?: Maybe<SortOrder>
@@ -633,7 +628,7 @@ export interface InternalLink {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   document?: Maybe<
-    ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct
+    AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct
   >
 }
 
@@ -2548,7 +2543,7 @@ export interface SubMenu {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  links?: Maybe<Array<Maybe<Cta>>>
+  links?: Maybe<Array<Maybe<CtaOrSubMenu>>>
 }
 
 export type SubMenuFilter = {

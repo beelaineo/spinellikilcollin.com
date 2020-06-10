@@ -10,6 +10,7 @@ export type Scalars = {
    * An RFC 3986 and RFC 3987 compliant URI string.
    *
    * Example value: `"https://johns-apparel.myshopify.com"`.
+   *
    */
   URL: any
   /** A string containing HTML code. Example value: `"<p>Grey cotton knit sweater.</p>"`. */
@@ -2326,7 +2327,7 @@ export type ShopifyStorefrontCustomerUpdateInput = {
   /**
    * A unique phone number for the customer.
    *
-   * Formatted using E.164 standard. For example, _+16135551111_.
+   * Formatted using E.164 standard. For example, _+16135551111_. To remove the phone number, specify `null`.
    */
   phone?: Maybe<Scalars['String']>
   /** The login password used by the customer. */

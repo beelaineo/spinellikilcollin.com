@@ -102,8 +102,11 @@
       },
       {
         "kind": "UNION",
-        "name": "ContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct",
+        "name": "AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct",
         "possibleTypes": [
+          {
+            "name": "About"
+          },
           {
             "name": "Contact"
           },
@@ -151,6 +154,18 @@
         "possibleTypes": [
           {
             "name": "MenuLink"
+          },
+          {
+            "name": "SubMenu"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CtaOrSubMenu",
+        "possibleTypes": [
+          {
+            "name": "Cta"
           },
           {
             "name": "SubMenu"

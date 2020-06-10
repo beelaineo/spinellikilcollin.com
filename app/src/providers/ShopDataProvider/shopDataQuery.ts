@@ -42,8 +42,20 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           _type
           title
           links {
+            __typename
             ... on Cta {
               ...CTAFragment
+            }
+            ... on SubMenu {
+              _key
+              _type
+              title
+              links {
+                __typename
+                ... on Cta {
+                  ...CTAFragment
+                }
+              }
             }
           }
         }
