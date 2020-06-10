@@ -28,6 +28,8 @@ const DSN = process.env.SENTRY_DSN
 
 export let Sentry: typeof SentryInitializer
 
+const noop = () => undefined
+
 if (ENV === 'production' || ENV === 'staging' || FORCE) {
   if (!DSN) throw new Error('No Sentry DSN supplied')
   Sentry = SentryInitializer
@@ -50,7 +52,6 @@ if (ENV === 'production' || ENV === 'staging' || FORCE) {
   })
 } else {
   debug('Mocking local sentry')
-  const noop = () => {}
   Sentry = {
     // @ts-ignore
     setUserContext: noop,
@@ -59,17 +60,14 @@ if (ENV === 'production' || ENV === 'staging' || FORCE) {
       parseRequest: noop,
     },
     configureScope: () => {},
-    captureException: (e: any) => {
+    captureException: (e: Error) => {
       debug('Captured exception:')
       debug(e)
-      const randomId = Math.random()
-        .toString()
-        .replace('0.', '')
+      const randomId = Math.random().toString().replace('0.', '')
       return `mock-ref-${randomId}`
     },
-    captureMessage: (m: string, severity?: Severity) => {
+    captureMessage: (m: string) => {
       debug('Captured message:')
-      debug(severity)
       debug(m)
       return m
     },
