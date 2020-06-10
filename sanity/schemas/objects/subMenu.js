@@ -63,7 +63,7 @@ export const MenuLink = {
 }
 
 export const subMenu = {
-  title: 'Dropdown Menu',
+  title: 'Submenu',
   name: 'subMenu',
   type: 'object',
   icon: IoIosListBox,
@@ -75,10 +75,10 @@ export const subMenu = {
       validation: (Rule) => Rule.required(),
     },
     {
-      title: 'Links',
+      title: 'Links & Submenus',
       name: 'links',
       type: 'array',
-      of: [{ type: 'cta' }],
+      of: [{ type: 'cta' }, { type: 'subMenu' }],
     },
   ],
   preview: {
