@@ -55,26 +55,26 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 /**
  * Static Paths
  */
-const pageHandlesQuery = gql`
-  query JournalEntriesHandlesQuery {
-    allJournalEntry {
-      _id
-      slug {
-        current
-      }
-    }
-  }
-`
+// const pageHandlesQuery = gql`
+//   query JournalEntriesHandlesQuery {
+//     allJournalEntry {
+//       _id
+//       slug {
+//         current
+//       }
+//     }
+//   }
+// `
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const result = await request<Response>(pageHandlesQuery)
-  const entries = definitely(result?.allJournalEntry)
-  const paths = entries.map((entry) => ({
-    params: { entrySlug: entry?.slug?.current ?? undefined },
-  }))
+  // const result = await request<Response>(pageHandlesQuery)
+  // const entries = definitely(result?.allJournalEntry)
+  // const paths = entries.map((entry) => ({
+  //   params: { entrySlug: entry?.slug?.current ?? undefined },
+  // }))
 
   return {
-    paths,
+    paths: [],
     fallback: true,
   }
 }

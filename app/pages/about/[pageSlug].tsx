@@ -50,26 +50,26 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
  * Static Paths
  */
 
-const pageHandlesQuery = gql`
-  query PageSlugQuery {
-    allPage {
-      _id
-      slug {
-        current
-      }
-    }
-  }
-`
+// const pageHandlesQuery = gql`
+//   query PageSlugQuery {
+//     allPage {
+//       _id
+//       slug {
+//         current
+//       }
+//     }
+//   }
+// `
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const result = await request<PageResponse>(pageHandlesQuery)
-  const pages = definitely(result?.allPage)
-  const paths = pages.map((page) => ({
-    params: { pageSlug: page?.slug?.current ?? undefined },
-  }))
+  // const result = await request<PageResponse>(pageHandlesQuery)
+  // const pages = definitely(result?.allPage)
+  // const paths = pages.map((page) => ({
+  //   params: { pageSlug: page?.slug?.current ?? undefined },
+  // }))
 
   return {
-    paths,
+    paths: [],
     fallback: true,
   }
 }

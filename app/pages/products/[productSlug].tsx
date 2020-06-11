@@ -130,25 +130,25 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 /**
  * Static Paths
  */
-const pageHandlesQuery = gql`
-  query ProductHandlesQuery {
-    allShopifyProduct {
-      _id
-      shopifyId
-      handle
-    }
-  }
-`
+// const pageHandlesQuery = gql`
+//   query ProductHandlesQuery {
+//     allShopifyProduct {
+//       _id
+//       shopifyId
+//       handle
+//     }
+//   }
+// `
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const result = await request<Response>(pageHandlesQuery)
-  const products = definitely(result?.allShopifyProduct)
-  const paths = products.map((product) => ({
-    params: { productSlug: product.handle ? product.handle : undefined },
-  }))
+  // const result = await request<Response>(pageHandlesQuery)
+  // const products = definitely(result?.allShopifyProduct)
+  // const paths = products.map((product) => ({
+  //   params: { productSlug: product.handle ? product.handle : undefined },
+  // }))
 
   return {
-    paths,
+    paths: [],
     fallback: true,
   }
 }
