@@ -6,6 +6,7 @@ import { richImageFragment } from '../src/graphql'
 import { NotFound } from '../src/views/NotFound'
 import { MagazineView } from '../src/views/Magazine'
 import { request } from '../src/graphql'
+import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 
 const magazineQuery = gql`
   query MagazineQuery {
@@ -40,9 +41,14 @@ interface MagazineResponse {
  */
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await request<MagazineResponse>(magazineQuery)
+  const [response, shopData] = await Promise.all([
+    request<MagazineResponse>(magazineQuery),
+    requestShopData(),
+  ])
+
   const magazine = response?.Magazine || null
-  return { props: { magazine }, unstable_revalidate: 60 }
+
+  return { props: { shopData, magazine }, unstable_revalidate: 60 }
 }
 
 export default MagazinePage

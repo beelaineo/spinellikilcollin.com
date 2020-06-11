@@ -8,6 +8,8 @@ import {
   carouselFragment,
   heroFragment,
 } from '../src/graphql'
+
+import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 import { request } from '../src/graphql'
 
 const homepageQuery = gql`
@@ -53,9 +55,12 @@ export const Homepage = ({ homepage }: HomepageProps) => {
  */
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await request<HomepageResponse>(homepageQuery)
+  const [response, shopData] = await Promise.all([
+    request<HomepageResponse>(homepageQuery),
+    requestShopData(),
+  ])
   const homepage = response?.Homepage || null
-  return { props: { homepage }, unstable_revalidate: 60 }
+  return { props: { shopData, homepage, foo: 'bar' }, unstable_revalidate: 60 }
 }
 
 export default Homepage

@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { Page as PageType } from '../../src/types'
 import { NotFound, PageView } from '../../src/views'
 import { request } from '../../src/graphql'
-import { definitely } from '../../src/utils'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const pageQuery = gql`
   query PageQuery($slug: String!) {
@@ -40,10 +40,14 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
   if (!params) return { props: { page: undefined } }
   const variables = { slug: params.pageSlug }
-  const response = await request<PageResponse>(pageQuery, variables)
+  const [response, shopData] = await Promise.all([
+    request<PageResponse>(pageQuery, variables),
+    requestShopData(),
+  ])
+
   const pages = response?.allPage
   const page = pages && pages.length ? pages[0] : null
-  return { props: { page }, unstable_revalidate: 60 }
+  return { props: { page, shopData }, unstable_revalidate: 60 }
 }
 
 /**

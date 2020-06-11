@@ -5,7 +5,7 @@ import { JournalEntry as JournalEntryType } from '../../src/types'
 import { NotFound } from '../../src/views/NotFound'
 import { JournalEntryPage } from '../../src/views/JournalEntryPage'
 import { request } from '../../src/graphql'
-import { definitely } from '../../src/utils'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const journalEntryQuery = gql`
   query JournalEntryQuery($slug: String) {
@@ -45,11 +45,15 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
   if (!params) return { props: { entry: undefined } }
   const variables = { slug: params.entrySlug }
-  const response = await request<Response>(journalEntryQuery, variables)
+  const [response, shopData] = await Promise.all([
+    request<Response>(journalEntryQuery, variables),
+    requestShopData(),
+  ])
+
   const entries = response?.allJournalEntry
 
   const entry = entries && entries.length ? entries[0] : null
-  return { props: { entry }, unstable_revalidate: 60 }
+  return { props: { entry, shopData }, unstable_revalidate: 60 }
 }
 
 /**

@@ -14,7 +14,7 @@ import {
   shopifySourceImageFragment,
 } from '../../src/graphql'
 import { request } from '../../src/graphql'
-import { definitely } from '../../src/utils'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -120,11 +120,15 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
   if (!params) return { props: { product: undefined } }
   const variables = { handle: params.productSlug }
-  const response = await request<Response>(productQuery, variables)
+
+  const [response, shopData] = await Promise.all([
+    request<Response>(productQuery, variables),
+    requestShopData(),
+  ])
   const products = response?.allShopifyProduct
 
   const product = products && products.length ? products[0] : null
-  return { props: { product }, unstable_revalidate: 60 }
+  return { props: { product, shopData }, unstable_revalidate: 60 }
 }
 
 /**

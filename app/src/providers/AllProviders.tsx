@@ -3,6 +3,7 @@ import fetch from 'isomorphic-unfetch'
 import { ThemeProvider } from '@xstyled/styled-components'
 import { ShopifyProvider } from 'use-shopify'
 import { DocumentNode } from 'graphql'
+import { ShopDataResponse } from './ShopDataProvider/shopDataQuery'
 import { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
@@ -16,10 +17,6 @@ import { ModalProvider } from './ModalProvider'
  * - Global Components
  * - Routes
  */
-
-interface Props {
-  children: React.ReactNode
-}
 
 const deduplicateFragments = (queryString?: string) =>
   queryString
@@ -52,10 +49,15 @@ async function shopifyQuery<Response>(
   return result
 }
 
-export const Providers = ({ children }: Props) => {
+interface Props {
+  children: React.ReactNode
+  shopData: ShopDataResponse
+}
+
+export const Providers = ({ shopData, children }: Props) => {
   return (
     <ShopifyProvider query={shopifyQuery}>
-      <ShopDataProvider>
+      <ShopDataProvider shopData={shopData}>
         <CartProvider>
           <ThemeProvider theme={theme}>
             <GlobalStyles />

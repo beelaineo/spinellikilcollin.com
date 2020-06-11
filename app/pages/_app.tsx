@@ -5,7 +5,6 @@ import Head from 'next/head'
 import { Footer } from '../src/components/Footer'
 import { Navigation } from '../src/components/Navigation'
 import { Providers } from '../src/providers/AllProviders'
-
 import { getThemeByRoute } from '../src/theme'
 
 interface AppProps {
@@ -20,11 +19,13 @@ const Main = styled.main`
 `
 
 const App = (props: AppProps) => {
-  const { Component, pageProps, router } = props
+  const { Component, pageProps: allPageProps, router } = props
   const path = router.pathname
+  const { shopData, ...pageProps } = allPageProps
+  if (!shopData) throw new Error('This page did not fetch the shop data')
 
   return (
-    <Providers>
+    <Providers shopData={shopData}>
       <ThemeProvider theme={getThemeByRoute(path)}>
         <Head>
           <link rel="stylesheet" href="/static/fonts/fonts.css" />

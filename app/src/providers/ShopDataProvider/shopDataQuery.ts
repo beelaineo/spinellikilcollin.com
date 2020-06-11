@@ -14,6 +14,7 @@ import {
   filterSetFragment,
   priceRangeFilterFragment,
 } from '../../graphql/fragments'
+import { request } from '../../graphql'
 
 export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   {
@@ -128,4 +129,9 @@ export interface ShopDataResponse {
   ProductInfoSettings: ProductInfoSettings
   SiteSettings: SiteSettings
   allPage: Page[]
+}
+
+export const requestShopData = async () => {
+  const response = await request<ShopDataResponse>(SHOP_DATA_QUERY)
+  return response
 }

@@ -4,6 +4,7 @@ import { GetStaticProps } from 'next'
 import { Maybe, Contact } from '../../src/types'
 import { NotFound, ContactView } from '../../src/views'
 import { request } from '../../src/graphql'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const query = gql`
   query ContactPageQuery {
@@ -38,10 +39,14 @@ interface Response {
  */
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await request<Response>(query)
+  const [response, shopData] = await Promise.all([
+    request<Response>(query),
+    requestShopData(),
+  ])
+
   const contact = response?.Contact || null
 
-  return { props: { contact }, unstable_revalidate: 60 }
+  return { props: { contact, shopData }, unstable_revalidate: 60 }
 }
 
 export default ContactPage

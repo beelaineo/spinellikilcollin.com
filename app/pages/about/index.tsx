@@ -5,6 +5,7 @@ import { AboutView, NotFound } from '../../src/views'
 import { About } from '../../src/types'
 import { richImageFragment, heroFragment } from '../../src/graphql'
 import { request } from '../../src/graphql'
+import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 
 const query = gql`
   query AboutPageQuery {
@@ -66,10 +67,13 @@ const AboutIndex = ({ about }: AboutIndexProps) => {
  */
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const response = await request<Response>(query)
+  const [response, shopData] = await Promise.all([
+    request<Response>(query),
+    requestShopData(),
+  ])
   const about = response?.About || null
 
-  return { props: { about }, unstable_revalidate: 60 }
+  return { props: { about, shopData }, unstable_revalidate: 60 }
 }
 
 export default AboutIndex

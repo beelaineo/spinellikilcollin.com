@@ -38,21 +38,20 @@ export const useShopData = () => {
 
 interface Props {
   children: React.ReactNode
+  shopData: ShopDataResponse
 }
 
 interface Person {
   name: string
 }
 
-export const ShopDataProvider = ({ children }: Props) => {
-  const response = useRequest<ShopDataResponse>(SHOP_DATA_QUERY)
-
-  const ready = Boolean(response.data)
-  const menu = response?.data?.Menu
-  const siteSettings = response?.data?.SiteSettings
-  const productInfoSettings = response?.data?.ProductInfoSettings
-  const productListingSettings = response?.data?.ProductListingSettings
-  const allPages = response?.data?.allPage || []
+export const ShopDataProvider = ({ children, shopData }: Props) => {
+  const ready = true
+  const menu = shopData?.Menu
+  const siteSettings = shopData?.SiteSettings
+  const productInfoSettings = shopData?.ProductInfoSettings
+  const productListingSettings = shopData?.ProductListingSettings
+  const allPages = shopData?.allPage || []
 
   const getLinkByRef = (ref: string): LinkInfo | null => {
     if (!ref) return null

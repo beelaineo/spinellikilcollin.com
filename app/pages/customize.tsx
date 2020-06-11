@@ -5,6 +5,7 @@ import { Maybe, Customize as CustomizeType } from '../src/types'
 import { NotFound } from '../src/views/NotFound'
 import { Customize as CustomizeView } from '../src/views/Customize'
 import { request } from '../src/graphql'
+import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 
 const customizeQuery = gql`
   query CustomizeQuery {
@@ -34,9 +35,13 @@ interface CustomizeResponse {
  */
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await request<CustomizeResponse>(customizeQuery)
+  const [response, shopData] = await Promise.all([
+    request<CustomizeResponse>(customizeQuery),
+    requestShopData(),
+  ])
+
   const customize = response?.Customize || null
-  return { props: { customize }, unstable_revalidate: 60 }
+  return { props: { customize, shopData }, unstable_revalidate: 60 }
 }
 
 export default Customize

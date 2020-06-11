@@ -6,6 +6,7 @@ import { richImageFragment } from '../../src/graphql'
 import { NotFound } from '../../src/views/NotFound'
 import { TeamView } from '../../src/views/TeamView'
 import { request } from '../../src/graphql'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const teamQuery = gql`
   query TeamPageQuery {
@@ -46,10 +47,14 @@ interface TeamPageResponse {
  */
 
 export const getStaticProps: GetStaticProps = async () => {
-  const response = await request<TeamPageResponse>(teamQuery)
+  const [response, shopData] = await Promise.all([
+    request<TeamPageResponse>(teamQuery),
+    requestShopData(),
+  ])
+
   const teamPage = response?.TeamPage || null
 
-  return { props: { teamPage }, unstable_revalidate: 60 }
+  return { props: { teamPage, shopData }, unstable_revalidate: 60 }
 }
 
 export default TeamPage

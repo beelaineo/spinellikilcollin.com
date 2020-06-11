@@ -10,6 +10,7 @@ import {
   cloudinaryVideoFragment,
 } from '../../src/graphql'
 import { request } from '../../src/graphql'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const collectionQuery = gql`
   query CollectionPageQuery($handle: String) {
@@ -88,10 +89,13 @@ const Collection = ({ collection, products }: CollectionPageProps) => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
   if (!params) return { props: { products: undefined, collection: undefined } }
-  const collectionResponse = await request<CollectionResponse>(
-    collectionQuery,
-    { handle: params.collectionSlug },
-  )
+  const [collectionResponse, shopData] = await Promise.all([
+    request<CollectionResponse>(collectionQuery, {
+      handle: params.collectionSlug,
+    }),
+
+    requestShopData(),
+  ])
 
   const collections = collectionResponse?.allShopifyCollection
   const collection = collections?.length ? collections[0] : undefined
@@ -105,7 +109,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const products = productsResponse?.allShopifyProduct || []
 
   return {
-    props: { products: products || null, collection: collection || null },
+    props: {
+      shopData,
+      products: products || null,
+      collection: collection || null,
+    },
     unstable_revalidate: 60,
   }
 }

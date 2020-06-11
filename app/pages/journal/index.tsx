@@ -5,6 +5,7 @@ import { JournalEntry } from '../../src/types'
 import { richImageFragment } from '../../src/graphql'
 import { JournalPage } from '../../src/views/JournalPage'
 import { request } from '../../src/graphql'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const journalPageQuery = gql`
   query JournalPageQuery($currentDate: Date) {
@@ -57,9 +58,13 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       .padStart(2, '0'),
   ].join('-')
   const variables = { currentDate }
-  const response = await request<Response>(journalPageQuery, variables)
+  const [response, shopData] = await Promise.all([
+    request<Response>(journalPageQuery, variables),
+    requestShopData(),
+  ])
+
   const entries = response?.allJournalEntry ?? []
-  return { props: { entries }, unstable_revalidate: 60 }
+  return { props: { entries, shopData }, unstable_revalidate: 60 }
 }
 
 export default Journal
