@@ -3,7 +3,8 @@ import { Message } from 'postmark'
 import { DEAR } from '../postmark'
 
 export interface MagazineSignupArgs {
-  name: string
+  firstName: string
+  lastName: string
   emailAddress: string
   address1: string
   address2?: string
@@ -20,7 +21,7 @@ const textTemplate = (args: MagazineSignupArgs): string => stripIndents`
 
   ${args.emailAddress}
 
-  ${args.name} 
+  ${args.firstName} ${args.lastName} 
   ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
   ${args.city}, ${args.state} ${args.postalCode}
   ${args.country}

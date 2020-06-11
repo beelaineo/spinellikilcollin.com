@@ -45,7 +45,7 @@ export const FooterInner = styled.div`
 export const FooterLinks = styled.div`
   ${({ theme }) => css`
     display: grid;
-    grid-column-gap: 3;
+    grid-column-gap: 5;
     grid-template-columns: 1fr 1fr;
 
     ${theme.mediaQueries.mobile} {

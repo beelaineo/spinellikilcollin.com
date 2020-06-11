@@ -171,6 +171,13 @@ export const externalLinkFragment = gql`
   }
 `
 
+export const cloudinaryVideoFragment = gql`
+  fragment CloudinaryVideoFragment on CloudinaryVideo {
+    __typename
+    videoId
+  }
+`
+
 export const imageTextBlockFragment = gql`
   fragment ImageTextBlockFragment on ImageTextBlock {
     __typename
@@ -181,6 +188,9 @@ export const imageTextBlockFragment = gql`
     textPosition
     textColor
     layout
+    cloudinaryVideo {
+      videoId
+    }
     backgroundImage {
       ...RichImageFragment
     }

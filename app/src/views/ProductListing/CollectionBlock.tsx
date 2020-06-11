@@ -3,16 +3,13 @@ import styled, { css } from '@xstyled/styled-components'
 import { CollectionBlock as CollectionBlockType } from '../../types'
 import { Image, ImageWrapper } from '../../components/Image'
 import { RichText } from '../../components/RichText'
+import { CloudinaryVideo } from '../../components/CloudinaryVideo'
 import {
   getColor,
   getTextAlignment,
   getFlexAlignment,
   getFlexJustification,
 } from '../../theme/utils'
-
-interface CollectionBlockProps {
-  collectionBlock: CollectionBlockType
-}
 
 const TextWrapper = styled.div`
   position: relative;
@@ -23,6 +20,24 @@ type WrapperProps = Pick<
   CollectionBlockType,
   'backgroundColor' | 'textColor' | 'textPosition'
 >
+
+interface WithFormat {
+  format?: string | null
+}
+
+const Padding = styled.div<WithFormat>`
+  ${({ format }) => css`
+    content: '';
+    display: inline-block;
+    width: 1px;
+    height: 0;
+    padding-bottom: ${format === 'wide'
+      ? '50%'
+      : format === 'tall'
+      ? '200%'
+      : 'auto'};
+  `}
+`
 
 const Wrapper = styled.div<WrapperProps>`
   ${({ backgroundColor, textPosition, textColor }) => css`
@@ -36,7 +51,8 @@ const Wrapper = styled.div<WrapperProps>`
     padding: 3 6;
     ${ImageWrapper},
     img,
-    picture {
+    picture,
+    video {
       position: absolute;
       object-fit: cover;
       width: 100%;
@@ -46,14 +62,22 @@ const Wrapper = styled.div<WrapperProps>`
     }
   `}
 `
+interface CollectionBlockProps {
+  collectionBlock: CollectionBlockType
+  format?: string | null
+}
 
-export const CollectionBlock = ({ collectionBlock }: CollectionBlockProps) => {
+export const CollectionBlock = ({
+  format,
+  collectionBlock,
+}: CollectionBlockProps) => {
   const {
     bodyRaw,
     textPosition,
     textColor,
     backgroundImage,
     backgroundColor,
+    cloudinaryVideo,
   } = collectionBlock
   return (
     <Wrapper
@@ -65,6 +89,10 @@ export const CollectionBlock = ({ collectionBlock }: CollectionBlockProps) => {
         <TextWrapper>
           <RichText weight={2} body={bodyRaw} />
         </TextWrapper>
+      ) : null}
+      <Padding format={format} />
+      {cloudinaryVideo ? (
+        <CloudinaryVideo sizes={[1200]} video={cloudinaryVideo} />
       ) : null}
       <Image
         image={backgroundImage}

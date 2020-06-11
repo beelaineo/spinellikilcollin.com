@@ -80,7 +80,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
           onSubmit={handleSubmit}
         >
           <FieldsWrapper>
-            <Field name="name" label="First and last name" required />
+            <Field name="firstName" placeholder="First Name" required />
             <Field name="lastName" placeholder="Last Name" required />
             <Field
               name="emailAddress"

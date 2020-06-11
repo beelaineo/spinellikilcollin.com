@@ -83,7 +83,6 @@ const reducer = (state: State, action: Action): State => {
     case RESET_ALL:
       return {
         filterSetStates: state.filterSetStates.map((set) => {
-          console.log(set)
           return {
             ...set,
             activeMatchKeys: [],

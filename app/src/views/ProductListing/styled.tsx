@@ -93,18 +93,6 @@ export const ProductGridItem = styled.div<WithFormat>`
     grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     position: relative;
 
-    &::before {
-      content: '';
-      display: inline-block;
-      width: 1px;
-      height: 0;
-      padding-bottom: ${format === 'wide'
-        ? '50%'
-        : format === 'tall'
-        ? '200%'
-        : 'auto'};
-    }
-
     & > * {
       position: ${format === 'tall' || format === 'wide'
         ? 'absolute'

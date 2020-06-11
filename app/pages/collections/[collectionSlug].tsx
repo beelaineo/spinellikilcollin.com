@@ -7,9 +7,9 @@ import {
   shopifyProductThumbnailFragment,
   richImageFragment,
   heroFragment,
+  cloudinaryVideoFragment,
 } from '../../src/graphql'
 import { request } from '../../src/graphql'
-import { definitely } from '../../src/utils'
 
 const collectionQuery = gql`
   query CollectionPageQuery($handle: String) {
@@ -37,11 +37,15 @@ const collectionQuery = gql`
         backgroundImage {
           ...RichImageFragment
         }
+        cloudinaryVideo {
+          ...CloudinaryVideoFragment
+        }
       }
     }
   }
   ${richImageFragment}
   ${heroFragment}
+  ${cloudinaryVideoFragment}
 `
 
 const productsQuery = gql`

@@ -111,6 +111,25 @@ export type CarouselSorting = {
   title?: Maybe<SortOrder>
 }
 
+export interface CloudinaryVideo {
+  __typename: 'CloudinaryVideo'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  videoId?: Maybe<Scalars['String']>
+}
+
+export type CloudinaryVideoFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  videoId?: Maybe<StringFilter>
+}
+
+export type CloudinaryVideoSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  videoId?: Maybe<SortOrder>
+}
+
 export interface CollectionBlock {
   __typename: 'CollectionBlock'
   _key?: Maybe<Scalars['String']>
@@ -120,6 +139,7 @@ export interface CollectionBlock {
   bodyRaw?: Maybe<Scalars['JSON']>
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
+  cloudinaryVideo?: Maybe<CloudinaryVideo>
   backgroundImage?: Maybe<RichImage>
   backgroundColor?: Maybe<Scalars['String']>
 }
@@ -131,6 +151,7 @@ export type CollectionBlockFilter = {
   format?: Maybe<StringFilter>
   textPosition?: Maybe<StringFilter>
   textColor?: Maybe<StringFilter>
+  cloudinaryVideo?: Maybe<CloudinaryVideoFilter>
   backgroundImage?: Maybe<RichImageFilter>
   backgroundColor?: Maybe<StringFilter>
 }
@@ -142,6 +163,7 @@ export type CollectionBlockSorting = {
   format?: Maybe<SortOrder>
   textPosition?: Maybe<SortOrder>
   textColor?: Maybe<SortOrder>
+  cloudinaryVideo?: Maybe<CloudinaryVideoSorting>
   backgroundImage?: Maybe<RichImageSorting>
   backgroundColor?: Maybe<SortOrder>
 }
@@ -594,6 +616,7 @@ export interface ImageTextBlock {
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
   layout?: Maybe<Scalars['String']>
+  cloudinaryVideo?: Maybe<CloudinaryVideo>
   backgroundImage?: Maybe<RichImage>
   backgroundColor?: Maybe<Scalars['String']>
   hoverImage?: Maybe<RichImage>
@@ -606,6 +629,7 @@ export type ImageTextBlockFilter = {
   textPosition?: Maybe<StringFilter>
   textColor?: Maybe<StringFilter>
   layout?: Maybe<StringFilter>
+  cloudinaryVideo?: Maybe<CloudinaryVideoFilter>
   backgroundImage?: Maybe<RichImageFilter>
   backgroundColor?: Maybe<StringFilter>
   hoverImage?: Maybe<RichImageFilter>
@@ -618,6 +642,7 @@ export type ImageTextBlockSorting = {
   textPosition?: Maybe<SortOrder>
   textColor?: Maybe<SortOrder>
   layout?: Maybe<SortOrder>
+  cloudinaryVideo?: Maybe<CloudinaryVideoSorting>
   backgroundImage?: Maybe<RichImageSorting>
   backgroundColor?: Maybe<SortOrder>
   hoverImage?: Maybe<RichImageSorting>

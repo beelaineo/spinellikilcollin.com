@@ -10,6 +10,7 @@ import {
   getFlexAlignment,
   getTextAlignment,
 } from '../../theme/utils'
+import { CloudinaryVideo } from '../CloudinaryVideo'
 
 interface ImageTextBlockProps {
   content: ImageTextBlockType
@@ -17,14 +18,30 @@ interface ImageTextBlockProps {
 
 const RichTextWrapper = (props: any) => <Heading level={2} {...props} />
 
-const Wrapper = styled.div`
-  position: relative;
-  height: 100%;
-  background-color: body.0;
+interface WithLayout {
+  layout?: string | null
+}
 
-  &:hover ${HoverImage} {
-    opacity: 1;
-  }
+const Wrapper = styled.div<WithLayout>`
+  ${({ layout }) => css`
+    position: relative;
+    height: 100%;
+    background-color: body.0;
+    grid-column: ${layout === 'fullWidth' ? '1 / 3' : 'auto'};
+
+    &:hover ${HoverImage} {
+      opacity: 1;
+    }
+
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  `}
 `
 
 const CtaWrapper = styled.div`
@@ -54,14 +71,27 @@ const TextWrapper = styled.div`
 `
 
 export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
-  const { ctaText, textPosition, backgroundImage, hoverImage, layout } = content
+  const {
+    ctaText,
+    textPosition,
+    backgroundImage,
+    hoverImage,
+    cloudinaryVideo,
+    layout,
+  } = content
+  console.log(layout)
 
   const link = content.link ? content.link[0] : undefined
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
+  const ratio = layout === 'fullWidth' ? 0.4 : 1
+  const sizes = layout === 'fullWidth' ? [1600] : [900]
   return (
-    <Wrapper>
-      <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
+    <Wrapper layout={layout}>
+      <Image image={backgroundImage} hoverImage={hoverImage} ratio={ratio} />
+      {cloudinaryVideo ? (
+        <CloudinaryVideo sizes={sizes} video={cloudinaryVideo} />
+      ) : null}
       <TextWrapper textPosition={textPosition}>
         <PageLink link={link}>
           <Box color={textColor}>

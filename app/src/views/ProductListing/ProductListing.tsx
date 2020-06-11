@@ -86,7 +86,10 @@ export const ProductListing = ({
                     format={item.format}
                     key={item._key || 'some-key'}
                   >
-                    <CollectionBlock collectionBlock={item} />
+                    <CollectionBlock
+                      format={item.format}
+                      collectionBlock={item}
+                    />
                   </ProductGridItem>
                 )
               case 'ShopifyProduct':
