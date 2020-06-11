@@ -14,15 +14,15 @@ export const Wrapper = styled.nav`
 `
 
 interface WithBorder {
-  border?: boolean
+  withBorder?: boolean
 }
 
 export const Inner = styled.div<WithBorder>`
-  ${({ theme, border }) => css`
+  ${({ theme, withBorder }) => css`
     height: ${theme.navHeight};
     display: grid;
     border-bottom: 1px solid;
-    border-color: ${border ? 'currentColor' : 'transparent'};
+    border-color: ${withBorder ? 'currentColor' : 'transparent'};
     grid-template-columns: 1fr 220px 1fr;
     align-items: center;
     padding: 2 0;

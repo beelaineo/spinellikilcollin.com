@@ -108,7 +108,7 @@ export const Navigation = ({ router }: NavigationProps) => {
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
   const cartCount = loading ? 0 : lineItems.length || 0
 
-  const innerBorder = /\/collections/.test(router.asPath)
+  const innerBorder = !/\/collections/.test(router.asPath)
 
   return (
     <Wrapper>

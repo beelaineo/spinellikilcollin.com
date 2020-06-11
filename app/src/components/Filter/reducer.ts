@@ -4,7 +4,9 @@ import {
   PriceRangeFilter as PriceRangeFilterType,
 } from '../../types'
 
-export interface FilterSetState<FilterValueType = Record<string, any>> {
+export type FilterValues = Record<string, any>
+
+export interface FilterSetState<FilterValueType = FilterValues> {
   key: string
   activeMatchKeys: string[]
   values: FilterValueType
@@ -53,7 +55,7 @@ interface SetValuesAction {
   type: typeof SET_VALUES
   setKey: string
   matchKey: string
-  values: FilterValues
+  values: Record<string, any>
 }
 
 type Action =

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
-import { FilterSetState, FilterValues } from './reducer'
+import { FilterSetState } from './reducer'
 import { PriceRangeFilterWrapper } from './styled'
 import { Heading, Span } from '../Text'
 import {
@@ -92,10 +92,7 @@ interface PriceRangeFilterValues {
 interface PriceRangeFilterProps {
   priceRangeFilter: PriceRangeFilterType
   filterSetState?: FilterSetState
-  setValues: (
-    matchKey: string,
-    values: FilterValues<PriceRangeFilterValues>,
-  ) => void
+  setValues: (matchKey: string, values: PriceRangeFilterValues) => void
   resetSet: () => void
   setKey: string
 }
