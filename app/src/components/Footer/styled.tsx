@@ -18,7 +18,7 @@ export const FooterInner = styled.div`
   ${({ theme }) => css`
     display: grid;
     padding: 6 0;
-    grid-template-columns: 40% 20% 1fr;
+    grid-template-columns: 50% 10% 1fr;
     grid-column-gap: 3;
 
     &:nth-of-type(2) {

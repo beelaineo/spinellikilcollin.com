@@ -5,10 +5,11 @@ import { getLinkFromHref } from '../utils'
 import { Heading, P, Ol, Ul, Li, Span } from '../components/Text'
 
 const css2obj = (css: string): object => {
-  const r = /(?<=^|;)\s*([^:]+)\s*:\s*([^;]+)\s*/g,
-    o = {}
-  css.replace(r, (m, p, v) => (o[p] = v))
-  return o
+  return css.split(';').reduce((ruleMap, ruleString) => {
+    const rulePair = ruleString.split(':')
+    ruleMap[rulePair[0].trim()] = rulePair[1].trim()
+    return ruleMap
+  }, {})
 }
 
 const wrapBareText = (text: string) =>
