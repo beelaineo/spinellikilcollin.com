@@ -6,6 +6,7 @@ import { Heading, P, Ol, Ul, Li, Span } from '../components/Text'
 
 const css2obj = (css: string): object => {
   return css.split(';').reduce((ruleMap, ruleString) => {
+    if (ruleString.length === 0) return ruleMap
     const rulePair = ruleString.split(':')
     ruleMap[rulePair[0].trim()] = rulePair[1].trim()
     return ruleMap

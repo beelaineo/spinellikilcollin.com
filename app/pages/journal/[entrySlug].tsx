@@ -59,6 +59,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 /**
  * Static Paths
  */
+
 // const pageHandlesQuery = gql`
 //   query JournalEntriesHandlesQuery {
 //     allJournalEntry {

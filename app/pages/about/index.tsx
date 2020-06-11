@@ -5,7 +5,7 @@ import { AboutView, NotFound } from '../../src/views'
 import { About } from '../../src/types'
 import { richImageFragment, heroFragment } from '../../src/graphql'
 import { request } from '../../src/graphql'
-import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const query = gql`
   query AboutPageQuery {
