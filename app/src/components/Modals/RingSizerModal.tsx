@@ -33,6 +33,7 @@ const SuccessWrapper = styled.div<WithVisible>`
 const FieldsWrapper = styled.div<WithVisible>`
   ${({ visible }) => css`
     opacity: ${visible ? 1 : 0};
+    margin-top: 5;
     pointer-events: ${visible ? 'inherit' : 'none'};
     transition: 0.2s;
     display: grid;
@@ -73,10 +74,6 @@ export const RingSizerModal = ({ open, closeModal }: RingSizerModalProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
-  // useEffect(() => {
-  //   if (success) closeModal()
-  // }, [success])
-  //
   const handleSubmit = async (values: FormValues) => {
     setSubmitting(true)
     await fetch('/api/requestRingSizer', {
@@ -87,8 +84,7 @@ export const RingSizerModal = ({ open, closeModal }: RingSizerModalProps) => {
   }
 
   return (
-    <Modal open={open} closeModal={closeModal}>
-      <Heading level={3}>Request a ring sizer</Heading>
+    <Modal open={open} title="Request a ring sizer" closeModal={closeModal}>
       <MainWrapper>
         <Form
           disabled={submitting}

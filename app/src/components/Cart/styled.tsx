@@ -1,6 +1,5 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { Input } from '../../components/Forms/Fields/styled'
-import { Hamburger } from '../Hamburger'
 
 interface CartSidebarProps {
   theme: DefaultTheme
@@ -11,7 +10,7 @@ export const CartSidebar = styled.div`
   ${(props: CartSidebarProps) => css`
     position: fixed;
     z-index: cart;
-    right: ${props.open ? '0px' : '-500px'};
+    right: ${props.open ? '0px' : '-510px'};
     top: 0;
     width: 100vw;
     max-width: 500px;

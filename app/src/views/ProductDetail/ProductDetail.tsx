@@ -3,6 +3,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
 import { parseHTML, definitely, getSelectedOptionValues } from '../../utils'
+import { CurrentProductProvider } from '../../providers/CurrentProductProvider'
 import { Column, PageWrapper } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import {
@@ -117,7 +118,7 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   return (
-    <>
+    <CurrentProductProvider product={product} currentVariant={currentVariant}>
       <PageWrapper>
         <Column>
           <ProductDetails>
@@ -175,6 +176,6 @@ export const ProductDetail = ({ product }: Props) => {
       </PageWrapper>
       <ProductDetailFooter product={product} />
       <ProductRelated product={product} />
-    </>
+    </CurrentProductProvider>
   )
 }

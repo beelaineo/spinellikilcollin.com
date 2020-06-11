@@ -22,7 +22,15 @@ export const ProductInfo = styled.div`
   text-transform: capitalize;
 `
 
+export const ImageWrapper = styled.div`
+  position: relative;
+`
+
 export const TagBadgeWrapper = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

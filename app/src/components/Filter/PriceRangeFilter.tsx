@@ -84,10 +84,18 @@ const Knob = ({
   )
 }
 
+interface PriceRangeFilterValues {
+  minPrice: number
+  maxPrice: number
+}
+
 interface PriceRangeFilterProps {
   priceRangeFilter: PriceRangeFilterType
   filterSetState?: FilterSetState
-  setValues: (matchKey: string, values: FilterValues) => void
+  setValues: (
+    matchKey: string,
+    values: FilterValues<PriceRangeFilterValues>,
+  ) => void
   resetSet: () => void
   setKey: string
 }
@@ -97,7 +105,10 @@ export function PriceRangeFilter({
   filterSetState,
   setValues,
 }: PriceRangeFilterProps) {
-  const { minPrice, maxPrice, _key } = priceRangeFilter
+  const { _key } = priceRangeFilter
+  if (!filterSetState) return null
+  const { values } = filterSetState
+  const { minPrice, maxPrice } = filterSetState.initialValues
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
 
   const [currentMinPrice, setCurrentMinPrice] = useState<number | null>(
@@ -131,6 +142,11 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
+    setCurrentMaxPrice(values.maxPrice)
+    setCurrentMinPrice(values.minPrice)
+  }, [values])
+
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setValues('', { minPrice: currentMinPrice, maxPrice: currentMaxPrice })
     }, 300)
@@ -161,7 +177,7 @@ export function PriceRangeFilter({
     <PriceRangeFilterWrapper>
       <Label htmlFor={_key || 'some-key'}>
         <HeadingWrapper>
-          <Span textTransform="uppercase">Price Range:</Span>
+          <Span color="body.9">Price Range:</Span>
         </HeadingWrapper>
         From {parsePriceString(currentMinPrice)} to{' '}
         {parsePriceString(currentMaxPrice)}

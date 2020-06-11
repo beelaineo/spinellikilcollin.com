@@ -1,5 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import { Heading } from '../Text'
 import { useLockScroll } from '../LockScroll'
 import { Background, ModalWrapper, Wrapper, CloseButton } from './styled'
 
@@ -8,10 +9,11 @@ const { useEffect } = React
 interface ModalProps {
   children: React.ReactNode
   open: boolean
+  title: string
   closeModal: () => void
 }
 
-export const Modal = ({ children, open, closeModal }: ModalProps) => {
+export const Modal = ({ children, title, open, closeModal }: ModalProps) => {
   const { lockScroll, unlockScroll } = useLockScroll()
 
   const handleKeyup = (e: KeyboardEvent) => {
@@ -39,6 +41,7 @@ export const Modal = ({ children, open, closeModal }: ModalProps) => {
   return ReactDOM.createPortal(
     <Wrapper>
       <ModalWrapper>
+        <Heading level={3}>{title}</Heading>
         <CloseButton onClick={closeModal} />
         {children}
       </ModalWrapper>

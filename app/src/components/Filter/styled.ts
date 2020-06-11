@@ -7,6 +7,8 @@ export const Wrapper = styled.div`
     background-color: white;
     width: calc(100% + (${theme.space[10]}px * 2));
     margin-left: -${theme.space[10]}px;
+    margin-top: -53px;
+    position: relative;
     margin-bottom: 4;
     ${theme.mediaQueries.tablet} {
       width: calc(100% + (${theme.space[8]}px * 2));

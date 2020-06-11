@@ -22,6 +22,7 @@ export const CheckboxElement = styled.input`
 export const CheckboxWrapper = styled.div`
   display: grid;
   grid-template-columns: 25px 1fr;
+  align-items: center;
   margin: 2 0;
   cursor: pointer;
 

@@ -99,6 +99,7 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
   const handleSubmit = () => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
     applyFilters(filterMatches)
+    setOpen(false)
   }
 
   const handleReset = () => {
@@ -121,6 +122,7 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
                   <FilterWrapper
                     key={filter._key || 'some-key'}
                     heading={filter.heading}
+                    type={filter.__typename}
                   >
                     <FilterSet
                       setKey={filter._key || 'some-key'}
@@ -136,6 +138,7 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
                   <FilterWrapper
                     heading="Price Range"
                     key={filter._key || 'some-key'}
+                    type={filter.__typename}
                   >
                     <PriceRangeFilter
                       setKey={filter._key || 'some-key'}

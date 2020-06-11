@@ -119,7 +119,6 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
       weight={weight}
       color={color}
       htmlFor={htmlFor}
-      lineHeight="1.3em"
     >
       {children}
     </TextBase>

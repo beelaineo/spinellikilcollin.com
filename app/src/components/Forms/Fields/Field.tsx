@@ -9,6 +9,7 @@ import { Heading, Label } from '../../Text'
 import { Checkbox } from './Checkbox'
 import { Radio } from './Radio'
 import { Input } from './Input'
+import { TextArea } from './TextArea'
 import { NumberInput } from './Number'
 import { Select } from './Select'
 import { FieldWrapper } from './styled'
@@ -70,6 +71,8 @@ export const Field = (fieldProps: FieldProps) => {
         return <Select {...fieldProps} />
       case 'countrySelector':
         return <Select {...fieldProps} options={countryOptions} />
+      case 'textArea':
+        return <TextArea {...fieldProps} />
       default:
         return <Input {...fieldProps} />
     }

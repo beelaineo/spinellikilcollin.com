@@ -37,7 +37,7 @@ export const Background = styled.button<WithOpen>`
 export const ModalWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
-    padding: 4;
+    padding: 2 4 4;
     max-width: calc(100% - ${theme.space[4]}px);
     min-width: 375px;
     z-index: 2;
@@ -70,7 +70,7 @@ export const CloseButton = styled.button`
       top: 50%;
       left: 55%;
       width: 115%;
-      height: 2px;
+      height: 1px;
       background-color: body.9;
     }
 

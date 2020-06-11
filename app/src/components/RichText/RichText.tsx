@@ -4,7 +4,8 @@ import Link from 'next/link'
 import * as BlockContent from '@sanity/block-content-to-react'
 import { Heading, Span, P, BlockQuote, Li, Ul, Ol } from '../Text'
 import { Image } from '../Image'
-import { useModal, ModalName } from '../../providers/ModalProvider'
+import { useModal } from '../../providers/ModalProvider'
+import { useCurrentProduct } from '../../providers/CurrentProductProvider'
 import { useCart } from '../../providers/CartProvider'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { LinkInfo } from '../../utils'
@@ -12,7 +13,8 @@ import { LinkInfo } from '../../utils'
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
   imageSizes?: string
-  openModal: (name: ModalName) => void
+  openCustomizationModal: () => void
+  openRingSizerModal: () => void
   openCart: () => void
   getLinkByRef: (ref: string) => LinkInfo | null
   weight?: number
@@ -25,7 +27,8 @@ const RichTextWrapper = styled.div``
 const serializers = ({
   blockWrapper: Wrapper,
   imageSizes,
-  openModal,
+  openCustomizationModal,
+  openRingSizerModal,
   openCart,
   getLinkByRef,
   weight: customWeight,
@@ -52,9 +55,9 @@ const serializers = ({
         actionType === 'openCart'
           ? openCart
           : actionType === 'launchCustomizationModal'
-          ? () => openModal('customization')
+          ? () => openCustomizationModal()
           : actionType === 'launchRingSizerModal'
-          ? () => openModal('ringSizer')
+          ? () => openRingSizerModal()
           : null
       if (!actionType) {
         console.warn(`Action type "${actionType}" is not a valid option`)
@@ -118,9 +121,14 @@ export const RichText = ({
   imageSizes,
   weight,
 }: RichTextProps) => {
+  const currentProductContext = useCurrentProduct()
+  const currentProduct = currentProductContext?.product
+  const currentVariant = currentProductContext?.currentVariant
   const { openCart } = useCart()
-  const { openModal } = useModal()
+  const { openCustomizationModal, openRingSizerModal } = useModal()
   const { getLinkByRef } = useShopData()
+  const openCustomizationModalWithProduct = () =>
+    openCustomizationModal({ currentProduct, currentVariant })
   const Wrapper = CustomWrapper || RichTextWrapper
   return body ? (
     <Wrapper>
@@ -129,7 +137,8 @@ export const RichText = ({
         serializers={serializers({
           blockWrapper,
           imageSizes,
-          openModal,
+          openCustomizationModal: openCustomizationModalWithProduct,
+          openRingSizerModal,
           getLinkByRef,
           openCart,
           weight,

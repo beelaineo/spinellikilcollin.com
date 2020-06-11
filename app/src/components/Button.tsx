@@ -7,7 +7,7 @@ interface ButtonProps {
 
 export const Button = styled.buttonBox`
   ${({ level, disabled }: ButtonProps) => css`
-    pointer-events: ${disabled ? 'none' : 'auto'};
+    pointer-events: ${disabled ? 'none' : 'inherit'};
     opacity: ${disabled ? 0.3 : 1};
     font-family: serif;
     text-transform: uppercase;

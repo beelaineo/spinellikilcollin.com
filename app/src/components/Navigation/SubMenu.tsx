@@ -46,7 +46,6 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
   const [open, setOpen] = useState(false)
   const { title, links } = subMenu
   const toggleOpen = () => setOpen(!open)
-  console.log(title, links)
   if (!title || !links || !links.length) return null
   return (
     <>

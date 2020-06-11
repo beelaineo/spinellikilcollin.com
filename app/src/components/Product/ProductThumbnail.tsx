@@ -15,7 +15,7 @@ import {
   getVariantBySelectedOption,
   optionMatchesVariant,
 } from '../../utils'
-import { ProductInfo, ProductThumb } from './styled'
+import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
 
 const { useState } = React
 
@@ -80,14 +80,16 @@ export const ProductThumbnail = ({
     <ProductThumb>
       <Link href="/products/[productSlug]" as={linkAs}>
         <a>
-          <Image
-            image={productImage}
-            ratio={1}
-            sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
-            altText={altText}
-          />
+          <ImageWrapper>
+            <Image
+              image={productImage}
+              ratio={1}
+              sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
+              altText={altText}
+            />
+            {displayTags ? <TagBadges product={product} /> : null}
+          </ImageWrapper>
 
-          {displayTags ? <TagBadges product={product} /> : null}
           <ProductInfo>
             <Heading textAlign="center" level={3}>
               {product.title}

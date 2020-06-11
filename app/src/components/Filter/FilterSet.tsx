@@ -71,7 +71,9 @@ export const FilterSet = ({
   return (
     <FilterSetWrapper span={span}>
       <HeadingWrapper>
-        <Heading level={4}>{heading}</Heading>
+        <Heading mt={0} level={4}>
+          {heading}
+        </Heading>
       </HeadingWrapper>
       <FilterCheckbox
         matchKey={resetKey}

@@ -63,7 +63,7 @@ export const ProductGrid = styled.div`
     grid-template-columns: 32% 32% 32%;
     justify-content: space-evenly;
     grid-gap: 4;
-    padding: 6;
+    padding: 6 0;
     grid-auto-rows: min-content;
     grid-auto-flow: row dense;
     > a {
@@ -92,6 +92,7 @@ export const ProductGridItem = styled.div<WithFormat>`
     grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
     grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     position: relative;
+
     &::before {
       content: '';
       display: inline-block;

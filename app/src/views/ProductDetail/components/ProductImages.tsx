@@ -17,7 +17,7 @@ import {
 } from '../styled'
 import { definitely } from '../../../utils'
 
-const { useState } = React
+const { useState, useEffect } = React
 
 interface ProductImagesProps {
   product: ShopifyProduct
@@ -55,6 +55,10 @@ export const ProductImages = ({
   const images = definitely([variantImage, ...productImages])
 
   const changeMainImage = (index: number) => () => setCurrentImageIndex(index)
+
+  useEffect(() => {
+    setCurrentImageIndex(0)
+  }, [currentVariant])
 
   if (!images.length) return null
   const mainImage = images[currentImageIndex]

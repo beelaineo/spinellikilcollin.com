@@ -1,12 +1,18 @@
 import * as React from 'react'
 import { CustomizationModal, RingSizerModal } from '../../components/Modals'
-
-const { useState } = React
+import {
+  RING_SIZER,
+  CUSTOMIZATION,
+  CustomizationModalArgs,
+  useModalReducer,
+} from './reducer'
 
 export type ModalName = 'customization' | 'ringSizer'
 
 interface ModalContextValue {
-  openModal: (name: ModalName) => void
+  closeModal: () => void
+  openRingSizerModal: () => void
+  openCustomizationModal: (args: CustomizationModalArgs) => void
 }
 
 const ModalContext = React.createContext<ModalContextValue | undefined>(
@@ -27,24 +33,31 @@ interface ModalProps {
 }
 
 export const ModalProvider = ({ children }: ModalProps) => {
-  const [currentModal, setCurrentModal] = useState<ModalName | null>(null)
-
-  const openModal = (name: ModalName) => {
-    setCurrentModal(name)
-  }
-
-  const closeModal = () => setCurrentModal(null)
+  const {
+    state,
+    closeModal,
+    openRingSizerModal,
+    openCustomizationModal,
+  } = useModalReducer()
 
   const value = {
-    openModal,
+    closeModal,
+    openRingSizerModal,
+    openCustomizationModal,
   }
+  const { currentModal, currentProduct, currentVariant } = state
 
   return (
     <ModalContext.Provider value={value}>
       {children}
-      {currentModal === 'customization' ? (
-        <CustomizationModal open closeModal={closeModal} />
-      ) : currentModal === 'ringSizer' ? (
+      {currentModal === CUSTOMIZATION ? (
+        <CustomizationModal
+          open
+          product={currentProduct}
+          variant={currentVariant}
+          closeModal={closeModal}
+        />
+      ) : currentModal === RING_SIZER ? (
         <RingSizerModal open closeModal={closeModal} />
       ) : null}
     </ModalContext.Provider>

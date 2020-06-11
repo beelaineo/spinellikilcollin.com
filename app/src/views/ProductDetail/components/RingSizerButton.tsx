@@ -31,8 +31,8 @@ const Wrapper = styled.button<WithMobile>`
 `
 
 export const RingSizerButton = ({ mobile }: RingSizerButtonProps) => {
-  const { openModal } = useModal()
-  const handleClick = () => openModal('ringSizer')
+  const { openRingSizerModal } = useModal()
+  const handleClick = () => openRingSizerModal()
   return (
     <Wrapper mobile={mobile} onClick={handleClick}>
       <RingSizerIcon />

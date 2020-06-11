@@ -4,16 +4,11 @@ import {
   PriceRangeFilter as PriceRangeFilterType,
 } from '../../types'
 
-export type FilterValues<T = string | number | boolean | undefined> = {
-  [key: string]: T
-}
-
-export interface FilterSetState<
-  FilterValueType = string | number | boolean | undefined
-> {
+export interface FilterSetState<FilterValueType = Record<string, any>> {
   key: string
   activeMatchKeys: string[]
-  values?: FilterValues<FilterValueType>
+  values: FilterValueType
+  initialValues: FilterValueType
 }
 
 interface State {
@@ -81,14 +76,18 @@ const arrayToggle = <T>(array: T[], item: T): T[] => {
   return [...array, item]
 }
 
-const reducer = (state: State, action: Action) => {
+const reducer = (state: State, action: Action): State => {
   switch (action.type) {
     case RESET_ALL:
       return {
-        filterSetStates: state.filterSetStates.map((s) => ({
-          ...s,
-          activeMatchKeys: [],
-        })),
+        filterSetStates: state.filterSetStates.map((set) => {
+          console.log(set)
+          return {
+            ...set,
+            activeMatchKeys: [],
+            values: set.initialValues,
+          }
+        }),
       }
     case RESET_SET:
       return {
@@ -181,6 +180,13 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
     filterSetStates: filters.map((filter) => ({
       key: filter._key || 'some-key',
       activeMatchKeys: [],
+      initialValues:
+        filter.__typename === 'PriceRangeFilter'
+          ? {
+              minPrice: filter?.minPrice || 0,
+              maxPrice: filter?.maxPrice || 0,
+            }
+          : {},
       values:
         filter.__typename === 'PriceRangeFilter'
           ? {

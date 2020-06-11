@@ -8,8 +8,13 @@ interface WithOpen {
   open: boolean
 }
 
-const Wrapper = styled.div`
-  ${({ theme }) => css`
+interface WithType {
+  type?: string
+}
+
+const Wrapper = styled.div<WithType>`
+  ${({ theme, type }) => css`
+    grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
     ${theme.mediaQueries.mobile} {
       border-color: body.0;
       border-bottom: 1px solid;
@@ -54,13 +59,18 @@ const Inner = styled.div<WithOpen>`
 interface FilterWrapperProps {
   heading?: string | null | void
   children: React.ReactNode
+  type: string
 }
 
-export const FilterWrapper = ({ heading, children }: FilterWrapperProps) => {
+export const FilterWrapper = ({
+  type,
+  heading,
+  children,
+}: FilterWrapperProps) => {
   const [open, setOpen] = useState(false)
   const toggleOpen = () => setOpen(!open)
   return (
-    <Wrapper>
+    <Wrapper type={type}>
       <ButtonWrapper>
         <OpenButton textTransform="upperCase" level={3} onClick={toggleOpen}>
           {heading}

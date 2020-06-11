@@ -13,11 +13,16 @@ export const Wrapper = styled.nav`
   width: 100vw;
 `
 
-export const Inner = styled.div`
-  ${({ theme }) => css`
+interface WithBorder {
+  border?: boolean
+}
+
+export const Inner = styled.div<WithBorder>`
+  ${({ theme, border }) => css`
     height: ${theme.navHeight};
     display: grid;
     border-bottom: 1px solid;
+    border-color: ${border ? 'currentColor' : 'transparent'};
     grid-template-columns: 1fr 220px 1fr;
     align-items: center;
     padding: 2 0;

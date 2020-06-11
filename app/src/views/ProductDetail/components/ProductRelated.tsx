@@ -16,6 +16,7 @@ const getCarousel = (
   product: ShopifyProduct,
 ): CarouselType | ShopifyCollection | null => {
   const { related, collections } = product
+  console.log(related, collections)
 
   if (related) {
     if (related.items) return related

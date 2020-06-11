@@ -81,6 +81,11 @@ export const Input = styled.input`
   `}
 `
 
+export const TextArea = styled(Input)`
+  height: 120px;
+  resize: none;
+`
+
 export const SelectElement = styled.select`
   height: 32px;
   width: 100%;

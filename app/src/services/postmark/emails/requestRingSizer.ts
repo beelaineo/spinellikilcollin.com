@@ -17,7 +17,7 @@ export interface RequestRingSizerArgs {
 const Subject = 'New ring sizer request'
 
 const textTemplate = (args: RequestRingSizerArgs): string => stripIndents`
-  New ring sizer:
+  New ring sizer request:
 
   ${args.emailAddress}
 
