@@ -61,6 +61,11 @@ export const imageTextBlock = {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'cloudinaryVideo',
+      title: 'Cloudinary Video',
+      type: 'cloudinaryVideo',
+    },
+    {
       name: 'backgroundImage',
       title: 'Background Image',
       type: 'richImage',

@@ -21,7 +21,8 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sane-shopify/sanity-plugin",
-    "@sanity/vision"
+    "@sanity/vision",
+    "media"
   ],
   "parts": [
     {
@@ -31,6 +32,10 @@
     {
       "name": "part:@sanity/desk-tool/structure",
       "path": "./schemas/structure.js"
+    },
+    {
+      "implements": "part:@sanity/form-builder/input/image/asset-sources",
+      "path": "./parts/assetSources.js"
     }
   ]
 }
