@@ -10,6 +10,10 @@ export const page = {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'hero',
+      type: 'hero',
+    },
+    {
       name: 'subtitle',
       label: 'Subtitle',
       type: 'string',

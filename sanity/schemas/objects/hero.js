@@ -41,6 +41,16 @@ export const hero = {
       type: 'colorPicker',
     },
     {
+      name: 'cloudinaryVideo',
+      title: 'Cloudinary Video',
+      type: 'cloudinaryVideo',
+    },
+    {
+      name: 'cloudinaryVideoMobile',
+      title: 'Cloudinary Video (mobile)',
+      type: 'cloudinaryVideo',
+    },
+    {
       name: 'image',
       title: 'Background Image',
       type: 'richImage',
