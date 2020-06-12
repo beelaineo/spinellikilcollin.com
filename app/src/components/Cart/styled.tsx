@@ -32,18 +32,6 @@ interface ModalBackgroundProps {
   open: boolean
 }
 
-export const ModalBackground = styled.div`
-  ${({ open }: ModalBackgroundProps) => css`
-    height: 100vh;
-    position: fixed;
-    background: rgba(0, 0, 0, 0.2);
-    width: 100vw;
-    top: 0;
-    display: ${open ? 'block' : 'none'};
-    cursor: pointer;
-  `}
-`
-
 export const CartBottom = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;

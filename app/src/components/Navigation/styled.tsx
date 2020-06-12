@@ -151,13 +151,13 @@ interface SideNavigation {
 export const SideNavigation = styled.div`
   ${({ open }: SideNavigation) => css`
     transform: ${open ? 'translateX(0px)' : 'translateX(-500px)'};
+    z-index: cart;
     width: 500px;
     background-color: white;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
     transition: 250ms ease;
   `};
 `
@@ -169,6 +169,8 @@ export const NavInner = styled.div`
     overflow: scroll;
     border-right: 1px solid black;
     max-width: calc(100vw + 1px);
+    position: relative;
+    z-index: 10;
 
     > div {
       margin: 6 0;
@@ -191,6 +193,26 @@ export const NavInner = styled.div`
     }
   `}
 `
+
+interface WithOpen {
+  open: boolean
+}
+
+export const NavInnerBackground = styled.div`
+  ${({ open, theme }: WithOpen) => css`
+    height: 100vh;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.2);
+    width: 100vw;
+    top: 0;
+    z-index: ${theme.zIndices.cart - 1};
+    opacity: ${open ? 1 : 0};
+    pointer-events: ${open ? 'initial' : 'none'};
+    transition: 0.2s;
+    cursor: pointer;
+  `}
+`
+
 export const NavItemWrapper = styled.div`
   display: block;
   padding: 3 0;

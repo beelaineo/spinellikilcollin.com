@@ -1,11 +1,9 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 export const Wrapper = styled.div`
-  position: relative;
-  margin: 0 auto 6;
-  font-family: serif;
-  padding: 0;
-  background-color: body.2;
+  ${({ theme }) => css`
+    padding-top: calc(${theme.navHeight} + ${theme.space[4]}px);
+  `}
 `
 
 export const OverLay = styled.div`

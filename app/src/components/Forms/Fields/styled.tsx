@@ -33,7 +33,7 @@ export const Label = styled(BaseLabel)`
   ${({ required }: LabelProps) => css`
     position: relative;
     display: inline-block;
-    margin-bottom: 1;
+    margin-bottom: 2;
     font-weight: 2;
     cursor: inherit;
 
@@ -61,8 +61,8 @@ export const InputWrapper = styled.div`
 
 export const Input = styled.input`
   ${({ color, theme }) => css`
-    padding: 2;
-    height: 32px;
+    padding: 3 2;
+    height: 42px;
     width: 100%;
     display: block;
     border: 1px solid;
@@ -76,14 +76,25 @@ export const Input = styled.input`
     }
 
     & + ${Label} {
-      margin-top: 1;
+      margin-top: 2;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 2;
+      height: 32px;
     }
   `}
 `
 
 export const TextArea = styled(Input)`
-  height: 120px;
-  resize: none;
+  ${({ theme }) => css`
+    height: 120px;
+    resize: none;
+    ${theme.mediaQueries.mobile} {
+      padding: 2;
+      height: 120px;
+    }
+  `}
 `
 
 export const SelectElement = styled.select`

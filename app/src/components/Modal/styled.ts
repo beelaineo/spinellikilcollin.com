@@ -37,7 +37,7 @@ export const Background = styled.button<WithOpen>`
 export const ModalWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
-    padding: 2 4 4;
+    padding: 4 5 5;
     max-width: calc(100% - ${theme.space[4]}px);
     min-width: 375px;
     z-index: 2;
@@ -50,6 +50,10 @@ export const ModalWrapper = styled.div`
 
     ${theme.mediaQueries.mobile} {
       width: calc(100vw - ${theme.space[4]}px);
+
+      h2 {
+        font-size: 3;
+      }
     }
   `}
 `

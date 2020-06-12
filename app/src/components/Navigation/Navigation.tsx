@@ -19,6 +19,7 @@ import {
   CartButtonWrapper,
   SideNavigation,
   LogoWrapper,
+  NavInnerBackground,
 } from './styled'
 import { NavigationInner } from './NavigationInner'
 
@@ -62,7 +63,7 @@ export const Navigation = ({ router }: NavigationProps) => {
   /* State from Providers */
   const { loading, checkout } = useCheckout()
   const { menu } = useShopData()
-  const { openCart } = useCart()
+  const { closeCart, openCart, open: cartOpen } = useCart()
   const { lockScroll, unlockScroll } = useLockScroll()
 
   /* State */
@@ -85,6 +86,7 @@ export const Navigation = ({ router }: NavigationProps) => {
   const handleKeyup = (e: KeyboardEvent) => {
     if (e.key === 'Escape') {
       closeMenu()
+      closeCart()
     }
   }
 
@@ -93,7 +95,8 @@ export const Navigation = ({ router }: NavigationProps) => {
   }, [router.asPath])
 
   useEffect(() => {
-    if (menuOpen) {
+    if (menuOpen || cartOpen) {
+      console.log('locking?')
       lockScroll()
       document.addEventListener('keyup', handleKeyup)
       return () => {
@@ -102,7 +105,12 @@ export const Navigation = ({ router }: NavigationProps) => {
     } else {
       unlockScroll()
     }
-  }, [menuOpen])
+  }, [menuOpen, cartOpen])
+
+  const closeAll = () => {
+    closeCart()
+    closeMenu()
+  }
 
   /* Parsing */
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
@@ -111,34 +119,42 @@ export const Navigation = ({ router }: NavigationProps) => {
   const innerBorder = !/\/collections/.test(router.asPath)
 
   return (
-    <Wrapper>
-      <Inner withBorder={innerBorder}>
-        <div>
-          <Hamburger onClick={toggleMenu} open={menuOpen} />
-          <SideNavigation open={menuOpen}>
-            <NavigationInner menu={menu} />
-          </SideNavigation>
-        </div>
+    <>
+      <NavInnerBackground
+        onClick={closeAll}
+        aria-hidden={!cartOpen && !menuOpen}
+        open={menuOpen || cartOpen}
+      />
+      <SideNavigation open={menuOpen}>
+        <NavigationInner closeMenu={closeMenu} menu={menu} />
+      </SideNavigation>
 
-        <LogoWrapper>
-          <Link href="/index" as="/">
-            <a>
-              <Logo src="/static/images/sk-logotype.svg" />
-            </a>
-          </Link>
-        </LogoWrapper>
-        <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
-          {cartCount ? (
-            <CartBadge>
-              <Heading m={0} fontFamily="sans" fontWeight={4} level={4}>
-                {cartCount}
-              </Heading>
-            </CartBadge>
-          ) : null}
-          <Cart />
-        </CartButtonWrapper>
-      </Inner>
+      <Wrapper>
+        <Inner withBorder={innerBorder}>
+          <div>
+            <Hamburger onClick={toggleMenu} open={false} />
+          </div>
+
+          <LogoWrapper>
+            <Link href="/index" as="/">
+              <a>
+                <Logo src="/static/images/sk-logotype.svg" />
+              </a>
+            </Link>
+          </LogoWrapper>
+          <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
+            {cartCount ? (
+              <CartBadge>
+                <Heading m={0} fontFamily="sans" fontWeight={4} level={4}>
+                  {cartCount}
+                </Heading>
+              </CartBadge>
+            ) : null}
+            <Cart />
+          </CartButtonWrapper>
+        </Inner>
+      </Wrapper>
       <Checkout />
-    </Wrapper>
+    </>
   )
 }

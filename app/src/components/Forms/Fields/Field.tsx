@@ -5,14 +5,14 @@ import {
   FieldProps as FormikFieldProps,
   FieldValidator,
 } from 'formik'
-import { Heading, Label } from '../../Text'
+import { Heading } from '../../Text'
 import { Checkbox } from './Checkbox'
 import { Radio } from './Radio'
 import { Input } from './Input'
 import { TextArea } from './TextArea'
 import { NumberInput } from './Number'
 import { Select } from './Select'
-import { FieldWrapper } from './styled'
+import { Label, FieldWrapper } from './styled'
 import { countryOptions } from '../CustomFields/countryOptions'
 
 /**

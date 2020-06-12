@@ -5,9 +5,7 @@ export const Wrapper = styled.div`
   ${({ theme }) => css`
     padding: 4 0;
     background-color: white;
-    width: calc(100% + (${theme.space[10]}px * 2));
-    margin-left: -${theme.space[10]}px;
-    margin-top: -53px;
+    width: 100%;
     position: relative;
     margin-bottom: 4;
     ${theme.mediaQueries.tablet} {

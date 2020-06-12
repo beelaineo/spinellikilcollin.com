@@ -5,13 +5,12 @@ import {
   CollectionBlock as CollectionBlockType,
   FilterConfiguration,
 } from '../../types'
-import { PageWrapper } from '../../components/Layout'
 import { ProductThumbnail } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Filter } from '../../components/Filter'
 import { CollectionBlock } from './CollectionBlock'
 import { definitely } from '../../utils'
-import { ProductGrid, ProductGridItem } from './styled'
+import { Wrapper, ProductGrid, ProductGridItem } from './styled'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useSanityQuery } from '../../hooks'
 import { buildQuery } from './filterQuery'
@@ -73,7 +72,7 @@ export const ProductListing = ({
   return (
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
-      <PageWrapper>
+      <Wrapper>
         {filters && filters.length ? (
           <Filter applyFilters={applyFilters} filters={filters} />
         ) : null}
@@ -104,7 +103,7 @@ export const ProductListing = ({
             }
           })}
         </ProductGrid>
-      </PageWrapper>
+      </Wrapper>
     </>
   )
 }

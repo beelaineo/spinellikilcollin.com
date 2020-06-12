@@ -14,18 +14,40 @@ interface WithVisible {
 }
 
 const MainWrapper = styled.div`
-  position: relative;
+  ${({ theme }) => css`
+    position: relative;
+    min-width: 530px;
+
+    ${theme.mediaQueries.mobile} {
+      min-width: initial;
+    }
+  `}
 `
 
 const FieldsWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
+  ${({ visible, theme }) => css`
     margin-top: 5;
     opacity: ${visible ? 1 : 0};
     pointer-events: ${visible ? 'inherit' : 'none'};
     transition: 0.2s;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 2;
+    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 4;
+    grid-column-gap: 3;
+
+    button[type='submit'],
+    .field--message {
+      grid-column: 1 / 3;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr;
+
+      button[type='submit'],
+      .field--message {
+        grid-column: auto;
+      }
+    }
   `}
 `
 

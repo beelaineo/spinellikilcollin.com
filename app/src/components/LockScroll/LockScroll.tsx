@@ -9,13 +9,12 @@ export const useLockScroll = (initialState?: boolean) => {
   const lockScroll = () => setLocked(true)
 
   useEffect(() => {
-    const scrollingElement = document?.getElementById('main')
+    const scrollingElement = document?.getElementsByTagName('body')[0]
+    console.log(scrollingElement)
     if (!scrollingElement) return
     if (locked) {
-      // @ts-ignore
       scrollingElement.style.overflow = 'hidden'
     } else {
-      // @ts-ignore
       scrollingElement.style.overflow = 'scroll'
     }
   }, [locked])

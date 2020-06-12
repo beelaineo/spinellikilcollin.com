@@ -41,7 +41,7 @@ export const Modal = ({ children, title, open, closeModal }: ModalProps) => {
   return ReactDOM.createPortal(
     <Wrapper>
       <ModalWrapper>
-        <Heading level={3}>{title}</Heading>
+        <Heading level={2}>{title}</Heading>
         <CloseButton onClick={closeModal} />
         {children}
       </ModalWrapper>
