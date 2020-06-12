@@ -4,6 +4,7 @@ import { Modal } from '../Modal'
 import { Heading } from '../Text'
 import { Form, Field } from '../Forms'
 import { Button } from '../Button'
+import { ShopifyProduct, ShopifyProductVariant } from '../../types'
 
 const { useState } = React
 
@@ -52,27 +53,47 @@ const FieldsWrapper = styled.div<WithVisible>`
 `
 
 interface RingSizerModalProps {
-  open: boolean
   closeModal: () => void
+  product?: ShopifyProduct
+  variant?: ShopifyProductVariant
 }
 
 interface FormValues {
   name: string
-  email: string
+  emailAddress: string
   phone?: string
   message: string
-}
-const initialValues = {
-  name: '',
-  email: '',
-  message: '',
-  country: 'United States',
-  productName: 'Product Name',
+  address1: string
+  address2?: string
+  state: string
+  postalCode: string
+  country: string
+  productName: string
+  product?: string
+  variant?: string
 }
 
-export const RingSizerModal = ({ open, closeModal }: RingSizerModalProps) => {
+export const RingSizerModal = ({
+  product,
+  variant,
+  closeModal,
+}: RingSizerModalProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
+
+  const initialValues: FormValues = {
+    name: '',
+    emailAddress: '',
+    message: '',
+    country: 'United States',
+    productName: 'Product Name',
+    address1: '',
+    address2: undefined,
+    postalCode: '',
+    state: '',
+    product: product?.title || '(none)',
+    variant: variant?.title || '(none)',
+  }
 
   const handleSubmit = async (values: FormValues) => {
     setSubmitting(true)
@@ -84,7 +105,7 @@ export const RingSizerModal = ({ open, closeModal }: RingSizerModalProps) => {
   }
 
   return (
-    <Modal open={open} title="Request a ring sizer" closeModal={closeModal}>
+    <Modal title="Request a ring sizer" closeModal={closeModal}>
       <MainWrapper>
         <Form
           disabled={submitting}
@@ -125,7 +146,8 @@ export const RingSizerModal = ({ open, closeModal }: RingSizerModalProps) => {
               required
             />
             <Field name="phone" type="tel" label="Phone Number (optional)" />
-            <Field name="productName" type="hidden" />
+            <Field name="product" type="hidden" />
+            <Field name="variant" type="hidden" />
             <Button mt={2} type="submit">
               Submit
             </Button>

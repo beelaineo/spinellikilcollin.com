@@ -49,6 +49,8 @@ declare module 'styled-components' {
       aboveMobile: string
       tablet: string
       aboveTablet: string
+      desktop: string
+      aboveDesktop: string
     }
 
     transition: {

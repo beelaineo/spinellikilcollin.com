@@ -53,12 +53,12 @@ export const OverLay = styled.div`
     `}
   }
 `
+
 export const ProductGrid = styled.div`
   ${({ theme }) => css`
     margin: 0 auto;
-    max-width: xWide;
     display: grid;
-    grid-template-columns: 32% 32% 32%;
+    grid-template-columns: repeat(3, 1fr);
     justify-content: space-evenly;
     grid-gap: 4;
     padding: 6 0;

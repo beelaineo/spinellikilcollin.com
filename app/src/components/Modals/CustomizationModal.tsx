@@ -67,7 +67,6 @@ const SuccessWrapper = styled.div<WithVisible>`
 `
 
 interface CustomizationModalProps {
-  open: boolean
   closeModal: () => void
   product?: ShopifyProduct
   variant?: ShopifyProductVariant
@@ -99,7 +98,6 @@ const ProductBadge = ({ product }: ProductBadgeProps) =>
   ) : null
 
 export const CustomizationModal = ({
-  open,
   closeModal,
   product,
   variant,
@@ -121,12 +119,12 @@ export const CustomizationModal = ({
     email: '',
     message: '',
     phone: '',
-    product: product || '(none)',
-    variant: variant || '(none)',
+    product: product?.title || '(none)',
+    variant: variant?.title || '(none)',
   }
 
   return (
-    <Modal open={open} title="Customization Inquiry" closeModal={closeModal}>
+    <Modal title="Customization Inquiry" closeModal={closeModal}>
       {product ? <ProductBadge product={product} /> : null}
       <MainWrapper>
         <SuccessWrapper visible={success}>

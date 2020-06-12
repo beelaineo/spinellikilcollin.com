@@ -20,11 +20,7 @@ export const Footer = () => {
         <FooterLinks>
           {footerLinks.map((link) =>
             link ? (
-              <Heading
-                mb={{ xs: 2, md: 5 }}
-                key={link._key || 'some-key'}
-                level={3}
-              >
+              <Heading m={0} key={link._key || 'some-key'} level={3}>
                 <PageLink link={link} />
               </Heading>
             ) : null,

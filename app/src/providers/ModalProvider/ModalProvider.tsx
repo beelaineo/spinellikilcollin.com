@@ -1,11 +1,14 @@
 import * as React from 'react'
 import { CustomizationModal, RingSizerModal } from '../../components/Modals'
+import { useLockScroll } from '../../components/LockScroll'
 import {
   RING_SIZER,
   CUSTOMIZATION,
   CustomizationModalArgs,
   useModalReducer,
 } from './reducer'
+
+const { useEffect } = React
 
 export type ModalName = 'customization' | 'ringSizer'
 
@@ -39,6 +42,27 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openRingSizerModal,
     openCustomizationModal,
   } = useModalReducer()
+  const { lockScroll, unlockScroll } = useLockScroll()
+
+  const handleKeyup = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      closeModal()
+    }
+  }
+  const open = Boolean(state.currentModal)
+
+  useEffect(() => {
+    if (open) {
+      lockScroll()
+      document.addEventListener('keyup', handleKeyup)
+      return () => {
+        document.removeEventListener('keyup', handleKeyup)
+      }
+    } else {
+      console.log('close?')
+      unlockScroll()
+    }
+  }, [open])
 
   const value = {
     closeModal,
@@ -52,13 +76,16 @@ export const ModalProvider = ({ children }: ModalProps) => {
       {children}
       {currentModal === CUSTOMIZATION ? (
         <CustomizationModal
-          open
           product={currentProduct}
           variant={currentVariant}
           closeModal={closeModal}
         />
       ) : currentModal === RING_SIZER ? (
-        <RingSizerModal open closeModal={closeModal} />
+        <RingSizerModal
+          product={currentProduct}
+          variant={currentVariant}
+          closeModal={closeModal}
+        />
       ) : null}
     </ModalContext.Provider>
   )

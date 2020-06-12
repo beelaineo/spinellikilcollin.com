@@ -27,7 +27,7 @@ export const PageView = ({ page }: PageViewProps) => {
   const { title, subtitle, bodyRaw } = page
   return (
     <PageWrapper>
-      <Heading textAlign="center" level={1}>
+      <Heading textAlign="center" level={0}>
         {title}
       </Heading>
       {subtitle ? <Heading level={2}>{subtitle}</Heading> : null}

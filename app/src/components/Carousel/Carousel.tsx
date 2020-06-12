@@ -67,11 +67,13 @@ export const CarouselInner = ({
     currentSlide && currentSlide + (columnCount || 4) >= slides.length,
   )
 
+  /* Don't allow scrolling beyond the last slide */
   useEffect(() => {
     if (currentSlide === null || state.active || state.diff === 0) {
       return
     }
     if (!outerRef.current) return
+    console.log(outerRef.current)
     const containerWidth = outerRef.current.getBoundingClientRect().right
 
     const lastSlideRight = slides[slides.length - 1].ref.getBoundingClientRect()

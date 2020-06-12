@@ -12,7 +12,7 @@ export const CarouselContainer = styled.div`
     }
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
-      padding: 0 22vw;
+      padding: 0 32vw;
     }
   `}
 `
@@ -83,11 +83,14 @@ export const SlideContainer = styled.div`
           );
         `
       : css`
-          width: calc((100% - (${theme.space[5]}px * 3)) / 4);
+          width: calc((100% - (${theme.space[5]}px * 4)) / 5);
+
+          ${theme.mediaQueries.desktop} {
+            width: calc((100% - (${theme.space[4]}px * 3)) / 4);
+          }
 
           ${theme.mediaQueries.tablet} {
             width: calc((100% - (${theme.space[4]}px * 2)) / 3);
-            margin-right: 4;
           }
           ${theme.mediaQueries.mobile} {
             width: calc((100%) / 1);

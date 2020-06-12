@@ -24,6 +24,7 @@ interface ProductThumbnail {
   displayPrice?: boolean
   displayTags?: boolean
   displaySwatches?: boolean
+  headingLevel?: number
 }
 
 export const ProductThumbnail = ({
@@ -31,6 +32,7 @@ export const ProductThumbnail = ({
   displayPrice,
   displayTags,
   displaySwatches,
+  headingLevel,
 }: ProductThumbnail) => {
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
@@ -91,7 +93,7 @@ export const ProductThumbnail = ({
           </ImageWrapper>
 
           <ProductInfo>
-            <Heading textAlign="center" level={3}>
+            <Heading textAlign="center" level={headingLevel || 3}>
               {product.title}
             </Heading>
             {displayPrice ? (

@@ -24,7 +24,13 @@ export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
         const { _key } = item
         switch (item.__typename) {
           case 'ShopifyProduct':
-            return <ProductThumbnail key={_key || 'some-key'} product={item} />
+            return (
+              <ProductThumbnail
+                key={_key || 'some-key'}
+                headingLevel={4}
+                product={item}
+              />
+            )
           case 'ShopifyCollection':
             return (
               <CollectionThumbnail key={_key || 'some-key'} collection={item} />

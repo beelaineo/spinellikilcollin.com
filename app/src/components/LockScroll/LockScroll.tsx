@@ -10,7 +10,6 @@ export const useLockScroll = (initialState?: boolean) => {
 
   useEffect(() => {
     const scrollingElement = document?.getElementsByTagName('body')[0]
-    console.log(scrollingElement)
     if (!scrollingElement) return
     if (locked) {
       scrollingElement.style.overflow = 'hidden'

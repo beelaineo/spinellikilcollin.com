@@ -116,6 +116,8 @@ export const defaultTheme: DefaultTheme = {
     mobile: '@media screen and (max-width: 650px)',
     aboveMobile: '@media screen and (min-width: 651px)',
     tablet: '@media screen and (max-width: 900px)',
-    aboveTablet: '@media screen and (max-width: 901px)',
+    aboveTablet: '@media screen and (min-width: 901px)',
+    desktop: '@media screen and (max-width: 1200px)',
+    aboveDesktop: '@media screen and (min-width: 1200px)',
   },
 }
