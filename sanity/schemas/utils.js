@@ -6,7 +6,7 @@ export const getTypeText = (doc) => {
   if (doc._type === 'shopifyProduct') return 'Product'
   if (doc._type === 'shopifyCollection') return 'Collection'
   if (doc._type === 'page') return 'Page'
-  return ''
+  return 'Page'
 }
 
 export const getReferencedDocument = async (ref) => client.getDocument(ref)

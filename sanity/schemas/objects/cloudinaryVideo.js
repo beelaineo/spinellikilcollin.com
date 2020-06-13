@@ -7,7 +7,6 @@ export const cloudinaryVideo = {
       name: 'videoId',
       title: 'Video ID',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     },
   ],
 }

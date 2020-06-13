@@ -55,6 +55,11 @@ export const about = {
   title: 'About (main page)',
   fields: [
     {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    },
+    {
       name: 'hero',
       title: 'Hero',
       type: 'hero',
