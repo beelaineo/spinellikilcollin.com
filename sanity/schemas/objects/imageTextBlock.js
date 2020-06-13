@@ -8,23 +8,8 @@ export const imageTextBlock = {
     {
       name: 'body',
       title: 'Text',
-      type: 'array',
+      type: 'richText',
       description: 'Tip: Use shift+return for a soft-wrapping line',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            { title: 'Header 3', value: 'h3' },
-            { title: 'Normal', value: 'normal' },
-          ],
-          marks: {
-            decorators: [
-              { title: 'Strong', value: 'strong' },
-              { title: 'Emphasis', value: 'em' },
-            ],
-          },
-        },
-      ],
     },
     {
       name: 'ctaText',

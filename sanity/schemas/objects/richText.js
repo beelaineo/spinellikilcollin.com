@@ -54,6 +54,23 @@ export const textAction = {
   ],
 }
 
+const TextSpan = ({ fontSize, backgroundColor, children, fontWeight }) => (
+  <span style={{ fontSize, fontWeight, backgroundColor }}>{children}</span>
+)
+
+const createBlockEditorConfig = ({ label, fontWeight }) => ({
+  icon: () => (
+    <TextSpan fontSize={11} fontWeight={fontWeight}>
+      {label}
+    </TextSpan>
+  ),
+  render: ({ children }) => (
+    <TextSpan backgroundColor="#e5e8f7" fontWeight={fontWeight}>
+      {children}
+    </TextSpan>
+  ),
+})
+
 export const richText = {
   name: 'richText',
   label: 'Rich Text',
@@ -63,8 +80,49 @@ export const richText = {
       type: 'block',
       marks: {
         decorators: [
-          { title: 'Strong', value: 'strong' },
-          { title: 'Emphasis', value: 'em' },
+          {
+            title: 'Regular',
+            value: 'regular',
+            blockEditor: createBlockEditorConfig({
+              label: 'Regular',
+              fontWeight: 400,
+            }),
+          },
+
+          {
+            title: 'Thin',
+            value: 'thin',
+            blockEditor: createBlockEditorConfig({
+              label: 'Thin',
+              fontWeight: 100,
+            }),
+          },
+          {
+            title: 'Light',
+            value: 'light',
+            blockEditor: createBlockEditorConfig({
+              label: 'Light',
+              fontWeight: 200,
+            }),
+          },
+          {
+            title: 'Book',
+            value: 'book',
+
+            blockEditor: createBlockEditorConfig({
+              label: 'Book',
+              fontWeight: 300,
+            }),
+          },
+          {
+            title: 'Bold',
+            value: 'bold',
+            blockEditor: createBlockEditorConfig({
+              label: 'Bold',
+              fontWeight: 900,
+            }),
+          },
+          { title: 'Italic', value: 'em' },
           { title: 'Underline', value: 'underline' },
         ],
         annotations: [

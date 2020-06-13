@@ -8,5 +8,19 @@ export const customize = {
       name: 'title',
       type: 'string',
     },
+    {
+      name: 'hero',
+      type: 'hero',
+    },
+    {
+      name: 'subtitle',
+      label: 'Subtitle',
+      type: 'string',
+    },
+    {
+      name: 'body',
+      label: 'Content',
+      type: 'richText',
+    },
   ],
 }
