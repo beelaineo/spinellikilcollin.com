@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { Magazine } from '../../types'
 import { Column, PageWrapper } from '../../components/Layout'
 import { Heading } from '../../components/Text'
@@ -8,16 +8,31 @@ import { Image } from '../../components/Image'
 import { MagazineForm } from './MagazineForm'
 
 const Inner = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr;
+    }
+  `}
 `
 
 const ImageWrapper = styled.div`
-  padding-right: 4;
+  ${({ theme }) => css`
+    padding-right: 4;
+    ${theme.mediaQueries.mobile} {
+      padding-right: 0;
+    }
+  `}
 `
 const FormWrapper = styled.div`
-  border-left: 1px solid;
-  padding-left: 4;
+  ${({ theme }) => css`
+    ${theme.mediaQueries.aboveMobile} {
+      border-left: 1px solid;
+      padding-left: 4;
+    }
+  `}
 `
 
 interface MagazineProps {

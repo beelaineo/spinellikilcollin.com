@@ -60,11 +60,11 @@ interface ContactProps {
 export const ContactView = ({ contact }: ContactProps) => {
   const { title, contactLines } = contact
   return (
-    <PageWrapper>
-      <Heading level={1} textAlign="center">
+    <PageWrapper px={0}>
+      <Heading level={0} textAlign="center">
         {title || 'Contact'}
       </Heading>
-      <Column columnWidth="wide">
+      <Column px={{ xs: 8, lg: 11 }} columnWidth="wide">
         <Wrapper>
           <ContactLines>
             {definitely(contactLines).map((cl) => (

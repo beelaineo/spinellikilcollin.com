@@ -38,6 +38,11 @@ const serializers = ({
     return <Ul {...props} />
   },
   marks: {
+    thin: ({ children }) => <Span fontWeight={100}>{children}</Span>,
+    light: ({ children }) => <Span fontWeight={200}>{children}</Span>,
+    book: ({ children }) => <Span fontWeight={300}>{children}</Span>,
+    regular: ({ children }) => <Span fontWeight={400}>{children}</Span>,
+    bold: ({ children }) => <Span fontWeight={700}>{children}</Span>,
     internalLink: ({ children, mark }) => {
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
@@ -75,7 +80,7 @@ const serializers = ({
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
     if (Wrapper) return <Wrapper {...props} />
-    const weight = customWeight ?? 3
+    const weight = customWeight ?? 2
 
     const style = props.node.style || 'normal'
     if (/image|richImage/.test(props.node._type)) {

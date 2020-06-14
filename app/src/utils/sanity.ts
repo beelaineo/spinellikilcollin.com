@@ -33,11 +33,11 @@ export const buildFilters = (filters: FilterConfiguration): string => {
         const { minPrice, maxPrice } = filterGroup
         return [
           '(',
-          'minVariantPrice',
+          'maxVariantPrice',
           ' >= ',
           Math.floor(minPrice),
           ' && ',
-          'maxVariantPrice',
+          'minVariantPrice',
           ' <= ',
           Math.ceil(maxPrice),
           ')',

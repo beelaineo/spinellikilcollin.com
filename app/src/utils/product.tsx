@@ -77,3 +77,13 @@ export const getVariantBySelectedOption = (
         option.value === currentOption.currentValue,
     )
   })
+
+export const getBestVariantByMatch = (
+  variants: ShopifySourceProductVariant[],
+  matches: string[],
+): ShopifySourceProductVariant => {
+  const bestVariant = variants.find((v) =>
+    matches.some((m) => v?.title?.includes(m)),
+  )
+  return bestVariant || variants[0]
+}

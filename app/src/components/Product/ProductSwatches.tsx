@@ -40,7 +40,12 @@ export const OptionSwatches = ({
         onMouseEnter={onSwatchHover ? onSwatchHover(option, value) : undefined}
         active={isSwatchActive ? isSwatchActive(option, value) : false}
       >
-        <Image image={value.swatch} ratio={1} sizes="40px" />
+        <Image
+          image={value.swatch}
+          objectFit="contain"
+          ratio={1}
+          sizes="40px"
+        />
       </SwatchWrapper>
     ))}
   </SwatchesWrapper>

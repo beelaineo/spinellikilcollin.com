@@ -59,7 +59,6 @@ export const ModalProvider = ({ children }: ModalProps) => {
         document.removeEventListener('keyup', handleKeyup)
       }
     } else {
-      console.log('close?')
       unlockScroll()
     }
   }, [open])

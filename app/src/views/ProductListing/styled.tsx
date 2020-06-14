@@ -72,11 +72,8 @@ export const ProductGrid = styled.div`
       padding: 5;
     }
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 1fr 1fr;
-      padding: 3;
-    }
-    @media screen and (max-width: 420px) {
       grid-template-columns: 1fr;
+      padding: 3;
     }
   `}
 `
@@ -90,6 +87,11 @@ export const ProductGridItem = styled.div<WithFormat>`
     grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
     grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     position: relative;
+    padding-bottom: ${format === 'wide'
+      ? '50%'
+      : format === 'tall'
+      ? '200%'
+      : 'auto'};
 
     & > * {
       position: ${format === 'tall' || format === 'wide'

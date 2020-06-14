@@ -119,3 +119,14 @@ export const getImageDetails = (
     'Could not parse image details. See the console for more information.',
   )
 }
+
+export const getImageKey = (image: ImageType): string => {
+  if (isShopifyImage(image)) return image.id || 'some-key'
+  if (isSanityRawImage(image)) return image._key || 'some-key'
+  if (isSanityImage(image)) return image._key || 'some-key'
+
+  console.warn('Could not get image key:', image)
+  throw new Error(
+    'Could not get the image key. See the console for more information.',
+  )
+}

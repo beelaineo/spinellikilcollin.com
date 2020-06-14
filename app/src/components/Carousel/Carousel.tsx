@@ -9,6 +9,7 @@ import { Slide, SlideInfo } from './Slide'
 import { Dots } from './Dots'
 import { useViewportSize } from '../../utils'
 import { useSwipeReducer } from './swipeReducer'
+import CarouselButtonIcon from '../../svg/CarouselButton.svg'
 
 const { useState, useEffect, useMemo, useRef } = React
 
@@ -73,7 +74,6 @@ export const CarouselInner = ({
       return
     }
     if (!outerRef.current) return
-    console.log(outerRef.current)
     const containerWidth = outerRef.current.getBoundingClientRect().right
 
     const lastSlideRight = slides[slides.length - 1].ref.getBoundingClientRect()
@@ -129,7 +129,9 @@ export const CarouselInner = ({
           aria-label="previous slide"
           direction="previous"
           onClick={goPrevious}
-        />
+        >
+          <CarouselButtonIcon />
+        </CarouselButton>
       ) : null}
       <CarouselMask ref={outerRef}>
         <SlidesContainer
@@ -157,9 +159,11 @@ export const CarouselInner = ({
           direction="next"
           aria-label="next slide"
           onClick={goNext}
-        />
+        >
+          <CarouselButtonIcon />
+        </CarouselButton>
       ) : null}
-      {dots && currentSlide !== null ? (
+      {dots && slides.length > 1 && currentSlide !== null ? (
         <Dots currentSlide={currentSlide} totalSlides={slides.length} />
       ) : null}
     </CarouselContainer>

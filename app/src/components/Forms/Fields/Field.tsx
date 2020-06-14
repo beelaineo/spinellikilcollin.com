@@ -70,7 +70,7 @@ export const Field = (fieldProps: FieldProps) => {
       case 'select':
         return <Select {...fieldProps} />
       case 'countrySelector':
-        return <Select {...fieldProps} options={countryOptions} />
+        return <Select options={countryOptions} {...fieldProps} />
       case 'textArea':
         return <TextArea {...fieldProps} />
       default:

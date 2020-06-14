@@ -1,11 +1,6 @@
 import * as React from 'react'
 import styled, { DefaultTheme, css } from '@xstyled/styled-components'
 
-interface PictureProps {
-  theme: DefaultTheme
-  loaded: boolean
-}
-
 export const MainImage = styled.img``
 
 export const HoverImage = styled.img`
@@ -26,8 +21,14 @@ export const Wrapper = styled.div`
   }
 `
 
+interface PictureProps {
+  theme: DefaultTheme
+  loaded: boolean
+  objectFit?: string
+}
+
 export const Picture = styled.picture`
-  ${({ loaded }: PictureProps) => css`
+  ${({ loaded, objectFit }: PictureProps) => css`
     max-height: 100%;
     max-width: 100%;
     width: auto;
@@ -39,9 +40,20 @@ export const Picture = styled.picture`
       transition: 0.3s;
       transition-delay: 0.3s;
       max-width: 100%;
-      object-fit: cover;
+      object-fit: ${objectFit || 'cover'};
     }
   `}
+`
+
+export const PreloadWrapper = styled.div`
+  position: fixed;
+  top: -500;
+  left: -500;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -100;
 `
 
 export const RatioImageFill = styled.img`

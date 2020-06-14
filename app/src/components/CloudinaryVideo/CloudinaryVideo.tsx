@@ -9,8 +9,8 @@ interface VideoSourceProps {
 }
 
 const VideoSource = ({ id, width }: VideoSourceProps) => {
-  const mp4src = `${BASE_URL}/c_scale,w_${width}/${id}.mp4`
-  const webmSrc = `${BASE_URL}/c_scale,w_${width}/${id}.webm`
+  const mp4src = `${BASE_URL}/q_auto:best/c_scale,w_${width}/${id}.mp4`
+  const webmSrc = `${BASE_URL}/q_auto:best/c_scale,w_${width}/${id}.webm`
   return (
     <>
       <source type="video/mp4" src={mp4src} />
@@ -30,8 +30,8 @@ export const CloudinaryVideo = ({
   video,
   sizes: customSizes,
 }: CloudinaryVideoProps) => {
+  if (!video?.videoId) return null
   const { videoId } = video
-  if (!videoId) return null
   const poster = `${BASE_URL}/c_scale,w_1200/${videoId}.jpeg`
   const sizes = customSizes || defaultSizes
   return (

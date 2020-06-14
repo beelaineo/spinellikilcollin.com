@@ -2,22 +2,51 @@ import styled, { css } from '@xstyled/styled-components'
 
 export const FooterWrapper = styled.footer`
   ${({ theme }) => css`
-    padding: 2 11 6;
+    padding: 2 11 0;
     background-color: body.0;
 
     ${theme.mediaQueries.tablet} {
-      padding: 2 8 6;
+      padding: 2 8 0;
     }
     ${theme.mediaQueries.mobile} {
-      padding: 2 4 6;
+      padding: 2 4 0;
     }
   `}
 `
 
-export const FooterInner = styled.div`
-  ${({ theme }) => css`
+interface WithTopBorder {
+  topBorder: boolean
+}
+
+export const FooterInner = styled.div<WithTopBorder>`
+  ${({ theme, topBorder }) => css`
     display: grid;
     padding: 9 0;
+    grid-template-columns: 50% 10% 1fr;
+    grid-column-gap: 3;
+
+    &:nth-of-type(2) {
+      align-items: center;
+    }
+
+    ${topBorder
+      ? css`
+          border-top: 1px solid;
+          border-top-color: body.4;
+        `
+      : ''}
+
+    ${theme.mediaQueries.mobile} {
+      padding: 6 0 8;
+      display: flex;
+      flex-direction: column;
+    }
+  `}
+`
+export const FooterInnerLower = styled.div`
+  ${({ theme }) => css`
+    display: grid;
+    padding: 7 0;
     grid-template-columns: 50% 10% 1fr;
     grid-column-gap: 3;
 
@@ -40,12 +69,13 @@ export const FooterLinks = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-column-gap: 5;
-    grid-row-gap: 5;
-    grid-template-columns: 1fr 1fr;
+    grid-row-gap: 32px;
+    grid-template-columns: 30% 1fr;
 
     ${theme.mediaQueries.mobile} {
       order: 2;
       padding: 0 6;
+      grid-template-columns: 30% 1fr;
     }
   `}
 `
@@ -54,7 +84,7 @@ export const MailerWrapper = styled.div`
   ${({ theme }) => css`
     ${theme.mediaQueries.mobile} {
       order: 1;
-      margin-bottom: 8;
+      margin-bottom: 56px;
       padding: 0 6;
     }
   `}
@@ -111,10 +141,10 @@ export const SuccessWrapper = styled.div<WithVisible>`
 export const Socials = styled.div`
   ${({ theme }) => css`
     color: body.8;
-    font-size: 2;
+    font-size: 21px;
     display: flex;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
 
     a {
@@ -127,6 +157,7 @@ export const Socials = styled.div`
     ${theme.mediaQueries.mobile} {
       padding: 0 6 6;
       margin: 0 0 8;
+      justify-content: center;
       border-bottom: 1px solid;
       border-color: body.4;
     }

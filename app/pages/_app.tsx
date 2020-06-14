@@ -23,6 +23,7 @@ const App = (props: AppProps) => {
   const path = router.pathname
   const { shopData, ...pageProps } = allPageProps
   if (!shopData) return null
+  console.log(router)
 
   // throw new Error('This page did not fetch the shop data')
 
@@ -66,7 +67,7 @@ const App = (props: AppProps) => {
         <Main>
           <Navigation router={router} />
           <Component {...pageProps} />
-          <Footer />
+          <Footer router={router} />
         </Main>
         <div id="modal" />
       </ThemeProvider>

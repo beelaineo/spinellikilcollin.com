@@ -11,16 +11,16 @@ export const Column = styled.divBox`
   `}
 `
 
-export const PageWrapper = styled.div`
+export const PageWrapper = styled.divBox`
   ${({ theme }) => css`
-    padding: calc(${theme.navHeight} + ${theme.space[9]}px) 10 5;
+    padding: calc(${theme.navHeight} + ${theme.space[9]}px) 10 8;
 
     ${theme.mediaQueries.tablet} {
-      padding: calc(${theme.navHeight} + ${theme.space[9]}px) 8 5;
+      padding: calc(${theme.navHeight} + ${theme.space[9]}px) 8 6;
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: calc(${theme.navHeight} + ${theme.space[9]}px) 3 5;
+      padding: calc(${theme.navHeight} + ${theme.space[9]}px) 5 5;
     }
   `}
 `

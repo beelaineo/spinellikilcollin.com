@@ -9,15 +9,25 @@ import {
 import { Image } from '../Image'
 import { Hero } from '../../types'
 import { RichText } from '../RichText'
+import { CloudinaryVideo } from '../CloudinaryVideo'
 
-interface HeroBackground {
-  theme: DefaultTheme
+interface WithAspectRatio {
+  aspectRatio: number
 }
 
-const HeroWrapper = styled.div`
-  position: relative;
-  z-index: 0;
-  grid-column: span 2;
+const HeroWrapper = styled.div<WithAspectRatio>`
+  ${({ theme, aspectRatio }) => css`
+    position: relative;
+    z-index: 0;
+    grid-column: span 2;
+    height: ${aspectRatio * 100}vw;
+
+    ${theme.mediaQueries.mobile} {
+      overflow: hidden;
+      max-height: 500px;
+      height: 100vw;
+    }
+  `}
 `
 
 interface HeroTextProps {
@@ -65,15 +75,30 @@ const HeroText = styled.div`
 
 const HeroImageWrapper = styled.div`
   ${({ theme }) => css`
-    & > div:nth-of-type(2) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    & > *:nth-of-type(2) {
       display: none;
     }
 
     ${theme.mediaQueries.mobile} {
-      & > div:nth-of-type(1) {
+      & > *:nth-of-type(1) {
         display: none;
       }
-      & > div:last-child {
+      & > *:last-child {
         display: block;
       }
     }
@@ -92,15 +117,24 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
     image,
     textPositionMobile,
     textColorMobile,
+    cloudinaryVideo,
+    cloudinaryVideoMobile,
     mobileImage,
+    aspectRatio,
   } = hero
 
+  const ratio = aspectRatio || 0.5
+
   return (
-    <HeroWrapper>
+    <HeroWrapper aspectRatio={ratio}>
       <HeroImageWrapper>
-        {image ? <Image ratio={0.45} image={image} /> : null}
-        {mobileImage ? (
-          <Image ratio={1.5} image={mobileImage || image} />
+        {image ? <Image ratio={ratio} image={image} /> : null}
+        {<Image ratio={1} image={mobileImage || image} />}
+      </HeroImageWrapper>
+      <HeroImageWrapper>
+        {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
+        {cloudinaryVideoMobile ? (
+          <CloudinaryVideo video={cloudinaryVideoMobile} />
         ) : null}
       </HeroImageWrapper>
       <HeroText

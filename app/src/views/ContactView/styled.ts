@@ -1,11 +1,17 @@
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 
 export const Wrapper = styled.div`
-  padding-top: 5;
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-gap: 5;
-  align-content: center;
+  ${({ theme }) => css`
+    padding-top: 5;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-gap: 5;
+    align-content: center;
+
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 100%;
+    }
+  `}
 `
 
 export const ContactLines = styled.div`

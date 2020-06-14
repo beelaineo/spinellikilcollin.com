@@ -1,22 +1,34 @@
 import * as React from 'react'
+import { NextRouter } from 'next/router'
 import { FaFacebookF, FaTwitter, FaPinterest } from 'react-icons/fa'
 import { TiSocialInstagram, TiSocialGooglePlus } from 'react-icons/ti'
 import { PageLink } from '../../components/PageLink'
 import { Heading } from '../../components/Text'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { NewsletterSignup } from './NewsletterSignup'
-import { Socials, FooterWrapper, FooterInner, FooterLinks } from './styled'
+import {
+  Socials,
+  FooterWrapper,
+  FooterInner,
+  FooterInnerLower,
+  FooterLinks,
+} from './styled'
 
 const currentYear = new Date().getFullYear()
 
-export const Footer = () => {
+interface FooterProps {
+  router: NextRouter
+}
+export const Footer = ({ router }: FooterProps) => {
   const shopData = useShopData()
   const footerLinks = shopData?.siteSettings?.links ?? []
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''
   const mailerSubtitle = shopData?.siteSettings?.mailerSubtitle ?? ''
+
+  const topBorder = /(^\/about)|(^\/products)/.test(router.asPath)
   return (
     <FooterWrapper>
-      <FooterInner>
+      <FooterInner topBorder={topBorder}>
         <FooterLinks>
           {footerLinks.map((link) =>
             link ? (
@@ -32,7 +44,7 @@ export const Footer = () => {
           mailerSubtitle={mailerSubtitle}
         />
       </FooterInner>
-      <FooterInner>
+      <FooterInnerLower>
         <Socials>
           <a href="#">
             <FaFacebookF />
@@ -51,10 +63,10 @@ export const Footer = () => {
           </a>
         </Socials>
         <div />
-        <Heading level={5} textTransform="uppercase">
+        <Heading m={0} level={5} textTransform="uppercase">
           Copyright © {currentYear} Spinelli Kilcollin
         </Heading>
-      </FooterInner>
+      </FooterInnerLower>
     </FooterWrapper>
   )
 }

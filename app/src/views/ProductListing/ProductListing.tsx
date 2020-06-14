@@ -17,7 +17,6 @@ import { buildQuery } from './filterQuery'
 
 interface ProductListingProps {
   collection: ShopifyCollection
-  products: ShopifyProduct[]
 }
 
 type Item = ShopifyProduct | CollectionBlockType
@@ -26,10 +25,7 @@ interface FilterVariables {
   collectionId: string
 }
 
-export const ProductListing = ({
-  collection,
-  products,
-}: ProductListingProps) => {
+export const ProductListing = ({ collection }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
   const { state, executeQuery, reset: resetQueryResults } = useSanityQuery<
     ShopifyProduct,
@@ -38,7 +34,12 @@ export const ProductListing = ({
   const filterResults = state.results
   const defaultFilter = productListingSettings?.defaultFilter
   const filters = definitely(defaultFilter)
-  const { hero, collectionBlocks } = collection
+  const {
+    preferredVariantMatches,
+    products,
+    hero,
+    collectionBlocks,
+  } = collection
 
   // If there are collection blocks, insert them in the array
   // of products by position
@@ -67,8 +68,6 @@ export const ProductListing = ({
     executeQuery(query, params)
   }
 
-  const displayPrice = Boolean(filterResults?.length)
-
   return (
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
@@ -96,7 +95,8 @@ export const ProductListing = ({
                   <ProductGridItem key={item._id || 'some-key'}>
                     <ProductThumbnail
                       product={item}
-                      displayPrice={displayPrice}
+                      displayPrice
+                      preferredVariantMatches={preferredVariantMatches}
                     />
                   </ProductGridItem>
                 )

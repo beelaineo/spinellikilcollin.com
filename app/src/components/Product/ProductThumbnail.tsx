@@ -5,6 +5,9 @@ import {
   ShopifyProduct,
   ShopifyProductOption,
   ShopifyProductOptionValue,
+  ShopifySourceProductVariant,
+  ShopifySourceImage,
+  Maybe,
 } from '../../types'
 import { Heading } from '../Text'
 import { Image } from '../Image'
@@ -14,10 +17,12 @@ import {
   formatMoney,
   getVariantBySelectedOption,
   optionMatchesVariant,
+  getBestVariantByMatch,
+  definitely,
 } from '../../utils'
 import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
 
-const { useState } = React
+const { useState, useMemo } = React
 
 interface ProductThumbnail {
   product: ShopifyProduct
@@ -25,7 +30,20 @@ interface ProductThumbnail {
   displayTags?: boolean
   displaySwatches?: boolean
   headingLevel?: number
+  preferredVariantMatches?: Maybe<string>[] | null
 }
+
+const uniqueImages = (
+  variants: ShopifySourceProductVariant[],
+): ShopifySourceImage[] =>
+  variants.reduce<ShopifySourceImage[]>((acc, variant) => {
+    const { image } = variant
+    if (!image) return acc
+    if (acc.find((i) => i?.originalSrc === image.originalSrc)) {
+      return acc
+    }
+    return [...acc, image]
+  }, [])
 
 export const ProductThumbnail = ({
   product,
@@ -33,12 +51,18 @@ export const ProductThumbnail = ({
   displayTags,
   displaySwatches,
   headingLevel,
+  preferredVariantMatches,
 }: ProductThumbnail) => {
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
-  const [currentVariant, setCurrentVariant] = useState(variants[0])
+  const initialVariant = preferredVariantMatches
+    ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
+    : variants[0]
+  const [currentVariant, setCurrentVariant] = useState(initialVariant)
+
+  const allImages = useMemo(() => uniqueImages(variants), [variants])
 
   const productImage = currentVariant?.image
     ? currentVariant.image
@@ -88,6 +112,7 @@ export const ProductThumbnail = ({
               ratio={1}
               sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
               altText={altText}
+              preloadImages={allImages}
             />
             {displayTags ? <TagBadges product={product} /> : null}
           </ImageWrapper>

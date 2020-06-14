@@ -2,21 +2,11 @@ import styled, { css } from '@xstyled/styled-components'
 import { Button } from '../Button'
 
 export const Wrapper = styled.div`
-  ${({ theme }) => css`
-    padding: 4 0;
-    background-color: white;
-    width: 100%;
-    position: relative;
-    margin-bottom: 4;
-    ${theme.mediaQueries.tablet} {
-      width: calc(100% + (${theme.space[8]}px * 2));
-      margin-left: -${theme.space[8]}px;
-    }
-    ${theme.mediaQueries.mobile} {
-      width: calc(100% + (${theme.space[3]}px * 2));
-      margin-left: -${theme.space[3]}px;
-    }
-  `}
+  padding: 4 0;
+  background-color: white;
+  width: 100%;
+  position: relative;
+  margin-bottom: 4;
 `
 
 export const Header = styled.div`

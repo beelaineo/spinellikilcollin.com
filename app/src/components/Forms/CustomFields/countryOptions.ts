@@ -154,4 +154,8 @@ export const countryOptions = [
     label: 'Dominican Republic',
   },
   { id: 'Salvador', value: 'Salvador', label: 'Salvador' },
-]
+].map(({ id, label, value }) => ({
+  label,
+  value,
+  id: id.replace(/\s/, '-').toLowerCase(),
+}))

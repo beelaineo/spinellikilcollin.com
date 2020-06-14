@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { IoIosSearch } from 'react-icons/io'
-import { Menu } from '../../types'
+import { useShopData } from '../../providers/ShopDataProvider'
 import { NavInner, NavItemWrapper } from './styled'
 import { Heading, Input } from '../Text'
 import { PageLink } from '../PageLink'
@@ -18,11 +18,11 @@ const HamburgerWrapper = styled.div`
 `
 
 interface NavigationInnerProps {
-  menu?: Menu
   closeMenu: () => void
 }
 
-export const NavigationInner = ({ menu, closeMenu }: NavigationInnerProps) => {
+export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
+  const { menu } = useShopData()
   if (!menu) return null
   const menuItems = menu?.menuItems || []
   return (

@@ -23,7 +23,7 @@ interface WithLayout {
 }
 
 const Wrapper = styled.div<WithLayout>`
-  ${({ layout }) => css`
+  ${({ theme, layout }) => css`
     position: relative;
     height: 100%;
     background-color: body.0;
@@ -40,6 +40,27 @@ const Wrapper = styled.div<WithLayout>`
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      grid-column: auto;
+    }
+  `}
+`
+
+const ImagesWrapper = styled.div`
+  ${({ theme }) => css`
+    & > *:nth-of-type(2) {
+      display: none;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      & > *:nth-of-type(1) {
+        display: none;
+      }
+      & > *:last-child {
+        display: block;
+      }
     }
   `}
 `
@@ -83,11 +104,14 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
   const link = content.link ? content.link[0] : undefined
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
-  const ratio = layout === 'fullWidth' ? 0.4 : 1
+  const ratio = layout === 'fullWidth' ? 0.5 : 1
   const sizes = layout === 'fullWidth' ? [1600] : [900]
   return (
     <Wrapper layout={layout}>
-      <Image image={backgroundImage} hoverImage={hoverImage} ratio={ratio} />
+      <ImagesWrapper>
+        <Image image={backgroundImage} hoverImage={hoverImage} ratio={ratio} />
+        <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
+      </ImagesWrapper>
       {cloudinaryVideo ? (
         <CloudinaryVideo sizes={sizes} video={cloudinaryVideo} />
       ) : null}

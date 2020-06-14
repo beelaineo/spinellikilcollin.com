@@ -9,6 +9,7 @@ const CarouselBlockStyled = styled.div`
     padding: 6;
     grid-column: span 2;
     text-align: center;
+    background-color: body.0;
 
     ${theme.mediaQueries.mobile} {
       padding: 5 0;
@@ -20,7 +21,9 @@ interface CarouselBlockProps {
   content: Carousel
 }
 
-const CarouselContainer = styled.div``
+const CarouselContainer = styled.div`
+  margin-top: 6;
+`
 
 /**
  * Carousel Block
@@ -35,7 +38,7 @@ export const CarouselBlock = ({ content }: CarouselBlockProps) => {
   const { title, collection, items } = content
   return (
     <CarouselBlockStyled>
-      <Heading level={2}>{title}</Heading>
+      <Heading level={3}>{title}</Heading>
       <CarouselContainer>
         {collection ? (
           <CollectionCarousel collection={collection} />

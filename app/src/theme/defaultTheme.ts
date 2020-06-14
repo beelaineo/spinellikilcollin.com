@@ -57,7 +57,7 @@ export const defaultTheme: DefaultTheme = {
     11, // small text: h5, captions
     11, // small text: h6, small captions
   ],
-  mobileFontSizes: [42, 22, 17, 15, 13, 11, 11],
+  mobileFontSizes: [42, 22, 17, 17, 13, 11, 11],
   fontWeights: [0, 100, 200, 300, 400, 700],
   fonts: {
     serif,
@@ -106,9 +106,9 @@ export const defaultTheme: DefaultTheme = {
 
   breakpoints: {
     xs: 0,
-    sm: 576,
-    md: 768,
-    lg: 992,
+    sm: 420,
+    md: 650,
+    lg: 900,
     xl: 1200,
   },
 

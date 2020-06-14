@@ -189,7 +189,7 @@ export const imageTextBlockFragment = gql`
     textColor
     layout
     cloudinaryVideo {
-      videoId
+      ...CloudinaryVideoFragment
     }
     backgroundImage {
       ...RichImageFragment
@@ -209,6 +209,7 @@ export const imageTextBlockFragment = gql`
   ${internalLinkFragment}
   ${externalLinkFragment}
   ${richImageFragment}
+  ${cloudinaryVideoFragment}
 `
 
 export const shopifySourceProductFragment = gql`
@@ -419,12 +420,20 @@ export const heroFragment = gql`
     textColor
     textPosition
     textPositionMobile
+    aspectRatio
     mobileImage {
       ...RichImageFragment
     }
     image {
       ...RichImageFragment
     }
+    cloudinaryVideo {
+      ...CloudinaryVideoFragment
+    }
+    cloudinaryVideoMobile {
+      ...CloudinaryVideoFragment
+    }
   }
+  ${cloudinaryVideoFragment}
   ${richImageFragment}
 `

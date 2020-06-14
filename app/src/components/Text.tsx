@@ -32,7 +32,7 @@ const getCustomTextStyles = ({
   color: ${color};
   text-decoration: ${textDecoration};
   ${theme.mediaQueries.tablet} {
-    ${level
+    ${level !== undefined
       ? css`
           font-size: ${theme.mobileFontSizes[level]}px;
         `
@@ -105,7 +105,7 @@ export const Heading = ({
 
 Heading.defaultProps = {
   family: 'serif',
-  weight: 3,
+  weight: 2,
 }
 
 type PProps = Omit<HeadingProps, 'level'>

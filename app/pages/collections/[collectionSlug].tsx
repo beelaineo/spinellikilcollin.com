@@ -27,6 +27,10 @@ const collectionQuery = gql`
       hero {
         ...HeroFragment
       }
+      products {
+        ...ShopifyProductThumbnailFragment
+      }
+      preferredVariantMatches
       collectionBlocks {
         __typename
         _key
@@ -47,16 +51,6 @@ const collectionQuery = gql`
   ${richImageFragment}
   ${heroFragment}
   ${cloudinaryVideoFragment}
-`
-
-const productsQuery = gql`
-  query AllCollectionProducts($collectionId: ID) {
-    allShopifyProduct(
-      where: { _: { references: $collectionId }, archived: { neq: true } }
-    ) {
-      ...ShopifyProductThumbnailFragment
-    }
-  }
   ${shopifyProductThumbnailFragment}
 `
 
@@ -68,18 +62,13 @@ interface CollectionResponse {
   allShopifyCollection: ShopifyCollection[]
 }
 
-interface ProductsResponse {
-  allShopifyProduct: ShopifyProduct[]
-}
-
 interface CollectionPageProps {
   collection: ShopifyCollection
-  products: ShopifyProduct[]
 }
 
-const Collection = ({ collection, products }: CollectionPageProps) => {
+const Collection = ({ collection }: CollectionPageProps) => {
   if (!collection) return <NotFound />
-  return <ProductListing collection={collection} products={products} />
+  return <ProductListing collection={collection} />
 }
 
 /**
@@ -100,18 +89,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const collections = collectionResponse?.allShopifyCollection
   const collection = collections?.length ? collections[0] : undefined
 
-  const productsResponse = collection
-    ? await request<ProductsResponse>(productsQuery, {
-        collectionId: collection._id,
-      })
-    : undefined
-
-  const products = productsResponse?.allShopifyProduct || []
-
   return {
     props: {
       shopData,
-      products: products || null,
       collection: collection || null,
     },
     unstable_revalidate: 60,

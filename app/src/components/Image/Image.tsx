@@ -1,13 +1,15 @@
 import * as React from 'react'
 import { Maybe } from '../../types'
-import { ImageType, getImageDetails } from './utils'
+import { ImageType, getImageDetails, getImageKey } from './utils'
 import {
   MainImage,
   HoverImage,
   Wrapper,
   Picture,
   RatioImageFill,
+  PreloadWrapper,
 } from './styled'
+import { useInViewport } from '../../hooks'
 
 /**
  * A placeholder box to enforce image size
@@ -15,12 +17,14 @@ import {
 
 interface RatioPaddingProps {
   ratio: number
+  canvasFill?: boolean
 }
 
-const RatioPadding = ({ ratio }: RatioPaddingProps) => {
+const RatioPadding = ({ ratio, canvasFill }: RatioPaddingProps) => {
   const [src, setSrc] = React.useState<string | void>(undefined)
 
   React.useEffect(() => {
+    if (!canvasFill) return
     const canvas = window.document.createElement('canvas')
     canvas.setAttribute('width', '1600')
     canvas.setAttribute('height', `${1600 * ratio}`)
@@ -33,9 +37,14 @@ const RatioPadding = ({ ratio }: RatioPaddingProps) => {
     ctx.fill()
     const srcData = canvas.toDataURL('image/png')
     setSrc(srcData)
-  }, [ratio])
+  }, [ratio, canvasFill])
 
-  return src ? <RatioImageFill src={src} /> : null
+  const paddingBottom = src ? 0 : `${ratio * 100}%`
+  return (
+    <RatioImageFill style={{ paddingBottom }} aria-hidden>
+      {src ? <img src={src} /> : null}
+    </RatioImageFill>
+  )
 }
 
 interface ImageProps {
@@ -45,6 +54,9 @@ interface ImageProps {
   ratio?: number
   sizes?: string
   onLoad?: () => void
+  preloadImages?: ImageType[]
+  canvasFill?: boolean
+  objectFit?: string
 }
 
 export const ImageWrapper = Wrapper
@@ -56,10 +68,15 @@ export const Image = ({
   altText: customAltText,
   onLoad,
   ratio,
+  canvasFill,
+  preloadImages,
+  objectFit,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
+  const containerRef = React.useRef<HTMLDivElement>(null)
   const imageRef = React.useRef<HTMLImageElement>(null)
+  const [isInView] = useInViewport(containerRef)
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
   const { src, altText: cmsAltText, srcSet, srcSetWebp } = imageDetails || {}
@@ -88,10 +105,10 @@ export const Image = ({
   }
 
   return (
-    <Wrapper>
-      {ratio ? <RatioPadding ratio={ratio} /> : null}
-      {src ? (
-        <Picture loaded={loaded}>
+    <Wrapper ref={containerRef}>
+      {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
+      {src && isInView ? (
+        <Picture objectFit={objectFit} loaded={loaded}>
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
           ) : null}
@@ -112,6 +129,13 @@ export const Image = ({
             />
           ) : null}
         </Picture>
+      ) : null}
+      {isInView && preloadImages && preloadImages.length ? (
+        <PreloadWrapper>
+          {preloadImages.map((p) => (
+            <Image key={getImageKey(p)} image={p} />
+          ))}
+        </PreloadWrapper>
       ) : null}
     </Wrapper>
   )

@@ -48,7 +48,7 @@ const initialValues = {
   address2: '',
   city: '',
   state: '',
-  postalCode: '',
+  postalCode: '90065',
   country: 'United States',
 }
 
@@ -99,7 +99,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
             <Field name="postalCode" placeholder="Postal Code" required />
             <Field
               name="country"
-              type="countrySelect"
+              type="countrySelector"
               placeholder="Country"
               required
             />

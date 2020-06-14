@@ -21,7 +21,7 @@ export const Select = (props: SelectProps) => {
             required={required}
             placeholder={placeholder}
             disabled={disabled}
-            onChange={onChange}
+            onChange={onChange || field.onChange}
           >
             {placeholder ? (
               <option key="__placeholder" value="" disabled>

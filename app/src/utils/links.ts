@@ -91,7 +91,7 @@ export const getPageLinkUrl = (document: Document): LinkInfo => {
 
     case 'Contact':
       return {
-        href: '/contact',
+        href: '/about/contact',
       }
 
     case 'Page':

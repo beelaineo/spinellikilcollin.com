@@ -4,9 +4,10 @@ import { SubMenu as SubMenuType } from '../../types'
 import { Heading } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'
 import { PlusMinus } from '../../components/PlusMinus'
+import { useNavigation } from './NavigationProvider'
 import { definitely } from '../../utils'
 
-const { useState } = React
+const { useState, useEffect } = React
 
 interface SubMenuProps {
   subMenu: SubMenuType
@@ -43,9 +44,15 @@ const SubmenuInner = styled.div`
 `
 
 export const SubMenu = ({ subMenu }: SubMenuProps) => {
+  const { menuOpen } = useNavigation()
   const [open, setOpen] = useState(false)
   const { title, links } = subMenu
   const toggleOpen = () => setOpen(!open)
+
+  useEffect(() => {
+    if (!menuOpen) setOpen(false)
+  }, [menuOpen])
+
   if (!title || !links || !links.length) return null
   return (
     <>

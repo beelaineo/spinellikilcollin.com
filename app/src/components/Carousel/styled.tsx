@@ -85,8 +85,10 @@ export const SlideContainer = styled.div`
       : css`
           width: calc((100% - (${theme.space[5]}px * 4)) / 5);
 
+          margin-right: 4;
           ${theme.mediaQueries.desktop} {
             width: calc((100% - (${theme.space[4]}px * 3)) / 4);
+            margin-right: 4;
           }
 
           ${theme.mediaQueries.tablet} {
@@ -107,7 +109,6 @@ interface CarouselButtonProps {
 
 const WIDTH = 20
 const HEIGHT = WIDTH * 2
-const STROKE = 2
 
 export const CarouselButton = styled.button`
   ${({ theme, visible, direction }: CarouselButtonProps) => css`
@@ -120,51 +121,15 @@ export const CarouselButton = styled.button`
     top: calc(50% - 30px);
     transition: 0.2s;
 
-    ${direction === 'previous'
+    ${direction === 'next'
       ? css`
-          left: -25px;
+          right: -25px;
         `
       : css`
-          right: -25px;
+          left: -25px;
+          transform: rotate(180deg);
         `}
     background: transparent;
-
-    &:before,
-    &:after {
-      content: '';
-      position: absolute;
-      ${direction === 'previous'
-        ? css`
-            left: 1px;
-            transform-origin: ${STROKE / 2}px 50%;
-          `
-        : css`
-            right: 3px;
-            transform-origin: calc(100% - ${STROKE / 2}px) 50%;
-          `};
-      top: 50%;
-      height: ${STROKE}px;
-      width: ${WIDTH}px;
-      background-color: black;
-    }
-
-    ${direction === 'previous'
-      ? css`
-          &:before {
-            transform: rotate(-315deg);
-          }
-          &:after {
-            transform: rotate(-45deg);
-          }
-        `
-      : css`
-          &:before {
-            transform: rotate(45deg);
-          }
-          &:after {
-            transform: rotate(-45deg);
-          }
-        `}
 
     ${theme.mediaQueries.mobile} {
       display: none;
