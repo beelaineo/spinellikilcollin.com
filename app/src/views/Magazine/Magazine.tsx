@@ -20,9 +20,8 @@ const Inner = styled.div`
 
 const ImageWrapper = styled.div`
   ${({ theme }) => css`
-    padding-right: 4;
-    ${theme.mediaQueries.mobile} {
-      padding-right: 0;
+    ${theme.mediaQueries.aboveMobile} {
+      padding-right: 6;
     }
   `}
 `
@@ -30,7 +29,7 @@ const FormWrapper = styled.div`
   ${({ theme }) => css`
     ${theme.mediaQueries.aboveMobile} {
       border-left: 1px solid;
-      padding-left: 4;
+      padding-left: 6;
     }
   `}
 `

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import {
   Carousel as CarouselType,
   ShopifyCollection,
@@ -28,11 +29,23 @@ const getCarousel = (
 export const ProductRelated = ({ product }: ProductRelatedProps) => {
   const carousel = getCarousel(product)
   if (!carousel) return null
+  const linkAs =
+    carousel.__typename === 'ShopifyCollection'
+      ? `/collections/${carousel.handle}`
+      : ''
   return (
     <ProductRelatedWrapper>
-      <Heading level={3} m={3} textTransform="capitalize" textAlign="center">
-        {carousel.title || 'More like this'}
-      </Heading>
+      {carousel.__typename === 'ShopifyCollection' ? (
+        <Heading level={3} m={3} textTransform="capitalize" textAlign="center">
+          <Link href="/collections/[collectionSlug]" as={linkAs}>
+            <a>{carousel.title || 'More like this'}</a>
+          </Link>
+        </Heading>
+      ) : (
+        <Heading level={3} m={3} textTransform="capitalize" textAlign="center">
+          {carousel.title || 'More like this'}
+        </Heading>
+      )}
       <ProductRelatedInner>
         {carousel.__typename === 'Carousel' && carousel.items ? (
           <ItemsCarousel items={carousel.items} />

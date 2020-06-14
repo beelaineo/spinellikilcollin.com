@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import styled, { css } from '@xstyled/styled-components'
 import { Carousel } from '../../types'
 import { CollectionCarousel, ItemsCarousel } from '../Carousel'
@@ -36,9 +37,19 @@ const CarouselContainer = styled.div`
 
 export const CarouselBlock = ({ content }: CarouselBlockProps) => {
   const { title, collection, items } = content
+
+  const linkAs = collection ? `/collections/${collection.handle}` : ''
   return (
     <CarouselBlockStyled>
-      <Heading level={3}>{title}</Heading>
+      {collection ? (
+        <Heading level={3}>
+          <Link href="/collections/[collectionSlug]" as={linkAs}>
+            <a>{title}</a>
+          </Link>
+        </Heading>
+      ) : (
+        <Heading level={3}>{title}</Heading>
+      )}
       <CarouselContainer>
         {collection ? (
           <CollectionCarousel collection={collection} />

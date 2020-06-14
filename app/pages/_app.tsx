@@ -23,7 +23,6 @@ const App = (props: AppProps) => {
   const path = router.pathname
   const { shopData, ...pageProps } = allPageProps
   if (!shopData) return null
-  console.log(router)
 
   // throw new Error('This page did not fetch the shop data')
 

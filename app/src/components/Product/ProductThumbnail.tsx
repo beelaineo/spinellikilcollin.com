@@ -118,23 +118,26 @@ export const ProductThumbnail = ({
           </ImageWrapper>
 
           <ProductInfo>
-            <Heading textAlign="center" level={headingLevel || 3}>
-              {product.title}
-            </Heading>
             {displayPrice ? (
               <>
                 {minVariantPrice &&
                 maxVariantPrice &&
                 minVariantPrice.amount !== maxVariantPrice.amount ? (
                   <Heading level={3}>
-                    {formatMoney(minVariantPrice)} -{' '}
+                    {product.title} | {formatMoney(minVariantPrice)} -{' '}
                     {formatMoney(maxVariantPrice)}
                   </Heading>
                 ) : maxVariantPrice ? (
-                  <Heading level={3}>{formatMoney(maxVariantPrice)}</Heading>
+                  <Heading level={3}>
+                    {product.title} | {formatMoney(maxVariantPrice)}
+                  </Heading>
                 ) : null}
               </>
-            ) : null}
+            ) : (
+              <Heading textAlign="center" level={headingLevel || 3}>
+                {product.title}
+              </Heading>
+            )}
           </ProductInfo>
           {displaySwatches ? (
             <ProductSwatches

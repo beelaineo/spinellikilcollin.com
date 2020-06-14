@@ -32,7 +32,7 @@ export const TeamView = ({ teamPage }: TeamViewProps) => {
   return (
     <PageWrapper>
       <Column columnWidth="mediumWide">
-        <Heading mt={4} mb={6} textAlign="center" level={1}>
+        <Heading mt={4} mb={10} textAlign="center" level={0}>
           {title}
         </Heading>
         <TeamGrid>
