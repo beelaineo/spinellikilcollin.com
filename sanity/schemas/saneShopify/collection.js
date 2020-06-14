@@ -7,6 +7,14 @@ export const collection = {
       type: 'array',
       of: [{ type: 'collectionBlock' }],
     },
+    {
+      name: 'preferredVariantMatches',
+      type: 'array',
+      title: 'Preferred Variant',
+      of: [{ type: 'string' }],
+      description:
+        'Add values here to auto-select a preferred variant option when viewing this collection. The first variant that has an option containing one of these values will be used. E.g., "BG" or "Black Gold"',
+    },
     { name: 'customFilter', type: 'productFilter' },
   ],
 }

@@ -31,6 +31,19 @@ export const hero = {
       ],
     },
     {
+      name: 'aspectRatio',
+      title: 'Aspect Ratio',
+      type: 'number',
+      options: {
+        list: [
+          { title: '2:1', value: 0.5 },
+          { title: '16:9', value: 0.5625 },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+    },
+    {
       name: 'textPosition',
       title: 'Text Position',
       type: 'position',
