@@ -1,27 +1,24 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { ShopifyCollection, ShopifyProduct } from '../../types'
+import { ShopifyCollection } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
 import { definitely, useViewportSize } from '../../utils'
-import { useLazyRequest, shopifyProductThumbnailFragment } from '../../graphql'
+import { useLazyRequest, shopifyCollectionFragment } from '../../graphql'
 
 const { useEffect } = React
 
 const query = gql`
   query CarouselCollectionQuery($collectionId: ID!) {
-    allShopifyProduct(
-      where: { _: { references: $collectionId }, archived: { neq: true } }
-      limit: 10
-    ) {
-      ...ShopifyProductThumbnailFragment
+    allShopifyCollection(where: { _id: { eq: $collectionId } }) {
+      ...ShopifyCollectionFragment
     }
   }
-  ${shopifyProductThumbnailFragment}
+  ${shopifyCollectionFragment}
 `
 
 interface Response {
-  allShopifyProduct: ShopifyProduct[]
+  allShopifyCollection: ShopifyCollection[]
 }
 interface Variables {
   collectionId: string | null | undefined
@@ -37,7 +34,9 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
   const variables = {
     collectionId: collection._id,
   }
+  console.log(variables)
   const [getCarousel, response] = useLazyRequest<Response, Variables>(query)
+  console.log(response)
   const { data } = response
 
   useEffect(() => {
@@ -47,7 +46,8 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
     getCarousel(variables)
   }, [data])
 
-  const products = definitely(collectionProducts || data?.allShopifyProduct)
+  const fetchedCollection = data?.allShopifyCollection[0]
+  const products = definitely(fetchedCollection?.products)
 
   if (!products.length) return null
 

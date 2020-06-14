@@ -84,8 +84,8 @@ export const SlideContainer = styled.div`
         `
       : css`
           width: calc((100% - (${theme.space[5]}px * 4)) / 5);
+          margin-right: 5;
 
-          margin-right: 4;
           ${theme.mediaQueries.desktop} {
             width: calc((100% - (${theme.space[4]}px * 3)) / 4);
             margin-right: 4;
