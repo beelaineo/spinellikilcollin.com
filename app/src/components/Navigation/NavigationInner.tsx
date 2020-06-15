@@ -11,8 +11,8 @@ import { Hamburger } from '../Hamburger'
 const HamburgerWrapper = styled.div`
   ${({ theme }) => css`
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 26px;
+    left: 35px;
     z-index: ${theme.zIndices.cart + 1};
   `}
 `

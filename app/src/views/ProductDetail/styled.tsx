@@ -12,13 +12,21 @@ export const ProductDetails = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 65% 1fr;
-    grid-template-rows: auto auto 1fr;
     grid-column-gap: 5;
+    min-height: 75vh;
+    align-items: center;
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr;
       padding: 0 0 7;
     }
   `}
+`
+
+export const InfoWrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `
 
 export const AffirmWrapper = styled.div`
@@ -28,7 +36,8 @@ export const AffirmWrapper = styled.div`
       grid-row: 3;
       margin: 0 auto;
       width: 100%;
-      max-width: 380px;
+      max-width: small;
+      text-align: center;
     }
   `}
 `
@@ -51,14 +60,13 @@ export const ProductInfoWrapper = styled.div`
     ${theme.mediaQueries.tablet} {
       margin: 0 auto;
       width: 100%;
-      max-width: 380px;
+      max-width: small;
     }
   `}
 `
 
 export const ProductImagesWrapper = styled.div`
   ${({ theme }) => css`
-    grid-row: span 3;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -86,8 +94,14 @@ export const Nav = styled.div`
 `
 
 export const ProductGalleryWrapper = styled.div`
-  position: sticky;
-  top: 0;
+  ${({ theme }) => css`
+    position: sticky;
+    top: 0;
+
+    ${theme.mediaQueries.tablet} {
+      position: relative;
+    }
+  `}
 `
 
 export const Thumbnails = styled.div`
@@ -109,6 +123,13 @@ export const MobileWrapper = styled.div`
     display: none;
     ${theme.mediaQueries.tablet} {
       display: block;
+      margin-left: -${theme.space[8]}px;
+      width: calc(100% + ${theme.space[8]}px * 2);
+    }
+
+    ${theme.mediaQueries.mobile} {
+      margin-left: -${theme.space[5]}px;
+      width: calc(100% + ${theme.space[5]}px * 2);
     }
   `}
 `

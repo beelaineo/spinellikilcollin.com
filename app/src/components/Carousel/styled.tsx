@@ -1,7 +1,11 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
-export const CarouselContainer = styled.div`
-  ${({ theme }) => css`
+interface WithSingle {
+  single?: boolean
+}
+
+export const CarouselContainer = styled.div<WithSingle>`
+  ${({ theme, single }) => css`
     position: relative;
     height: 100%;
     width: 100%;
@@ -12,7 +16,7 @@ export const CarouselContainer = styled.div`
     }
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
-      padding: 0 32vw;
+      padding: ${single ? 0 : '0 32vw'};
     }
   `}
 `
@@ -62,10 +66,11 @@ export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
 interface WithColumnCount {
   theme: DefaultTheme
   columnCount?: number
+  single?: boolean
 }
 
 export const SlideContainer = styled.div`
-  ${({ theme, columnCount }: WithColumnCount) => css`
+  ${({ theme, columnCount, single }: WithColumnCount) => css`
     height: 100%;
     text-align: center;
     margin-right: 5;
@@ -76,7 +81,12 @@ export const SlideContainer = styled.div`
       margin-right: 0;
     }
 
-    ${columnCount
+    ${single
+      ? css`
+          width: 100%;
+          margin-right: 0;
+        `
+      : columnCount
       ? css`
           width: calc(
             (100% - (${theme.space[5]}px * ${columnCount - 1})) / ${columnCount}

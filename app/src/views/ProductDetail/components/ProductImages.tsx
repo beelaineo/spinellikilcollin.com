@@ -7,7 +7,12 @@ import {
   ShopifyProduct,
 } from '../../../types'
 import { Image } from '../../../components/Image'
-import { Carousel } from '../../../components/Carousel'
+import {
+  useCarousel,
+  CarouselProvider,
+  CarouselInner,
+} from '../../../components/Carousel'
+import { ContentBlock } from '../../../components/ContentBlock'
 import {
   ProductGalleryWrapper,
   Thumbnails,
@@ -19,9 +24,42 @@ import { definitely } from '../../../utils'
 
 const { useState, useEffect } = React
 
+interface ProductGalleryCarouselProps {
+  images: Array<ShopifySourceImage | RichImage>
+  product: ShopifyProduct
+  currentVariant: ShopifyProductVariant
+}
+
+export const ProductGalleryCarousel = ({
+  currentVariant,
+  images,
+  product,
+}: ProductGalleryCarouselProps) => {
+  const { setCurrentSlide } = useCarousel()
+  const { contentAfter } = product
+
+  useEffect(() => {
+    setCurrentSlide(0)
+  }, [currentVariant])
+  return (
+    <CarouselInner single dots buttons={false} columnCount={1}>
+      {images.map((image) => (
+        <Image key={getKey(image)} ratio={1} image={image} sizes="90vw" />
+      ))}
+      {definitely(contentAfter).map((contentBlock) => (
+        <ContentBlock
+          key={contentBlock._key || 'some-key'}
+          content={contentBlock}
+        />
+      ))}
+    </CarouselInner>
+  )
+}
+
 interface ProductImagesProps {
   product: ShopifyProduct
   currentVariant: ShopifyProductVariant
+  screen: string
 }
 
 const MainImage = styled.div`
@@ -47,6 +85,7 @@ const getKey = (image: ShopifySourceImage | RichImage): string => {
 export const ProductImages = ({
   product,
   currentVariant,
+  screen,
 }: ProductImagesProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
@@ -56,13 +95,9 @@ export const ProductImages = ({
 
   const changeMainImage = (index: number) => () => setCurrentImageIndex(index)
 
-  useEffect(() => {
-    setCurrentImageIndex(0)
-  }, [currentVariant])
-
   if (!images.length) return null
   const mainImage = images[currentImageIndex]
-  return (
+  return screen === 'desktop' ? (
     <ProductGalleryWrapper>
       <DesktopWrapper>
         <MainImage>
@@ -81,13 +116,18 @@ export const ProductImages = ({
           </Thumbnails>
         ) : null}
       </DesktopWrapper>
+    </ProductGalleryWrapper>
+  ) : screen === 'mobile' ? (
+    <ProductGalleryWrapper>
       <MobileWrapper>
-        <Carousel dots buttons={false} columnCount={1}>
-          {images.map((image) => (
-            <Image key={getKey(image)} ratio={1} image={image} sizes="90vw" />
-          ))}
-        </Carousel>
+        <CarouselProvider>
+          <ProductGalleryCarousel
+            images={images}
+            product={product}
+            currentVariant={currentVariant}
+          />
+        </CarouselProvider>
       </MobileWrapper>
     </ProductGalleryWrapper>
-  )
+  ) : null
 }

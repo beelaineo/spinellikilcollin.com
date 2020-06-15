@@ -26,6 +26,7 @@ const Wrapper = styled.div<WithLayout>`
   ${({ theme, layout }) => css`
     position: relative;
     height: 100%;
+    width: 100%;
     background-color: body.0;
     grid-column: ${layout === 'fullWidth' ? '1 / 3' : 'auto'};
 
@@ -75,8 +76,8 @@ interface TextWrapperProps {
   textPosition: string | null | void
 }
 
-const TextWrapper = styled.div`
-  ${({ textPosition }: TextWrapperProps) => css`
+const TextWrapper = styled.div<TextWrapperProps>`
+  ${({ textPosition, theme }) => css`
     padding: 6;
     position: absolute;
     top: 0;
@@ -88,6 +89,10 @@ const TextWrapper = styled.div`
     justify-content: ${getFlexJustification(textPosition)};
     align-items: ${getFlexAlignment(textPosition)};
     text-align: ${getTextAlignment(textPosition)};
+
+    ${theme.mediaQueries.tablet} {
+      padding: 4;
+    }
   `}
 `
 

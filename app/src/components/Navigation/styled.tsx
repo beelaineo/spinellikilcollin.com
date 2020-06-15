@@ -7,7 +7,6 @@ export const Wrapper = styled.nav`
   font-family: serif;
   position: fixed;
   top: 0px;
-  margin-top: 3;
   left: 0;
   right: 0;
   width: 100vw;
@@ -19,16 +18,20 @@ interface WithBorder {
 
 export const Inner = styled.div<WithBorder>`
   ${({ theme, withBorder }) => css`
-    height: ${theme.navHeight};
     display: grid;
     border-bottom: 1px solid;
     border-color: ${withBorder ? 'currentColor' : 'transparent'};
     grid-template-columns: 1fr 220px 1fr;
     align-items: center;
-    padding: 2 0;
+    padding: 5 0 3;
     margin: 0 auto;
-    max-width: calc(100% - (${theme.space[4]}px * 2));
+    max-width: calc(100% - (${theme.space[7]}px * 2));
     width: 100%;
+
+    ${theme.mediaQueries.tablet} {
+      padding: 4 0 3;
+      max-width: calc(100% - (${theme.space[4]}px * 2));
+    }
   `}
 `
 

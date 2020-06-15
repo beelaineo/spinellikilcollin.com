@@ -36,6 +36,7 @@ interface CarouselProps {
   columnCount?: number
   buttons?: boolean
   dots?: boolean
+  single?: boolean
 }
 
 export const CarouselInner = ({
@@ -43,6 +44,7 @@ export const CarouselInner = ({
   columnCount,
   dots,
   buttons: customButtons,
+  single,
 }: CarouselProps) => {
   const { width: viewportWidth } = useViewportSize()
   const { currentSlide, setCurrentSlide } = useCarousel()
@@ -122,7 +124,7 @@ export const CarouselInner = ({
     : 0
 
   return (
-    <CarouselContainer>
+    <CarouselContainer single={single}>
       {children && buttons ? (
         <CarouselButton
           visible={hasOverflow && !isAtFirst}
@@ -147,6 +149,7 @@ export const CarouselInner = ({
               columnCount={columnCount}
               index={index}
               key={index}
+              single={single}
             >
               {child}
             </Slide>
@@ -211,10 +214,16 @@ export const Carousel = ({
   children,
   columnCount,
   dots,
+  single,
 }: CarouselProps) => {
   return (
     <CarouselProvider initialSlide={initialSlide}>
-      <CarouselInner buttons={buttons} dots={dots} columnCount={columnCount}>
+      <CarouselInner
+        single={single || false}
+        buttons={buttons}
+        dots={dots}
+        columnCount={columnCount}
+      >
         {children}
       </CarouselInner>
     </CarouselProvider>

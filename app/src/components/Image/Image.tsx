@@ -76,7 +76,7 @@ export const Image = ({
   const [loaded, setLoaded] = React.useState(false)
   const containerRef = React.useRef<HTMLDivElement>(null)
   const imageRef = React.useRef<HTMLImageElement>(null)
-  const [isInView] = useInViewport(containerRef)
+  const { isInViewOnce } = useInViewport(containerRef)
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
   const { src, altText: cmsAltText, srcSet, srcSetWebp } = imageDetails || {}
@@ -107,7 +107,7 @@ export const Image = ({
   return (
     <Wrapper ref={containerRef}>
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
-      {src && isInView ? (
+      {src && isInViewOnce ? (
         <Picture objectFit={objectFit} loaded={loaded}>
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
@@ -130,7 +130,7 @@ export const Image = ({
           ) : null}
         </Picture>
       ) : null}
-      {isInView && preloadImages && preloadImages.length ? (
+      {isInViewOnce && preloadImages && preloadImages.length ? (
         <PreloadWrapper>
           {preloadImages.map((p) => (
             <Image key={getImageKey(p)} image={p} />

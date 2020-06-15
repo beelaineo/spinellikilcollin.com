@@ -15,6 +15,7 @@ export const HoverImage = styled.img`
 
 export const Wrapper = styled.div`
   position: relative;
+  width: 100%;
 
   &:hover ${HoverImage} {
     opacity: 1;

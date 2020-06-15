@@ -21,10 +21,15 @@ const Wrapper = styled.button<WithMobile>`
     display: ${mobile ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;
+    height: 42px;
+
+    svg {
+      margin-right: 2;
+    }
 
     ${theme.mediaQueries.tablet} {
       display: ${mobile ? 'flex' : 'none'};
-      margin: 3 auto 0;
+      margin: 3 0 0;
       padding: 0;
     }
   `}
@@ -36,7 +41,7 @@ export const RingSizerButton = ({ mobile }: RingSizerButtonProps) => {
   return (
     <Wrapper mobile={mobile} onClick={handleClick}>
       <RingSizerIcon />
-      <Heading ml={2} mb={0} level={4} textDecoration="underline">
+      <Heading m={0} level={4} textDecoration="underline">
         Request a sizer
       </Heading>
     </Wrapper>

@@ -14,6 +14,7 @@ export interface SlideProps {
   addSlide: (slide: SlideInfo) => void
   removeSlide: (index: number) => void
   index: number
+  single?: boolean
 }
 
 export const Slide = ({
@@ -22,6 +23,7 @@ export const Slide = ({
   children,
   columnCount,
   removeSlide,
+  single,
 }: SlideProps) => {
   const containerElement = useRef<HTMLDivElement>(null)
 
@@ -36,7 +38,11 @@ export const Slide = ({
   }, [])
 
   return (
-    <SlideContainer ref={containerElement} columnCount={columnCount}>
+    <SlideContainer
+      single={single}
+      ref={containerElement}
+      columnCount={columnCount}
+    >
       {children}
     </SlideContainer>
   )

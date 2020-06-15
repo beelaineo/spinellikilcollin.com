@@ -52,9 +52,7 @@ const NavigationMain = () => {
 
       <Wrapper>
         <Inner withBorder={innerBorder}>
-          <div>
-            <Hamburger onClick={toggleMenu} open={false} />
-          </div>
+          <Hamburger onClick={toggleMenu} open={false} />
 
           <LogoWrapper>
             <Link href="/index" as="/">

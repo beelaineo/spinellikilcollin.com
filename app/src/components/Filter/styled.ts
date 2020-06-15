@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `
 
 export const Header = styled.div`
-  padding: 0 4;
+  padding: 0 6;
 `
 
 interface WithOpen {

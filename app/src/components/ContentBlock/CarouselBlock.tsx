@@ -37,7 +37,6 @@ const CarouselContainer = styled.div`
 
 export const CarouselBlock = ({ content }: CarouselBlockProps) => {
   const { title, collection, items } = content
-  console.log(content)
 
   const linkAs = collection ? `/collections/${collection.handle}` : ''
   return (

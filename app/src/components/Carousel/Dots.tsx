@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 
 interface DotsProps {
-  /* */
   currentSlide: number
   totalSlides: number
 }
@@ -14,7 +13,9 @@ interface WithActive {
 const Wrapper = styled.div`
   display: flex;
   justify-content: flex-start;
-  margin: 2 0;
+  margin: 3 auto 2;
+  padding: 0 3;
+  max-width: small;
 `
 
 const Dot = styled.div<WithActive>`

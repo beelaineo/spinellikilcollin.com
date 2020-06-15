@@ -21,6 +21,7 @@ import {
   ProductInfoWrapper,
   ProductImagesWrapper,
   ProductAccordionsWrapper,
+  InfoWrapper,
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 
@@ -126,51 +127,60 @@ export const ProductDetail = ({ product }: Props) => {
               <ProductImages
                 currentVariant={currentVariant}
                 product={product}
+                screen="desktop"
               />
             </ProductImagesWrapper>
-            <ProductDetailHeader
-              currentVariant={currentVariant}
-              product={product}
-            />
-            <ProductInfoWrapper>
-              <ProductVariantSelector
-                variants={variants}
+            <InfoWrapper>
+              <ProductDetailHeader
                 currentVariant={currentVariant}
-                changeValueForOption={changeValueForOption}
                 product={product}
               />
-              <BuyButton
-                addLineItem={addLineItem}
+              <ProductImages
                 currentVariant={currentVariant}
+                product={product}
+                screen="mobile"
               />
-              <ProductAccordionsWrapper>
-                {description || optionDescriptions.length ? (
-                  <Accordion label="Description">
-                    {description ? description : null}
-                    {optionDescriptions.length
-                      ? optionDescriptions.map((description) => (
-                          <RichText
-                            key={description._key || 'some-key'}
-                            body={description.descriptionRaw}
-                          />
-                        ))
-                      : null}
-                  </Accordion>
-                ) : null}
-                {accordions
-                  ? accordions.map((a) =>
-                      a.title ? (
-                        <Accordion key={a._key || 'some-key'} label={a.title}>
-                          <RichText body={a.bodyRaw} />
-                        </Accordion>
-                      ) : null,
-                    )
-                  : null}
-                {productType === 'Ring' ? (
-                  <RingSizerButton product={product} mobile />
-                ) : null}
-              </ProductAccordionsWrapper>
-            </ProductInfoWrapper>
+
+              <ProductInfoWrapper>
+                <ProductVariantSelector
+                  variants={variants}
+                  currentVariant={currentVariant}
+                  changeValueForOption={changeValueForOption}
+                  product={product}
+                />
+                <BuyButton
+                  addLineItem={addLineItem}
+                  currentVariant={currentVariant}
+                />
+                <ProductAccordionsWrapper>
+                  {description || optionDescriptions.length ? (
+                    <Accordion label="Description">
+                      {description ? description : null}
+                      {optionDescriptions.length
+                        ? optionDescriptions.map((description) => (
+                            <RichText
+                              key={description._key || 'some-key'}
+                              body={description.descriptionRaw}
+                            />
+                          ))
+                        : null}
+                    </Accordion>
+                  ) : null}
+                  {accordions
+                    ? accordions.map((a) =>
+                        a.title ? (
+                          <Accordion key={a._key || 'some-key'} label={a.title}>
+                            <RichText body={a.bodyRaw} />
+                          </Accordion>
+                        ) : null,
+                      )
+                    : null}
+                  {productType === 'Ring' ? (
+                    <RingSizerButton product={product} mobile />
+                  ) : null}
+                </ProductAccordionsWrapper>
+              </ProductInfoWrapper>
+            </InfoWrapper>
           </ProductDetails>
         </Column>
       </PageWrapper>
