@@ -57,7 +57,7 @@ export const PreloadWrapper = styled.div`
   z-index: -100;
 `
 
-export const RatioImageFill = styled.img`
+export const RatioImageFill = styled.div`
   display: block;
 
   & + picture > img {

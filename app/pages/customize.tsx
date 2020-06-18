@@ -13,6 +13,8 @@ const customizeQuery = gql`
       _id
       _type
       title
+      subtitle
+      bodyRaw
     }
   }
 `

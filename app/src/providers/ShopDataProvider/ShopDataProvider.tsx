@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { SHOP_DATA_QUERY, ShopDataResponse } from './shopDataQuery'
+import { ShopDataResponse } from './shopDataQuery'
 import {
   Menu,
   ShopifyProduct,
@@ -8,7 +8,6 @@ import {
   ProductListingSettings,
   SiteSettings,
 } from '../../types'
-import { useRequest } from '../../graphql'
 import { definitely, getPageLinkUrl, LinkInfo } from '../../utils'
 
 const { useContext } = React
