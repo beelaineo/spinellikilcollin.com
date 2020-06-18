@@ -141,5 +141,6 @@ export const richText = {
       },
     },
     { type: 'richImage' },
+    { type: 'form' },
   ],
 }
