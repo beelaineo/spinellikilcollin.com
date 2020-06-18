@@ -79,7 +79,7 @@ export interface Block {
   list?: Maybe<Scalars['String']>
 }
 
-export type BlockOrRichImage = Block | RichImage
+export type BlockOrFormOrRichImage = Block | Form | RichImage
 
 export type BooleanFilter = {
   /** Checks if the value is equal to the given input. */
@@ -477,6 +477,25 @@ export type FloatFilter = {
   lt?: Maybe<Scalars['Float']>
   /** Checks if the value is lesser than or equal to the given input. */
   lte?: Maybe<Scalars['Float']>
+}
+
+export interface Form {
+  __typename: 'Form'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  formType?: Maybe<Scalars['String']>
+}
+
+export type FormFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  formType?: Maybe<StringFilter>
+}
+
+export type FormSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  formType?: Maybe<SortOrder>
 }
 
 export interface Geopoint {

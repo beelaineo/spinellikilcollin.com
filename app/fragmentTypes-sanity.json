@@ -189,10 +189,13 @@
       },
       {
         "kind": "UNION",
-        "name": "BlockOrRichImage",
+        "name": "BlockOrFormOrRichImage",
         "possibleTypes": [
           {
             "name": "Block"
+          },
+          {
+            "name": "Form"
           },
           {
             "name": "RichImage"

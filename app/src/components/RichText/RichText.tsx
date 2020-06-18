@@ -3,12 +3,14 @@ import styled from '@xstyled/styled-components'
 import Link from 'next/link'
 import * as BlockContent from '@sanity/block-content-to-react'
 import { Heading, Span, P, BlockQuote, Li, Ul, Ol } from '../Text'
+import { ListBlock, RichTextBlock } from '../../types'
 import { Image } from '../Image'
 import { useModal } from '../../providers/ModalProvider'
 import { useCurrentProduct } from '../../providers/CurrentProductProvider'
 import { useCart } from '../../providers/CartProvider'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { LinkInfo } from '../../utils'
+import { EmbeddedForm } from './EmbeddedForm'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
@@ -33,9 +35,11 @@ const serializers = ({
   getLinkByRef,
   weight: customWeight,
 }: CustomSerializerConfig) => ({
-  list: (props) => {
-    if (props.type === 'number') return <Ol {...props} />
-    return <Ul {...props} />
+  list: (props: ListBlock) => {
+    if (props.type === 'number') {
+      return <Ol>{props.children}</Ol>
+    }
+    return <Ul>{props.children}</Ul>
   },
   marks: {
     thin: ({ children }) => <Span fontWeight={100}>{children}</Span>,
@@ -76,16 +80,21 @@ const serializers = ({
     },
   },
   listItem: (props) => <Li weight={3} {...props} />,
-  block: (props): React.ReactNode => {
+  block: (props: RichTextBlock): React.ReactNode => {
+    const { node } = props
+    console.log(props)
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
     if (Wrapper) return <Wrapper {...props} />
     const weight = customWeight ?? 2
 
-    const style = props.node.style || 'normal'
-    if (/image|richImage/.test(props.node._type)) {
-      return <Image image={props.node} sizes={imageSizes} />
+    if (node._type === 'richImage') {
+      return <Image image={node} sizes={imageSizes} />
     }
+    if (node._type === 'form') {
+      return <EmbeddedForm block={node} />
+    }
+    const style = node.style || 'normal'
     // if (props.node._type === 'videoEmbed') return <VideoEmbed video={props.node} />
 
     switch (style) {
