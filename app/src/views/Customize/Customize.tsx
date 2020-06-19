@@ -27,6 +27,7 @@ const PageText = styled.div`
 
 export const Customize = ({ customize }: CustomizeProps) => {
   const { title, subtitle, hero, bodyRaw } = customize
+  console.log(hero)
 
   return (
     <>
