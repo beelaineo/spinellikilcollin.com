@@ -108,7 +108,6 @@ export const richText = {
           {
             title: 'Book',
             value: 'book',
-
             blockEditor: createBlockEditorConfig({
               label: 'Book',
               fontWeight: 300,
