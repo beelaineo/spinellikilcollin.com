@@ -66,7 +66,8 @@ const SuccessWrapper = styled.div<WithVisible>`
 
 interface FormValues {
   name: string
-  email: string
+  emailAddress: string
+  location?: string
   phone?: string
   message: string
 }
@@ -114,11 +115,12 @@ export const CustomizationForm = ({
 
   const initialValues = {
     name: '',
-    email: '',
-    message: '',
+    emailAddress: '',
+    location: '',
     phone: '',
-    product: product?.title || '(none)',
-    variant: variant?.title || '(none)',
+    message: '',
+    product: product?.title || '(no product specified)',
+    variant: variant?.title || '',
   }
 
   return (
@@ -149,7 +151,7 @@ export const CustomizationForm = ({
             required
           />
           <Field
-            name="email"
+            name="emailAddress"
             type="email"
             placeholder="Email"
             label="Email"
@@ -161,6 +163,7 @@ export const CustomizationForm = ({
             placeholder="Phone"
             label="Phone (optional)"
           />
+          <Field required name="location" label="Your Location" />
           <Field
             name="message"
             type="textArea"

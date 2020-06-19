@@ -5,8 +5,9 @@ import { DEAR } from '../postmark'
 export interface CustomizationInquiryArgs {
   name: string
   emailAddress: string
+  location: string
   phone?: string
-  state: string
+  message?: string
   product?: string
   variant?: string
 }
@@ -16,11 +17,15 @@ const Subject = 'New customization inquiry'
 const textTemplate = (args: CustomizationInquiryArgs): string => stripIndents`
   New customization inquiry:
 
-  ${args.emailAddress}
-
   ${args.name} 
 
-  Interested in: ${args.product} | ${args.variant}
+  Email Address: ${args.emailAddress}
+  Location: ${args.location}
+  ${args.phone ? `Phone: ${args.phone}` : ''}
+
+  Notes: ${args.message}
+
+  ${args.product ? `Interested in: ${args.product} | ${args.variant}` : ''}
 `
 
 export const customizationInquiry = (
