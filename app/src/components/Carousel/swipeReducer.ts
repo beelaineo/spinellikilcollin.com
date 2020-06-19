@@ -92,7 +92,6 @@ export const useSwipeReducer = (element: HTMLElement | null) => {
   }
 
   useEffect(() => {
-    console.log(element)
     if (!element) return
     element.addEventListener('click', stopAnchorClick)
     if (!state.active && state.target) {

@@ -82,7 +82,6 @@ const serializers = ({
   listItem: (props) => <Li weight={3} {...props} />,
   block: (props: RichTextBlock): React.ReactNode => {
     const { node } = props
-    console.log(props)
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
     if (Wrapper) return <Wrapper {...props} />
