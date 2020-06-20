@@ -77,9 +77,6 @@ const Knob = ({
   return (
     <KnobHandle position={position}>
       <KnobDot onMouseDown={handleMouseDown} onMouseUp={release} />
-      <KnobLabel>
-        <Heading level={4}>{parsePriceString(amount)}</Heading>
-      </KnobLabel>
     </KnobHandle>
   )
 }
@@ -174,10 +171,12 @@ export function PriceRangeFilter({
     <PriceRangeFilterWrapper>
       <Label htmlFor={_key || 'some-key'}>
         <HeadingWrapper>
-          <Span color="body.9">Price Range:</Span>
+          <Span textTransform="uppercase" mr={2} color="body.9">
+            Price Range:
+          </Span>
+          From {parsePriceString(currentMinPrice)} to{' '}
+          {parsePriceString(currentMaxPrice)}
         </HeadingWrapper>
-        From {parsePriceString(currentMinPrice)} to{' '}
-        {parsePriceString(currentMaxPrice)}
       </Label>
       <Slider ref={setContainer}>
         <Knob

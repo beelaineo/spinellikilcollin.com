@@ -9,6 +9,7 @@ export const CheckboxElement = styled.input`
   border: 1px solid;
   border-color: body.6;
   background-color: white;
+  margin-top: 3px;
 
   width: 12px;
   height: 12px;
@@ -23,8 +24,9 @@ export const CheckboxWrapper = styled.div`
   display: grid;
   grid-template-columns: 25px 1fr;
   align-items: center;
-  margin: 2 0;
+  margin: 5px 0 0;
   cursor: pointer;
+  align-items: start;
 
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     display: flex;

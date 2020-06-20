@@ -30,7 +30,9 @@ const FilterCheckbox = ({
         checked={checked}
         onChange={onChange}
       />
-      <Label htmlFor={matchKey}>{label}</Label>
+      <Label color="body.9" htmlFor={matchKey}>
+        {label}
+      </Label>
     </CheckboxWrapper>
   )
 }
@@ -67,11 +69,10 @@ export const FilterSet = ({
     label: 'View All',
   }
   const isDisabled = filterSetState.activeMatchKeys.length === 0
-  const span = Math.floor(filters.length)
   return (
-    <FilterSetWrapper span={span}>
+    <FilterSetWrapper>
       <HeadingWrapper>
-        <Heading mt={0} level={4}>
+        <Heading textTransform="uppercase" mt={0} mb={3} level={4}>
           {heading}
         </Heading>
       </HeadingWrapper>

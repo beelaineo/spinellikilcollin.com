@@ -29,11 +29,11 @@ export const FieldWrapper = styled.div`
 interface LabelProps {
   required?: boolean
 }
+
 export const Label = styled(BaseLabel)`
   ${({ required }: LabelProps) => css`
     position: relative;
     display: inline-block;
-    margin-bottom: 2;
     font-weight: 2;
     cursor: inherit;
 

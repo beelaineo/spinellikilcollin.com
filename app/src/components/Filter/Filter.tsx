@@ -110,7 +110,7 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
     <Wrapper>
       <Header>
         <OpenButton level={4} onClick={toggleOpen}>
-          Filters
+          Filter
           <PlusMinus open={open} />
         </OpenButton>
       </Header>
@@ -123,6 +123,7 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
                     key={filter._key || 'some-key'}
                     heading={filter.heading}
                     type={filter.__typename}
+                    filter={filter}
                   >
                     <FilterSet
                       setKey={filter._key || 'some-key'}
@@ -139,6 +140,7 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
                     heading="Price Range"
                     key={filter._key || 'some-key'}
                     type={filter.__typename}
+                    filter={filter}
                   >
                     <PriceRangeFilter
                       setKey={filter._key || 'some-key'}

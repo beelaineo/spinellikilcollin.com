@@ -44,12 +44,13 @@ export const FilterSets = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-column-gap: 3;
+    grid-column-gap: 5;
+    grid-row-gap: 5;
     padding: 6 0;
     border-top: 1px solid;
     border-bottom: 1px solid;
     margin-bottom: 4;
-    margin: 4 4 0;
+    margin: 4 6 0;
 
     ${theme.mediaQueries.tablet} {
       grid-template-columns: repeat(4, 1fr);
@@ -75,16 +76,11 @@ export const HeadingWrapper = styled.div`
   `}
 `
 
-export const FilterSetWrapper = styled.div<WithSpan>`
-  ${({ span }) => css`
-    grid-row: span ${span};
-    margin-bottom: 4;
-  `}
-`
+export const FilterSetWrapper = styled.div``
 
 export const ButtonsWrapper = styled.div`
   display: grid;
-  margin: 4 4 0;
+  margin: 4 6 0;
   grid-template-columns: 160px 160px;
   grid-gap: 4;
 `

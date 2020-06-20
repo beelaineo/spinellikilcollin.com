@@ -85,7 +85,7 @@ const serializers = ({
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
     if (Wrapper) return <Wrapper {...props} />
-    const weight = customWeight ?? 2
+    const weight = customWeight ?? 4
 
     if (node._type === 'richImage') {
       return <Image image={node} sizes={imageSizes} />

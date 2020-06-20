@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { OpenButton } from './styled'
+import { PriceRangeFilter, FilterSet } from '../../types'
 
 const { useState } = React
 
@@ -10,11 +11,14 @@ interface WithOpen {
 
 interface WithType {
   type?: string
+  rowSpan?: number
 }
 
 const Wrapper = styled.div<WithType>`
-  ${({ theme, type }) => css`
+  ${({ theme, rowSpan, type }) => css`
     grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
+    grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
+
     ${theme.mediaQueries.mobile} {
       border-color: body.0;
       border-bottom: 1px solid;
@@ -60,17 +64,27 @@ interface FilterWrapperProps {
   heading?: string | null | void
   children: React.ReactNode
   type: string
+  filter: FilterSet | PriceRangeFilter
 }
 
 export const FilterWrapper = ({
   type,
   heading,
   children,
+  filter,
 }: FilterWrapperProps) => {
   const [open, setOpen] = useState(false)
   const toggleOpen = () => setOpen(!open)
+
+  const rowSpan =
+    filter.__typename === 'FilterSet'
+      ? filter && filter?.filters?.length
+        ? Math.floor(filter.filters.length / 4)
+        : 1
+      : undefined
+
   return (
-    <Wrapper type={type}>
+    <Wrapper rowSpan={rowSpan} type={type}>
       <ButtonWrapper>
         <OpenButton textTransform="upperCase" level={3} onClick={toggleOpen}>
           {heading}

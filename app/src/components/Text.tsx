@@ -46,10 +46,6 @@ const createTextBase = (as: any) => styled(as)`
     line-height: 1.4em;
     margin: 2 0 0.5em;
 
-    &:last-child {
-      margin-bottom: 0;
-    }
-
     a {
       text-decoration: underline;
       color: bronze;
@@ -138,9 +134,11 @@ interface LabelProps {
 const LabelBase = createTextBase('label')
 
 export const Label = styled(LabelBase)`
-  font-size: 4;
-  color: body.6;
-  margin: 0;
+  ${({ color }) => css`
+    font-size: 4;
+    color: ${color || 'body.6'};
+    margin: 0;
+  `}
 `
 
 const SpanBase = styled.spanBox``

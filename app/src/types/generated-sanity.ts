@@ -1222,6 +1222,7 @@ export interface RichImage {
   __typename: 'RichImage'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
+  caption?: Maybe<Scalars['String']>
   /** A short description of the image. Helps with accessibility and SEO */
   altText?: Maybe<Scalars['String']>
   asset?: Maybe<SanityImageAsset>
@@ -1232,6 +1233,7 @@ export interface RichImage {
 export type RichImageFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
+  caption?: Maybe<StringFilter>
   altText?: Maybe<StringFilter>
   asset?: Maybe<SanityImageAssetFilter>
   hotspot?: Maybe<SanityImageHotspotFilter>
@@ -1241,6 +1243,7 @@ export type RichImageFilter = {
 export type RichImageSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
+  caption?: Maybe<SortOrder>
   altText?: Maybe<SortOrder>
   hotspot?: Maybe<SanityImageHotspotSorting>
   crop?: Maybe<SanityImageCropSorting>

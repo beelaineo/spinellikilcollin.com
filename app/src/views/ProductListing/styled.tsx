@@ -60,7 +60,6 @@ export const ProductGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-content: space-evenly;
-    grid-gap: 4;
     padding: 6 0;
     grid-auto-rows: min-content;
     grid-auto-flow: row dense;
@@ -69,11 +68,9 @@ export const ProductGrid = styled.div`
     }
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr 1fr;
-      padding: 5;
     }
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 1fr;
-      padding: 3;
     }
   `}
 `
