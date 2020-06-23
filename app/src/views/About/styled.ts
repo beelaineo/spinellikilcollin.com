@@ -1,7 +1,7 @@
 import styled, { css } from '@xstyled/styled-components'
 
 export const PageLinksWrapper = styled.div`
-  margin-top: 8;
+  margin-top: 83px;
 `
 
 export const PageLinkWrapper = styled.div`

@@ -101,7 +101,7 @@ export const ProductImages = ({
     <ProductGalleryWrapper>
       <DesktopWrapper>
         <MainImage>
-          <Image ratio={0.8} image={mainImage} />
+          <Image ratio={1} image={mainImage} />
         </MainImage>
         {images.length > 1 ? (
           <Thumbnails>

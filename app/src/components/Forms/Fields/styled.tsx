@@ -99,7 +99,8 @@ export const TextArea = styled(Input)`
 
 export const SelectElement = styled.select`
   ${({ theme }) => css`
-    height: 42px;
+    height: 32px;
+    max-width: 150px;
     width: 100%;
     border: 1px solid;
     border-color: body.5;

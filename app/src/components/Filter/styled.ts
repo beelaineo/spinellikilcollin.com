@@ -10,7 +10,7 @@ export const Wrapper = styled.div`
 `
 
 export const Header = styled.div`
-  padding: 0 6;
+  padding: 0 7;
 `
 
 interface WithOpen {
@@ -50,7 +50,7 @@ export const FilterSets = styled.div`
     border-top: 1px solid;
     border-bottom: 1px solid;
     margin-bottom: 4;
-    margin: 4 6 0;
+    margin: 4 7 0;
 
     ${theme.mediaQueries.tablet} {
       grid-template-columns: repeat(4, 1fr);
@@ -80,7 +80,7 @@ export const FilterSetWrapper = styled.div``
 
 export const ButtonsWrapper = styled.div`
   display: grid;
-  margin: 4 6 0;
+  margin: 4 7 0;
   grid-template-columns: 160px 160px;
   grid-gap: 4;
 `

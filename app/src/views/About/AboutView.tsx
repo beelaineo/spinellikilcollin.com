@@ -16,9 +16,9 @@ export const AboutView = ({ about }: AboutViewProps) => {
   return (
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
-      <PageWrapper>
-        <Column columnWidth="medium" textAlign="center">
-          <Heading fontWeight={1} level={2}>
+      <PageWrapper pt="83px">
+        <Column maxWidth="800px" textAlign="center">
+          <Heading my={0} fontWeight={1} level={2}>
             {introText}
           </Heading>
         </Column>

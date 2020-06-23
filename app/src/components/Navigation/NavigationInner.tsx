@@ -2,20 +2,11 @@ import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { IoIosSearch } from 'react-icons/io'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { NavInner, NavItemWrapper } from './styled'
+import { NavInner, HamburgerWrapper, NavItemWrapper } from './styled'
 import { Heading, Input } from '../Text'
 import { PageLink } from '../PageLink'
 import { SubMenu } from './SubMenu'
 import { Hamburger } from '../Hamburger'
-
-const HamburgerWrapper = styled.div`
-  ${({ theme }) => css`
-    position: absolute;
-    top: 26px;
-    left: 35px;
-    z-index: ${theme.zIndices.cart + 1};
-  `}
-`
 
 interface NavigationInnerProps {
   closeMenu: () => void

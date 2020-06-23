@@ -6,6 +6,7 @@ import { parseHTML, definitely, getSelectedOptionValues } from '../../utils'
 import { CurrentProductProvider } from '../../providers/CurrentProductProvider'
 import { Column, PageWrapper } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
+import { Affirm } from '../../components/Affirm'
 import {
   ProductVariantSelector,
   BuyButton,
@@ -17,6 +18,8 @@ import {
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import {
+  ProductPageWrapper,
+  AffirmWrapper,
   ProductDetails,
   ProductInfoWrapper,
   ProductImagesWrapper,
@@ -120,7 +123,7 @@ export const ProductDetail = ({ product }: Props) => {
 
   return (
     <CurrentProductProvider product={product} currentVariant={currentVariant}>
-      <PageWrapper>
+      <ProductPageWrapper>
         <Column>
           <ProductDetails>
             <ProductImagesWrapper>
@@ -152,6 +155,10 @@ export const ProductDetail = ({ product }: Props) => {
                   addLineItem={addLineItem}
                   currentVariant={currentVariant}
                 />
+                <AffirmWrapper>
+                  <Affirm price={currentVariant?.sourceData?.priceV2} />
+                </AffirmWrapper>
+
                 <ProductAccordionsWrapper>
                   {description || optionDescriptions.length ? (
                     <Accordion label="Description">
@@ -183,7 +190,7 @@ export const ProductDetail = ({ product }: Props) => {
             </InfoWrapper>
           </ProductDetails>
         </Column>
-      </PageWrapper>
+      </ProductPageWrapper>
       <ProductDetailFooter product={product} />
       <ProductRelated product={product} />
     </CurrentProductProvider>

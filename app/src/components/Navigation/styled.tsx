@@ -12,25 +12,53 @@ export const Wrapper = styled.nav`
   width: 100vw;
 `
 
+export const BackdropWrapper = styled.div`
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  height: calc(100% + 25px);
+  top: 0;
+  left: 0;
+  svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+`
+
+export const BackdropFilter = styled.div`
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(7px);
+  mask-image: linear-gradient(black 70%, transparent 100%);
+`
+
 interface WithBorder {
   withBorder?: boolean
 }
 
 export const Inner = styled.div<WithBorder>`
   ${({ theme, withBorder }) => css`
+    position: relative;
+    z-index: 10;
     display: grid;
     border-bottom: 1px solid;
     border-color: ${withBorder ? 'currentColor' : 'transparent'};
-    grid-template-columns: 1fr 220px 1fr;
+    grid-template-columns: 1fr 267px 1fr;
     align-items: center;
-    padding: 5 0 3;
+    padding: 6 0 16px;
     margin: 0 auto;
     max-width: calc(100% - (${theme.space[7]}px * 2));
     width: 100%;
 
     ${theme.mediaQueries.tablet} {
-      padding: 4 0 3;
+      padding: calc(${theme.space[3]}px + 1px) 0 2;
       max-width: calc(100% - (${theme.space[4]}px * 2));
+    }
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 20px 1fr 20px;
     }
   `}
 `
@@ -58,7 +86,13 @@ export const NavSection = styled.div`
 `
 
 export const Logo = styled.img`
-  width: 220px;
+  ${({ theme }) => css`
+    width: 260px;
+    ${theme.mediaQueries.mobile} {
+      width: 170px;
+      transform: translateY(4px);
+    }
+  `}
 `
 
 interface WithActive {
@@ -67,7 +101,6 @@ interface WithActive {
 }
 
 export const LogoWrapper = styled.div`
-  max-width: calc(100vw - 160px);
   margin: 0 auto;
 `
 
@@ -79,6 +112,20 @@ export const NavHeader = styled.button`
     color: inherit;
     text-decoration: none;
     transition: 0.2s;
+  `}
+`
+
+export const HamburgerWrapper = styled.div`
+  ${({ theme }) => css`
+    position: absolute;
+    top: calc(${theme.space[8]}px + 4px);
+    left: ${theme.space[7]}px;
+    z-index: ${theme.zIndices.cart + 1};
+
+    ${theme.mediaQueries.mobile} {
+      top: 21px;
+      left: ${theme.space[5]}px;
+    }
   `}
 `
 
@@ -118,32 +165,54 @@ interface LoadingProps {
 }
 
 export const CartButtonWrapper = styled.button`
-  ${({ isLoading }: LoadingProps) => css`
+  ${({ theme, isLoading }: LoadingProps) => css`
     opacity: ${isLoading ? '0.5' : '1'};
     position: relative;
     transition: 250ms ease;
     display: flex;
     align-items: center;
     justify-self: end;
+    width: 20px;
+    height: 20px;
     svg {
       display: inline-block;
+      width: 100%;
+    }
+    ${theme.mediaQueries.mobile} {
+      width: 16px;
+      height: 16px;
     }
   `}
 `
 
 export const CartBadge = styled.div`
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  top: -10px;
-  left: -10px;
-  padding-top: 1px;
-  width: 20px;
-  height: 20px;
-  background-color: body.8;
-  color: body.0;
-  border-radius: 20px;
+  ${({ theme }) => css`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: -10px;
+    left: -10px;
+    padding-top: 1px;
+    width: 20px;
+    height: 20px;
+    background-color: body.2;
+    border: 1px solid;
+    border-radius: 20px;
+    ${theme.mediaQueries.mobile} {
+      padding-top: 0px;
+      width: 16px;
+      height: 16px;
+      top: -9px;
+      left: -9px;
+
+      transform: scale(0.8);
+
+      h4 {
+        font-size: 11px;
+      }
+    }
+  `}
 `
 
 interface SideNavigation {

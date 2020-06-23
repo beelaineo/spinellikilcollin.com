@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Contact, ContactLine as ContactLineType } from '../../types'
-import { PageWrapper, Column } from '../../components/Layout'
+import { PageWrapper } from '../../components/Layout'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
 import {
@@ -24,8 +24,8 @@ const ContactLine = ({ contactLine }: ContactLineProps) => {
     : `tel:${contact.replace(/[^0-9\.]+/g, '')}`
   return (
     <ContactLineWrapper>
-      <Heading level={4}>{label}</Heading>
-      <Heading level={3}>
+      <Heading level={3}>{label}</Heading>
+      <Heading level={2}>
         <a href={href}>{contact}</a>
       </Heading>
     </ContactLineWrapper>
@@ -43,7 +43,7 @@ const Chat = () => {
   return (
     <div>
       <ChatBox />
-      <Heading my={4} level={3}>
+      <Heading my={4} level={2}>
         Contact us directly, via Chat
       </Heading>
       <Button onClick={launchChat} width="100%" minWidth="300px">
@@ -60,23 +60,21 @@ interface ContactProps {
 export const ContactView = ({ contact }: ContactProps) => {
   const { title, contactLines } = contact
   return (
-    <PageWrapper px={0}>
+    <PageWrapper>
       <Heading level={0} textAlign="center">
         {title || 'Contact'}
       </Heading>
-      <Column px={{ xs: 8, lg: 11 }} columnWidth="wide">
-        <Wrapper>
-          <ContactLines>
-            {definitely(contactLines).map((cl) => (
-              <ContactLine key={cl._key || 'some-key'} contactLine={cl} />
-            ))}
-          </ContactLines>
+      <Wrapper>
+        <ContactLines>
+          {definitely(contactLines).map((cl) => (
+            <ContactLine key={cl._key || 'some-key'} contactLine={cl} />
+          ))}
+        </ContactLines>
 
-          <ChatWrapper>
-            <Chat />
-          </ChatWrapper>
-        </Wrapper>
-      </Column>
+        <ChatWrapper>
+          <Chat />
+        </ChatWrapper>
+      </Wrapper>
     </PageWrapper>
   )
 }

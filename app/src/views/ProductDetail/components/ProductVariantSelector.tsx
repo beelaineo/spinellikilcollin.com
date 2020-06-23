@@ -48,7 +48,7 @@ export const ProductVariantSelector = (props: Props) => {
   if (options.length < 1) return null
 
   return (
-    <Box mb={3}>
+    <Box mb={5}>
       {options.map((option) =>
         option?.values && option.values.length > 1 ? (
           <OptionWrapper key={option._key || 'some-key'}>

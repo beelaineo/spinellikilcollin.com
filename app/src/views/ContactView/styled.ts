@@ -2,11 +2,19 @@ import styled, { css } from '@xstyled/styled-components'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding-top: 5;
+    padding: 5 8 9;
     display: grid;
     grid-template-columns: 50% 50%;
     grid-gap: 5;
     align-content: center;
+
+    a {
+      text-decoration: none;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      padding: 5 0 9;
+    }
 
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 100%;

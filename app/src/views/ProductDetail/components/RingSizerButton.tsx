@@ -21,7 +21,7 @@ const Wrapper = styled.button<WithMobile>`
     display: ${mobile ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;
-    height: 42px;
+    height: 32px;
 
     svg {
       margin-right: 2;

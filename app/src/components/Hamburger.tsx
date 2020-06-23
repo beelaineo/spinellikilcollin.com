@@ -11,48 +11,55 @@ const HamburgerWrapper = styled.button`
     cursor: pointer;
     transition: 250ms ease;
     position: relative;
+    width: 36px;
+    height: 24px;
+    margin-top: -9px;
+
+    display: block;
     z-index: 3;
     &:hover {
       opacity: 0.5;
     }
 
     span {
-      width: 30px;
+      position: absolute;
+      left: 0;
+      width: 100%;
       height: 1px;
       background-color: black;
       display: block;
-      margin: 9px 0;
+      margin: 0;
       transition: 50ms ease;
     }
 
     span:nth-child(1) {
-      transform: ${open
-        ? 'rotate(45deg) translateY(1px) translateX(10px)'
-        : 'rotate(0) translateY(0px)'};
+      top: 0;
+      display: ${open ? 'none' : 'block'};
     }
     span:nth-child(3) {
-      transform: ${open
-        ? 'rotate(-45deg) translateY(3px) translateX(6px)'
-        : 'rotate(0) translateY(0px)'};
+      top: 50%;
+
+      transform: ${open ? 'rotate(-45deg)' : 'rotate(0) translateY(-50%)'};
     }
     span:nth-child(2) {
+      top: 50%;
+      display: ${open ? 'block' : 'none'};
+      transform: ${open ? 'rotate(45deg)' : 'rotate(0) translateY(0px)'};
+    }
+    span:nth-child(4) {
+      bottom: 0;
       display: ${open ? 'none' : 'block'};
     }
     ${theme.mediaQueries.mobile} {
-      span {
-        margin: 6px 0;
-        width: 20px;
-      }
+      width: 20px;
+      height: 14px;
+      margin-top: 0;
 
       span:nth-child(1) {
-        transform: ${open
-          ? 'rotate(45deg) translateY(1px) translateX(8px)'
-          : 'rotate(0) translateY(0px)'};
+        transform: ${open ? 'rotate(45deg)' : 'rotate(0) translateY(0px)'};
       }
       span:nth-child(3) {
-        transform: ${open
-          ? 'rotate(-45deg) translateY(3px) translateX(4px)'
-          : 'rotate(0) translateY(0px)'};
+        transform: ${open ? 'rotate(-45deg)' : 'rotate(0) translateY(0px)'};
       }
     }
   `}
@@ -67,6 +74,7 @@ interface HamburgerProps {
 export const Hamburger = ({ open, onClick }: HamburgerProps) => {
   return (
     <HamburgerWrapper open={open} onClick={onClick}>
+      <span />
       <span />
       <span />
       <span />

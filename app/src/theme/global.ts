@@ -25,6 +25,8 @@ export const GlobalStyles = createGlobalStyle`
 		border-radius: 0;
 	}
 
+
+
 	img {
 		max-width: 100%;
 	}

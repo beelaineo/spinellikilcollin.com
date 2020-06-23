@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { formatMoney } from '../../../utils/currency'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
-import { TitleWrapper, AffirmWrapper } from '../styled'
-import { Affirm } from '../../../components/Affirm'
+import { TitleWrapper } from '../styled'
 import { Heading } from '../../../components/Text'
 import { definitely } from '../../../utils'
 
@@ -42,14 +41,11 @@ export const ProductDetailHeader = ({
           {variantTitle || product.title}
         </Heading>
         {currentVariant?.sourceData?.priceV2 ? (
-          <Heading level={3} weight={2} mt={3}>
+          <Heading level={3} weight={2} mb={0} mt={3}>
             {formatMoney(currentVariant?.sourceData?.priceV2)}
           </Heading>
         ) : null}
       </TitleWrapper>
-      <AffirmWrapper>
-        <Affirm price={currentVariant?.sourceData?.priceV2} />
-      </AffirmWrapper>
     </>
   )
 }

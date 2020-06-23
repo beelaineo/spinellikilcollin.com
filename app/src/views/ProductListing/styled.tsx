@@ -2,7 +2,7 @@ import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding-top: calc(${theme.navHeight} + ${theme.space[4]}px);
+    padding-top: ${theme.navHeight};
   `}
 `
 

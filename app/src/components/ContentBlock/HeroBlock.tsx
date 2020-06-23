@@ -21,6 +21,7 @@ const HeroWrapper = styled.div<WithAspectRatio>`
     z-index: 0;
     grid-column: span 2;
     height: ${aspectRatio * 100}vw;
+    overflow: hidden;
 
     ${theme.mediaQueries.mobile} {
       overflow: hidden;

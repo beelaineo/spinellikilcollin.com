@@ -25,13 +25,13 @@ export const defaultTheme: DefaultTheme = {
   radii: {
     round: '9px',
   },
-  navHeight: '55px',
-  /* Spacing - applies to:
+  navHeight: '96px',
+  /*   Spacing - applies to:
    *   margin, margin-top, margin-right, margin-bottom, margin-left, padding,
    *   padding-top, padding-right, padding-bottom, padding-left, grid-gap,
    *   grid-column-gap, grid-row-gap
    */
-  space: [0, 3, 6, 12, 18, 24, 38, 42, 48, 64, 72, 120],
+  space: [0, 3, 6, 12, 18, 24, 38, 44, 48, 64, 72, 120],
 
   /* Sizing - applies to:
    * 	width, height, min-width,	max-width, min-height, max-height

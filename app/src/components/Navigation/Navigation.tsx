@@ -17,6 +17,7 @@ import {
   LogoWrapper,
   NavInnerBackground,
 } from './styled'
+import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { NavigationProvider, useNavigation } from './NavigationProvider'
 
@@ -51,6 +52,7 @@ const NavigationMain = () => {
       </SideNavigation>
 
       <Wrapper>
+        <Backdrop />
         <Inner withBorder={innerBorder}>
           <Hamburger onClick={toggleMenu} open={false} />
 
@@ -64,7 +66,7 @@ const NavigationMain = () => {
           <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
             {cartCount ? (
               <CartBadge>
-                <Heading m={0} fontFamily="sans" fontWeight={4} level={4}>
+                <Heading m={0} fontWeight={4} level={4}>
                   {cartCount}
                 </Heading>
               </CartBadge>

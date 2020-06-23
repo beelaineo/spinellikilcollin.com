@@ -30,6 +30,7 @@ const getCustomTextStyles = ({
   font-weight: ${weight};
   font-style: ${fontStyle};
   color: ${color};
+  white-space: pre-line;
   text-decoration: ${textDecoration};
   ${theme.mediaQueries.tablet} {
     ${level !== undefined

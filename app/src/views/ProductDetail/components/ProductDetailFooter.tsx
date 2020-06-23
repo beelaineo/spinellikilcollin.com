@@ -12,8 +12,8 @@ const ContentGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
 
-    ${theme.mediaQueries.mobile} {
-      grid-template-columns: 1fr;
+    ${theme.mediaQueries.tablet} {
+      display: none;
     }
   `}
 `
