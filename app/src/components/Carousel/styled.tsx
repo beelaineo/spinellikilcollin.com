@@ -1,4 +1,5 @@
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import { Wrapper as ImageWrapper } from '../Image/styled'
 
 interface WithSingle {
   single?: boolean
@@ -14,20 +15,26 @@ export const CarouselContainer = styled.div<WithSingle>`
     picture {
       pointer-events: none;
     }
+    padding: 0 11;
+    ${theme.mediaQueries.desktop} {
+      padding: 0 11;
+    }
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
-      padding: ${single ? 0 : '0 32vw'};
+      padding: ${single ? '0' : '0 32vw'};
     }
   `}
 `
 
-export const CarouselMask = styled.div`
-  ${({ theme }) => css`
+export const CarouselMask = styled.div<WithSingle>`
+  ${({ theme, single }) => css`
     overflow: hidden;
 
     ${theme.mediaQueries.mobile} {
       max-width: 100%;
       overflow: visible;
+
+      ${single ? css`` : ''}
     }
   `}
 `
@@ -93,16 +100,28 @@ export const SlideContainer = styled.div`
           );
         `
       : css`
-          width: calc((100% - (${theme.space[5]}px * 4)) / 5);
-          margin-right: 5;
+          width: calc((100% - (37px * 4)) / 5);
+          margin-right: 37px;
+
+          ${ImageWrapper} {
+            overflow: hidden;
+            picture {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              transform: scale(1.3);
+            }
+          }
 
           ${theme.mediaQueries.desktop} {
-            width: calc((100% - (${theme.space[4]}px * 3)) / 4);
-            margin-right: 4;
+            margin-right: 35px;
+            width: calc((100% - (35px * 3)) / 4);
           }
 
           ${theme.mediaQueries.tablet} {
-            width: calc((100% - (${theme.space[4]}px * 2)) / 3);
+            width: calc((100% - (35px * 2)) / 3);
           }
           ${theme.mediaQueries.mobile} {
             width: calc((100%) / 1);
@@ -111,25 +130,58 @@ export const SlideContainer = styled.div`
   `}
 `
 
-interface CarouselButtonProps {
-  theme: DefaultTheme
+const WIDTH = 20
+const HEIGHT = WIDTH * 2
+
+interface ButtonWrapperProps {
   visible: boolean
   direction: 'previous' | 'next'
 }
 
-const WIDTH = 20
-const HEIGHT = WIDTH * 2
+export const ButtonWrapper = styled.div<ButtonWrapperProps>`
+  ${({ direction, visible, theme }) => css`
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 77%;
+      width: ${theme.space[11]}px;
+    top: 0;
+    ${
+      direction === 'next'
+        ? css`
+            right: 0;
+          `
+        : css`
+            left: 0;
+          `
+    }
 
-export const CarouselButton = styled.button`
-  ${({ theme, visible, direction }: CarouselButtonProps) => css`
     opacity: ${visible ? '1' : '0'};
     pointer-events: ${visible ? 'auto' : 'none'};
-    position: absolute;
+
+    ${theme.mediaQueries.desktop} {
+      width: ${theme.space[11]}px;
+      
+    }
+
+
+  `}
+`
+
+interface CarouselButtonProps {
+  direction: 'previous' | 'next'
+}
+export const CarouselButton = styled.button<CarouselButtonProps>`
+  ${({ theme, direction }) => css`
     width: ${WIDTH}px;
     z-index: 15;
     height: ${HEIGHT}px;
     top: calc(50% - 30px);
     transition: 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     ${direction === 'next'
       ? css`

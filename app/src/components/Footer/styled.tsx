@@ -37,7 +37,7 @@ export const FooterInner = styled.div<WithTopBorder>`
       : ''}
 
     ${theme.mediaQueries.mobile} {
-      padding: 6 0 8;
+      padding: 5 1 8;
       display: flex;
       flex-direction: column;
     }
@@ -58,9 +58,14 @@ export const FooterInnerLower = styled.div`
     border-top-color: body.4;
 
     ${theme.mediaQueries.mobile} {
-      padding: 6 0;
+      padding: 35px 0;
       display: flex;
       flex-direction: column;
+
+      &:nth-of-type(2) h4 {
+        align-self: flex-start;
+        padding: 0 5;
+      }
     }
   `}
 `
@@ -74,7 +79,7 @@ export const FooterLinks = styled.div`
 
     ${theme.mediaQueries.mobile} {
       order: 2;
-      padding: 0 6;
+      padding: 0 5;
       grid-template-columns: 30% 1fr;
     }
   `}
@@ -85,7 +90,7 @@ export const MailerWrapper = styled.div`
     ${theme.mediaQueries.mobile} {
       order: 1;
       margin-bottom: 56px;
-      padding: 0 6;
+      padding: 0 5;
     }
   `}
 `
@@ -155,8 +160,8 @@ export const Socials = styled.div`
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 0 6 6;
-      margin: 0 0 8;
+      padding: 0 6 35px;
+      margin: 0 0 35px;
       justify-content: center;
       border-bottom: 1px solid;
       border-color: body.4;

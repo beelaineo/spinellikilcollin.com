@@ -2,7 +2,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { Button } from '../Button'
 
 export const Wrapper = styled.div`
-  padding: 4 0;
+  padding: 0;
   background-color: white;
   width: 100%;
   position: relative;
@@ -26,10 +26,14 @@ export const Inner = styled.div<WithOpen>`
 export const OpenButton = styled(Button)`
   ${({ theme }) => css`
     text-transform: initial;
-    display: grid;
-    grid-template-columns: auto auto;
-    grid-gap: 4;
+    display: flex;
+    min-width: 250px;
+    height: 50px;
     align-items: center;
+
+    & > div {
+      margin-left: 4;
+    }
 
     ${theme.mediaQueries.mobile} {
       display: flex;
@@ -49,8 +53,7 @@ export const FilterSets = styled.div`
     padding: 6 0;
     border-top: 1px solid;
     border-bottom: 1px solid;
-    margin-bottom: 4;
-    margin: 4 7 0;
+    margin: 0 7;
 
     ${theme.mediaQueries.tablet} {
       grid-template-columns: repeat(4, 1fr);

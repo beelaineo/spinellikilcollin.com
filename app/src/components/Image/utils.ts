@@ -31,6 +31,7 @@ export interface ImageDetails {
   altText?: string | null
   srcSet?: string | null
   srcSetWebp?: string | null
+  caption?: string | null
 }
 
 interface ImageWidth {
@@ -74,7 +75,10 @@ const getSanityImageDetails = (
 
   const { altText } = image
 
-  return { src, srcSet, srcSetWebp, altText }
+  // @ts-ignore
+  const caption = image._type === 'richImage' ? image?.caption : undefined
+
+  return { caption, src, srcSet, srcSetWebp, altText }
 }
 
 const widths = [100, 300, 800, 1200, 1600]

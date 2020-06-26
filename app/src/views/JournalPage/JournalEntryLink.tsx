@@ -71,7 +71,7 @@ export const JournalEntryLink = ({ entry, isFirst }: JournalEntryLinkProps) => {
   const as = `/journal/${slug.current}`
 
   return (
-    <Wrapper mt={6} isFirst={isFirst}>
+    <Wrapper isFirst={isFirst}>
       {publishDate ? (
         <DateTags isFirst={isFirst}>
           <Heading level={5}>{niceDate(entry.publishDate)}</Heading>

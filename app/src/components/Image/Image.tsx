@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { Maybe } from '../../types'
 import { ImageType, getImageDetails, getImageKey } from './utils'
+import { Heading } from '../Text'
 import {
   MainImage,
   HoverImage,
@@ -79,7 +80,9 @@ export const Image = ({
   const { isInViewOnce } = useInViewport(containerRef)
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
-  const { src, altText: cmsAltText, srcSet, srcSetWebp } = imageDetails || {}
+
+  const { caption, src, altText: cmsAltText, srcSet, srcSetWebp } =
+    imageDetails || {}
 
   const altText = customAltText || cmsAltText
   const hoverDetails = React.useMemo(
@@ -127,6 +130,11 @@ export const Image = ({
               sizes={sizes}
               srcSet={srcSetWebp || srcSet || undefined}
             />
+          ) : null}
+          {caption ? (
+            <Heading my={0} level={6}>
+              {caption}
+            </Heading>
           ) : null}
         </Picture>
       ) : null}

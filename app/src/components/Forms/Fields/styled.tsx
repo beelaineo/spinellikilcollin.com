@@ -101,6 +101,7 @@ export const SelectElement = styled.select`
   ${({ theme }) => css`
     height: 32px;
     max-width: 150px;
+    min-width: 150px;
     width: 100%;
     border: 1px solid;
     border-color: body.5;

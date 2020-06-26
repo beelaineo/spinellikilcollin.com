@@ -90,6 +90,14 @@ const TextWrapper = styled.div<TextWrapperProps>`
     align-items: ${getFlexAlignment(textPosition)};
     text-align: ${getTextAlignment(textPosition)};
 
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      margin: 0;
+    }
+
     ${theme.mediaQueries.tablet} {
       padding: 4;
     }
@@ -126,7 +134,7 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
             <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
             {ctaText ? (
               <CtaWrapper>
-                <Heading level={3} mt={2} fontStyle="italic">
+                <Heading level={3} my={0} fontStyle="italic">
                   {ctaText}
                 </Heading>
               </CtaWrapper>

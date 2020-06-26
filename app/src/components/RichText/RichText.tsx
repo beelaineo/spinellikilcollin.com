@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import Link from 'next/link'
 import * as BlockContent from '@sanity/block-content-to-react'
 import { Heading, Span, P, BlockQuote, Li, Ul, Ol } from '../Text'
@@ -22,7 +22,16 @@ interface CustomSerializerConfig {
   weight?: number
 }
 
-const RichTextWrapper = styled.div``
+const RichTextWrapper = styled.div`
+  p {
+    line-height: 1.8em;
+  }
+
+  picture {
+    max-width: 80%;
+    margin: 0 auto;
+  }
+`
 
 /* eslint-disable react/display-name */
 /* eslint-disable react/prop-types */

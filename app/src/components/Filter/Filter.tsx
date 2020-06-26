@@ -24,13 +24,14 @@ import { Button } from '../../components/Button'
 import { PlusMinus } from '../../components/PlusMinus'
 import { FilterWrapper } from './FilterWrapper'
 
-const { useState } = React
+const { useEffect, useState } = React
 
 type FilterType = FilterSetType | PriceRangeFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
+  open?: boolean
 }
 
 const getCurrentFilters = (
@@ -82,7 +83,11 @@ const getCurrentFilters = (
   }, [])
 }
 
-export const Filter = ({ filters, applyFilters }: FilterProps) => {
+export const Filter = ({
+  filters,
+  applyFilters,
+  open: parentOpen,
+}: FilterProps) => {
   const [open, setOpen] = useState(false)
   const {
     filterSetStates,
@@ -95,6 +100,10 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
   if (!filters || filterSetStates.length === 0) return null
 
   const toggleOpen = () => setOpen(!open)
+
+  useEffect(() => {
+    setOpen(parentOpen ?? false)
+  }, [parentOpen])
 
   const handleSubmit = () => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
@@ -111,7 +120,9 @@ export const Filter = ({ filters, applyFilters }: FilterProps) => {
       <Header>
         <OpenButton level={4} onClick={toggleOpen}>
           Filter
-          <PlusMinus open={open} />
+          <div>
+            <PlusMinus open={open} />
+          </div>
         </OpenButton>
       </Header>
       <Inner open={open}>

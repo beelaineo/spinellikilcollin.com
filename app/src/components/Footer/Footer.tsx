@@ -26,6 +26,7 @@ export const Footer = ({ router }: FooterProps) => {
   const mailerSubtitle = shopData?.siteSettings?.mailerSubtitle ?? ''
 
   const topBorder = /(^\/about)|(^\/products)/.test(router.asPath)
+
   return (
     <FooterWrapper>
       <FooterInner topBorder={topBorder}>
@@ -63,7 +64,7 @@ export const Footer = ({ router }: FooterProps) => {
           </a>
         </Socials>
         <div />
-        <Heading m={0} level={5} textTransform="uppercase">
+        <Heading m={0} level={4} fontWeight={1} textTransform="uppercase">
           Copyright © {currentYear} Spinelli Kilcollin
         </Heading>
       </FooterInnerLower>

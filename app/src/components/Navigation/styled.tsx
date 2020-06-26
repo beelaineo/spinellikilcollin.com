@@ -13,10 +13,11 @@ export const Wrapper = styled.nav`
 `
 
 export const BackdropWrapper = styled.div`
+  pointer-events: none;
   position: absolute;
   z-index: 0;
   width: 100%;
-  height: calc(100% + 25px);
+  height: 100%;
   top: 0;
   left: 0;
   svg {
@@ -32,7 +33,11 @@ export const BackdropFilter = styled.div`
   width: 100%;
   height: 100%;
   backdrop-filter: blur(7px);
-  mask-image: linear-gradient(black 70%, transparent 100%);
+  mask-image: linear-gradient(
+    black 65%,
+    rgba(0, 0, 0, 0.5) 80%,
+    transparent 100%
+  );
 `
 
 interface WithBorder {
@@ -222,7 +227,7 @@ interface SideNavigation {
 
 export const SideNavigation = styled.div`
   ${({ open }: SideNavigation) => css`
-    transform: ${open ? 'translateX(0px)' : 'translateX(-500px)'};
+    transform: ${open ? 'translateX(0px)' : 'translateX(-520px)'};
     z-index: cart;
     width: 500px;
     background-color: white;
@@ -239,8 +244,8 @@ export const NavInner = styled.div`
     padding: 7;
     height: 100vh;
     overflow: scroll;
-    border-right: 1px solid black;
     max-width: calc(100vw + 1px);
+    box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
     position: relative;
     z-index: 10;
 

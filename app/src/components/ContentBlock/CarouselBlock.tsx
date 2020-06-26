@@ -7,13 +7,17 @@ import { Heading } from '../Text'
 
 const CarouselBlockStyled = styled.div`
   ${({ theme }) => css`
-    padding: 6;
+    padding: 8 0;
     grid-column: span 2;
     text-align: center;
     background-color: body.0;
 
+    a {
+      text-decoration: none;
+    }
+
     ${theme.mediaQueries.mobile} {
-      padding: 5 0;
+      padding: 6 0 52px 0;
       overflow: hidden;
     }
   `}

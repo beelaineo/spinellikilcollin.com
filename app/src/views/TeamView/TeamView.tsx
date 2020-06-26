@@ -10,14 +10,16 @@ const TeamGrid = styled.div`
   ${breakpoints({
     xs: css`
       display: grid;
-      grid-gap: 5;
-      grid-template-columns: 1fr;
+      grid-gap: 3;
+      grid-template-columns: 1fr 1fr;
       text-align: center;
     `,
     sm: css`
+      grid-gap: 4;
       grid-template-columns: repeat(2, 1fr);
     `,
     md: css`
+      grid-gap: 5;
       grid-template-columns: repeat(3, 1fr);
     `,
   })}

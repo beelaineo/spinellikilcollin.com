@@ -8,12 +8,16 @@ import {
 import { ProductThumbnail } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Filter } from '../../components/Filter'
+import { Heading } from '../../components/Text'
+import { Button } from '../../components/Button'
 import { CollectionBlock } from './CollectionBlock'
 import { definitely } from '../../utils'
 import { Wrapper, ProductGrid, ProductGridItem } from './styled'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useSanityQuery } from '../../hooks'
 import { buildQuery } from './filterQuery'
+
+const { useState } = React
 
 interface ProductListingProps {
   collection: ShopifyCollection
@@ -27,6 +31,7 @@ interface FilterVariables {
 
 export const ProductListing = ({ collection }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
+  const [filterOpen, setFilterOpen] = useState(false)
   const { state, executeQuery, reset: resetQueryResults } = useSanityQuery<
     ShopifyProduct,
     FilterVariables
@@ -40,6 +45,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     hero,
     collectionBlocks,
   } = collection
+
+  const openFilter = () => setFilterOpen(true)
 
   // If there are collection blocks, insert them in the array
   // of products by position
@@ -73,36 +80,51 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       {hero ? <HeroBlock hero={hero} /> : null}
       <Wrapper>
         {filters && filters.length ? (
-          <Filter applyFilters={applyFilters} filters={filters} />
+          <Filter
+            applyFilters={applyFilters}
+            open={filterOpen}
+            filters={filters}
+          />
         ) : null}
-        <ProductGrid>
-          {definitely(items).map((item) => {
-            switch (item.__typename) {
-              case 'CollectionBlock':
-                return (
-                  <ProductGridItem
-                    format={item.format}
-                    key={item._key || 'some-key'}
-                  >
-                    <CollectionBlock
+        {items.length === 0 ? (
+          <>
+            <Heading py={8} level={2} textAlign="center" fontStyle="italic">
+              No products found
+            </Heading>
+            <Button onClick={openFilter} level={3}>
+              Try changing your filters
+            </Button>
+          </>
+        ) : (
+          <ProductGrid>
+            {definitely(items).map((item) => {
+              switch (item.__typename) {
+                case 'CollectionBlock':
+                  return (
+                    <ProductGridItem
                       format={item.format}
-                      collectionBlock={item}
-                    />
-                  </ProductGridItem>
-                )
-              case 'ShopifyProduct':
-                return (
-                  <ProductGridItem key={item._id || 'some-key'}>
-                    <ProductThumbnail
-                      product={item}
-                      displayPrice
-                      preferredVariantMatches={preferredVariantMatches}
-                    />
-                  </ProductGridItem>
-                )
-            }
-          })}
-        </ProductGrid>
+                      key={item._key || 'some-key'}
+                    >
+                      <CollectionBlock
+                        format={item.format}
+                        collectionBlock={item}
+                      />
+                    </ProductGridItem>
+                  )
+                case 'ShopifyProduct':
+                  return (
+                    <ProductGridItem key={item._id || 'some-key'}>
+                      <ProductThumbnail
+                        product={item}
+                        displayPrice
+                        preferredVariantMatches={preferredVariantMatches}
+                      />
+                    </ProductGridItem>
+                  )
+              }
+            })}
+          </ProductGrid>
+        )}
       </Wrapper>
     </>
   )

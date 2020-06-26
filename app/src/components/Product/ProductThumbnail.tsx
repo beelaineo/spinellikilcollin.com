@@ -128,7 +128,7 @@ export const ProductThumbnail = ({
                     {formatMoney(maxVariantPrice)}
                   </Heading>
                 ) : maxVariantPrice ? (
-                  <Heading level={3}>
+                  <Heading level={3} mt={{ xs: 0, md: '6px' }}>
                     {product.title} | {formatMoney(maxVariantPrice)}
                   </Heading>
                 ) : null}

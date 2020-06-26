@@ -1,4 +1,5 @@
 import styled, { css } from '@xstyled/styled-components'
+import { SlidesContainer } from '../../components/Carousel/styled'
 
 export const Wrapper = styled.div`
   position: relative;
@@ -14,6 +15,10 @@ export const ProductPageWrapper = styled.div`
 
     ${theme.mediaQueries.tablet} {
       padding: 7 8;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 7 5;
     }
   `}
 `
@@ -50,10 +55,9 @@ export const AffirmWrapper = styled.div`
     margin-top: 5;
     ${theme.mediaQueries.tablet} {
       grid-row: 3;
-      margin: 5 auto 0;
+      margin: 4 auto 0;
       width: 100%;
       max-width: small;
-      text-align: center;
     }
   `}
 `
@@ -63,6 +67,8 @@ export const TitleWrapper = styled.div`
     ${theme.mediaQueries.tablet} {
       text-align: center;
       grid-row: 1;
+      margin-top: -2;
+      margin-bottom: 2;
     }
   `}
 `
@@ -88,14 +94,19 @@ export const ProductImagesWrapper = styled.div`
     flex-direction: column;
     padding-right: 9;
     ${theme.mediaQueries.tablet} {
-      grid-row: 2;
       margin: 0 -${theme.space[3]}px;
+      grid-row: 2;
     }
   `}
 `
 
 export const ProductAccordionsWrapper = styled.div`
-  margin-top: 5;
+  ${({ theme }) => css`
+    margin-top: 5;
+    ${theme.mediaQueries.tablet} {
+      margin-top: 4;
+    }
+  `}
 `
 
 export const MobileProductHeaderWrapper = styled.div`
@@ -147,6 +158,12 @@ export const MobileWrapper = styled.div`
     ${theme.mediaQueries.mobile} {
       margin-left: -${theme.space[5]}px;
       width: calc(100% + ${theme.space[5]}px * 2);
+
+      ${theme.mediaQueries.mobile} {
+        & ${SlidesContainer} > *:first-child {
+          transform: scale(1.3);
+        }
+      }
     }
   `}
 `
