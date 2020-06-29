@@ -114,6 +114,7 @@ export const Filter = ({
   const handleReset = () => {
     resetAll()
     applyFilters(null)
+    setOpen(false)
   }
   return (
     <Wrapper>

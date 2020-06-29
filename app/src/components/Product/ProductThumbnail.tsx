@@ -24,13 +24,14 @@ import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
 
 const { useState, useMemo } = React
 
-interface ProductThumbnail {
+interface ProductThumbnailProps {
   product: ShopifyProduct
   displayPrice?: boolean
   displayTags?: boolean
   displaySwatches?: boolean
   headingLevel?: number
   preferredVariantMatches?: Maybe<string>[] | null
+  imageRatio?: number
 }
 
 const uniqueImages = (
@@ -52,7 +53,8 @@ export const ProductThumbnail = ({
   displaySwatches,
   headingLevel,
   preferredVariantMatches,
-}: ProductThumbnail) => {
+  imageRatio,
+}: ProductThumbnailProps) => {
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
@@ -109,15 +111,15 @@ export const ProductThumbnail = ({
           <ImageWrapper>
             <Image
               image={productImage}
-              ratio={1}
+              ratio={imageRatio || 1}
               sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
               altText={altText}
               preloadImages={allImages}
             />
-            {displayTags ? <TagBadges product={product} /> : null}
           </ImageWrapper>
 
           <ProductInfo>
+            {displayTags ? <TagBadges product={product} /> : null}
             {displayPrice ? (
               <>
                 {minVariantPrice &&
@@ -138,14 +140,14 @@ export const ProductThumbnail = ({
                 {product.title}
               </Heading>
             )}
+            {displaySwatches ? (
+              <ProductSwatches
+                onSwatchHover={onSwatchHover}
+                isSwatchActive={isSwatchActive}
+                product={product}
+              />
+            ) : null}
           </ProductInfo>
-          {displaySwatches ? (
-            <ProductSwatches
-              onSwatchHover={onSwatchHover}
-              isSwatchActive={isSwatchActive}
-              product={product}
-            />
-          ) : null}
         </a>
       </Link>
     </ProductThumb>

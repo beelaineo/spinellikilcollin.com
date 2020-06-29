@@ -1,9 +1,9 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { CollectionBlock as CollectionBlockType } from '../../types'
-import { Image, ImageWrapper } from '../../components/Image'
-import { RichText } from '../../components/RichText'
-import { CloudinaryVideo } from '../../components/CloudinaryVideo'
+import { Image, ImageWrapper } from '../Image'
+import { RichText } from '../RichText'
+import { CloudinaryVideo } from '../CloudinaryVideo'
 import {
   getColor,
   getTextAlignment,
@@ -41,7 +41,11 @@ const Padding = styled.div<WithFormat>`
 
 const Wrapper = styled.div<WrapperProps>`
   ${({ backgroundColor, textPosition, textColor }) => css`
-    position: relative;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     background-color: ${getColor(backgroundColor)};
     color: ${getColor(textColor)};
     display: flex;

@@ -35,7 +35,7 @@ export const PageView = ({ page }: PageViewProps) => {
           {title}
         </Heading>
         {subtitle ? <Heading level={2}>{subtitle}</Heading> : null}
-        <Column columnWidth="medium">
+        <Column columnwidth="medium">
           <PageText>
             <RichText
               body={bodyRaw}

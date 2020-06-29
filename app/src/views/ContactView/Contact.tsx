@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { Box } from '@xstyled/styled-components'
 import { Contact, ContactLine as ContactLineType } from '../../types'
 import { PageWrapper } from '../../components/Layout'
 import { Heading } from '../../components/Text'
@@ -41,15 +42,15 @@ const Chat = () => {
     }
   }
   return (
-    <div>
+    <Box width={{ xs: '100%', md: 'auto' }}>
       <ChatBox />
       <Heading my={4} level={2}>
         Contact us directly, via Chat
       </Heading>
-      <Button onClick={launchChat} width="100%" minWidth="300px">
+      <Button onClick={launchChat} width="100%" minWidth="220px">
         Launch Chat
       </Button>
-    </div>
+    </Box>
   )
 }
 

@@ -7,19 +7,14 @@ import { Heading } from '../../components/Text'
 import { definitely, niceDate } from '../../utils'
 import { TagLink } from '../../components/Tags'
 
-interface JournalEntryLinkProps {
-  entry: JournalEntry
-  isFirst: boolean
-}
-
 interface WrapperProps {
-  isFirst: boolean
+  featured: boolean
 }
 
 const ImageContainer = styled.div<WrapperProps>`
-  ${({ isFirst }) => css`
+  ${({ featured }) => css`
     display: block;
-    ${isFirst
+    ${featured
       ? css`
           margin-bottom: 3;
         `
@@ -31,8 +26,8 @@ const ImageContainer = styled.div<WrapperProps>`
 `
 
 const Wrapper = styled.divBox<WrapperProps>`
-  ${({ isFirst }) => css`
-    ${isFirst
+  ${({ featured }) => css`
+    ${featured
       ? css`
           display: flex;
           flex-direction: column;
@@ -57,33 +52,44 @@ const Wrapper = styled.divBox<WrapperProps>`
 `
 
 const DateTags = styled.divBox<WrapperProps>`
-  ${({ isFirst }) => css`
+  ${({ featured }) => css`
     display: flex;
-    justify-content: ${isFirst ? 'center' : 'left'};
-    margin-bottom: ${isFirst ? 2 : 0};
+    justify-content: ${featured ? 'center' : 'left'};
+    margin-bottom: ${featured ? 2 : 0};
   `}
 `
 
-export const JournalEntryLink = ({ entry, isFirst }: JournalEntryLinkProps) => {
+interface JournalEntryLinkProps {
+  entry: JournalEntry
+  featured: boolean
+}
+
+export const JournalEntryLink = ({
+  entry,
+  featured,
+}: JournalEntryLinkProps) => {
   const { publishDate, thumbnail, title, slug, tags } = entry
   if (!slug || !slug.current) return null
   const href = '/journal/[entrySlug]'
   const as = `/journal/${slug.current}`
+  console.log(thumbnail)
 
   return (
-    <Wrapper isFirst={isFirst}>
+    <Wrapper featured={featured}>
       {publishDate ? (
-        <DateTags isFirst={isFirst}>
+        <DateTags featured={featured}>
           <Heading level={5}>{niceDate(entry.publishDate)}</Heading>
           {tags
             ? definitely(tags).map((tag) => <TagLink key={tag} tag={tag} />)
             : null}
         </DateTags>
       ) : null}
-      <ImageContainer isFirst={isFirst}>
-        <Image ratio={0.45} image={thumbnail} />
-      </ImageContainer>
-      <Heading mt={2} mb={isFirst ? 5 : 2} level={2} weight={2}>
+      {thumbnail ? (
+        <ImageContainer featured={featured}>
+          <Image ratio={0.45} image={thumbnail} />
+        </ImageContainer>
+      ) : null}
+      <Heading mt={2} mb={featured ? 5 : 2} level={2} weight={2}>
         {title}
       </Heading>
       <Link href={href} as={as}>

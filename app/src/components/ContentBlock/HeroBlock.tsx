@@ -11,16 +11,11 @@ import { Hero } from '../../types'
 import { RichText } from '../RichText'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 
-interface WithAspectRatio {
-  aspectRatio: number
-}
-
-const HeroWrapper = styled.div<WithAspectRatio>`
-  ${({ theme, aspectRatio }) => css`
+const HeroWrapper = styled.div`
+  ${({ theme }) => css`
     position: relative;
     z-index: 0;
     grid-column: span 2;
-    height: ${aspectRatio * 100}vw;
     overflow: hidden;
 
     ${theme.mediaQueries.mobile} {
@@ -76,11 +71,7 @@ const HeroText = styled.div`
 
 const HeroImageWrapper = styled.div`
   ${({ theme }) => css`
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
-    height: 100%;
 
     video {
       position: absolute;
@@ -127,7 +118,7 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
   const ratio = aspectRatio || 0.5
 
   return (
-    <HeroWrapper aspectRatio={ratio}>
+    <HeroWrapper>
       <HeroImageWrapper>
         {image ? <Image ratio={ratio} image={image} /> : null}
         {<Image ratio={1} image={mobileImage || image} />}

@@ -1,13 +1,13 @@
 import styled, { css } from '@xstyled/styled-components'
 
 interface ColumnProps {
-  columnWidth?: string
+  columnwidth?: string
 }
 
 export const Column = styled.divBox`
-  ${({ columnWidth }: ColumnProps) => css`
+  ${({ columnwidth }: ColumnProps) => css`
     margin: 0 auto;
-    max-width: ${columnWidth ? columnWidth : 'xWide'};
+    max-width: ${columnwidth ? columnwidth : 'xWide'};
   `}
 `
 

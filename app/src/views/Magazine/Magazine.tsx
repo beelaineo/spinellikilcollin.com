@@ -23,6 +23,12 @@ const ImageWrapper = styled.div`
     ${theme.mediaQueries.aboveMobile} {
       padding-right: 6;
     }
+    ${theme.mediaQueries.mobile} {
+      padding-bottom: 5;
+      margin-bottom: 5;
+      border-bottom: 1px solid;
+      border-bottom-color: body.6;
+    }
   `}
 `
 const FormWrapper = styled.div`
@@ -42,7 +48,7 @@ export const MagazineView = ({ magazine }: MagazineProps) => {
   const { title, successMessage, coverImage, descriptionRaw } = magazine
   return (
     <PageWrapper>
-      <Column columnWidth="wide">
+      <Column columnwidth="wide">
         <Heading mt={4} mb={6} textAlign="center" level={1}>
           {title}
         </Heading>

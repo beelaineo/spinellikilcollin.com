@@ -138,7 +138,7 @@ export const SuccessWrapper = styled.div<WithVisible>`
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
   `}
 `
