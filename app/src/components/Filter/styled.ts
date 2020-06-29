@@ -83,7 +83,8 @@ export const FilterSetWrapper = styled.div``
 
 export const ButtonsWrapper = styled.div`
   display: grid;
-  margin: 4 7 0;
+  margin: 0 7;
+  padding: 4 0;
   grid-template-columns: 160px 160px;
   grid-gap: 4;
 `

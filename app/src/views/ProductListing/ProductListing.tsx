@@ -5,14 +5,19 @@ import {
   CollectionBlock as CollectionBlockType,
   FilterConfiguration,
 } from '../../types'
-import { ProductThumbnail } from '../../components/Product'
+import {
+  ProductGrid,
+  ProductGridItem,
+  ProductGridItemPadding,
+  ProductThumbnail,
+} from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
-import { CollectionBlock } from './CollectionBlock'
+import { CollectionBlock } from '../../components/Collection'
 import { definitely } from '../../utils'
-import { Wrapper, ProductGrid, ProductGridItem } from './styled'
+import { Wrapper, NoResultsWrapper } from './styled'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useSanityQuery } from '../../hooks'
 import { buildQuery } from './filterQuery'
@@ -87,14 +92,14 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           />
         ) : null}
         {items.length === 0 ? (
-          <>
-            <Heading py={8} level={2} textAlign="center" fontStyle="italic">
+          <NoResultsWrapper>
+            <Heading level={2} textAlign="center" fontStyle="italic">
               No products found
             </Heading>
-            <Button onClick={openFilter} level={3}>
-              Try changing your filters
+            <Button textTransform="initial" onClick={openFilter} level={2}>
+              Try using fewer filters
             </Button>
-          </>
+          </NoResultsWrapper>
         ) : (
           <ProductGrid>
             {definitely(items).map((item) => {
@@ -105,6 +110,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                       format={item.format}
                       key={item._key || 'some-key'}
                     >
+                      <ProductGridItemPadding format={item.format} />
                       <CollectionBlock
                         format={item.format}
                         collectionBlock={item}
@@ -114,9 +120,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 case 'ShopifyProduct':
                   return (
                     <ProductGridItem key={item._id || 'some-key'}>
+                      <ProductGridItemPadding />
                       <ProductThumbnail
                         product={item}
                         displayPrice
+                        imageRatio={0.8}
                         preferredVariantMatches={preferredVariantMatches}
                       />
                     </ProductGridItem>

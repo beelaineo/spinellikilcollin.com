@@ -33,7 +33,7 @@ export const TeamView = ({ teamPage }: TeamViewProps) => {
   const { title, teamMembers } = teamPage
   return (
     <PageWrapper>
-      <Column columnWidth="mediumWide">
+      <Column columnwidth="mediumWide">
         <Heading mt={4} mb={10} textAlign="center" level={0}>
           {title}
         </Heading>

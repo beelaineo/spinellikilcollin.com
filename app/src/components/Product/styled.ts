@@ -9,8 +9,8 @@ export const ProductThumb = styled.div`
   width: 100%;
   a {
     text-decoration: none;
+
     &:hover {
-      /* text-decoration: underline; */
       color: body.8;
     }
   }
@@ -27,10 +27,6 @@ export const ImageWrapper = styled.div`
 `
 
 export const TagBadgeWrapper = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

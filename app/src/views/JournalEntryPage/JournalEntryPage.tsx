@@ -47,7 +47,7 @@ export const JournalEntryPage = ({ entry }: JournalEntryPageProps) => {
           </Heading>
           {subtitle ? <Heading level={1}>{subtitle}</Heading> : null}
         </Header>
-        <Column columnWidth="medium">
+        <Column columnwidth="medium">
           <RichText
             body={bodyRaw}
             imageSizes="(max-width: 600px) 100vw, 600px"

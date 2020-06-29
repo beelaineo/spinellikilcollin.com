@@ -19,7 +19,7 @@ export const TeamMember = ({ teamMember }: TeamMemberProps) => {
       <ImageWrapper>
         <Image image={headshot} ratio={1} altText={name} />
       </ImageWrapper>
-      <Heading level={4} mb={1} weight={2}>
+      <Heading level={4} mb={0} mt={3} weight={2}>
         {name}
       </Heading>
       <Heading level={4} mt={0} weight={2}>

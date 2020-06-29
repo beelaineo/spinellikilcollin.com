@@ -12,7 +12,7 @@ export const JournalPage = ({ entries }: JournalPageProps) => {
     <PageWrapper>
       {entries.map((entry, index) => (
         <JournalEntryLink
-          isFirst={index === 0}
+          featured={index === 0}
           entry={entry}
           key={entry._id || 'some-key'}
         />

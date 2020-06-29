@@ -15,6 +15,7 @@ export const HoverImage = styled.img`
 
 export const Wrapper = styled.div`
   position: relative;
+  text-align: left;
   width: 100%;
 
   &:hover ${HoverImage} {
