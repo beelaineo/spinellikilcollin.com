@@ -18,6 +18,7 @@ export const hero = {
       name: 'aspectRatio',
       title: 'Aspect Ratio',
       type: 'number',
+      hidden: true,
       options: {
         list: [
           { title: '2:1', value: 0.5 },

@@ -13,6 +13,11 @@ export const journal = {
       },
     },
     {
+      name: 'hero',
+      title: 'Hero',
+      type: 'hero',
+    },
+    {
       name: 'title',
       label: 'Title',
       type: 'string',
