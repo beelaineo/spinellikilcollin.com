@@ -14,6 +14,12 @@ export const GlobalStyles = createGlobalStyle`
 		overflow-x: hidden;
 	}
 
+  h1, h2, h3, h4, h5, h6, p, ul, ol {
+    &:empty {
+      display: none;
+    }
+  }
+
 	button, input, select, option, textarea {
     font: serif;
 		background: white;
@@ -24,8 +30,6 @@ export const GlobalStyles = createGlobalStyle`
 		padding: 0;
 		border-radius: 0;
 	}
-
-
 
 	img {
 		max-width: 100%;

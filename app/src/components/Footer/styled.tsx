@@ -81,6 +81,7 @@ export const FooterLinks = styled.div`
       order: 2;
       padding: 0 5;
       grid-template-columns: 30% 1fr;
+      grid-column-gap: 5;
     }
   `}
 `
@@ -89,7 +90,7 @@ export const MailerWrapper = styled.div`
   ${({ theme }) => css`
     ${theme.mediaQueries.mobile} {
       order: 1;
-      margin-bottom: 56px;
+      margin-bottom: 7;
       padding: 0 5;
     }
   `}
@@ -132,6 +133,9 @@ export const InputWrapper = styled.div<WithVisible>`
 export const SuccessWrapper = styled.div<WithVisible>`
   ${({ visible }) => css`
     opacity: ${visible ? 1 : 0};
+    padding: 0 3;
+    border: 1px solid;
+    border-color: body.5;
     pointer-events: ${visible ? 'inherit' : 'none'};
     transition: 0.2s;
     position: absolute;
@@ -155,14 +159,16 @@ export const Socials = styled.div`
     a {
       display: flex;
     }
-    a + a {
-      margin-left: 7;
+    ${theme.mediaQueries.aboveMobile} {
+      a + a {
+        margin-left: 7;
+      }
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 0 6 35px;
+      padding: 0 5 35px;
       margin: 0 0 35px;
-      justify-content: center;
+      justify-content: space-between;
       border-bottom: 1px solid;
       border-color: body.4;
     }

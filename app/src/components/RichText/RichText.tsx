@@ -22,15 +22,43 @@ interface CustomSerializerConfig {
   weight?: number
 }
 
-const RichTextWrapper = styled.div`
-  p {
-    line-height: 1.8em;
-  }
+interface WithArticle {
+  article?: boolean
+}
 
-  picture {
-    max-width: 80%;
-    margin: 0 auto;
-  }
+const RichTextWrapper = styled.div<WithArticle>`
+  ${({ theme, article }) => css`
+    ${article
+      ? css`
+          h2 {
+            line-height: 1.5em;
+            margin: 1.7em 0;
+          }
+          h3,
+          h4,
+          p {
+            line-height: 1.8em;
+            margin: 1em 0;
+            font-size: 3;
+          }
+        `
+      : ''}
+    picture {
+      max-width: 80%;
+      margin: 80px auto;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      picture {
+        max-width: 80%;
+        margin: 8 auto;
+      }
+
+      h2 {
+        font-size: 22px;
+      }
+    }
+  `}
 `
 
 /* eslint-disable react/display-name */
@@ -134,6 +162,7 @@ interface RichTextProps {
   wrapper?: React.ComponentType
   imageSizes?: string
   weight?: number
+  article?: boolean
 }
 
 export const RichText = ({
@@ -142,6 +171,7 @@ export const RichText = ({
   wrapper: CustomWrapper,
   imageSizes,
   weight,
+  article,
 }: RichTextProps) => {
   const currentProductContext = useCurrentProduct()
   const currentProduct = currentProductContext?.product
@@ -153,7 +183,7 @@ export const RichText = ({
     openCustomizationModal({ currentProduct, currentVariant })
   const Wrapper = CustomWrapper || RichTextWrapper
   return body ? (
-    <Wrapper>
+    <Wrapper article={article}>
       <BlockContent
         blocks={body}
         serializers={serializers({

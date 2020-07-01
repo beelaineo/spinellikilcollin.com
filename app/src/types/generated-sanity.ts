@@ -734,6 +734,7 @@ export interface JournalEntry extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   publishDate?: Maybe<Scalars['Date']>
+  hero?: Maybe<Hero>
   title?: Maybe<Scalars['String']>
   subtitle?: Maybe<Scalars['String']>
   slug?: Maybe<Slug>
@@ -752,6 +753,7 @@ export type JournalEntryFilter = {
   _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
   publishDate?: Maybe<DateFilter>
+  hero?: Maybe<HeroFilter>
   title?: Maybe<StringFilter>
   subtitle?: Maybe<StringFilter>
   slug?: Maybe<SlugFilter>
@@ -766,6 +768,7 @@ export type JournalEntrySorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   publishDate?: Maybe<SortOrder>
+  hero?: Maybe<HeroSorting>
   title?: Maybe<SortOrder>
   subtitle?: Maybe<SortOrder>
   slug?: Maybe<SlugSorting>

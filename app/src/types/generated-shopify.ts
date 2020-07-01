@@ -2033,7 +2033,7 @@ export interface ShopifyStorefrontCustomer {
   /** The customer’s phone number. */
   phone?: Maybe<Scalars['String']>
   /**
-   * A list of tags assigned to the customer.
+   * A comma separated list of tags that have been added to the customer.
    * Additional access scope required: unauthenticated_read_customer_tags.
    */
   tags: Array<Scalars['String']>
@@ -3693,7 +3693,7 @@ export interface ShopifyStorefrontProduct
   /** The date and time when the product was published to the channel. */
   publishedAt: Scalars['DateTime']
   /**
-   * A categorization that a product can be tagged with, commonly used for filtering and searching.
+   * A comma separated list of tags that have been added to the product.
    * Additional access scope required for private apps: unauthenticated_read_product_tags.
    */
   tags: Array<Scalars['String']>
@@ -4368,7 +4368,7 @@ export interface ShopifyStorefrontShop {
    */
   productByHandle?: Maybe<ShopifyStorefrontProduct>
   /**
-   * Tags added to products.
+   * A comma separated list of tags that have been added to products.
    * Additional access scope required: unauthenticated_read_product_tags.
    * @deprecated Use `QueryRoot.productTags` instead.
    */

@@ -5,13 +5,13 @@ export const Wrapper = styled.div`
   position: relative;
   margin: 0 auto 6;
   font-family: serif;
-  padding: 6 0 0;
+  padding: 0 0 0;
   background-color: body.2;
 `
 
 export const ProductPageWrapper = styled.div`
   ${({ theme }) => css`
-    padding: 7 11 8 7;
+    padding: 0 11 8 7;
 
     ${theme.mediaQueries.tablet} {
       padding: 7 8;
@@ -93,6 +93,7 @@ export const ProductImagesWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding-right: 9;
+    padding-top: 3;
     ${theme.mediaQueries.tablet} {
       margin: 0 -${theme.space[3]}px;
       grid-row: 2;

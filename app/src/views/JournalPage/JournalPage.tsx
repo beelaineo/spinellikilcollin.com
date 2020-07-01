@@ -9,7 +9,7 @@ interface JournalPageProps {
 
 export const JournalPage = ({ entries }: JournalPageProps) => {
   return (
-    <PageWrapper>
+    <PageWrapper px={{ xs: 4, lg: 7 }}>
       {entries.map((entry, index) => (
         <JournalEntryLink
           featured={index === 0}

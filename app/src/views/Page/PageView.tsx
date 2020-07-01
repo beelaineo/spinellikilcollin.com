@@ -13,12 +13,6 @@ const PageText = styled.div`
   h3 {
     text-align: center;
   }
-
-  p,
-  li {
-    line-height: 1.8em;
-    font-size: 17px;
-  }
 `
 
 interface PageViewProps {
@@ -38,6 +32,7 @@ export const PageView = ({ page }: PageViewProps) => {
         <Column columnwidth="medium">
           <PageText>
             <RichText
+              article
               body={bodyRaw}
               imageSizes="(max-width: 600px) 100vw, 600px"
             />

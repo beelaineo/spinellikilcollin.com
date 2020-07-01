@@ -4,7 +4,7 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { JournalEntry as JournalEntryType } from '../../src/types'
 import { NotFound } from '../../src/views/NotFound'
 import { JournalEntryPage } from '../../src/views/JournalEntryPage'
-import { request } from '../../src/graphql'
+import { request, heroFragment } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const journalEntryQuery = gql`
@@ -20,8 +20,12 @@ const journalEntryQuery = gql`
       }
       tags
       bodyRaw
+      hero {
+        ...HeroFragment
+      }
     }
   }
+  ${heroFragment}
 `
 
 interface JournalEntryProps {

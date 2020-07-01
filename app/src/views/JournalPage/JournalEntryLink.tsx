@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import Link from 'next/link'
 import { JournalEntry } from '../../types'
-import { Image } from '../../components/Image'
+import { Image, Wrapper as ImageWrapper } from '../../components/Image'
 import { Heading } from '../../components/Text'
 import { definitely, niceDate } from '../../utils'
 import { TagLink } from '../../components/Tags'
@@ -12,8 +12,9 @@ interface WrapperProps {
 }
 
 const ImageContainer = styled.div<WrapperProps>`
-  ${({ featured }) => css`
+  ${({ featured, theme }) => css`
     display: block;
+    position: relative;
     ${featured
       ? css`
           margin-bottom: 3;
@@ -22,11 +23,42 @@ const ImageContainer = styled.div<WrapperProps>`
           grid-column: 1;
           grid-row: 1 / 4;
         `}
+    ${theme.mediaQueries.tablet} {
+      margin-top: 2;
+      margin-bottom: 9px;
+
+      ${featured
+        ? css`
+            margin: 0 -4;
+            width: calc(100% + (${theme.space[4]}px * 2));
+          `
+        : ''}
+    }
+    ${ImageWrapper}, img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  `}
+`
+
+const ImagePadding = styled.div<WrapperProps>`
+  ${({ featured, theme }) => css`
+    width: 100%;
+    padding-bottom: 45%;
+    ${theme.mediaQueries.tablet} {
+      padding-bottom: ${featured ? '80%' : '45%'};
+    }
   `}
 `
 
 const Wrapper = styled.divBox<WrapperProps>`
-  ${({ featured }) => css`
+  ${({ featured, theme }) => css`
+    margin: 0 auto;
+    padding: 5 0;
     ${featured
       ? css`
           display: flex;
@@ -34,6 +66,7 @@ const Wrapper = styled.divBox<WrapperProps>`
           justify-content: center;
           text-align: center;
           max-width: 800px;
+          padding-bottom: 8;
         `
       : css`
           display: grid;
@@ -43,19 +76,27 @@ const Wrapper = styled.divBox<WrapperProps>`
           max-width: 1200px;
         `}
 
-    margin: 0 auto;
-    padding: 5 0;
     & + & {
       border-top: 1px solid;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      display: block;
+      grid-template-columns: 1fr;
     }
   `}
 `
 
 const DateTags = styled.divBox<WrapperProps>`
-  ${({ featured }) => css`
+  ${({ featured, theme }) => css`
     display: flex;
     justify-content: ${featured ? 'center' : 'left'};
-    margin-bottom: ${featured ? 2 : 0};
+    margin-bottom: ${featured ? 3 : 0};
+
+    ${theme.mediaQueries.tablet} {
+      grid-row: 1;
+      margin-bottom: ${featured ? 2 : 0};
+    }
   `}
 `
 
@@ -78,7 +119,7 @@ export const JournalEntryLink = ({
     <Wrapper featured={featured}>
       {publishDate ? (
         <DateTags featured={featured}>
-          <Heading level={5}>{niceDate(entry.publishDate)}</Heading>
+          <Heading level={4}>{niceDate(entry.publishDate)}</Heading>
           {tags
             ? definitely(tags).map((tag) => <TagLink key={tag} tag={tag} />)
             : null}
@@ -86,10 +127,11 @@ export const JournalEntryLink = ({
       ) : null}
       {thumbnail ? (
         <ImageContainer featured={featured}>
-          <Image ratio={0.45} image={thumbnail} />
+          <ImagePadding featured={featured} />
+          <Image image={thumbnail} />
         </ImageContainer>
       ) : null}
-      <Heading mt={2} mb={featured ? 5 : 2} level={2} weight={2}>
+      <Heading mt={2} mb={featured ? 3 : 2} level={1} weight={2}>
         {title}
       </Heading>
       <Link href={href} as={as}>
