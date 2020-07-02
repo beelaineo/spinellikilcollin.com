@@ -100,7 +100,7 @@ export const MailerInput = styled.form`
   position: relative;
   button {
     color: body.5;
-    font-size: 2;
+    font-size: 3;
     background-color: transparent;
     position: absolute;
     top: 0;
@@ -150,7 +150,7 @@ export const SuccessWrapper = styled.div<WithVisible>`
 export const Socials = styled.div`
   ${({ theme }) => css`
     color: body.8;
-    font-size: 21px;
+    font-size: 31px;
     display: flex;
     width: 100%;
     justify-content: flex-start;

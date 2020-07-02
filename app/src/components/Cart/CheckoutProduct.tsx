@@ -34,10 +34,10 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
       <Image image={variant.image} />
       <CheckoutItemDetails>
         <div>
-          <Heading level={4} weight={2} textTransform="uppercase">
+          <Heading level={5} weight={2} textTransform="uppercase">
             {title}
           </Heading>
-          <Heading level={4} weight={2} mb={0} textTransform="uppercase">
+          <Heading level={5} weight={2} mb={0} textTransform="uppercase">
             {formatMoney(variant.priceV2)}
           </Heading>
         </div>
@@ -52,13 +52,13 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
               onChange={handleQuantityChange}
             />
           </QuantityWrapper>
-          <Heading level={4} weight={2} textTransform="uppercase">
+          <Heading level={5} weight={2} textTransform="uppercase">
             Total: {formatMoney(variant.priceV2, quantity)}
           </Heading>
         </Box>
 
         <div>
-          <Button level={3} onClick={() => updateLineItemQuantity(0)}>
+          <Button level={4} onClick={() => updateLineItemQuantity(0)}>
             Remove <TrashIcon />
           </Button>
         </div>

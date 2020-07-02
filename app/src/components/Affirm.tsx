@@ -35,7 +35,7 @@ export const Affirm = ({ price }: AffirmProps) => {
   const cents = toCents(amount)
 
   return (
-    <Heading level={4} weight={2} my={0}>
+    <Heading level={5} weight={2} my={0}>
       <span
         style={{ display: 'block' }}
         className="affirm-as-low-as"

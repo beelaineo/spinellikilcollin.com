@@ -41,7 +41,7 @@ export const RingSizerButton = ({ mobile }: RingSizerButtonProps) => {
   return (
     <Wrapper mobile={mobile} onClick={handleClick}>
       <RingSizerIcon />
-      <Heading m={0} level={4} textDecoration="underline">
+      <Heading m={0} level={5} textDecoration="underline">
         Request a sizer
       </Heading>
     </Wrapper>

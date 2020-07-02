@@ -93,10 +93,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         ) : null}
         {items.length === 0 ? (
           <NoResultsWrapper>
-            <Heading level={2} textAlign="center" fontStyle="italic">
+            <Heading level={3} textAlign="center" fontStyle="italic">
               No products found
             </Heading>
-            <Button textTransform="initial" onClick={openFilter} level={2}>
+            <Button textTransform="initial" onClick={openFilter} level={3}>
               Try using fewer filters
             </Button>
           </NoResultsWrapper>

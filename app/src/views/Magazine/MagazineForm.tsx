@@ -71,7 +71,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
     <>
       {success ? (
         <Box textAlign="center" my={4}>
-          <Heading level={2}>{successMessage}</Heading>
+          <Heading level={3}>{successMessage}</Heading>
         </Box>
       ) : (
         <Form<FormValues>

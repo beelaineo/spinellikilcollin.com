@@ -25,10 +25,10 @@ export const PageView = ({ page }: PageViewProps) => {
     <>
       {hero ? <HeroBlock hero={hero} /> : null}
       <PageWrapper>
-        <Heading textAlign="center" level={0}>
+        <Heading textAlign="center" level={1}>
           {title}
         </Heading>
-        {subtitle ? <Heading level={2}>{subtitle}</Heading> : null}
+        {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
         <Column columnwidth="medium">
           <PageText>
             <RichText

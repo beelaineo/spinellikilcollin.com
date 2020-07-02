@@ -51,7 +51,7 @@ export const ModalWrapper = styled.div`
       width: calc(100vw - ${theme.space[4]}px);
 
       h2 {
-        font-size: 3;
+        font-size: 4;
       }
     }
   `}

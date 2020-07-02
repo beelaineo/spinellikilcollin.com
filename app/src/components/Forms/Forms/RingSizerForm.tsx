@@ -104,7 +104,7 @@ export const RingSizerForm = ({
 
   return (
     <MainWrapper>
-      <Heading mt={0} level={2}>
+      <Heading mt={0} level={3}>
         Request a ring sizer
       </Heading>
       <Form
@@ -113,11 +113,11 @@ export const RingSizerForm = ({
         initialValues={initialValues}
       >
         <SuccessWrapper visible={success}>
-          <Heading color="body.8" level={3}>
+          <Heading color="body.8" level={4}>
             Thank you! We have received your request.
           </Heading>
           {onContinue ? (
-            <Button onClick={onContinue} type="button" mt={3} level={2}>
+            <Button onClick={onContinue} type="button" mt={3} level={3}>
               Continue shopping
             </Button>
           ) : null}

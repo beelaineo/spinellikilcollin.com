@@ -49,16 +49,17 @@ export const defaultTheme: DefaultTheme = {
    *   font-size
    */
   fontSizes: [
-    73, // stupid high, just don't use fontSizes.0
-    41, // h1
-    25, // h2
-    17, // h3
-    13, // readable text: p, h4
+    0,
+    73, // h1
+    41, // h2
+    25, // h3
+    17, // h4
+    13, // readable text: p, h5
+    11, // small text: h6, captions
     11, // small text: h5, captions
-    11, // small text: h6, small captions
   ],
-  tabletFontSizes: [73, 41, 25, 17, 13, 11, 11],
-  mobileFontSizes: [42, 22, 17, 17, 13, 11, 11],
+  tabletFontSizes: [0, 73, 41, 25, 17, 13, 11, 11],
+  mobileFontSizes: [0, 42, 22, 17, 17, 13, 11, 11],
   fontWeights: [0, 100, 200, 300, 400, 700],
   fonts: {
     serif,

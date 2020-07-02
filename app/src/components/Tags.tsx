@@ -9,7 +9,7 @@ export const TagLink = ({ tag }: TagLinkProps) => {
   return (
     <Heading
       ml={3}
-      level={4}
+      level={5}
       textDecoration="underline"
       textTransform="uppercase"
     >

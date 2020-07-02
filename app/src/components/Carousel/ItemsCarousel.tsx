@@ -27,7 +27,7 @@ export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
             return (
               <ProductThumbnail
                 key={_key || 'some-key'}
-                headingLevel={4}
+                headingLevel={5}
                 product={item}
               />
             )

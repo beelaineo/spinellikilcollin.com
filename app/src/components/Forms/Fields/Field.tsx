@@ -92,14 +92,14 @@ export const Field = (fieldProps: FieldProps) => {
         {children ? children : renderInner()}
       </FieldWrapper>
       {helpText ? (
-        <Heading level={4} mt={1} weight={1} color="body.3">
+        <Heading level={5} mt={1} weight={1} color="body.3">
           {helpText}
         </Heading>
       ) : null}
       <ErrorMessage
         name={fieldProps.name}
         render={(message) => (
-          <Heading level={4} weight={1} mt={1} mb={2} color="red">
+          <Heading level={5} weight={1} mt={1} mb={2} color="red">
             {message}
           </Heading>
         )}

@@ -39,7 +39,7 @@ const RichTextWrapper = styled.div<WithArticle>`
           p {
             line-height: 1.8em;
             margin: 1em 0;
-            font-size: 3;
+            font-size: 4;
           }
         `
       : ''}
@@ -135,13 +135,13 @@ const serializers = ({
 
     switch (style) {
       case 'h1':
-        return <Heading level={0} weight={weight} {...props} />
-      case 'h2':
         return <Heading level={1} weight={weight} {...props} />
-      case 'h3':
+      case 'h2':
         return <Heading level={2} weight={weight} {...props} />
-      case 'h4':
+      case 'h3':
         return <Heading level={3} weight={weight} {...props} />
+      case 'h4':
+        return <Heading level={4} weight={weight} {...props} />
       case 'h5':
         return <Heading level={5} weight={weight} {...props} />
       case 'h6':

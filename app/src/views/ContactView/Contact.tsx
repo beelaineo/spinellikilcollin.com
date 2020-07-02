@@ -25,8 +25,8 @@ const ContactLine = ({ contactLine }: ContactLineProps) => {
     : `tel:${contact.replace(/[^0-9\.]+/g, '')}`
   return (
     <ContactLineWrapper>
-      <Heading level={3}>{label}</Heading>
-      <Heading level={2}>
+      <Heading level={4}>{label}</Heading>
+      <Heading level={3}>
         <a href={href}>{contact}</a>
       </Heading>
     </ContactLineWrapper>
@@ -44,7 +44,7 @@ const Chat = () => {
   return (
     <Box width={{ xs: '100%', md: 'auto' }}>
       <ChatBox />
-      <Heading my={4} level={2}>
+      <Heading my={4} level={3}>
         Contact us directly, via Chat
       </Heading>
       <Button onClick={launchChat} width="100%" minWidth="220px">
@@ -62,7 +62,7 @@ export const ContactView = ({ contact }: ContactProps) => {
   const { title, contactLines } = contact
   return (
     <PageWrapper>
-      <Heading level={0} textAlign="center">
+      <Heading level={1} textAlign="center">
         {title || 'Contact'}
       </Heading>
       <Wrapper>

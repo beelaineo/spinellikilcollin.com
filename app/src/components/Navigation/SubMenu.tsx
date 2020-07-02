@@ -58,7 +58,7 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
     <>
       <SubmenuTop>
         <SubmenuButton onClick={toggleOpen}>
-          <Heading m={0} level={3}>
+          <Heading m={0} level={4}>
             {title.toUpperCase()}
           </Heading>
           <PlusMinus open={open} />
@@ -71,7 +71,7 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
               return (
                 <div key={link._key || 'some-key'}>
                   <PageLink link={link.link}>
-                    <Heading level={3} fontStyle="italic">
+                    <Heading level={4} fontStyle="italic">
                       {link.label || ''}
                     </Heading>
                   </PageLink>

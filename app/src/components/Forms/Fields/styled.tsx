@@ -12,7 +12,7 @@ export const FieldWrapper = styled.div`
       : css`
           color: body.8;
           font-family: serif;
-          font-size: 4;
+          font-size: 5;
         `}
     text-align: left;
     background-color: transparent;
@@ -67,7 +67,7 @@ export const Input = styled.input`
     display: block;
     border: 1px solid;
     border-color: body.5;
-    font-size: 4;
+    font-size: 5;
     font-family: serif;
     background-color: white;
     color: ${color ? theme.colors[color] : theme.colors.body[8]};
@@ -115,7 +115,7 @@ export const SelectElement = styled.select`
     appearance: none;
     -webkit-border-radius: 0px;
     color: body.6;
-    font-size: 4;
+    font-size: 5;
 
     background-image: linear-gradient(45deg, transparent 50%, gray 50%),
       linear-gradient(135deg, gray 50%, transparent 50%);

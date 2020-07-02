@@ -61,7 +61,7 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
               product={product}
               displaySwatches={false}
               displayTags={false}
-              headingLevel={4}
+              headingLevel={5}
             />
           )
         })}

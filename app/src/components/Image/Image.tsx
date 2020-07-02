@@ -132,7 +132,7 @@ export const Image = ({
             />
           ) : null}
           {caption ? (
-            <Heading my={0} level={4}>
+            <Heading my={0} level={5}>
               {caption}
             </Heading>
           ) : null}

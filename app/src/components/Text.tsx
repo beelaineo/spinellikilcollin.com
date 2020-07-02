@@ -96,7 +96,7 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
   return (
     <TextBase
       as="p"
-      level={4}
+      level={5}
       family={family}
       weight={weight}
       color={color}
@@ -121,7 +121,7 @@ export const LabelBase = createTextBase('label')
 
 export const Label = styled(LabelBase)`
   ${({ color }) => css`
-    font-size: 4;
+    font-size: 5;
     color: ${color || 'body.6'};
     margin: 0;
   `}
@@ -158,7 +158,7 @@ export const Ul = styled.ul`
 const LiBase = createTextBase('li')
 
 export const Li = styled(LiBase)`
-  font-size: 4;
+  font-size: 5;
   margin: 0;
 `
 
@@ -171,7 +171,7 @@ export const Input = styled.input`
   border: 1px solid;
   border-color: body.4;
   font-family: serif;
-  font-size: 4;
+  font-size: 5;
   width: 100%;
   height: 32px;
   padding: 0 3;

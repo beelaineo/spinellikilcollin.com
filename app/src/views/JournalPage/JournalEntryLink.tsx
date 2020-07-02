@@ -113,13 +113,12 @@ export const JournalEntryLink = ({
   if (!slug || !slug.current) return null
   const href = '/journal/[entrySlug]'
   const as = `/journal/${slug.current}`
-  console.log(thumbnail)
 
   return (
     <Wrapper featured={featured}>
       {publishDate ? (
         <DateTags featured={featured}>
-          <Heading level={4}>{niceDate(entry.publishDate)}</Heading>
+          <Heading level={5}>{niceDate(entry.publishDate)}</Heading>
           {tags
             ? definitely(tags).map((tag) => <TagLink key={tag} tag={tag} />)
             : null}
@@ -131,12 +130,12 @@ export const JournalEntryLink = ({
           <Image image={thumbnail} />
         </ImageContainer>
       ) : null}
-      <Heading mt={2} mb={featured ? 3 : 2} level={1} weight={2}>
+      <Heading mt={2} mb={featured ? 3 : 2} level={2} weight={2}>
         {title}
       </Heading>
       <Link href={href} as={as}>
         <a>
-          <Heading level={4} fontStyle="italic" textDecoration="underline">
+          <Heading level={5} fontStyle="italic" textDecoration="underline">
             Read More
           </Heading>
         </a>

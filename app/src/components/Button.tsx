@@ -13,7 +13,7 @@ export const Button = styled.buttonBox`
     text-transform: uppercase;
     height: 42px;
     padding: 0 3;
-    font-size: 4;
+    font-size: 5;
     svg {
       display: inline-block;
       margin: 0 0.2em;

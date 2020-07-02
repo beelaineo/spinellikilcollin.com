@@ -46,13 +46,13 @@ export const CarouselBlock = ({ content }: CarouselBlockProps) => {
   return (
     <CarouselBlockStyled>
       {collection ? (
-        <Heading level={3}>
+        <Heading level={4}>
           <Link href="/collections/[collectionSlug]" as={linkAs}>
             <a>{title}</a>
           </Link>
         </Heading>
       ) : (
-        <Heading level={3}>{title}</Heading>
+        <Heading level={4}>{title}</Heading>
       )}
       <CarouselContainer>
         {collection ? (

@@ -49,7 +49,7 @@ export const MagazineView = ({ magazine }: MagazineProps) => {
   return (
     <PageWrapper>
       <Column columnwidth="wide">
-        <Heading mt={4} mb={6} textAlign="center" level={1}>
+        <Heading mt={4} mb={6} textAlign="center" level={2}>
           {title}
         </Heading>
         <Inner>

@@ -89,7 +89,7 @@ export const ProductOptionSelector = ({
 
   return (
     <Wrapper>
-      <Heading level={4} mb={2}>
+      <Heading level={5} mb={2}>
         {option.name}
       </Heading>
       <SelectWrapper>

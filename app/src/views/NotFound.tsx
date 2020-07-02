@@ -17,10 +17,10 @@ const Main = styled.div`
 export const NotFound = () => (
   <PageWrapper py={0}>
     <Main>
-      <Heading fontStyle="italic" level={1}>
+      <Heading fontStyle="italic" level={2}>
         Sorry, this page was not found
       </Heading>
-      <Heading level={2}>
+      <Heading level={3}>
         <Link href="/">Return to the homepage</Link>
       </Heading>
     </Main>

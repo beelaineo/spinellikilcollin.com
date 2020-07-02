@@ -46,12 +46,12 @@ export const Checkout = () => {
       <CloseButtonWrapper>
         <Hamburger open={true} onClick={closeCart} />
       </CloseButtonWrapper>
-      <Heading my={4} level={2} color="dark" textAlign="center">
+      <Heading my={4} level={3} color="dark" textAlign="center">
         {title}
       </Heading>
       {lineItems.length === 0 ? (
         <CartInner>
-          <Heading level={3}>Your cart is empty</Heading>
+          <Heading level={4}>Your cart is empty</Heading>
         </CartInner>
       ) : (
         <>
@@ -64,11 +64,11 @@ export const Checkout = () => {
           <CartBottom>
             {checkout && checkout?.paymentDueV2?.amount ? (
               <>
-                <Heading level={3} weight={2}>
+                <Heading level={4} weight={2}>
                   Total:
                 </Heading>
                 <div>
-                  <Heading level={3} textTransform="uppercase" weight={2}>
+                  <Heading level={4} textTransform="uppercase" weight={2}>
                     ${checkout.paymentDueV2.amount}
                   </Heading>
                   <Affirm price={checkout.paymentDueV2} />
@@ -77,11 +77,11 @@ export const Checkout = () => {
             ) : null}
             <div>
               <Form<FormValues> onSubmit={handleSubmit} initialValues={{}}>
-                <Heading level={4} textAlign="center">
+                <Heading level={5} textAlign="center">
                   Please leave special instructions below
                 </Heading>
                 <Field type="textarea" name="notes" />
-                <Button type="submit" level={1} disabled={loading}>
+                <Button type="submit" level={2} disabled={loading}>
                   Checkout
                 </Button>
 

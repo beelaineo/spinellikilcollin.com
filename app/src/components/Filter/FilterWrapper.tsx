@@ -86,7 +86,7 @@ export const FilterWrapper = ({
   return (
     <Wrapper rowSpan={rowSpan} type={type}>
       <ButtonWrapper>
-        <OpenButton textTransform="upperCase" level={3} onClick={toggleOpen}>
+        <OpenButton textTransform="upperCase" level={4} onClick={toggleOpen}>
           {heading}
           <UpDown open={open} />
         </OpenButton>

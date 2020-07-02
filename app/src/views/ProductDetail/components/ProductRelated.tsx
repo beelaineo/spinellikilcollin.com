@@ -36,13 +36,13 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
   return (
     <ProductRelatedWrapper>
       {carousel.__typename === 'ShopifyCollection' ? (
-        <Heading level={3} m={3} textTransform="capitalize" textAlign="center">
+        <Heading level={4} m={3} textTransform="capitalize" textAlign="center">
           <Link href="/collections/[collectionSlug]" as={linkAs}>
             <a>{carousel.title || 'More like this'}</a>
           </Link>
         </Heading>
       ) : (
-        <Heading level={3} m={3} textTransform="capitalize" textAlign="center">
+        <Heading level={4} m={3} textTransform="capitalize" textAlign="center">
           {carousel.title || 'More like this'}
         </Heading>
       )}

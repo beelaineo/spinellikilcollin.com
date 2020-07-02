@@ -14,7 +14,6 @@ interface PageLinkProps {
 export const PageLink = ({ pageLink, index }: PageLinkProps) => {
   const { title, summary, image, ctaText, linkedPage } = pageLink
   if (!linkedPage) return null
-  console.log(summary)
   const { href, as } = getPageLinkUrl(linkedPage)
   return (
     <PageLinkWrapper>
@@ -35,7 +34,7 @@ export const PageLink = ({ pageLink, index }: PageLinkProps) => {
       <PageLinkBody isOdd={Boolean(index % 2)}>
         <Link href={href} as={as}>
           <a>
-            <Heading mb={0} level={1}>
+            <Heading mb={0} level={2}>
               {title}
             </Heading>
             <Heading
@@ -43,14 +42,14 @@ export const PageLink = ({ pageLink, index }: PageLinkProps) => {
               mx="auto"
               textAlign="center"
               maxWidth={{ xs: 'calc(100% - 20px)', md: '360px' }}
-              level={2}
+              level={3}
             >
               {summary}
             </Heading>
             {ctaText ? (
               <Heading
                 mb="-5px"
-                level={3}
+                level={4}
                 fontStyle="italic"
                 textDecoration="underline"
               >

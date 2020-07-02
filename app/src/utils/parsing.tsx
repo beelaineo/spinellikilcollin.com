@@ -41,7 +41,7 @@ const transform = (node, index) => {
     case 'h5':
     case 'h6':
       return (
-        <Heading style={styles} level={3} key={index}>
+        <Heading style={styles} level={4} key={index}>
           {node.childNodes.map(transform)}
         </Heading>
       )

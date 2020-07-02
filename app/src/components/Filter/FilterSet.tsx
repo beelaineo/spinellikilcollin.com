@@ -72,7 +72,7 @@ export const FilterSet = ({
   return (
     <FilterSetWrapper>
       <HeadingWrapper>
-        <Heading textTransform="uppercase" mt={0} mb={3} level={4}>
+        <Heading textTransform="uppercase" mt={0} mb={3} level={5}>
           {heading}
         </Heading>
       </HeadingWrapper>

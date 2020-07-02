@@ -109,7 +109,7 @@ export const LogoWrapper = styled.div`
 
 export const NavHeader = styled.button`
   ${({ active }: WithActive) => css`
-    font-size: 5;
+    font-size: 6;
     border-top: 2px solid transparent;
     border-bottom: 2px solid ${active ? 'black' : 'transparent'};
     color: inherit;
@@ -259,7 +259,7 @@ export const NavInner = styled.div`
         padding: 5 0 3;
         border-top: 1px solid black;
         text-transform: uppercase;
-        font-size: 5;
+        font-size: 6;
       }
     }
 

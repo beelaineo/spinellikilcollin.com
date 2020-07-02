@@ -28,7 +28,7 @@ export const Wrapper = styled.div`
 `
 
 export const Label = styled.button`
-  font-size: 4;
+  font-size: 5;
   font-family: serif;
   position: relative;
   padding: 3 0;

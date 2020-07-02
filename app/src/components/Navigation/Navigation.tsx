@@ -66,7 +66,7 @@ const NavigationMain = () => {
           <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
             {cartCount ? (
               <CartBadge>
-                <Heading m={0} fontWeight={4} level={4}>
+                <Heading m={0} fontWeight={4} level={5}>
                   {cartCount}
                 </Heading>
               </CartBadge>

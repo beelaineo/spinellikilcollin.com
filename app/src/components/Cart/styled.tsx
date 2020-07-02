@@ -46,7 +46,7 @@ export const CartNav = styled.div`
   > button {
     min-width: 30px;
     border-radius: 3px;
-    font-size: 3;
+    font-size: 4;
   }
 `
 

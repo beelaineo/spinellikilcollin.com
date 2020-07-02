@@ -14,11 +14,11 @@ export const MobileProductHeader = ({
 }: MobileProductHeaderProps) => {
   return (
     <>
-      <Heading level={2} weight={1}>
+      <Heading level={3} weight={1}>
         {product.title}
       </Heading>
       {currentVariant?.sourceData?.priceV2 ? (
-        <Heading level={4} weight={4}>
+        <Heading level={5} weight={4}>
           ${formatMoney(currentVariant.sourceData.priceV2)}
         </Heading>
       ) : null}

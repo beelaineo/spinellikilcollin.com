@@ -24,7 +24,7 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
 
       <NavInner>
         <div>
-          <Heading level={4} fontStyle="italic">
+          <Heading level={5} fontStyle="italic">
             What are you looking for?
           </Heading>
           <Input placeholder="search" />
@@ -48,7 +48,7 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
                     <PageLink
                       link={menuItem.link}
                       render={(inferredLabel) => (
-                        <Heading m={0} level={3}>
+                        <Heading m={0} level={4}>
                           {menuItem.label
                             ? menuItem.label.toUpperCase()
                             : inferredLabel

@@ -32,7 +32,7 @@ const DialingCode = styled(Heading)`
 const CountryButton = styled.div`
   display: block;
   text-align: center;
-  font-size: 2;
+  font-size: 3;
   padding: 0 2 0 19px;
   border: 1px solid;
   margin-right: 1;
@@ -71,7 +71,7 @@ export const CountryCodeSelector = ({
           {currentOption ? currentOption.meta.flagEmoji : ''}
         </CountryButton>
         <HiddenSelect options={options} name={name} />
-        <DialingCode level={3} color="body.1">
+        <DialingCode level={4} color="body.1">
           {dialingCode ? '+' + dialingCode : ''}
         </DialingCode>
       </ButtonWrapper>

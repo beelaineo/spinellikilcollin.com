@@ -16,7 +16,7 @@ interface ImageTextBlockProps {
   content: ImageTextBlockType
 }
 
-const RichTextWrapper = (props: any) => <Heading level={2} {...props} />
+const RichTextWrapper = (props: any) => <Heading level={3} {...props} />
 
 interface WithLayout {
   layout?: string | null
@@ -134,7 +134,7 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
             <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
             {ctaText ? (
               <CtaWrapper>
-                <Heading level={3} my={0} fontStyle="italic">
+                <Heading level={4} my={0} fontStyle="italic">
                   {ctaText}
                 </Heading>
               </CtaWrapper>

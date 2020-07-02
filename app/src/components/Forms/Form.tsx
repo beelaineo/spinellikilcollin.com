@@ -41,12 +41,12 @@ export function Form<Values extends FormikValues>({
   return (
     <FormWrapper disabled={disabled}>
       {title ? (
-        <Heading level={2} color="primaryMain">
+        <Heading level={3} color="primaryMain">
           {title}
         </Heading>
       ) : null}
       {description ? (
-        <Heading level={4} color="offset.1">
+        <Heading level={5} color="offset.1">
           {description}
         </Heading>
       ) : null}

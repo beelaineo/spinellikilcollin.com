@@ -21,7 +21,7 @@ const NumberButton = styled.button`
   border-color: higlight.0;
   color: highlight.1;
   width: 3;
-  font-size: 2;
+  font-size: 3;
   font-weight: 100;
 `
 
@@ -34,7 +34,7 @@ const NumberInputElement = styled(Input)`
   display: block;
   margin: 0;
   border-left-width: 0;
-  font-size: 2;
+  font-size: 3;
   font-weight: 500;
   font-family: sans;
   border-right-width: 0;

@@ -45,11 +45,11 @@ export const JournalEntryPage = ({ entry }: JournalEntryPageProps) => {
                 ))}
               </DateTags>
             ) : null}
-            <Heading lineHeight="1em" mb={4} level={0} weight={2}>
+            <Heading lineHeight="1em" mb={4} level={1} weight={2}>
               {title}
             </Heading>
             {subtitle ? (
-              <Heading fontStyle="italic" level={1}>
+              <Heading fontStyle="italic" level={2}>
                 {subtitle}
               </Heading>
             ) : null}

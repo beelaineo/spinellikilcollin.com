@@ -42,15 +42,15 @@ export const NewsletterSignup = ({
 
   return (
     <MailerWrapper>
-      <Heading my={0} level={3}>
+      <Heading my={0} level={4}>
         {mailerTitle}
       </Heading>
-      <Heading mb={3} level={4}>
+      <Heading mb={3} level={5}>
         {mailerSubtitle}
       </Heading>
       <MailerInput onSubmit={handleSubmit}>
         <SuccessWrapper visible={success}>
-          <Heading my={0} color="body.6" textAlign="left" level={4}>
+          <Heading my={0} color="body.6" textAlign="left" level={5}>
             Thank you! You have been subscribed.
           </Heading>
         </SuccessWrapper>

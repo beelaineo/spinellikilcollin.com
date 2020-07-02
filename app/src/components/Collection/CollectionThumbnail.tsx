@@ -20,7 +20,7 @@ export const CollectionThumbnail = ({
           <Image image={collection?.sourceData?.image} ratio={1} />
         </ImageWrapper>
         <TextWrapper>
-          <Heading level={3}>{collection.title}</Heading>
+          <Heading level={4}>{collection.title}</Heading>
           {collection.products && collection.products.length ? (
             <Heading level={6}>{collection.products.length} items</Heading>
           ) : null}

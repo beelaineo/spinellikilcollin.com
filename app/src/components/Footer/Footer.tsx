@@ -33,7 +33,7 @@ export const Footer = ({ router }: FooterProps) => {
         <FooterLinks>
           {footerLinks.map((link) =>
             link ? (
-              <Heading m={0} key={link._key || 'some-key'} level={3}>
+              <Heading m={0} key={link._key || 'some-key'} level={4}>
                 <PageLink link={link} />
               </Heading>
             ) : null,
@@ -64,7 +64,7 @@ export const Footer = ({ router }: FooterProps) => {
           </a>
         </Socials>
         <div />
-        <Heading m={0} level={4} fontWeight={1} textTransform="uppercase">
+        <Heading m={0} level={5} fontWeight={1} textTransform="uppercase">
           Copyright © {currentYear} Spinelli Kilcollin
         </Heading>
       </FooterInnerLower>

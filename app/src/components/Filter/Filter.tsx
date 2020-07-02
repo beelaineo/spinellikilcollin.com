@@ -119,7 +119,7 @@ export const Filter = ({
   return (
     <Wrapper>
       <Header>
-        <OpenButton level={4} onClick={toggleOpen}>
+        <OpenButton level={5} onClick={toggleOpen}>
           Filter
           <div>
             <PlusMinus open={open} />
@@ -172,7 +172,7 @@ export const Filter = ({
           <Button type="button" onClick={handleSubmit}>
             Apply Filters
           </Button>
-          <Button level={2} type="button" onClick={handleReset}>
+          <Button level={3} type="button" onClick={handleReset}>
             Reset
           </Button>
         </ButtonsWrapper>

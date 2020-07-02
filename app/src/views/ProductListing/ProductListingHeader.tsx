@@ -13,7 +13,7 @@ export const ProductListingHeader = ({
   const { description } = sourceData || {}
   return (
     <div>
-      <Heading level={2}>{title}</Heading>
+      <Heading level={3}>{title}</Heading>
       <p>{description}</p>
     </div>
   )
