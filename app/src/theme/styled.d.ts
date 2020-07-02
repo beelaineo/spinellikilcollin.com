@@ -13,6 +13,7 @@ declare module 'styled-components' {
     }
     fontSizes: Array<number | number[]>
     mobileFontSizes: number[]
+    tabletFontSizes: number[]
     fontWeights: number[]
 
     radii: {

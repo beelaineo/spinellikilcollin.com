@@ -125,7 +125,9 @@ export const CustomizationForm = ({
 
   return (
     <MainWrapper>
-      <Heading level={2}>Customization Inquiry</Heading>
+      <Heading mt={0} level={2}>
+        Customization Inquiry
+      </Heading>
       {product ? <ProductBadge product={product} /> : null}
       <SuccessWrapper visible={success}>
         <Heading color="body.8" level={3}>

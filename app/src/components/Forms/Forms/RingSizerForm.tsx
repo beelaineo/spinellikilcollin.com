@@ -104,7 +104,9 @@ export const RingSizerForm = ({
 
   return (
     <MainWrapper>
-      <Heading level={2}>Request a ring sizer</Heading>
+      <Heading mt={0} level={2}>
+        Request a ring sizer
+      </Heading>
       <Form
         disabled={submitting}
         onSubmit={handleSubmit}

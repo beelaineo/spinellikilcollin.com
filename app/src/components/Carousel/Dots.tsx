@@ -13,14 +13,13 @@ interface WithActive {
 
 const Wrapper = styled.div`
   ${({ theme }) => css`
-    margin: 3 auto 2;
+    margin: 7 auto 3;
     padding: 0;
     position: relative;
     z-index: 10;
 
     ${theme.mediaQueries.mobile} {
-      padding: 0 5;
-      margin-top: calc(${theme.space[5]}px - 2px);
+      padding: 0 0;
     }
   `}
 `

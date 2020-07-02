@@ -41,12 +41,7 @@ export const ProductDetailHeader = ({
           {variantTitle || product.title}
         </Heading>
         {currentVariant?.sourceData?.priceV2 ? (
-          <Heading
-            level={3}
-            weight={1}
-            mb={{ xs: 2, md: 0 }}
-            mt={{ xs: 1, md: 2 }}
-          >
+          <Heading level={3} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
             {formatMoney(currentVariant?.sourceData?.priceV2)}
           </Heading>
         ) : null}

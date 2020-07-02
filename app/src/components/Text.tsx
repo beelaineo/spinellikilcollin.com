@@ -22,23 +22,13 @@ const getCustomTextStyles = ({
   fontStyle,
   textDecoration,
   weight,
-  level,
-  theme,
 }: CustomTextProps) => css`
-  font-size: ${level};
   font-family: ${family};
   font-weight: ${weight};
   font-style: ${fontStyle};
   color: ${color};
   white-space: pre-line;
   text-decoration: ${textDecoration};
-  ${theme.mediaQueries.tablet} {
-    ${level !== undefined
-      ? css`
-          font-size: ${theme.mobileFontSizes[level]}px;
-        `
-      : ''}
-  }
 `
 
 const createTextBase = (as: any) => styled(as)`
@@ -46,11 +36,6 @@ const createTextBase = (as: any) => styled(as)`
     ${getCustomTextStyles(props)}
     line-height: 1.4em;
     margin: 2 0 0.5em;
-
-    a {
-      text-decoration: underline;
-      color: bronze;
-    }
 
     strong {
       font-weight: 4;
@@ -132,7 +117,7 @@ interface LabelProps {
   children: string
 }
 
-const LabelBase = createTextBase('label')
+export const LabelBase = createTextBase('label')
 
 export const Label = styled(LabelBase)`
   ${({ color }) => css`

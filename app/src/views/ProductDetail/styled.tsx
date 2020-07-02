@@ -14,11 +14,11 @@ export const ProductPageWrapper = styled.div`
     padding: 0 11 8 7;
 
     ${theme.mediaQueries.tablet} {
-      padding: 7 8;
+      padding: 9 7 7;
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 7 5;
+      padding: 9 7 7;
     }
   `}
 `
@@ -31,7 +31,7 @@ export const ProductDetails = styled.div`
     min-height: 75vh;
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr;
-      padding: 0 0 7;
+      padding: 0 0;
     }
   `}
 `
@@ -68,7 +68,7 @@ export const TitleWrapper = styled.div`
       text-align: center;
       grid-row: 1;
       margin-top: -2;
-      margin-bottom: 2;
+      margin-bottom: 0;
     }
   `}
 `
@@ -95,8 +95,7 @@ export const ProductImagesWrapper = styled.div`
     padding-right: 9;
     padding-top: 3;
     ${theme.mediaQueries.tablet} {
-      margin: 0 -${theme.space[3]}px;
-      grid-row: 2;
+      display: none;
     }
   `}
 `
@@ -152,19 +151,20 @@ export const MobileWrapper = styled.div`
     display: none;
     ${theme.mediaQueries.tablet} {
       display: block;
-      margin-left: -${theme.space[8]}px;
-      width: calc(100% + ${theme.space[8]}px * 2);
+      margin: 7 0 2;
     }
 
     ${theme.mediaQueries.mobile} {
-      margin-left: -${theme.space[5]}px;
-      width: calc(100% + ${theme.space[5]}px * 2);
-
-      ${theme.mediaQueries.mobile} {
-        & ${SlidesContainer} > *:first-child {
-          transform: scale(1.3);
-        }
+      & ${SlidesContainer} > *:first-child {
+        transform: scale(1.3);
       }
+    }
+  `}
+`
+export const MainImage = styled.div`
+  ${({ theme }) => css`
+    ${theme.mediaQueries.tablet} {
+      display: none;
     }
   `}
 `
@@ -186,7 +186,7 @@ export const ProductGalleryThumbnails = styled.div`
 export const ProductRelatedWrapper = styled.div`
   ${({ theme }) => css`
     background-color: body.0;
-    padding: 7;
+    padding: 7 0;
     ${theme.mediaQueries.mobile} {
       padding: 7 0;
     }

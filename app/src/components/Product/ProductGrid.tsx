@@ -7,12 +7,14 @@ export const ProductGrid = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-content: space-evenly;
-    padding: 6 0;
+    padding: 0 0 3;
     grid-auto-rows: min-content;
     grid-auto-flow: row dense;
+
     > a {
       text-decoration: none;
     }
+
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr 1fr;
     }

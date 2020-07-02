@@ -92,7 +92,7 @@ export const TextArea = styled(Input)`
     resize: none;
     ${theme.mediaQueries.mobile} {
       padding: 2;
-      height: 120px;
+      height: 80px;
     }
   `}
 `

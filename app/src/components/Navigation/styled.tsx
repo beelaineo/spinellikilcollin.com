@@ -55,11 +55,13 @@ export const Inner = styled.div<WithBorder>`
     width: 100%;
 
     ${theme.mediaQueries.tablet} {
-      padding: calc(${theme.space[3]}px + 1px) 0 2;
-      max-width: calc(100% - (${theme.space[4]}px * 2));
+      padding: 6 0 2;
+      max-width: calc(100% - (${theme.space[7]}px * 2));
     }
     ${theme.mediaQueries.mobile} {
+      padding-top: 13px;
       grid-template-columns: 20px 1fr 20px;
+      max-width: calc(100% - (${theme.space[4]}px * 2));
     }
   `}
 `

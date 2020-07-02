@@ -2,14 +2,8 @@ import * as React from 'react'
 import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
 import { FilterSetState } from './reducer'
 import { PriceRangeFilterWrapper } from './styled'
-import { Heading, Span } from '../Text'
-import {
-  HeadingWrapper,
-  Slider,
-  KnobHandle,
-  KnobDot,
-  KnobLabel,
-} from './styled'
+import { Span } from '../Text'
+import { HeadingWrapper, Slider, KnobHandle, KnobDot } from './styled'
 import { Label } from '../Forms/Fields/styled'
 
 const { useEffect, useState } = React
@@ -169,15 +163,15 @@ export function PriceRangeFilter({
     setCurrentMaxPrice(Math.ceil(maxPrice * pos))
   return (
     <PriceRangeFilterWrapper>
-      <Label htmlFor={_key || 'some-key'}>
-        <HeadingWrapper>
+      <HeadingWrapper>
+        <Label htmlFor={_key || 'some-key'}>
           <Span textTransform="uppercase" mr={2} color="body.9">
             Price Range:
           </Span>
           From {parsePriceString(currentMinPrice)} to{' '}
           {parsePriceString(currentMaxPrice)}
-        </HeadingWrapper>
-      </Label>
+        </Label>
+      </HeadingWrapper>
       <Slider ref={setContainer}>
         <Knob
           amount={currentMinPrice}

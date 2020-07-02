@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
   background-color: white;
   width: 100%;
   position: relative;
-  margin-bottom: 4;
 `
 
 export const Header = styled.div`

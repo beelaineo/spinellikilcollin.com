@@ -18,6 +18,7 @@ import {
   Thumbnails,
   ThumbnailButton,
   MobileWrapper,
+  MainImage,
   DesktopWrapper,
 } from '../styled'
 import { definitely } from '../../../utils'
@@ -61,14 +62,6 @@ interface ProductImagesProps {
   currentVariant: ShopifyProductVariant
   screen: string
 }
-
-const MainImage = styled.div`
-  ${({ theme }) => css`
-    ${theme.mediaQueries.tablet} {
-      display: none;
-    }
-  `}
-`
 
 const getKey = (image: ShopifySourceImage | RichImage): string => {
   switch (image.__typename) {

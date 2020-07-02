@@ -118,25 +118,25 @@ export const ProductThumbnail = ({
             />
           </ImageWrapper>
 
-          <ProductInfo>
-            {displayTags ? <TagBadges product={product} /> : null}
+          <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>
+            {displayTags ? <TagBadges product={product} /> : <div />}
             {displayPrice ? (
               <>
                 {minVariantPrice &&
                 maxVariantPrice &&
                 minVariantPrice.amount !== maxVariantPrice.amount ? (
-                  <Heading level={3}>
+                  <Heading my={0} level={headingLevel || 3}>
                     {product.title} | {formatMoney(minVariantPrice)} -{' '}
                     {formatMoney(maxVariantPrice)}
                   </Heading>
                 ) : maxVariantPrice ? (
-                  <Heading level={3} mt={{ xs: 0, md: '6px' }}>
+                  <Heading level={headingLevel || 3} my={0}>
                     {product.title} | {formatMoney(maxVariantPrice)}
                   </Heading>
                 ) : null}
               </>
             ) : (
-              <Heading textAlign="center" level={headingLevel || 3}>
+              <Heading textAlign="center" my={0} level={headingLevel || 3}>
                 {product.title}
               </Heading>
             )}
@@ -146,7 +146,9 @@ export const ProductThumbnail = ({
                 isSwatchActive={isSwatchActive}
                 product={product}
               />
-            ) : null}
+            ) : (
+              <div />
+            )}
           </ProductInfo>
         </a>
       </Link>

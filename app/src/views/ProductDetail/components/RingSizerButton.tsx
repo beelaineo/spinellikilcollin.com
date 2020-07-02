@@ -29,7 +29,7 @@ const Wrapper = styled.button<WithMobile>`
 
     ${theme.mediaQueries.tablet} {
       display: ${mobile ? 'flex' : 'none'};
-      margin: 3 0 0;
+      margin: 4 0 0;
       padding: 0;
     }
   `}

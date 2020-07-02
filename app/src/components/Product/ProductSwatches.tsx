@@ -74,9 +74,8 @@ export const ProductSwatches = ({
   isSwatchActive,
 }: ProductSwatchesProps) => {
   const swatchOptions = getSwatchOptions(product.options)
-  if (!swatchOptions.length) return null
   return (
-    <>
+    <div>
       {swatchOptions.map((option) => (
         <OptionSwatches
           option={option}
@@ -86,6 +85,6 @@ export const ProductSwatches = ({
           isSwatchActive={isSwatchActive}
         />
       ))}
-    </>
+    </div>
   )
 }

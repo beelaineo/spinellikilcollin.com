@@ -38,8 +38,7 @@ export const ModalWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
     padding: 4 5 5;
-    max-width: calc(100% - ${theme.space[4]}px);
-    min-width: 375px;
+    max-width: calc(100% - (${theme.space[4]}px * 2));
     z-index: 2;
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
     border: 1px solid;
@@ -61,8 +60,9 @@ export const ModalWrapper = styled.div`
 export const CloseButton = styled.button`
   ${({ theme }) => css`
     position: absolute;
-    top: ${theme.space[3]}px;
-    right: ${theme.space[3]}px;
+    z-index: 20;
+    top: ${theme.space[5]}px;
+    right: ${theme.space[5]}px;
     background-color: transparent;
     width: 12px;
     height: 12px;

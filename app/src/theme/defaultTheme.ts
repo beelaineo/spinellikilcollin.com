@@ -57,6 +57,7 @@ export const defaultTheme: DefaultTheme = {
     11, // small text: h5, captions
     11, // small text: h6, small captions
   ],
+  tabletFontSizes: [73, 41, 25, 17, 13, 11, 11],
   mobileFontSizes: [42, 22, 17, 17, 13, 11, 11],
   fontWeights: [0, 100, 200, 300, 400, 700],
   fonts: {

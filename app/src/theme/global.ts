@@ -20,6 +20,8 @@ export const GlobalStyles = createGlobalStyle`
     }
   }
 
+
+
 	button, input, select, option, textarea {
     font: serif;
 		background: white;
