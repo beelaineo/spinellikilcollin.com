@@ -16,10 +16,12 @@ import {
   SideNavigation,
   LogoWrapper,
   NavInnerBackground,
+  ToolsWrapper,
 } from './styled'
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { NavigationProvider, useNavigation } from './NavigationProvider'
+import { CurrencySelector } from './CurrencySelector'
 
 const NavigationMain = () => {
   const {
@@ -63,16 +65,19 @@ const NavigationMain = () => {
               </a>
             </Link>
           </LogoWrapper>
-          <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
-            {cartCount ? (
-              <CartBadge>
-                <Heading m={0} fontWeight={4} level={5}>
-                  {cartCount}
-                </Heading>
-              </CartBadge>
-            ) : null}
-            <Cart />
-          </CartButtonWrapper>
+          <ToolsWrapper>
+            <CurrencySelector />
+            <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
+              {cartCount ? (
+                <CartBadge>
+                  <Heading m={0} fontWeight={4} level={5}>
+                    {cartCount}
+                  </Heading>
+                </CartBadge>
+              ) : null}
+              <Cart />
+            </CartButtonWrapper>
+          </ToolsWrapper>
         </Inner>
       </Wrapper>
       <Checkout />

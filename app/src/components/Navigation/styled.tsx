@@ -66,6 +66,12 @@ export const Inner = styled.div<WithBorder>`
   `}
 `
 
+export const ToolsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`
+
 interface WithReady {
   theme: DefaultTheme
   ready: boolean
