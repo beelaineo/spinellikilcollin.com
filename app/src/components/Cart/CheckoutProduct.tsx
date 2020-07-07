@@ -5,13 +5,13 @@ import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
 import { Button } from '../../components/Button'
+import { Price } from '../../components/Price'
 import {
   CheckoutProductWrapper,
   CheckoutItemDetails,
   QuantityInput,
   QuantityWrapper,
 } from './styled'
-import { formatMoney } from '../../utils/currency'
 
 interface CheckoutLineItemProps {
   lineItem: CheckoutLineItemType
@@ -38,7 +38,10 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
             {title}
           </Heading>
           <Heading level={5} weight={2} mb={0} textTransform="uppercase">
-            {formatMoney(variant.priceV2)}
+            <Price
+              // @ts-ignore
+              price={variant.priceV2}
+            />
           </Heading>
         </div>
         <Box my={3}>
@@ -53,7 +56,12 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
             />
           </QuantityWrapper>
           <Heading level={5} weight={2} textTransform="uppercase">
-            Total: {formatMoney(variant.priceV2, quantity)}
+            Total:{' '}
+            <Price
+              // @ts-ignore
+              price={variant.priceV2}
+              quantity={quantity}
+            />
           </Heading>
         </Box>
 

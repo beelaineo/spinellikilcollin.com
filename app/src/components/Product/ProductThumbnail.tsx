@@ -13,8 +13,8 @@ import { Heading } from '../Text'
 import { Image } from '../Image'
 import { TagBadges } from './TagBadges'
 import { ProductSwatches } from './ProductSwatches'
+import { Price } from '../Price'
 import {
-  formatMoney,
   getVariantBySelectedOption,
   optionMatchesVariant,
   getBestVariantByMatch,
@@ -126,12 +126,12 @@ export const ProductThumbnail = ({
                 maxVariantPrice &&
                 minVariantPrice.amount !== maxVariantPrice.amount ? (
                   <Heading my={0} level={headingLevel || 3}>
-                    {product.title} | {formatMoney(minVariantPrice)} -{' '}
-                    {formatMoney(maxVariantPrice)}
+                    {product.title} | <Price price={minVariantPrice} /> -{' '}
+                    <Price price={maxVariantPrice} />
                   </Heading>
                 ) : maxVariantPrice ? (
                   <Heading level={headingLevel || 3} my={0}>
-                    {product.title} | {formatMoney(maxVariantPrice)}
+                    {product.title} | <Price price={maxVariantPrice} />
                   </Heading>
                 ) : null}
               </>

@@ -9,6 +9,7 @@ import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
+import { CurrencyProvider } from './CurrencyProvider'
 
 /**
  * App
@@ -58,12 +59,14 @@ export const Providers = ({ shopData, children }: Props) => {
   return (
     <ShopifyProvider query={shopifyQuery}>
       <ShopDataProvider shopData={shopData}>
-        <CartProvider>
-          <ThemeProvider theme={theme}>
-            <GlobalStyles />
-            <ModalProvider>{children}</ModalProvider>
-          </ThemeProvider>
-        </CartProvider>
+        <CurrencyProvider>
+          <CartProvider>
+            <ThemeProvider theme={theme}>
+              <GlobalStyles />
+              <ModalProvider>{children}</ModalProvider>
+            </ThemeProvider>
+          </CartProvider>
+        </CurrencyProvider>
       </ShopDataProvider>
     </ShopifyProvider>
   )

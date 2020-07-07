@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { ShopifyProductVariant, ShopifyProduct } from '../../../types'
 import { Heading } from '../../../components/Text'
-import { formatMoney } from '../../../utils/currency'
+import { Price } from '../../../components/Price'
 
 interface MobileProductHeaderProps {
   product: ShopifyProduct
@@ -19,7 +19,7 @@ export const MobileProductHeader = ({
       </Heading>
       {currentVariant?.sourceData?.priceV2 ? (
         <Heading level={5} weight={4}>
-          ${formatMoney(currentVariant.sourceData.priceV2)}
+          <Price price={currentVariant?.sourceData?.priceV2} />
         </Heading>
       ) : null}
     </>

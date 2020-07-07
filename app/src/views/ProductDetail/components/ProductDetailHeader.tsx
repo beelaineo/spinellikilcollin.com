@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { formatMoney } from '../../../utils/currency'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { TitleWrapper } from '../styled'
 import { Heading } from '../../../components/Text'
+import { Price } from '../../../components/Price'
 import { definitely } from '../../../utils'
 
 interface ProductDetailHeaderProps {
@@ -42,7 +42,7 @@ export const ProductDetailHeader = ({
         </Heading>
         {currentVariant?.sourceData?.priceV2 ? (
           <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
-            {formatMoney(currentVariant?.sourceData?.priceV2)}
+            <Price price={currentVariant?.sourceData?.priceV2} />
           </Heading>
         ) : null}
       </TitleWrapper>
