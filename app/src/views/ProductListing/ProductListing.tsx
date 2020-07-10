@@ -5,19 +5,14 @@ import {
   CollectionBlock as CollectionBlockType,
   FilterConfiguration,
 } from '../../types'
-import {
-  ProductGrid,
-  ProductGridItem,
-  ProductGridItemPadding,
-  ProductThumbnail,
-} from '../../components/Product'
+import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
-import { CollectionBlock } from '../../components/Collection'
 import { definitely } from '../../utils'
 import { Wrapper, NoResultsWrapper } from './styled'
+
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useSanityQuery } from '../../hooks'
 import { buildQuery } from './filterQuery'
@@ -37,10 +32,11 @@ interface FilterVariables {
 export const ProductListing = ({ collection }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
   const [filterOpen, setFilterOpen] = useState(false)
-  const { state, executeQuery, reset: resetQueryResults } = useSanityQuery<
-    ShopifyProduct,
-    FilterVariables
-  >()
+  const {
+    state,
+    query: sanityQuery,
+    reset: resetQueryResults,
+  } = useSanityQuery<ShopifyProduct, FilterVariables>()
   const filterResults = state.results
   const defaultFilter = productListingSettings?.defaultFilter
   const filters = definitely(defaultFilter)
@@ -77,7 +73,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     const params = {
       collectionId: collection._id,
     }
-    executeQuery(query, params)
+    sanityQuery(query, params)
   }
 
   return (
@@ -101,37 +97,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             </Button>
           </NoResultsWrapper>
         ) : (
-          <ProductGrid>
-            {definitely(items).map((item) => {
-              switch (item.__typename) {
-                case 'CollectionBlock':
-                  return (
-                    <ProductGridItem
-                      format={item.format}
-                      key={item._key || 'some-key'}
-                    >
-                      <ProductGridItemPadding format={item.format} />
-                      <CollectionBlock
-                        format={item.format}
-                        collectionBlock={item}
-                      />
-                    </ProductGridItem>
-                  )
-                case 'ShopifyProduct':
-                  return (
-                    <ProductGridItem key={item._id || 'some-key'}>
-                      <ProductGridItemPadding />
-                      <ProductThumbnail
-                        product={item}
-                        displayPrice
-                        imageRatio={0.8}
-                        preferredVariantMatches={preferredVariantMatches}
-                      />
-                    </ProductGridItem>
-                  )
-              }
-            })}
-          </ProductGrid>
+          <ProductGrid
+            preferredVariantMatches={preferredVariantMatches}
+            items={items}
+          />
         )}
       </Wrapper>
     </>

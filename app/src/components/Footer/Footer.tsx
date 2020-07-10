@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { NextRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { FaFacebookF, FaTwitter, FaPinterest } from 'react-icons/fa'
 import { TiSocialInstagram, TiSocialGooglePlus } from 'react-icons/ti'
 import { PageLink } from '../../components/PageLink'
@@ -16,10 +16,8 @@ import {
 
 const currentYear = new Date().getFullYear()
 
-interface FooterProps {
-  router: NextRouter
-}
-export const Footer = ({ router }: FooterProps) => {
+export const Footer = () => {
+  const router = useRouter()
   const shopData = useShopData()
   const footerLinks = shopData?.siteSettings?.links ?? []
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''

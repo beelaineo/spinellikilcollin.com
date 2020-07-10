@@ -7,6 +7,7 @@ import { Heading, Input } from '../Text'
 import { PageLink } from '../PageLink'
 import { SubMenu } from './SubMenu'
 import { Hamburger } from '../Hamburger'
+import { SearchInput } from './SearchInput'
 
 interface NavigationInnerProps {
   closeMenu: () => void
@@ -23,15 +24,7 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
       </HamburgerWrapper>
 
       <NavInner>
-        <div>
-          <Heading level={5} fontStyle="italic">
-            What are you looking for?
-          </Heading>
-          <Input placeholder="search" />
-          <button type="submit">
-            <IoIosSearch />
-          </button>
-        </div>
+        <SearchInput />
         <div>
           {menuItems.map((menuItem) => {
             if (!menuItem) return null

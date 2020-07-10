@@ -94,23 +94,23 @@ export const NavSection = styled.div`
   `}
 `
 
-export const Logo = styled.img`
-  ${({ theme }) => css`
-    width: 260px;
-    ${theme.mediaQueries.mobile} {
-      width: 170px;
-      transform: translateY(4px);
-    }
-  `}
-`
-
 interface WithActive {
   theme: DefaultTheme
   active?: boolean
 }
 
 export const LogoWrapper = styled.div`
-  margin: 0 auto;
+  ${({ theme }) => css`
+    width: 260px;
+    margin: 0 auto;
+    svg {
+      width: 100%;
+    }
+    ${theme.mediaQueries.mobile} {
+      width: 170px;
+      transform: translateY(4px);
+    }
+  `}
 `
 
 export const NavHeader = styled.button`

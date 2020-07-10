@@ -1,7 +1,7 @@
 import * as React from 'react'
-import { NextRouter } from 'next/router'
-import { useCart } from '../../providers/CartProvider'
-import { useLockScroll } from '../LockScroll'
+import { useRouter, NextRouter } from 'next/router'
+import { useCart } from './CartProvider'
+import { useLockScroll } from '../components/LockScroll'
 
 const { useReducer, useEffect } = React
 
@@ -62,11 +62,11 @@ export const useNavigation = () => {
 
 interface NavigationProps {
   children: React.ReactNode
-  router: NextRouter
 }
 
-export const NavigationProvider = ({ children, router }: NavigationProps) => {
+export const NavigationProvider = ({ children }: NavigationProps) => {
   /* State from Providers */
+  const router = useRouter()
   const { closeCart, openCart, open: cartOpen } = useCart()
   const { lockScroll, unlockScroll } = useLockScroll()
 

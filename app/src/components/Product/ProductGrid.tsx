@@ -1,7 +1,16 @@
 import styled, { css } from '@xstyled/styled-components'
 import { ProductThumb, ProductInfo } from './styled'
+import { ProductThumbnail } from './ProductThumbnail'
+import {
+  Maybe,
+  ShopifyProduct,
+  ShopifyCollection,
+  CollectionBlock as CollectionBlockType,
+} from '../../types'
+import { CollectionThumbnail, CollectionBlock } from '../Collection'
+import { definitely } from '../../utils'
 
-export const ProductGrid = styled.div`
+const ProductGridWrapper = styled.div`
   ${({ theme }) => css`
     margin: 0 auto;
     display: grid;
@@ -69,3 +78,53 @@ export const ProductGridItem = styled.div<WithFormat>`
     }
   `}
 `
+
+import * as React from 'react'
+
+interface ProductGridProps {
+  items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
+  preferredVariantMatches?: Maybe<string>[] | null
+}
+
+export const ProductGrid = ({
+  preferredVariantMatches,
+  items,
+}: ProductGridProps) => {
+  return (
+    <ProductGridWrapper>
+      {definitely(items).map((item) => {
+        switch (item.__typename) {
+          case 'CollectionBlock':
+            return (
+              <ProductGridItem
+                format={item.format}
+                key={item._key || 'some-key'}
+              >
+                <ProductGridItemPadding format={item.format} />
+                <CollectionBlock format={item.format} collectionBlock={item} />
+              </ProductGridItem>
+            )
+          case 'ShopifyProduct':
+            return (
+              <ProductGridItem key={item._id || 'some-key'}>
+                <ProductGridItemPadding />
+                <ProductThumbnail
+                  product={item}
+                  displayPrice
+                  imageRatio={0.8}
+                  preferredVariantMatches={preferredVariantMatches}
+                />
+              </ProductGridItem>
+            )
+          case 'ShopifyCollection':
+            return (
+              <ProductGridItem key={item._id || 'some-key'}>
+                <ProductGridItemPadding />
+                <CollectionThumbnail collection={item} />
+              </ProductGridItem>
+            )
+        }
+      })}
+    </ProductGridWrapper>
+  )
+}

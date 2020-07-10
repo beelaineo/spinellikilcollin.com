@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import { SubMenu as SubMenuType } from '../../types'
+import { useNavigation } from '../../providers/NavigationProvider'
 import { Heading } from '../../components/Text'
 import { PageLink } from '../../components/PageLink'
 import { PlusMinus } from '../../components/PlusMinus'
-import { useNavigation } from './NavigationProvider'
 import { definitely } from '../../utils'
 
 const { useState, useEffect } = React

@@ -1,8 +1,9 @@
-import * as SentryInitializer from '@sentry/node'
-import { Severity } from '@sentry/node'
+import * as NodeSentryInitializer from '@sentry/node'
+import * as BrowserSentryInitializer from '@sentry/browser'
 import path from 'path'
 import { RewriteFrames } from '@sentry/integrations'
 import Debug from 'debug'
+import { Severity } from '@sentry/node'
 
 /** Some Sentry setup for sourcemaps */
 // This allows TypeScript to detect our global value
@@ -16,19 +17,22 @@ declare global {
   }
 }
 
-const rootdir = path.resolve(__dirname || process.cwd(), '..')
+const rootdir = path.resolve(__dirname || process.cwd(), '..', '..')
 
 global.__rootdir__ = rootdir
 
-const debug = Debug('app:sentry')
+const debug = Debug('dev:sentry')
 
 const ENV = process.env.NODE_ENV
 const FORCE = Boolean(process.env.FORCE_SENTRY)
 const DSN = process.env.SENTRY_DSN
 
-export let Sentry: typeof SentryInitializer
+const SentryInitializer =
+  typeof window === 'undefined'
+    ? NodeSentryInitializer
+    : BrowserSentryInitializer
 
-const noop = () => undefined
+export let Sentry: typeof SentryInitializer
 
 if (ENV === 'production' || ENV === 'staging' || FORCE) {
   if (!DSN) throw new Error('No Sentry DSN supplied')
@@ -42,25 +46,19 @@ if (ENV === 'production' || ENV === 'staging' || FORCE) {
       }),
     ],
   })
-  Sentry.configureScope((scope) => {
-    scope.addEventProcessor((event) => {
-      debug('Captured exception:')
-      debug('Event ID:', event.event_id)
-      if (event.message) debug('Message:', event.message)
-      return event
-    })
-  })
 } else {
   debug('Mocking local sentry')
+  const noop = () => undefined
   Sentry = {
     // @ts-ignore
     setUserContext: noop,
-    requestHandler: () => (req: any, res: any, next: any) => next(),
+    // @ts-ignore
+    requestHandler: () => (req, res, next) => next(),
     parsers: {
       parseRequest: noop,
     },
-    configureScope: () => {},
-    captureException: (e: Error) => {
+    configureScope: () => undefined,
+    captureException: (e: any) => {
       debug('Captured exception:')
       debug(e)
       const randomId = Math.random().toString().replace('0.', '')

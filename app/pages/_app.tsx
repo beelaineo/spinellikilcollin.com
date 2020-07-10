@@ -2,9 +2,10 @@ import * as React from 'react'
 import { NextRouter } from 'next/router'
 import styled, { ThemeProvider } from '@xstyled/styled-components'
 import Head from 'next/head'
+import { Providers } from '../src/providers/AllProviders'
 import { Footer } from '../src/components/Footer'
 import { Navigation } from '../src/components/Navigation'
-import { Providers } from '../src/providers/AllProviders'
+import { SearchPane } from '../src/components/Search'
 import { getThemeByRoute } from '../src/theme'
 
 interface AppProps {
@@ -64,9 +65,10 @@ const App = (props: AppProps) => {
           />
         </Head>
         <Main>
-          <Navigation router={router} />
+          <Navigation />
+          <SearchPane />
           <Component {...pageProps} />
-          <Footer router={router} />
+          <Footer />
         </Main>
         <div id="modal" />
       </ThemeProvider>

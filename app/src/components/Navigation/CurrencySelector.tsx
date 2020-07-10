@@ -1,13 +1,15 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { useCurrency } from '../../providers/CurrencyProvider'
-import { Form, Field } from '../Forms'
+import { Form } from '../Forms'
 import { SelectElement } from '../Forms/Fields/styled'
 import { ShopifyStorefrontCurrencyCode } from '../../types/generated-shopify'
 
 const SelectField = styled(SelectElement)`
+  color: body.8;
   border: none;
   min-width: initial;
+  padding: 0 4 0 3;
   height: auto;
 `
 
@@ -41,7 +43,7 @@ export const CurrencySelector = () => {
         onSubmit={handleSubmit}
         initialValues={initialValues}
       >
-        <SelectField name="currency" onChange={handleChange}>
+        <SelectField name="currency" color="body.8" onChange={handleChange}>
           {currencyOptions.map(({ id, value, label }) => (
             <option key={id} id={id} value={value}>
               {label}

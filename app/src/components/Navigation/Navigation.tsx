@@ -3,15 +3,16 @@ import Link from 'next/link'
 import { NextRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
-import { Checkout } from '../Cart/Checkout'
+import { useNavigation } from '../../providers/NavigationProvider'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
+import Logotype from '../../svg/Logotype.svg'
+import { Checkout } from '../Cart/Checkout'
 import { Hamburger } from '../Hamburger'
 import {
   Wrapper,
   Inner,
   CartBadge,
-  Logo,
   CartButtonWrapper,
   SideNavigation,
   LogoWrapper,
@@ -20,10 +21,9 @@ import {
 } from './styled'
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
-import { NavigationProvider, useNavigation } from './NavigationProvider'
 import { CurrencySelector } from './CurrencySelector'
 
-const NavigationMain = () => {
+export const Navigation = () => {
   const {
     closeAll,
     cartOpen,
@@ -61,7 +61,7 @@ const NavigationMain = () => {
           <LogoWrapper>
             <Link href="/index" as="/">
               <a>
-                <Logo src="/static/images/sk-logotype.svg" />
+                <Logotype />
               </a>
             </Link>
           </LogoWrapper>
@@ -88,9 +88,3 @@ const NavigationMain = () => {
 interface NavigationProps {
   router: NextRouter
 }
-
-export const Navigation = ({ router }: NavigationProps) => (
-  <NavigationProvider router={router}>
-    <NavigationMain />
-  </NavigationProvider>
-)

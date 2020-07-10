@@ -9,7 +9,10 @@ import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
+import { SearchProvider } from './SearchProvider'
 import { CurrencyProvider } from './CurrencyProvider'
+import { ErrorProvider } from './ErrorProvider'
+import { NavigationProvider } from './NavigationProvider'
 
 /**
  * App
@@ -57,17 +60,23 @@ interface Props {
 
 export const Providers = ({ shopData, children }: Props) => {
   return (
-    <ShopifyProvider query={shopifyQuery}>
-      <ShopDataProvider shopData={shopData}>
-        <CurrencyProvider>
+    <ErrorProvider>
+      <ShopifyProvider query={shopifyQuery}>
+        <ShopDataProvider shopData={shopData}>
           <CartProvider>
-            <ThemeProvider theme={theme}>
-              <GlobalStyles />
-              <ModalProvider>{children}</ModalProvider>
-            </ThemeProvider>
+            <NavigationProvider>
+              <CurrencyProvider>
+                <SearchProvider>
+                  <ThemeProvider theme={theme}>
+                    <GlobalStyles />
+                    <ModalProvider>{children}</ModalProvider>
+                  </ThemeProvider>
+                </SearchProvider>
+              </CurrencyProvider>
+            </NavigationProvider>
           </CartProvider>
-        </CurrencyProvider>
-      </ShopDataProvider>
-    </ShopifyProvider>
+        </ShopDataProvider>
+      </ShopifyProvider>
+    </ErrorProvider>
   )
 }
