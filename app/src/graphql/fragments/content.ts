@@ -31,6 +31,11 @@ export const shopifySourceProductVariantFragment = gql`
       amount
       currencyCode
     }
+    compareAtPriceV2 {
+      __typename
+      amount
+      currencyCode
+    }
     selectedOptions {
       __typename
       _key

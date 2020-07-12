@@ -5,6 +5,7 @@ import {
   ShopifySourceProductVariant,
   ShopifyProductVariant,
   Maybe,
+  ShopifyMoneyV2,
   Image,
 } from '../types'
 import { definitely } from '../utils'
@@ -86,4 +87,9 @@ export const getBestVariantByMatch = (
     matches.some((m) => v?.title?.includes(m)),
   )
   return bestVariant || variants[0]
+}
+
+export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
+  if (!price || !price.amount || price.currencyCode === 'NONE') return false
+  return true
 }
