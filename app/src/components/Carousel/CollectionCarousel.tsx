@@ -34,7 +34,10 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
   const variables = {
     collectionId: collection._id,
   }
-  const [getCarousel, response] = useLazyRequest<Response, Variables>(query)
+  const [getCarousel, response] = useLazyRequest<Response, Variables>(
+    query,
+    variables,
+  )
   const { data } = response
 
   useEffect(() => {
@@ -57,7 +60,7 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
         .map((product) => {
           return (
             <ProductThumbnail
-              key={product._key || 'some-key'}
+              key={product.shopifyId || 'some-key'}
               preload
               product={product}
               displaySwatches={false}

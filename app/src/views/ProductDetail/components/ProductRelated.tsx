@@ -28,6 +28,7 @@ const getCarousel = (
 
 export const ProductRelated = ({ product }: ProductRelatedProps) => {
   const carousel = getCarousel(product)
+  console.log(carousel)
   if (!carousel) return null
   const linkAs =
     carousel.__typename === 'ShopifyCollection'
@@ -47,13 +48,14 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
         </Heading>
       )}
       <ProductRelatedInner>
-        {carousel.__typename === 'Carousel' && carousel.items ? (
+        {carousel.__typename === 'Carousel' &&
+        carousel.items &&
+        carousel.items.length ? (
           <ItemsCarousel items={carousel.items} />
+        ) : carousel.__typename === 'Carousel' && carousel.collection ? (
+          <CollectionCarousel collection={carousel.collection} />
         ) : carousel.__typename === 'ShopifyCollection' ? (
-          <CollectionCarousel
-            key={product._id || 'some-key'}
-            collection={carousel}
-          />
+          <CollectionCarousel collection={carousel} />
         ) : null}
       </ProductRelatedInner>
     </ProductRelatedWrapper>

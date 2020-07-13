@@ -29,7 +29,9 @@ export const useRequest = <R, V extends Variables = Variables>(
   query: DocumentNode,
   variables?: V,
 ) => {
-  return useSWR<R | null>(print(query), (q) => request<R>(q, variables))
+  return useSWR<R | null>([print(query), JSON.stringify(variables)], (q) =>
+    request<R>(q, variables),
+  )
 }
 
 type LazyRequestTuple<R, V extends Variables = Variables> = [
@@ -39,10 +41,12 @@ type LazyRequestTuple<R, V extends Variables = Variables> = [
 
 export const useLazyRequest = <R, V extends Variables = Variables>(
   query: DocumentNode,
+  variables?: V,
 ): LazyRequestTuple<R, V> => {
+  console.log(query, variables)
   const response = useSWR<R | null>(
-    print(query),
-    () => {
+    [print(query), JSON.stringify(variables)],
+    async () => {
       return null
     },
     { revalidateOnFocus: false },
@@ -52,6 +56,7 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
     const result = await request<R>(query, variables)
     response.mutate(result, false)
   }
+  console.log(response, response.data, response.error)
 
   return [executeQuery, response]
 }
