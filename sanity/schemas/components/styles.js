@@ -9,7 +9,7 @@ export const imageStyles = {
   width: '40px',
   height: '40px',
   objectFit: 'cover',
-  margin: '0px 10px 0px 5px',
+  margin: '0px 10px 0px 0px',
   backgroundColor: 'lightGray',
 }
 

@@ -1,4 +1,31 @@
-import { blocksToPlainText } from '../utils'
+import * as React from 'react'
+import { BlockPreview } from '../components/BlockPreview'
+import {
+  getImageThumbnail,
+  getReferencedDocument,
+  blocksToPlainText,
+} from '../utils'
+
+const getPreviewValues = async (values) => {
+  const { title, image, link } = values
+
+  const linkedDoc = link
+    ? await getReferencedDocument(link.document._ref)
+    : undefined
+
+  const subtitles = [
+    //
+    linkedDoc ? `🔗 ${linkedDoc.title}` : undefined,
+  ].filter(Boolean)
+
+  const src = await getImageThumbnail(image)
+
+  return {
+    title,
+    subtitles: subtitles.slice(0, 1),
+    src,
+  }
+}
 
 export const hero = {
   name: 'hero',
@@ -13,6 +40,11 @@ export const hero = {
       name: 'body',
       title: 'Text',
       type: 'richText',
+    },
+    {
+      name: 'link',
+      title: 'Link',
+      type: 'internalLink',
     },
     {
       name: 'aspectRatio',
@@ -82,13 +114,18 @@ export const hero = {
   preview: {
     select: {
       title: 'body',
-      media: 'image',
+      image: 'image',
+      link: 'link',
     },
-    prepare: ({ title, media }) => {
+    prepare: (values) => {
       return {
-        media,
-        title: title && title.length ? blocksToPlainText(title) : '(no text)',
+        ...values,
+        title: blocksToPlainText(values.title),
       }
     },
+
+    component: (props) => (
+      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
+    ),
   },
 }
