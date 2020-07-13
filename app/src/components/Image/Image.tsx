@@ -56,6 +56,7 @@ interface ImageProps {
   sizes?: string
   onLoad?: () => void
   preloadImages?: ImageType[]
+  preload?: boolean
   canvasFill?: boolean
   objectFit?: string
 }
@@ -68,6 +69,7 @@ export const Image = ({
   hoverImage,
   altText: customAltText,
   onLoad,
+  preload,
   ratio,
   canvasFill,
   preloadImages,
@@ -110,8 +112,8 @@ export const Image = ({
   return (
     <Wrapper ref={containerRef}>
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
-      {src && isInViewOnce ? (
-        <Picture objectFit={objectFit} loaded={loaded}>
+      {src && (preload || isInViewOnce) ? (
+        <Picture objectFit={objectFit} loaded={true}>
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
           ) : null}
@@ -141,7 +143,13 @@ export const Image = ({
       {isInViewOnce && preloadImages && preloadImages.length ? (
         <PreloadWrapper>
           {preloadImages.map((p) => (
-            <Image key={getImageKey(p)} image={p} />
+            <Image
+              key={getImageKey(p)}
+              image={p}
+              onLoad={handleOnLoad}
+              sizes={sizes}
+              preload
+            />
           ))}
         </PreloadWrapper>
       ) : null}

@@ -54,7 +54,7 @@ export const SearchProvider = ({ children }: SearchProps) => {
     closeMenu()
     startSearch()
 
-    const term = searchTerm.replace(/\s/, '* ')
+    const term = searchTerm.trim().replace(/\s/, '* ')
     const termSingular = term.replace(/s$/, '')
     const params = { searchTerm: term, searchTermSingular: termSingular }
     const results = await query<SearchResult[]>(searchQuery, params)

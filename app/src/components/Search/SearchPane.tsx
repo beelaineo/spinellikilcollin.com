@@ -28,6 +28,7 @@ export const SearchPane = () => {
     openSearch,
     reset,
     closeSearch,
+    searchTerm,
   } = useSearch()
   const { lockScroll, unlockScroll } = useLockScroll()
   const { asPath } = useRouter()
@@ -65,6 +66,7 @@ export const SearchPane = () => {
       }`
     : undefined
 
+  const preferredVariantMatches = [searchTerm]
   return (
     <Outer>
       <Wrapper aria-hidden={!open} visible={open}>
@@ -102,7 +104,10 @@ export const SearchPane = () => {
                     </Heading>
                   ) : null}
 
-                  <ProductGrid items={searchResults} />
+                  <ProductGrid
+                    preferredVariantMatches={preferredVariantMatches}
+                    items={searchResults}
+                  />
                   <Button onClick={close} level={3}>
                     Close
                   </Button>

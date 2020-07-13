@@ -27,6 +27,7 @@ export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
             return (
               <ProductThumbnail
                 key={_key || 'some-key'}
+                preload
                 headingLevel={5}
                 product={item}
               />

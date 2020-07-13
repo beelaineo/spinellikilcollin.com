@@ -58,6 +58,7 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
           return (
             <ProductThumbnail
               key={product._key || 'some-key'}
+              preload
               product={product}
               displaySwatches={false}
               displayTags={false}

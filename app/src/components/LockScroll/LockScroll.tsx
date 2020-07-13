@@ -1,22 +1,23 @@
 import * as React from 'react'
 
-const { useState, useEffect } = React
+const { useState } = React
 
 export const useLockScroll = (initialState?: boolean) => {
   const [locked, setLocked] = useState(initialState || false)
 
-  const unlockScroll = () => setLocked(false)
-  const lockScroll = () => setLocked(true)
+  const scrollingElement =
+    typeof document !== 'undefined'
+      ? document?.getElementsByTagName('body')[0]
+      : null
 
-  useEffect(() => {
-    const scrollingElement = document?.getElementsByTagName('body')[0]
-    if (!scrollingElement) return
-    if (locked) {
-      scrollingElement.style.overflow = 'hidden'
-    } else {
-      scrollingElement.style.overflow = 'scroll'
-    }
-  }, [locked])
+  const unlockScroll = () => {
+    if (scrollingElement) scrollingElement.style.overflow = 'scroll'
+    setLocked(false)
+  }
+  const lockScroll = () => {
+    if (scrollingElement) scrollingElement.style.overflow = 'hidden'
+    setLocked(true)
+  }
 
   return {
     locked,

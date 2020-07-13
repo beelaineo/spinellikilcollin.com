@@ -29,6 +29,7 @@ interface ProductThumbnailProps {
   displayPrice?: boolean
   displayTags?: boolean
   displaySwatches?: boolean
+  preload?: boolean
   headingLevel?: number
   preferredVariantMatches?: Maybe<string>[] | null
   imageRatio?: number
@@ -50,6 +51,7 @@ export const ProductThumbnail = ({
   product,
   displayPrice,
   displayTags,
+  preload,
   displaySwatches,
   headingLevel,
   preferredVariantMatches,
@@ -62,6 +64,7 @@ export const ProductThumbnail = ({
   const initialVariant = preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
     : variants[0]
+
   const [currentVariant, setCurrentVariant] = useState(initialVariant)
 
   const allImages = useMemo(() => uniqueImages(variants), [variants])
@@ -113,6 +116,7 @@ export const ProductThumbnail = ({
               image={productImage}
               ratio={imageRatio || 1}
               sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
+              preload
               altText={altText}
               preloadImages={allImages}
             />

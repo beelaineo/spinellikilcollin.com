@@ -49,8 +49,8 @@ export const Picture = styled.picture`
 
 export const PreloadWrapper = styled.div`
   position: fixed;
-  top: -500;
-  left: -500;
+  top: -500px;
+  left: -500px;
   width: 1px;
   height: 1px;
   opacity: 0;
