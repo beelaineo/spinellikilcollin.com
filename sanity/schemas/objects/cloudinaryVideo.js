@@ -8,5 +8,15 @@ export const cloudinaryVideo = {
       title: 'Video ID',
       type: 'string',
     },
+    {
+      name: 'enableAudio',
+      title: 'Enable Audio',
+      type: 'boolean',
+    },
+    {
+      name: 'enableControls',
+      title: 'Enable playback controls',
+      type: 'boolean',
+    },
   ],
 }

@@ -35,16 +35,24 @@ export const hero = {
     collapsible: true,
     collapsed: true,
   },
+  fieldsets: [
+    { name: 'general', title: 'General Settings' },
+    { name: 'text', title: 'Text Settings' },
+    { name: 'image', title: 'Image' },
+    { name: 'video', title: 'Video' },
+  ],
   fields: [
-    {
-      name: 'body',
-      title: 'Text',
-      type: 'richText',
-    },
     {
       name: 'heroLink',
       title: 'Link',
       type: 'internalLink',
+      fieldset: 'general',
+    },
+    {
+      name: 'body',
+      title: 'Text',
+      type: 'richText',
+      fieldset: 'text',
     },
     {
       name: 'aspectRatio',
@@ -64,51 +72,62 @@ export const hero = {
       name: 'textPosition',
       title: 'Text Position',
       type: 'position',
+      fieldset: 'text',
     },
     {
       name: 'textColor',
       title: 'Text Color',
       type: 'colorPicker',
+
+      fieldset: 'text',
     },
     {
       name: 'cloudinaryVideo',
       title: 'Cloudinary Video',
       type: 'cloudinaryVideo',
+      fieldset: 'video',
     },
     {
       name: 'cloudinaryVideoMobile',
       title: 'Cloudinary Video (mobile)',
       type: 'cloudinaryVideo',
+      fieldset: 'video',
     },
     {
       name: 'image',
       title: 'Background Image',
       type: 'richImage',
+      fieldset: 'image',
     },
     {
       name: 'backgroundColor',
       title: 'Background Color',
       type: 'colorPicker',
+      fieldset: 'general',
     },
     {
       name: 'mobileImage',
       title: 'Background Image (mobile)',
       type: 'richImage',
+      fieldset: 'image',
     },
     {
       name: 'mobileBackgroundColor',
       title: 'Background Color',
       type: 'colorPicker',
+      fieldset: 'general',
     },
     {
       name: 'textPositionMobile',
       title: 'Text Position (Mobile)',
       type: 'position',
+      fieldset: 'text',
     },
     {
       name: 'textColorMobile',
       title: 'Text Color (Mobile)',
       type: 'colorPicker',
+      fieldset: 'text',
     },
   ],
   preview: {
