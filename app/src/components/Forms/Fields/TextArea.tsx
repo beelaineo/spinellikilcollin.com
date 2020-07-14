@@ -21,22 +21,20 @@ export const TextArea = (props: TextAreaProps) => {
   return (
     <FormikField validate={validate} name={name}>
       {({ field }) => (
-        <>
-          <InputWrapper>
-            <TextAreaElement
-              {...field}
-              as="textarea"
-              value={field.value || ''}
-              id={field.name}
-              required={required}
-              placeholder={placeholder}
-              color={color}
-              type={type}
-              readOnly={readOnly}
-              disabled={disabled}
-            />
-          </InputWrapper>
-        </>
+        <InputWrapper>
+          <TextAreaElement
+            {...field}
+            as="textArea"
+            value={field.value || ''}
+            id={field.name}
+            required={required}
+            placeholder={placeholder}
+            color={color}
+            type={type}
+            readOnly={readOnly}
+            disabled={disabled}
+          />
+        </InputWrapper>
       )}
     </FormikField>
   )

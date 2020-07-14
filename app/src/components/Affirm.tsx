@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Heading } from './Text'
+import { useCurrency } from '../providers/CurrencyProvider'
 
 const { useState, useEffect } = React
 
@@ -13,6 +14,7 @@ const toCents = (shopifyPrice: string | number): number =>
   parseInt(shopifyPrice.toString(), 10) * 100
 
 export const Affirm = ({ price }: AffirmProps) => {
+  const { currentCurrency } = useCurrency()
   const [isMounted, setIsMounted] = useState(false)
   if (!price) return null
   const { amount } = price
@@ -29,6 +31,7 @@ export const Affirm = ({ price }: AffirmProps) => {
     }
   }, [isMounted, amount])
 
+  if (currentCurrency !== 'USD') return null
   if (!amount) return null
   if (!isMounted) return null
 

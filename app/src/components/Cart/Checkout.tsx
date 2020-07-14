@@ -11,9 +11,12 @@ import {
   CloseButtonWrapper,
   CartBottom,
   CartInner,
+  CartHeading,
+  SubtotalWrapper,
 } from './styled'
 import { CheckoutProduct } from './CheckoutProduct'
 import { Affirm } from '../Affirm'
+import { Price } from '../Price'
 
 /**
  * Main Checkout view
@@ -43,19 +46,33 @@ export const Checkout = () => {
 
   return (
     <CartSidebar open={cartOpen}>
-      <CloseButtonWrapper>
-        <Hamburger open={true} onClick={closeCart} />
-      </CloseButtonWrapper>
-      <Heading my={4} level={3} color="dark" textAlign="center">
-        {title}
-      </Heading>
+      <CartHeading>
+        <CloseButtonWrapper>
+          <Hamburger open={true} onClick={closeCart} />
+        </CloseButtonWrapper>
+
+        <Heading my={4} level={3} color="dark" textAlign="center">
+          {title}
+        </Heading>
+      </CartHeading>
       {lineItems.length === 0 ? (
-        <CartInner>
-          <Heading level={4}>Your cart is empty</Heading>
+        <CartInner center>
+          <Heading
+            fontStyle="italic"
+            textAlign="center"
+            color="body.6"
+            my={6}
+            level={4}
+          >
+            Your cart is empty
+          </Heading>
+          <Button level={2} mx="auto" onClick={closeCart}>
+            Continue Shopping
+          </Button>
         </CartInner>
       ) : (
         <>
-          <CartInner>
+          <CartInner loading={loading}>
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
@@ -63,33 +80,38 @@ export const Checkout = () => {
 
           <CartBottom>
             {checkout && checkout?.paymentDueV2?.amount ? (
-              <>
+              <SubtotalWrapper>
                 <Heading level={4} weight={2}>
                   Total:
                 </Heading>
                 <div>
                   <Heading level={4} textTransform="uppercase" weight={2}>
-                    ${checkout.paymentDueV2.amount}
+                    {/* @ts-ignore */}
+                    <Price price={checkout.paymentDueV2} />
                   </Heading>
                   <Affirm price={checkout.paymentDueV2} />
                 </div>
-              </>
+              </SubtotalWrapper>
             ) : null}
-            <div>
-              <Form<FormValues> onSubmit={handleSubmit} initialValues={{}}>
-                <Heading level={5} textAlign="center">
-                  Please leave special instructions below
-                </Heading>
-                <Field type="textarea" name="notes" />
-                <Button type="submit" level={2} disabled={loading}>
-                  Checkout
-                </Button>
+            <Form<FormValues> onSubmit={handleSubmit} initialValues={{}}>
+              <Heading level={5} textAlign="center">
+                Please leave special instructions below
+              </Heading>
+              <Field type="textArea" name="notes" />
+              <Button
+                type="submit"
+                my={4}
+                width="100%"
+                level={1}
+                disabled={loading}
+              >
+                Checkout
+              </Button>
 
-                <Heading level={6} textAlign="center">
-                  Shipping and discount codes are added at checkout.
-                </Heading>
-              </Form>
-            </div>
+              <Heading my={0} level={6} textAlign="center">
+                Shipping and discount codes are added at checkout.
+              </Heading>
+            </Form>
           </CartBottom>
         </>
       )}

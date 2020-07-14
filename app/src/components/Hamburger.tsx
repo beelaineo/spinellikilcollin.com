@@ -13,7 +13,6 @@ const HamburgerWrapper = styled.button`
     position: relative;
     width: 36px;
     height: 24px;
-    margin-top: -9px;
 
     display: block;
     z-index: 3;

@@ -60,6 +60,7 @@ export const Field = (fieldProps: FieldProps) => {
   }
 
   const renderInner = () => {
+    console.log(type)
     switch (type) {
       case 'radio':
         return <Radio {...fieldProps} />

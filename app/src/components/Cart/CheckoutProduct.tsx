@@ -1,6 +1,9 @@
 import * as React from 'react'
 import { Box } from '@xstyled/styled-components'
-import { CheckoutLineItem as CheckoutLineItemType } from 'use-shopify'
+import {
+  useCheckout,
+  CheckoutLineItem as CheckoutLineItemType,
+} from 'use-shopify'
 import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
@@ -13,18 +16,37 @@ import {
   QuantityWrapper,
 } from './styled'
 
+const { useEffect, useState } = React
+
 interface CheckoutLineItemProps {
   lineItem: CheckoutLineItemType
 }
 
 export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   const { title, variant, quantity } = lineItem
-  // const updateLineItemQuantity = props.updateLineItemQuantity
-  //
-  const updateLineItemQuantity = (args: any) => alert('todo')
+  const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
+  const { loading, updateLineItem } = useCheckout()
 
-  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    alert('TODO')
+  const handleQuantityChange = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = e.target.value
+    const newQuantity = parseInt(value, 10)
+    setQuantityValue(newQuantity)
+    if (value === '') return
+  }
+
+  useEffect(() => {
+    if (quantityValue === lineItem.quantity) return
+    const update = async () => {
+      await updateLineItem({ id: lineItem.id, quantity: quantityValue })
+    }
+    const timeout = setTimeout(update, 500)
+    return () => clearTimeout(timeout)
+  }, [quantityValue, lineItem.quantity])
+
+  const remove = async () => {
+    await updateLineItem({ id: lineItem.id, quantity: 0 })
   }
 
   if (!variant) throw new Error('no variant how?')
@@ -51,7 +73,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
             </Heading>
             <QuantityInput
               type="number"
-              value={quantity}
+              value={quantityValue}
               onChange={handleQuantityChange}
             />
           </QuantityWrapper>
@@ -66,7 +88,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
         </Box>
 
         <div>
-          <Button level={4} onClick={() => updateLineItemQuantity(0)}>
+          <Button level={4} onClick={remove}>
             Remove <TrashIcon />
           </Button>
         </div>
