@@ -180,6 +180,7 @@ export const cloudinaryVideoFragment = gql`
   fragment CloudinaryVideoFragment on CloudinaryVideo {
     __typename
     videoId
+    enableAudio
   }
 `
 

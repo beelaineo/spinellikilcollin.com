@@ -120,18 +120,24 @@ export interface CloudinaryVideo {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   videoId?: Maybe<Scalars['String']>
+  enableAudio?: Maybe<Scalars['Boolean']>
+  enableControls?: Maybe<Scalars['Boolean']>
 }
 
 export type CloudinaryVideoFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   videoId?: Maybe<StringFilter>
+  enableAudio?: Maybe<BooleanFilter>
+  enableControls?: Maybe<BooleanFilter>
 }
 
 export type CloudinaryVideoSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   videoId?: Maybe<SortOrder>
+  enableAudio?: Maybe<SortOrder>
+  enableControls?: Maybe<SortOrder>
 }
 
 export interface CollectionBlock {
@@ -528,8 +534,8 @@ export interface Hero {
   __typename: 'Hero'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  bodyRaw?: Maybe<Scalars['JSON']>
   heroLink?: Maybe<InternalLink>
+  bodyRaw?: Maybe<Scalars['JSON']>
   aspectRatio?: Maybe<Scalars['Float']>
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>

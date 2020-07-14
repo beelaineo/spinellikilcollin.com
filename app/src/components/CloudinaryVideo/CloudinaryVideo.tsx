@@ -1,44 +1,81 @@
 import * as React from 'react'
+import Hls from 'hls.js'
 import { CloudinaryVideo as CloudinaryVideoType } from '../../types'
+import { AudioButton } from './AudioButton'
+import { VideoWrapper } from './styled'
 
+const { useRef, useEffect, useState } = React
 const BASE_URL = 'https://res.cloudinary.com/spinelli-kilcollin/video/upload'
-
-interface VideoSourceProps {
-  id: string
-  width: number
-}
-
-const VideoSource = ({ id, width }: VideoSourceProps) => {
-  const mp4src = `${BASE_URL}/q_auto:best/c_scale,w_${width}/${id}.mp4`
-  const webmSrc = `${BASE_URL}/q_auto:best/c_scale,w_${width}/${id}.webm`
-  return (
-    <>
-      <source type="video/mp4" src={mp4src} />
-      <source type="video/webm" src={webmSrc} />
-    </>
-  )
-}
 
 interface CloudinaryVideoProps {
   video: CloudinaryVideoType
-  sizes?: number[]
+  enableAudio?: boolean
 }
 
-const defaultSizes = [900]
+const hlsConfig = {
+  capLevelToPlayerSize: true,
+  startLevel: 0,
+}
 
-export const CloudinaryVideo = ({
-  video,
-  sizes: customSizes,
-}: CloudinaryVideoProps) => {
+export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
   if (!video?.videoId) return null
-  const { videoId } = video
+  const [ready, setReady] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const hlsRef = useRef<Hls>()
+  const [muted, setMuted] = useState(true)
+  const { enableAudio, enableControls, videoId } = video
   const poster = `${BASE_URL}/c_scale,w_1200/${videoId}.jpeg`
-  const sizes = customSizes || defaultSizes
+
+  const toggleAudio = () => setMuted(!muted)
+  const url = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/${video.videoId}.m3u8`
+  useEffect(() => {
+    if (ready) return
+    if (!videoRef.current) return
+    if (Hls.isSupported()) {
+      const hls = new Hls(hlsConfig)
+      hlsRef.current = hls
+      hls.loadSource(url)
+      hls.attachMedia(videoRef.current)
+
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.log('error')
+        console.log({ event, data })
+      })
+
+      hls.on(Hls.Events.LEVEL_LOADED, (event, data) => {
+        console.log('loaded')
+        console.log({ event, data })
+      })
+
+      hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+        console.log('parsed', { event, data })
+        if (!videoRef.current) return
+        videoRef.current.play()
+      })
+      console.log(hls)
+      setInterval(() => {
+        console.log(hls.currentLevel)
+      }, 100)
+      setReady(true)
+    }
+  }, [ready, videoRef.current])
+
+  console.log(enableAudio)
   return (
-    <video autoPlay muted loop playsInline poster={poster}>
-      {sizes.map((width) => (
-        <VideoSource key={width} id={videoId} width={width} />
-      ))}
-    </video>
+    <VideoWrapper>
+      <video autoPlay muted={muted} loop playsInline ref={videoRef} />
+      {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
+    </VideoWrapper>
   )
 }
+
+// <video autoPlay muted={muted} loop playsInline poster={poster}>
+//   {sizes.map(({ width, mediaQuery }) => (
+//     <VideoSource
+//       key={width}
+//       id={videoId}
+//       mediaQuery={mediaQuery}
+//       width={width}
+//     />
+//   ))}
+// </video>

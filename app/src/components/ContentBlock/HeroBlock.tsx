@@ -43,6 +43,7 @@ const HeroText = styled.div`
     textPositionMobile,
     textColorMobile,
   }: HeroTextProps) => css`
+    pointer-events: none;
     position: absolute;
     top: 0;
     left: 0;
@@ -59,6 +60,10 @@ const HeroText = styled.div`
 
     .text-container {
       max-width: 400px;
+
+      > * {
+        pointer-events: auto;
+      }
     }
 
     ${theme.mediaQueries.mobile} {
@@ -115,7 +120,6 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
     mobileImage,
     aspectRatio,
   } = hero
-  console.log(hero)
 
   const ratio = aspectRatio || 0.5
 

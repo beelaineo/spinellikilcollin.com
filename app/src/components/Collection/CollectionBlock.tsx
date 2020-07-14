@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { CollectionBlock as CollectionBlockType } from '../../types'
 import { Image, ImageWrapper } from '../Image'
+import { VideoWrapper } from '../CloudinaryVideo/styled'
 import { RichText } from '../RichText'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 import {
@@ -53,6 +54,7 @@ const Wrapper = styled.div<WrapperProps>`
     justify-content: ${getFlexJustification(textPosition)};
     text-align: ${getTextAlignment(textPosition)};
     padding: 3 6;
+    ${VideoWrapper},
     ${ImageWrapper},
     img,
     picture,
@@ -83,6 +85,15 @@ export const CollectionBlock = ({
     backgroundColor,
     cloudinaryVideo,
   } = collectionBlock
+  const sizes = !format
+    ? undefined
+    : format === 'square'
+    ? [{ width: 900 }]
+    : format === 'vertical'
+    ? [{ width: 900 }]
+    : format === 'horizontal'
+    ? [{ width: 900 }]
+    : undefined
   return (
     <Wrapper
       backgroundColor={backgroundColor}
@@ -96,7 +107,7 @@ export const CollectionBlock = ({
       ) : null}
       <Padding format={format} />
       {cloudinaryVideo ? (
-        <CloudinaryVideo sizes={[1200]} video={cloudinaryVideo} />
+        <CloudinaryVideo sizes={sizes} video={cloudinaryVideo} />
       ) : null}
       <Image
         image={backgroundImage}
