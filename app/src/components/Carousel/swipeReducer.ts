@@ -5,6 +5,7 @@ interface State {
   touchStart: number
   initialPosition: number
   diff: number
+  xDirection: 'left' | 'right' | null
   target: null | EventTarget
 }
 
@@ -22,6 +23,7 @@ interface StartAction {
 interface SetDiffAction {
   type: typeof SET_DIFF
   diff: number
+  direction: State['xDirection']
 }
 
 interface EndAction {
@@ -29,6 +31,11 @@ interface EndAction {
 }
 
 type Action = StartAction | SetDiffAction | EndAction
+
+const getXDirection = (initial: number, diff: number): State['xDirection'] => {
+  if (initial === diff) return null
+  return initial < diff ? 'right' : 'left'
+}
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -40,11 +47,13 @@ const reducer = (state: State, action: Action): State => {
         initialPosition: action.initialPosition,
         target: action.target,
         diff: action.initialPosition,
+        xDirection: null,
       }
     case SET_DIFF:
       return {
         ...state,
         diff: action.diff,
+        xDirection: action.direction,
         target: null,
       }
     case END: {
@@ -65,6 +74,7 @@ const initialState: State = {
   initialPosition: 0,
   diff: 0,
   target: null,
+  xDirection: null,
 }
 
 export const useSwipeReducer = (element: HTMLElement | null) => {
@@ -78,13 +88,15 @@ export const useSwipeReducer = (element: HTMLElement | null) => {
     const target = e.target
     dispatch({ type: START, initialPosition, touchStart: clientX, target })
   }
-  const setSwipeDiff = (diff: number) => dispatch({ type: SET_DIFF, diff })
+  const setSwipeDiff = (diff: number, direction: State['xDirection']) =>
+    dispatch({ type: SET_DIFF, diff, direction })
   const endSwipe = () => dispatch({ type: END })
 
   const watchMouseMove = (e: MouseEvent | TouchEvent) => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
     const diff = clientX - state.touchStart + state.initialPosition
-    setSwipeDiff(diff)
+    const direction = getXDirection(state.touchStart, clientX)
+    setSwipeDiff(diff, direction)
   }
 
   const stopAnchorClick = (e: MouseEvent) => {

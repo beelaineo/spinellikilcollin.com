@@ -93,8 +93,12 @@ export const CarouselInner = ({
       .right
     if (lastSlideRight < containerWidth) return
 
+    /* If swiping, snap to the next slide in the direction of the swipe */
+    const slideThreshhold = state.xDirection === 'left' ? 0.2 : 0.8
     const newSlide = slides.findIndex(
-      (slide) => slide.ref.offsetLeft + slide.ref.offsetWidth / 2 > -state.diff,
+      (slide) =>
+        slide.ref.offsetLeft + slide.ref.offsetWidth * slideThreshhold >
+        -state.diff,
     )
     setCurrentSlide(Math.max(0, newSlide || 0))
   }, [state.active, state.diff])
