@@ -18,6 +18,7 @@ const hlsConfig = {
 }
 
 export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
+  console.log(video)
   if (!video?.videoId) return null
   const [ready, setReady] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
