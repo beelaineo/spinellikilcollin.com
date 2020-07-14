@@ -121,7 +121,7 @@ export const CheckoutProductWrapper = styled.div`
   border-bottom: 1px solid;
 
   &:last-of-type {
-    border-bottom: 1px solid;
+    border-bottom: none;
   }
 `
 

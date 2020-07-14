@@ -10,6 +10,7 @@ export const Button = styled.buttonBox`
     pointer-events: ${disabled ? 'none' : 'inherit'};
     opacity: ${disabled ? 0.3 : 1};
     font-family: serif;
+    transition: 0.25s;
     text-transform: uppercase;
     height: 42px;
     padding: 0 3;

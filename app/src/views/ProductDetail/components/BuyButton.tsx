@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { UseCheckoutValues } from 'use-shopify'
+import { useCheckout, UseCheckoutValues } from 'use-shopify'
 import { Button } from '../../../components/Button'
 import { ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
@@ -12,6 +12,7 @@ interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
 
 export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
   const { openCart } = useCart()
+  const { loading } = useCheckout()
   const handleClick = async () => {
     if (!currentVariant || !currentVariant.shopifyVariantID) return
     await addLineItem({
@@ -24,7 +25,10 @@ export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
     return <Placeholder>Out of stock</Placeholder>
   }
   return (
-    <Button disabled={Boolean(!currentVariant)} onClick={handleClick}>
+    <Button
+      disabled={loading || Boolean(!currentVariant)}
+      onClick={handleClick}
+    >
       Add to cart
     </Button>
   )

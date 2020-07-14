@@ -25,7 +25,7 @@ interface CheckoutLineItemProps {
 export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
-  const { loading, updateLineItem } = useCheckout()
+  const { updateLineItem } = useCheckout()
 
   const handleQuantityChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -35,6 +35,9 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     setQuantityValue(newQuantity)
     if (value === '') return
   }
+  useEffect(() => {
+    setQuantityValue(lineItem.quantity)
+  }, [lineItem.quantity])
 
   useEffect(() => {
     if (quantityValue === lineItem.quantity) return
