@@ -38,13 +38,7 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
       hls.attachMedia(videoRef.current)
 
       hls.on(Hls.Events.ERROR, (event, data) => {
-        console.log('error')
-        console.log({ event, data })
-      })
-
-      hls.on(Hls.Events.LEVEL_LOADED, (event, data) => {
-        console.log('loaded')
-        console.log({ event, data })
+        console.error({ event, data })
       })
 
       hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
@@ -52,15 +46,10 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
         if (!videoRef.current) return
         videoRef.current.play()
       })
-      console.log(hls)
-      setInterval(() => {
-        console.log(hls.currentLevel)
-      }, 100)
       setReady(true)
     }
   }, [ready, videoRef.current])
 
-  console.log(enableAudio)
   return (
     <VideoWrapper>
       <video autoPlay muted={muted} loop playsInline ref={videoRef} />

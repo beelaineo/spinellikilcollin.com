@@ -118,16 +118,13 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
   const ratio = layout === 'fullWidth' ? 0.5 : 1
-  const sizes = layout === 'fullWidth' ? [1600] : [900]
   return (
     <Wrapper layout={layout}>
       <ImagesWrapper>
         <Image image={backgroundImage} hoverImage={hoverImage} ratio={ratio} />
         <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
       </ImagesWrapper>
-      {cloudinaryVideo ? (
-        <CloudinaryVideo sizes={sizes} video={cloudinaryVideo} />
-      ) : null}
+      {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
       <TextWrapper textPosition={textPosition}>
         <PageLink link={link}>
           <Box color={textColor}>

@@ -8,7 +8,6 @@ interface AudioButtonProps {
 }
 
 export const AudioButton = ({ muted, onClick }: AudioButtonProps) => {
-  console.log(muted)
   return (
     <AudioButtonWrapper onClick={onClick}>
       {muted ? <BsVolumeMute /> : <BsVolumeUp />}

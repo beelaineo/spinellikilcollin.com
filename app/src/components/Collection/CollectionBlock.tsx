@@ -85,15 +85,6 @@ export const CollectionBlock = ({
     backgroundColor,
     cloudinaryVideo,
   } = collectionBlock
-  const sizes = !format
-    ? undefined
-    : format === 'square'
-    ? [{ width: 900 }]
-    : format === 'vertical'
-    ? [{ width: 900 }]
-    : format === 'horizontal'
-    ? [{ width: 900 }]
-    : undefined
   return (
     <Wrapper
       backgroundColor={backgroundColor}
@@ -106,9 +97,7 @@ export const CollectionBlock = ({
         </TextWrapper>
       ) : null}
       <Padding format={format} />
-      {cloudinaryVideo ? (
-        <CloudinaryVideo sizes={sizes} video={cloudinaryVideo} />
-      ) : null}
+      {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
       <Image
         image={backgroundImage}
         sizes="(min-width: 600px) 100vw, (min-width: 780px) 50vw, 30vw"
