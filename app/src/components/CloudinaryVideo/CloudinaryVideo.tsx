@@ -42,7 +42,6 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
       })
 
       hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-        console.log('parsed', { event, data })
         if (!videoRef.current) return
         videoRef.current.play()
       })
@@ -57,14 +56,3 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
     </VideoWrapper>
   )
 }
-
-// <video autoPlay muted={muted} loop playsInline poster={poster}>
-//   {sizes.map(({ width, mediaQuery }) => (
-//     <VideoSource
-//       key={width}
-//       id={videoId}
-//       mediaQuery={mediaQuery}
-//       width={width}
-//     />
-//   ))}
-// </video>
