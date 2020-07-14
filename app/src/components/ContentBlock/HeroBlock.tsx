@@ -75,7 +75,6 @@ const HeroImageWrapper = styled.div`
     width: 100%;
 
     video {
-      position: absolute;
       top: 0;
       left: 0;
       width: 100%;
@@ -123,16 +122,19 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
   return (
     <HeroWrapper>
       <DocumentLink document={heroLink?.document ?? undefined}>
-        <HeroImageWrapper>
-          {image ? <Image ratio={ratio} image={image} /> : null}
-          {<Image ratio={1} image={mobileImage || image} />}
-        </HeroImageWrapper>
-        <HeroImageWrapper>
-          {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
-          {cloudinaryVideoMobile ? (
-            <CloudinaryVideo video={cloudinaryVideoMobile} />
-          ) : null}
-        </HeroImageWrapper>
+        {cloudinaryVideo ? (
+          <HeroImageWrapper>
+            <CloudinaryVideo video={cloudinaryVideo} />
+            {cloudinaryVideoMobile ? (
+              <CloudinaryVideo video={cloudinaryVideoMobile} />
+            ) : null}
+          </HeroImageWrapper>
+        ) : (
+          <HeroImageWrapper>
+            {image ? <Image ratio={ratio} image={image} /> : null}
+            {<Image ratio={1} image={mobileImage || image} />}
+          </HeroImageWrapper>
+        )}
         <HeroText
           textPosition={textPosition}
           textColor={textColor}
