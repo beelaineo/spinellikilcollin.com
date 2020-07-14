@@ -10,7 +10,7 @@ import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
-import { definitely } from '../../utils'
+import { isValidHero, definitely } from '../../utils'
 import { Wrapper, NoResultsWrapper } from './styled'
 
 import { useShopData } from '../../providers/ShopDataProvider'
@@ -76,10 +76,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     sanityQuery(query, params)
   }
 
+  const validHero = isValidHero(hero)
   return (
     <>
-      {hero ? <HeroBlock hero={hero} /> : null}
-      <Wrapper>
+      {hero && validHero ? <HeroBlock hero={hero} /> : null}
+      <Wrapper withHero={Boolean(hero && validHero)}>
         {filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}

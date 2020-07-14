@@ -20,6 +20,7 @@ declare module 'styled-components' {
       round: string
     }
     navHeight: string
+    mobileNavHeight: string
 
     fonts: {
       serif: string

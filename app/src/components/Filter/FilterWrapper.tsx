@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import { OpenButton } from './styled'
+import { OpenButton, FilterSetWrapper } from './styled'
 import { PriceRangeFilter, FilterSet } from '../../types'
 
 const { useState } = React
@@ -19,9 +19,26 @@ const Wrapper = styled.div<WithType>`
     grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
+    ${theme.mediaQueries.tablet} {
+      grid-row: span 1;
+    }
     ${theme.mediaQueries.mobile} {
       border-color: body.0;
       border-bottom: 1px solid;
+    }
+
+    &:last-of-type {
+      ${type === 'PriceRangeFilter'
+        ? css`
+            grid-column-start: -1;
+            grid-column-end: -3;
+
+            ${theme.mediaQueries.tablet} {
+              grid-column-start: 2;
+              grid-column-end: 4;
+            }
+          `
+        : ''};
     }
   `}
 `
@@ -47,7 +64,7 @@ const ButtonWrapper = styled.div`
       justify-content: space-between;
       align-items: center;
       display: flex;
-      padding: 4 0;
+      padding: 0 0;
     }
   `}
 `
@@ -56,6 +73,12 @@ const Inner = styled.div<WithOpen>`
   ${({ theme, open }) => css`
     ${theme.mediaQueries.mobile} {
       display: ${open ? 'block' : 'none'};
+      padding-bottom: 4;
+
+      ${FilterSetWrapper} {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
     }
   `}
 `
@@ -79,7 +102,7 @@ export const FilterWrapper = ({
   const rowSpan =
     filter.__typename === 'FilterSet'
       ? filter && filter?.filters?.length
-        ? Math.floor(filter.filters.length / 4)
+        ? Math.floor(filter.filters.length / 3)
         : 1
       : undefined
 

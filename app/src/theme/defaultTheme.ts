@@ -7,7 +7,7 @@ const grays = [
   '#f5f3f4',
   '#e7e6e8',
   '#d1d1d2',
-  '#b0b0b0',
+  '#979797',
   '#818181',
   '#444443',
   '#222222',
@@ -26,6 +26,7 @@ export const defaultTheme: DefaultTheme = {
     round: '9px',
   },
   navHeight: '96px',
+  mobileNavHeight: '52px',
   /*   Spacing - applies to:
    *   margin, margin-top, margin-right, margin-bottom, margin-left, padding,
    *   padding-top, padding-right, padding-bottom, padding-left, grid-gap,

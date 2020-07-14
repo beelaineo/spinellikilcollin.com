@@ -1,6 +1,5 @@
 import styled, { css } from '@xstyled/styled-components'
 import { Input } from '../Forms/Fields/styled'
-import { Button } from '../Button'
 
 interface WithVisible {
   visible: boolean
@@ -31,6 +30,10 @@ export const Wrapper = styled.div<WithVisible>`
     pointer-events: ${visible ? 'inherit' : 'none'};
     transition: 0.3s ease-out;
     transform: ${visible ? 'none' : 'translateY(-10px)'};
+
+    ${theme.mediaQueries.mobile} {
+      padding-top: calc(${theme.mobileNavHeight} + ${theme.space[4]}px);
+    }
   `}
 `
 
@@ -45,7 +48,7 @@ interface WithDisabled {
 }
 
 export const SearchForm = styled.form<WithDisabled>`
-  ${({ disabled }) => css`
+  ${({ theme, disabled }) => css`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -53,18 +56,36 @@ export const SearchForm = styled.form<WithDisabled>`
     transition: 0.2s;
     opacity: ${disabled ? 0.7 : 1};
     pointer-events: ${disabled ? 'none' : 'inherit'};
+    button {
+      min-width: 150px;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      button {
+        width: 100%;
+      }
+    }
   `}
 `
 
 export const SearchHeader = styled.div`
-  padding: 7;
+  ${({ theme }) => css`
+    padding: 7;
+    ${theme.mediaQueries.mobile} {
+      padding: 4;
+    }
+  `}
 `
 
-export const CloseButton = styled(Button)`
+export const CloseButton = styled.div`
   ${({ theme }) => css`
     position: absolute;
-    right: ${theme.space[8]}px;
-    top: calc(${theme.navHeight}) + ${theme.space[2]}px);
+    right: ${theme.space[6]}px;
+    top: calc(${theme.navHeight} + ${theme.space[5]}px);
+    ${theme.mediaQueries.mobile} {
+      top: calc(${theme.mobileNavHeight} + ${theme.space[4]}px);
+      right: ${theme.space[4]}px;
+    }
   `}
 `
 
@@ -75,17 +96,24 @@ export const Results = styled.div`
 
 export const ResultsInner = styled.div`
   margin: 0 auto;
-  padding: 0 2;
-  max-width: 1100px;
+  padding: 0;
 `
 
 export const StyledSearchInput = styled(Input)`
-  font-size: 2;
-  height: auto;
-  border: none;
-  text-align: center;
-  border-bottom: 1px solid;
-  background-color: transparent;
-  border-color: body.4;
-  margin-bottom: 6;
+  ${({ theme }) => css`
+    font-size: 2;
+    height: auto;
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid;
+    background-color: transparent;
+    border-color: body.4;
+    margin-bottom: 6;
+    height: 55px;
+
+    ${theme.mediaQueries.mobile} {
+      height: 45px;
+      font-size: 3;
+    }
+  `}
 `

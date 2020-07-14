@@ -60,7 +60,7 @@ export const Inner = styled.div<WithBorder>`
     }
     ${theme.mediaQueries.mobile} {
       padding-top: 13px;
-      grid-template-columns: 20px 1fr 20px;
+      grid-template-columns: 60px 1fr 60px;
       max-width: calc(100% - (${theme.space[4]}px * 2));
     }
   `}
@@ -138,6 +138,17 @@ export const HamburgerWrapper = styled.div`
   `}
 `
 
+export const CurrencySelectorWrapper = styled.div`
+  ${({ theme }) => css`
+    margin-right: 3;
+
+    ${theme.mediaQueries.mobile} {
+      width: 24px;
+      overflow: hidden;
+    }
+  `}
+`
+
 export const NavHeaderWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -200,14 +211,19 @@ export const CartBadge = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    top: -10px;
-    left: -10px;
+    top: -8px;
+    left: -8px;
     padding-top: 1px;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     background-color: body.2;
     border: 1px solid;
     border-radius: 20px;
+
+    h5 {
+      font-size: 11px;
+    }
+
     ${theme.mediaQueries.mobile} {
       padding-top: 0px;
       width: 16px;
@@ -217,8 +233,8 @@ export const CartBadge = styled.div`
 
       transform: scale(0.8);
 
-      h4 {
-        font-size: 11px;
+      h5 {
+        font-size: 9px;
       }
     }
   `}

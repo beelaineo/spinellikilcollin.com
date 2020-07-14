@@ -1,8 +1,12 @@
 import styled, { css } from '@xstyled/styled-components'
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
-    padding-top: ${theme.navHeight};
+interface WrapperProps {
+  withHero: boolean
+}
+
+export const Wrapper = styled.div<WrapperProps>`
+  ${({ theme, withHero }) => css`
+    padding-top: ${withHero ? 0 : theme.navHeight};
   `}
 `
 

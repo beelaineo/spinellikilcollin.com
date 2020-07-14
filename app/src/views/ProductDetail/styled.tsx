@@ -1,5 +1,9 @@
 import styled, { css } from '@xstyled/styled-components'
-import { SlidesContainer } from '../../components/Carousel/styled'
+import {
+  CarouselContainer,
+  SlidesContainer,
+  DotsInner,
+} from '../../components/Carousel/styled'
 
 export const Wrapper = styled.div`
   position: relative;
@@ -45,7 +49,11 @@ export const InfoWrapper = styled.div`
     justify-content: flex-start;
 
     ${theme.mediaQueries.tablet} {
-      padding-top: 7;
+      padding: 9 81px 0;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 6 0 0;
     }
   `}
 `
@@ -58,6 +66,7 @@ export const AffirmWrapper = styled.div`
       margin: 4 auto 0;
       width: 100%;
       max-width: small;
+      text-align: center;
     }
   `}
 `
@@ -82,7 +91,11 @@ export const ProductInfoWrapper = styled.div`
     ${theme.mediaQueries.tablet} {
       margin: 0 auto;
       width: 100%;
-      max-width: small;
+      padding: 0;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 0;
     }
   `}
 `
@@ -151,12 +164,23 @@ export const MobileWrapper = styled.div`
     display: none;
     ${theme.mediaQueries.tablet} {
       display: block;
-      margin: 7 0 2;
+      margin: 5 0 2;
+
+      ${CarouselContainer} {
+        padding: 0;
+      }
+      ${DotsInner} {
+        max-width: initial;
+        margin: auto;
+      }
     }
 
     ${theme.mediaQueries.mobile} {
       & ${SlidesContainer} > *:first-child {
         transform: scale(1.3);
+      }
+      ${DotsInner} {
+        margin: auto;
       }
     }
   `}

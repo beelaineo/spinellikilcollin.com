@@ -21,15 +21,15 @@ interface WithDisplayGrid {
 }
 
 export const ProductInfo = styled.div<WithDisplayGrid>`
-  ${({ displayGrid }) => css`
-    padding: 3 0;
+  ${({ theme, displayGrid }) => css`
+    padding: 0 0 5;
     text-align: center;
     text-transform: capitalize;
     ${displayGrid
       ? css`
           display: grid;
           grid-template-columns: 1fr;
-          grid-row-gap: 3;
+          grid-row-gap: 2;
           grid-template-rows: 1fr 1fr 25px;
           align-items: center;
         `
@@ -38,6 +38,10 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
     }
     h3 {
       font-size: 16px;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 0 0 4;
     }
   `}
 `
@@ -50,6 +54,7 @@ export const TagBadgeWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 1;
 `
 
 export const TagBadge = styled.div`

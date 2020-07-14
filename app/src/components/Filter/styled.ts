@@ -9,7 +9,12 @@ export const Wrapper = styled.div`
 `
 
 export const Header = styled.div`
-  padding: 0 7;
+  ${({ theme }) => css`
+    padding: 0 7;
+    ${theme.mediaQueries.mobile} {
+      padding: 0 4;
+    }
+  `}
 `
 
 interface WithOpen {
@@ -62,6 +67,7 @@ export const FilterSets = styled.div`
       padding: 2 0;
       display: block;
       border-bottom: none;
+      margin: 0 4;
     }
   `}
 `
@@ -81,11 +87,17 @@ export const HeadingWrapper = styled.div`
 export const FilterSetWrapper = styled.div``
 
 export const ButtonsWrapper = styled.div`
-  display: grid;
-  margin: 0 7;
-  padding: 4 0;
-  grid-template-columns: 160px 160px;
-  grid-gap: 4;
+  ${({ theme }) => css`
+    display: grid;
+    margin: 0 7;
+    padding: 4 0;
+    grid-template-columns: 160px 160px;
+    grid-gap: 4;
+    ${theme.mediaQueries.mobile} {
+      margin: 0 4;
+      grid-template-columns: 1fr;
+    }
+  `}
 `
 
 export const PriceRangeFilterWrapper = styled.div`
@@ -97,12 +109,13 @@ export const Slider = styled.div`
   position: relative;
   padding: 3 0;
   max-width: 300px;
+  margin-top: 2;
   margin-bottom: 6;
   &:after {
     content: '';
     width: 100%;
     height: 1px;
-    background-color: body.9;
+    background-color: body.6;
     position: absolute;
     left: 0;
     top: 50%;
@@ -119,21 +132,23 @@ export const KnobHandle = styled.div<WithPosition>`
     cursor: pointer;
     text-align: center;
     z-index: 10;
-    top: calc(50% - 8px);
+    top: calc(50% - 7px);
     left: calc(${position * 100}% - (${position} * 16px));
   `}
 `
 
 export const KnobDot = styled.div`
-  width: 16px;
-  height: 16px;
-  background-color: body.9;
+  width: 15px;
+  height: 15px;
+  background-color: body.0;
+  border: 1px solid;
+  border-color: body.6;
   border-radius: 16px;
 `
 
 export const KnobLabel = styled.div`
   position: absolute;
-  top: calc(100% + 5px);
+  top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
 `

@@ -172,8 +172,8 @@ export const Filter = ({
           <Button type="button" onClick={handleSubmit}>
             Apply Filters
           </Button>
-          <Button level={3} type="button" onClick={handleReset}>
-            Reset
+          <Button level={2} type="button" onClick={handleReset}>
+            Clear Filters
           </Button>
         </ButtonsWrapper>
       </Inner>

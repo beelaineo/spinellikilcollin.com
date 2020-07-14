@@ -24,12 +24,13 @@ export const Affirm = ({ price }: AffirmProps) => {
   }, [])
 
   useEffect(() => {
+    if (currentCurrency !== 'USD') return
     // @ts-ignore
     if (window && window.affirm && window.affirm.ui.refresh) {
       // @ts-ignore
       window.affirm.ui.refresh()
     }
-  }, [isMounted, amount])
+  }, [isMounted, amount, currentCurrency])
 
   if (currentCurrency !== 'USD') return null
   if (!amount) return null

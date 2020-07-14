@@ -3,6 +3,12 @@ import Link from 'next/link'
 import HTMLParser from 'html-parser-lite'
 import { getLinkFromHref } from '../utils'
 import { Heading, P, Ol, Ul, Li, Span } from '../components/Text'
+import { Hero } from '../types'
+
+export const isValidHero = (hero?: Hero | null): boolean => {
+  if (!hero) return false
+  return Boolean(hero?.image || hero?.cloudinaryVideo)
+}
 
 const css2obj = (css: string): object => {
   return css.split(';').reduce((ruleMap, ruleString) => {

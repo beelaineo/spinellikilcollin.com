@@ -118,7 +118,6 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
   const link = content.link ? content.link[0] : undefined
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
-  console.log(content)
   const ratio = layout === 'fullWidth' ? 0.5 : 1
   return (
     <Wrapper layout={layout}>

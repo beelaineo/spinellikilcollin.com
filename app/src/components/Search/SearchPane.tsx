@@ -7,6 +7,7 @@ import { Button } from '../Button'
 import { useLockScroll } from '../LockScroll'
 import { useSearch } from '../../providers/SearchProvider'
 import { SearchInput } from './SearchInput'
+import { Hamburger } from '../Hamburger'
 import {
   Outer,
   CloseButton,
@@ -70,10 +71,9 @@ export const SearchPane = () => {
   return (
     <Outer>
       <Wrapper aria-hidden={!open} visible={open}>
-        <CloseButton level={3} onClick={close}>
-          close
+        <CloseButton>
+          <Hamburger open={true} onClick={close} />
         </CloseButton>
-
         <SearchHeader>
           <Column maxWidth="medium">
             <SearchInput />

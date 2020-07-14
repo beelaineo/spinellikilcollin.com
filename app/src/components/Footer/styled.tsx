@@ -83,6 +83,10 @@ export const FooterLinks = styled.div`
       grid-template-columns: 30% 1fr;
       grid-column-gap: 5;
     }
+
+    @media screen and (max-width: 324px) {
+      padding: 0 20px;
+    }
   `}
 `
 
@@ -150,7 +154,7 @@ export const SuccessWrapper = styled.div<WithVisible>`
 export const Socials = styled.div`
   ${({ theme }) => css`
     color: body.8;
-    font-size: 31px;
+    font-size: 21px;
     display: flex;
     width: 100%;
     justify-content: flex-start;

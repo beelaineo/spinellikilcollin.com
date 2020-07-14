@@ -7,16 +7,17 @@ export const CheckboxElement = styled.input`
   -webkit-appearance: none;
   border-radius: 0;
   border: 1px solid;
-  border-color: body.6;
+  border-color: body.5;
   background-color: white;
   margin-top: 3px;
 
   width: 12px;
   height: 12px;
   position: relative;
+  cursor: pointer;
 
   &:checked {
-    background-color: body.6;
+    background-color: body.5;
   }
 `
 
@@ -24,7 +25,7 @@ export const CheckboxWrapper = styled.div`
   display: grid;
   grid-template-columns: 25px 1fr;
   align-items: center;
-  margin: 5px 0 0;
+  margin: 8px 0 0;
   cursor: pointer;
   align-items: start;
 

@@ -3,6 +3,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { useCurrency } from '../../providers/CurrencyProvider'
 import { Form } from '../Forms'
 import { SelectElement } from '../Forms/Fields/styled'
+import { CurrencySelectorWrapper } from './styled'
 import { ShopifyStorefrontCurrencyCode } from '../../types/generated-shopify'
 
 const SelectField = styled(SelectElement)`
@@ -37,7 +38,7 @@ export const CurrencySelector = () => {
   }
 
   return (
-    <div>
+    <CurrencySelectorWrapper>
       <Form
         disabled={loading}
         onSubmit={handleSubmit}
@@ -51,6 +52,6 @@ export const CurrencySelector = () => {
           ))}
         </SelectField>
       </Form>
-    </div>
+    </CurrencySelectorWrapper>
   )
 }

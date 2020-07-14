@@ -145,7 +145,7 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     justify-content: center;
     align-items: center;
     height: 77%;
-      width: ${theme.space[11]}px;
+    width: ${theme.space[11]}px;
     top: 0;
     ${
       direction === 'next'
@@ -162,7 +162,9 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
 
     ${theme.mediaQueries.desktop} {
       width: ${theme.space[11]}px;
-      
+    }
+    ${theme.mediaQueries.mobile} {
+      display: none;
     }
 
 
@@ -196,5 +198,38 @@ export const CarouselButton = styled.button<CarouselButtonProps>`
     ${theme.mediaQueries.mobile} {
       display: none;
     }
+  `}
+`
+export const DotsWrapper = styled.div`
+  ${({ theme }) => css`
+    margin: 7 auto 3;
+    padding: 0;
+    position: relative;
+    z-index: 10;
+
+    ${theme.mediaQueries.mobile} {
+      padding: 0 0;
+    }
+  `}
+`
+
+export const DotsInner = styled.div`
+  max-width: small;
+  display: flex;
+  justify-content: flex-start;
+  margin: 0 auto;
+`
+
+interface WithActive {
+  active: boolean
+}
+
+export const Dot = styled.div<WithActive>`
+  ${({ active }) => css`
+    margin-right: 2;
+    width: 6px;
+    height: 6px;
+    border-radius: 10px;
+    background-color: ${active ? 'body.7' : 'body.4'};
   `}
 `
