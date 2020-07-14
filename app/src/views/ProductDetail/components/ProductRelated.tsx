@@ -28,7 +28,6 @@ const getCarousel = (
 
 export const ProductRelated = ({ product }: ProductRelatedProps) => {
   const carousel = getCarousel(product)
-  console.log(carousel)
   if (!carousel) return null
   const linkAs =
     carousel.__typename === 'ShopifyCollection'

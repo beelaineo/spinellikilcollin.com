@@ -43,7 +43,6 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
   query: DocumentNode,
   variables?: V,
 ): LazyRequestTuple<R, V> => {
-  console.log(query, variables)
   const response = useSWR<R | null>(
     [print(query), JSON.stringify(variables)],
     async () => {
@@ -56,7 +55,6 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
     const result = await request<R>(query, variables)
     response.mutate(result, false)
   }
-  console.log(response, response.data, response.error)
 
   return [executeQuery, response]
 }

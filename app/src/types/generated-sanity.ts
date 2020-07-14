@@ -529,6 +529,7 @@ export interface Hero {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
+  heroLink?: Maybe<InternalLink>
   aspectRatio?: Maybe<Scalars['Float']>
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
@@ -545,6 +546,7 @@ export interface Hero {
 export type HeroFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
+  heroLink?: Maybe<InternalLinkFilter>
   aspectRatio?: Maybe<FloatFilter>
   textPosition?: Maybe<StringFilter>
   textColor?: Maybe<StringFilter>
@@ -561,6 +563,7 @@ export type HeroFilter = {
 export type HeroSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
+  heroLink?: Maybe<InternalLinkSorting>
   aspectRatio?: Maybe<SortOrder>
   textPosition?: Maybe<SortOrder>
   textColor?: Maybe<SortOrder>

@@ -9,16 +9,31 @@
             "name": "About"
           },
           {
-            "name": "SanityImageAsset"
+            "name": "Contact"
           },
           {
             "name": "Customize"
+          },
+          {
+            "name": "JournalEntry"
+          },
+          {
+            "name": "SanityImageAsset"
+          },
+          {
+            "name": "JournalPage"
           },
           {
             "name": "Magazine"
           },
           {
             "name": "Page"
+          },
+          {
+            "name": "ShopifyCollection"
+          },
+          {
+            "name": "ShopifyProduct"
           },
           {
             "name": "TeamPage"
@@ -28,21 +43,6 @@
           },
           {
             "name": "SiteSettings"
-          },
-          {
-            "name": "Contact"
-          },
-          {
-            "name": "JournalEntry"
-          },
-          {
-            "name": "JournalPage"
-          },
-          {
-            "name": "ShopifyCollection"
-          },
-          {
-            "name": "ShopifyProduct"
           },
           {
             "name": "Menu"
@@ -55,48 +55,6 @@
           },
           {
             "name": "SanityFileAsset"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "CustomizeOrMagazineOrPageOrTeamPage",
-        "possibleTypes": [
-          {
-            "name": "Customize"
-          },
-          {
-            "name": "Magazine"
-          },
-          {
-            "name": "Page"
-          },
-          {
-            "name": "TeamPage"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FilterSetOrPriceRangeFilter",
-        "possibleTypes": [
-          {
-            "name": "FilterSet"
-          },
-          {
-            "name": "PriceRangeFilter"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ExternalLinkOrInternalLink",
-        "possibleTypes": [
-          {
-            "name": "ExternalLink"
-          },
-          {
-            "name": "InternalLink"
           }
         ]
       },
@@ -135,6 +93,18 @@
       },
       {
         "kind": "UNION",
+        "name": "ExternalLinkOrInternalLink",
+        "possibleTypes": [
+          {
+            "name": "ExternalLink"
+          },
+          {
+            "name": "InternalLink"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
         "name": "PageOrShopifyCollectionOrShopifyProduct",
         "possibleTypes": [
           {
@@ -145,6 +115,36 @@
           },
           {
             "name": "ShopifyProduct"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "FilterSetOrPriceRangeFilter",
+        "possibleTypes": [
+          {
+            "name": "FilterSet"
+          },
+          {
+            "name": "PriceRangeFilter"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CustomizeOrMagazineOrPageOrTeamPage",
+        "possibleTypes": [
+          {
+            "name": "Customize"
+          },
+          {
+            "name": "Magazine"
+          },
+          {
+            "name": "Page"
+          },
+          {
+            "name": "TeamPage"
           }
         ]
       },

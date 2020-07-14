@@ -426,6 +426,9 @@ export const heroFragment = gql`
     textPosition
     textPositionMobile
     aspectRatio
+    heroLink {
+      ...InternalLinkFragment
+    }
     mobileImage {
       ...RichImageFragment
     }
@@ -441,4 +444,5 @@ export const heroFragment = gql`
   }
   ${cloudinaryVideoFragment}
   ${richImageFragment}
+  ${internalLinkFragment}
 `

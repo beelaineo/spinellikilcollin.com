@@ -9,6 +9,7 @@ import {
 import { Image } from '../Image'
 import { Hero } from '../../types'
 import { RichText } from '../RichText'
+import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 
 const HeroWrapper = styled.div`
@@ -105,6 +106,7 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
   const {
     textPosition,
     textColor,
+    heroLink,
     bodyRaw,
     image,
     textPositionMobile,
@@ -114,31 +116,34 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
     mobileImage,
     aspectRatio,
   } = hero
+  console.log(hero)
 
   const ratio = aspectRatio || 0.5
 
   return (
     <HeroWrapper>
-      <HeroImageWrapper>
-        {image ? <Image ratio={ratio} image={image} /> : null}
-        {<Image ratio={1} image={mobileImage || image} />}
-      </HeroImageWrapper>
-      <HeroImageWrapper>
-        {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
-        {cloudinaryVideoMobile ? (
-          <CloudinaryVideo video={cloudinaryVideoMobile} />
-        ) : null}
-      </HeroImageWrapper>
-      <HeroText
-        textPosition={textPosition}
-        textColor={textColor}
-        textPositionMobile={textPositionMobile}
-        textColorMobile={textColorMobile}
-      >
-        <div className="text-container">
-          <RichText body={bodyRaw} />
-        </div>
-      </HeroText>
+      <DocumentLink document={heroLink?.document ?? undefined}>
+        <HeroImageWrapper>
+          {image ? <Image ratio={ratio} image={image} /> : null}
+          {<Image ratio={1} image={mobileImage || image} />}
+        </HeroImageWrapper>
+        <HeroImageWrapper>
+          {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
+          {cloudinaryVideoMobile ? (
+            <CloudinaryVideo video={cloudinaryVideoMobile} />
+          ) : null}
+        </HeroImageWrapper>
+        <HeroText
+          textPosition={textPosition}
+          textColor={textColor}
+          textPositionMobile={textPositionMobile}
+          textColorMobile={textColorMobile}
+        >
+          <div className="text-container">
+            <RichText body={bodyRaw} />
+          </div>
+        </HeroText>
+      </DocumentLink>
     </HeroWrapper>
   )
 }
