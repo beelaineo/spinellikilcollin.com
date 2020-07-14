@@ -42,7 +42,7 @@ export const hero = {
       type: 'richText',
     },
     {
-      name: 'link',
+      name: 'heroLink',
       title: 'Link',
       type: 'internalLink',
     },
@@ -115,7 +115,7 @@ export const hero = {
     select: {
       title: 'body',
       image: 'image',
-      link: 'link',
+      link: 'heroLink',
     },
     prepare: (values) => {
       return {
