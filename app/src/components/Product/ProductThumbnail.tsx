@@ -51,7 +51,6 @@ export const ProductThumbnail = ({
   product,
   displayPrice,
   displayTags,
-  preload,
   displaySwatches,
   headingLevel,
   preferredVariantMatches,

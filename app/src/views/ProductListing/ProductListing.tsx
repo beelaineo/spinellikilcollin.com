@@ -29,11 +29,7 @@ interface FilterVariables {
   collectionId: string
 }
 
-export const ProductListing = ({
-  collection,
-  sanityCollection,
-}: ProductListingProps) => {
-  console.log({ collection, sanityCollection })
+export const ProductListing = ({ collection }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
   const [filterOpen, setFilterOpen] = useState(false)
   const {
@@ -81,7 +77,6 @@ export const ProductListing = ({
   }
 
   const validHero = isValidHero(hero)
-  console.log({ hero, validHero })
   return (
     <>
       {hero && validHero ? <HeroBlock hero={hero} /> : null}

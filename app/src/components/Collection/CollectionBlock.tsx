@@ -27,7 +27,7 @@ interface WithFormat {
 }
 
 const Padding = styled.div<WithFormat>`
-  ${({ format }) => css`
+  ${({ theme, format }) => css`
     content: '';
     display: inline-block;
     width: 1px;
@@ -37,6 +37,14 @@ const Padding = styled.div<WithFormat>`
       : format === 'tall'
       ? '200%'
       : 'auto'};
+
+    ${theme.mediaQueries.mobile} {
+      padding-bottom: ${format === 'wide'
+        ? '100%'
+        : format === 'tall'
+        ? '200%'
+        : 'auto'};
+    }
   `}
 `
 
@@ -78,6 +86,7 @@ export const CollectionBlock = ({
   collectionBlock,
 }: CollectionBlockProps) => {
   const {
+    body,
     bodyRaw,
     textPosition,
     textColor,
@@ -91,9 +100,9 @@ export const CollectionBlock = ({
       textPosition={textPosition}
       textColor={textColor}
     >
-      {bodyRaw ? (
+      {body || bodyRaw ? (
         <TextWrapper>
-          <RichText weight={2} body={bodyRaw} />
+          <RichText weight={2} body={body || bodyRaw} />
         </TextWrapper>
       ) : null}
       <Padding format={format} />

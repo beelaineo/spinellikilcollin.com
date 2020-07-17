@@ -38,12 +38,20 @@ interface WithFormat {
 }
 
 export const ProductGridItemPadding = styled.div<WithFormat>`
-  ${({ format }) => css`
+  ${({ format, theme }) => css`
     padding-bottom: ${format === 'wide'
       ? '50%'
       : format === 'tall'
       ? '200%'
       : '100%'};
+
+    ${theme.mediaQueries.mobile} {
+      padding-bottom: ${format === 'wide'
+        ? '100%'
+        : format === 'tall'
+        ? '200%'
+        : '100%'};
+    }
   `}
 `
 

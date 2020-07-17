@@ -7,6 +7,7 @@
 	"license": "NONE",
 	"scripts": {
 		"start": "DEBUG=app* next",
+		"start:debug": "NODE_OPTIONS='--inspect' DEBUG=app* next dev",
 		"build": "yarn build:json && yarn build:next",
 		"build:next": "next build",
 		"build:analyze": "ANALYZE=true next build",
