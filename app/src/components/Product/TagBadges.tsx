@@ -14,6 +14,7 @@ interface TagBadgesProps {
 export const TagBadges = ({ product }: TagBadgesProps) => {
   const shopData = useShopData()
   const tagBadges = definitely(shopData?.productInfoSettings?.tagBadges)
+  console.log(product?.sourceData)
   const tags = definitely(product?.sourceData?.tags)
   const matches = useMemo(
     () =>

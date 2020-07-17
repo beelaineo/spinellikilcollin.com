@@ -41,8 +41,6 @@ export const ModalWrapper = styled.div`
     max-width: calc(100% - (${theme.space[4]}px * 2));
     z-index: 2;
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
-    border: 1px solid;
-    border-color: body.7;
     background-color: body.0;
 
     cursor: initial;

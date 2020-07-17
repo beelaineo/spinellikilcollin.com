@@ -24,7 +24,7 @@ export const TextArea = (props: TextAreaProps) => {
         <InputWrapper>
           <TextAreaElement
             {...field}
-            as="textArea"
+            as="textarea"
             value={field.value || ''}
             id={field.name}
             required={required}

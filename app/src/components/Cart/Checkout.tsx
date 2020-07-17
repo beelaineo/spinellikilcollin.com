@@ -72,7 +72,7 @@ export const Checkout = () => {
         </CartInner>
       ) : (
         <>
-          <CartInner loading={loading}>
+          <CartInner isLoading={loading}>
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
@@ -97,7 +97,7 @@ export const Checkout = () => {
               <Heading level={5} textAlign="center">
                 Please leave special instructions below
               </Heading>
-              <Field type="textArea" name="notes" />
+              <Field type="textarea" name="notes" />
               <Button
                 type="submit"
                 my={4}

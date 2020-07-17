@@ -22,9 +22,10 @@ interface WithDisplayGrid {
 
 export const ProductInfo = styled.div<WithDisplayGrid>`
   ${({ theme, displayGrid }) => css`
-    padding: 0 0 5;
+    padding: 3 0 5;
     text-align: center;
     text-transform: capitalize;
+    color: body.7;
     ${displayGrid
       ? css`
           display: grid;
@@ -99,7 +100,7 @@ export const SwatchWrapper = styled.div<WithClickable>`
     margin: 0;
     padding-bottom: 2;
     cursor: ${clickable ? 'pointer' : 'inherit'};
-    border-bottom: ${active ? '2px solid' : 'none'};
+    border-bottom: ${active ? '1px solid' : 'none'};
     border-color: body.5;
 
     & + & {

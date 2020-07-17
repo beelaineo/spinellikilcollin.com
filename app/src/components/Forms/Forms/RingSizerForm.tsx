@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { Heading } from '../../Text'
 import { Form, Field } from '../../Forms'
+import { FieldWrapper } from '../../Forms/Fields/styled'
 import { Button } from '../../Button'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 
@@ -38,15 +39,32 @@ const FieldsWrapper = styled.div<WithVisible>`
     transition: 0.2s;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 2;
+    grid-row-gap: 4;
+    grid-column-gap: 3;
 
     & > * {
       grid-column: 1 / 3;
 
       &:nth-child(5),
-      &:nth-child(6) {
+      &:nth-child(6),
+      &:nth-child(7),
+      &:nth-child(8) {
         grid-column: span 1;
       }
+    }
+
+    .field {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+
+    ${FieldWrapper},
+    select {
+      flex-grow: 1;
+      height: 100%;
+      width: 100%;
+      max-width: initial;
     }
   `}
 `
@@ -104,7 +122,7 @@ export const RingSizerForm = ({
 
   return (
     <MainWrapper>
-      <Heading mt={0} level={3}>
+      <Heading mt={0} mb={5} level={3}>
         Request a ring sizer
       </Heading>
       <Form

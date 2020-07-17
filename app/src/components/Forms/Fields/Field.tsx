@@ -71,7 +71,7 @@ export const Field = (fieldProps: FieldProps) => {
         return <Select {...fieldProps} />
       case 'countrySelector':
         return <Select options={countryOptions} {...fieldProps} />
-      case 'textArea':
+      case 'textarea':
         return <TextArea {...fieldProps} />
       default:
         return <Input {...fieldProps} />

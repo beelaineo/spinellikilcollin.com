@@ -36,6 +36,8 @@ export const Label = styled(BaseLabel)`
     display: inline-block;
     font-weight: 2;
     cursor: inherit;
+    color: body.9;
+    margin-bottom: 2;
 
     a {
       color: higlight.0;
@@ -88,7 +90,7 @@ export const Input = styled.input`
 
 export const TextArea = styled(Input)`
   ${({ theme }) => css`
-    height: 120px;
+    height: 80px;
     resize: none;
     ${theme.mediaQueries.mobile} {
       padding: 2;

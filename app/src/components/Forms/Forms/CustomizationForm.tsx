@@ -168,7 +168,7 @@ export const CustomizationForm = ({
           <Field required name="location" label="Your Location" />
           <Field
             name="message"
-            type="textArea"
+            type="textarea"
             label="Notes"
             placeholder="I'm interested in..."
             required

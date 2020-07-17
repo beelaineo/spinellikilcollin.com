@@ -15,14 +15,14 @@ export const Wrapper = styled.div`
 
 export const ProductPageWrapper = styled.div`
   ${({ theme }) => css`
-    padding: 0 11 8 7;
+    padding: 0 11 0 0;
 
     ${theme.mediaQueries.tablet} {
-      padding: 9 7 7;
+      padding: 9 7 0;
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 9 7 7;
+      padding: 9 7 0;
     }
   `}
 `
@@ -45,15 +45,16 @@ export const InfoWrapper = styled.div`
     height: 100%;
     display: flex;
     padding-top: 190px;
+    padding-bottom: 3;
     flex-direction: column;
     justify-content: flex-start;
 
     ${theme.mediaQueries.tablet} {
-      padding: 9 81px 0;
+      padding: 9 81px 7;
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 6 0 0;
+      padding: 6 0 7;
     }
   `}
 `
@@ -106,7 +107,6 @@ export const ProductImagesWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding-right: 9;
-    padding-top: 3;
     ${theme.mediaQueries.tablet} {
       display: none;
     }

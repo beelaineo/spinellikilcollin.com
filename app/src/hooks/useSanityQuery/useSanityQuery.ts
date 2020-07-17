@@ -1,7 +1,7 @@
 import { useReducer, useState } from 'react'
 import type { SanityClient } from '@sanity/client'
 import type { Reducer } from 'react'
-import { withTypenames } from './withTypenames'
+import { withTypenames } from '../../utils'
 import { useError } from '../../providers/ErrorProvider'
 
 const RESET = 'RESET'

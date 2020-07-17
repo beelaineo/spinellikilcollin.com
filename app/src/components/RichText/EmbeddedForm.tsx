@@ -4,11 +4,11 @@ import { FormBlock } from '../../types'
 import { CustomizationForm, RingSizerForm } from '../Forms'
 
 const Wrapper = styled.div`
-  margin: 3 auto;
+  margin: 9 auto;
   max-width: 500px;
-  padding: 3;
-  border: 1px solid;
+  padding: 5;
   background-color: body.0;
+  box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
 `
 
 interface EmbeddedFormProps {

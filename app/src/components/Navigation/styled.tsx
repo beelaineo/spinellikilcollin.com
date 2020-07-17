@@ -127,7 +127,7 @@ export const NavHeader = styled.button`
 export const HamburgerWrapper = styled.div`
   ${({ theme }) => css`
     position: absolute;
-    top: 34px;
+    top: 48px;
     left: ${theme.space[7]}px;
     z-index: ${theme.zIndices.cart + 1};
 
@@ -261,7 +261,7 @@ export const SideNavigation = styled.div`
 
 export const NavInner = styled.div`
   ${({ theme }) => css`
-    padding: 7;
+    padding: 9 7 7;
     height: 100vh;
     overflow: scroll;
     max-width: calc(100vw + 1px);

@@ -50,8 +50,13 @@ interface ModalBackgroundProps {
 }
 
 export const CartBottom = styled.div`
-  padding: 4;
-  border-top: 1px solid black;
+  ${({ theme }) => css`
+    padding: 0 7;
+
+    ${theme.mediaQueries.mobile} {
+      padding: 3;
+    }
+  `}
 `
 
 export const CartNav = styled.div`
@@ -67,34 +72,45 @@ export const CartNav = styled.div`
 
 interface CartInnerProps {
   center?: boolean
-  loading?: boolean
+  isLoading?: boolean
 }
 
 export const CartInner = styled.div<CartInnerProps>`
-  ${({ center, loading }) => css`
+  ${({ theme, center, isLoading }) => css`
     flex-grow: 1;
     max-width: calc(100vw + 1px);
     overflow: scroll;
     padding-bottom: 90px;
-    padding: 0 4;
+    padding: 7;
     transition: 0.2s;
-    ${loading
-      ? css`
-          opacity: 0.7;
-          pointer-events: none;
-        `
-      : ''}
-    ${center
-      ? css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        `
-      : ''}
+    ${
+      isLoading
+        ? css`
+            opacity: 0.7;
+            pointer-events: none;
+          `
+        : ''
+    }
+    ${
+      center
+        ? css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          `
+        : ''
+    }
+
+  ${theme.mediaQueries.mobile} {
+    padding: 0 3;
+  }
+
   `}
 `
 
 export const SubtotalWrapper = styled.div`
+  padding-top: 4;
+  border-top: 1px solid black;
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 3;
@@ -120,6 +136,9 @@ export const CheckoutProductWrapper = styled.div`
 
   border-bottom: 1px solid;
 
+  &:first-of-type {
+    padding-top: 0;
+  }
   &:last-of-type {
     border-bottom: none;
   }

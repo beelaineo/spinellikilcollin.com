@@ -16,7 +16,7 @@ const ProductGridWrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     justify-content: space-evenly;
-    padding: 0 0 3;
+    padding: 0;
     grid-auto-rows: min-content;
     grid-auto-flow: row dense;
 
@@ -111,7 +111,7 @@ export const ProductGrid = ({
                 <ProductThumbnail
                   product={item}
                   displayPrice
-                  imageRatio={0.8}
+                  imageRatio={1}
                   preferredVariantMatches={preferredVariantMatches}
                 />
               </ProductGridItem>
