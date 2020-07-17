@@ -6,7 +6,9 @@
 		"test": "yarn workspace spinellikilcollin-app test",
 		"build": "yarn workspace spinellikilcollin-app build",
 		"build:analyze": "yarn workspace spinellikilcollin-app build:analyze",
-		"start:app": "yarn workspace spinellikilcollin-app start"
+		"start:app": "yarn workspace spinellikilcollin-app start",
+		"ncu": "yarn exec ncu && yarn workspaces run ncu",
+		"ncu:u": "yarn exec ncu -u && yarn workspaces run ncu -u && yarn install"
 	},
 	"devDependencies": {
 		"@commitlint/cli": "^8.3.5",
@@ -21,6 +23,7 @@
 		"husky": "^4.2.5",
 		"lerna": "^3.22.0",
 		"netlify-cli": "^2.53.0",
+		"npm-check-updates": "^7.0.2",
 		"prettier": "^2.0.5",
 		"pretty-quick": "^2.0.1",
 		"tsc-watch": "^4.2.8",
