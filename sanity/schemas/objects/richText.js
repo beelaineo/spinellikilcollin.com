@@ -140,6 +140,7 @@ export const richText = {
       },
     },
     { type: 'richImage' },
+    { type: 'cloudinaryVideo' },
     { type: 'form' },
   ],
 }

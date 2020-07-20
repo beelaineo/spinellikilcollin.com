@@ -18,5 +18,10 @@ export const cloudinaryVideo = {
       title: 'Enable playback controls',
       type: 'boolean',
     },
+    {
+      name: 'subtitle',
+      title: 'Subtitle',
+      type: 'text',
+    },
   ],
 }
