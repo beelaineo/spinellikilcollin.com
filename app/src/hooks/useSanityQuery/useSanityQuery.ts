@@ -86,10 +86,7 @@ export const useSanityQuery = <
 
   const reset = () => dispatch({ type: RESET })
 
-  const query = async <R = any[]>(
-    query: string,
-    customParams: V,
-  ): Promise<R> => {
+  const query = async (query: string, customParams: V): Promise<R[]> => {
     dispatch({ type: FETCH })
     const client = await fetchOrGetClient()
     const params = customParams ? customParams : {}

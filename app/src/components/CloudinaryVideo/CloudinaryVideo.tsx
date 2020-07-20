@@ -36,7 +36,6 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
   useEffect(() => {
     if (ready) return
     if (!videoRef.current) return
-    console.log(Hls.isSupported())
     if (Hls.isSupported()) {
       const hls = new Hls(hlsConfig)
       hlsRef.current = hls
