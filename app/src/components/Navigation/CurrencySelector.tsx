@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css } from '@xstyled/styled-components'
+import styled from '@xstyled/styled-components'
 import { useCurrency } from '../../providers/CurrencyProvider'
 import { Form } from '../Forms'
 import { SelectElement } from '../Forms/Fields/styled'

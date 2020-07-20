@@ -23,6 +23,7 @@ import { useFilterState, FilterSetState } from './reducer'
 import { Button } from '../../components/Button'
 import { PlusMinus } from '../../components/PlusMinus'
 import { FilterWrapper } from './FilterWrapper'
+import { Sort, SortButton } from './SortButton'
 
 const { useEffect, useState } = React
 
@@ -30,6 +31,7 @@ type FilterType = FilterSetType | PriceRangeFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
+  applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
   open?: boolean
 }
@@ -86,6 +88,7 @@ const getCurrentFilters = (
 export const Filter = ({
   filters,
   applyFilters,
+  applySort,
   open: parentOpen,
 }: FilterProps) => {
   const [open, setOpen] = useState(false)
@@ -125,6 +128,7 @@ export const Filter = ({
             <PlusMinus open={open} />
           </div>
         </OpenButton>
+        <SortButton applySort={applySort} />
       </Header>
       <Inner open={open}>
         <FilterSets>

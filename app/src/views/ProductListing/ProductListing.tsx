@@ -7,7 +7,7 @@ import {
 } from '../../types'
 import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
-import { Filter } from '../../components/Filter'
+import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
 import { isValidHero, definitely } from '../../utils'
@@ -42,6 +42,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [fetchMoreResults, setFetchMoreResults] = useState<ShopifyProduct[]>([])
   const { isInView } = useInViewport(bottomRef, '500px 0px')
   const { productListingSettings } = useShopData()
+  const [sort, setSort] = useState<Sort>(Sort.Default)
   const [filterOpen, setFilterOpen] = useState(false)
   const {
     state,
@@ -71,6 +72,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     ...definitely(products).slice(0, PAGE_SIZE),
     ...fetchMoreResults,
   ]
+
+  const applySort = (sort: Sort) => {
+    console.log(sort)
+  }
 
   // If there are collection blocks, insert them in the array
   // of products by position
@@ -132,6 +137,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         {filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}
+            applySort={applySort}
             open={filterOpen}
             filters={filters}
           />
