@@ -23,6 +23,7 @@ export const sanityImageAssetFragment = gql`
 export const sanityImageFragment = gql`
   fragment SanityImageFragment on Image {
     __typename
+    _type
     asset {
       ...SanityImageAssetFragment
     }
@@ -51,6 +52,7 @@ export const sanityImageFragment = gql`
 export const richImageFragment = gql`
   fragment RichImageFragment on RichImage {
     __typename
+    _type
     altText
     asset {
       ...SanityImageAssetFragment
