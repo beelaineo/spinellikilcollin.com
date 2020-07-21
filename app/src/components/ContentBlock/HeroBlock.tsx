@@ -47,7 +47,7 @@ const HeroText = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 6;
+    padding: calc(${theme.navHeight} + ${theme.space[6]}px) 6 6;
     display: flex;
     justify-content: ${textPosition
       ? getFlexJustification(textPosition)

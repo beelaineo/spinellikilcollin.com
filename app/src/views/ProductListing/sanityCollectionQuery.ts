@@ -19,6 +19,7 @@ export const sanityCollectionQuery = `
       asset->,
       ...,
     },
+    "bodyRaw": body,
     ...,
   },
   products[$productStart...$productEnd]->[]{
