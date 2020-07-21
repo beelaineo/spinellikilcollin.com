@@ -118,10 +118,7 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
     cloudinaryVideo,
     cloudinaryVideoMobile,
     mobileImage,
-    aspectRatio,
   } = hero
-
-  const ratio = aspectRatio || 0.5
 
   return (
     <HeroWrapper>
@@ -135,8 +132,8 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
           </HeroImageWrapper>
         ) : (
           <HeroImageWrapper>
-            {image ? <Image ratio={ratio} image={image} /> : null}
-            {<Image ratio={1} image={mobileImage || image} />}
+            {image ? <Image image={image} /> : null}
+            {<Image image={mobileImage || image} />}
           </HeroImageWrapper>
         )}
         <HeroText

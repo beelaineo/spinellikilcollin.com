@@ -80,7 +80,11 @@ export interface Block {
   list?: Maybe<Scalars['String']>
 }
 
-export type BlockOrFormOrRichImage = Block | Form | RichImage
+export type BlockOrCloudinaryVideoOrFormOrRichImage =
+  | Block
+  | CloudinaryVideo
+  | Form
+  | RichImage
 
 export type BooleanFilter = {
   /** Checks if the value is equal to the given input. */
@@ -122,6 +126,7 @@ export interface CloudinaryVideo {
   videoId?: Maybe<Scalars['String']>
   enableAudio?: Maybe<Scalars['Boolean']>
   enableControls?: Maybe<Scalars['Boolean']>
+  subtitle?: Maybe<Scalars['String']>
 }
 
 export type CloudinaryVideoFilter = {
@@ -130,6 +135,7 @@ export type CloudinaryVideoFilter = {
   videoId?: Maybe<StringFilter>
   enableAudio?: Maybe<BooleanFilter>
   enableControls?: Maybe<BooleanFilter>
+  subtitle?: Maybe<StringFilter>
 }
 
 export type CloudinaryVideoSorting = {
@@ -138,6 +144,7 @@ export type CloudinaryVideoSorting = {
   videoId?: Maybe<SortOrder>
   enableAudio?: Maybe<SortOrder>
   enableControls?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
 }
 
 export interface CollectionBlock {

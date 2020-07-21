@@ -189,10 +189,13 @@
       },
       {
         "kind": "UNION",
-        "name": "BlockOrFormOrRichImage",
+        "name": "BlockOrCloudinaryVideoOrFormOrRichImage",
         "possibleTypes": [
           {
             "name": "Block"
+          },
+          {
+            "name": "CloudinaryVideo"
           },
           {
             "name": "Form"

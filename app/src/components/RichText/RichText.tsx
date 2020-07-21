@@ -34,7 +34,6 @@ const RichTextWrapper = styled.div<WithArticle>`
             line-height: 1.5em;
             margin: 1.7em 0;
           }
-          h3,
           h4,
           p {
             line-height: 1.8em;

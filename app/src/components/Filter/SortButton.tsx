@@ -31,6 +31,7 @@ interface SortButtonProps {
 export const SortButton = ({ applySort }: SortButtonProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
+    // @ts-ignore
     applySort(value)
   }
 

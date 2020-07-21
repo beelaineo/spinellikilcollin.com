@@ -26,7 +26,7 @@ export const CartSidebar = styled.div`
 
 export const CartHeading = styled.div`
   ${({ theme }) => css`
-    height: ${theme.navHeight};
+    min-height: ${theme.navHeight};
     position: relative;
     display: flex;
     justify-content: center;

@@ -4,7 +4,7 @@ import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
 import { parseHTML, definitely, getSelectedOptionValues } from '../../utils'
 import { CurrentProductProvider } from '../../providers/CurrentProductProvider'
-import { Column, PageWrapper } from '../../components/Layout'
+import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
 import {

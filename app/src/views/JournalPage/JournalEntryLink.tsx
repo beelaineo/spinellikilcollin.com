@@ -25,11 +25,12 @@ const ImageContainer = styled.div<WrapperProps>`
         `}
     ${theme.mediaQueries.tablet} {
       margin-top: 2;
-      margin-bottom: 9px;
+      margin-bottom: 4;
 
       ${featured
         ? css`
-            margin: 0 -4;
+            margin-left: -4;
+            margin-right: -4;
             width: calc(100% + (${theme.space[4]}px * 2));
           `
         : ''}
@@ -127,7 +128,11 @@ export const JournalEntryLink = ({
       {thumbnail ? (
         <ImageContainer featured={featured}>
           <ImagePadding featured={featured} />
-          <Image image={thumbnail} />
+          <Link href={href} as={as}>
+            <a>
+              <Image image={thumbnail} />
+            </a>
+          </Link>
         </ImageContainer>
       ) : null}
       <Heading mt={2} mb={featured ? 3 : 2} level={2} weight={2}>

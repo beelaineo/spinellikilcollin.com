@@ -100,7 +100,8 @@ export const Checkout = () => {
               <Field type="textarea" name="notes" />
               <Button
                 type="submit"
-                my={4}
+                mt={4}
+                mb={0}
                 width="100%"
                 level={1}
                 disabled={loading}
@@ -108,7 +109,7 @@ export const Checkout = () => {
                 Checkout
               </Button>
 
-              <Heading my={0} level={6} textAlign="center">
+              <Heading my={3} level={6} textAlign="center">
                 Shipping and discount codes are added at checkout.
               </Heading>
             </Form>

@@ -45,7 +45,7 @@ export const InfoWrapper = styled.div`
     height: 100%;
     display: flex;
     padding-top: 190px;
-    padding-bottom: 3;
+    padding-bottom: 9;
     flex-direction: column;
     justify-content: flex-start;
 

@@ -40,7 +40,7 @@ export const SearchProvider = ({ children }: SearchProps) => {
   const { state, actions } = useSearchReducer()
   const { closeMenu } = useNavigation()
   const { startSearch, onSuccess, onError, ...publicActions } = actions
-  const { query } = useSanityQuery()
+  const { query } = useSanityQuery<SearchResult>()
 
   useEffect(() => {
     if (state.open) closeMenu()
@@ -57,7 +57,7 @@ export const SearchProvider = ({ children }: SearchProps) => {
     const term = searchTerm.trim().replace(/\s/, '* ')
     const termSingular = term.replace(/s$/, '')
     const params = { searchTerm: term, searchTermSingular: termSingular }
-    const results = await query<SearchResult[]>(searchQuery, params)
+    const results = await query(searchQuery, params)
     onSuccess(results || [])
   }
 

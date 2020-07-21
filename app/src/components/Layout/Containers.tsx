@@ -20,7 +20,7 @@ export const PageWrapper = styled.divBox`
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: calc(${theme.navHeight} + ${theme.space[9]}px) 5 5;
+      padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 5 5;
     }
   `}
 `

@@ -62,6 +62,8 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
     if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
     const page = allPages.find((page) => page._id === ref)
     if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
+    return { href: '/id/[nodeId]', as: `/id/${ref}` }
+
     return null
   }
 
