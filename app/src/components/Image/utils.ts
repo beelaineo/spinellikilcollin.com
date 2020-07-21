@@ -103,7 +103,16 @@ export const getAspectRatio = (
       return undefined
     }
     const { left, right, bottom, top } = crop
-    if (!left || !right || !bottom || !top) {
+    if (
+      left === null ||
+      left === undefined ||
+      right === null ||
+      right === undefined ||
+      bottom === null ||
+      bottom === undefined ||
+      top === null ||
+      top === undefined
+    ) {
       return height / width
     }
     const w = width * (1 - left - right)
