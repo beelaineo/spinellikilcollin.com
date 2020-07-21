@@ -19,6 +19,10 @@ const HeroWrapper = styled.div`
     grid-column: span 2;
     overflow: hidden;
 
+    video {
+      display: block;
+    }
+
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
     }
@@ -69,6 +73,7 @@ const HeroText = styled.div`
       align-items: ${getFlexAlignment(textPositionMobile)};
       text-align: ${getTextAlignment(textPositionMobile)};
       color: ${getColor(textColorMobile)};
+      padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;
     }
   `}
 `

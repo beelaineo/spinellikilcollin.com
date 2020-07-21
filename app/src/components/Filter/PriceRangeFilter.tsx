@@ -35,12 +35,11 @@ interface KnobProps {
 }
 
 const Knob = ({
-  position,
   upperLimit,
   lowerLimit,
+  position,
   updatePosition,
   container,
-  amount,
 }: KnobProps) => {
   const [mouseDown, setMouseDown] = useState(false)
 
@@ -48,10 +47,10 @@ const Knob = ({
 
   const release = () => setMouseDown(false)
 
-  const handleMouseMove = (e: MouseEvent) => {
+  const handleMouseMove = (e: MouseEvent | TouchEvent) => {
+    const mouseX = 'touches' in e ? e.touches[0].clientX : e.clientX
     if (!mouseDown || !container) return
 
-    const mouseX = e.clientX
     const { offsetWidth, offsetLeft } = container
     const diffPx = mouseX - offsetLeft
     const pos = diffPx / offsetWidth
@@ -62,15 +61,25 @@ const Knob = ({
     if (!mouseDown) return
     window.addEventListener('mousemove', handleMouseMove)
     window.addEventListener('mouseup', release)
+    window.addEventListener('touchmove', handleMouseMove)
+    window.addEventListener('touchend', release)
+
     return () => {
       window.removeEventListener('mouseup', release)
       window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('touchend', release)
+      window.removeEventListener('touchmove', handleMouseMove)
     }
   }, [mouseDown])
 
   return (
     <KnobHandle position={position}>
-      <KnobDot onMouseDown={handleMouseDown} onMouseUp={release} />
+      <KnobDot
+        onTouchStart={handleMouseDown}
+        onTouchEnd={release}
+        onMouseDown={handleMouseDown}
+        onMouseUp={release}
+      />
     </KnobHandle>
   )
 }
@@ -161,6 +170,7 @@ export function PriceRangeFilter({
     setCurrentMinPrice(Math.floor(maxPrice * pos))
   const updateMaxPosition = (pos: number) =>
     setCurrentMaxPrice(Math.ceil(maxPrice * pos))
+  console.log({ currentMinPosition, currentMaxPosition })
   return (
     <PriceRangeFilterWrapper>
       <HeadingWrapper>
@@ -184,7 +194,7 @@ export function PriceRangeFilter({
         <Knob
           amount={currentMaxPrice}
           position={currentMaxPosition}
-          upperLimit={maxPrice}
+          upperLimit={1}
           lowerLimit={currentMinPosition}
           updatePosition={updateMaxPosition}
           container={container}
