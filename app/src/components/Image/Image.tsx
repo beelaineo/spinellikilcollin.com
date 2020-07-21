@@ -1,6 +1,11 @@
 import * as React from 'react'
 import { Maybe } from '../../types'
-import { ImageType, getImageDetails, getImageKey } from './utils'
+import {
+  ImageType,
+  getAspectRatio,
+  getImageDetails,
+  getImageKey,
+} from './utils'
 import { Heading } from '../Text'
 import {
   MainImage,
@@ -70,7 +75,7 @@ export const Image = ({
   altText: customAltText,
   onLoad,
   preload,
-  ratio,
+  ratio: customRatio,
   canvasFill,
   preloadImages,
   objectFit,
@@ -108,6 +113,8 @@ export const Image = ({
   const handleOnLoad = () => {
     setLoaded(true)
   }
+
+  const ratio = customRatio || getAspectRatio(image)
 
   return (
     <Wrapper ref={containerRef}>

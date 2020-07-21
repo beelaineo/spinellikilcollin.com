@@ -21,8 +21,6 @@ const HeroWrapper = styled.div`
 
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
-      max-height: 500px;
-      height: 100vw;
     }
   `}
 `
@@ -133,7 +131,7 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
         ) : (
           <HeroImageWrapper>
             {image ? <Image image={image} /> : null}
-            {<Image image={mobileImage || image} />}
+            {mobileImage ? <Image image={mobileImage} /> : null}
           </HeroImageWrapper>
         )}
         <HeroText

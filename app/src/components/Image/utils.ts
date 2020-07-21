@@ -83,6 +83,37 @@ const getSanityImageDetails = (
 
 const widths = [100, 300, 800, 1200, 1600]
 
+const defaultCrop = {
+  bottom: 0,
+  left: 0,
+  right: 0,
+  top: 0,
+}
+
+export const getAspectRatio = (
+  image?: ImageType | null | void,
+): number | void => {
+  if (!image) return undefined
+  if (isSanityImage(image)) {
+    const dimensions = image.asset?.metadata?.dimensions
+    if (!dimensions) return undefined
+    const crop = image.crop ?? defaultCrop
+    const { width, height } = dimensions
+    if (!width || !height) {
+      return undefined
+    }
+    const { left, right, bottom, top } = crop
+    if (!left || !right || !bottom || !top) {
+      return height / width
+    }
+    const w = width * (1 - left - right)
+    const h = height * (1 - bottom - top)
+    const aspectRatio = h / w
+    return aspectRatio
+  }
+  return undefined
+}
+
 const getShopifyImageDetails = (
   image: ShopifySourceImage,
 ): ImageDetails | null => {
@@ -105,7 +136,8 @@ const isSanityRawImage = (image: ImageType): image is SanityRawImage =>
   Boolean(image._type && /image|richImage/.test(image._type))
 
 const isSanityImage = (image: ImageType): image is RichImage =>
-  Boolean(image.__typename && /^Image|^RichImage/.test(image.__typename))
+  Boolean(image.__typename && /^Image|^RichImage/.test(image.__typename)) &&
+  /richImage/.test(image._type || '')
 
 const isShopifyImage = (image: ImageType): image is ShopifySourceImage =>
   'originalSrc' in image || image.__typename === 'ShopifySourceImage'

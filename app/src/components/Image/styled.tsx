@@ -43,6 +43,7 @@ export const Picture = styled.picture`
       transition-delay: 0.3s;
       max-width: 100%;
       object-fit: ${objectFit || 'cover'};
+      display: block;
     }
   `}
 `
