@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 
 export const ProductPageWrapper = styled.div`
   ${({ theme }) => css`
-    padding: 0 11 0 0;
+    padding: 0;
 
     ${theme.mediaQueries.tablet} {
       padding: 9 7 0;
@@ -33,6 +33,12 @@ export const ProductDetails = styled.div`
     grid-template-columns: 1fr 330px;
     grid-column-gap: 5;
     min-height: 75vh;
+    padding-right: 11;
+
+    ${theme.mediaQueries.desktop} {
+      padding-right: 5vw;
+    }
+
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr;
       padding: 0 0;
@@ -44,8 +50,7 @@ export const InfoWrapper = styled.div`
   ${({ theme }) => css`
     height: 100%;
     display: flex;
-    padding-top: 190px;
-    padding-bottom: 9;
+    padding: 190px 0 9 0;
     flex-direction: column;
     justify-content: flex-start;
 
@@ -107,6 +112,12 @@ export const ProductImagesWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding-right: 9;
+
+    ${theme.mediaQueries.desktop} {
+      padding-top: 11;
+      padding-right: 0;
+    }
+
     ${theme.mediaQueries.tablet} {
       display: none;
     }

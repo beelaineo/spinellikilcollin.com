@@ -33,6 +33,7 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
 
   const toggleAudio = () => setMuted(!muted)
   const url = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/${video.videoId}.m3u8`
+
   useEffect(() => {
     if (ready) return
     if (!videoRef.current) return

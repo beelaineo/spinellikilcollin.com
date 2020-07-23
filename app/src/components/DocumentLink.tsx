@@ -11,6 +11,7 @@ interface LinkProps {
 export const DocumentLink = ({ document, children, label }: LinkProps) => {
   if (!document) return <>{children}</>
   const { as, href } = getPageLinkUrl(document)
+
   return (
     <NextLink as={as} href={href}>
       <a>{children || label || getPageLinkLabel(document) || null}</a>
