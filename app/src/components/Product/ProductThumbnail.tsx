@@ -20,9 +20,11 @@ import {
   getBestVariantByMatch,
   definitely,
 } from '../../utils'
+import { useInViewport } from '../../hooks'
+import { useAnalytics } from '../../providers'
 import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
 
-const { useState, useMemo } = React
+const { useEffect, useState, useMemo, useRef } = React
 
 interface ProductThumbnailProps {
   product: ShopifyProduct
@@ -56,6 +58,9 @@ export const ProductThumbnail = ({
   preferredVariantMatches,
   imageRatio,
 }: ProductThumbnailProps) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { isInViewOnce } = useInViewport(containerRef)
+  const { sendProductImpression } = useAnalytics()
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
@@ -67,6 +72,11 @@ export const ProductThumbnail = ({
   const [currentVariant, setCurrentVariant] = useState(initialVariant)
 
   const allImages = useMemo(() => uniqueImages(variants), [variants])
+
+  useEffect(() => {
+    if (!isInViewOnce) return
+    sendProductImpression({ product, variant: currentVariant })
+  }, [isInViewOnce, currentVariant])
 
   const productImage = currentVariant?.image
     ? currentVariant.image
@@ -107,7 +117,7 @@ export const ProductThumbnail = ({
 
   const linkAs = `/products/${product.handle}?v=${currentVariant.id}`
   return (
-    <ProductThumb>
+    <ProductThumb ref={containerRef}>
       <Link href="/products/[productSlug]" as={linkAs}>
         <a>
           <ImageWrapper>

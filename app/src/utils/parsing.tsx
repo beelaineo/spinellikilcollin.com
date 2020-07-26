@@ -123,3 +123,7 @@ export const parseHTML = (htmlString?: string | null): React.ReactNode => {
   const parsed = parser.parse(wrapBareText(htmlString))
   return transform(parsed, 'root')
 }
+
+export function arrayify<T>(i: T | T[]): T[] {
+  return Array.isArray(i) ? i : [i]
+}

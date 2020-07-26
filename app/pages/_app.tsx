@@ -40,6 +40,20 @@ const App = (props: AppProps) => {
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
           />
           <script
+            /* Tag Manager */
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                })(window,document,'script','dataLayer','GTM-TRLD2RW');
+              `,
+            }}
+          />
+
+          <script
             /* Pinterest tag */
             type="text/javascript"
             dangerouslySetInnerHTML={{
@@ -76,23 +90,18 @@ const App = (props: AppProps) => {
   (function(l,g,m,e,a,f,b){var d,c=l[m]||{},h=document.createElement(f),n=document.getElementsByTagName(f)[0],k=function(a,b,c){return function(){a[b]._.push([c,arguments])}};c[e]=k(c,e,"set");d=c[e];c[a]={};c[a]._=[];d._=[];c[a][b]=k(c,a,b);a=0;for(b="set add save post open empty reset on off trigger ready setProduct".split(" ");a<b.length;a++)d[b[a]]=k(c,e,b[a]);a=0;for(b=["get","token","url","items"];a<b.length;a++)d[b[a]]=function(){};h.async=!0;h.src=g[f];n.parentNode.insertBefore(h,n);delete g[f];d(g);l[m]=c})(window,_affirm_config,"affirm","checkout","ui","script","off");
       `,
             }}
+          />
+          <script
             /* Intercom */
-          />
-          <script
             dangerouslySetInnerHTML={{
               __html: `
-  window.intercomSettings = {
-    app_id: "deljq5df"
-  };
+                window.intercomSettings = {
+                  app_id: "deljq5df"
+                };
+
+                // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/deljq5df'
+                (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/deljq5df';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
               `,
-            }}
-          />
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-// We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/deljq5df'
-(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/deljq5df';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-                `,
             }}
           />
         </Head>
@@ -104,6 +113,14 @@ const App = (props: AppProps) => {
         </Main>
         <div id="modal" />
       </ThemeProvider>
+      <noscript>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=GTM-TRLD2RW"
+          height="0"
+          width="0"
+          style={{ display: 'none', visibility: 'hidden' }}
+        ></iframe>
+      </noscript>
     </Providers>
   )
 }

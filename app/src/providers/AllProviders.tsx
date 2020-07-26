@@ -13,6 +13,7 @@ import { SearchProvider } from './SearchProvider'
 import { CurrencyProvider } from './CurrencyProvider'
 import { ErrorProvider } from './ErrorProvider'
 import { NavigationProvider } from './NavigationProvider'
+import { AnalyticsProvider } from './AnalyticsProvider'
 
 /**
  * App
@@ -61,22 +62,24 @@ interface Props {
 export const Providers = ({ shopData, children }: Props) => {
   return (
     <ErrorProvider>
-      <ShopifyProvider query={shopifyQuery}>
-        <ShopDataProvider shopData={shopData}>
-          <CartProvider>
-            <NavigationProvider>
-              <CurrencyProvider>
-                <SearchProvider>
-                  <ThemeProvider theme={theme}>
-                    <GlobalStyles />
-                    <ModalProvider>{children}</ModalProvider>
-                  </ThemeProvider>
-                </SearchProvider>
-              </CurrencyProvider>
-            </NavigationProvider>
-          </CartProvider>
-        </ShopDataProvider>
-      </ShopifyProvider>
+      <AnalyticsProvider>
+        <ShopifyProvider query={shopifyQuery}>
+          <ShopDataProvider shopData={shopData}>
+            <CartProvider>
+              <NavigationProvider>
+                <CurrencyProvider>
+                  <SearchProvider>
+                    <ThemeProvider theme={theme}>
+                      <GlobalStyles />
+                      <ModalProvider>{children}</ModalProvider>
+                    </ThemeProvider>
+                  </SearchProvider>
+                </CurrencyProvider>
+              </NavigationProvider>
+            </CartProvider>
+          </ShopDataProvider>
+        </ShopifyProvider>
+      </AnalyticsProvider>
     </ErrorProvider>
   )
 }

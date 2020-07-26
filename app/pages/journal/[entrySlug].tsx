@@ -59,12 +59,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     requestShopData(),
   ])
 
-  if (!shopData) {
-    console.log({ response, shopData })
-    console.log('!!!!')
-    throw new Error('no shop data!')
-  }
-
   const entries = response?.allJournalEntry
 
   const entry = entries && entries.length ? entries[0] : null
