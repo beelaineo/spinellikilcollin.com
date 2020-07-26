@@ -33,7 +33,7 @@ const Collection = ({ collection }: CollectionPageProps) => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
   if (!params) return { props: { products: undefined, collection: undefined } }
-  const [collections, shopData] = await Promise.all([
+  const responses = await Promise.all([
     sanityQuery<ShopifyCollection[]>(sanityCollectionQuery, {
       handle: params.collectionSlug,
       productStart: 0,
@@ -41,15 +41,13 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }),
 
     requestShopData(),
-  ]).catch((e) => {
-    console.log(e)
-    throw e
-  })
-  console.log({ collections, shopData })
+  ])
+  const [collections, shopData] = responses
 
   return {
     props: {
       shopData,
+      params,
       collection: collections[0] || null,
     },
     unstable_revalidate: 60,

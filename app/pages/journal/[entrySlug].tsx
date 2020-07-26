@@ -1,6 +1,7 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
+import { definitely } from '../../src/utils'
 import { JournalEntry as JournalEntryType } from '../../src/types'
 import { NotFound } from '../../src/views/NotFound'
 import { JournalEntryPage } from '../../src/views/JournalEntryPage'
@@ -68,26 +69,26 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
  * Static Paths
  */
 
-// const pageHandlesQuery = gql`
-//   query JournalEntriesHandlesQuery {
-//     allJournalEntry {
-//       _id
-//       slug {
-//         current
-//       }
-//     }
-//   }
-// `
+const pageHandlesQuery = gql`
+  query JournalEntriesHandlesQuery {
+    allJournalEntry {
+      _id
+      slug {
+        current
+      }
+    }
+  }
+`
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const result = await request<Response>(pageHandlesQuery)
-  // const entries = definitely(result?.allJournalEntry)
-  // const paths = entries.map((entry) => ({
-  //   params: { entrySlug: entry?.slug?.current ?? undefined },
-  // }))
+  const result = await request<Response>(pageHandlesQuery)
+  const entries = definitely(result?.allJournalEntry)
+  const paths = entries.map((entry) => ({
+    params: { entrySlug: entry?.slug?.current ?? undefined },
+  }))
 
   return {
-    paths: [],
+    paths,
     fallback: true,
   }
 }

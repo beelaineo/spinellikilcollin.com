@@ -132,10 +132,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const [response, shopData] = await Promise.all([
     request<Response>(productQuery, variables),
     requestShopData(),
-  ]).catch((e) => {
-    console.log(e)
-    throw e
-  })
+  ])
 
   const products = response?.allShopifyProduct
 

@@ -23,7 +23,10 @@ const App = (props: AppProps) => {
   const { Component, pageProps: allPageProps, router } = props
   const path = router.pathname
   const { shopData, ...pageProps } = allPageProps
-  if (!shopData) throw new Error('No shop data provided')
+  // if (!shopData) {
+  //   console.log({ props })
+  //   throw new Error('No shop data provided')
+  // }
   if (!shopData) return null
 
   return (
