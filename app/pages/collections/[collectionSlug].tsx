@@ -42,6 +42,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
     requestShopData(),
   ])
+
   const [collections, shopData] = responses
 
   return {
