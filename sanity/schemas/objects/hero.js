@@ -75,10 +75,24 @@ export const hero = {
       fieldset: 'text',
     },
     {
+      name: 'textContainer',
+      title: 'Text Container',
+      type: 'string',
+      fieldset: 'text',
+      options: {
+        list: [
+          { title: 'Full Width', value: 'full' },
+          { title: 'Half-left', value: 'half-left' },
+          { title: 'Half-right', value: 'half-right' },
+          { title: 'Half-top', value: 'half-left' },
+          { title: 'Half-bottom', value: 'half-right' },
+        ],
+      },
+    },
+    {
       name: 'textColor',
       title: 'Text Color',
       type: 'colorPicker',
-
       fieldset: 'text',
     },
     {

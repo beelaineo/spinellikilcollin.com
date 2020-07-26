@@ -68,5 +68,11 @@ export const product = {
       name: 'variants',
       hidden: true,
     },
+    {
+      name: 'seo',
+      type: 'seo',
+      description:
+        'Custom SEO settings. By default, the product description and image will be used.',
+    },
   ],
 }

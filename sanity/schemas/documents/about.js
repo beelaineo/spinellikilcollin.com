@@ -74,6 +74,11 @@ export const about = {
       type: 'array',
       of: [{ type: 'pageLink' }],
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
   ],
   preview: {
     select: {},

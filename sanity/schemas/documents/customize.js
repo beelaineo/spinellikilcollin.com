@@ -22,5 +22,10 @@ export const customize = {
       label: 'Content',
       type: 'richText',
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
   ],
 }

@@ -9,6 +9,11 @@ export const homepage = {
       type: 'array',
       of: [{ type: 'hero' }, { type: 'carousel' }, { type: 'imageTextBlock' }],
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
   ],
   preview: {
     select: {},

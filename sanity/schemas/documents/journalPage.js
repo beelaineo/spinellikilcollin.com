@@ -9,5 +9,10 @@ export const journalPage = {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
   ],
 }

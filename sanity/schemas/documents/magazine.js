@@ -26,5 +26,10 @@ export const magazine = {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
   ],
 }

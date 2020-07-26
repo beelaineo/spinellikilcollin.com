@@ -44,5 +44,10 @@ export const contact = {
         },
       ],
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
   ],
 }

@@ -30,25 +30,7 @@ export const collectionBlock = {
     {
       name: 'body',
       title: 'Text',
-      type: 'array',
-      description: 'Tip: Use shift+return for a soft-wrapping line',
-      of: [
-        {
-          type: 'block',
-          styles: [
-            { title: 'Header 2', value: 'h2' },
-            { title: 'Header 3', value: 'h3' },
-            { title: 'Header 4', value: 'h4' },
-            { title: 'Normal', value: 'normal' },
-          ],
-          marks: {
-            decorators: [
-              { title: 'Strong', value: 'strong' },
-              { title: 'Emphasis', value: 'em' },
-            ],
-          },
-        },
-      ],
+      type: 'richText',
     },
     {
       name: 'textPosition',

@@ -50,5 +50,10 @@ export const teamPage = {
       type: 'array',
       of: [{ type: 'teamMember' }],
     },
+    {
+      name: 'seo',
+      title: 'SEO',
+      type: 'seo',
+    },
   ],
 }
