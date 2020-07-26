@@ -1,20 +1,29 @@
 import * as React from 'react'
 import { useCheckout, UseCheckoutValues } from 'use-shopify'
+import { useAnalytics } from '../../../providers'
 import { Button } from '../../../components/Button'
-import { ShopifyProductVariant } from '../../../types'
+import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
 import { useCart } from '../../../providers/CartProvider'
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
+  product: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   quantity?: number
 }
 
-export const BuyButton = ({ currentVariant, addLineItem, quantity }: Props) => {
+export const BuyButton = ({
+  product,
+  currentVariant,
+  addLineItem,
+  quantity,
+}: Props) => {
+  const { sendAddToCart } = useAnalytics()
   const { openCart } = useCart()
   const { loading } = useCheckout()
   const handleClick = async () => {
     if (!currentVariant || !currentVariant.shopifyVariantID) return
+    sendAddToCart({ product, variant: currentVariant, quantity })
     await addLineItem({
       variantId: currentVariant.shopifyVariantID,
       quantity: quantity || 1,

@@ -1,3 +1,4 @@
+const path = require('path')
 const webpack = require('webpack')
 const dotEnv = require('dotenv')
 const bundleAnalyzer = require('@next/bundle-analyzer')
@@ -8,6 +9,8 @@ dotEnv.config()
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
+
+const NODE_MODULES_DIR = path.resolve(__dirname, '..', 'node_modules')
 
 module.exports = withSourceMaps(
   withBundleAnalyzer({
@@ -22,6 +25,13 @@ module.exports = withSourceMaps(
         new webpack.DefinePlugin({
           'process.env.SENTRY_RELEASE': JSON.stringify(buildId),
         }),
+      )
+      config.resolve.alias['react$'] = require.resolve(
+        path.join(NODE_MODULES_DIR, 'react'),
+      )
+
+      config.resolve.alias['react-dom'] = require.resolve(
+        path.join(NODE_MODULES_DIR, 'react-dom'),
       )
 
       if (!isServer) {

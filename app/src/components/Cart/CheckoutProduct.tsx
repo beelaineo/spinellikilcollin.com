@@ -4,6 +4,7 @@ import {
   useCheckout,
   CheckoutLineItem as CheckoutLineItemType,
 } from 'use-shopify'
+import { useAnalytics } from '../../providers'
 import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
@@ -23,6 +24,7 @@ interface CheckoutLineItemProps {
 }
 
 export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
+  const { sendRemoveFromCart } = useAnalytics()
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
   const { updateLineItem } = useCheckout()
@@ -37,6 +39,9 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   }
   useEffect(() => {
     setQuantityValue(lineItem.quantity)
+    if (lineItem.quantity === 0) {
+      sendRemoveFromCart({ product: lineItem, variant, quantity })
+    }
   }, [lineItem.quantity])
 
   useEffect(() => {
@@ -49,6 +54,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   }, [quantityValue, lineItem.quantity])
 
   const remove = async () => {
+    sendRemoveFromCart({ product: lineItem, variant, quantity })
     await updateLineItem({ id: lineItem.id, quantity: 0 })
   }
 

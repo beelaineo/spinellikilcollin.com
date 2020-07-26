@@ -3,7 +3,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
 import { parseHTML, definitely, getSelectedOptionValues } from '../../utils'
-import { CurrentProductProvider } from '../../providers/CurrentProductProvider'
+import { useAnalytics, CurrentProductProvider } from '../../providers'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
@@ -29,16 +29,18 @@ import {
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
 
+const { useEffect } = React
+
 interface Props {
   product: ShopifyProduct
 }
 
 export const ProductDetail = ({ product }: Props) => {
   /* get additional info blocks from Sanity */
+  const { sendProductDetailView } = useAnalytics()
   const { getProductInfoBlocks } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
-
   /* get product variant utils */
   if (!product.sourceData) return null
   if (!product.variants) return null
@@ -46,6 +48,11 @@ export const ProductDetail = ({ product }: Props) => {
     currentVariant: currentVariantSource,
     selectVariant,
   } = useProductVariant(product.sourceData)
+
+  useEffect(() => {
+    if (!currentVariant) throw new Error('Could not get current variant')
+    sendProductDetailView({ product, variant: currentVariant })
+  }, [])
 
   const productType = product?.sourceData?.productType
   const images = product?.sourceData?.images
@@ -170,6 +177,7 @@ export const ProductDetail = ({ product }: Props) => {
                     product={product}
                   />
                   <BuyButton
+                    product={product}
                     addLineItem={addLineItem}
                     currentVariant={currentVariant}
                   />

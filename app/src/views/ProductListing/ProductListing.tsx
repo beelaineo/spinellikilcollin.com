@@ -78,7 +78,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   ]
 
   const applySort = (sort: Sort) => {
-    console.log(sort)
+    // console.log(sort)
   }
 
   // If there are collection blocks, insert them in the array

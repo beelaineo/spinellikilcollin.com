@@ -2,7 +2,7 @@ import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useCheckout } from 'use-shopify'
 import { Button } from '../Button'
-import { useCart } from '../../providers/CartProvider'
+import { useAnalytics, useCart } from '../../providers'
 import { Form, Field } from '../Forms'
 import { Heading } from '../Text'
 import { Hamburger } from '../Hamburger'
@@ -27,6 +27,7 @@ interface FormValues {
 }
 
 export const Checkout = () => {
+  const { sendBeginCheckout } = useAnalytics()
   /* State */
   const { message, open: cartOpen, closeCart } = useCart()
   const { checkout, loading, addNote } = useCheckout()
@@ -40,6 +41,14 @@ export const Checkout = () => {
     if (!checkout) throw new Error('There is no checkout')
     const { note } = values
     if (note) await addNote(note)
+
+    sendBeginCheckout(
+      lineItems.map((li) => ({
+        product: li,
+        variant: li.variant,
+        quantity: li.quantity,
+      })),
+    )
     // @ts-ignore
     window.location = checkout.webUrl
   }

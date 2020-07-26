@@ -60,7 +60,7 @@ export const ProductThumbnail = ({
 }: ProductThumbnailProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
-  const { sendProductImpression } = useAnalytics()
+  const { sendProductImpression, sendProductClick } = useAnalytics()
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
@@ -71,6 +71,9 @@ export const ProductThumbnail = ({
 
   const [currentVariant, setCurrentVariant] = useState(initialVariant)
 
+  const handleClick = () => {
+    sendProductClick({ product, variant: currentVariant })
+  }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
 
   useEffect(() => {
@@ -117,7 +120,7 @@ export const ProductThumbnail = ({
 
   const linkAs = `/products/${product.handle}?v=${currentVariant.id}`
   return (
-    <ProductThumb ref={containerRef}>
+    <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>
         <a>
           <ImageWrapper>
