@@ -1,8 +1,11 @@
 import * as React from 'react'
+import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { ShopifyCollection } from '../../src/types'
 import { sanityQuery } from '../../src/services/sanity'
 import { NotFound, ProductListing } from '../../src/views'
+import { request } from '../../src/graphql'
+import { definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { sanityCollectionQuery } from '../../src/views/ProductListing'
 
@@ -38,7 +41,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     }),
 
     requestShopData(),
-  ])
+  ]).catch((e) => {
+    console.log(e)
+    throw e
+  })
+  console.log({ collections, shopData })
 
   return {
     props: {
@@ -53,27 +60,27 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
  * Static Routes
  */
 
-// const collectionHandlesQuery = gql`
-//   query CollectionHandlesQuery {
-//     allShopifyCollection {
-//       _id
-//       shopifyId
-//       handle
-//     }
-//   }
-// `
+const collectionHandlesQuery = gql`
+  query CollectionHandlesQuery {
+    allShopifyCollection {
+      _id
+      shopifyId
+      handle
+    }
+  }
+`
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const result = await request<CollectionResponse>(collectionHandlesQuery)
-  // const collections = definitely(result?.allShopifyCollection)
-  // const paths = collections.map((collection) => ({
-  //   params: {
-  //     collectionSlug: collection.handle ? collection.handle : undefined,
-  //   },
-  // }))
+  const result = await request<CollectionResponse>(collectionHandlesQuery)
+  const collections = definitely(result?.allShopifyCollection)
+  const paths = collections.map((collection) => ({
+    params: {
+      collectionSlug: collection.handle ? collection.handle : undefined,
+    },
+  }))
 
   return {
-    paths: [],
+    paths,
     fallback: true,
   }
 }

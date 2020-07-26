@@ -3,12 +3,22 @@ import Link from 'next/link'
 import HTMLParser from 'html-parser-lite'
 import { getLinkFromHref } from '../utils'
 import { Heading, P, Ol, Ul, Li, Span } from '../components/Text'
-import { Hero } from '../types'
+import { Maybe, Scalars, RichImage, Hero } from '../types'
 
 export const isValidHero = (hero?: Hero | null): boolean => {
   if (!hero) return false
   return Boolean(hero?.image || hero?.cloudinaryVideo)
 }
+
+export const getHeroImage = (hero?: Hero | null): RichImage | undefined => {
+  if (!hero) return
+  return hero.image ?? undefined
+}
+
+export const getFirstImage = (
+  blocks?: Maybe<Scalars['JSON']> | null,
+): RichImage | undefined =>
+  blocks ? blocks.find((b) => b._type === 'richImage') : undefined
 
 const css2obj = (css: string): object => {
   return css.split(';').reduce((ruleMap, ruleString) => {

@@ -1,14 +1,24 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps } from 'next'
-import { JournalEntry } from '../../src/types'
-import { richImageFragment } from '../../src/graphql'
+import {
+  Maybe,
+  JournalPage as JournalPageType,
+  JournalEntry,
+} from '../../src/types'
+import { request, seoFragment, richImageFragment } from '../../src/graphql'
+import { NotFound } from '../../src/views/NotFound'
 import { JournalPage } from '../../src/views/JournalPage'
-import { request } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const journalPageQuery = gql`
   query JournalPageQuery($currentDate: Date) {
+    JournalPage(id: "journalPage") {
+      title
+      seo {
+        ...SEOFragment
+      }
+    }
     allJournalEntry(
       where: { publishDate: { lte: $currentDate } }
       sort: { publishDate: DESC }
@@ -27,19 +37,23 @@ const journalPageQuery = gql`
       tags
     }
   }
+  ${seoFragment}
   ${richImageFragment}
 `
 
 interface Response {
   allJournalEntry: JournalEntry[]
+  JournalPage: Maybe<JournalPageType>
 }
 
 interface JournalPageProps {
   entries: JournalEntry[]
+  journalPage?: JournalPageType
 }
 
-const Journal = ({ entries }: JournalPageProps) => {
-  return <JournalPage entries={entries} />
+const Journal = ({ entries, journalPage }: JournalPageProps) => {
+  if (!journalPage) return <NotFound />
+  return <JournalPage journalPage={journalPage} entries={entries} />
 }
 
 /**
@@ -64,7 +78,8 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   ])
 
   const entries = response?.allJournalEntry ?? []
-  return { props: { entries, shopData }, unstable_revalidate: 60 }
+  const journalPage = response?.JournalPage
+  return { props: { journalPage, entries, shopData }, unstable_revalidate: 60 }
 }
 
 export default Journal

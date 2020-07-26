@@ -1,6 +1,20 @@
 import gql from 'graphql-tag'
 import { sanityImageFragment, richImageFragment } from './media'
 
+export const seoFragment = gql`
+  fragment SEOFragment on Seo {
+    _key
+    _type
+    title
+    metaTitle
+    description
+    image {
+      ...SanityImageFragment
+    }
+  }
+  ${sanityImageFragment}
+`
+
 export const shopifySourceImageFragment = gql`
   fragment ShopifySourceImageFragment on ShopifySourceImage {
     __typename
@@ -291,6 +305,8 @@ export const shopifyProductFragment = gql`
     handle
     archived
     shopifyId
+    minVariantPrice
+    maxVariantPrice
     sourceData {
       ...ShopifySourceProductFragment
     }

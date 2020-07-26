@@ -23,7 +23,7 @@ const App = (props: AppProps) => {
   const { Component, pageProps: allPageProps, router } = props
   const path = router.pathname
   const { shopData, ...pageProps } = allPageProps
-  // if (!shopData) throw new Error('No shop data provided')
+  if (!shopData) throw new Error('No shop data provided')
   if (!shopData) return null
 
   return (
@@ -31,12 +31,38 @@ const App = (props: AppProps) => {
       <ThemeProvider theme={getThemeByRoute(path)}>
         <Head>
           <link rel="stylesheet" href="/static/fonts/fonts.css" />
+          <link rel="icon" href="/static/favicon.png" />
           <meta
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
           />
-          /* Affirm */
           <script
+            /* Pinterest tag */
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+                !function(e){if(!window.pintrk){window.pintrk=function()
+                {window.pintrk.queue.push(Array.prototype.slice.call(arguments))};var
+                n=window.pintrk;n.queue=[],n.version="3.0";var
+                t=document.createElement("script");t.async=!0,t.src=e;var
+                r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(t,r)}}
+                ("https://s.pinimg.com/ct/core.js"); 
+                pintrk('load','2613624654029', { em: '', });
+                pintrk('page');
+             `,
+            }}
+          />
+          <noscript>
+            <img
+              height="1"
+              width="1"
+              style={{ display: 'none' }}
+              alt=""
+              src="https://ct.pinterest.com/v3/?tid=2613624654029&noscript=1"
+            />
+          </noscript>
+          <script
+            /* Affirm */
             dangerouslySetInnerHTML={{
               __html: `
   _affirm_config = {

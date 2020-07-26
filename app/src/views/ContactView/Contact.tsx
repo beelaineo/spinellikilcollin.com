@@ -12,6 +12,7 @@ import {
 } from './styled'
 import { definitely } from '../../utils'
 import ChatBox from '../../svg/ChatBox.svg'
+import { SEO } from '../../components/SEO'
 
 interface ContactLineProps {
   contactLine: ContactLineType
@@ -59,23 +60,29 @@ interface ContactProps {
 }
 
 export const ContactView = ({ contact }: ContactProps) => {
-  const { title, contactLines } = contact
+  const { seo, title, contactLines } = contact
+  const defaultSeo = {
+    title: 'Contact',
+  }
   return (
-    <PageWrapper>
-      <Heading level={1} textAlign="center">
-        {title || 'Contact'}
-      </Heading>
-      <Wrapper>
-        <ContactLines>
-          {definitely(contactLines).map((cl) => (
-            <ContactLine key={cl._key || 'some-key'} contactLine={cl} />
-          ))}
-        </ContactLines>
+    <>
+      <SEO seo={seo} defaultSeo={defaultSeo} path="about/contact" />
+      <PageWrapper>
+        <Heading level={1} textAlign="center">
+          {title || 'Contact'}
+        </Heading>
+        <Wrapper>
+          <ContactLines>
+            {definitely(contactLines).map((cl) => (
+              <ContactLine key={cl._key || 'some-key'} contactLine={cl} />
+            ))}
+          </ContactLines>
 
-        <ChatWrapper>
-          <Chat />
-        </ChatWrapper>
-      </Wrapper>
-    </PageWrapper>
+          <ChatWrapper>
+            <Chat />
+          </ChatWrapper>
+        </Wrapper>
+      </PageWrapper>
+    </>
   )
 }

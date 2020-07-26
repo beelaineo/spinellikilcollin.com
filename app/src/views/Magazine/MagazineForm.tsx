@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { css, Box } from '@xstyled/styled-components'
-import { Form, Field } from '../../components/Forms'
+import { Form, Field, FieldWrapper } from '../../components/Forms'
 import { Button } from '../../components/Button'
 import { Heading } from '../../components/Text'
 
@@ -12,17 +12,27 @@ const FieldsWrapper = styled.div`
     flex-wrap: wrap;
     margin-top: 7;
 
+    ${FieldWrapper} {
+      height: 100%;
+
+      > * {
+        height: 100%;
+        width: 100%;
+        max-width: initial;
+      }
+    }
+
     > * {
       width: 100%;
-      margin-bottom: 3;
+      margin-bottom: 5;
 
       &:nth-last-child(3) {
-        width: 150px;
-        margin-right: 3;
+        width: calc(50% - (${theme.space[3]}px) / 2);
+        margin-right: calc(${theme.space[3]}px / 2);
       }
       &:nth-last-child(2) {
-        flex-grow: 1;
-        width: calc(100% - 150px - ${theme.space[3]}px);
+        margin-left: calc(${theme.space[3]}px / 2);
+        width: calc(50% - (${theme.space[3]}px) / 2);
       }
     }
   `}
@@ -48,7 +58,7 @@ const initialValues = {
   address2: '',
   city: '',
   state: '',
-  postalCode: '90065',
+  postalCode: '',
   country: 'United States',
 }
 

@@ -1,8 +1,9 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { ContentBlock } from '../../components/ContentBlock'
-import { definitely } from '../../utils'
+import { getHeroImage, definitely } from '../../utils'
 import { Homepage as HomepageType } from '../../types'
+import { SEO } from '../../components/SEO'
 
 interface HomepageProps {
   homepage: HomepageType
@@ -20,12 +21,23 @@ const Grid = styled.div`
 `
 
 export const Homepage = (props: HomepageProps) => {
-  const { content } = props.homepage
+  const { seo, content } = props.homepage
+  const firstHero = definitely(content).find((b) => b.__typename === 'Hero')
+  const defaultSeo = {
+    title: 'Spinelli Kilcollin',
+    image:
+      firstHero && firstHero.__typename === 'Hero'
+        ? getHeroImage(firstHero)
+        : undefined,
+  }
   return (
-    <Grid>
-      {definitely(content).map((c) => (
-        <ContentBlock key={c._key || 'some-key'} content={c} />
-      ))}
-    </Grid>
+    <>
+      <SEO seo={seo} defaultSeo={defaultSeo} path="" />
+      <Grid>
+        {definitely(content).map((c) => (
+          <ContentBlock key={c._key || 'some-key'} content={c} />
+        ))}
+      </Grid>
+    </>
   )
 }

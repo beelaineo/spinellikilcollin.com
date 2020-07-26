@@ -42,6 +42,7 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
     }
 
     ${theme.mediaQueries.mobile} {
+      margin-top: 3;
       padding: 0 0 4;
     }
   `}

@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   ShopifyCollection,
   ShopifyProduct,
@@ -10,12 +11,13 @@ import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
-import { isValidHero, definitely } from '../../utils'
+import { getHeroImage, isValidHero, definitely } from '../../utils'
 import { Wrapper, NoResultsWrapper } from './styled'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { buildQuery } from './filterQuery'
 import { moreProductsQuery } from './sanityCollectionQuery'
+import { SEO } from '../../components/SEO'
 
 const { useRef, useEffect, useState } = React
 
@@ -45,7 +47,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [filterOpen, setFilterOpen] = useState(false)
   const {
-    state,
+    state: searchState,
     query: sanityQuery,
     reset: resetQueryResults,
   } = useSanityQuery<ShopifyProduct, FilterVariables>()
@@ -53,13 +55,15 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     ShopifyCollection,
     PaginationArgs
   >()
-  const filterResults = state.results
+  const filterResults = searchState.results
   const defaultFilter = productListingSettings?.defaultFilter
   const filters = definitely(defaultFilter)
   const {
     preferredVariantMatches,
     products,
     hero,
+    seo,
+    handle,
     collectionBlocks,
   } = collection
   const [fetchComplete, setFetchComplete] = useState(
@@ -129,9 +133,22 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     sanityQuery(query, params)
   }
 
+  if (!handle) throw new Error('No handle was fetched')
+  const path = ['collections', handle].join('/')
+  const firstProduct = definitely(collection.products)[0]
+  const firstProductImage = firstProduct
+    ? unwindEdges(firstProduct?.sourceData?.images)[0][0]
+    : undefined
+  const defaultSeo = {
+    title: collection.title || '',
+    image:
+      getHeroImage(hero) || collection?.sourceData?.image || firstProductImage,
+  }
+
   const validHero = isValidHero(hero)
   return (
     <>
+      <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
       {hero && validHero ? <HeroBlock hero={hero} /> : null}
       <Wrapper withHero={Boolean(hero && validHero)}>
         {filters && filters.length ? (
@@ -157,7 +174,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
               preferredVariantMatches={preferredVariantMatches}
               items={items}
             />
-            {!fetchComplete ? (
+            {!fetchComplete && filterResults === null ? (
               <Heading
                 level={4}
                 my={8}

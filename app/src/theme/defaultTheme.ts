@@ -118,8 +118,8 @@ export const defaultTheme: DefaultTheme = {
   mediaQueries: {
     mobile: '@media screen and (max-width: 650px)',
     aboveMobile: '@media screen and (min-width: 651px)',
-    tablet: '@media screen and (max-width: 900px)',
-    aboveTablet: '@media screen and (min-width: 901px)',
+    tablet: '@media screen and (max-width: 1000px)',
+    aboveTablet: '@media screen and (min-width: 1001px)',
     desktop: '@media screen and (max-width: 1200px)',
     aboveDesktop: '@media screen and (min-width: 1200px)',
   },

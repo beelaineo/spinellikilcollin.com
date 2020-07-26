@@ -12,13 +12,13 @@
             "name": "Contact"
           },
           {
+            "name": "SanityImageAsset"
+          },
+          {
             "name": "Customize"
           },
           {
             "name": "JournalEntry"
-          },
-          {
-            "name": "SanityImageAsset"
           },
           {
             "name": "JournalPage"

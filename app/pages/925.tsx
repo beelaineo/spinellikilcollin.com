@@ -2,10 +2,9 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps } from 'next'
 import { Magazine, Maybe } from '../src/types'
-import { richImageFragment } from '../src/graphql'
 import { NotFound } from '../src/views/NotFound'
 import { MagazineView } from '../src/views/Magazine'
-import { request } from '../src/graphql'
+import { seoFragment, richImageFragment, request } from '../src/graphql'
 import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 
 const magazineQuery = gql`
@@ -15,12 +14,16 @@ const magazineQuery = gql`
       _type
       title
       descriptionRaw
+      seo {
+        ...SEOFragment
+      }
       coverImage {
         ...RichImageFragment
       }
     }
   }
   ${richImageFragment}
+  ${seoFragment}
 `
 
 interface MagazinePageProps {

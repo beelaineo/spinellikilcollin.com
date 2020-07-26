@@ -10,6 +10,23 @@ export const sanityCollectionQuery = `
   title,
   handle,
   shopifyId,
+	seo{
+  	"image": select(
+  		defined(image.asset) => {
+        image{
+  				"url": asset->url,
+  				"_key": asset->url,
+          "metadata": asset->metadata,
+          "extension": asset->extension,
+          ...
+				}
+      }
+    ),
+		title,
+		metaTitle,
+		description,
+		keywords,
+	},
   hero {
     image {
   		asset->,

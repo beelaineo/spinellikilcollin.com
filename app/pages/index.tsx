@@ -7,8 +7,8 @@ import {
   imageTextBlockFragment,
   carouselFragment,
   heroFragment,
+  seoFragment,
 } from '../src/graphql'
-
 import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 import { request } from '../src/graphql'
 
@@ -16,6 +16,9 @@ const homepageQuery = gql`
   query HomepageQuery {
     Homepage(id: "homepage") {
       _id
+      seo {
+        ...SEOFragment
+      }
       content {
         ... on ImageTextBlock {
           __typename
@@ -35,6 +38,7 @@ const homepageQuery = gql`
   ${imageTextBlockFragment}
   ${carouselFragment}
   ${heroFragment}
+  ${seoFragment}
 `
 
 export interface HomepageResponse {
@@ -60,7 +64,7 @@ export const getStaticProps: GetStaticProps = async () => {
     requestShopData(),
   ])
   const homepage = response?.Homepage || null
-  return { props: { shopData, homepage, foo: 'bar' }, unstable_revalidate: 60 }
+  return { props: { shopData, homepage }, unstable_revalidate: 60 }
 }
 
 export default Homepage

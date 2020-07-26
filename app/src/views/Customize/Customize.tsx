@@ -6,6 +6,8 @@ import { Heading } from '../../components/Text'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
+import { SEO } from '../../components/SEO'
+import { isValidHero, getHeroImage } from '../../utils'
 
 interface CustomizeProps {
   customize: CustomizeType
@@ -26,11 +28,16 @@ const PageText = styled.div`
 `
 
 export const Customize = ({ customize }: CustomizeProps) => {
-  const { title, subtitle, hero, bodyRaw } = customize
+  const { seo, title, subtitle, hero, bodyRaw } = customize
+  const defaultSeo = {
+    title: 'Customize',
+    image: getHeroImage(hero),
+  }
 
   return (
     <>
-      {hero ? <HeroBlock hero={hero} /> : null}
+      <SEO seo={seo} defaultSeo={defaultSeo} path="customize" />
+      {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
       <PageWrapper>
         <Heading textAlign="center" level={1}>
           {title}

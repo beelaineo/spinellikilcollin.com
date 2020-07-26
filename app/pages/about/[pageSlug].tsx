@@ -1,9 +1,10 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
+import { definitely } from '../../src/utils'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { Page as PageType } from '../../src/types'
 import { NotFound, PageView } from '../../src/views'
-import { heroFragment, request } from '../../src/graphql'
+import { seoFragment, heroFragment, request } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const pageQuery = gql`
@@ -19,9 +20,13 @@ const pageQuery = gql`
         current
       }
       bodyRaw
+      seo {
+        ...SEOFragment
+      }
     }
   }
   ${heroFragment}
+  ${seoFragment}
 `
 
 interface PageResponse {
@@ -58,26 +63,26 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
  * Static Paths
  */
 
-// const pageHandlesQuery = gql`
-//   query PageSlugQuery {
-//     allPage {
-//       _id
-//       slug {
-//         current
-//       }
-//     }
-//   }
-// `
+const pageHandlesQuery = gql`
+  query PageSlugQuery {
+    allPage {
+      _id
+      slug {
+        current
+      }
+    }
+  }
+`
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const result = await request<PageResponse>(pageHandlesQuery)
-  // const pages = definitely(result?.allPage)
-  // const paths = pages.map((page) => ({
-  //   params: { pageSlug: page?.slug?.current ?? undefined },
-  // }))
+  const result = await request<PageResponse>(pageHandlesQuery)
+  const pages = definitely(result?.allPage)
+  const paths = pages.map((page) => ({
+    params: { pageSlug: page?.slug?.current ?? undefined },
+  }))
 
   return {
-    paths: [],
+    paths,
     fallback: true,
   }
 }

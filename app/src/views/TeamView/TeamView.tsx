@@ -3,6 +3,7 @@ import styled, { breakpoints, css } from '@xstyled/styled-components'
 import { TeamPage } from '../../types'
 import { Column, PageWrapper } from '../../components/Layout'
 import { Heading } from '../../components/Text'
+import { SEO } from '../../components/SEO'
 import { definitely } from '../../utils'
 import { TeamMember } from './TeamMember'
 
@@ -30,22 +31,28 @@ interface TeamViewProps {
 }
 
 export const TeamView = ({ teamPage }: TeamViewProps) => {
-  const { title, teamMembers } = teamPage
+  const { seo, title, teamMembers } = teamPage
+  const defaultSeo = {
+    title: title || 'Our Team',
+  }
   return (
-    <PageWrapper>
-      <Column columnwidth="mediumWide">
-        <Heading mt={4} mb={10} textAlign="center" level={1}>
-          {title}
-        </Heading>
-        <TeamGrid>
-          {definitely(teamMembers).map((teamMember) => (
-            <TeamMember
-              key={teamMember._key || 'some-key'}
-              teamMember={teamMember}
-            />
-          ))}
-        </TeamGrid>
-      </Column>
-    </PageWrapper>
+    <>
+      <SEO seo={seo} defaultSeo={defaultSeo} path="about/team" />
+      <PageWrapper>
+        <Column columnwidth="mediumWide">
+          <Heading mt={4} mb={10} textAlign="center" level={1}>
+            {title}
+          </Heading>
+          <TeamGrid>
+            {definitely(teamMembers).map((teamMember) => (
+              <TeamMember
+                key={teamMember._key || 'some-key'}
+                teamMember={teamMember}
+              />
+            ))}
+          </TeamGrid>
+        </Column>
+      </PageWrapper>
+    </>
   )
 }

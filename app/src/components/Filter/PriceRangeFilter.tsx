@@ -170,7 +170,6 @@ export function PriceRangeFilter({
     setCurrentMinPrice(Math.floor(maxPrice * pos))
   const updateMaxPosition = (pos: number) =>
     setCurrentMaxPrice(Math.ceil(maxPrice * pos))
-  console.log({ currentMinPosition, currentMaxPosition })
   return (
     <PriceRangeFilterWrapper>
       <HeadingWrapper>

@@ -2,6 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { ShopifyProduct } from '../../src/types'
+import { definitely } from '../../src/utils'
 import { NotFound, ProductDetail } from '../../src/views'
 import {
   productInfoFragment,
@@ -12,8 +13,9 @@ import {
   richImageFragment,
   shopifySourceProductFragment,
   shopifySourceImageFragment,
+  seoFragment,
+  request,
 } from '../../src/graphql'
-import { request } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 interface ProductQueryResult {
@@ -37,6 +39,8 @@ const productQuery = gql`
       title
       handle
       archived
+      minVariantPrice
+      maxVariantPrice
       sourceData {
         ...ShopifySourceProductFragment
       }
@@ -87,6 +91,9 @@ const productQuery = gql`
       related {
         ...CarouselFragment
       }
+      seo {
+        ...SEOFragment
+      }
     }
   }
   ${shopifySourceProductFragment}
@@ -97,6 +104,7 @@ const productQuery = gql`
   ${productInfoFragment}
   ${carouselFragment}
   ${imageTextBlockFragment}
+  ${seoFragment}
 `
 
 interface Response {
@@ -124,7 +132,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const [response, shopData] = await Promise.all([
     request<Response>(productQuery, variables),
     requestShopData(),
-  ])
+  ]).catch((e) => {
+    console.log(e)
+    throw e
+  })
+
   const products = response?.allShopifyProduct
 
   const product = products && products.length ? products[0] : null
@@ -134,25 +146,25 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 /**
  * Static Paths
  */
-// const pageHandlesQuery = gql`
-//   query ProductHandlesQuery {
-//     allShopifyProduct {
-//       _id
-//       shopifyId
-//       handle
-//     }
-//   }
-// `
+const pageHandlesQuery = gql`
+  query ProductHandlesQuery {
+    allShopifyProduct {
+      _id
+      shopifyId
+      handle
+    }
+  }
+`
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  // const result = await request<Response>(pageHandlesQuery)
-  // const products = definitely(result?.allShopifyProduct)
-  // const paths = products.map((product) => ({
-  //   params: { productSlug: product.handle ? product.handle : undefined },
-  // }))
+  const result = await request<Response>(pageHandlesQuery)
+  const products = definitely(result?.allShopifyProduct)
+  const paths = products.map((product) => ({
+    params: { productSlug: product.handle ? product.handle : undefined },
+  }))
 
   return {
-    paths: [],
+    paths,
     fallback: true,
   }
 }

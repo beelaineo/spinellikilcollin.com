@@ -3,7 +3,7 @@ import gql from 'graphql-tag'
 import { GetStaticProps } from 'next'
 import { Maybe, Contact } from '../../src/types'
 import { NotFound, ContactView } from '../../src/views'
-import { request } from '../../src/graphql'
+import { seoFragment, request } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const query = gql`
@@ -17,8 +17,12 @@ const query = gql`
         label
         contact
       }
+      seo {
+        ...SEOFragment
+      }
     }
   }
+  ${seoFragment}
 `
 
 interface ContactPageProps {

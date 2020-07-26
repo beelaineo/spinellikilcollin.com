@@ -4,17 +4,21 @@ interface WithHero {
   withHero: boolean
 }
 
+/* padding: calc(${theme.space[8]}px + 4px) 6 7; */
 export const JournalPageWrapper = styled.div<WithHero>`
   ${({ theme, withHero }) => css`
     padding: calc(${theme.navHeight} + ${theme.space[2]}px) 7 7;
 
     ${theme.mediaQueries.tablet} {
-      padding: calc(${theme.space[8]}px + 4px) 6 7;
+      padding: calc(${theme.navHeight} + ${theme.space[2]}px) 6 7;
       ${withHero
         ? css`
             padding-top: 2;
           `
         : ''}
+    }
+    ${theme.mediaQueries.mobile} {
+      padding: calc(${theme.space[8]}px + 4px) 6 7;
     }
     ${withHero
       ? css`
@@ -47,7 +51,7 @@ export const LinkWrapper = styled.div`
       height: 1em;
     }
 
-    ${theme.mediaQueries.tablet} {
+    ${theme.mediaQueries.mobile} {
       margin-left: -4;
     }
   `}

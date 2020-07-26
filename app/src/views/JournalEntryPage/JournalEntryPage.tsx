@@ -7,7 +7,13 @@ import { TagLink } from '../../components/Tags'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import LeftArrow from '../../svg/LeftArrow.svg'
 import { RichText } from '../../components/RichText'
-import { definitely } from '../../utils'
+import { SEO } from '../../components/SEO'
+import {
+  isValidHero,
+  getHeroImage,
+  getFirstImage,
+  definitely,
+} from '../../utils'
 import {
   Header,
   LinkWrapper,
@@ -21,12 +27,20 @@ interface JournalEntryPageProps {
 }
 
 export const JournalEntryPage = ({ entry }: JournalEntryPageProps) => {
-  const { title, hero, subtitle, bodyRaw, tags: maybeTags } = entry
+  const { seo, title, slug, hero, subtitle, bodyRaw, tags: maybeTags } = entry
   const tags = definitely(maybeTags)
+  const validHero = isValidHero(hero)
+  const defaultSeo = {
+    title: title,
+    image: getHeroImage(hero) || getFirstImage(bodyRaw),
+  }
+  if (!slug) throw new Error('No slug was fetched')
+  const path = ['journal', slug.current].join('/')
   return (
     <>
-      {hero ? <HeroBlock hero={hero} /> : null}
-      <JournalPageWrapper withHero={Boolean(hero)}>
+      <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
+      {validHero && hero ? <HeroBlock hero={hero} /> : null}
+      <JournalPageWrapper withHero={validHero}>
         <LinkWrapper>
           <Link href="/journal">
             <a>

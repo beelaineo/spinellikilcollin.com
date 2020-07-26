@@ -177,6 +177,10 @@ export const MobileWrapper = styled.div`
       display: block;
       margin: 5 0 2;
 
+      & ${SlidesContainer} > *:first-child {
+        transform: scale(1.3);
+      }
+
       ${CarouselContainer} {
         padding: 0;
       }
@@ -187,9 +191,6 @@ export const MobileWrapper = styled.div`
     }
 
     ${theme.mediaQueries.mobile} {
-      & ${SlidesContainer} > *:first-child {
-        transform: scale(1.3);
-      }
       ${DotsInner} {
         margin: auto;
       }

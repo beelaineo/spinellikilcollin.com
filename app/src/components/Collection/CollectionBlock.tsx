@@ -15,6 +15,8 @@ import {
 const TextWrapper = styled.div`
   position: relative;
   z-index: 1;
+  max-width: 660px;
+  margin: 0 auto;
 `
 
 type WrapperProps = Pick<

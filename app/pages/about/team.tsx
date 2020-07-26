@@ -2,7 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps } from 'next'
 import { Maybe, TeamPage as TeamPageType } from '../../src/types'
-import { richImageFragment } from '../../src/graphql'
+import { seoFragment, richImageFragment } from '../../src/graphql'
 import { NotFound } from '../../src/views/NotFound'
 import { TeamView } from '../../src/views/TeamView'
 import { request } from '../../src/graphql'
@@ -14,6 +14,9 @@ const teamQuery = gql`
       _id
       _type
       title
+      seo {
+        ...SEOFragment
+      }
       teamMembers {
         _key
         _type
@@ -27,6 +30,7 @@ const teamQuery = gql`
     }
   }
   ${richImageFragment}
+  ${seoFragment}
 `
 
 interface TeamPageProps {

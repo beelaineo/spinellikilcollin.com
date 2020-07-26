@@ -105,7 +105,7 @@ export const ProductThumbnail = ({
     .filter(Boolean)
     .join(' - ')
 
-  const linkAs = `/products/${product.handle}`
+  const linkAs = `/products/${product.handle}?v=${currentVariant.id}`
   return (
     <ProductThumb>
       <Link href="/products/[productSlug]" as={linkAs}>

@@ -5,6 +5,7 @@ import { Column, PageWrapper } from '../../components/Layout'
 import { Heading } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Image } from '../../components/Image'
+import { SEO } from '../../components/SEO'
 import { MagazineForm } from './MagazineForm'
 
 const Inner = styled.div`
@@ -45,23 +46,34 @@ interface MagazineProps {
 }
 
 export const MagazineView = ({ magazine }: MagazineProps) => {
-  const { title, successMessage, coverImage, descriptionRaw } = magazine
+  const { seo, title, successMessage, coverImage, descriptionRaw } = magazine
+  const path = '925'
+  const defaultSeo = {
+    title: title || '.925 Magazine',
+  }
+
   return (
-    <PageWrapper>
-      <Column columnwidth="wide">
-        <Heading mt={4} mb={6} textAlign="center" level={2}>
-          {title}
-        </Heading>
-        <Inner>
-          <ImageWrapper>
-            <Image image={coverImage} sizes="(min-width: 600px) 100vw, 500px" />
-          </ImageWrapper>
-          <FormWrapper>
-            <RichText body={descriptionRaw} />
-            <MagazineForm successMessage={successMessage || 'Thank you!'} />
-          </FormWrapper>
-        </Inner>
-      </Column>
-    </PageWrapper>
+    <>
+      <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
+      <PageWrapper>
+        <Column columnwidth="wide">
+          <Heading mt={4} mb={6} textAlign="center" level={2}>
+            {title}
+          </Heading>
+          <Inner>
+            <ImageWrapper>
+              <Image
+                image={coverImage}
+                sizes="(min-width: 600px) 100vw, 500px"
+              />
+            </ImageWrapper>
+            <FormWrapper>
+              <RichText body={descriptionRaw} />
+              <MagazineForm successMessage={successMessage || 'Thank you!'} />
+            </FormWrapper>
+          </Inner>
+        </Column>
+      </PageWrapper>
+    </>
   )
 }

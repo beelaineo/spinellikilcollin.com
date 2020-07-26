@@ -4,7 +4,7 @@ import { GetStaticProps } from 'next'
 import { AboutView, NotFound } from '../../src/views'
 import { About } from '../../src/types'
 import { richImageFragment, heroFragment } from '../../src/graphql'
-import { request } from '../../src/graphql'
+import { seoFragment, request } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const query = gql`
@@ -13,6 +13,9 @@ const query = gql`
       introText
       hero {
         ...HeroFragment
+      }
+      seo {
+        ...SEOFragment
       }
       pageLinks {
         _key
@@ -45,6 +48,7 @@ const query = gql`
       }
     }
   }
+  ${seoFragment}
   ${heroFragment}
   ${richImageFragment}
 `

@@ -3,19 +3,27 @@ import { About } from '../../types'
 import { PageWrapper, Column } from '../../components/Layout'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Heading } from '../../components/Text'
-import { definitely } from '../../utils'
+import { definitely, isValidHero, getHeroImage } from '../../utils'
 import { PageLinksWrapper } from './styled'
 import { PageLink } from './PageLink'
+import { SEO } from '../../components/SEO'
 
 interface AboutViewProps {
   about: About
 }
 
 export const AboutView = ({ about }: AboutViewProps) => {
-  const { hero, introText, pageLinks } = about
+  const { seo, hero, introText, pageLinks } = about
+
+  const defaultSeo = {
+    title: 'About Spinelli Kilcollin',
+    image: getHeroImage(hero),
+  }
+
   return (
     <>
-      {hero ? <HeroBlock hero={hero} /> : null}
+      <SEO seo={seo} defaultSeo={defaultSeo} path="about" />
+      {isValidHero(hero) && hero ? <HeroBlock hero={hero} /> : null}
       <PageWrapper pt="83px">
         <Column maxWidth="800px" textAlign="center">
           <Heading my={0} fontWeight={1} level={3}>

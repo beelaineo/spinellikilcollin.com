@@ -23,7 +23,7 @@ export const Footer = () => {
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''
   const mailerSubtitle = shopData?.siteSettings?.mailerSubtitle ?? ''
 
-  const topBorder = /(^\/about)|(^\/products)/.test(router.asPath)
+  const topBorder = /(^\/925)|(^\/about)|(^\/products)/.test(router.asPath)
 
   return (
     <FooterWrapper>
