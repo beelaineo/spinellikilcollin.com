@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "app/package.json",
+      "src": "package.json",
       "use": "@now/next"
     }
   ],
@@ -10,12 +10,11 @@
     {
       "src": "/static/(.*)",
       "headers": { "cache-control": "s-maxage=31536000,immutable" },
-      "dest": "app/static/$1"
+      "dest": "static/$1"
     },
-    { "src": "/favicon.ico", "dest": "app/favicon.ico" },
     {
       "src": "/(.*)",
-      "dest": "app/$1",
+      "dest": "$1",
       "continue": true
     }
   ],
