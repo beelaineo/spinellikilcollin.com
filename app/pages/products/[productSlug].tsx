@@ -137,12 +137,13 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const products = response?.allShopifyProduct
 
   const product = products && products.length ? products[0] : null
-  return { props: { product, shopData }, unstable_revalidate: 60 }
+  return { props: { product, shopData }, revalidate: 60 }
 }
 
 /**
  * Static Paths
  */
+
 const pageHandlesQuery = gql`
   query ProductHandlesQuery {
     allShopifyProduct {

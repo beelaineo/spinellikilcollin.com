@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const magazine = response?.Magazine || null
 
-  return { props: { shopData, magazine }, unstable_revalidate: 60 }
+  return { props: { shopData, magazine }, revalidate: 60 }
 }
 
 export default MagazinePage

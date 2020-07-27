@@ -50,7 +50,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const contact = response?.Contact || null
 
-  return { props: { contact, shopData }, unstable_revalidate: 60 }
+  return { props: { contact, shopData }, revalidate: 60 }
 }
 
 export default ContactPage

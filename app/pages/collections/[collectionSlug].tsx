@@ -56,7 +56,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       params,
       collection: collections[0] || null,
     },
-    unstable_revalidate: 60,
+    revalidate: 60,
   }
 }
 
@@ -84,7 +84,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }))
 
   return {
-    paths,
+    paths: paths,
     fallback: true,
   }
 }

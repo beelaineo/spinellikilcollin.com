@@ -26,13 +26,6 @@ module.exports = withSourceMaps(
           'process.env.SENTRY_RELEASE': JSON.stringify(buildId),
         }),
       )
-      config.resolve.alias['react$'] = require.resolve(
-        path.join(NODE_MODULES_DIR, 'react'),
-      )
-
-      config.resolve.alias['react-dom'] = require.resolve(
-        path.join(NODE_MODULES_DIR, 'react-dom'),
-      )
 
       if (!isServer) {
         config.resolve.alias['@sentry/node'] = '@sentry/browser'
