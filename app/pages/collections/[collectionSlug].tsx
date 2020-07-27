@@ -23,7 +23,12 @@ interface CollectionPageProps {
 
 const Collection = ({ collection }: CollectionPageProps) => {
   if (!collection) return <NotFound />
-  return <ProductListing collection={collection} />
+  return (
+    <ProductListing
+      key={collection._id || 'some-key'}
+      collection={collection}
+    />
+  )
 }
 
 /**

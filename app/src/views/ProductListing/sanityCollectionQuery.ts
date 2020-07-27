@@ -71,6 +71,7 @@ export const sanityCollectionQuery = `
             image,
             title,
             selectedOptions,
+            priceV2
           },
         },
       },
@@ -125,6 +126,7 @@ export const moreProductsQuery = `
             image,
             title,
             selectedOptions,
+            priceV2
           },
         },
       },

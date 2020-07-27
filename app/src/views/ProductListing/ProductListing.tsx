@@ -104,6 +104,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       productStart,
       productEnd,
     })
+    console.log(results, { handle: collection.handle })
     const newProducts = definitely(results[0].products)
     if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
     setFetchMoreResults([...fetchMoreResults, ...newProducts])

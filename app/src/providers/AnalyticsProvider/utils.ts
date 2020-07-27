@@ -52,8 +52,8 @@ interface ProductExtras {
   position?: number
 }
 
-const assertExists = <T>(item?: Maybe<T>): T => {
-  if (!item) throw new Error('nope')
+const assertExists = <T>(item: Maybe<T> | undefined, label: string): T => {
+  if (!item) throw new Error(`Property "${label}" was not supplied`)
   return item
 }
 
@@ -65,6 +65,8 @@ export const parseProduct = (
   const product = getProductSourceData(selectedProduct.product)
   const variant = getVariantSourceData(selectedProduct.variant)
 
+  console.log({ product, variant })
+
   const formattedPrice = variant?.priceV2?.amount
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
         .format(parseFloat(variant.priceV2.amount.toString()))
@@ -73,11 +75,11 @@ export const parseProduct = (
 
   const productType = 'productType' in product ? product.productType : undefined
   const values: EcommerceObject = {
-    name: assertExists(product.title),
-    id: assertExists(product.id),
-    price: assertExists(formattedPrice),
+    name: assertExists(product.title, 'title'),
+    id: assertExists(product.id, 'id'),
+    price: assertExists(formattedPrice, 'price'),
     category: productType ?? undefined,
-    variant: assertExists(variant.title),
+    variant: assertExists(variant.title, 'variant'),
     quantity,
     position,
     list,
