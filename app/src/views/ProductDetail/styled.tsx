@@ -114,7 +114,6 @@ export const ProductImagesWrapper = styled.div`
     padding-right: 9;
 
     ${theme.mediaQueries.desktop} {
-      padding-top: 11;
       padding-right: 0;
     }
 

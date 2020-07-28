@@ -58,7 +58,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const filterResults = searchState.results
   const defaultFilter = productListingSettings?.defaultFilter
   const filters = definitely(defaultFilter).filter(
-    (f) => !Boolean(f.searchOnly),
+    (f) => !Boolean('searchOnly' in f && f.searchOnly),
   )
   const {
     preferredVariantMatches,
