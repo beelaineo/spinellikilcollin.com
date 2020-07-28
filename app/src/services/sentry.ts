@@ -58,7 +58,7 @@ if (ENV === 'production' || ENV === 'staging' || FORCE) {
       parseRequest: noop,
     },
     configureScope: () => undefined,
-    captureException: (e: any) => {
+    captureException: (e: Error) => {
       debug('Captured exception:')
       debug(e)
       const randomId = Math.random().toString().replace('0.', '')

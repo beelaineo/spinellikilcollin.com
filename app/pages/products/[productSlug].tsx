@@ -17,6 +17,7 @@ import {
   request,
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
+import { Sentry } from '../../src/services/sentry'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -116,8 +117,13 @@ interface ProductPageProps {
 }
 
 const Product = ({ product }: ProductPageProps) => {
-  if (!product) return <NotFound />
-  return <ProductDetail key={product._id || 'some-key'} product={product} />
+  try {
+    if (!product) return <NotFound />
+    return <ProductDetail key={product._id || 'some-key'} product={product} />
+  } catch (e) {
+    Sentry.captureException(e)
+    return <NotFound />
+  }
 }
 
 /**
@@ -125,19 +131,25 @@ const Product = ({ product }: ProductPageProps) => {
  */
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  const { params } = ctx
-  if (!params) return { props: { product: undefined } }
-  const variables = { handle: params.productSlug }
+  try {
+    const { params } = ctx
+    if (!params) return { props: { product: undefined } }
+    const variables = { handle: params.productSlug }
 
-  const [response, shopData] = await Promise.all([
-    request<Response>(productQuery, variables),
-    requestShopData(),
-  ])
+    const [response, shopData] = await Promise.all([
+      request<Response>(productQuery, variables),
+      requestShopData(),
+    ])
 
-  const products = response?.allShopifyProduct
+    const products = response?.allShopifyProduct
 
-  const product = products && products.length ? products[0] : null
-  return { props: { product, shopData }, revalidate: 60 }
+    const product = products && products.length ? products[0] : null
+
+    return { props: { product, shopData }, revalidate: 60 }
+  } catch (e) {
+    Sentry.captureException(e)
+    return { props: {}, revalidate: 1 }
+  }
 }
 
 /**
@@ -155,15 +167,20 @@ const pageHandlesQuery = gql`
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const result = await request<Response>(pageHandlesQuery)
-  const products = definitely(result?.allShopifyProduct)
-  const paths = products.map((product) => ({
-    params: { productSlug: product.handle ? product.handle : undefined },
-  }))
+  try {
+    const result = await request<Response>(pageHandlesQuery)
+    const products = definitely(result?.allShopifyProduct)
+    const paths = products.map((product) => ({
+      params: { productSlug: product.handle ? product.handle : undefined },
+    }))
 
-  return {
-    paths,
-    fallback: true,
+    return {
+      paths,
+      fallback: true,
+    }
+  } catch (e) {
+    Sentry.captureException(e)
+    return { paths: [], fallback: true }
   }
 }
 

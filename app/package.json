@@ -8,8 +8,9 @@
 	"scripts": {
 		"start": "DEBUG=app* next",
 		"start:debug": "NODE_OPTIONS='--inspect' DEBUG=app* next dev",
-		"build": "yarn build:json && yarn build:next",
+		"build": "yarn build:json && yarn build:sentry && yarn build:next",
 		"build:next": "next build",
+		"build:sentry": "sh ./scripts/sentry.sh",
 		"build:analyze": "ANALYZE=true next build",
 		"build:json": "DEBUG=build:json yarn ts-node --project tsconfig.scripts.json src/scripts/getIntlJSON.ts",
 		"install-types": "typesync && yarn install",
@@ -66,6 +67,7 @@
 		"@sentry/browser": "^5.20.1",
 		"@sentry/integrations": "^5.20.1",
 		"@sentry/node": "^5.20.1",
+		"@sentry/webpack-plugin": "^1.12.0",
 		"@xstyled/styled-components": "^1.17.2",
 		"@zeit/next-source-maps": "^0.0.3",
 		"bufferutil": "^4.0.1",
