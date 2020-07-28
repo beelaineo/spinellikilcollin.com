@@ -25,7 +25,7 @@ export const CheckboxWrapper = styled.div`
   display: grid;
   grid-template-columns: 25px 1fr;
   align-items: center;
-  margin: 8px 0 0;
+  margin: 7px 0 0;
   cursor: pointer;
   align-items: start;
 

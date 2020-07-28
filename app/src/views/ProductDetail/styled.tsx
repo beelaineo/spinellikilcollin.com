@@ -165,6 +165,7 @@ export const Thumbnails = styled.div`
 
 export const DesktopWrapper = styled.div`
   ${({ theme }) => css`
+    padding-top: ${theme.navHeight};
     ${theme.mediaQueries.tablet} {
       display: none;
     }

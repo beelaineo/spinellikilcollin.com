@@ -79,9 +79,7 @@ interface WithSpan {
 export const HeadingWrapper = styled.div`
   ${({ theme }) => css`
     ${theme.mediaQueries.mobile} {
-      span {
-        display: none;
-      }
+      display: none;
     }
   `}
 `

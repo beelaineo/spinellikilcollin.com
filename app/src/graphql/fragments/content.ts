@@ -144,6 +144,7 @@ export const filterSetFragment = gql`
     __typename
     _key
     heading
+    searchOnly
     filters {
       __typename
       _key

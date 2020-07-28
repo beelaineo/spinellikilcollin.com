@@ -18,7 +18,7 @@ export const JournalPageWrapper = styled.div<WithHero>`
         : ''}
     }
     ${theme.mediaQueries.mobile} {
-      padding: calc(${theme.space[8]}px + 4px) 6 7;
+      padding: calc(${theme.space[8]}px + 4px) 30px 7;
     }
     ${withHero
       ? css`
@@ -51,8 +51,9 @@ export const LinkWrapper = styled.div`
       height: 1em;
     }
 
+    margin-top: 2;
     ${theme.mediaQueries.mobile} {
-      margin-left: -4;
+      margin-left: -11px;
     }
   `}
 `

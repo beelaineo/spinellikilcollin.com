@@ -57,7 +57,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   >()
   const filterResults = searchState.results
   const defaultFilter = productListingSettings?.defaultFilter
-  const filters = definitely(defaultFilter)
+  const filters = definitely(defaultFilter).filter(
+    (f) => !Boolean(f.searchOnly),
+  )
   const {
     preferredVariantMatches,
     products,
@@ -65,6 +67,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     seo,
     handle,
     collectionBlocks,
+    reduceColumnCount,
   } = collection
   const [fetchComplete, setFetchComplete] = useState(
     definitely(collection.products).length < PAGE_SIZE,
@@ -172,6 +175,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         ) : (
           <>
             <ProductGrid
+              reduceColumnCount={reduceColumnCount}
               preferredVariantMatches={preferredVariantMatches}
               items={items}
             />

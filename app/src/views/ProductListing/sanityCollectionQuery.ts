@@ -10,6 +10,7 @@ export const sanityCollectionQuery = `
   title,
   handle,
   shopifyId,
+  reduceColumnCount,
 	seo{
   	"image": select(
   		defined(image.asset) => {

@@ -108,8 +108,8 @@ export const SearchPane = () => {
                     preferredVariantMatches={preferredVariantMatches}
                     items={searchResults}
                   />
-                  <Button onClick={close} level={3}>
-                    Close
+                  <Button mt={6} onClick={close} level={2}>
+                    Close Search
                   </Button>
                 </>
               )}

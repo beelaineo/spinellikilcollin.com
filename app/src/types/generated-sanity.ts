@@ -465,12 +465,15 @@ export interface FilterSet {
   _type?: Maybe<Scalars['String']>
   heading?: Maybe<Scalars['String']>
   filters?: Maybe<Array<Maybe<Filter>>>
+  /** If selected, this filter will not appear on collection page filters */
+  searchOnly?: Maybe<Scalars['Boolean']>
 }
 
 export type FilterSetFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   heading?: Maybe<StringFilter>
+  searchOnly?: Maybe<BooleanFilter>
 }
 
 export type FilterSetOrPriceRangeFilter = FilterSet | PriceRangeFilter
@@ -479,6 +482,7 @@ export type FilterSetSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   heading?: Maybe<SortOrder>
+  searchOnly?: Maybe<SortOrder>
 }
 
 export type FilterSorting = {
@@ -1959,6 +1963,8 @@ export interface ShopifyCollection extends Document {
   archived?: Maybe<Scalars['Boolean']>
   sourceData?: Maybe<ShopifySourceCollection>
   products?: Maybe<Array<Maybe<ShopifyProduct>>>
+  /** Changes the layout to 2 columns on desktop, 1 column on tablet */
+  reduceColumnCount?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
   collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
   preferredVariantMatches?: Maybe<Array<Maybe<Scalars['String']>>>
@@ -1980,6 +1986,7 @@ export type ShopifyCollectionFilter = {
   shopifyId?: Maybe<StringFilter>
   archived?: Maybe<BooleanFilter>
   sourceData?: Maybe<ShopifySourceCollectionFilter>
+  reduceColumnCount?: Maybe<BooleanFilter>
   hero?: Maybe<HeroFilter>
   seo?: Maybe<SeoFilter>
 }
@@ -1996,6 +2003,7 @@ export type ShopifyCollectionSorting = {
   shopifyId?: Maybe<SortOrder>
   archived?: Maybe<SortOrder>
   sourceData?: Maybe<ShopifySourceCollectionSorting>
+  reduceColumnCount?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
   seo?: Maybe<SeoSorting>
 }

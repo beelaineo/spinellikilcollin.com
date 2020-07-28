@@ -34,7 +34,12 @@ export const PageView = ({ page }: PageViewProps) => {
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
       {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
       <PageWrapper>
-        <Heading textAlign="center" level={1}>
+        <Heading
+          mt={{ xs: 6, md: '6px' }}
+          mb={{ xs: 6, md: '0.5em' }}
+          textAlign="center"
+          level={1}
+        >
           {title}
         </Heading>
         {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}

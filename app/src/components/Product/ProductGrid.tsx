@@ -10,11 +10,15 @@ import {
 import { CollectionThumbnail, CollectionBlock } from '../Collection'
 import { definitely } from '../../utils'
 
-const ProductGridWrapper = styled.div`
-  ${({ theme }) => css`
+interface ProductGridWrapperProps {
+  reduceColumnCount?: boolean | null
+}
+
+const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
+  ${({ theme, reduceColumnCount }) => css`
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(${reduceColumnCount ? '2' : '3'}, 1fr);
     justify-content: space-evenly;
     padding: 0;
     grid-auto-rows: min-content;
@@ -25,7 +29,7 @@ const ProductGridWrapper = styled.div`
     }
 
     ${theme.mediaQueries.tablet} {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(${reduceColumnCount ? '1' : '2'}, 1fr);
     }
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 1fr;
@@ -92,14 +96,16 @@ import * as React from 'react'
 interface ProductGridProps {
   items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
+  reduceColumnCount?: boolean | null
 }
 
 export const ProductGrid = ({
   preferredVariantMatches,
   items,
+  reduceColumnCount,
 }: ProductGridProps) => {
   return (
-    <ProductGridWrapper>
+    <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
       {definitely(items).map((item) => {
         switch (item.__typename) {
           case 'CollectionBlock':
