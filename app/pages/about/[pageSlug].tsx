@@ -1,6 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
-import { definitely } from '../../src/utils'
+import { getParam, definitely } from '../../src/utils'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { Page as PageType } from '../../src/types'
 import { NotFound, PageView } from '../../src/views'
@@ -47,8 +47,9 @@ const Page = ({ page }: PageProps) => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
-  if (!params) return { props: { page: undefined } }
-  const variables = { slug: params.pageSlug }
+  if (!params?.pageSlug) return { props: { page: undefined } }
+  const slug = getParam(params.pageSlug)
+  const variables = { slug }
   const [response, shopData] = await Promise.all([
     request<PageResponse>(pageQuery, variables),
     requestShopData(),

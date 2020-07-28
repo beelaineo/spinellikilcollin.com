@@ -27,6 +27,7 @@
 		"prettier": "^2.0.5",
 		"pretty-quick": "^2.0.1",
 		"tsc-watch": "^4.2.8",
+		"vercel": "^19.2.0",
 		"yarnhook": "^0.4.3"
 	},
 	"workspaces": [

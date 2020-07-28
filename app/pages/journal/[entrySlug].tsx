@@ -1,7 +1,7 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { definitely } from '../../src/utils'
+import { getParam, definitely } from '../../src/utils'
 import { JournalEntry as JournalEntryType } from '../../src/types'
 import { NotFound } from '../../src/views/NotFound'
 import { JournalEntryPage } from '../../src/views/JournalEntryPage'
@@ -52,8 +52,9 @@ interface Response {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
-  if (!params) return { props: { entry: undefined } }
-  const variables = { slug: params.entrySlug }
+  if (!params?.entrySlug) return { props: { entry: undefined } }
+  const slug = getParam(params.entrySlug)
+  const variables = { slug }
   const [response, shopData] = await Promise.all([
     request<Response>(journalEntryQuery, variables),
     requestShopData(),

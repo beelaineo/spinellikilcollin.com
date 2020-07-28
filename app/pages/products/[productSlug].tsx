@@ -2,7 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { ShopifyProduct } from '../../src/types'
-import { definitely } from '../../src/utils'
+import { getParam, definitely } from '../../src/utils'
 import { NotFound, ProductDetail } from '../../src/views'
 import {
   productInfoFragment,
@@ -133,8 +133,9 @@ const Product = ({ product }: ProductPageProps) => {
 export const getStaticProps: GetStaticProps = async (ctx) => {
   try {
     const { params } = ctx
-    if (!params) return { props: { product: undefined } }
-    const variables = { handle: params.productSlug }
+    if (!params?.productSlug) return { props: { product: undefined } }
+    const handle = getParam(params.productSlug)
+    const variables = { handle }
 
     const [response, shopData] = await Promise.all([
       request<Response>(productQuery, variables),

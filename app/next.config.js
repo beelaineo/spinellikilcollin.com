@@ -11,12 +11,13 @@ const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
 })
 
-const NODE_MODULES_DIR = path.resolve(__dirname, '..', 'node_modules')
 const SENTRY_DSN = process.env.SENTRY_DSN
 const SENTRY_ORG = process.env.SENTRY_ORG
 const SENTRY_PROJECT = process.env.SENTRY_PROJECT
 const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN
-const SENTRY_RELEASE = process.env.SENTRY_RELEASE
+
+const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
+const VERCEL_URL = process.env.VERCEL_URL
 
 module.exports = withSourceMaps(
   withBundleAnalyzer({
@@ -33,19 +34,22 @@ module.exports = withSourceMaps(
         }),
       )
 
-      console.log({
-        SENTRY_DSN,
-        SENTRY_ORG,
-        SENTRY_RELEASE,
-        SENTRY_PROJECT,
-        SENTRY_AUTH_TOKEN,
-      })
-      if (SENTRY_DSN && SENTRY_ORG && SENTRY_PROJECT && SENTRY_AUTH_TOKEN) {
+      const release = VERCEL_GITHUB_COMMIT_SHA || VERCEL_URL
+
+      if (
+        release &&
+        SENTRY_DSN &&
+        SENTRY_ORG &&
+        SENTRY_PROJECT &&
+        SENTRY_AUTH_TOKEN
+      ) {
+        console.log('Sentry release: ', release)
         config.plugins.push(
           new SentryWebpackPlugin({
             include: '.next',
             ignore: ['node_modules'],
             urlPrefix: '~/_next',
+            release,
           }),
         )
       }
