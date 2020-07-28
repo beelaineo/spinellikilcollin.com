@@ -1,6 +1,14 @@
 export const collection = {
   fields: [
     { name: 'sourceData', hidden: true },
+    {
+      name: 'reduceColumnCount',
+      type: 'boolean',
+      title: 'Reduce Column Count',
+      description:
+        'Changes the layout to 2 columns on desktop, 1 column on tablet',
+    },
+
     { name: 'hero', type: 'hero' },
     {
       name: 'collectionBlocks',

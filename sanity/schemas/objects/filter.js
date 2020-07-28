@@ -189,6 +189,13 @@ export const filterSet = {
       type: 'array',
       of: [{ type: 'filter' }],
     },
+    {
+      name: 'searchOnly',
+      title: 'Search Filter Only',
+      description:
+        'If selected, this filter will not appear on collection page filters',
+      type: 'boolean',
+    },
   ],
 }
 
