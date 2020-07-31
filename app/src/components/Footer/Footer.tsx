@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
-import { FaFacebookF, FaTwitter, FaPinterest } from 'react-icons/fa'
-import { TiSocialInstagram, TiSocialGooglePlus } from 'react-icons/ti'
+import { FaFacebookF, FaYoutube, FaTwitter, FaPinterest } from 'react-icons/fa'
+import { TiSocialInstagram } from 'react-icons/ti'
 import { PageLink } from '../../components/PageLink'
 import { Heading } from '../../components/Text'
 import { useShopData } from '../../providers/ShopDataProvider'
@@ -45,19 +45,39 @@ export const Footer = () => {
       </FooterInner>
       <FooterInnerLower>
         <Socials>
-          <a href="#">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.facebook.com/Spinelli-Kilcollin-170280053017197/?fref=ts"
+          >
             <FaFacebookF />
           </a>
-          <a href="#">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://twitter.com/SKilcollin"
+          >
             <FaTwitter />
           </a>
-          <a href="#">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.pinterest.com/spinellikil"
+          >
             <FaPinterest />
           </a>
-          <a href="#">
-            <TiSocialGooglePlus />
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://www.youtube.com/channel/UCraW2KqZkr3mNBD2btnIfSw"
+          >
+            <FaYoutube />
           </a>
-          <a href="#">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://instagram.com/spinellikilcollin"
+          >
             <TiSocialInstagram />
           </a>
         </Socials>

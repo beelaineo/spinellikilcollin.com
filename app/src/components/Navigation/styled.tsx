@@ -127,7 +127,7 @@ export const NavHeader = styled.button`
 export const HamburgerWrapper = styled.div`
   ${({ theme }) => css`
     position: absolute;
-    top: 48px;
+    top: 9px;
     left: ${theme.space[7]}px;
     z-index: ${theme.zIndices.cart + 1};
 

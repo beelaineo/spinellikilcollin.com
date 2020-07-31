@@ -39,6 +39,8 @@ export const ModalWrapper = styled.div`
     position: relative;
     padding: 4 5 5;
     max-width: calc(100% - (${theme.space[4]}px * 2));
+    max-height: calc(100vh - (${theme.space[4]}px * 2));
+    overflow: scroll;
     z-index: 2;
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
     background-color: body.0;

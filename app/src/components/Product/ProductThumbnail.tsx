@@ -129,6 +129,7 @@ export const ProductThumbnail = ({
   const existingParams = matches && matches[1] ? matches[1] : undefined
   const params = new URLSearchParams(existingParams)
 
+  params.delete('search')
   if (currentVariant.id) {
     params.set('v', currentVariant.id)
   }

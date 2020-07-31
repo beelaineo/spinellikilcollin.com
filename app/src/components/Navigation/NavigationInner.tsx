@@ -17,11 +17,11 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
   const menuItems = menu?.menuItems || []
   return (
     <>
-      <HamburgerWrapper>
-        <Hamburger onClick={closeMenu} open={true} />
-      </HamburgerWrapper>
-
       <NavInner>
+        <HamburgerWrapper>
+          <Hamburger onClick={closeMenu} open={true} />
+        </HamburgerWrapper>
+
         <SearchInput />
         <div>
           {menuItems.map((menuItem) => {
