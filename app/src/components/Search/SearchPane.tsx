@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useRouter } from 'next/router'
 import { Column } from '../Layout'
 import { Heading } from '../Text'
 import { ProductGrid } from '../Product'
@@ -32,7 +31,6 @@ export const SearchPane = () => {
     searchTerm,
   } = useSearch()
   const { lockScroll, unlockScroll } = useLockScroll()
-  const { asPath } = useRouter()
 
   /* Handlers */
 
@@ -40,10 +38,6 @@ export const SearchPane = () => {
     closeSearch()
     reset()
   }
-
-  useEffect(() => {
-    closeSearch()
-  }, [asPath])
 
   useEffect(() => {
     if (open) {

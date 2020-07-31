@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import {
@@ -58,6 +59,7 @@ export const ProductThumbnail = ({
   preferredVariantMatches,
   imageRatio,
 }: ProductThumbnailProps) => {
+  const { asPath } = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
   const { sendProductImpression, sendProductClick } = useAnalytics()
@@ -123,7 +125,15 @@ export const ProductThumbnail = ({
     .filter(Boolean)
     .join(' - ')
 
-  const linkAs = `/products/${product.handle}?v=${currentVariant.id}`
+  const matches = asPath.match(/\?(.*)$/)
+  const existingParams = matches && matches[1] ? matches[1] : undefined
+  const params = new URLSearchParams(existingParams)
+
+  if (currentVariant.id) {
+    params.set('v', currentVariant.id)
+  }
+  const linkAs = `/products/${product.handle}?`.concat(params.toString())
+
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>

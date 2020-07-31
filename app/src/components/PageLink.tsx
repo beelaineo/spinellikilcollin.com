@@ -8,6 +8,7 @@ interface LinkProps {
   children?: React.ReactNode
   label?: string
   render?: (label: string | void | null) => React.ReactNode
+  onClick?: () => void
 }
 
 const linkStyles = {
@@ -20,12 +21,23 @@ const linkStyles = {
 // If there are no children, it will wrap a Label inferred
 // by the linked page, or by a label passed in as a prop
 
-export const PageLink = ({ link, children, render, label }: LinkProps) => {
+export const PageLink = ({
+  onClick,
+  link,
+  children,
+  render,
+  label,
+}: LinkProps) => {
   if (!link) return <>{children}</>
   if (link.__typename === 'ExternalLink') {
     if (!link.url) return <>{children}</>
     return (
-      <a href={link.url} rel="noopener noreferrer" target="_blank">
+      <a
+        onClick={onClick}
+        href={link.url}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         {children}
       </a>
     )
@@ -51,7 +63,9 @@ export const PageLink = ({ link, children, render, label }: LinkProps) => {
 
   return (
     <NextLink as={as} href={href}>
-      <a style={linkStyles}>{inner()}</a>
+      <a onClick={onClick} style={linkStyles}>
+        {inner()}
+      </a>
     </NextLink>
   )
 }

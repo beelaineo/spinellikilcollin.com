@@ -1,9 +1,7 @@
 import * as React from 'react'
-import styled, { css } from '@xstyled/styled-components'
-import { IoIosSearch } from 'react-icons/io'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { NavInner, HamburgerWrapper, NavItemWrapper } from './styled'
-import { Heading, Input } from '../Text'
+import { Heading } from '../Text'
 import { PageLink } from '../PageLink'
 import { SubMenu } from './SubMenu'
 import { Hamburger } from '../Hamburger'
@@ -32,13 +30,14 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
               case 'SubMenu':
                 return (
                   <NavItemWrapper key={menuItem._key || 'some-key'}>
-                    <SubMenu subMenu={menuItem} />
+                    <SubMenu closeMenu={closeMenu} subMenu={menuItem} />
                   </NavItemWrapper>
                 )
               case 'MenuLink':
                 return (
                   <NavItemWrapper key={menuItem._key || 'some-key'}>
                     <PageLink
+                      onClick={closeMenu}
                       link={menuItem.link}
                       render={(inferredLabel) => (
                         <Heading m={0} level={4}>

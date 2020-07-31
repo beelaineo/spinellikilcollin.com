@@ -1,12 +1,5 @@
 import * as React from 'react'
-import {
-  SearchState,
-  SearchActions,
-  useSearchReducer,
-  SearchResult,
-} from './reducer'
-import { useSanityQuery } from '../../hooks'
-import { searchQuery } from './query'
+import { SearchState, SearchActions, useSearchReducer } from './reducer'
 import { useNavigation } from '../NavigationProvider'
 
 const { useEffect } = React
@@ -39,32 +32,16 @@ interface SearchProps {
 export const SearchProvider = ({ children }: SearchProps) => {
   const { state, actions } = useSearchReducer()
   const { closeMenu } = useNavigation()
-  const { startSearch, onSuccess, onError, ...publicActions } = actions
-  const { query } = useSanityQuery<SearchResult>()
 
   useEffect(() => {
-    if (state.open) closeMenu()
+    if (state.open) {
+      closeMenu()
+    }
   }, [state.open])
-
-  const search = async (newSearchTerm?: string): Promise<void> => {
-    if (newSearchTerm) actions.setSearchTerm(newSearchTerm)
-    const searchTerm = newSearchTerm || state.searchTerm
-    if (!searchTerm.length) return
-
-    closeMenu()
-    startSearch()
-
-    const term = searchTerm.trim().replace(/\s/, '* ')
-    const termSingular = term.replace(/s$/, '')
-    const params = { searchTerm: term, searchTermSingular: termSingular }
-    const results = await query(searchQuery, params)
-    onSuccess(results || [])
-  }
 
   const value: SearchContextValue = {
     ...state,
-    ...publicActions,
-    search,
+    ...actions,
   }
 
   return (

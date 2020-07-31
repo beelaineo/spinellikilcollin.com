@@ -1,5 +1,8 @@
-import { useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
+import { useRouter } from 'next/router'
 import { ShopifyProduct, ShopifyCollection } from '../../types'
+import { useSanityQuery } from '../../hooks'
+import { searchQuery } from './query'
 
 export type SearchResult = ShopifyProduct | ShopifyCollection
 
@@ -32,6 +35,7 @@ interface ResetAction {
 }
 
 interface SearchAction {
+  searchTerm?: string
   type: ActionTypes.START_SEARCH
 }
 
@@ -80,6 +84,7 @@ const reducer = (state: SearchState, action: Action): SearchState => {
     case ActionTypes.START_SEARCH:
       return {
         ...state,
+        searchTerm: action.searchTerm ? action.searchTerm : state.searchTerm,
         open: true,
         loading: true,
       }
@@ -116,22 +121,28 @@ export interface SearchState {
 }
 
 export interface SearchActions {
+  search: (searchTerm?: string) => Promise<void>
   openSearch: (searchTerm?: string) => void
   closeSearch: () => void
   reset: () => void
   setSearchTerm: (
     searchTerm?: string | React.ChangeEvent<HTMLInputElement>,
   ) => void
-  startSearch: () => void
+  startSearch: (searchTerm?: string) => void
   onError: (errorMessage: string) => void
   onSuccess: (searchResults: SearchResult[]) => void
 }
 
 export const useSearchReducer = () => {
+  const { query } = useSanityQuery<SearchResult>()
+  const router = useRouter()
   const [state, dispatch] = useReducer(reducer, initialSearchState)
 
-  const openSearch = (searchTerm?: string) =>
+  const { asPath } = router
+
+  const openSearch = (searchTerm?: string) => {
     dispatch({ type: ActionTypes.OPEN, searchTerm })
+  }
   const closeSearch = () => dispatch({ type: ActionTypes.CLOSE })
   const setSearchTerm = (
     input?: string | React.ChangeEvent<HTMLInputElement>,
@@ -145,13 +156,57 @@ export const useSearchReducer = () => {
     dispatch({ type: ActionTypes.SET_TERM, searchTerm })
   }
   const reset = () => dispatch({ type: ActionTypes.RESET })
-  const startSearch = () => dispatch({ type: ActionTypes.START_SEARCH })
+  const startSearch = (searchTerm?: string) => {
+    if (searchTerm || state.searchTerm) {
+      const pathWithoutParams = asPath.replace(/\?(.*)$/, '')
+      const matches = asPath.match(/\?(.*)$/)
+      const existingParams = matches && matches[1] ? matches[1] : undefined
+      const params = new URLSearchParams(existingParams)
+
+      params.set('search', searchTerm || state.searchTerm)
+      const pathWithSearchParam = pathWithoutParams
+        .concat('?')
+        .concat(params.toString())
+      router.push(router.pathname, pathWithSearchParam, { shallow: true })
+    }
+    dispatch({ type: ActionTypes.START_SEARCH, searchTerm })
+  }
   const onError = (errorMessage: string) =>
     dispatch({ type: ActionTypes.ERROR, errorMessage })
   const onSuccess = (searchResults: SearchResult[]) =>
     dispatch({ type: ActionTypes.SUCCESS, searchResults })
 
+  const search = async (newSearchTerm?: string): Promise<void> => {
+    if (newSearchTerm) actions.setSearchTerm(newSearchTerm)
+    const searchTerm = newSearchTerm || state.searchTerm
+    if (!searchTerm.length) return
+
+    startSearch()
+    const term = searchTerm.trim().replace(/\s/, '* ')
+    const termSingular = term.replace(/s$/, '')
+    const params = { searchTerm: term, searchTermSingular: termSingular }
+    const results = await query(searchQuery, params)
+    onSuccess(results || [])
+  }
+
+  /*
+   * Effects
+   **/
+
+  /* close the search pane if navigating to a new path,
+   * unless that new path contains a search string */
+  useEffect(() => {
+    const params = new URLSearchParams(asPath.replace(/^(.*)\?/, ''))
+    const searchParam = params.get('search')
+    if (!searchParam) {
+      closeSearch()
+    } else {
+      search(searchParam)
+    }
+  }, [asPath])
+
   const actions: SearchActions = {
+    search,
     openSearch,
     closeSearch,
     setSearchTerm,

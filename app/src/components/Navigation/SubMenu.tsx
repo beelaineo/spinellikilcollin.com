@@ -11,6 +11,7 @@ const { useState, useEffect } = React
 
 interface SubMenuProps {
   subMenu: SubMenuType
+  closeMenu: () => void
 }
 
 const SubmenuButton = styled.button`
@@ -43,7 +44,7 @@ const SubmenuInner = styled.div`
   `}
 `
 
-export const SubMenu = ({ subMenu }: SubMenuProps) => {
+export const SubMenu = ({ closeMenu, subMenu }: SubMenuProps) => {
   const { menuOpen } = useNavigation()
   const [open, setOpen] = useState(false)
   const { title, links } = subMenu
@@ -70,7 +71,7 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
             case 'Cta':
               return (
                 <div key={link._key || 'some-key'}>
-                  <PageLink link={link.link}>
+                  <PageLink onClick={closeMenu} link={link.link}>
                     <Heading level={4} fontStyle="italic">
                       {link.label || ''}
                     </Heading>
@@ -78,7 +79,13 @@ export const SubMenu = ({ subMenu }: SubMenuProps) => {
                 </div>
               )
             case 'SubMenu':
-              return <SubMenu key={link._key || 'some-key'} subMenu={link} />
+              return (
+                <SubMenu
+                  closeMenu={closeMenu}
+                  key={link._key || 'some-key'}
+                  subMenu={link}
+                />
+              )
           }
         })}
       </SubmenuInner>

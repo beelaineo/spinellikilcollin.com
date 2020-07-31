@@ -65,8 +65,6 @@ export const parseProduct = (
   const product = getProductSourceData(selectedProduct.product)
   const variant = getVariantSourceData(selectedProduct.variant)
 
-  console.log({ product, variant })
-
   const formattedPrice = variant?.priceV2?.amount
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
         .format(parseFloat(variant.priceV2.amount.toString()))
