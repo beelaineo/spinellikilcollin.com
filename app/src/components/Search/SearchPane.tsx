@@ -7,6 +7,7 @@ import { useLockScroll } from '../LockScroll'
 import { useSearch } from '../../providers/SearchProvider'
 import { SearchInput } from './SearchInput'
 import { Hamburger } from '../Hamburger'
+import { Loading } from '../Loading'
 import {
   Outer,
   CloseButton,
@@ -77,7 +78,7 @@ export const SearchPane = () => {
           <Results>
             <ResultsInner>
               {loading ? (
-                <p>Loading..</p>
+                <Loading />
               ) : errorMessage ? (
                 <Heading level={3}>Sorry, an error occurred.</Heading>
               ) : searchResults.length === 0 ? (
