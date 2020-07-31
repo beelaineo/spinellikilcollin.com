@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
@@ -36,6 +37,12 @@ interface Props {
 }
 
 export const ProductDetail = ({ product }: Props) => {
+  const router = useRouter()
+  const params = new URLSearchParams(router.asPath.replace(/^(.*)\?/, ''))
+  const variantId = params.get('v')
+  const useProductVariantOptions = variantId
+    ? { initialVariant: variantId }
+    : undefined
   /* get additional info blocks from Sanity */
   const { sendProductDetailView } = useAnalytics()
   const { getProductInfoBlocks } = useShopData()
@@ -47,7 +54,7 @@ export const ProductDetail = ({ product }: Props) => {
   const {
     currentVariant: currentVariantSource,
     selectVariant,
-  } = useProductVariant(product.sourceData)
+  } = useProductVariant(product.sourceData, useProductVariantOptions)
 
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')

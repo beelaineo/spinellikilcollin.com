@@ -90,6 +90,11 @@ export const ProductThumbnail = ({
   const { minVariantPrice, maxVariantPrice } =
     product?.sourceData?.priceRange || {}
 
+  const stopPropagation = (e: any) => {
+    e.stopPropagation()
+    e.preventDefault()
+  }
+
   const onSwatchHover = (
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
@@ -157,11 +162,13 @@ export const ProductThumbnail = ({
               </Heading>
             )}
             {displaySwatches ? (
-              <ProductSwatches
-                onSwatchHover={onSwatchHover}
-                isSwatchActive={isSwatchActive}
-                product={product}
-              />
+              <div onClick={stopPropagation}>
+                <ProductSwatches
+                  onSwatchHover={onSwatchHover}
+                  isSwatchActive={isSwatchActive}
+                  product={product}
+                />
+              </div>
             ) : (
               <div />
             )}
