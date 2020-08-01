@@ -11,8 +11,21 @@ export const Wrapper = styled.div`
 export const Header = styled.div`
   ${({ theme }) => css`
     padding: 0 7;
+    display: flex;
+    justify-content: space-between;
+    select {
+      text-align-last: right;
+    }
     ${theme.mediaQueries.mobile} {
       padding: 0 4;
+      margin-bottom: 30px;
+      select {
+        position: absolute;
+        top: calc(100%);
+
+        max-width: initial;
+        width: calc(100% - (${theme.space[4]}px * 2) + 9px);
+      }
     }
   `}
 `

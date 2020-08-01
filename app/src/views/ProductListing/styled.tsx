@@ -6,8 +6,33 @@ interface WrapperProps {
 
 export const Wrapper = styled.div<WrapperProps>`
   ${({ theme, withHero }) => css`
+    position: relative;
     padding-top: ${withHero ? 0 : theme.navHeight};
   `}
+`
+interface GridWrapperProps {
+  loading: boolean
+}
+
+export const ProductGridWrapper = styled.div<GridWrapperProps>`
+  ${({ loading }) => css`
+    opacity: ${loading ? 0.4 : 1};
+    position: relative;
+    pointer-events: ${loading ? 'none' : 'inherit'};
+    transition: 0.3s;
+  `}
+`
+
+export const LoadingWrapper = styled.div`
+  position: absolute;
+  pointer-events: none;
+  z-index: 10;
+  top: 150px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 export const NoResultsWrapper = styled.div`

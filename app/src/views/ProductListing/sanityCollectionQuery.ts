@@ -1,4 +1,16 @@
-export const sanityCollectionQuery = `
+import { Sort } from '../../components/Filter'
+import { ShopifyProduct, FilterConfiguration } from '../../types'
+import { buildFilters } from '../../utils/sanity'
+
+const getSortString = (sort?: Sort): string => {
+  if (sort === Sort.PriceAsc) return 'minVariantPrice asc'
+  if (sort === Sort.PriceDesc) return 'maxVariantPrice desc'
+  if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
+  if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
+  return 'default'
+}
+
+export const createSanityCollectionQuery = (sort?: Sort) => `
 *[
   _type == "shopifyCollection"
   && defined(shopifyId)
@@ -40,7 +52,9 @@ export const sanityCollectionQuery = `
     "bodyRaw": body,
     ...,
   },
-  products[$productStart...$productEnd]->[]{
+  "products": products[$productStart...$productEnd]->[] | order(${getSortString(
+    sort,
+  )}) {
     _id,
     _type,
     handle,
@@ -63,6 +77,7 @@ export const sanityCollectionQuery = `
       title,
       tags,
       priceRange,
+      publishedAt,
       variants {
         edges[]{
           cursor,
@@ -89,13 +104,15 @@ export const sanityCollectionQuery = `
 }
 `
 
-export const moreProductsQuery = `
+export const createMoreProductsQuery = (sort?: Sort) => `
 *[
   _type == "shopifyCollection"
   && defined(shopifyId)
   && handle == $handle
 ] {
- products[$productStart...$productEnd]->[]{
+  "products": products[$productStart...$productEnd]->[] | order(${getSortString(
+    sort,
+  )}) {
     _id,
     _type,
     handle,
@@ -118,6 +135,7 @@ export const moreProductsQuery = `
       title,
       tags,
       priceRange,
+      publishedAt,
       variants {
         edges[]{
           cursor,
@@ -135,3 +153,57 @@ export const moreProductsQuery = `
   },
 }
 `
+
+export type FilterResponse = ShopifyProduct[]
+
+const filterQuery = (filterString: string = '', sort?: Sort) => `
+*[
+  _type == "shopifyProduct" &&
+    defined(shopifyId) &&
+    references($collectionId) 
+  ${filterString ? `&& ${filterString}` : ''}
+][$productStart...$productEnd] | order(${getSortString(sort)}) {
+  _id,
+  _type,
+  handle,
+  minVariantPrice,
+  maxVariantPrice,
+  shopifyId,
+  title,
+  options[]{
+    _key,
+    _type,
+    values[defined(swatch)],
+    ...
+  },
+  sourceData {
+    _type,
+    handle,
+    id,
+    images,
+    tags,
+    title,
+    tags,
+    priceRange,
+    publishedAt,
+    variants {
+      edges[]{
+        cursor,
+        node {
+          _type,
+          id,
+          image,
+          title,
+          selectedOptions,
+          priceV2
+        },
+      },
+    },
+  },
+}
+`
+
+export const buildFilterQuery = (filters: FilterConfiguration, sort?: Sort) => {
+  const filterString = buildFilters(filters)
+  return filterQuery(filterString, sort)
+}

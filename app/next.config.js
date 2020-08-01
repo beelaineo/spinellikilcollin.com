@@ -43,7 +43,6 @@ module.exports = withSourceMaps(
         SENTRY_PROJECT &&
         SENTRY_AUTH_TOKEN
       ) {
-        console.log('Sentry release: ', release)
         config.plugins.push(
           new SentryWebpackPlugin({
             include: '.next',

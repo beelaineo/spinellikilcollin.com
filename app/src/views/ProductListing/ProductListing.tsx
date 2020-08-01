@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
+import { Box } from '@xstyled/styled-components'
 import {
   ShopifyCollection,
   ShopifyProduct,
@@ -12,12 +13,20 @@ import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
 import { getHeroImage, isValidHero, definitely } from '../../utils'
-import { Wrapper, NoResultsWrapper } from './styled'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
-import { buildQuery } from './filterQuery'
-import { moreProductsQuery } from './sanityCollectionQuery'
+import {
+  buildFilterQuery,
+  createMoreProductsQuery,
+} from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
+import { Loading } from '../../components/Loading'
+import {
+  LoadingWrapper,
+  ProductGridWrapper,
+  Wrapper,
+  NoResultsWrapper,
+} from './styled'
 
 const { useRef, useEffect, useState } = React
 
@@ -31,7 +40,8 @@ interface FilterVariables {
   collectionId: string
 }
 
-interface PaginationArgs {
+type PaginationArgs = {
+  collectionId: string
   handle: string
   productStart: number
   productEnd: number
@@ -39,78 +49,119 @@ interface PaginationArgs {
 
 const PAGE_SIZE = 12
 
+function isCollectionResult(
+  r?: ShopifyCollection[] | ShopifyProduct[],
+): r is ShopifyCollection[] {
+  if (!r || !r[0]) return false
+  return 'products' in r[0]
+}
+
 export const ProductListing = ({ collection }: ProductListingProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
-  const [fetchMoreResults, setFetchMoreResults] = useState<ShopifyProduct[]>([])
+  const [productResults, setProductResults] = useState<ShopifyProduct[]>([
+    ...definitely(collection.products).slice(0, PAGE_SIZE),
+  ])
   const { isInView } = useInViewport(bottomRef, '500px 0px')
   const { productListingSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [filterOpen, setFilterOpen] = useState(false)
-  const {
-    state: searchState,
-    query: sanityQuery,
-    reset: resetQueryResults,
-  } = useSanityQuery<ShopifyProduct, FilterVariables>()
+  const [loading, setLoading] = useState(false)
+  const [
+    currentFilter,
+    setCurrentFilter,
+  ] = useState<FilterConfiguration | null>(null)
   const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
-    ShopifyCollection,
+    ShopifyCollection[] | ShopifyProduct[],
     PaginationArgs
   >()
-  const filterResults = searchState.results
   const defaultFilter = productListingSettings?.defaultFilter
   const filters = definitely(defaultFilter).filter(
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
   )
   const {
+    _id,
     preferredVariantMatches,
-    products,
     hero,
     seo,
     handle,
     collectionBlocks,
     reduceColumnCount,
   } = collection
+  if (!handle) {
+    throw new Error('The collection is missing a handle')
+  }
+  if (!_id) {
+    throw new Error('The collection is missing an _id')
+  }
   const [fetchComplete, setFetchComplete] = useState(
     definitely(collection.products).length < PAGE_SIZE,
   )
 
   const openFilter = () => setFilterOpen(true)
 
-  const allProducts = [
-    ...definitely(products).slice(0, PAGE_SIZE),
-    ...fetchMoreResults,
-  ]
+  const applySort = async (sort: Sort) => {
+    setLoading(true)
+    setSort(sort)
+    const query = currentFilter
+      ? buildFilterQuery(currentFilter, sort)
+      : createMoreProductsQuery(sort)
 
-  const applySort = (sort: Sort) => {
-    // console.log(sort)
+    const results = await fetchMoreQuery(query, {
+      collectionId: _id,
+      handle,
+      productStart: 0,
+      productEnd: PAGE_SIZE,
+    })
+    if (isCollectionResult(results)) {
+      setProductResults(definitely(results[0].products))
+    } else {
+      setProductResults(results)
+    }
+    setLoading(false)
   }
+
+  useEffect(() => {
+    if (!currentFilter) return
+    fetchMore(true)
+  }, [currentFilter])
 
   // If there are collection blocks, insert them in the array
   // of products by position
-  const items = filterResults
-    ? filterResults
-    : collectionBlocks?.length
+  const items = collectionBlocks?.length
     ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
         if (!current?.position) return acc
         const index = current.position - 1
         return [...acc.slice(0, index), current, ...acc.slice(index)]
-      }, definitely(allProducts))
-    : definitely(allProducts)
+      }, definitely(productResults))
+    : definitely(productResults)
 
-  const fetchMore = async () => {
-    if (!collection.handle) {
-      throw new Error('The collection is missing a handle')
-    }
-    const productStart = allProducts.length
-    const productEnd = allProducts.length + PAGE_SIZE
-    const results = await fetchMoreQuery(moreProductsQuery, {
-      handle: collection.handle,
+  const fetchMore = async (reset?: boolean) => {
+    if (reset) setLoading(true)
+    const productStart = reset ? 0 : productResults.length
+    const productEnd = reset ? PAGE_SIZE : productResults.length + PAGE_SIZE
+    const query = currentFilter
+      ? buildFilterQuery(currentFilter, sort)
+      : createMoreProductsQuery(sort)
+
+    const results = await fetchMoreQuery(query, {
+      handle,
       productStart,
       productEnd,
+      collectionId: _id,
     })
-    console.log(results, { handle: collection.handle })
-    const newProducts = definitely(results[0].products)
+
+    const newProducts = isCollectionResult(results)
+      ? definitely(results[0].products)
+      : definitely(results)
+
     if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
-    setFetchMoreResults([...fetchMoreResults, ...newProducts])
+
+    if (reset) {
+      setProductResults(newProducts)
+    } else {
+      setProductResults([...productResults, ...newProducts])
+    }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -124,17 +175,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
     if (!filters?.length) {
-      resetQueryResults()
       return
     }
-    const query = buildQuery(filters)
-    if (!collection._id) {
-      throw new Error('No _id for this collection was supplied')
-    }
-    const params = {
-      collectionId: collection._id,
-    }
-    sanityQuery(query, params)
+    setCurrentFilter(filters)
   }
 
   if (!handle) throw new Error('No handle was fetched')
@@ -169,28 +212,38 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
               No products found
             </Heading>
             <Button textTransform="initial" onClick={openFilter} level={3}>
-              Try using fewer filters
+              cssTry using fewer filters
             </Button>
           </NoResultsWrapper>
         ) : (
           <>
-            <ProductGrid
-              reduceColumnCount={reduceColumnCount}
-              preferredVariantMatches={preferredVariantMatches}
-              items={items}
-            />
-            {!fetchComplete && filterResults === null ? (
-              <Heading
-                level={4}
-                my={8}
-                textAlign="center"
-                fontStyle="italic"
-                color="body.7"
-              >
-                Loading more products...
-              </Heading>
+            {loading ? (
+              <LoadingWrapper>
+                <Loading />
+              </LoadingWrapper>
             ) : null}
-            <div key={items.length} ref={bottomRef} />
+
+            <ProductGridWrapper loading={loading}>
+              <ProductGrid
+                reduceColumnCount={reduceColumnCount}
+                preferredVariantMatches={preferredVariantMatches}
+                items={items}
+              />
+              {!fetchComplete ? (
+                <Box my={8}>
+                  <Heading
+                    level={4}
+                    textAlign="center"
+                    fontStyle="italic"
+                    color="body.7"
+                  >
+                    Loading more products...
+                  </Heading>
+                  <Loading />
+                </Box>
+              ) : null}
+              <div key={items.length} ref={bottomRef} />
+            </ProductGridWrapper>
           </>
         )}
       </Wrapper>

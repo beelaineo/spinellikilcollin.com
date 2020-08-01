@@ -3,18 +3,17 @@ import styled from '@xstyled/styled-components'
 import { SelectElement } from '../Forms/Fields/styled'
 
 export enum Sort {
+  PriceAsc = 'Price, low to high',
+  PriceDesc = 'Price, high to low',
+  DateAsc = 'Newest first',
+  DateDesc = 'Oldest first',
   Default = 'Default',
-  PriceAsc = 'Price, high to low',
-  PriceDesc = 'Price, low to high',
-  DateAsc = 'Release date, high to low',
-  DateDesc = 'Release date, low to high',
 }
 
 const SelectField = styled(SelectElement)`
   color: body.8;
   border: none;
   min-width: initial;
-  padding: 0 4 0 3;
   height: auto;
 `
 
@@ -28,16 +27,24 @@ interface SortButtonProps {
   applySort: (sort: Sort) => void
 }
 
+const getSortValue = (value: string): Sort => {
+  const sort = Object.values(Sort).find((v) => v === value)
+  if (!sort) throw new Error(`Cannot get sort for value "${value}"`)
+  return sort
+}
+
 export const SortButton = ({ applySort }: SortButtonProps) => {
-  return null
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
-    // @ts-ignore
-    applySort(value)
+    const sortValue = getSortValue(value)
+    applySort(sortValue)
   }
 
   return (
     <SelectField name="currency" color="body.8" onChange={handleChange}>
+      <option disabled selected hidden value={undefined}>
+        Sort
+      </option>
       {sortOptions.map(({ id, value, label }) => (
         <option key={id} id={id} value={value}>
           {label}

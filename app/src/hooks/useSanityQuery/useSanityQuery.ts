@@ -63,10 +63,10 @@ interface Document {
 
 type Response = Document[]
 
-type Variables = { [key: string]: any }
+type Variables = Record<string, string | number | boolean>
 
 export const useSanityQuery = <
-  R extends Document,
+  R extends Document[],
   V extends Variables = Variables
 >() => {
   const { handleError } = useError()
@@ -86,7 +86,7 @@ export const useSanityQuery = <
 
   const reset = () => dispatch({ type: RESET })
 
-  const query = async (query: string, customParams: V): Promise<R[]> => {
+  const query = async (query: string, customParams: V): Promise<R> => {
     dispatch({ type: FETCH })
     const client = await fetchOrGetClient()
     const params = customParams ? customParams : {}

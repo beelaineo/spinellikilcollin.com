@@ -7,7 +7,7 @@ import { NotFound, ProductListing } from '../../src/views'
 import { request } from '../../src/graphql'
 import { getParam, definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
-import { sanityCollectionQuery } from '../../src/views/ProductListing'
+import { createSanityCollectionQuery } from '../../src/views/ProductListing'
 
 export interface CollectionResult {
   Collection: ShopifyCollection
@@ -41,10 +41,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return { props: { products: undefined, collection: undefined } }
   const handle = getParam(params.collectionSlug)
   const responses = await Promise.all([
-    sanityQuery<ShopifyCollection[]>(sanityCollectionQuery, {
+    sanityQuery<ShopifyCollection[]>(createSanityCollectionQuery(), {
       handle,
       productStart: 0,
       productEnd: 13,
+      sort: null,
     }),
 
     requestShopData(),

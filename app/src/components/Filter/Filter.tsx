@@ -119,6 +119,7 @@ export const Filter = ({
     applyFilters(null)
     setOpen(false)
   }
+
   return (
     <Wrapper>
       <Header>
