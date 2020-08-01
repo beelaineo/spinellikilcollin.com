@@ -134,7 +134,7 @@ export interface SearchActions {
 }
 
 export const useSearchReducer = () => {
-  const { query } = useSanityQuery<SearchResult>()
+  const { query } = useSanityQuery<SearchResult[]>()
   const router = useRouter()
   const [state, dispatch] = useReducer(reducer, initialSearchState)
 
