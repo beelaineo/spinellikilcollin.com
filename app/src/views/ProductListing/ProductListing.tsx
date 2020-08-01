@@ -212,7 +212,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
               No products found
             </Heading>
             <Button textTransform="initial" onClick={openFilter} level={3}>
-              cssTry using fewer filters
+              Try using fewer filters
             </Button>
           </NoResultsWrapper>
         ) : (
