@@ -32,7 +32,6 @@ export const ProductDetails = styled.div`
     display: grid;
     grid-template-columns: 1fr 330px;
     grid-column-gap: 5;
-    min-height: 75vh;
     padding-right: 11;
 
     ${theme.mediaQueries.desktop} {

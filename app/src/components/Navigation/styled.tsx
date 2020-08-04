@@ -55,11 +55,13 @@ export const Inner = styled.div<WithBorder>`
     width: 100%;
 
     ${theme.mediaQueries.tablet} {
-      padding: 6 0 2;
+      padding: 5 0 3;
+
+      grid-template-columns: 1fr 230px 1fr;
       max-width: calc(100% - (${theme.space[7]}px * 2));
     }
+
     ${theme.mediaQueries.mobile} {
-      padding-top: 13px;
       grid-template-columns: 50px 1fr 50px;
       max-width: calc(100% - (${theme.space[4]}px * 2));
     }
@@ -101,7 +103,6 @@ interface WithActive {
 
 export const LogoWrapper = styled.div`
   ${({ theme }) => css`
-    width: 260px;
     margin: 0 auto;
     svg {
       width: 100%;
@@ -109,6 +110,9 @@ export const LogoWrapper = styled.div`
     ${theme.mediaQueries.mobile} {
       width: 170px;
       transform: translateY(4px);
+      svg {
+        width: 100%;
+      }
     }
   `}
 `
@@ -127,12 +131,15 @@ export const NavHeader = styled.button`
 export const HamburgerWrapper = styled.div`
   ${({ theme }) => css`
     position: absolute;
-    top: 9px;
+    top: 44px;
     left: ${theme.space[7]}px;
     z-index: ${theme.zIndices.cart + 1};
 
+    ${theme.mediaQueries.tablet} {
+      top: 33px;
+    }
+
     ${theme.mediaQueries.mobile} {
-      top: 21px;
       left: ${theme.space[5]}px;
     }
   `}
@@ -261,7 +268,7 @@ export const SideNavigation = styled.div`
 
 export const NavInner = styled.div`
   ${({ theme }) => css`
-    padding: 9 7 7;
+    padding: 80px 7 7;
     height: 100vh;
     overflow: scroll;
     max-width: calc(100vw + 1px);
@@ -269,9 +276,6 @@ export const NavInner = styled.div`
     position: relative;
     z-index: 10;
 
-    > div {
-      margin: 6 0;
-    }
     ul {
       list-style: none;
       padding: 0;
@@ -286,7 +290,7 @@ export const NavInner = styled.div`
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 5;
+      padding: 9 5 5;
     }
   `}
 `

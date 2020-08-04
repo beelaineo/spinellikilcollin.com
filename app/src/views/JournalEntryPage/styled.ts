@@ -19,6 +19,11 @@ export const JournalPageWrapper = styled.div<WithHero>`
     }
     ${theme.mediaQueries.mobile} {
       padding: calc(${theme.space[8]}px + 4px) 30px 7;
+      ${withHero
+        ? css`
+            padding-top: 2;
+          `
+        : ''}
     }
     ${withHero
       ? css`

@@ -49,6 +49,11 @@ const HamburgerWrapper = styled.button`
       bottom: 0;
       display: ${open ? 'none' : 'block'};
     }
+    ${theme.mediaQueries.tablet} {
+      width: 28px;
+      height: 19px;
+    }
+
     ${theme.mediaQueries.mobile} {
       width: 20px;
       height: 14px;

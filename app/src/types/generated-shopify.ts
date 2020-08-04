@@ -3012,15 +3012,9 @@ export interface ShopifyStorefrontMutation {
   checkoutGiftCardsAppend?: Maybe<
     ShopifyStorefrontCheckoutGiftCardsAppendPayload
   >
-  /**
-   * Adds a list of line items to a checkout.
-   * @deprecated Use `checkoutLineItemsReplace` instead
-   */
+  /** Adds a list of line items to a checkout. */
   checkoutLineItemsAdd?: Maybe<ShopifyStorefrontCheckoutLineItemsAddPayload>
-  /**
-   * Removes line items from an existing checkout.
-   * @deprecated Use `checkoutLineItemsReplace` instead
-   */
+  /** Removes line items from an existing checkout. */
   checkoutLineItemsRemove?: Maybe<
     ShopifyStorefrontCheckoutLineItemsRemovePayload
   >
@@ -3028,10 +3022,7 @@ export interface ShopifyStorefrontMutation {
   checkoutLineItemsReplace?: Maybe<
     ShopifyStorefrontCheckoutLineItemsReplacePayload
   >
-  /**
-   * Updates line items on a checkout.
-   * @deprecated Use `checkoutLineItemsReplace` instead
-   */
+  /** Updates line items on a checkout. */
   checkoutLineItemsUpdate?: Maybe<
     ShopifyStorefrontCheckoutLineItemsUpdatePayload
   >

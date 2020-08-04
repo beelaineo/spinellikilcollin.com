@@ -16,13 +16,13 @@ export const Header = styled.div`
     select {
       text-align-last: right;
     }
+
     ${theme.mediaQueries.mobile} {
       padding: 0 4;
       margin-bottom: 30px;
       select {
         position: absolute;
-        top: calc(100%);
-
+        top: calc(100% + 8px);
         max-width: initial;
         width: calc(100% - (${theme.space[4]}px * 2) + 9px);
       }

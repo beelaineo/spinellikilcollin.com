@@ -41,7 +41,7 @@ export const SortButton = ({ applySort }: SortButtonProps) => {
   }
 
   return (
-    <SelectField name="currency" color="body.8" onChange={handleChange}>
+    <SelectField name="sort" color="body.8" onChange={handleChange}>
       <option disabled selected hidden value={undefined}>
         Sort
       </option>
