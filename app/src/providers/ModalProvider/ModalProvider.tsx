@@ -1,21 +1,28 @@
 import * as React from 'react'
-import { CustomizationModal, RingSizerModal } from '../../components/Modals'
+import {
+  ContactFormModal,
+  CustomizationModal,
+  RingSizerModal,
+} from '../../components/Modals'
 import { useLockScroll } from '../../components/LockScroll'
 import {
   RING_SIZER,
   CUSTOMIZATION,
+  CONTACT,
   CustomizationModalArgs,
+  ContactModalArgs,
   useModalReducer,
 } from './reducer'
 
 const { useEffect } = React
 
-export type ModalName = 'customization' | 'ringSizer'
+export type ModalName = 'customization' | 'ringSizer' | 'contact'
 
 interface ModalContextValue {
   closeModal: () => void
   openRingSizerModal: () => void
   openCustomizationModal: (args: CustomizationModalArgs) => void
+  openContactModal: (args: ContactModalArgs) => void
 }
 
 const ModalContext = React.createContext<ModalContextValue | undefined>(
@@ -41,6 +48,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     closeModal,
     openRingSizerModal,
     openCustomizationModal,
+    openContactModal,
   } = useModalReducer()
   const { lockScroll, unlockScroll } = useLockScroll()
 
@@ -67,8 +75,9 @@ export const ModalProvider = ({ children }: ModalProps) => {
     closeModal,
     openRingSizerModal,
     openCustomizationModal,
+    openContactModal,
   }
-  const { currentModal, currentProduct, currentVariant } = state
+  const { formType, currentModal, currentProduct, currentVariant } = state
 
   return (
     <ModalContext.Provider value={value}>
@@ -85,6 +94,8 @@ export const ModalProvider = ({ children }: ModalProps) => {
           variant={currentVariant}
           closeModal={closeModal}
         />
+      ) : currentModal === CONTACT ? (
+        <ContactFormModal formType={formType} closeModal={closeModal} />
       ) : null}
     </ModalContext.Provider>
   )

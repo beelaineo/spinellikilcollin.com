@@ -29,7 +29,7 @@ export const ContactLines = styled.div`
 `
 
 export const ContactLineWrapper = styled.div`
-  padding-bottom: 2;
+  padding: 2 0 5;
   border-bottom: 1px solid;
   border-color: body.5;
   margin-bottom: 6;

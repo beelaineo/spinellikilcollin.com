@@ -1,57 +1,44 @@
 import * as React from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import styled from '@xstyled/styled-components'
 import { Heading } from '../../Text'
 import { Button } from '../../Button'
-import { Form, Field } from '../index'
-import Checkmark from '../../../svg/Checkmark.svg'
+import { Form, StateField, Field } from '../'
 import {
   MainWrapper,
-  ProductBadgeWrapper,
-  FieldsWrapper,
   SuccessWrapper,
+  FieldsWrapper as BaseFieldsWrapper,
 } from './styled'
 
+const FieldsWrapper = styled(BaseFieldsWrapper)`
+  .field--name {
+    grid-column: 1 / 3;
+  }
+`
+
 const { useState } = React
+
+interface ContactFormProps {
+  formType?: string
+  onContinue?: () => void
+}
 
 interface FormValues {
   name: string
   emailAddress: string
-  location?: string
-  phone?: string
+  phone: string
+  country: string
+  state: string
   message: string
+  formType?: string
 }
 
-interface ProductBadgeProps {
-  product: ShopifyProduct
-}
-
-const ProductBadge = ({ product }: ProductBadgeProps) =>
-  product.title ? (
-    <ProductBadgeWrapper>
-      <Checkmark />
-      <Heading my={0} ml={2} level={5}>
-        {product.title.toUpperCase()}
-      </Heading>
-    </ProductBadgeWrapper>
-  ) : null
-
-interface CustomizationFormProps {
-  product?: ShopifyProduct
-  variant?: ShopifyProductVariant
-  onContinue?: () => void
-}
-
-export const CustomizationForm = ({
-  product,
-  variant,
-  onContinue,
-}: CustomizationFormProps) => {
+export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
   const handleSubmit = async (values: FormValues) => {
     setSubmitting(true)
-    await fetch('/api/customizationInquiry', {
+    await fetch('/api/contactUs', {
       method: 'POST',
       body: JSON.stringify(values),
     }).then((r) => r.json())
@@ -61,19 +48,19 @@ export const CustomizationForm = ({
   const initialValues = {
     name: '',
     emailAddress: '',
-    location: '',
     phone: '',
+    country: 'United States',
+    state: '',
     message: '',
-    product: product?.title || '(no product specified)',
-    variant: variant?.title || '',
+    formType,
   }
 
   return (
     <MainWrapper>
       <Heading mt={0} level={3}>
-        Customization Inquiry
+        Contact Us
       </Heading>
-      {product ? <ProductBadge product={product} /> : null}
+
       <SuccessWrapper visible={success}>
         <Heading color="body.8" level={4}>
           Thank you! We have received your request.
@@ -84,7 +71,6 @@ export const CustomizationForm = ({
           </Button>
         ) : null}
       </SuccessWrapper>
-
       <Form
         disabled={submitting}
         onSubmit={handleSubmit}
@@ -110,7 +96,14 @@ export const CustomizationForm = ({
             placeholder="Phone"
             label="Phone (optional)"
           />
-          <Field required name="location" label="Your Location" />
+          <Field
+            label="Country"
+            name="country"
+            type="countrySelector"
+            required
+          />
+
+          <StateField label="State" name="state" required />
           <Field
             name="message"
             type="textarea"
@@ -118,8 +111,7 @@ export const CustomizationForm = ({
             placeholder="I'm interested in..."
             required
           />
-          <Field name="product" type="hidden" />
-          <Field name="variant" type="hidden" />
+          <Field type="hidden" name="formType" />
           <Button type="submit">Submit</Button>
         </FieldsWrapper>
       </Form>

@@ -4,14 +4,17 @@ import { ShopifyProduct, ShopifyProductVariant } from '../../types'
 const CLOSE = 'CLOSE'
 const OPEN_CUSTOMIZATION = 'OPEN_CUSTOMIZATION'
 const OPEN_RING_SIZER = 'OPEN_RING_SIZER'
+const OPEN_CONTACT = 'OPEN_CONTACT'
 
 export const RING_SIZER = 'RING_SIZER'
 export const CUSTOMIZATION = 'CUSTOMIZATION'
+export const CONTACT = 'CONTACT'
 
 interface State {
-  currentModal: typeof RING_SIZER | typeof CUSTOMIZATION | null
+  currentModal: typeof RING_SIZER | typeof CUSTOMIZATION | typeof CONTACT | null
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  formType?: string
 }
 
 interface CloseAction {
@@ -22,13 +25,22 @@ interface OpenRingSizerAction {
   type: typeof OPEN_RING_SIZER
 }
 
+interface OpenContactAction {
+  type: typeof OPEN_CONTACT
+  formType: string
+}
+
 interface OpenCustomizationAction {
   type: typeof OPEN_CUSTOMIZATION
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
 }
 
-type Action = CloseAction | OpenCustomizationAction | OpenRingSizerAction
+type Action =
+  | CloseAction
+  | OpenCustomizationAction
+  | OpenRingSizerAction
+  | OpenContactAction
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -43,11 +55,17 @@ const reducer = (state: State, action: Action): State => {
         currentProduct: action.currentProduct,
         currentVariant: action.currentVariant,
       }
+    case OPEN_CONTACT:
+      return {
+        currentModal: CONTACT,
+        formType: action.formType,
+      }
     case CLOSE:
       return {
         currentModal: null,
         currentProduct: undefined,
         currentVariant: undefined,
+        formType: undefined,
       }
     default:
       // @ts-ignore
@@ -63,6 +81,10 @@ export interface CustomizationModalArgs {
   currentVariant?: ShopifyProductVariant
 }
 
+export interface ContactModalArgs {
+  formType: string
+}
+
 export const useModalReducer = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -73,11 +95,14 @@ export const useModalReducer = () => {
     currentVariant,
   }: CustomizationModalArgs) =>
     dispatch({ type: OPEN_CUSTOMIZATION, currentProduct, currentVariant })
+  const openContactModal = ({ formType }: ContactModalArgs) =>
+    dispatch({ type: OPEN_CONTACT, formType })
 
   return {
     state,
     closeModal,
     openRingSizerModal,
     openCustomizationModal,
+    openContactModal,
   }
 }

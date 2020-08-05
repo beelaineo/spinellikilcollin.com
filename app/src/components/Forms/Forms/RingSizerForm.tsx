@@ -3,6 +3,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { Heading } from '../../Text'
 import { Form, Field } from '../../Forms'
 import { FieldWrapper } from '../../Forms/Fields/styled'
+import { StateField } from '../CustomFields'
 import { Button } from '../../Button'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 
@@ -157,7 +158,7 @@ export const RingSizerForm = ({
           <Field name="address1" label="Mailing Address Line 1" required />
           <Field name="address2" label="Mailing Address Line 2" />
           <Field label="City" name="city" required />
-          <Field label="State" name="state" required />
+          <StateField label="State" name="state" required />
           <Field label="Postal Code" name="postalCode" required />
           <Field
             label="Country"

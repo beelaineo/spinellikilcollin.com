@@ -2,6 +2,8 @@ import { ServerClient, Message, Errors } from 'postmark'
 import Debug from 'debug'
 import { Sentry } from '../sentry'
 import {
+  contactInquiry,
+  ContactInquiryArgs,
   customizationInquiry,
   CustomizationInquiryArgs,
   requestRingSizer,
@@ -38,6 +40,7 @@ interface PostmarkService {
   sendCustomizationInquiry: (
     args: CustomizationInquiryArgs,
   ) => Promise<PostmarkResponse>
+  sendContactInquiry: (args: ContactInquiryArgs) => Promise<PostmarkResponse>
 }
 
 if (!POSTMARK_KEY || !POSTMARK_KEY.length)
@@ -91,8 +94,14 @@ export const postmark: PostmarkService = {
     const message = requestRingSizer(args)
     return send(message)
   },
+
   sendMagazineSignup: async (args: MagazineSignupArgs) => {
     const message = magazineSignup(args)
+    return send(message)
+  },
+
+  sendContactInquiry: async (args: ContactInquiryArgs) => {
+    const message = contactInquiry(args)
     return send(message)
   },
 }
