@@ -100,7 +100,7 @@ export const MailerWrapper = styled.div`
   `}
 `
 
-export const MailerInput = styled.form`
+export const MailerForm = styled.form`
   position: relative;
   button {
     color: body.5;

@@ -3,7 +3,7 @@ import RightArrow from '../../svg/RightArrow.svg'
 import { Heading } from '../../components/Text'
 import { Input } from '../../components/Text'
 import {
-  MailerInput,
+  MailerForm,
   MailerWrapper,
   InputWrapper,
   SuccessWrapper,
@@ -48,7 +48,7 @@ export const NewsletterSignup = ({
       <Heading mb={3} level={5}>
         {mailerSubtitle}
       </Heading>
-      <MailerInput onSubmit={handleSubmit}>
+      <MailerForm id="newsletter-signup" onSubmit={handleSubmit}>
         <SuccessWrapper visible={success}>
           <Heading my={0} color="body.6" textAlign="left" level={5}>
             Thank you! You have been subscribed.
@@ -66,7 +66,7 @@ export const NewsletterSignup = ({
             <RightArrow />
           </button>
         </InputWrapper>
-      </MailerInput>
+      </MailerForm>
     </MailerWrapper>
   )
 }

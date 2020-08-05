@@ -127,6 +127,7 @@ export const RingSizerForm = ({
         Request a ring sizer
       </Heading>
       <Form
+        id="ring-sizer-form"
         disabled={submitting}
         onSubmit={handleSubmit}
         initialValues={initialValues}

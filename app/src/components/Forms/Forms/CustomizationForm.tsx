@@ -86,6 +86,7 @@ export const CustomizationForm = ({
       </SuccessWrapper>
 
       <Form
+        id="customization-form"
         disabled={submitting}
         onSubmit={handleSubmit}
         initialValues={initialValues}

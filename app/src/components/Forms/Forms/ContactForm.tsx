@@ -77,6 +77,7 @@ export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
         ) : null}
       </SuccessWrapper>
       <Form
+        id="contact-form"
         disabled={submitting}
         onSubmit={handleSubmit}
         initialValues={initialValues}
