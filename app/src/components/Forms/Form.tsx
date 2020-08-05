@@ -20,6 +20,7 @@ const FormElement = styled.form`
 `
 
 interface FormProps<Values> {
+  id?: string
   title?: string
   description?: string
   disabled?: boolean
@@ -30,6 +31,7 @@ interface FormProps<Values> {
 }
 
 export function Form<Values extends FormikValues>({
+  id,
   title,
   description,
   onSubmit,
@@ -58,6 +60,7 @@ export function Form<Values extends FormikValues>({
         {({ handleSubmit, isSubmitting }) => {
           return (
             <FormElement
+              id={id}
               isSubmitting={isSubmitting}
               disabled={disabled}
               onSubmit={handleSubmit}
