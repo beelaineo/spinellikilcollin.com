@@ -6,7 +6,7 @@ import { Span } from '../Text'
 import { HeadingWrapper, Slider, KnobHandle, KnobDot } from './styled'
 import { Label } from '../Forms/Fields/styled'
 
-const { useEffect, useState } = React
+const { useMemo, useEffect, useState } = React
 
 const roundTo = (number: number, to: number) => Math.round(number / to) * to
 
@@ -53,8 +53,8 @@ const Knob = ({
 
     const { offsetWidth, offsetLeft } = container
     const diffPx = mouseX - offsetLeft
-    const pos = diffPx / offsetWidth
-    updatePosition(Math.min(upperLimit, Math.max(lowerLimit, pos)))
+    const pos = Math.min(upperLimit, Math.max(lowerLimit, diffPx / offsetWidth))
+    updatePosition(pos)
   }
 
   useEffect(() => {
@@ -97,6 +97,24 @@ interface PriceRangeFilterProps {
   setKey: string
 }
 
+const getStep = (
+  minPrice: number,
+  maxPrice: number,
+  step: number,
+): number[] => {
+  const stepCount = Math.floor(maxPrice / step)
+  return Array.from({ length: stepCount }, (_, i) => i * step + minPrice)
+}
+
+const getSteps = (minPrice: number, maxPrice: number): number[] => {
+  const steps = [
+    ...getStep(minPrice, 1000, 100),
+    ...getStep(1000, Math.min(maxPrice, 9999), 500),
+    ...getStep(10000, maxPrice, 1000),
+  ].reduce<number[]>((acc, i) => (acc.includes(i) ? acc : [...acc, i]), [])
+  return steps
+}
+
 export function PriceRangeFilter({
   priceRangeFilter,
   filterSetState,
@@ -114,6 +132,11 @@ export function PriceRangeFilter({
   const [currentMaxPrice, setCurrentMaxPrice] = useState<number | null>(
     maxPrice || null,
   )
+
+  const steps = useMemo(() => getSteps(minPrice, maxPrice), [
+    minPrice,
+    maxPrice,
+  ])
 
   if (!minPrice) {
     throw new Error(
@@ -145,6 +168,7 @@ export function PriceRangeFilter({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
+      console.log({ minPrice: currentMinPrice, maxPrice: currentMaxPrice })
       setValues('', { minPrice: currentMinPrice, maxPrice: currentMaxPrice })
     }, 300)
     return () => clearTimeout(timeout)
@@ -166,10 +190,16 @@ export function PriceRangeFilter({
 
   const currentMinPosition = currentMinPrice / maxPrice
   const currentMaxPosition = currentMaxPrice / maxPrice
-  const updateMinPosition = (pos: number) =>
-    setCurrentMinPrice(Math.floor(maxPrice * pos))
-  const updateMaxPosition = (pos: number) =>
-    setCurrentMaxPrice(Math.ceil(maxPrice * pos))
+  const updateMinPosition = (pos: number) => {
+    const steppedMinPrice = steps[Math.round(pos * steps.length)] || steps[0]
+    setCurrentMinPrice(steppedMinPrice)
+  }
+  const updateMaxPosition = (pos: number) => {
+    const steppedMaxPrice =
+      steps[Math.round(pos * steps.length)] || steps[steps.length - 1]
+    setCurrentMaxPrice(steppedMaxPrice)
+  }
+
   return (
     <PriceRangeFilterWrapper>
       <HeadingWrapper>

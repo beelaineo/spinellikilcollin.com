@@ -40,7 +40,7 @@ interface ContactProps {
 }
 
 export const ContactView = ({ contact }: ContactProps) => {
-  const { seo, title, contactLines } = contact
+  const { seo, title } = contact
   const { openContactModal } = useModal()
   const defaultSeo = {
     title: 'Contact',
@@ -59,13 +59,13 @@ export const ContactView = ({ contact }: ContactProps) => {
           <ContactLines>
             <ContactLineWrapper>
               <Heading level={4}>For order inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Orders')}>
+              <Button level={2} onClick={handleModalClick('Order')}>
                 Contact Us
               </Button>
             </ContactLineWrapper>
             <ContactLineWrapper>
               <Heading level={4}>For wholesale inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('wholesale')}>
+              <Button level={2} onClick={handleModalClick('Wholesale')}>
                 Contact Us
               </Button>
             </ContactLineWrapper>

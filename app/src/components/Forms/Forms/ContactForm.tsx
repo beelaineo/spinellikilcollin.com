@@ -57,9 +57,14 @@ export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
 
   return (
     <MainWrapper>
-      <Heading mt={0} level={3}>
+      <Heading mt={0} mb={2} level={3}>
         Contact Us
       </Heading>
+      {formType ? (
+        <Heading mt={0} level={4} color="body.6">
+          {formType} Inquiry
+        </Heading>
+      ) : null}
 
       <SuccessWrapper visible={success}>
         <Heading color="body.8" level={4}>
