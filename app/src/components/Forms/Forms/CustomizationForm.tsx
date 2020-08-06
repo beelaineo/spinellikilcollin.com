@@ -3,6 +3,7 @@ import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Heading } from '../../Text'
 import { Button } from '../../Button'
 import { Form, Field } from '../index'
+import { submitToHubspot } from '../../../services'
 import Checkmark from '../../../svg/Checkmark.svg'
 import {
   MainWrapper,
@@ -13,17 +14,21 @@ import {
 
 const { useState } = React
 
-interface FormValues {
+type FormValues = {
   name: string
   email: string
   location?: string
   phone?: string
   message: string
+  product?: string
+  variant?: string
 }
 
 interface ProductBadgeProps {
   product: ShopifyProduct
 }
+
+const formId = '65f5906c-622d-452b-8b63-51e42dd47a7c'
 
 const ProductBadge = ({ product }: ProductBadgeProps) =>
   product.title ? (
@@ -55,6 +60,7 @@ export const CustomizationForm = ({
       method: 'POST',
       body: JSON.stringify(values),
     }).then((r) => r.json())
+    await submitToHubspot(values, formId)
     setSuccess(true)
   }
 

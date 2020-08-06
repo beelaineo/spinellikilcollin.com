@@ -40,8 +40,7 @@ const FieldsWrapper = styled.div`
 `
 
 type FormValues = {
-  firstname: string
-  lastname: string
+  name: string
   email: string
   address1: string
   address2?: string
@@ -52,8 +51,7 @@ type FormValues = {
 }
 
 const initialValues = {
-  firstname: '',
-  lastname: '',
+  name: '',
   email: '',
   address1: '',
   address2: '',
@@ -94,8 +92,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
           onSubmit={handleSubmit}
         >
           <FieldsWrapper>
-            <Field name="firstname" placeholder="First Name" required />
-            <Field name="lastname" placeholder="Last Name" required />
+            <Field name="name" placeholder="First & Last Name" required />
             <Field
               name="email"
               type="email"

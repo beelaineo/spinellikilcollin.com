@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { Heading } from '../../Text'
 import { Button } from '../../Button'
 import { Form, StateField, Field } from '../'
@@ -11,9 +11,22 @@ import {
 } from './styled'
 
 const FieldsWrapper = styled(BaseFieldsWrapper)`
-  .field--name {
-    grid-column: 1 / 3;
-  }
+  ${({ theme }) => css`
+    .field--name {
+      grid-column: 1 / 3;
+    }
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr;
+      .field--name {
+        grid-column: auto;
+      }
+
+      button[type='submit'],
+      .field--message {
+        grid-column: auto;
+      }
+    }
+  `}
 `
 
 const { useState } = React
