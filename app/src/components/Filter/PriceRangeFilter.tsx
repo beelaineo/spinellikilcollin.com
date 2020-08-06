@@ -102,7 +102,7 @@ const getStep = (
   maxPrice: number,
   step: number,
 ): number[] => {
-  const stepCount = Math.floor(maxPrice / step)
+  const stepCount = Math.floor((maxPrice - minPrice) / step)
   return Array.from({ length: stepCount }, (_, i) => i * step + minPrice)
 }
 
@@ -122,21 +122,31 @@ export function PriceRangeFilter({
 }: PriceRangeFilterProps) {
   const { _key } = priceRangeFilter
   if (!filterSetState) return null
-  const { values } = filterSetState
-  const { minPrice, maxPrice } = filterSetState.initialValues
+  const {
+    minPrice: initialMinPrice,
+    maxPrice: initialMaxPrice,
+  } = filterSetState.initialValues
+  const { minPrice, maxPrice } = filterSetState.values
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
 
-  const [currentMinPrice, setCurrentMinPrice] = useState<number | null>(
-    minPrice || null,
+  const [currentMinPrice, setCurrentMinPrice] = useState(
+    minPrice / initialMaxPrice,
   )
-  const [currentMaxPrice, setCurrentMaxPrice] = useState<number | null>(
-    maxPrice || null,
+  const [currentMaxPrice, setCurrentMaxPrice] = useState(
+    maxPrice / initialMaxPrice,
   )
 
-  const steps = useMemo(() => getSteps(minPrice, maxPrice), [
-    minPrice,
-    maxPrice,
+  const steps = useMemo(() => getSteps(initialMinPrice, initialMaxPrice), [
+    initialMinPrice,
+    initialMaxPrice,
   ])
+
+  const getClosestStep = (pos: number) => {
+    const index = Math.round(
+      Math.max(0, Math.min(steps.length - 1, steps.length * pos)),
+    )
+    return steps[index]
+  }
 
   if (!minPrice) {
     throw new Error(
@@ -153,23 +163,12 @@ export function PriceRangeFilter({
     throw new Error('The price range filter was not set up with initial values')
   }
 
-  if (typeof currentMinPrice !== 'number') {
-    throw new Error('currentMinPrice must be a number')
-  }
-
-  if (typeof currentMaxPrice !== 'number') {
-    throw new Error('currentMaxPrice must be a number')
-  }
-
-  useEffect(() => {
-    setCurrentMaxPrice(values.maxPrice)
-    setCurrentMinPrice(values.minPrice)
-  }, [values])
-
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log({ minPrice: currentMinPrice, maxPrice: currentMaxPrice })
-      setValues('', { minPrice: currentMinPrice, maxPrice: currentMaxPrice })
+      setValues('', {
+        minPrice: getClosestStep(currentMinPrice),
+        maxPrice: getClosestStep(currentMaxPrice),
+      })
     }, 300)
     return () => clearTimeout(timeout)
   }, [currentMinPrice, currentMaxPrice])
@@ -188,17 +187,8 @@ export function PriceRangeFilter({
   }
   const setContainer = (el: HTMLDivElement) => setContainerState(el)
 
-  const currentMinPosition = currentMinPrice / maxPrice
-  const currentMaxPosition = currentMaxPrice / maxPrice
-  const updateMinPosition = (pos: number) => {
-    const steppedMinPrice = steps[Math.round(pos * steps.length)] || steps[0]
-    setCurrentMinPrice(steppedMinPrice)
-  }
-  const updateMaxPosition = (pos: number) => {
-    const steppedMaxPrice =
-      steps[Math.round(pos * steps.length)] || steps[steps.length - 1]
-    setCurrentMaxPrice(steppedMaxPrice)
-  }
+  const updateMinPosition = (pos: number) => setCurrentMinPrice(pos)
+  const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
 
   return (
     <PriceRangeFilterWrapper>
@@ -207,24 +197,24 @@ export function PriceRangeFilter({
           <Span textTransform="uppercase" mr={2} color="body.9">
             Price Range:
           </Span>
-          From {parsePriceString(currentMinPrice)} to{' '}
-          {parsePriceString(currentMaxPrice)}
+          From {parsePriceString(getClosestStep(currentMinPrice))} to{' '}
+          {parsePriceString(getClosestStep(currentMaxPrice))}
         </Label>
       </HeadingWrapper>
       <Slider ref={setContainer}>
         <Knob
           amount={currentMinPrice}
-          position={currentMinPosition}
-          upperLimit={currentMaxPosition}
+          position={currentMinPrice}
+          upperLimit={currentMaxPrice}
           lowerLimit={0}
           updatePosition={updateMinPosition}
           container={container}
         />
         <Knob
           amount={currentMaxPrice}
-          position={currentMaxPosition}
+          position={currentMaxPrice}
           upperLimit={1}
-          lowerLimit={currentMinPosition}
+          lowerLimit={currentMinPrice}
           updatePosition={updateMaxPosition}
           container={container}
         />

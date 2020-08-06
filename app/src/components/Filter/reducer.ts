@@ -79,6 +79,7 @@ const arrayToggle = <T>(array: T[], item: T): T[] => {
 }
 
 const reducer = (state: State, action: Action): State => {
+  console.log(action.type)
   switch (action.type) {
     case RESET_ALL:
       return {
@@ -212,7 +213,9 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
   const setValues = (setKey: string) => (
     matchKey: string,
     values: FilterValues,
-  ) => dispatch({ type: SET_VALUES, setKey, matchKey, values })
+  ) => {
+    dispatch({ type: SET_VALUES, setKey, matchKey, values })
+  }
   return {
     filterSetStates,
     resetAll,
