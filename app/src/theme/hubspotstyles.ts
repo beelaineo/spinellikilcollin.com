@@ -5,6 +5,7 @@ export const hubspotStyles = css`
     div#hs-eu-cookie-confirmation {
       position: fixed;
       top: 90px;
+      bottom: initial;
       right: 15px;
       left: initial;
       font-family: serif;
