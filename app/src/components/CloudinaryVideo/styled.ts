@@ -1,13 +1,11 @@
 import styled, { css } from '@xstyled/styled-components'
 
-export const VideoWrapper = styled.div`
-  position: relative;
-`
-
-export const AudioButtonWrapper = styled.div`
+const ButtonWrapper = styled.button`
+  opacity: 0;
+  pointer-events: 0.3;
+  cursor: pointer;
   position: absolute;
   bottom: 20px;
-  right: 20px;
   width: 30px;
   height: 30px;
 
@@ -15,5 +13,21 @@ export const AudioButtonWrapper = styled.div`
     width: 100%;
     height: 100%;
     fill: body.0;
+  }
+`
+
+export const AudioButtonWrapper = styled(ButtonWrapper)`
+  right: 20px;
+`
+
+export const PlaybackButtonWrapper = styled(ButtonWrapper)`
+  left: 20px;
+`
+
+export const VideoWrapper = styled.div`
+  position: relative;
+
+  &:hover ${ButtonWrapper} {
+    opacity: 1;
   }
 `

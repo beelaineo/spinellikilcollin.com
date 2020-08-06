@@ -66,6 +66,7 @@ const LoadingLine = styled.div`
   &:after {
     content: '';
     position: absolute;
+    z-index: 1;
     left: 0;
     top: 0;
     height: 1px;
@@ -97,9 +98,11 @@ const LoadingDot = styled.div`
   position: absolute;
   width: 0.6rem;
   height: 0.6rem;
-  background-color: currentColor;
+  background-color: background;
   top: -0.3rem;
   border-radius: 1rem;
+  border: 1px solid currentColor;
+  z-index: 10;
 
   &:nth-of-type(1) {
     right: 0;

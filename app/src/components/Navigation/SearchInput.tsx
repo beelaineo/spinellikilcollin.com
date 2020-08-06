@@ -4,6 +4,11 @@ import { useSearch } from '../../providers/SearchProvider'
 import { IoIosSearch } from 'react-icons/io'
 import { Heading, Input } from '../Text'
 
+const SearchInputWrapper = styled.div`
+  margin-top: 4;
+  margin-bottom: 6;
+`
+
 const Form = styled.form`
   position: relative;
 
@@ -32,7 +37,7 @@ export const SearchInput = () => {
   }
 
   return (
-    <div>
+    <SearchInputWrapper>
       <Heading level={5} fontStyle="italic">
         What are you looking for?
       </Heading>
@@ -46,6 +51,6 @@ export const SearchInput = () => {
           <IoIosSearch />
         </button>
       </Form>
-    </div>
+    </SearchInputWrapper>
   )
 }

@@ -1,5 +1,6 @@
 import { createGlobalStyle, css } from '@xstyled/styled-components'
 import normalized from './normalized'
+import { hubspotStyles } from './hubspotstyles'
 
 export const GlobalStyles = createGlobalStyle`
 
@@ -101,4 +102,6 @@ export const GlobalStyles = createGlobalStyle`
     color: inherit;
     text-decoration: none;
   }
+
+  ${hubspotStyles}
 `
