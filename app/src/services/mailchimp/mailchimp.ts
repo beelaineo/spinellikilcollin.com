@@ -35,17 +35,17 @@ const mockMailChimpClient = {
 const client = KEY ? new Mailchimp(KEY) : mockMailChimpClient
 
 interface SubscribeInput {
-  emailAddress: string
+  email: string
 }
 
 export const mailchimp: MailchimpService = {
   subscribe: async (input: SubscribeInput) => {
     try {
-      const { emailAddress } = input
+      const { email } = input
       const hash = crypto
         //
         .createHash('md5')
-        .update(emailAddress)
+        .update(email)
         .digest('hex')
       const path = `/lists/${LIST}/members/${hash}`
 
@@ -54,11 +54,11 @@ export const mailchimp: MailchimpService = {
         path,
         body: {
           /* eslint-disable @typescript-eslint/camelcase */
-          email_address: emailAddress,
+          email_address: email,
           status_if_new: 'subscribed',
         },
       })
-      debug(`Successfully subscribed: ${emailAddress}`)
+      debug(`Successfully subscribed: ${email}`)
       return {
         success: true,
       }

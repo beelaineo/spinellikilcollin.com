@@ -17,8 +17,12 @@ export const setCookie = (key: string, val: any, config?: CookieConfig) => {
 
 export const getCookie = (key: string) => {
   const value = Cookies.get(key)
-  if (value) return JSON.parse(value)
-  return null
+  if (!value) return null
+  try {
+    return JSON.parse(value)
+  } catch {
+    return value
+  }
 }
 
 export const removeCookie = (key: string) => {

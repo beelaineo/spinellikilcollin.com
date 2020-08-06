@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled, { css, Box } from '@xstyled/styled-components'
 import { Form, Field, FieldWrapper } from '../../components/Forms'
 import { Button } from '../../components/Button'
+import { submitToHubspot } from '../../services'
 import { Heading } from '../../components/Text'
 
 const { useState } = React
@@ -38,33 +39,35 @@ const FieldsWrapper = styled.div`
   `}
 `
 
-interface FormValues {
-  firstName: string
-  lastName: string
-  emailAddress: string
+type FormValues = {
+  firstname: string
+  lastname: string
+  email: string
   address1: string
   address2?: string
   city: string
   state: string
-  postalCode: string
+  zip: string
   country: string
 }
 
 const initialValues = {
-  firstName: '',
-  lastName: '',
-  emailAddress: '',
+  firstname: '',
+  lastname: '',
+  email: '',
   address1: '',
   address2: '',
   city: '',
   state: '',
-  postalCode: '',
+  zip: '',
   country: 'United States',
 }
 
 interface MagazineFormProps {
   successMessage: string
 }
+
+const formId = 'aaed4d96-d524-4e6b-8fc3-29a5596ede97'
 
 export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
   const [submitting, setSubmitting] = useState(false)
@@ -75,6 +78,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
       method: 'POST',
       body: JSON.stringify(values),
     }).then((r) => r.json())
+    await submitToHubspot(values, formId)
     setSuccess(true)
   }
   return (
@@ -90,10 +94,10 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
           onSubmit={handleSubmit}
         >
           <FieldsWrapper>
-            <Field name="firstName" placeholder="First Name" required />
-            <Field name="lastName" placeholder="Last Name" required />
+            <Field name="firstname" placeholder="First Name" required />
+            <Field name="lastname" placeholder="Last Name" required />
             <Field
-              name="emailAddress"
+              name="email"
               type="email"
               placeholder="email address"
               required
@@ -106,7 +110,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
             <Field name="address2" placeholder="Mailing Address Line 2" />
             <Field name="city" placeholder="City" required />
             <Field name="state" placeholder="State" required />
-            <Field name="postalCode" placeholder="Postal Code" required />
+            <Field name="zip" placeholder="Postal Code" required />
             <Field
               name="country"
               type="countrySelector"

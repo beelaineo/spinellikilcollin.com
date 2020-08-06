@@ -77,7 +77,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openCustomizationModal,
     openContactModal,
   }
-  const { formType, currentModal, currentProduct, currentVariant } = state
+  const { formtype, currentModal, currentProduct, currentVariant } = state
 
   return (
     <ModalContext.Provider value={value}>
@@ -95,7 +95,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
           closeModal={closeModal}
         />
       ) : currentModal === CONTACT ? (
-        <ContactFormModal formType={formType} closeModal={closeModal} />
+        <ContactFormModal formtype={formtype} closeModal={closeModal} />
       ) : null}
     </ModalContext.Provider>
   )

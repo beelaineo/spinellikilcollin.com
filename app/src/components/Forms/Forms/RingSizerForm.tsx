@@ -5,6 +5,7 @@ import { Form, Field } from '../../Forms'
 import { FieldWrapper } from '../../Forms/Fields/styled'
 import { StateField } from '../CustomFields'
 import { Button } from '../../Button'
+import { submitToHubspot } from '../../../services'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 
 const { useState } = React
@@ -75,20 +76,22 @@ interface RingSizerFormProps {
   variant?: ShopifyProductVariant
   onContinue?: () => void
 }
-interface FormValues {
+
+type FormValues = {
   name: string
-  emailAddress: string
+  email: string
   phone?: string
   message: string
   address1: string
   address2?: string
   state: string
-  postalCode: string
+  zip: string
   country: string
-  productName: string
   product?: string
   variant?: string
 }
+
+const formId = 'e62200cb-d8d3-468f-a19e-13c7d4bcec26'
 
 export const RingSizerForm = ({
   product,
@@ -104,18 +107,18 @@ export const RingSizerForm = ({
       method: 'POST',
       body: JSON.stringify(values),
     }).then((r) => r.json())
+    await submitToHubspot(values, formId)
     setSuccess(true)
   }
 
   const initialValues: FormValues = {
     name: '',
-    emailAddress: '',
+    email: '',
     message: '',
     country: 'United States',
-    productName: 'Product Name',
     address1: '',
     address2: undefined,
-    postalCode: '',
+    zip: '',
     state: '',
     product: product?.title || '(none)',
     variant: variant?.title || '(none)',
@@ -150,7 +153,7 @@ export const RingSizerForm = ({
             required
           />
           <Field
-            name="emailAddress"
+            name="email"
             type="email"
             label="Email Address"
             placeholder=""
@@ -160,7 +163,7 @@ export const RingSizerForm = ({
           <Field name="address2" label="Mailing Address Line 2" />
           <Field label="City" name="city" required />
           <StateField label="State" name="state" required />
-          <Field label="Postal Code" name="postalCode" required />
+          <Field label="Postal Code" name="zip" required />
           <Field
             label="Country"
             name="country"

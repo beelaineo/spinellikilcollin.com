@@ -4,14 +4,15 @@ import { DEAR } from '../postmark'
 
 export interface RequestRingSizerArgs {
   name: string
-  emailAddress: string
+  email: string
   address1: string
   address2?: string
   city: string
   state: string
-  postalCode: string
+  zip: string
   country: string
-  productName: string
+  product?: string
+  variant?: string
 }
 
 const Subject = 'New ring sizer request'
@@ -19,14 +20,14 @@ const Subject = 'New ring sizer request'
 const textTemplate = (args: RequestRingSizerArgs): string => stripIndents`
   New ring sizer request:
 
-  ${args.emailAddress}
+  ${args.email}
 
   ${args.name} 
   ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
-  ${args.city}, ${args.state} ${args.postalCode}
+  ${args.city}, ${args.state} ${args.zip}
   ${args.country}
 
-  Interested in: ${args.productName}
+  Interested in: ${args.product || ''} ${args.variant || ''}
 `
 
 export const requestRingSizer = (args: RequestRingSizerArgs): Message => {

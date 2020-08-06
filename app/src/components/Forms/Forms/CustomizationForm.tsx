@@ -15,7 +15,7 @@ const { useState } = React
 
 interface FormValues {
   name: string
-  emailAddress: string
+  email: string
   location?: string
   phone?: string
   message: string
@@ -60,7 +60,7 @@ export const CustomizationForm = ({
 
   const initialValues = {
     name: '',
-    emailAddress: '',
+    email: '',
     location: '',
     phone: '',
     message: '',
@@ -99,7 +99,7 @@ export const CustomizationForm = ({
             required
           />
           <Field
-            name="emailAddress"
+            name="email"
             type="email"
             placeholder="Email"
             label="Email"

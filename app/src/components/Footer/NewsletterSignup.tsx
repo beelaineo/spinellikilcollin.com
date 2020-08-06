@@ -35,7 +35,7 @@ export const NewsletterSignup = ({
     setLoading(true)
     await fetch('/api/mailchimpSubscribe', {
       method: 'POST',
-      body: JSON.stringify({ emailAddress: inputValue }),
+      body: JSON.stringify({ email: inputValue }),
     }).then((r) => r.json())
     setSuccess(true)
   }

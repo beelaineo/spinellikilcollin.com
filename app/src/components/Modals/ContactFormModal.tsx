@@ -3,15 +3,15 @@ import { ContactForm } from '../Forms'
 import { Modal } from '../Modal'
 
 interface ContactFormModalProps {
-  formType?: string
+  formtype?: string
   closeModal: () => void
 }
 
 export const ContactFormModal = ({
-  formType,
+  formtype,
   closeModal,
 }: ContactFormModalProps) => (
   <Modal closeModal={closeModal}>
-    <ContactForm formType={formType} />
+    <ContactForm formtype={formtype} />
   </Modal>
 )

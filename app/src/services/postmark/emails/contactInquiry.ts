@@ -4,28 +4,28 @@ import { DEAR } from '../postmark'
 
 export interface ContactInquiryArgs {
   name: string
-  emailAddress: string
+  email: string
   phone: string
   country: string
   state: string
   message: string
-  formType?: string
+  formtype?: string
 }
 
 const textTemplate = ({
   //
-  formType,
+  formtype,
   name,
-  emailAddress,
+  email,
   country,
   state,
   message,
 }: ContactInquiryArgs): string => stripIndents`
-  New ${formType} inquiry:
+  New ${formtype} inquiry:
 
   ${name}
 
-  Email Address: ${emailAddress}
+  Email Address: ${email}
   Country: ${country}
   State/Region: ${state}
 
@@ -35,8 +35,8 @@ const textTemplate = ({
 `
 
 export const contactInquiry = (args: ContactInquiryArgs): Message => {
-  const Subject = `New ${args.formType} inquiry`
-  const Tag = `${args.formType}Inquiry`
+  const Subject = `New ${args.formtype} inquiry`
+  const Tag = `${args.formtype}Inquiry`
   return {
     From: DEAR,
     To: DEAR,

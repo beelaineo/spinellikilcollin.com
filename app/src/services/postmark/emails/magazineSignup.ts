@@ -3,14 +3,14 @@ import { Message } from 'postmark'
 import { DEAR } from '../postmark'
 
 export interface MagazineSignupArgs {
-  firstName: string
-  lastName: string
-  emailAddress: string
+  firstname: string
+  lastname: string
+  email: string
   address1: string
   address2?: string
   city: string
   state: string
-  postalCode: string
+  zip: string
   country: string
 }
 
@@ -19,11 +19,11 @@ const Subject = 'New .925 signup'
 const textTemplate = (args: MagazineSignupArgs): string => stripIndents`
   New .925 subscription request:
 
-  ${args.emailAddress}
+  ${args.email}
 
-  ${args.firstName} ${args.lastName} 
+  ${args.firstname} ${args.lastname} 
   ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
-  ${args.city}, ${args.state} ${args.postalCode}
+  ${args.city}, ${args.state} ${args.zip}
   ${args.country}
 `
 

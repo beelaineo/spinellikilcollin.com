@@ -45,8 +45,8 @@ export const ContactView = ({ contact }: ContactProps) => {
   const defaultSeo = {
     title: 'Contact',
   }
-  const handleModalClick = (formType: string) => () =>
-    openContactModal({ formType })
+  const handleModalClick = (formtype: string) => () =>
+    openContactModal({ formtype })
 
   return (
     <>

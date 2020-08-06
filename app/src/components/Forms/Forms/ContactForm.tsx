@@ -3,6 +3,7 @@ import styled from '@xstyled/styled-components'
 import { Heading } from '../../Text'
 import { Button } from '../../Button'
 import { Form, StateField, Field } from '../'
+import { submitToHubspot } from '../../../services'
 import {
   MainWrapper,
   SuccessWrapper,
@@ -18,21 +19,23 @@ const FieldsWrapper = styled(BaseFieldsWrapper)`
 const { useState } = React
 
 interface ContactFormProps {
-  formType?: string
+  formtype?: string
   onContinue?: () => void
 }
 
-interface FormValues {
+type FormValues = {
   name: string
-  emailAddress: string
+  email: string
   phone: string
   country: string
   state: string
   message: string
-  formType?: string
+  formtype?: string
 }
 
-export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
+const formId = 'd1a0fa82-2130-40e7-b321-d073effb9079'
+
+export const ContactForm = ({ formtype, onContinue }: ContactFormProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
@@ -42,17 +45,18 @@ export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
       method: 'POST',
       body: JSON.stringify(values),
     }).then((r) => r.json())
+    await submitToHubspot(values, formId)
     setSuccess(true)
   }
 
   const initialValues = {
     name: '',
-    emailAddress: '',
+    email: '',
     phone: '',
     country: 'United States',
     state: '',
     message: '',
-    formType,
+    formtype,
   }
 
   return (
@@ -60,9 +64,9 @@ export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
       <Heading mt={0} mb={2} level={3}>
         Contact Us
       </Heading>
-      {formType ? (
+      {formtype ? (
         <Heading mt={0} level={4} color="body.6">
-          {formType} Inquiry
+          {formtype} Inquiry
         </Heading>
       ) : null}
 
@@ -90,7 +94,7 @@ export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
             required
           />
           <Field
-            name="emailAddress"
+            name="email"
             type="email"
             placeholder="Email"
             label="Email"
@@ -117,7 +121,7 @@ export const ContactForm = ({ formType, onContinue }: ContactFormProps) => {
             placeholder="I'm interested in..."
             required
           />
-          <Field type="hidden" name="formType" />
+          <Field type="hidden" name="formtype" />
           <Button type="submit">Submit</Button>
         </FieldsWrapper>
       </Form>

@@ -4,7 +4,7 @@ import { DEAR } from '../postmark'
 
 export interface CustomizationInquiryArgs {
   name: string
-  emailAddress: string
+  email: string
   location: string
   phone?: string
   message?: string
@@ -19,7 +19,7 @@ const textTemplate = (args: CustomizationInquiryArgs): string => stripIndents`
 
   ${args.name} 
 
-  Email Address: ${args.emailAddress}
+  Email Address: ${args.email}
   Location: ${args.location}
   ${args.phone ? `Phone: ${args.phone}` : ''}
 

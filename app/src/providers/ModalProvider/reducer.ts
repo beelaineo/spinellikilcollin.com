@@ -14,7 +14,7 @@ interface State {
   currentModal: typeof RING_SIZER | typeof CUSTOMIZATION | typeof CONTACT | null
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
-  formType?: string
+  formtype?: string
 }
 
 interface CloseAction {
@@ -27,7 +27,7 @@ interface OpenRingSizerAction {
 
 interface OpenContactAction {
   type: typeof OPEN_CONTACT
-  formType: string
+  formtype: string
 }
 
 interface OpenCustomizationAction {
@@ -58,14 +58,14 @@ const reducer = (state: State, action: Action): State => {
     case OPEN_CONTACT:
       return {
         currentModal: CONTACT,
-        formType: action.formType,
+        formtype: action.formtype,
       }
     case CLOSE:
       return {
         currentModal: null,
         currentProduct: undefined,
         currentVariant: undefined,
-        formType: undefined,
+        formtype: undefined,
       }
     default:
       // @ts-ignore
@@ -82,7 +82,7 @@ export interface CustomizationModalArgs {
 }
 
 export interface ContactModalArgs {
-  formType: string
+  formtype: string
 }
 
 export const useModalReducer = () => {
@@ -95,8 +95,8 @@ export const useModalReducer = () => {
     currentVariant,
   }: CustomizationModalArgs) =>
     dispatch({ type: OPEN_CUSTOMIZATION, currentProduct, currentVariant })
-  const openContactModal = ({ formType }: ContactModalArgs) =>
-    dispatch({ type: OPEN_CONTACT, formType })
+  const openContactModal = ({ formtype }: ContactModalArgs) =>
+    dispatch({ type: OPEN_CONTACT, formtype })
 
   return {
     state,
