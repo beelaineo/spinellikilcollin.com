@@ -27,6 +27,9 @@ module.exports = withSourceMaps(
       SANITY_READ_TOKEN: process.env.SANITY_READ_TOKEN,
       SENTRY_DSN: process.env.SENTRY_DSN,
     },
+    serverRuntimeConfig: {
+      PROJECT_ROOT: __dirname,
+    },
     webpack: (config, { isServer, buildId }) => {
       config.plugins.push(
         new webpack.DefinePlugin({

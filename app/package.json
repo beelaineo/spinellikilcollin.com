@@ -91,11 +91,13 @@
 		"react-text-mask": "^5.4.3",
 		"request": "^2.88.2",
 		"rxjs-stream": "^3.2.1",
+		"sitemap": "^6.2.0",
 		"source-map-support": "^0.5.19",
 		"styled-components": "^5.1.1",
 		"swr": "^0.2.3",
 		"use-shopify": "^0.8.3",
-		"utf-8-validate": "^5.0.2"
+		"utf-8-validate": "^5.0.2",
+		"zlib": "^1.0.5"
 	},
 	"resolutions": {
 		"graphql": "^15.3.0"
