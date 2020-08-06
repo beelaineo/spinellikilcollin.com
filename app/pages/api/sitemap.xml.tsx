@@ -24,8 +24,12 @@ const ignore = ['api', '404', 'pages', 'blogs', 'id', /^_/, '11052238']
 // /Users/joseph/Sites/spinelli-kilcollin/spinellikilcollin.com/app/pages/about
 // /Users/joseph/Sites/spinelli-kilcollin/spinellikilcollin.com/app/pages/about/[pageSlug].tsx
 
+interface PageInfo {
+  page: string
+  lastModified: string
+}
 const walk = async () => {
-  const pages = []
+  const pages: PageInfo[] = []
 
   const walkSync = async (dir: string) => {
     // Get all files of the current directory & iterate over them
@@ -61,7 +65,7 @@ const walk = async () => {
               .forEach((p) => {
                 pages.push({
                   page: `https://www.spinellikilcollin.com/${p}`,
-                  lastModified: fileStat.mtime,
+                  lastModified: fileStat.mtime.toString(),
                 })
               })
           } else {
@@ -74,7 +78,7 @@ const walk = async () => {
 
             pages.push({
               page: `https://www.spinellikilcollin.com/${cleanFileName}`,
-              lastModified: fileStat.mtime,
+              lastModified: fileStat.mtime.toString(),
             })
           }
         }
