@@ -3,7 +3,7 @@ import { BsPlayFill, BsPlay, BsVolumeUp, BsVolumeMute } from 'react-icons/bs'
 import { PlaybackButtonWrapper, AudioButtonWrapper } from './styled'
 
 interface PlaybackButtonProps {
-  playing: boolean
+  playing?: boolean
   onClick: () => void
 }
 
