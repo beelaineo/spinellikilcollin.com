@@ -59,7 +59,7 @@ export const Navigation = () => {
           <Hamburger onClick={toggleMenu} open={false} />
 
           <LogoWrapper>
-            <Link href="/index" as="/">
+            <Link href="/" as="/">
               <a>
                 <Logotype />
               </a>

@@ -1,4 +1,5 @@
 import { getCookie } from '../utils'
+import { Sentry } from '../services/sentry'
 
 type Values = Record<string, string | number | boolean | undefined>
 
@@ -45,8 +46,7 @@ export const submitToHubspot = async (
   })
     .then((r) => r.json())
     .catch((e) => {
-      console.log('ERROR')
-      console.log(e)
-      throw e
+      Sentry.configureScope((scope) => scope.setTag('integration', 'hubspot'))
+      Sentry.captureException(e)
     })
 }

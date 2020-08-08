@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Hls from 'hls.js'
+// import Hls from 'hls.js'
 import { CloudinaryVideo as CloudinaryVideoType } from '../../types'
 import { AudioButton, PlaybackButton } from './Controls'
 import { VideoWrapper } from './styled'
@@ -8,10 +8,10 @@ import { useViewportSize } from '../../utils'
 const { useRef, useEffect, useState } = React
 const BASE_URL = 'https://res.cloudinary.com/spinelli-kilcollin/video/upload'
 
-const hlsConfig = {
-  capLevelToPlayerSize: true,
-  startLevel: 0,
-}
+// const hlsConfig = {
+//   capLevelToPlayerSize: true,
+//   startLevel: 0,
+// }
 
 const fallbackSizes = [720, 1200, 1600]
 
@@ -59,58 +59,59 @@ const NormalVideo = ({
   )
 }
 
-const HLSVideo = ({
-  poster,
-  muted,
-  playing,
-  onPlay,
-  video,
-}: VideoElementProps) => {
-  const [ready, setReady] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const hlsRef = useRef<Hls>()
-
-  const url = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/${video.videoId}.m3u8`
-
-  useEffect(() => {
-    if (!videoRef.current) return
-    const paused = videoRef.current.paused
-    if (paused && playing === true) videoRef.current.play()
-    if (!paused && playing === false) videoRef.current.pause()
-  }, [videoRef.current, playing])
-
-  useEffect(() => {
-    if (ready) return
-    if (!videoRef.current) return
-    if (!Hls.isSupported()) return
-    const hls = new Hls(hlsConfig)
-    hlsRef.current = hls
-    hls.loadSource(url)
-    hls.attachMedia(videoRef.current)
-
-    hls.on(Hls.Events.ERROR, (event, data) => {
-      console.error({ event, data })
-    })
-
-    hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
-      if (!videoRef.current) return
-      videoRef.current.play()
-    })
-    setReady(true)
-  }, [ready, videoRef.current])
-
-  return (
-    <video
-      poster={poster}
-      autoPlay
-      muted={muted}
-      loop
-      playsInline
-      ref={videoRef}
-      onPlay={onPlay}
-    />
-  )
-}
+// DEPRECATED: HLS was causing too many issues. Just serve an mp4
+// const HLSVideo = ({
+//   poster,
+//   muted,
+//   playing,
+//   onPlay,
+//   video,
+// }: VideoElementProps) => {
+//   const [ready, setReady] = useState(false)
+//   const videoRef = useRef<HTMLVideoElement>(null)
+//   const hlsRef = useRef<Hls>()
+//
+//   const url = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/${video.videoId}.m3u8`
+//
+//   useEffect(() => {
+//     if (!videoRef.current) return
+//     const paused = videoRef.current.paused
+//     if (paused && playing === true) videoRef.current.play()
+//     if (!paused && playing === false) videoRef.current.pause()
+//   }, [videoRef.current, playing])
+//
+//   useEffect(() => {
+//     if (ready) return
+//     if (!videoRef.current) return
+//     if (!Hls.isSupported()) return
+//     const hls = new Hls(hlsConfig)
+//     hlsRef.current = hls
+//     hls.loadSource(url)
+//     hls.attachMedia(videoRef.current)
+//
+//     hls.on(Hls.Events.ERROR, (event, data) => {
+//       debug({ event, data })
+//     })
+//
+//     hls.on(Hls.Events.MANIFEST_PARSED, function (event, data) {
+//       if (!videoRef.current) return
+//       videoRef.current.play()
+//     })
+//     setReady(true)
+//   }, [ready, videoRef.current])
+//
+//   return (
+//     <video
+//       poster={poster}
+//       autoPlay
+//       muted={muted}
+//       loop
+//       playsInline
+//       ref={videoRef}
+//       onPlay={onPlay}
+//     />
+//   )
+// }
 
 interface CloudinaryVideoProps {
   video: CloudinaryVideoType
@@ -131,25 +132,39 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
     setPlaying(true)
   }
 
+  // return (
+  //   <VideoWrapper>
+  //     {typeof window !== 'undefined' && Hls.isSupported() && false ? (
+  //       <HLSVideo
+  //         video={video}
+  //         playing={playing}
+  //         onPlay={handleOnPlay}
+  //         poster={poster}
+  //         muted={muted}
+  //       />
+  //     ) : (
+  //       <NormalVideo
+  //         video={video}
+  //         playing={playing}
+  //         onPlay={handleOnPlay}
+  //         poster={poster}
+  //         muted={muted}
+  //       />
+  //     )}
+  //     {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
+  //     {<PlaybackButton playing={playing} onClick={togglePlaying} />}
+  //   </VideoWrapper>
+  // )
+
   return (
     <VideoWrapper>
-      {typeof window !== 'undefined' && Hls.isSupported() ? (
-        <HLSVideo
-          video={video}
-          playing={playing}
-          onPlay={handleOnPlay}
-          poster={poster}
-          muted={muted}
-        />
-      ) : (
-        <NormalVideo
-          video={video}
-          playing={playing}
-          onPlay={handleOnPlay}
-          poster={poster}
-          muted={muted}
-        />
-      )}
+      <NormalVideo
+        video={video}
+        playing={playing}
+        onPlay={handleOnPlay}
+        poster={poster}
+        muted={muted}
+      />
       {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
       {<PlaybackButton playing={playing} onClick={togglePlaying} />}
     </VideoWrapper>
