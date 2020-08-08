@@ -87,11 +87,12 @@ const serializers = ({
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
       const { href, as } = linkData
-      return (
-        <Link href={href} as={as}>
-          <a>{children}</a>
-        </Link>
-      )
+      return <a href={as}>{children}</a>
+      //  return (
+      //   <Link href={href} as={as}>
+      //     <a>{children}</a>
+      //   </Link>
+      // )
       return null
     },
     action: ({ children, mark }) => {
