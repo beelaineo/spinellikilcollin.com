@@ -57,7 +57,7 @@ const reducer = <R>(prevState: State<R>, action: Action<R>): State<R> => {
   }
 }
 
-interface Document {
+export type Document = {
   _type?: string | null | undefined
 }
 
@@ -66,7 +66,7 @@ type Response = Document[]
 type Variables = Record<string, string | number | boolean>
 
 export const useSanityQuery = <
-  R extends Document[],
+  R extends Document[] = Document[],
   V extends Variables = Variables
 >() => {
   const { handleError } = useError()
@@ -92,7 +92,7 @@ export const useSanityQuery = <
     const params = customParams ? customParams : {}
     try {
       const results = await client.fetch<R>(query, params)
-      // @ts-ignore ???
+      // @ts-ignore
       const r = withTypenames<R>(results)
       // @ts-ignore
       dispatch({ type: SUCCESS, results: r })

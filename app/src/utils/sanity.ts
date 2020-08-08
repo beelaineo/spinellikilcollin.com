@@ -4,6 +4,7 @@ import {
   FILTER_MATCH_GROUP,
   FilterConfiguration,
 } from '../types'
+import { Document } from './sanity'
 
 const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
   switch (type) {
@@ -51,15 +52,15 @@ export const buildFilters = (filters: FilterConfiguration): string => {
 
 const toArray = <T>(i: T | T[]): T[] => (Array.isArray(i) ? i : [i])
 
-type WithType<T> = T & {
+type WithType<T extends Document> = T & {
   _type: string | null | undefined
 }
 
-type WithTypename<T> = T & {
+type WithTypename<T extends Document> = T & {
   __typename?: string
 }
 
-const addTypename = <T>(item: WithType<T>) => {
+const addTypename = <T extends Document = Document>(item: WithType<T>) => {
   if (typeof item !== 'object') return item
   return Object.entries(item).reduce((acc, [key, value]) => {
     if (!value) {
@@ -91,5 +92,6 @@ const addTypename = <T>(item: WithType<T>) => {
   }, {})
 }
 
-export const withTypenames = <T>(items: WithType<T>[]): WithTypename<T>[] =>
-  toArray(items).map(addTypename)
+export const withTypenames = <T extends Document = Document>(
+  items: WithType<T>[],
+): WithTypename<T>[] => toArray(items).map(addTypename)

@@ -3,6 +3,7 @@ import { DocumentNode } from 'graphql'
 import { print } from 'graphql/language/printer'
 import { Variables } from 'graphql-request/dist/src/types'
 import { request as gqlRequest } from 'graphql-request'
+import { useError } from '../providers'
 import { SANITY_GRAPHQL_URL } from '../config'
 
 interface RequestOptions {
@@ -18,20 +19,31 @@ interface RequestArgs<V> {
 export const request = async <R, V extends Variables = Variables>(
   query: DocumentNode | string,
   variables?: V,
-): Promise<R> =>
-  gqlRequest<R>(
-    SANITY_GRAPHQL_URL,
-    typeof query === 'string' ? query : print(query),
-    variables,
-  )
+): Promise<R> => {
+  try {
+    const result = await gqlRequest<R>(
+      SANITY_GRAPHQL_URL,
+      typeof query === 'string' ? query : print(query),
+      variables,
+    )
+    return result
+  } catch (err) {
+    throw new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
+  }
+}
 
 export const useRequest = <R, V extends Variables = Variables>(
   query: DocumentNode,
   variables?: V,
 ) => {
-  return useSWR<R | null>([print(query), JSON.stringify(variables)], (q) =>
-    request<R>(q, variables),
-  )
+  const { handleError } = useError()
+  try {
+    return useSWR<R | null>([print(query), JSON.stringify(variables)], (q) =>
+      request<R>(q, variables),
+    )
+  } catch (e) {
+    handleError(e)
+  }
 }
 
 type LazyRequestTuple<R, V extends Variables = Variables> = [
@@ -43,6 +55,7 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
   query: DocumentNode,
   variables?: V,
 ): LazyRequestTuple<R, V> => {
+  const { handleError } = useError()
   const response = useSWR<R | null>(
     [print(query), JSON.stringify(variables)],
     async () => {
@@ -52,8 +65,12 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
   )
 
   const executeQuery = async (variables?: V) => {
-    const result = await request<R>(query, variables)
-    response.mutate(result, false)
+    try {
+      const result = await request<R>(query, variables)
+      response.mutate(result, false)
+    } catch (e) {
+      handleError(e)
+    }
   }
 
   return [executeQuery, response]

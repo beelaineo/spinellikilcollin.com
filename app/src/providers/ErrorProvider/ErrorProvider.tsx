@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Sentry } from '../../services/sentry'
 import { useErrorReducer } from './reducer'
 import { parseError } from './parseError'
+import { ErrorDisplay } from './ErrorDisplay'
 
 const { useEffect } = React
 
@@ -46,11 +47,9 @@ export const ErrorProvider = ({ children, error: parentError }: ErrorProps) => {
 
   const handleError = (error: Error, scope?: any) => {
     const args = parseError(error)
-    console.error(error)
 
     if (args.isFatal) {
       if (scope) Sentry.configureScope(scope)
-
       Sentry.captureException(error)
     }
     setError(args)

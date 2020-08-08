@@ -3,7 +3,10 @@ import styled, { css } from '@xstyled/styled-components'
 import { useError } from './ErrorProvider'
 import { Heading } from '../../components/Text'
 import { Button } from '../../components/Button'
+import { useLockScroll } from '../../components/LockScroll'
 import LogoType from '../../svg/Logotype.svg'
+
+const { useEffect } = React
 
 const Outer = styled.div`
   position: fixed;
@@ -14,8 +17,7 @@ const Outer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
-  z-index: alert;
+  z-index: 400;
 `
 
 interface WithIsFatal {
@@ -67,11 +69,22 @@ interface ErrorPageProps {
 
 export const ErrorDisplay = () => {
   const { errorMessage, isFatal, clearError } = useError()
+  const { lockScroll, unlockScroll } = useLockScroll()
+
+  useEffect(() => {
+    if (errorMessage) {
+      lockScroll()
+    } else {
+      unlockScroll()
+    }
+    return () => unlockScroll()
+  }, [errorMessage])
+
   if (!errorMessage) return null
+
   return (
     <Outer>
       <Background isFatal={isFatal} />
-
       <Wrapper>
         <LogoWrapper>
           <LogoType />

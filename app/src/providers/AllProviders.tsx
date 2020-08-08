@@ -11,7 +11,7 @@ import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
 import { SearchProvider } from './SearchProvider'
 import { CurrencyProvider } from './CurrencyProvider'
-import { ErrorProvider } from './ErrorProvider'
+import { ErrorDisplay, ErrorProvider } from './ErrorProvider'
 import { NavigationProvider } from './NavigationProvider'
 import { AnalyticsProvider } from './AnalyticsProvider'
 
@@ -70,6 +70,7 @@ export const Providers = ({ shopData, children }: Props) => {
                 <CurrencyProvider>
                   <SearchProvider>
                     <ThemeProvider theme={theme}>
+                      <ErrorDisplay />
                       <GlobalStyles />
                       <ModalProvider>{children}</ModalProvider>
                     </ThemeProvider>
