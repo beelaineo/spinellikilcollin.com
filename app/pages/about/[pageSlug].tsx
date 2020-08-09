@@ -68,6 +68,7 @@ const pageHandlesQuery = gql`
   query PageSlugQuery {
     allPage {
       _id
+      _updatedAt
       slug {
         current
       }
@@ -79,7 +80,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const result = await request<PageResponse>(pageHandlesQuery)
   const pages = definitely(result?.allPage)
   const paths = pages.map((page) => ({
-    params: { pageSlug: page?.slug?.current ?? undefined },
+    params: {
+      pageSlug: page?.slug?.current ?? undefined,
+      updatedAt: page?._updatedAt?.toString(),
+    },
   }))
 
   return {

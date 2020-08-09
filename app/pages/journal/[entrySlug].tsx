@@ -74,6 +74,7 @@ const pageHandlesQuery = gql`
   query JournalEntriesHandlesQuery {
     allJournalEntry {
       _id
+      _updatedAt
       slug {
         current
       }
@@ -85,7 +86,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const result = await request<Response>(pageHandlesQuery)
   const entries = definitely(result?.allJournalEntry)
   const paths = entries.map((entry) => ({
-    params: { entrySlug: entry?.slug?.current ?? undefined },
+    params: {
+      entrySlug: entry?.slug?.current ?? undefined,
+      updatedAt: entry?._updatedAt?.toString(),
+    },
   }))
 
   return {

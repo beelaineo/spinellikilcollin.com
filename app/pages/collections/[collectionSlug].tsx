@@ -71,6 +71,7 @@ const collectionHandlesQuery = gql`
   query CollectionHandlesQuery {
     allShopifyCollection {
       _id
+      _updatedAt
       shopifyId
       handle
     }
@@ -83,6 +84,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const paths = collections.map((collection) => ({
     params: {
       collectionSlug: collection.handle ? collection.handle : undefined,
+      updatedAt: collection?._updatedAt?.toString(),
     },
   }))
 

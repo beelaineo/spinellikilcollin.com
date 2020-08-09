@@ -12,8 +12,5 @@ export function isDefined<T>(x: Maybe<T>): x is T {
 
 export function definitely<T>(items?: Maybe<T>[] | null): T[] {
   if (!items) return []
-  return items.reduce<T[]>(
-    (acc, item) => (item && item !== undefined ? [...acc, item] : acc),
-    [],
-  )
+  return items.filter((i): i is T => Boolean(i))
 }

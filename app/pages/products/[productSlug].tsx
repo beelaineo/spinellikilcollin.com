@@ -161,6 +161,7 @@ const pageHandlesQuery = gql`
   query ProductHandlesQuery {
     allShopifyProduct {
       _id
+      _updatedAt
       shopifyId
       handle
     }
@@ -172,7 +173,10 @@ export const getStaticPaths: GetStaticPaths = async () => {
     const result = await request<Response>(pageHandlesQuery)
     const products = definitely(result?.allShopifyProduct)
     const paths = products.map((product) => ({
-      params: { productSlug: product.handle ? product.handle : undefined },
+      params: {
+        productSlug: product.handle ? product.handle : undefined,
+        updatedAt: product?._updatedAt?.toString(),
+      },
     }))
 
     return {
