@@ -2,8 +2,8 @@ import styled, { css } from '@xstyled/styled-components'
 
 const ButtonWrapper = styled.button`
   opacity: 0;
-  pointer-events: 0.3;
   cursor: pointer;
+  transition: 0.2s;
   position: absolute;
   bottom: 20px;
   width: 30px;

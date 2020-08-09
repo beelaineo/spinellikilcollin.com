@@ -116,6 +116,7 @@ export const Image = ({
 
   const ratio = customRatio || getAspectRatio(image)
 
+  if (!image) return null
   return (
     <Wrapper ref={containerRef}>
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}

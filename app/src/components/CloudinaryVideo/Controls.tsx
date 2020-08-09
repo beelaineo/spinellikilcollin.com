@@ -1,5 +1,10 @@
 import * as React from 'react'
-import { BsPlayFill, BsPlay, BsVolumeUp, BsVolumeMute } from 'react-icons/bs'
+import {
+  BsPlayFill,
+  BsPauseFill,
+  BsVolumeUp,
+  BsVolumeMute,
+} from 'react-icons/bs'
 import { PlaybackButtonWrapper, AudioButtonWrapper } from './styled'
 
 interface PlaybackButtonProps {
@@ -10,7 +15,7 @@ interface PlaybackButtonProps {
 export const PlaybackButton = ({ playing, onClick }: PlaybackButtonProps) => {
   return (
     <PlaybackButtonWrapper onClick={onClick}>
-      {playing ? <BsPlayFill /> : <BsPlay />}
+      {playing ? <BsPauseFill /> : <BsPlayFill />}
     </PlaybackButtonWrapper>
   )
 }
