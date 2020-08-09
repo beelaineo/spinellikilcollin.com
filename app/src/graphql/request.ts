@@ -1,10 +1,11 @@
 import useSWR, { responseInterface as ResponseInterface } from 'swr'
 import { DocumentNode } from 'graphql'
 import { print } from 'graphql/language/printer'
-import { Variables } from 'graphql-request/dist/src/types'
 import { request as gqlRequest } from 'graphql-request'
 import { useError } from '../providers'
 import { SANITY_GRAPHQL_URL } from '../config'
+
+type Variables = { [key: string]: any }
 
 interface RequestOptions {
   skip?: boolean

@@ -3,8 +3,8 @@ import {
   PRICE_RANGE_FILTER,
   FILTER_MATCH_GROUP,
   FilterConfiguration,
+  Document,
 } from '../types'
-import { Document } from './sanity'
 
 const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
   switch (type) {
@@ -70,7 +70,7 @@ const addTypename = <T extends Document = Document>(item: WithType<T>) => {
       return {
         ...acc,
         [key]: value,
-        __typename: value.replace(/^./, (c) => c.toUpperCase()),
+        __typename: value.toString().replace(/^./, (c) => c.toUpperCase()),
       }
     }
     if (Array.isArray(value)) {
@@ -79,9 +79,16 @@ const addTypename = <T extends Document = Document>(item: WithType<T>) => {
         [key]: value.map(addTypename),
       }
     }
+    if (value instanceof Date) {
+      return {
+        ...acc,
+        [key]: value.toString(),
+      }
+    }
     if (typeof value === 'object') {
       return {
         ...acc,
+        // @ts-ignore
         [key]: addTypename(value),
       }
     }

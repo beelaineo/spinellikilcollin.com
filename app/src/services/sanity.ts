@@ -1,4 +1,5 @@
 import createSanityClient from '@sanity/client'
+import { Document } from '../types'
 import { withTypenames } from '../utils'
 
 const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID
@@ -18,7 +19,7 @@ export const sanityClient = createSanityClient({
   useProjectHostname: true,
 })
 
-export const sanityQuery = async <R>(
+export const sanityQuery = async <R extends Document[]>(
   query: string,
   params?: Record<string, any>,
 ): Promise<R> => {

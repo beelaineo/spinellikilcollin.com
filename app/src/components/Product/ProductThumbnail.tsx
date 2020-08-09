@@ -130,7 +130,7 @@ export const ProductThumbnail = ({
   const params = new URLSearchParams(existingParams)
 
   params.delete('search')
-  if (currentVariant.id) {
+  if (currentVariant && currentVariant.id) {
     params.set('v', currentVariant.id)
   }
   const linkAs = `/products/${product.handle}?`.concat(params.toString())

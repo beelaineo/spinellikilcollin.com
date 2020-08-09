@@ -79,7 +79,6 @@ const arrayToggle = <T>(array: T[], item: T): T[] => {
 }
 
 const reducer = (state: State, action: Action): State => {
-  console.log(action.type)
   switch (action.type) {
     case RESET_ALL:
       return {
