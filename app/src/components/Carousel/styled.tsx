@@ -80,7 +80,7 @@ export const SlideContainer = styled.div`
   ${({ theme, columnCount, single }: WithColumnCount) => css`
     height: 100%;
     text-align: center;
-    margin-right: 5;
+    padding-right: 5;
     display: inline-flex;
     vertical-align: top;
 
@@ -100,8 +100,8 @@ export const SlideContainer = styled.div`
           );
         `
       : css`
-          width: calc((100% - (37px * 4)) / 5);
-          margin-right: 37px;
+          width: calc((100% + (37px * 1)) / 5);
+          padding-right: 37px;
 
           ${ImageWrapper} {
             overflow: hidden;
@@ -116,15 +116,15 @@ export const SlideContainer = styled.div`
           }
 
           ${theme.mediaQueries.desktop} {
-            margin-right: 35px;
-            width: calc((100% - (35px * 3)) / 4);
+            padding-right: 35px;
+            width: calc((100% + (35px * 1)) / 4);
           }
 
           ${theme.mediaQueries.tablet} {
-            width: calc((100% - (35px * 2)) / 3);
+            width: calc((100% + (35px * 1)) / 3);
           }
           ${theme.mediaQueries.mobile} {
-            width: calc((100%) / 1);
+            width: calc(((100%) / 1) + 35px);
           }
         `}
   `}

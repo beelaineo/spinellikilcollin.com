@@ -1,4 +1,5 @@
 import { useReducer, useEffect } from 'react'
+import { useLockScroll } from '../LockScroll'
 
 interface State {
   active: boolean
@@ -79,6 +80,7 @@ const initialState: State = {
 
 export const useSwipeReducer = (element: HTMLElement | null) => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { lockScroll, unlockScroll } = useLockScroll()
 
   const startSwipe = (initialPosition: number) => (
     e: React.MouseEvent | React.TouchEvent,
@@ -86,11 +88,16 @@ export const useSwipeReducer = (element: HTMLElement | null) => {
     if (!element) return
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
     const target = e.target
+    lockScroll()
     dispatch({ type: START, initialPosition, touchStart: clientX, target })
   }
   const setSwipeDiff = (diff: number, direction: State['xDirection']) =>
     dispatch({ type: SET_DIFF, diff, direction })
-  const endSwipe = () => dispatch({ type: END })
+
+  const endSwipe = () => {
+    dispatch({ type: END })
+    unlockScroll()
+  }
 
   const watchMouseMove = (e: MouseEvent | TouchEvent) => {
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
