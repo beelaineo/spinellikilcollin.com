@@ -1,4 +1,6 @@
 import * as React from 'react'
+import Head from 'next/head'
+import DefaultErrorPage from 'next/error'
 import styled, { css } from '@xstyled/styled-components'
 import Link from 'next/link'
 import { Heading } from '../components/Text'
@@ -16,6 +18,9 @@ const Main = styled.div`
 
 export const NotFound = () => (
   <PageWrapper py={0}>
+    <Head>
+      <meta name="robots" content="noindex" />
+    </Head>
     <Main>
       <Heading fontStyle="italic" level={2}>
         Sorry, this page was not found
