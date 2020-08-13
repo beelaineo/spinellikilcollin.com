@@ -40,8 +40,8 @@ export const CartHeading = styled.div`
     }
 
     ${theme.mediaQueries.mobile} {
-      min-height: initial;
-      padding: 3 0;
+      min-height: 42px;
+      background-color: pink;
     }
   `}
 `
