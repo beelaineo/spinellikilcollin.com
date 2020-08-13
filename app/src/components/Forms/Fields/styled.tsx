@@ -112,7 +112,7 @@ export const SelectElement = styled.select`
     font-size: 1rem;
     cursor: pointer;
     background: none;
-    padding: 0 6 0 3;
+    padding: 0 28px 0 3;
     font-family: serif;
     appearance: none;
     -webkit-border-radius: 0px;

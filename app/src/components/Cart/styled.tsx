@@ -7,10 +7,10 @@ interface CartSidebarProps {
 }
 
 export const CartSidebar = styled.div`
-  ${(props: CartSidebarProps) => css`
+  ${({ open }: CartSidebarProps) => css`
     position: fixed;
     z-index: cart;
-    right: ${props.open ? '0px' : '-510px'};
+    right: ${open ? '0px' : '-510px'};
     top: 0;
     width: 100vw;
     max-width: 500px;
@@ -114,7 +114,8 @@ export const CartInner = styled.div<CartInnerProps>`
     }
 
   ${theme.mediaQueries.mobile} {
-    padding: 0 3;
+    padding: 3;
+    overflow: initial;
   }
 
   `}
