@@ -169,6 +169,9 @@ export const useSearchReducer = () => {
         .concat(params.toString())
       router.push(router.pathname, pathWithSearchParam, { shallow: true })
     }
+    if (document?.activeElement instanceof HTMLElement) {
+      document.activeElement.blur()
+    }
     dispatch({ type: ActionTypes.START_SEARCH, searchTerm })
   }
   const onError = (errorMessage: string) =>

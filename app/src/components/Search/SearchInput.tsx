@@ -15,7 +15,7 @@ export const SearchInput = () => {
   }
 
   useEffect(() => {
-    if (open && inputRef.current) inputRef.current.focus()
+    // if (open && inputRef.current) inputRef.current.focus()
   }, [open])
 
   return (

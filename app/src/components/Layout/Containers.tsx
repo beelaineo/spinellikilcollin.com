@@ -13,6 +13,7 @@ export const Column = styled.divBox`
 
 export const PageWrapper = styled.divBox`
   ${({ theme }) => css`
+    height: calc(100% - ${theme.navHeight});
     padding: calc(${theme.navHeight} + ${theme.space[9]}px) 10 8;
 
     ${theme.mediaQueries.tablet} {

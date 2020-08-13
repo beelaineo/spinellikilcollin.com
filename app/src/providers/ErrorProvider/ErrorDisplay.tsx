@@ -13,7 +13,7 @@ const Outer = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -48,7 +48,7 @@ const LogoWrapper = styled.div`
 `
 
 const Wrapper = styled.div`
-  width: 100%;
+  width: calc(100% - 40px);
   max-width: 500px;
   border-radius: 8px;
   box-shadow: 0px 2px 2px 2px rgba(0, 0, 0, 0.3);

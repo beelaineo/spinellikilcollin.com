@@ -2,7 +2,6 @@ import * as React from 'react'
 import { Sentry } from '../../services/sentry'
 import { useErrorReducer } from './reducer'
 import { parseError } from './parseError'
-import { ErrorDisplay } from './ErrorDisplay'
 
 const { useEffect } = React
 

@@ -8,7 +8,7 @@ interface WithVisible {
 export const Outer = styled.div`
   ${({ theme }) => css`
     width: 100%;
-    position: relative;
+    height: 100%;
     z-index: ${theme.zIndices.nav - 10};
     height: 0px;
   `}
@@ -23,7 +23,7 @@ export const Wrapper = styled.div<WithVisible>`
     left: 0;
     padding-top: calc(${theme.navHeight} + ${theme.space[6]}px);
     width: 100%;
-    height: calc(100vh);
+    height: 100%;
     overflow: scroll;
     text-align: center;
     opacity: ${visible ? 1 : 0};
@@ -82,8 +82,9 @@ export const CloseButton = styled.div`
     position: absolute;
     right: ${theme.space[6]}px;
     top: calc(${theme.navHeight} + ${theme.space[5]}px);
+
     ${theme.mediaQueries.mobile} {
-      top: calc(${theme.mobileNavHeight} + ${theme.space[4]}px);
+      top: calc(${theme.mobileNavHeight} + ${theme.space[5]}px);
       right: ${theme.space[4]}px;
     }
   `}

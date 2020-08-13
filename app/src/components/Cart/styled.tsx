@@ -14,7 +14,7 @@ export const CartSidebar = styled.div`
     top: 0;
     width: 100vw;
     max-width: 500px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background-color: body.0;
@@ -34,6 +34,15 @@ export const CartHeading = styled.div`
 
     border-bottom: 1px solid;
     border-bottom-color: body.7;
+
+    ${theme.mediaQueries.tablet} {
+      min-height: 74px;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      min-height: initial;
+      padding: 3 0;
+    }
   `}
 `
 
@@ -43,6 +52,9 @@ export const CloseButtonWrapper = styled.div`
   right: 18px;
   height: 24px;
   width: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 interface ModalBackgroundProps {

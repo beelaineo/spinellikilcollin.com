@@ -8,7 +8,7 @@ import { PageWrapper } from '../components/Layout'
 
 const Main = styled.div`
   ${({ theme }) => css`
-    min-height: calc(100vh - ${theme.navHeight});
+    min-height: calc(100% - ${theme.navHeight});
     display: flex;
     flex-direction: column;
     justify-content: center;

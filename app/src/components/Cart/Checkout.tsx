@@ -60,7 +60,7 @@ export const Checkout = () => {
           <Hamburger open={true} onClick={closeCart} />
         </CloseButtonWrapper>
 
-        <Heading my={4} level={3} color="dark" textAlign="center">
+        <Heading my={0} level={3} color="dark" textAlign="center">
           {title}
         </Heading>
       </CartHeading>
