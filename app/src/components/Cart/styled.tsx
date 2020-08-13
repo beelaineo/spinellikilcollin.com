@@ -41,7 +41,6 @@ export const CartHeading = styled.div`
 
     ${theme.mediaQueries.mobile} {
       min-height: 42px;
-      background-color: pink;
     }
   `}
 `
