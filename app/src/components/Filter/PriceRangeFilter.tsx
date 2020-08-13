@@ -148,7 +148,7 @@ export function PriceRangeFilter({
     return steps[index]
   }
 
-  if (!minPrice) {
+  if (minPrice === null || minPrice === undefined) {
     throw new Error(
       'The price range filter was not configured with a min price',
     )
