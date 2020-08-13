@@ -15,10 +15,7 @@ import { Button } from '../../components/Button'
 import { getHeroImage, isValidHero, definitely } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
-import {
-  buildFilterQuery,
-  createMoreProductsQuery,
-} from './sanityCollectionQuery'
+import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
 import {
@@ -100,24 +97,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const openFilter = () => setFilterOpen(true)
 
   const applySort = async (sort: Sort) => {
-    setLoading(true)
-    setSort(sort)
-    const query = currentFilter
-      ? buildFilterQuery(currentFilter, sort)
-      : createMoreProductsQuery(sort)
-
-    const results = await fetchMoreQuery(query, {
-      collectionId: _id,
-      handle,
-      productStart: 0,
-      productEnd: PAGE_SIZE,
-    })
-    if (isCollectionResult(results)) {
-      setProductResults(definitely(results[0].products))
-    } else {
-      setProductResults(results)
-    }
-    setLoading(false)
+    fetchMore(true, sort)
   }
 
   useEffect(() => {
@@ -135,13 +115,19 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       }, definitely(productResults))
     : definitely(productResults)
 
-  const fetchMore = async (reset?: boolean) => {
-    if (reset) setLoading(true)
+  const fetchMore = async (reset?: boolean, newSort?: Sort) => {
+    if (reset) {
+      setLoading(true)
+      setFetchComplete(false)
+    }
     const productStart = reset ? 0 : productResults.length
     const productEnd = reset ? PAGE_SIZE : productResults.length + PAGE_SIZE
-    const query = currentFilter
-      ? buildFilterQuery(currentFilter, sort)
-      : createMoreProductsQuery(sort)
+    const sortBy = newSort || sort
+
+    const query =
+      (sortBy && sortBy !== Sort.Default) || currentFilter
+        ? buildFilterQuery(currentFilter || [], sortBy)
+        : moreProductsQuery
 
     const results = await fetchMoreQuery(query, {
       handle,
@@ -160,6 +146,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       setProductResults(newProducts)
     } else {
       setProductResults([...productResults, ...newProducts])
+    }
+    if (newSort) {
+      setSort(newSort)
     }
     setLoading(false)
   }

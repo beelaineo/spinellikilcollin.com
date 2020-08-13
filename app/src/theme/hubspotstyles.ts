@@ -17,10 +17,19 @@ export const hubspotStyles = css`
         border-radius: 0;
         text-transform: uppercase;
         font-family: serif;
+        border: 1px solid currentColor;
+        background-color: white !important;
+        color: body.9 !important;
+        font-size: 5 !important;
+        font-weight: 300 !important;
       }
     }
     div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner {
       padding: 4;
+    }
+    div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner p {
+      font-size: 5;
+      font-weight: 2 !important;
     }
     div#hs-eu-cookie-confirmation
       div#hs-eu-cookie-confirmation-inner
