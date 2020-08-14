@@ -37,7 +37,7 @@ interface AnalyticsProps {
 export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
   const sendEvent = (event: GTagEvent) => {
     if (typeof window === 'undefined') return
-    window.dataLayer.push(event)
+    if (window.dataLayer) window.dataLayer.push(event)
   }
 
   const sendProductImpression: AnalyticsContextValue['sendProductImpression'] = (
