@@ -26,7 +26,7 @@
     "sync": "yarn sync:reset && yarn sync:export && yarn sync:import && yarn sync:cleanup"
   },
   "dependencies": {
-    "@sane-shopify/sanity-plugin": "^0.17.4",
+    "@sane-shopify/sanity-plugin": "^0.17.5",
     "@sanity/base": "^1.149.19",
     "@sanity/block-content-to-react": "^2.0.7",
     "@sanity/cli": "^1.149.19",
@@ -51,8 +51,8 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-react": "^7.20.5",
-    "lodash": "^4.17.19",
+    "eslint-plugin-react": "^7.20.6",
+    "lodash": "^4.17.20",
     "ndjson-parse": "^1.0.4",
     "ramda": "^0.27.1",
     "react-hot-loader": "^4.12.21"
