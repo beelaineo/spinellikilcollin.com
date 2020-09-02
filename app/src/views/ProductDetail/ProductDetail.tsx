@@ -62,7 +62,7 @@ export const ProductDetail = ({ product }: Props) => {
   }, [])
 
   const productType = product?.sourceData?.productType
-  const images = product?.sourceData?.images
+  const [images] = unwindEdges(product?.sourceData?.images)
 
   const currentVariant = product.variants.find(
     (v) => v && v.shopifyVariantID === currentVariantSource?.id,
@@ -138,12 +138,18 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const defaultSeo = {
-    title: product.title || '',
-    image: images ? images[0] : undefined,
+    title: currentVariant?.title ?? (product.title || ''),
+    image:
+      currentVariant?.sourceData?.image ?? images.length
+        ? images[0]
+        : undefined,
   }
 
   if (!handle) throw new Error('No handle fetched')
-  const path = ['products', handle].join('/')
+  const basePath = ['products', handle].join('/')
+  const path = currentVariant?.shopifyVariantID
+    ? basePath.concat('?v=').concat(currentVariant.shopifyVariantID)
+    : basePath
 
   return (
     <>

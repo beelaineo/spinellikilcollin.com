@@ -39,9 +39,11 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
         .replace(/^\$/, '')
     : undefined
 
+  const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
+
   return (
     <>
-      <meta property="og:availability" content="instock" />
+      <meta property="og:availability" content={availability} />
       <meta property="product:price:amount" content={formattedPrice} />
       <meta property="product:price:currency" content="USD" />
       <meta property="og:price:amount" content={formattedPrice} />
@@ -88,7 +90,7 @@ export const SEO = ({
       <meta property="og:url" content={canonical} />
       <meta name="robots" content="index, follow" />
       <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Smilebooth" />
+      <meta name="twitter:title" content={metaTitle || title || undefined} />
       <meta
         name="twitter:description"
         content={metaTitle || title || undefined}

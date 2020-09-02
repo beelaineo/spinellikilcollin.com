@@ -170,11 +170,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   if (!handle) throw new Error('No handle was fetched')
-  const path = ['collections', handle].join('/')
   const firstProduct = definitely(collection.products)[0]
   const firstProductImage = firstProduct
     ? unwindEdges(firstProduct?.sourceData?.images)[0][0]
     : undefined
+
+  const path = ['collections', handle].join('/')
   const defaultSeo = {
     title: collection.title || '',
     image:
