@@ -91,10 +91,7 @@ export const SEO = ({
       <meta name="robots" content="index, follow" />
       <meta name="twitter:card" content="summary" />
       <meta name="twitter:title" content={metaTitle || title || undefined} />
-      <meta
-        name="twitter:description"
-        content={metaTitle || title || undefined}
-      />
+      <meta name="twitter:description" content={description || undefined} />
       <meta name="twitter:image" content={imageUrl || undefined} />
       <link rel="canonical" href={canonical} />
       {contentType === 'product' && product ? (

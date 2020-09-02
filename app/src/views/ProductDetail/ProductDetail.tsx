@@ -3,7 +3,12 @@ import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
-import { parseHTML, definitely, getSelectedOptionValues } from '../../utils'
+import {
+  getVariantTitle,
+  parseHTML,
+  definitely,
+  getSelectedOptionValues,
+} from '../../utils'
 import { useAnalytics, CurrentProductProvider } from '../../providers'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
@@ -138,7 +143,7 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const defaultSeo = {
-    title: currentVariant?.title ?? (product.title || ''),
+    title: getVariantTitle(product, currentVariant) ?? (product.title || ''),
     image:
       currentVariant?.sourceData?.image ?? images.length
         ? images[0]

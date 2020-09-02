@@ -93,3 +93,21 @@ export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
   if (!price || !price.amount || price.currencyCode === 'NONE') return false
   return true
 }
+
+export const getVariantTitle = (
+  product: ShopifyProduct,
+  variant: ShopifyProductVariant,
+): string | null | undefined => {
+  if (product?.variants?.length && product.variants.length < 2) return null
+  if (variant?.sourceData?.selectedOptions?.length) {
+    return definitely(variant.sourceData.selectedOptions)
+      .map((option) => {
+        if (option.name === 'Size') return null
+        return option.value
+      })
+      .filter(Boolean)
+      .join(' | ')
+  }
+
+  return variant?.title
+}
