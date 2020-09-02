@@ -98,7 +98,14 @@ export const getVariantTitle = (
   product: ShopifyProduct,
   variant: ShopifyProductVariant,
 ): string | null | undefined => {
-  if (product?.variants?.length && product.variants.length < 2) return null
+  if (product?.variants?.length && product.variants.length < 2) {
+    // If there is only one variant, its name will be "Default Title",
+    // so we should return the product title instead.
+    return product?.title
+  }
+
+  // Parse the product title by combining the selected option
+  // values, omitting the "Size" option
   const titleByOptions = variant?.sourceData?.selectedOptions?.length
     ? definitely(variant.sourceData.selectedOptions)
         .map((option) => {
