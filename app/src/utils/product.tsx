@@ -99,15 +99,17 @@ export const getVariantTitle = (
   variant: ShopifyProductVariant,
 ): string | null | undefined => {
   if (product?.variants?.length && product.variants.length < 2) return null
-  if (variant?.sourceData?.selectedOptions?.length) {
-    return definitely(variant.sourceData.selectedOptions)
-      .map((option) => {
-        if (option.name === 'Size') return null
-        return option.value
-      })
-      .filter(Boolean)
-      .join(' | ')
-  }
+  const titleByOptions = variant?.sourceData?.selectedOptions?.length
+    ? definitely(variant.sourceData.selectedOptions)
+        .map((option) => {
+          if (option.name === 'Size') return null
+          return option.value
+        })
+        .filter(Boolean)
+        .join(' | ')
+    : undefined
 
-  return variant?.title
+  if (titleByOptions?.length) return titleByOptions
+
+  return product?.title
 }

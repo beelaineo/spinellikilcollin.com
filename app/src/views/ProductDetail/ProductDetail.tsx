@@ -143,7 +143,7 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const defaultSeo = {
-    title: getVariantTitle(product, currentVariant) ?? (product.title || ''),
+    title: getVariantTitle(product, currentVariant),
     image:
       currentVariant?.sourceData?.image ?? images.length
         ? images[0]
