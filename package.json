@@ -26,7 +26,6 @@
 		"eslint-plugin-react": "^7.20.6",
 		"husky": "^4.2.5",
 		"lerna": "^3.22.1",
-		"netlify-cli": "^2.59.1",
 		"npm-check-updates": "^7.1.1",
 		"prettier": "^2.1.0",
 		"pretty-quick": "^3.0.0",
