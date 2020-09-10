@@ -4,17 +4,53 @@ import { ShopifyCollection } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
 import { definitely, useViewportSize } from '../../utils'
-import { useLazyRequest, shopifyCollectionFragment } from '../../graphql'
+import { useLazyRequest, shopifySourceImageFragment } from '../../graphql'
 
 const { useEffect } = React
 
 const query = gql`
   query CarouselCollectionQuery($collectionId: ID!) {
     allShopifyCollection(where: { _id: { eq: $collectionId } }) {
-      ...ShopifyCollectionFragment
+      __typename
+      _id
+      _type
+      _key
+      title
+      handle
+      archived
+      shopifyId
+      products {
+        __typename
+        _id
+        _key
+        title
+        handle
+        archived
+        shopifyId
+        minVariantPrice
+        maxVariantPrice
+        sourceData {
+          __typename
+          id
+          title
+          handle
+          tags
+          productType
+          images {
+            __typename
+            edges {
+              __typename
+              cursor
+              node {
+                ...ShopifySourceImageFragment
+              }
+            }
+          }
+        }
+      }
     }
   }
-  ${shopifyCollectionFragment}
+  ${shopifySourceImageFragment}
 `
 
 interface Response {

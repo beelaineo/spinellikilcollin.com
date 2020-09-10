@@ -62,8 +62,11 @@ export const parseProduct = (
   { position, list }: ProductExtras,
 ): EcommerceObject => {
   const { quantity } = selectedProduct
+  console.log({ selectedProduct })
   const product = getProductSourceData(selectedProduct.product)
-  const variant = getVariantSourceData(selectedProduct.variant)
+  const variant = selectedProduct.variant
+    ? getVariantSourceData(selectedProduct.variant)
+    : undefined
 
   const formattedPrice = variant?.priceV2?.amount
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
@@ -75,9 +78,9 @@ export const parseProduct = (
   const values: EcommerceObject = {
     name: assertExists(product.title, 'title'),
     id: assertExists(product.id, 'id'),
-    price: assertExists(formattedPrice, 'price'),
+    price: formattedPrice ? assertExists(formattedPrice, 'price') : undefined,
     category: productType ?? undefined,
-    variant: assertExists(variant.title, 'variant'),
+    variant: variant ? assertExists(variant.title, 'variant') : undefined,
     quantity,
     position,
     list,
