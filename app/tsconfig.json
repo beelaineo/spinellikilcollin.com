@@ -2,6 +2,7 @@
   "compilerOptions": {
     "declaration": true,
     "noImplicitAny": false,
+    "strictNullChecks": true,
     "module": "esnext",
     "moduleResolution": "node",
     "removeComments": true,
