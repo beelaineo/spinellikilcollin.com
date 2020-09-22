@@ -1,24 +1,15 @@
-/*
-https://help.pinterest.com/en/business/article/before-you-get-started-with-catalogs#section-9436 Required fields:
-
-Required fields: 
-id
-title
-description
-link
-image_link
-price
-availability
-
-*/
-
 import { NextApiHandler } from 'next'
 import * as z from 'zod'
 import { Parser as CSVParser } from 'json2csv'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { sanityClient } from '../../src/services/sanity'
 import { ShopifyProduct, ShopifySourceProductVariant } from '../../src/types'
-import { definitely, getVariantTitle } from '../../src/utils'
+import {
+  definitely,
+  getVariantTitle,
+  getSelectedOptionValues,
+  sanityBlocksToPlainText,
+} from '../../src/utils'
 
 enum Availability {
   InStock = 'in stock',
@@ -254,8 +245,12 @@ const productQuery = `
     _id,
     shopifyId,
     title,
+    handle,
     minVariantPrice,
     maxVariantPrice,
+    options[]{
+      ...
+    },
     sourceData {
       ...
     }
@@ -331,7 +326,7 @@ const handler: NextApiHandler = async (req, res) => {
           const image_link = variantImage.originalSrc
           const additional_image_link = productImages
             .filter((i) => i?.id !== variantImage.id)
-            .map((i) => `"${i.originalSrc}"`)
+            .map((i) => `'${i.originalSrc}'`)
             .join(', ')
 
           const price = parsePriceString(
@@ -346,11 +341,23 @@ const handler: NextApiHandler = async (req, res) => {
             definitely(tags).map((t) => customLabelMap.get(t)),
           )
 
+          const selectedOptions = getSelectedOptionValues(product, variant)
+          const optionDescriptions = definitely(
+            selectedOptions.map((so) =>
+              sanityBlocksToPlainText(so.description),
+            ),
+          )
+
+          const fullDescription = definitely([
+            description,
+            ...optionDescriptions,
+          ]).join('\n')
+
           const pinterestProduct: PinterestProduct = pinterestProductSchema.parse(
             {
               id: variantId,
               title: getVariantTitle(product, variant),
-              description,
+              description: fullDescription,
               link,
               image_link,
               price,

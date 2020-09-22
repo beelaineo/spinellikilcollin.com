@@ -47,9 +47,14 @@ export const optionMatchesVariant = (
 
 export const getSelectedOptionValues = (
   product: ShopifyProduct,
-  variant: ShopifyProductVariant,
+  variant: ShopifyProductVariant | ShopifySourceProductVariant,
 ): ShopifyProductOptionValue[] => {
-  const variantSelectedOptions = variant?.sourceData?.selectedOptions
+  const source =
+    variant.__typename === 'ShopifyProductVariant'
+      ? variant.sourceData
+      : variant
+
+  const variantSelectedOptions = source?.selectedOptions
   if (!product.options || !variantSelectedOptions) return []
 
   const selectedOptionValues = definitely(product?.options).reduce<
