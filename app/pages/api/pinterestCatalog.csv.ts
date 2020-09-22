@@ -250,7 +250,7 @@ const productQuery = `
     (
       _type == "shopifyProduct"
     ) && defined(shopifyId)
-  ][0...1]{
+  ]{
     _id,
     shopifyId,
     title,
