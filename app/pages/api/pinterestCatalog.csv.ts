@@ -272,6 +272,11 @@ const parsePriceString = (amount?: string | number | null): number => {
   )
 }
 
+const customLabelMap = new Map([
+  ['under1k', 'Under 1k'],
+  ['wedding', 'Wedding'],
+])
+
 const BASE_URL = 'https://www.spinellikilcollin.com'
 
 const handler: NextApiHandler = async (req, res) => {
@@ -280,7 +285,7 @@ const handler: NextApiHandler = async (req, res) => {
     const { shopifyId: productId, handle, sourceData } = product
     if (!sourceData)
       throw new Error("You must provide the product's sourceData")
-    const { description, productType } = sourceData
+    const { description, productType, tags } = sourceData
     const [variants] = unwindEdges(sourceData?.variants)
     const [productImages] = unwindEdges(sourceData?.images)
 
@@ -337,6 +342,10 @@ const handler: NextApiHandler = async (req, res) => {
             ? parsePriceString(priceV2?.amount)
             : undefined
 
+          const customLabels = definitely(
+            definitely(tags).map((t) => customLabelMap.get(t)),
+          )
+
           const pinterestProduct: PinterestProduct = pinterestProductSchema.parse(
             {
               id: variantId,
@@ -352,6 +361,11 @@ const handler: NextApiHandler = async (req, res) => {
               additional_image_link,
               sale_price,
               item_group_id: productId,
+              custom_label_0: customLabels[0],
+              custom_label_1: customLabels[1],
+              custom_label_2: customLabels[2],
+              custom_label_3: customLabels[3],
+              custom_label_4: customLabels[4],
             },
           )
 
