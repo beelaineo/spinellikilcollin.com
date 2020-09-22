@@ -344,6 +344,7 @@ const handler: NextApiHandler = async (req, res) => {
           const selectedOptions = getSelectedOptionValues(product, variant)
           const optionDescriptions = definitely(
             selectedOptions.map((so) =>
+              // @ts-ignore OK to ignore this, we are getting the description from Groq rather than GraphQL
               sanityBlocksToPlainText(so.description),
             ),
           )
