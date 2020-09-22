@@ -63,6 +63,16 @@ export const getSelectedOptionValues = (
   return definitely(selectedOptionValues)
 }
 
+export const getAdditionalDescriptions = (
+  selectedOptions: ShopifyProductOptionValue[],
+) => {
+  return definitely(
+    selectedOptions.map(({ _key, descriptionRaw }) =>
+      descriptionRaw ? { _key, descriptionRaw } : null,
+    ),
+  )
+}
+
 /**
  * Get the first variant that matches the selected option
  */
@@ -96,7 +106,7 @@ export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
 
 export const getVariantTitle = (
   product: ShopifyProduct,
-  variant: ShopifyProductVariant,
+  variant: ShopifyProductVariant | ShopifySourceProductVariant,
 ): string | null | undefined => {
   if (product?.variants?.length && product.variants.length < 2) {
     // If there is only one variant, its name will be "Default Title",
@@ -104,10 +114,15 @@ export const getVariantTitle = (
     return product?.title
   }
 
+  const source =
+    variant.__typename === 'ShopifyProductVariant'
+      ? variant.sourceData
+      : variant
+
   // Parse the product title by combining the selected option
   // values, omitting the "Size" option
-  const titleByOptions = variant?.sourceData?.selectedOptions?.length
-    ? definitely(variant.sourceData.selectedOptions)
+  const titleByOptions = source?.selectedOptions?.length
+    ? definitely(source.selectedOptions)
         .map((option) => {
           if (option.name === 'Size') return null
           return option.value
