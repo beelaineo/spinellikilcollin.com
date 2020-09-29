@@ -140,3 +140,30 @@ export const getVariantTitle = (
 
   return product?.title
 }
+
+export const getProductGoogleCategory = (
+  product: ShopifyProduct,
+): number | undefined => {
+  switch (product?.sourceData?.productType?.toLowerCase()) {
+    case 'bracelets':
+      return 191
+    case 'earrings':
+      return 194
+    case 'necklace':
+      return 196
+    case 'ring':
+      return 200
+    case 'clothing':
+      return 1604
+    case 'candle':
+      return 588
+    case 'furniture':
+      return 436
+    case 'gift card':
+      return 53
+    case 'sunglasses':
+      return 178
+    default:
+      return 188
+  }
+}

@@ -8,6 +8,7 @@ import {
   definitely,
   getVariantTitle,
   getSelectedOptionValues,
+  getProductGoogleCategory,
   sanityBlocksToPlainText,
 } from '../../src/utils'
 
@@ -249,6 +250,9 @@ const productQuery = `
     handle,
     minVariantPrice,
     maxVariantPrice,
+    variants[]{
+      title
+    },
     options[]{
       ...
     },
@@ -369,6 +373,7 @@ const handler: NextApiHandler = async (req, res) => {
                 ? Availability.InStock
                 : Availability.OutOfStock,
               product_type: productType,
+              google_product_category: getProductGoogleCategory(product),
               additional_image_link,
               sale_price,
               item_group_id: productId,
