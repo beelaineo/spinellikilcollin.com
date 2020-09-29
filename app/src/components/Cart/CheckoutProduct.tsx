@@ -58,7 +58,11 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     await updateLineItem({ id: lineItem.id, quantity: 0 })
   }
 
-  if (!variant) throw new Error('no variant how?')
+  useEffect(() => {
+    if (!variant) remove()
+  }, [variant])
+
+  if (!variant) return null
 
   return (
     <CheckoutProductWrapper>
