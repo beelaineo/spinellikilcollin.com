@@ -294,13 +294,15 @@ const handler: NextApiHandler = async (req, res) => {
           const optionsWithoutSize = definitely(
             selectedOptions.filter((o) => o?.name?.toLowerCase() !== 'size'),
           )
-          const alreadyExists = acc.some((v) => {
-            return definitely(v.selectedOptions).some((o) => {
-              return optionsWithoutSize.find(
-                (oo) => o.name === oo.name && o.value === oo.value,
-              )
+          const alreadyExists =
+            (acc.length && optionsWithoutSize.length === 0) ||
+            acc.some((v) => {
+              return definitely(v.selectedOptions).some((o) => {
+                return optionsWithoutSize.find(
+                  (oo) => o.name === oo.name && o.value === oo.value,
+                )
+              })
             })
-          })
           if (alreadyExists) return acc
           return [...acc, variant]
         }, [])

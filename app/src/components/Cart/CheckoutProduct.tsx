@@ -59,7 +59,9 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   }
 
   useEffect(() => {
-    if (!variant) remove()
+    if (!variant) {
+      remove()
+    }
   }, [variant])
 
   if (!variant) return null
