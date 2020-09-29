@@ -188,7 +188,7 @@ interface PinterestProduct {
   /* The categorization of the product based on the standardized Google Product Taxonomy. This is a set taxonomy. Both the text values and numeric codes are accepted.
    * full taxonomy: https://help.pinterest.com/sub/helpcenter/assets/Google_product_category_taxonomy_EN_US.xls
    * example: "Apparel & Accessories > Clothing > Shirts & Tops", 212 */
-  google_product_category?: string
+  google_product_category?: number
 }
 
 const pinterestProductSchema = z.object({
@@ -382,6 +382,7 @@ const handler: NextApiHandler = async (req, res) => {
                 ? Availability.InStock
                 : Availability.OutOfStock,
               product_type: productType,
+              condition: Condition.New,
               google_product_category: getProductGoogleCategory(product),
               additional_image_link,
               sale_price,
