@@ -344,7 +344,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   id: Scalars['ID']
   /** A list of line item objects, each one containing information about an item in the checkout. */
   lineItems: ShopifyStorefrontCheckoutLineItemConnection
-  /** The sum of all the prices of all the items in the checkout. Taxes, shipping and discounts excluded. */
+  /** The sum of all the prices of all the items in the checkout. Duties, taxes, shipping and discounts excluded. */
   lineItemsSubtotalPrice: ShopifyStorefrontMoneyV2
   /** The note associated with the checkout. */
   note?: Maybe<Scalars['String']>
@@ -359,8 +359,8 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
    */
   paymentDue: Scalars['Money']
   /**
-   * The amount left to be paid. This is equal to the cost of the line items, taxes
-   * and shipping minus discounts and gift cards.
+   * The amount left to be paid. This is equal to the cost of the line items,
+   * duties, taxes and shipping minus discounts and gift cards.
    */
   paymentDueV2: ShopifyStorefrontMoneyV2
   /**
@@ -383,7 +383,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
    * @deprecated Use `subtotalPriceV2` instead
    */
   subtotalPrice: Scalars['Money']
-  /** Price of the checkout before shipping and taxes. */
+  /** Price of the checkout before duties, shipping and taxes. */
   subtotalPriceV2: ShopifyStorefrontMoneyV2
   /** Specifies if the Checkout is tax exempt. */
   taxExempt: Scalars['Boolean']
@@ -394,7 +394,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
    * @deprecated Use `totalPriceV2` instead
    */
   totalPrice: Scalars['Money']
-  /** The sum of all the prices of all the items in the checkout, taxes and discounts included. */
+  /** The sum of all the prices of all the items in the checkout, duties, taxes and discounts included. */
   totalPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The sum of all the taxes applied to the line items and shipping lines in the checkout.
@@ -3377,7 +3377,7 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
    * @deprecated Use `subtotalPriceV2` instead
    */
   subtotalPrice?: Maybe<Scalars['Money']>
-  /** Price of the order before shipping and taxes. */
+  /** Price of the order before duties, shipping and taxes. */
   subtotalPriceV2?: Maybe<ShopifyStorefrontMoneyV2>
   /** List of the order’s successful fulfillments. */
   successfulFulfillments?: Maybe<Array<ShopifyStorefrontFulfillment>>
@@ -3386,7 +3386,7 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
    * @deprecated Use `totalPriceV2` instead
    */
   totalPrice: Scalars['Money']
-  /** The sum of all the prices of all the items in the order, taxes and discounts included (must be positive). */
+  /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
   totalPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The total amount that has been refunded.

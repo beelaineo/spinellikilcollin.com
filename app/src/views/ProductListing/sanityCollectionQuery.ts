@@ -54,11 +54,12 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     "bodyRaw": body,
     ...,
   },
-  "products": products[$productStart...$productEnd]->[] | order(${getSortString(
+  "products": products[$productStart...$productEnd]->[hidden != true] | order(${getSortString(
     sort,
   )}) {
     _id,
     _type,
+    hidden,
     handle,
     minVariantPrice,
     maxVariantPrice,
@@ -116,7 +117,7 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[$productStart...$productEnd]->[] {
+  "products": products[$productStart...$productEnd]->[hidden != true] {
     _id,
     _type,
     handle,
@@ -169,6 +170,7 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
 *[
   _type == "shopifyProduct" &&
     defined(shopifyId) &&
+    hidden != true &&
     references($collectionId) 
   ${filterString ? `&& ${filterString}` : ''}
 ] | order(${getSortString(sort)}) {

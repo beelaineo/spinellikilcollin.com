@@ -241,6 +241,7 @@ const productQuery = `
     (
       _type == "shopifyProduct"
     ) && defined(shopifyId)
+    && hidden != true
   ]{
     _id,
     shopifyId,
