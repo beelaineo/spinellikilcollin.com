@@ -2,6 +2,14 @@ export const collection = {
   fields: [
     { name: 'sourceData', hidden: true },
     {
+      title: 'Hidden',
+      name: 'hidden',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide this collection. The product will still be viewable at its URL',
+    },
+
+    {
       name: 'reduceColumnCount',
       type: 'boolean',
       title: 'Reduce Column Count',
