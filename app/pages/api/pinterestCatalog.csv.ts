@@ -68,7 +68,7 @@ interface PinterestProduct {
   link: string
   image_link: string
   /* The price of the product. The price should include currency in ISO-4217 if it is not US dollars. If the currency is not included, we default to US dollars. We accept currency after the numeric price value, with or without space. Currency should follow the standard ISO-4217 code. We do not accept 0 values for price. Do not use currency symbols */
-  price: number
+  price: string
   /* The availability of the product. Must be one of the following values: ‘in stock’, ‘out of stock’, ‘preorder’ */
   availability: Availability
 
@@ -197,7 +197,7 @@ const pinterestProductSchema = z.object({
   description: z.string(),
   link: z.string().url(),
   image_link: z.string().url(),
-  price: z.number().positive(),
+  price: z.string(),
   availability: z.nativeEnum(Availability),
   /* Optional Fields */
   product_type: z.string().optional(),
@@ -230,7 +230,7 @@ const pinterestProductSchema = z.object({
   custom_label_4: z.string().optional(),
   ad_link: z.string().optional(),
   condition: z.nativeEnum(Condition).optional(),
-  google_product_category: z.string().optional(),
+  google_product_category: z.number().optional(),
 })
 
 const fields = Object.keys(pinterestProductSchema.shape)
@@ -262,14 +262,23 @@ const productQuery = `
   }
 `
 
-const parsePriceString = (amount?: string | number | null): number => {
+const parsePriceString = (amount?: string | number | null): string => {
   if (!amount) throw new Error('You must provide an amount')
 
-  return parseFloat(
-    new Intl.NumberFormat('en-us', { style: 'currency', currency: 'USD' })
-      .format(typeof amount === 'string' ? parseFloat(amount) : amount)
-      .replace(/^\$/, ''),
-  )
+  const parsed = new Intl.NumberFormat('en-us', {
+    style: 'currency',
+    currency: 'USD',
+  })
+    .format(typeof amount === 'string' ? parseFloat(amount) : amount)
+    .replace(/^\$/, '')
+
+  // @ts-ignore
+  console.log({
+    amount,
+    parsed,
+  })
+
+  return parsed
 }
 
 const customLabelMap = new Map([
