@@ -4928,6 +4928,13 @@
   resolved "https://registry.yarnpkg.com/@types/json-stable-stringify/-/json-stable-stringify-1.0.32.tgz#121f6917c4389db3923640b2e68de5fa64dda88e"
   integrity sha512-q9Q6+eUEGwQkv4Sbst3J4PNgDOvpuVuKj79Hl/qnmBMEIPzB5QoFRUtjcgcg2xNUZyYUGXBk5wYIBKHt0A+Mxw==
 
+"@types/json2csv@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/json2csv/-/json2csv-5.0.1.tgz#576d38515dfedeabf46eb85e790894b8df72ab40"
+  integrity sha512-1r5GCTyFtdQ53CRSIctzWZCmtDXvxtzM77SzOqPB4woMeGcc3rhUMzPqEQH3rokG1k/QLzlC5Qe5Ih8NuFN70Q==
+  dependencies:
+    "@types/node" "*"
+
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
@@ -7901,6 +7908,11 @@ commander@2, commander@^2.18.0, commander@^2.20.0, commander@^2.20.3:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+
+commander@^5.0.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-5.1.0.tgz#46abbd1652f8e059bddaef99bbdcb2ad9cf179ae"
+  integrity sha512-P0CysNDQ7rtVw4QIQtm+MRxV66vKFSvlsQvGYXZWR3qFU0jlMKHZZZgw8e+8DSah4UDKMqnknRDQz+xuQXQ/Zg==
 
 commander@^6.0.0:
   version "6.0.0"
@@ -13366,6 +13378,15 @@ json-to-pretty-yaml@^1.2.2:
   dependencies:
     remedial "^1.0.7"
     remove-trailing-spaces "^1.0.6"
+
+json2csv@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/json2csv/-/json2csv-5.0.1.tgz#5a472b32f177954911c47d33c03a4940ac61eeab"
+  integrity sha512-QFMifUX1y8W2tKi2TwZpnzf2rHdZvzdmgZUMEMDF46F90f4a9mUeWfx/qg4kzXSZYJYc3cWA5O+eLXk5lj9g8g==
+  dependencies:
+    commander "^5.0.0"
+    jsonparse "^1.3.1"
+    lodash.get "^4.4.2"
 
 json5@2.x, json5@^2.1.0, json5@^2.1.1, json5@^2.1.2:
   version "2.1.3"
@@ -21786,3 +21807,8 @@ zlib@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/zlib/-/zlib-1.0.5.tgz#6e7c972fc371c645a6afb03ab14769def114fcc0"
   integrity sha1-bnyXL8NxxkWmr7A6sUdp3vEU/MA=
+
+zod@^1.11.8:
+  version "1.11.8"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-1.11.8.tgz#5e6b2eb3114c73d5043889fa9dfbab0b60a93ff6"
+  integrity sha512-iusmIB00ll0Fxzyhrp8EJPaJDTSyQMKMCwk2hH2XrtgY/QcygPJTX13fSof/r7b4hL5cBeN5aeVl6WN1xpr90g==

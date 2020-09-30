@@ -10,7 +10,7 @@ const { useMemo, useEffect, useState } = React
 
 const roundTo = (number: number, to: number) => Math.round(number / to) * to
 
-const roundPrice = (price: number): number => roundTo(price, 100)
+export const roundPrice = (price: number): number => roundTo(price, 100)
 
 const parsePriceString = (price: number): string => {
   const roundedPrice = roundPrice(price)
@@ -22,6 +22,7 @@ const parsePriceString = (price: number): string => {
           .toString()
           .replace(/(.*)(\d)00$/, `$1.$2k`)
           .replace('.0', '')
+
   return ['$', amount].join('')
 }
 

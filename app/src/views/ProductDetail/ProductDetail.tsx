@@ -8,6 +8,7 @@ import {
   parseHTML,
   definitely,
   getSelectedOptionValues,
+  getAdditionalDescriptions,
 } from '../../utils'
 import { useAnalytics, CurrentProductProvider } from '../../providers'
 import { Column } from '../../components/Layout'
@@ -83,12 +84,7 @@ export const ProductDetail = ({ product }: Props) => {
   /* get product image variants from Shopify */
   const description = parseHTML(product?.sourceData?.descriptionHtml)
   const selectedOptions = getSelectedOptionValues(product, currentVariant)
-
-  const optionDescriptions = definitely(
-    selectedOptions.map(({ _key, descriptionRaw }) =>
-      descriptionRaw ? { _key, descriptionRaw } : null,
-    ),
-  )
+  const optionDescriptions = getAdditionalDescriptions(selectedOptions)
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     // TODO: Move this over to use-shopify

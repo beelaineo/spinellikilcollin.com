@@ -24,6 +24,7 @@ const query = gql`
         _id
         _key
         title
+        hidden
         handle
         archived
         shopifyId
@@ -92,7 +93,9 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
   return (
     <Carousel initialSlide={initialSlide}>
       {definitely(products)
-        .filter((product) => product?.archived !== true)
+        .filter(
+          (product) => product?.archived !== true && product?.hidden !== true,
+        )
         .map((product) => {
           return (
             <ProductThumbnail

@@ -62,7 +62,6 @@ export const parseProduct = (
   { position, list }: ProductExtras,
 ): EcommerceObject => {
   const { quantity } = selectedProduct
-  console.log({ selectedProduct })
   const product = getProductSourceData(selectedProduct.product)
   const variant = selectedProduct.variant
     ? getVariantSourceData(selectedProduct.variant)

@@ -36,6 +36,20 @@ export const productOptionValue = {
 export const product = {
   fields: [
     {
+      title: 'Hidden',
+      name: 'hidden',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide this product from collection pages & search results. The product will still be viewable at its URL',
+    },
+    {
+      title: 'Inquiry Only',
+      name: 'inquiryOnly',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide a product\'s price and show an inquiry button instead of "Add to Cart"',
+    },
+    {
       title: 'Accordions',
       name: 'info',
       type: 'array',
