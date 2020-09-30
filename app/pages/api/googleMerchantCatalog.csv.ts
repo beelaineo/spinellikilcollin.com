@@ -1,7 +1,7 @@
 import { NextApiHandler } from 'next'
 import * as z from 'zod'
 import { Parser as CSVParser } from 'json2csv'
-import * as atob from 'atob'
+import atob from 'atob'
 import {
   fetchProducts,
   googleMerchantProductSchema,
