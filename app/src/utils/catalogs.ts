@@ -210,7 +210,7 @@ export const fetchProducts = async () => {
           const image_link = variantImage.originalSrc
           const additional_image_link = productImages
             .filter((i) => i?.id !== variantImage.id)
-            .map((i) => `'${i.originalSrc}'`)
+            .map((i) => `${i.originalSrc}`)
             .join(', ')
 
           const price = parsePriceString(
@@ -285,6 +285,7 @@ export const parsePriceString = (amount?: string | number | null): string => {
   })
     .format(typeof amount === 'string' ? parseFloat(amount) : amount)
     .replace(/^\$/, '')
+    .concat(' USD')
 
   return parsed
 }
