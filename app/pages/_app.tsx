@@ -19,7 +19,7 @@ const Main = styled.main`
   transition: background-color 0.3s;
 `
 
-const gtm = {
+export const gtm = {
   prod: {
     script: `
       (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -140,14 +140,6 @@ const App = (props: AppProps) => {
         </Main>
         <div id="modal" />
       </ThemeProvider>
-      <noscript>
-        <iframe
-          src={tagInfo.iframeSrc}
-          height="0"
-          width="0"
-          style={{ display: 'none', visibility: 'hidden' }}
-        ></iframe>
-      </noscript>
       <script
         type="text/javascript"
         id="hs-script-loader"

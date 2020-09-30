@@ -16,6 +16,9 @@ import {
   toArray,
   tap,
 } from 'rxjs/operators'
+import { GroqShopifyProduct, GroqShopifyCollection } from '../../src/types'
+import { Sentry } from '../../src/services/sentry'
+import { definitely } from '../../src/utils'
 
 const debug = Debug('api:algolia')
 
@@ -55,6 +58,49 @@ const unique = <T>(array: T[]): T[] => {
   return [...set]
 }
 
+type SanityShopifyDocument = GroqShopifyProduct | GroqShopifyCollection
+
+const parseDocument = (client) => (doc: SanityShopifyDocument) => {
+  switch (doc._type) {
+    // case 'page':
+    //   return {
+    //     objectID: doc._id,
+    //     type: doc._type,
+    //     body: blocksToText(doc.body || []),
+    //     title: doc.title,
+    //     slug: doc.slug.current,
+    //   }
+
+    case 'shopifyProduct':
+      return {
+        objectID: doc._id,
+        type: doc._type,
+        body: doc?.sourceData?.description,
+        _tags: doc?.sourceData?.tags,
+        options: unique(
+          definitely(doc?.sourceData?.options)
+            ?.filter((option) => option?.name?.toLowerCase() !== 'size')
+            .map((option) => option.values)
+            .flat(),
+        ),
+        title: doc.title,
+        handle: doc.handle,
+      }
+
+    case 'shopifyCollection':
+      return {
+        objectID: doc._id,
+        type: doc._type,
+        body: doc?.sourceData?.description,
+        title: doc.title,
+        handle: doc.handle,
+      }
+
+    default:
+      return null
+  }
+}
+
 const handler: NextApiHandler = (req, res) =>
   new Promise((resolve, reject) => {
     try {
@@ -72,9 +118,9 @@ const handler: NextApiHandler = (req, res) =>
       })
 
       const cb = (error: Error) => {
-        console.log('cb??')
-        // debug(message)
+        Sentry.captureException(error)
       }
+      const parseSanityDocument = parseDocument(client)
 
       streamToRx(request(sanityExportURL).pipe(ndjson.parse()))
         .pipe(
@@ -82,49 +128,18 @@ const handler: NextApiHandler = (req, res) =>
            * Pick and prepare fields you want to index,
            * here we reduce structured text to plain text
            */
-          map(function sanityToAlgolia(doc) {
-            switch (doc._type) {
-              case 'page':
-                return {
-                  objectID: doc._id,
-                  type: doc._type,
-                  body: blocksToText(doc.body || []),
-                  title: doc.title,
-                  slug: doc.slug.current,
-                }
-
-              case 'shopifyProduct':
-                return {
-                  objectID: doc._id,
-                  type: doc._type,
-                  body: doc?.sourceData?.description,
-                  _tags: doc?.sourceData?.tags,
-                  options: unique(
-                    doc?.sourceData?.options
-                      ?.filter(
-                        (option) => option?.name.toLowerCase() !== 'size',
-                      )
-                      .map((option) => option.values)
-                      .flat(),
-                  ),
-                  title: doc.title,
-                  handle: doc.handle,
-                }
-
-              case 'shopifyCollection':
-                return {
-                  objectID: doc._id,
-                  type: doc._type,
-                  body: doc?.sourceData?.description,
-                  _tags: doc?.sourceData?.tags,
-                  title: doc.title,
-                  handle: doc.handle,
-                }
-
-              default:
-                return null
+          // @ts-ignore
+          filter((doc: SanityShopifyDocument) => {
+            if (
+              doc._type === 'shopifyProduct' ||
+              doc._type === 'shopifyCollection'
+            ) {
+              if (!doc?.shopifyId || doc?.archived || doc?.hidden) return false
+              return true
             }
+            return false
           }),
+          map(parseSanityDocument),
 
           catchError((error) => of(`Error: ${error}`)),
           filter((doc) => doc !== null),
