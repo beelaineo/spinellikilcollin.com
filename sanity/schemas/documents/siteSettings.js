@@ -23,6 +23,11 @@ export const siteSettings = {
       title: 'Mailing List Subtitle',
       type: 'string',
     },
+    {
+      name: 'seo',
+      type: 'seo',
+      title: 'Default SEO',
+    },
   ],
 
   preview: {
