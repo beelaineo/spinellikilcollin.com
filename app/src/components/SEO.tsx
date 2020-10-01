@@ -75,7 +75,7 @@ const omitNull = (obj: Record<string, any>) =>
   }, {})
 
 const mergeSeo = (
-  values: Array<Partial<Seo> | null | undefined>,
+  values: Array<Partial<Seo> | DefaultSeo | null | undefined>,
 ): Partial<Seo> => {
   return definitely(values).reduce<Partial<Seo>>(
     (acc, v) => ({
@@ -103,7 +103,6 @@ export const SEO = ({
     seo,
   ])
 
-  console.log({ siteSettings, description })
   const canonical = [BASE_URL, path].join('/')
   const imageUrl = getImageUrl(image)
   return (

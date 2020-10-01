@@ -4,7 +4,7 @@ import { useAnalytics } from '../../../providers'
 import { Button } from '../../../components/Button'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
-import { useCart } from '../../../providers/CartProvider'
+import { useCart, useModal } from '../../../providers'
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
   product: ShopifyProduct
@@ -21,14 +21,24 @@ export const BuyButton = ({
   const { sendAddToCart } = useAnalytics()
   const { openCart } = useCart()
   const { loading } = useCheckout()
+  const { inquiryOnly } = product
+  const { openCustomizationModal } = useModal()
+  const buttonLabel = inquiryOnly ? 'Inquire' : 'Add to cart'
   const handleClick = async () => {
     if (!currentVariant || !currentVariant.shopifyVariantID) return
-    sendAddToCart({ product, variant: currentVariant, quantity })
-    await addLineItem({
-      variantId: currentVariant.shopifyVariantID,
-      quantity: quantity || 1,
-    })
-    openCart('Product Added to Cart!')
+    if (inquiryOnly) {
+      openCustomizationModal({
+        currentProduct: product,
+        currentVariant,
+      })
+    } else {
+      sendAddToCart({ product, variant: currentVariant, quantity })
+      await addLineItem({
+        variantId: currentVariant.shopifyVariantID,
+        quantity: quantity || 1,
+      })
+      openCart('Product Added to Cart!')
+    }
   }
   if (currentVariant && !currentVariant?.sourceData?.availableForSale) {
     return <Placeholder>Out of stock</Placeholder>
@@ -38,7 +48,7 @@ export const BuyButton = ({
       disabled={loading || Boolean(!currentVariant)}
       onClick={handleClick}
     >
-      Add to cart
+      {buttonLabel}
     </Button>
   )
 }

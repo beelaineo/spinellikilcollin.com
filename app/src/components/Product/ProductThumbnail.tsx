@@ -72,12 +72,10 @@ export const ProductThumbnail = ({
     : variants[0]
 
   const [currentVariant, setCurrentVariant] = useState(initialVariant)
-
   const handleClick = () => {
     sendProductClick({ product, variant: currentVariant })
   }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
-
   useEffect(() => {
     if (!isInViewOnce) return
     sendProductImpression({ product, variant: currentVariant })
@@ -130,10 +128,13 @@ export const ProductThumbnail = ({
   const params = new URLSearchParams(existingParams)
 
   params.delete('search')
+  params.delete('v')
   if (currentVariant && currentVariant.id) {
     params.set('v', currentVariant.id)
   }
-  const linkAs = `/products/${product.handle}?`.concat(params.toString())
+  const linkAs = `/products/${product.handle}?`
+    .concat(params.toString())
+    .replace(/\?$/, '')
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>

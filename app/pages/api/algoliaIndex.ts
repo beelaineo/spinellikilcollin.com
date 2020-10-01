@@ -157,7 +157,6 @@ const handler: NextApiHandler = (req, res) =>
         )
         .subscribe(
           (batchResults) => {
-            console.log()
             const totalLength = batchResults.flat().length
 
             // .reduce(

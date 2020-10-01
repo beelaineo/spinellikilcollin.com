@@ -77,7 +77,7 @@ export const ProductDetail = ({ product }: Props) => {
   if (!currentVariant) return null
 
   const { addLineItem } = useCheckout()
-  const { seo, handle, variants: maybeVariants } = product
+  const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)
 
@@ -195,9 +195,11 @@ export const ProductDetail = ({ product }: Props) => {
                     addLineItem={addLineItem}
                     currentVariant={currentVariant}
                   />
-                  <AffirmWrapper>
-                    <Affirm price={currentVariant?.sourceData?.priceV2} />
-                  </AffirmWrapper>
+                  {inquiryOnly !== true ? (
+                    <AffirmWrapper>
+                      <Affirm price={currentVariant?.sourceData?.priceV2} />
+                    </AffirmWrapper>
+                  ) : null}
 
                   <ProductAccordionsWrapper>
                     {description || optionDescriptions.length ? (

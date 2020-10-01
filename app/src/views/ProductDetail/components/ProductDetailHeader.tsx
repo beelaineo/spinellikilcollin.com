@@ -16,6 +16,7 @@ export const ProductDetailHeader = ({
   currentVariant,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(product, currentVariant)
+  const { inquiryOnly } = product
   const { compareAtPriceV2, priceV2 } = currentVariant?.sourceData ?? {}
   return (
     <>
@@ -23,12 +24,14 @@ export const ProductDetailHeader = ({
         <Heading level={3} weight={2} mb={{ xs: 1, md: 2 }}>
           {variantTitle || product.title}
         </Heading>
-        <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
-          <Price price={priceV2} />
-          <Span ml={2} color="body.6" textDecoration="line-through">
-            <Price price={compareAtPriceV2} />
-          </Span>
-        </Heading>
+        {inquiryOnly !== true ? (
+          <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
+            <Price price={priceV2} />
+            <Span ml={2} color="body.6" textDecoration="line-through">
+              <Price price={compareAtPriceV2} />
+            </Span>
+          </Heading>
+        ) : null}
       </TitleWrapper>
     </>
   )
