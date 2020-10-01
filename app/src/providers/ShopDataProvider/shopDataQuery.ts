@@ -13,6 +13,7 @@ import {
   ctaFragment,
   filterSetFragment,
   priceRangeFilterFragment,
+  seoFragment,
 } from '../../graphql/fragments'
 import { request } from '../../graphql'
 
@@ -111,10 +112,14 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           ...InternalLinkFragment
         }
       }
+      seo {
+        ...SEOFragment
+      }
       mailerTitle
       mailerSubtitle
     }
   }
+  ${seoFragment}
   ${productInfoFragment}
   ${internalLinkFragment}
   ${externalLinkFragment}

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Head from 'next/head'
+import { useShopData } from '../providers'
 import {
   ShopifySourceImage,
   ShopifyProduct,
@@ -8,6 +9,7 @@ import {
   Maybe,
   Seo,
 } from '../types'
+import { definitely } from '../utils'
 
 type ImageType = Image | RichImage | ShopifySourceImage
 
@@ -63,6 +65,27 @@ const getImageUrl = (image?: ImageType | null): string | undefined => {
   return undefined
 }
 
+const omitNull = (obj: Record<string, any>) =>
+  Object.entries(obj).reduce((acc, [key, value]) => {
+    if (!value) return acc
+    return {
+      ...acc,
+      [key]: value,
+    }
+  }, {})
+
+const mergeSeo = (
+  values: Array<Partial<Seo> | null | undefined>,
+): Partial<Seo> => {
+  return definitely(values).reduce<Partial<Seo>>(
+    (acc, v) => ({
+      ...acc,
+      ...omitNull(v),
+    }),
+    {},
+  )
+}
+
 export const SEO = ({
   path,
   seo,
@@ -71,10 +94,16 @@ export const SEO = ({
   product,
 }: SEOProps) => {
   if (!defaultSeo.title) throw new Error('No default title was supplied')
-  const { keywords, metaTitle, description, title, image } = {
-    ...defaultSeo,
-    ...seo,
-  }
+  const { siteSettings } = useShopData()
+  if (!siteSettings) throw new Error('Site settings were not provided')
+  const { seo: globalSeo } = siteSettings
+  const { keywords, metaTitle, description, title, image } = mergeSeo([
+    defaultSeo,
+    globalSeo,
+    seo,
+  ])
+
+  console.log({ siteSettings, description })
   const canonical = [BASE_URL, path].join('/')
   const imageUrl = getImageUrl(image)
   return (

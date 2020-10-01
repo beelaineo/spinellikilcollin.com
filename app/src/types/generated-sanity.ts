@@ -2656,6 +2656,7 @@ export interface SiteSettings extends Document {
   links?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
   mailerTitle?: Maybe<Scalars['String']>
   mailerSubtitle?: Maybe<Scalars['String']>
+  seo?: Maybe<Seo>
 }
 
 export type SiteSettingsFilter = {
@@ -2669,6 +2670,7 @@ export type SiteSettingsFilter = {
   _key?: Maybe<StringFilter>
   mailerTitle?: Maybe<StringFilter>
   mailerSubtitle?: Maybe<StringFilter>
+  seo?: Maybe<SeoFilter>
 }
 
 export type SiteSettingsSorting = {
@@ -2680,6 +2682,7 @@ export type SiteSettingsSorting = {
   _key?: Maybe<SortOrder>
   mailerTitle?: Maybe<SortOrder>
   mailerSubtitle?: Maybe<SortOrder>
+  seo?: Maybe<SeoSorting>
 }
 
 export interface Slug {
