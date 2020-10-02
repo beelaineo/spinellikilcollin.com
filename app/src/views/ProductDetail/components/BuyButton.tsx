@@ -1,6 +1,9 @@
 import * as React from 'react'
-import { useCheckout, UseCheckoutValues } from 'use-shopify'
 import { useAnalytics } from '../../../providers'
+import {
+  useShopify,
+  UseCheckoutValues,
+} from '../../../providers/ShopifyProvider'
 import { Button } from '../../../components/Button'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
@@ -20,7 +23,7 @@ export const BuyButton = ({
 }: Props) => {
   const { sendAddToCart } = useAnalytics()
   const { openCart } = useCart()
-  const { loading } = useCheckout()
+  const { loading } = useShopify()
   const { inquiryOnly } = product
   const { openCustomizationModal } = useModal()
   const buttonLabel = inquiryOnly ? 'Inquire' : 'Add to cart'

@@ -2,7 +2,7 @@ import * as React from 'react'
 import Link from 'next/link'
 import { NextRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { useCheckout } from 'use-shopify'
+import { useShopify } from '../../providers/ShopifyProvider'
 import { useNavigation } from '../../providers/NavigationProvider'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
@@ -34,7 +34,7 @@ export const Navigation = () => {
     router,
   } = useNavigation()
   /* Parsing */
-  const { loading, checkout } = useCheckout()
+  const { loading, checkout } = useShopify()
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
   const cartCount = loading ? 0 : lineItems.length || 0
 

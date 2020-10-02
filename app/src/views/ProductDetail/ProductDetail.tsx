@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { useProductVariant, useCheckout } from 'use-shopify'
+import { useProductVariant } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
 import {
   getVariantTitle,
@@ -10,7 +10,11 @@ import {
   getSelectedOptionValues,
   getAdditionalDescriptions,
 } from '../../utils'
-import { useAnalytics, CurrentProductProvider } from '../../providers'
+import {
+  useShopify,
+  useAnalytics,
+  CurrentProductProvider,
+} from '../../providers'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
@@ -76,7 +80,7 @@ export const ProductDetail = ({ product }: Props) => {
 
   if (!currentVariant) return null
 
-  const { addLineItem } = useCheckout()
+  const { addLineItem } = useShopify()
   const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)

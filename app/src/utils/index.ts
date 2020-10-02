@@ -1,4 +1,5 @@
 export * from './storage'
+export * from './events'
 export * from './math'
 export * from './data'
 export * from './hooks'
