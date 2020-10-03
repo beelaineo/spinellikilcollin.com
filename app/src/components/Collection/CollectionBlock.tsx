@@ -111,7 +111,7 @@ export const CollectionBlock = ({
       {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
       <Image
         image={backgroundImage}
-        sizes="(min-width: 600px) 100vw, (min-width: 780px) 50vw, 30vw"
+        sizes="(max-width: 600px) 120vw, (max-width: 780px) 50vw, 30vw"
       />
     </Wrapper>
   )
