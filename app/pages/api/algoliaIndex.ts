@@ -1,6 +1,6 @@
 /* @ts-nocheck */
 import { NextApiHandler } from 'next'
-import algoliaSearch from 'algoliasearch'
+import getConfig from 'next/config'
 import dotenv from 'dotenv'
 import Debug from 'debug'
 import ndjson from 'ndjson'
@@ -16,6 +16,7 @@ import {
   toArray,
   tap,
 } from 'rxjs/operators'
+import { algoliaClient, algoliaIndex } from '../../src/services/algolia'
 import { GroqShopifyProduct, GroqShopifyCollection } from '../../src/types'
 import { Sentry } from '../../src/services/sentry'
 import { definitely } from '../../src/utils'
@@ -23,16 +24,9 @@ import { definitely } from '../../src/utils'
 const debug = Debug('api:algolia')
 
 debug('ding a link')
-dotenv.config()
 
-const API_KEY = process.env.ALGOLIA_API_KEY
-const APP_ID = process.env.ALGOLIA_APP_ID
-const INDEX_NAME = 'Storefront Search'
-const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID
-const SANITY_DATASET = process.env.SANITY_DATASET
-
-if (!API_KEY) throw new Error('You must provide an algolia API Key')
-if (!APP_ID) throw new Error('You must provide an algolia app ID')
+const { serverRuntimeConfig } = getConfig()
+const { SANITY_PROJECT_ID, SANITY_DATASET } = serverRuntimeConfig
 
 const sanityExportURL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v1/data/export/${SANITY_DATASET}`
 
@@ -60,7 +54,7 @@ const unique = <T>(array: T[]): T[] => {
 
 type SanityShopifyDocument = GroqShopifyProduct | GroqShopifyCollection
 
-const parseDocument = (client) => (doc: SanityShopifyDocument) => {
+const parseDocument = (algoliaClient) => (doc: SanityShopifyDocument) => {
   switch (doc._type) {
     // case 'page':
     //   return {
@@ -104,12 +98,9 @@ const parseDocument = (client) => (doc: SanityShopifyDocument) => {
 const handler: NextApiHandler = (req, res) =>
   new Promise((resolve, reject) => {
     try {
-      const client = algoliaSearch(APP_ID, API_KEY)
-
-      const index = client.initIndex(INDEX_NAME)
       const partialUpdateObjects = bindCallback((objects, done) => {
         try {
-          index.saveObjects(objects).then(() => {
+          algoliaIndex.saveObjects(objects).then(() => {
             done(objects)
           })
         } catch (err) {
@@ -120,7 +111,7 @@ const handler: NextApiHandler = (req, res) =>
       const cb = (error: Error) => {
         Sentry.captureException(error)
       }
-      const parseSanityDocument = parseDocument(client)
+      const parseSanityDocument = parseDocument(algoliaClient)
 
       streamToRx(request(sanityExportURL).pipe(ndjson.parse()))
         .pipe(

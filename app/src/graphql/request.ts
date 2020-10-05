@@ -3,7 +3,9 @@ import { DocumentNode } from 'graphql'
 import { print } from 'graphql/language/printer'
 import { request as gqlRequest } from 'graphql-request'
 import { useError } from '../providers'
-import { SANITY_GRAPHQL_URL } from '../config'
+import { config } from '../config'
+
+const { SANITY_GRAPHQL_URL } = config
 
 type Variables = { [key: string]: any }
 

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { SearchState, SearchActions, useSearchReducer } from './reducer'
 import { useNavigation } from '../NavigationProvider'
+import { algoliaIndex } from '../../services/algolia'
 
 const { useEffect } = React
 
@@ -32,6 +33,15 @@ interface SearchProps {
 export const SearchProvider = ({ children }: SearchProps) => {
   const { state, actions } = useSearchReducer()
   const { closeMenu } = useNavigation()
+
+  const algoliaSearch = async (searchTerm: string) => {
+    const hits = await algoliaIndex.search(searchTerm)
+    console.log({ hits })
+  }
+  useEffect(() => {
+    if (!state.searchTerm) return
+    algoliaSearch(state.searchTerm)
+  }, [state.searchTerm])
 
   useEffect(() => {
     if (state.open) {
