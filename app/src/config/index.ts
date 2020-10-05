@@ -14,7 +14,7 @@ const {
 } = publicRuntimeConfig
 
 const ALGOLIA_API_KEY =
-  typeof window === undefined ? ALGOLIA_ADMIN_KEY : ALGOLIA_SEARCH_KEY
+  typeof window === 'undefined' ? ALGOLIA_ADMIN_KEY : ALGOLIA_SEARCH_KEY
 
 if (typeof window !== 'undefined' && ALGOLIA_ADMIN_KEY) {
   throw new Error('You must not provide the browser with the algolia admin key')

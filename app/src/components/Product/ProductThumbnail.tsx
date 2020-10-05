@@ -144,7 +144,7 @@ export const ProductThumbnail = ({
             <Image
               image={productImage}
               ratio={imageRatio || 1}
-              sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
+              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
               preload
               altText={altText}
               preloadImages={allImages}

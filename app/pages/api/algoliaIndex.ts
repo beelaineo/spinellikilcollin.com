@@ -1,7 +1,6 @@
 /* @ts-nocheck */
 import { NextApiHandler } from 'next'
-import getConfig from 'next/config'
-import dotenv from 'dotenv'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import Debug from 'debug'
 import ndjson from 'ndjson'
 import request from 'request'
@@ -16,17 +15,19 @@ import {
   toArray,
   tap,
 } from 'rxjs/operators'
-import { algoliaClient, algoliaIndex } from '../../src/services/algolia'
-import { GroqShopifyProduct, GroqShopifyCollection } from '../../src/types'
+import { algoliaIndex } from '../../src/services/algolia'
+import {
+  GroqShopifyProduct,
+  GroqShopifyCollection,
+  ShopifySourceProductVariant,
+} from '../../src/types'
 import { Sentry } from '../../src/services/sentry'
-import { definitely } from '../../src/utils'
+import { definitely, getVariantBySelectedOption } from '../../src/utils'
+import { config } from '../../src/config'
 
 const debug = Debug('api:algolia')
 
-debug('ding a link')
-
-const { serverRuntimeConfig } = getConfig()
-const { SANITY_PROJECT_ID, SANITY_DATASET } = serverRuntimeConfig
+const { SANITY_PROJECT_ID, SANITY_DATASET } = config
 
 const sanityExportURL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v1/data/export/${SANITY_DATASET}`
 
@@ -34,6 +35,7 @@ const defaults = { nonTextBehavior: 'remove' }
 
 function blocksToText(blocks, opts = {}) {
   const options = Object.assign({}, defaults, opts)
+  if (!blocks) return undefined
   return blocks
     .map((block) => {
       if (block._type !== 'block' || !block.children) {
@@ -48,50 +50,130 @@ function blocksToText(blocks, opts = {}) {
 }
 
 const unique = <T>(array: T[]): T[] => {
+  if (!array) return []
   const set = new Set(array)
   return [...set]
 }
 
+const pick = <T>(obj: T | undefined, keys: string[]): Partial<T> =>
+  obj
+    ? keys.reduce<Partial<T>>((acc, key) => ({ ...acc, [key]: obj[key] }), {})
+    : {}
+
 type SanityShopifyDocument = GroqShopifyProduct | GroqShopifyCollection
 
-const parseDocument = (algoliaClient) => (doc: SanityShopifyDocument) => {
-  switch (doc._type) {
-    // case 'page':
-    //   return {
-    //     objectID: doc._id,
-    //     type: doc._type,
-    //     body: blocksToText(doc.body || []),
-    //     title: doc.title,
-    //     slug: doc.slug.current,
-    //   }
+const parseDocument = (doc: SanityShopifyDocument) => {
+  try {
+    switch (doc._type) {
+      // case 'page':
+      //   return {
+      //     objectID: doc._id,
+      //     type: doc._type,
+      //     body: blocksToText(doc.body || []),
+      //     title: doc.title,
+      //     slug: doc.slug.current,
+      //   }
 
-    case 'shopifyProduct':
-      return {
-        objectID: doc._id,
-        type: doc._type,
-        body: doc?.sourceData?.description,
-        _tags: doc?.sourceData?.tags,
-        options: unique(
-          definitely(doc?.sourceData?.options)
-            ?.filter((option) => option?.name?.toLowerCase() !== 'size')
-            .map((option) => option.values)
-            .flat(),
-        ),
-        title: doc.title,
-        handle: doc.handle,
-      }
+      case 'shopifyProduct':
+        const [allVariants] = unwindEdges(doc?.sourceData?.variants)
+        return {
+          objectID: doc._id,
+          type: doc._type,
+          description: doc?.sourceData?.description,
+          optionDescriptions: doc?.options?.reduce<string[]>(
+            (descriptions, option) => {
+              const valueDescriptions = definitely(option?.values)
+                .map((v) =>
+                  // @ts-ignore
+                  blocksToText(v.description),
+                )
+                .filter((d) => d && d.length > 0)
+              return [...descriptions, ...valueDescriptions]
+            },
 
-    case 'shopifyCollection':
-      return {
-        objectID: doc._id,
-        type: doc._type,
-        body: doc?.sourceData?.description,
-        title: doc.title,
-        handle: doc.handle,
-      }
+            [],
+          ),
+          _tags: doc?.sourceData?.tags,
+          options: unique(
+            definitely(doc?.sourceData?.options)
+              ?.filter((option) => option?.name?.toLowerCase() !== 'size')
+              .map((option) => option.values)
+              .flat()
+              .filter((option) => option && option !== 'Default Title'),
+          ),
+          title: doc.title,
+          handle: doc.handle,
+          document: {
+            ...pick(doc, [
+              '__typename',
+              '_id',
+              '_type',
+              'title',
+              'handle',
+              'shopifyId',
+              'minVariantPrice',
+              'maxVariantPrice',
+            ]),
+            sourceData: {
+              ...pick(doc?.sourceData, [
+                '__typename',
+                '_key',
+                '_type',
+                '_title',
+                'options',
+                'availableForSale',
+                'priceRange',
+                'productType',
+                'tags',
+                'handle',
+                'id',
+              ]),
 
-    default:
-      return null
+              variants: definitely(doc?.sourceData?.options)
+                .filter((option) => option.name && /Color/.test(option.name))
+                .reduce<ShopifySourceProductVariant[]>((variants, option) => {
+                  if (!option || !option.name) return variants
+                  const variantsByOption = definitely(
+                    definitely(option?.values).map((value) =>
+                      option.name && value
+                        ? getVariantBySelectedOption(allVariants, {
+                            name: option.name,
+                            currentValue: value,
+                          })
+                        : null,
+                    ),
+                  ).map((variant) => {
+                    if (!variant) return null
+                    return {
+                      ...pick(variant, ['id', 'title', 'selectedOptions']),
+                      image: pick(variant.image, [
+                        'id',
+                        '__typename',
+                        'originalSrc',
+                        'w800',
+                      ]),
+                    }
+                  })
+                  return definitely([...variants, ...variantsByOption])
+                }, []),
+            },
+          },
+        }
+
+      // case 'shopifyCollection':
+      //   return {
+      //     objectID: doc._id,
+      //     type: doc._type,
+      //     description: doc?.sourceData?.description,
+      //     title: doc.title,
+      //     handle: doc.handle,
+      //     // document: doc,
+      //   }
+      default:
+        return null
+    }
+  } catch (e) {
+    Sentry.captureException(e)
   }
 }
 
@@ -99,19 +181,32 @@ const handler: NextApiHandler = (req, res) =>
   new Promise((resolve, reject) => {
     try {
       const partialUpdateObjects = bindCallback((objects, done) => {
-        try {
-          algoliaIndex.saveObjects(objects).then(() => {
+        algoliaIndex
+          .saveObjects(objects)
+          .then(() => {
             done(objects)
           })
-        } catch (err) {
-          console.log('??ERR', err)
-        }
+          .catch((err) => {
+            console.log(
+              JSON.parse(err?.transporterStackTrace[0].request.data, null, 2)
+                .requests[9].body.document.sourceData.variants,
+            )
+            Sentry.captureException(err)
+          })
       })
 
-      const cb = (error: Error) => {
+      algoliaIndex.setSettings({
+        searchableAttributes: [
+          'title',
+          'options',
+          '_tags',
+          'description,optionDescriptions',
+        ],
+      })
+
+      const errorCb = (error: Error) => {
         Sentry.captureException(error)
       }
-      const parseSanityDocument = parseDocument(algoliaClient)
 
       streamToRx(request(sanityExportURL).pipe(ndjson.parse()))
         .pipe(
@@ -121,16 +216,15 @@ const handler: NextApiHandler = (req, res) =>
            */
           // @ts-ignore
           filter((doc: SanityShopifyDocument) => {
-            if (
-              doc._type === 'shopifyProduct' ||
-              doc._type === 'shopifyCollection'
-            ) {
+            // @ts-ignore
+            if (doc.error) throw new Error(doc.error)
+            if (doc._type === 'shopifyProduct') {
               if (!doc?.shopifyId || doc?.archived || doc?.hidden) return false
               return true
             }
             return false
           }),
-          map(parseSanityDocument),
+          map(parseDocument),
 
           catchError((error) => of(`Error: ${error}`)),
           filter((doc) => doc !== null),
@@ -167,10 +261,10 @@ const handler: NextApiHandler = (req, res) =>
             resolve()
           },
 
-          cb,
+          errorCb,
         )
     } catch (err) {
-      console.log(err)
+      Sentry.captureException(err)
     }
   })
 
