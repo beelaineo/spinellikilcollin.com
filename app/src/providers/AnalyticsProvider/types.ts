@@ -1,4 +1,8 @@
-import { Variant, Product, CheckoutLineItem } from 'use-shopify'
+import {
+  ShopifyStorefrontProductVariant as Variant,
+  ShopifyStorefrontProduct as Product,
+  ShopifyStorefrontCheckoutLineItem as CheckoutLineItem,
+} from '../../types/generated-shopify'
 import {
   ShopifyProduct,
   ShopifyProductVariant,

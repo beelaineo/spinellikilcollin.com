@@ -4687,20 +4687,6 @@
     "@babel/runtime" "^7.11.2"
     "@testing-library/dom" "^7.24.2"
 
-"@thi.ng/api@^6.12.0":
-  version "6.12.0"
-  resolved "https://registry.yarnpkg.com/@thi.ng/api/-/api-6.12.0.tgz#e9a4e050af1c7d263899f3c8d592cb7d5c78325e"
-  integrity sha512-WY+YfTcuxDvUGqDWqBkS3bfGftaa0h5GKLsTvWToQFsc4lz0uIkZejtCXx2H6hbYeFGfXNzlNP/haFCHWwDtCw==
-  dependencies:
-    tslib "^2.0.0"
-
-"@thi.ng/memoize@^2.0.14":
-  version "2.0.17"
-  resolved "https://registry.yarnpkg.com/@thi.ng/memoize/-/memoize-2.0.17.tgz#a790e044326bccffbff1b2780c7765553b37dffa"
-  integrity sha512-71xFxfHz+Vilytg7zpo3TrmOP+mJo2Q7tYqfRGQvDYZ58V8mwnYkH5hHtw1CjtGda7XlvXenfZp8aY+yu1Ki3g==
-  dependencies:
-    "@thi.ng/api" "^6.12.0"
-
 "@tootallnate/once@1":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
@@ -11344,7 +11330,7 @@ graphql-subscriptions@^1.1.0:
   dependencies:
     iterall "^1.2.1"
 
-graphql-tag@^2.10.3, graphql-tag@^2.11.0, graphql-tag@^2.9.2:
+graphql-tag@^2.11.0, graphql-tag@^2.9.2:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.11.0.tgz#1deb53a01c46a7eb401d6cb59dec86fa1cccbffd"
   integrity sha512-VmsD5pJqWJnQZMUeRwrDhfgoyqcfwEkvtpANqcoUG8/tOLkwNgU9mzub/Mc78OJMhHjx7gfAMTxzdG43VGg3bA==
@@ -20989,16 +20975,6 @@ use-onclickoutside@^0.3.1:
   dependencies:
     are-passive-events-supported "^1.1.0"
     use-latest "^1.0.0"
-
-use-shopify@^0.8.3:
-  version "0.8.3"
-  resolved "https://registry.yarnpkg.com/use-shopify/-/use-shopify-0.8.3.tgz#eb9920e7a2e4fcb7d5f516ed2900bee094260035"
-  integrity sha512-FS/Lm+DTUAtHps6t4+/X4aeRGS3e9VxagNGISxkPYRfP6X7i42PwstkpN18TOB+rMBMmpCyXn6UU2JSKQoZf7A==
-  dependencies:
-    "@good-idea/unwind-edges" "^1.4.0"
-    "@thi.ng/memoize" "^2.0.14"
-    graphql-tag "^2.10.3"
-    js-cookie "^2.2.1"
 
 use-subscription@1.4.1:
   version "1.4.1"

@@ -204,10 +204,10 @@ const handler: NextApiHandler = (req, res) =>
             done(objects)
           })
           .catch((err) => {
-            console.log(
-              JSON.parse(err?.transporterStackTrace[0].request.data).requests[9]
-                .body.document.sourceData.variants,
-            )
+            // console.log(
+            //   JSON.parse(err?.transporterStackTrace[0].request.data).requests[9]
+            //     .body.document.sourceData.variants,
+            // )
             Sentry.captureException(err)
           })
       })

@@ -67,7 +67,6 @@ export const ProductThumbnail = ({
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
-  console.log({ product, variants })
 
   const initialVariant = preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))

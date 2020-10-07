@@ -8,7 +8,7 @@
 	"scripts": {
 		"start": "DEBUG=app* next",
 		"start:debug": "NODE_OPTIONS='--inspect' DEBUG=app* next dev",
-    "start:algolia": "DEBUG=api:algolia,dev:sentry yarn next",
+		"start:algolia": "DEBUG=api:algolia,dev:sentry yarn next",
 		"build": "yarn build:json && yarn build:next",
 		"build:next": "next build",
 		"build:analyze": "ANALYZE=true next build",
@@ -101,7 +101,6 @@
 		"source-map-support": "^0.5.19",
 		"styled-components": "^5.2.0",
 		"swr": "^0.3.5",
-		"use-shopify": "^0.8.3",
 		"utf-8-validate": "^5.0.2",
 		"zlib": "^1.0.5",
 		"zod": "^1.11.9"
