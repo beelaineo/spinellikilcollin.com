@@ -122,11 +122,12 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
     cloudinaryVideoMobile,
     mobileImage,
   } = hero
+  console.log({ cloudinaryVideo })
 
   return (
     <HeroWrapper>
       <DocumentLink document={heroLink?.document ?? undefined}>
-        {cloudinaryVideo ? (
+        {cloudinaryVideo?.videoId ? (
           <HeroImageWrapper>
             <CloudinaryVideo video={cloudinaryVideo} />
             {cloudinaryVideoMobile ? (
