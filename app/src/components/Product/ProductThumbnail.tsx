@@ -67,17 +67,23 @@ export const ProductThumbnail = ({
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
+  console.log({ product, variants })
+
   const initialVariant = preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
     : variants[0]
 
-  const [currentVariant, setCurrentVariant] = useState(initialVariant)
+  const [currentVariant, setCurrentVariant] = useState<
+    ShopifySourceProductVariant | undefined
+  >(initialVariant)
   const handleClick = () => {
+    // @ts-ignore
     sendProductClick({ product, variant: currentVariant })
   }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
   useEffect(() => {
     if (!isInViewOnce) return
+    // @ts-ignore
     sendProductImpression({ product, variant: currentVariant })
   }, [isInViewOnce, currentVariant])
 
@@ -112,6 +118,7 @@ export const ProductThumbnail = ({
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
   ): boolean => {
+    if (!currentVariant) return false
     const matches = optionMatchesVariant(
       option.name || 'foo',
       value,

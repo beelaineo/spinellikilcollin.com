@@ -1,6 +1,6 @@
 /* @ts-nocheck */
 import { NextApiHandler } from 'next'
-import { unwindEdges } from '@good-idea/unwind-edges'
+import { paginate, unwindEdges } from '@good-idea/unwind-edges'
 import Debug from 'debug'
 import ndjson from 'ndjson'
 import request from 'request'
@@ -76,6 +76,36 @@ const parseDocument = (doc: SanityShopifyDocument) => {
 
       case 'shopifyProduct':
         const [allVariants] = unwindEdges(doc?.sourceData?.variants)
+        const [images] = unwindEdges(doc?.sourceData?.images)
+        const thumbnailVariants = definitely(doc?.sourceData?.options)
+          .filter((option) => option.name && /Color/.test(option.name))
+          .reduce<ShopifySourceProductVariant[]>((variants, option) => {
+            // if (!option || !option.name) return variants
+            const variantsByOption = definitely(option?.values).reduce<
+              ShopifySourceProductVariant[]
+            >((acc, optionValue) => {
+              if (option.name && optionValue) {
+                const v = getVariantBySelectedOption(allVariants, {
+                  name: option.name,
+                  currentValue: optionValue,
+                })
+                if (!v) return acc
+                const picked = {
+                  ...pick(v, ['id', 'title', 'selectedOptions']),
+                  image: pick(v.image, [
+                    'id',
+                    '__typename',
+                    'originalSrc',
+                    'w800',
+                  ]),
+                } as ShopifySourceProductVariant
+                return [...acc, picked]
+              }
+              return acc
+            }, [])
+            return definitely([...variants, ...variantsByOption])
+          }, [])
+
         return {
           objectID: doc._id,
           type: doc._type,
@@ -94,7 +124,8 @@ const parseDocument = (doc: SanityShopifyDocument) => {
             [],
           ),
           _tags: doc?.sourceData?.tags,
-          options: unique(
+          options: definitely(doc?.sourceData?.options),
+          optionNames: unique(
             definitely(doc?.sourceData?.options)
               ?.filter((option) => option?.name?.toLowerCase() !== 'size')
               .map((option) => option.values)
@@ -114,12 +145,21 @@ const parseDocument = (doc: SanityShopifyDocument) => {
               'minVariantPrice',
               'maxVariantPrice',
             ]),
+            __typename: 'ShopifyProduct',
+            options: definitely(doc?.options).map((option) => ({
+              ...pick(option, ['_key', '_type', 'shopifyOptionId', 'name']),
+              __typename: 'ShopifyProductOption',
+              values: definitely(option?.values).map((value) => ({
+                __typename: 'ShopifyProductOptionValue',
+                ...pick(value, ['_key', 'value', 'swatch']),
+              })),
+            })),
             sourceData: {
               ...pick(doc?.sourceData, [
                 '__typename',
                 '_key',
                 '_type',
-                '_title',
+                'title',
                 'options',
                 'availableForSale',
                 'priceRange',
@@ -128,34 +168,11 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                 'handle',
                 'id',
               ]),
-
-              variants: definitely(doc?.sourceData?.options)
-                .filter((option) => option.name && /Color/.test(option.name))
-                .reduce<ShopifySourceProductVariant[]>((variants, option) => {
-                  if (!option || !option.name) return variants
-                  const variantsByOption = definitely(
-                    definitely(option?.values).map((value) =>
-                      option.name && value
-                        ? getVariantBySelectedOption(allVariants, {
-                            name: option.name,
-                            currentValue: value,
-                          })
-                        : null,
-                    ),
-                  ).map((variant) => {
-                    if (!variant) return null
-                    return {
-                      ...pick(variant, ['id', 'title', 'selectedOptions']),
-                      image: pick(variant.image, [
-                        'id',
-                        '__typename',
-                        'originalSrc',
-                        'w800',
-                      ]),
-                    }
-                  })
-                  return definitely([...variants, ...variantsByOption])
-                }, []),
+              __typename: 'ShopifySourceProduct',
+              images: paginate([
+                pick(images[0], ['id', '__typename', 'originalSrc', 'w800']),
+              ]),
+              variants: paginate(thumbnailVariants),
             },
           },
         }
@@ -188,8 +205,8 @@ const handler: NextApiHandler = (req, res) =>
           })
           .catch((err) => {
             console.log(
-              JSON.parse(err?.transporterStackTrace[0].request.data, null, 2)
-                .requests[9].body.document.sourceData.variants,
+              JSON.parse(err?.transporterStackTrace[0].request.data).requests[9]
+                .body.document.sourceData.variants,
             )
             Sentry.captureException(err)
           })
@@ -198,7 +215,7 @@ const handler: NextApiHandler = (req, res) =>
       algoliaIndex.setSettings({
         searchableAttributes: [
           'title',
-          'options',
+          'optionNames',
           '_tags',
           'description,optionDescriptions',
         ],
