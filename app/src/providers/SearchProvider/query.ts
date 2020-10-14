@@ -6,6 +6,8 @@ export const searchQuery = `
   &&
     defined(shopifyId)
   && 
+    hidden != true
+  &&
   (
     [title, sourceData.description, sourceData.productType] match $searchTerm
     ||

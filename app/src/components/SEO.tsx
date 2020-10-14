@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Head from 'next/head'
+import { useShopData } from '../providers'
 import {
   ShopifySourceImage,
   ShopifyProduct,
@@ -8,6 +9,7 @@ import {
   Maybe,
   Seo,
 } from '../types'
+import { definitely } from '../utils'
 
 type ImageType = Image | RichImage | ShopifySourceImage
 
@@ -39,9 +41,11 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
         .replace(/^\$/, '')
     : undefined
 
+  const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
+
   return (
     <>
-      <meta property="og:availability" content="instock" />
+      <meta property="og:availability" content={availability} />
       <meta property="product:price:amount" content={formattedPrice} />
       <meta property="product:price:currency" content="USD" />
       <meta property="og:price:amount" content={formattedPrice} />
@@ -61,6 +65,27 @@ const getImageUrl = (image?: ImageType | null): string | undefined => {
   return undefined
 }
 
+const omitNull = (obj: Record<string, any>) =>
+  Object.entries(obj).reduce((acc, [key, value]) => {
+    if (!value) return acc
+    return {
+      ...acc,
+      [key]: value,
+    }
+  }, {})
+
+const mergeSeo = (
+  values: Array<Partial<Seo> | DefaultSeo | null | undefined>,
+): Partial<Seo> => {
+  return definitely(values).reduce<Partial<Seo>>(
+    (acc, v) => ({
+      ...acc,
+      ...omitNull(v),
+    }),
+    {},
+  )
+}
+
 export const SEO = ({
   path,
   seo,
@@ -69,10 +94,15 @@ export const SEO = ({
   product,
 }: SEOProps) => {
   if (!defaultSeo.title) throw new Error('No default title was supplied')
-  const { keywords, metaTitle, description, title, image } = {
-    ...defaultSeo,
-    ...seo,
-  }
+  const { siteSettings } = useShopData()
+  if (!siteSettings) throw new Error('Site settings were not provided')
+  const { seo: globalSeo } = siteSettings
+  const { keywords, metaTitle, description, title, image } = mergeSeo([
+    defaultSeo,
+    globalSeo,
+    seo,
+  ])
+
   const canonical = [BASE_URL, path].join('/')
   const imageUrl = getImageUrl(image)
   return (
@@ -88,11 +118,8 @@ export const SEO = ({
       <meta property="og:url" content={canonical} />
       <meta name="robots" content="index, follow" />
       <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content="Smilebooth" />
-      <meta
-        name="twitter:description"
-        content={metaTitle || title || undefined}
-      />
+      <meta name="twitter:title" content={metaTitle || title || undefined} />
+      <meta name="twitter:description" content={description || undefined} />
       <meta name="twitter:image" content={imageUrl || undefined} />
       <link rel="canonical" href={canonical} />
       {contentType === 'product' && product ? (

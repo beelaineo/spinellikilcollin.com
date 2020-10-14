@@ -1,6 +1,5 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import Link from 'next/link'
 import * as BlockContent from '@sanity/block-content-to-react'
 import { Heading, Span, P, BlockQuote, Li, Ul, Ol } from '../Text'
 import { ListBlock, RichTextBlock } from '../../types'

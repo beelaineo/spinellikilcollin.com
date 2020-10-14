@@ -1,10 +1,8 @@
 import * as React from 'react'
 import { Box } from '@xstyled/styled-components'
-import {
-  useCheckout,
-  CheckoutLineItem as CheckoutLineItemType,
-} from 'use-shopify'
-import { useAnalytics } from '../../providers'
+import Link from 'next/link'
+import { useShopify, useAnalytics } from '../../providers'
+import { CheckoutLineItem as CheckoutLineItemType } from '../../providers/ShopifyProvider/types'
 import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
@@ -27,7 +25,8 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   const { sendRemoveFromCart } = useAnalytics()
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
-  const { updateLineItem } = useCheckout()
+  const { updateLineItem } = useShopify()
+  const { product } = variant
 
   const handleQuantityChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -40,6 +39,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   useEffect(() => {
     setQuantityValue(lineItem.quantity)
     if (lineItem.quantity === 0) {
+      // @ts-ignore
       sendRemoveFromCart({ product: lineItem, variant, quantity })
     }
   }, [lineItem.quantity])
@@ -54,20 +54,42 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   }, [quantityValue, lineItem.quantity])
 
   const remove = async () => {
+    // @ts-ignore
     sendRemoveFromCart({ product: lineItem, variant, quantity })
     await updateLineItem({ id: lineItem.id, quantity: 0 })
   }
 
-  if (!variant) throw new Error('no variant how?')
+  useEffect(() => {
+    if (!variant) {
+      remove()
+    }
+  }, [variant])
+
+  if (!variant) return null
+  if (!product?.handle) throw new Error('Product handle was not fetched')
+
+  const params = new URLSearchParams()
+  params.set('v', variant.id)
+  const linkAs = `/products/${product.handle}?`
+    .concat(params.toString())
+    .replace(/\?$/, '')
 
   return (
     <CheckoutProductWrapper>
-      <Image image={variant.image} />
+      <Link href="/products/[productSlug]" as={linkAs}>
+        <a>
+          <Image image={variant.image} />
+        </a>
+      </Link>
       <CheckoutItemDetails>
         <div>
-          <Heading level={5} weight={2} textTransform="uppercase">
-            {title}
-          </Heading>
+          <Link href="/products/[productSlug]" as={linkAs}>
+            <a>
+              <Heading level={5} weight={2} textTransform="uppercase">
+                {title}
+              </Heading>
+            </a>
+          </Link>
           <Heading level={5} weight={2} mb={0} textTransform="uppercase">
             <Price
               // @ts-ignore

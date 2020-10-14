@@ -10,6 +10,12 @@ export const GlobalStyles = createGlobalStyle`
 		box-sizing: border-box;
 	}
 
+  html,
+  body,
+  #__next {
+    height: 100%;
+  }
+
 	body {
 		font-family: serif;
 		overflow-x: hidden;

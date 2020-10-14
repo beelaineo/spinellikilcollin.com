@@ -1,10 +1,19 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { useProductVariant, useCheckout } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
-import { parseHTML, definitely, getSelectedOptionValues } from '../../utils'
-import { useAnalytics, CurrentProductProvider } from '../../providers'
+import {
+  getVariantTitle,
+  parseHTML,
+  definitely,
+  getSelectedOptionValues,
+  getAdditionalDescriptions,
+} from '../../utils'
+import {
+  useShopify,
+  useAnalytics,
+  CurrentProductProvider,
+} from '../../providers'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
@@ -18,6 +27,7 @@ import {
   RingSizerButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
   AffirmWrapper,
@@ -54,6 +64,7 @@ export const ProductDetail = ({ product }: Props) => {
   const {
     currentVariant: currentVariantSource,
     selectVariant,
+    // @ts-ignore annoying
   } = useProductVariant(product.sourceData, useProductVariantOptions)
 
   useEffect(() => {
@@ -62,7 +73,7 @@ export const ProductDetail = ({ product }: Props) => {
   }, [])
 
   const productType = product?.sourceData?.productType
-  const images = product?.sourceData?.images
+  const [images] = unwindEdges(product?.sourceData?.images)
 
   const currentVariant = product.variants.find(
     (v) => v && v.shopifyVariantID === currentVariantSource?.id,
@@ -70,23 +81,17 @@ export const ProductDetail = ({ product }: Props) => {
 
   if (!currentVariant) return null
 
-  const { addLineItem } = useCheckout()
-  const { seo, handle, variants: maybeVariants } = product
+  const { addLineItem } = useShopify()
+  const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)
 
   /* get product image variants from Shopify */
   const description = parseHTML(product?.sourceData?.descriptionHtml)
   const selectedOptions = getSelectedOptionValues(product, currentVariant)
-
-  const optionDescriptions = definitely(
-    selectedOptions.map(({ _key, descriptionRaw }) =>
-      descriptionRaw ? { _key, descriptionRaw } : null,
-    ),
-  )
+  const optionDescriptions = getAdditionalDescriptions(selectedOptions)
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
-    // TODO: Move this over to use-shopify
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
     if (!product.sourceData) {
       throw new Error('Product was loaded without sourceData')
@@ -138,12 +143,18 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const defaultSeo = {
-    title: product.title || '',
-    image: images ? images[0] : undefined,
+    title: getVariantTitle(product, currentVariant),
+    image:
+      currentVariant?.sourceData?.image ?? images.length
+        ? images[0]
+        : undefined,
   }
 
   if (!handle) throw new Error('No handle fetched')
-  const path = ['products', handle].join('/')
+  const basePath = ['products', handle].join('/')
+  const path = currentVariant?.shopifyVariantID
+    ? basePath.concat('?v=').concat(currentVariant.shopifyVariantID)
+    : basePath
 
   return (
     <>
@@ -188,9 +199,11 @@ export const ProductDetail = ({ product }: Props) => {
                     addLineItem={addLineItem}
                     currentVariant={currentVariant}
                   />
-                  <AffirmWrapper>
-                    <Affirm price={currentVariant?.sourceData?.priceV2} />
-                  </AffirmWrapper>
+                  {inquiryOnly !== true ? (
+                    <AffirmWrapper>
+                      <Affirm price={currentVariant?.sourceData?.priceV2} />
+                    </AffirmWrapper>
+                  ) : null}
 
                   <ProductAccordionsWrapper>
                     {description || optionDescriptions.length ? (

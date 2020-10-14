@@ -4,6 +4,7 @@ export * from './generated-sanity'
 export * from './misc'
 export * from './richtext'
 export * from './postmark'
+export * from './sanity'
 
 export interface CollectionBlock extends BaseCollectionBlock {
   body?: any

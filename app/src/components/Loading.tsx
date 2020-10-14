@@ -78,7 +78,7 @@ const LoadingLine = styled.div`
 
   &:nth-of-type(1) {
     transform-origin: 100% 100%;
-    transform: rotate(4deg);
+    transform: rotate(4deg) translateZ(1px);
 
     .thinking__dot:nth-of-type(1) {
       transform: scale(1.2);
@@ -87,7 +87,7 @@ const LoadingLine = styled.div`
 
   &:nth-of-type(2) {
     transform-origin: 0% 100%;
-    transform: rotate(-7deg);
+    transform: rotate(-7deg) translateZ(1px);
     &:after {
       animation-delay: 1s;
     }
@@ -96,11 +96,11 @@ const LoadingLine = styled.div`
 
 const LoadingDot = styled.div`
   position: absolute;
-  width: 0.6rem;
-  height: 0.6rem;
+  width: 9px;
+  height: 9px;
   background-color: background;
-  top: -0.3rem;
-  border-radius: 1rem;
+  top: -4px;
+  border-radius: 9px;
   border: 1px solid currentColor;
   z-index: 10;
 

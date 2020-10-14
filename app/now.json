@@ -28,7 +28,9 @@
       "SHOPIFY_STOREFRONT_TOKEN": "@sk-storefront-token",
       "POSTMARK_KEY": "@sk-postmark-key",
       "MAILCHIMP_LIST_ID": "2c5420dc8f",
-      "MAILCHIMP_API_KEY": "@sk-mailchimp-api-key"
+      "MAILCHIMP_API_KEY": "@sk-mailchimp-api-key",
+      "ALGOLIA_API_KEY": "@sk-algolia-api-key",
+      "ALGOLIA_APP_ID": "@sk-algolia-app-id"
     }
   }
 }

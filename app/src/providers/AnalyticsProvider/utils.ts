@@ -1,4 +1,3 @@
-import { Product, Variant, CheckoutLineItem } from 'use-shopify'
 import {
   ShopifyProduct,
   ShopifyProductVariant,
@@ -6,6 +5,11 @@ import {
   ShopifySourceProductVariant,
   Maybe,
 } from '../../types'
+import {
+  ShopifyStorefrontProduct as Product,
+  ShopifyStorefrontCheckoutLineItem as CheckoutLineItem,
+  ShopifyStorefrontProductVariant as Variant,
+} from '../../types/generated-shopify'
 import { SelectedProduct, EcommerceObject } from './types'
 
 const getVariantSourceData = (
@@ -63,7 +67,9 @@ export const parseProduct = (
 ): EcommerceObject => {
   const { quantity } = selectedProduct
   const product = getProductSourceData(selectedProduct.product)
-  const variant = getVariantSourceData(selectedProduct.variant)
+  const variant = selectedProduct.variant
+    ? getVariantSourceData(selectedProduct.variant)
+    : undefined
 
   const formattedPrice = variant?.priceV2?.amount
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
@@ -75,9 +81,9 @@ export const parseProduct = (
   const values: EcommerceObject = {
     name: assertExists(product.title, 'title'),
     id: assertExists(product.id, 'id'),
-    price: assertExists(formattedPrice, 'price'),
+    price: formattedPrice ? assertExists(formattedPrice, 'price') : undefined,
     category: productType ?? undefined,
-    variant: assertExists(variant.title, 'variant'),
+    variant: variant ? assertExists(variant.title, 'variant') : undefined,
     quantity,
     position,
     list,

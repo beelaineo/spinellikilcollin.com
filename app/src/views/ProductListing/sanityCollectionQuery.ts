@@ -5,8 +5,10 @@ import { buildFilters } from '../../utils/sanity'
 const getSortString = (sort?: Sort): string => {
   if (sort === Sort.PriceAsc) return 'minVariantPrice asc'
   if (sort === Sort.PriceDesc) return 'maxVariantPrice desc'
-  if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
-  if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
+  // if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
+  // if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
+  if (sort === Sort.AlphaAsc) return 'title asc'
+  if (sort === Sort.AlphaDesc) return 'title desc'
   return 'default'
 }
 
@@ -52,11 +54,12 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     "bodyRaw": body,
     ...,
   },
-  "products": products[$productStart...$productEnd]->[] | order(${getSortString(
+  "products": products[$productStart...$productEnd]->[hidden != true] | order(${getSortString(
     sort,
   )}) {
     _id,
     _type,
+    hidden,
     handle,
     minVariantPrice,
     maxVariantPrice,
@@ -104,15 +107,17 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
 }
 `
 
-export const createMoreProductsQuery = (sort?: Sort) => `
+/*
+ * Use this query to get more products, based on their order in
+ * the parent collection
+ */
+export const moreProductsQuery = `
 *[
   _type == "shopifyCollection"
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[$productStart...$productEnd]->[] | order(${getSortString(
-    sort,
-  )}) {
+  "products": products[$productStart...$productEnd]->[hidden != true] {
     _id,
     _type,
     handle,
@@ -156,13 +161,19 @@ export const createMoreProductsQuery = (sort?: Sort) => `
 
 export type FilterResponse = ShopifyProduct[]
 
+/*
+ * Use this query to get products when a sort order or filter
+ * is defined
+ */
+
 const filterQuery = (filterString: string = '', sort?: Sort) => `
 *[
   _type == "shopifyProduct" &&
     defined(shopifyId) &&
+    hidden != true &&
     references($collectionId) 
   ${filterString ? `&& ${filterString}` : ''}
-][$productStart...$productEnd] | order(${getSortString(sort)}) {
+] | order(${getSortString(sort)}) {
   _id,
   _type,
   handle,
@@ -200,7 +211,7 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
       },
     },
   },
-}
+}[$productStart...$productEnd]
 `
 
 export const buildFilterQuery = (filters: FilterConfiguration, sort?: Sort) => {

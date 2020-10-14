@@ -1,6 +1,7 @@
 import * as React from 'react'
-import Document from 'next/document'
+import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
+import { gtm } from './_app'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -27,5 +28,35 @@ export default class MyDocument extends Document {
     } finally {
       sheet.seal()
     }
+  }
+
+  render() {
+    const ENV = process.env.STOREFRONT_ENV
+
+    const tagInfo =
+      ENV === 'production'
+        ? gtm.prod
+        : ENV === 'staging'
+        ? gtm.staging
+        : gtm.dev
+
+    return (
+      <Html>
+        <Head />
+        <body>
+          <noscript>
+            <iframe
+              src={tagInfo.iframeSrc}
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+            ></iframe>
+          </noscript>
+
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    )
   }
 }

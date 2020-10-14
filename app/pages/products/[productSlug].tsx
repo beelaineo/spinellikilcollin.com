@@ -40,6 +40,7 @@ const productQuery = gql`
       title
       handle
       archived
+      inquiryOnly
       minVariantPrice
       maxVariantPrice
       sourceData {

@@ -47,9 +47,14 @@ export const optionMatchesVariant = (
 
 export const getSelectedOptionValues = (
   product: ShopifyProduct,
-  variant: ShopifyProductVariant,
+  variant: ShopifyProductVariant | ShopifySourceProductVariant,
 ): ShopifyProductOptionValue[] => {
-  const variantSelectedOptions = variant?.sourceData?.selectedOptions
+  const source =
+    variant.__typename === 'ShopifyProductVariant'
+      ? variant.sourceData
+      : variant
+
+  const variantSelectedOptions = source?.selectedOptions
   if (!product.options || !variantSelectedOptions) return []
 
   const selectedOptionValues = definitely(product?.options).reduce<
@@ -61,6 +66,16 @@ export const getSelectedOptionValues = (
     return [...acc, ...currentOptionValues]
   }, [])
   return definitely(selectedOptionValues)
+}
+
+export const getAdditionalDescriptions = (
+  selectedOptions: ShopifyProductOptionValue[],
+) => {
+  return definitely(
+    selectedOptions.map(({ _key, descriptionRaw }) =>
+      descriptionRaw ? { _key, descriptionRaw } : null,
+    ),
+  )
 }
 
 /**
@@ -92,4 +107,63 @@ export const getBestVariantByMatch = (
 export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
   if (!price || !price.amount || price.currencyCode === 'NONE') return false
   return true
+}
+
+export const getVariantTitle = (
+  product: ShopifyProduct,
+  variant: ShopifyProductVariant | ShopifySourceProductVariant,
+): string | null | undefined => {
+  if (product?.variants?.length && product.variants.length < 2) {
+    // If there is only one variant, its name will be "Default Title",
+    // so we should return the product title instead.
+    return product?.title
+  }
+
+  const source =
+    variant.__typename === 'ShopifyProductVariant'
+      ? variant.sourceData
+      : variant
+
+  // Parse the product title by combining the selected option
+  // values, omitting the "Size" option
+  const titleByOptions = source?.selectedOptions?.length
+    ? definitely(source.selectedOptions)
+        .map((option) => {
+          if (option.name === 'Size') return null
+          return option.value
+        })
+        .filter(Boolean)
+        .join(' | ')
+    : undefined
+
+  if (titleByOptions?.length) return titleByOptions
+
+  return product?.title
+}
+
+export const getProductGoogleCategory = (
+  product: ShopifyProduct,
+): number | undefined => {
+  switch (product?.sourceData?.productType?.toLowerCase()) {
+    case 'bracelets':
+      return 191
+    case 'earrings':
+      return 194
+    case 'necklace':
+      return 196
+    case 'ring':
+      return 200
+    case 'clothing':
+      return 1604
+    case 'candle':
+      return 588
+    case 'furniture':
+      return 436
+    case 'gift card':
+      return 53
+    case 'sunglasses':
+      return 178
+    default:
+      return 188
+  }
 }

@@ -1965,6 +1965,8 @@ export interface ShopifyCollection extends Document {
   archived?: Maybe<Scalars['Boolean']>
   sourceData?: Maybe<ShopifySourceCollection>
   products?: Maybe<Array<Maybe<ShopifyProduct>>>
+  /** Toggle this to ON to hide this collection. The product will still be viewable at its URL */
+  hidden?: Maybe<Scalars['Boolean']>
   /** Changes the layout to 2 columns on desktop, 1 column on tablet */
   reduceColumnCount?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
@@ -1988,6 +1990,7 @@ export type ShopifyCollectionFilter = {
   shopifyId?: Maybe<StringFilter>
   archived?: Maybe<BooleanFilter>
   sourceData?: Maybe<ShopifySourceCollectionFilter>
+  hidden?: Maybe<BooleanFilter>
   reduceColumnCount?: Maybe<BooleanFilter>
   hero?: Maybe<HeroFilter>
   seo?: Maybe<SeoFilter>
@@ -2005,6 +2008,7 @@ export type ShopifyCollectionSorting = {
   shopifyId?: Maybe<SortOrder>
   archived?: Maybe<SortOrder>
   sourceData?: Maybe<ShopifySourceCollectionSorting>
+  hidden?: Maybe<SortOrder>
   reduceColumnCount?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
   seo?: Maybe<SeoSorting>
@@ -2055,6 +2059,13 @@ export interface ShopifyProduct extends Document {
   collections?: Maybe<Array<Maybe<ShopifyCollection>>>
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>
   variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
+  /**
+   * Toggle this to ON to hide this product from collection pages & search results.
+   * The product will still be viewable at its URL
+   */
+  hidden?: Maybe<Scalars['Boolean']>
+  /** Toggle this to ON to hide a product's price and show an inquiry button instead of "Add to Cart" */
+  inquiryOnly?: Maybe<Scalars['Boolean']>
   info?: Maybe<Array<Maybe<ProductInfo>>>
   gallery?: Maybe<Array<Maybe<RichImage>>>
   contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
@@ -2078,6 +2089,8 @@ export type ShopifyProductFilter = {
   maxVariantPrice?: Maybe<FloatFilter>
   archived?: Maybe<BooleanFilter>
   sourceData?: Maybe<ShopifySourceProductFilter>
+  hidden?: Maybe<BooleanFilter>
+  inquiryOnly?: Maybe<BooleanFilter>
   related?: Maybe<CarouselFilter>
   seo?: Maybe<SeoFilter>
 }
@@ -2142,6 +2155,8 @@ export type ShopifyProductSorting = {
   maxVariantPrice?: Maybe<SortOrder>
   archived?: Maybe<SortOrder>
   sourceData?: Maybe<ShopifySourceProductSorting>
+  hidden?: Maybe<SortOrder>
+  inquiryOnly?: Maybe<SortOrder>
   related?: Maybe<CarouselSorting>
   seo?: Maybe<SeoSorting>
 }
@@ -2641,6 +2656,7 @@ export interface SiteSettings extends Document {
   links?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
   mailerTitle?: Maybe<Scalars['String']>
   mailerSubtitle?: Maybe<Scalars['String']>
+  seo?: Maybe<Seo>
 }
 
 export type SiteSettingsFilter = {
@@ -2654,6 +2670,7 @@ export type SiteSettingsFilter = {
   _key?: Maybe<StringFilter>
   mailerTitle?: Maybe<StringFilter>
   mailerSubtitle?: Maybe<StringFilter>
+  seo?: Maybe<SeoFilter>
 }
 
 export type SiteSettingsSorting = {
@@ -2665,6 +2682,7 @@ export type SiteSettingsSorting = {
   _key?: Maybe<SortOrder>
   mailerTitle?: Maybe<SortOrder>
   mailerSubtitle?: Maybe<SortOrder>
+  seo?: Maybe<SeoSorting>
 }
 
 export interface Slug {

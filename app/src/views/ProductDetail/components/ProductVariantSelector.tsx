@@ -43,27 +43,32 @@ export const ProductVariantSelector = (props: Props) => {
   const { variants, changeValueForOption, product, currentVariant } = props
   if (!variants || !variants.length) return null
   const productType = product?.sourceData?.productType
+  const { inquiryOnly } = product
 
   const options = definitely(product.options)
   if (options.length < 1) return null
 
   return (
     <Box mb={5}>
-      {options.map((option) =>
-        option?.values && option.values.length > 1 ? (
-          <OptionWrapper key={option._key || 'some-key'}>
-            <ProductOptionSelector
-              changeValueForOption={changeValueForOption}
-              variants={variants}
-              currentVariant={currentVariant}
-              option={option}
-            />
-            {productType === 'Ring' && option.name === 'Size' ? (
-              <RingSizerButton product={product} />
-            ) : null}
-          </OptionWrapper>
-        ) : null,
-      )}
+      {options
+        .filter(
+          (option) => !Boolean(option.name === 'Size' && inquiryOnly === true),
+        )
+        .map((option) =>
+          option?.values && option.values.length > 1 ? (
+            <OptionWrapper key={option._key || 'some-key'}>
+              <ProductOptionSelector
+                changeValueForOption={changeValueForOption}
+                variants={variants}
+                currentVariant={currentVariant}
+                option={option}
+              />
+              {productType === 'Ring' && option.name === 'Size' ? (
+                <RingSizerButton product={product} />
+              ) : null}
+            </OptionWrapper>
+          ) : null,
+        )}
     </Box>
   )
 }

@@ -19,7 +19,7 @@ export const Header = styled.div`
 
     ${theme.mediaQueries.mobile} {
       padding: 0 4;
-      margin-bottom: 30px;
+      margin-bottom: 50px;
       select {
         position: absolute;
         top: calc(100% + 8px);

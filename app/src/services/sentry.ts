@@ -4,6 +4,7 @@ import path from 'path'
 import { RewriteFrames } from '@sentry/integrations'
 import Debug from 'debug'
 import { Severity } from '@sentry/node'
+import { config } from '../config'
 
 /** Some Sentry setup for sourcemaps */
 // This allows TypeScript to detect our global value
@@ -25,7 +26,8 @@ const debug = Debug('dev:sentry')
 
 const ENV = process.env.NODE_ENV
 const FORCE = Boolean(process.env.FORCE_SENTRY)
-const DSN = process.env.SENTRY_DSN
+
+const { SENTRY_DSN } = config
 
 const SentryInitializer =
   typeof window === 'undefined'
@@ -35,10 +37,10 @@ const SentryInitializer =
 export let Sentry: typeof SentryInitializer
 
 if (ENV === 'production' || ENV === 'staging' || FORCE) {
-  if (!DSN) throw new Error('No Sentry DSN supplied')
+  if (!SENTRY_DSN) throw new Error('No Sentry DSN supplied')
   Sentry = SentryInitializer
   Sentry.init({
-    dsn: DSN,
+    dsn: SENTRY_DSN,
     environment: ENV,
     integrations: [
       new RewriteFrames({

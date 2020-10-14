@@ -17,9 +17,9 @@ import { SEO } from '../../components/SEO'
 const Chat = () => {
   const launchChat = () => {
     // @ts-ignore
-    if (typeof window !== 'undefined' && window.Intercom) {
+    if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
       // @ts-ignore
-      window.Intercom('show')
+      window.HubSpotConversations.widget.open()
     }
   }
   return (

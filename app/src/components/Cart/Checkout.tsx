@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { useCheckout } from 'use-shopify'
 import { Button } from '../Button'
-import { useAnalytics, useCart } from '../../providers'
+import { useAnalytics, useCart, useShopify } from '../../providers'
 import { Form, Field } from '../Forms'
 import { Heading } from '../Text'
 import { Hamburger } from '../Hamburger'
@@ -30,7 +29,7 @@ export const Checkout = () => {
   const { sendBeginCheckout } = useAnalytics()
   /* State */
   const { message, open: cartOpen, closeCart } = useCart()
-  const { checkout, loading, addNote } = useCheckout()
+  const { checkout, loading, addNote } = useShopify()
 
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
@@ -43,6 +42,7 @@ export const Checkout = () => {
     if (note) await addNote(note)
 
     sendBeginCheckout(
+      // @ts-ignore
       lineItems.map((li) => ({
         product: li,
         variant: li.variant,
@@ -60,7 +60,7 @@ export const Checkout = () => {
           <Hamburger open={true} onClick={closeCart} />
         </CloseButtonWrapper>
 
-        <Heading my={4} level={3} color="dark" textAlign="center">
+        <Heading my={0} level={3} color="dark" textAlign="center">
           {title}
         </Heading>
       </CartHeading>

@@ -7,14 +7,14 @@ interface CartSidebarProps {
 }
 
 export const CartSidebar = styled.div`
-  ${(props: CartSidebarProps) => css`
+  ${({ open }: CartSidebarProps) => css`
     position: fixed;
     z-index: cart;
-    right: ${props.open ? '0px' : '-510px'};
+    right: ${open ? '0px' : '-510px'};
     top: 0;
     width: 100vw;
     max-width: 500px;
-    height: 100vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background-color: body.0;
@@ -34,6 +34,14 @@ export const CartHeading = styled.div`
 
     border-bottom: 1px solid;
     border-bottom-color: body.7;
+
+    ${theme.mediaQueries.tablet} {
+      min-height: 74px;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      min-height: ${theme.mobileNavHeight};
+    }
   `}
 `
 
@@ -43,6 +51,9 @@ export const CloseButtonWrapper = styled.div`
   right: 18px;
   height: 24px;
   width: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 interface ModalBackgroundProps {
@@ -102,7 +113,8 @@ export const CartInner = styled.div<CartInnerProps>`
     }
 
   ${theme.mediaQueries.mobile} {
-    padding: 0 3;
+    padding: 3;
+    overflow: initial;
   }
 
   `}

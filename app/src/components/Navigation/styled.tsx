@@ -258,7 +258,7 @@ export const SideNavigation = styled.div`
     z-index: cart;
     width: 500px;
     background-color: white;
-    height: 100vh;
+    height: 100%;
     position: fixed;
     top: 0;
     left: 0;
@@ -269,7 +269,7 @@ export const SideNavigation = styled.div`
 export const NavInner = styled.div`
   ${({ theme }) => css`
     padding: 80px 7 7;
-    height: 100vh;
+    height: 100%;
     overflow: scroll;
     max-width: calc(100vw + 1px);
     box-shadow: 5px 0 5px rgba(0, 0, 0, 0.1);
@@ -301,7 +301,7 @@ interface WithOpen {
 
 export const NavInnerBackground = styled.div`
   ${({ open, theme }: WithOpen) => css`
-    height: 100vh;
+    height: 100%;
     position: fixed;
     background: rgba(0, 0, 0, 0.2);
     width: 100vw;

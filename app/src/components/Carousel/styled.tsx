@@ -91,7 +91,7 @@ export const SlideContainer = styled.div`
     ${single
       ? css`
           width: 100%;
-          margin-right: 0;
+          padding-right: 0;
         `
       : columnCount
       ? css`
