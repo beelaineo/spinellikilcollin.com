@@ -63,7 +63,7 @@ export interface CheckoutLineItem {
 
 export interface OrderLineItem {
   __typename: string
-  customAttributes: Attribute[]
+  customAttributes?: Attribute[]
   discountAllocations: DiscountAllocation[]
   quanity: number
   title: string

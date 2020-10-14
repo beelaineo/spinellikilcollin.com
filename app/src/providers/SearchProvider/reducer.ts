@@ -1,10 +1,15 @@
 import { useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router'
 import { ShopifyProduct, ShopifyCollection } from '../../types'
-import { useSanityQuery } from '../../hooks'
-import { searchQuery } from './query'
+// import { useSanityQuery } from '../../hooks'
+// import { searchQuery } from './query'
+import { algoliaIndex } from '../../services/algolia'
 
 export type SearchResult = ShopifyProduct | ShopifyCollection
+
+interface SearchHit {
+  document: SearchResult
+}
 
 enum ActionTypes {
   OPEN = 'open',
@@ -134,7 +139,6 @@ export interface SearchActions {
 }
 
 export const useSearchReducer = () => {
-  const { query } = useSanityQuery<SearchResult[]>()
   const router = useRouter()
   const [state, dispatch] = useReducer(reducer, initialSearchState)
 
@@ -186,9 +190,14 @@ export const useSearchReducer = () => {
 
     startSearch()
     const term = searchTerm.trim().replace(/\s/, '* ')
-    const termSingular = term.replace(/s$/, '')
-    const params = { searchTerm: term, searchTermSingular: termSingular }
-    const results = await query(searchQuery, params)
+    // const termSingular = term.replace(/s$/, '')
+    // const params = { searchTerm: term, searchTermSingular: termSingular }
+    const { hits } = await algoliaIndex.search<SearchHit>(term, {
+      hitsPerPage: 100,
+      typoTolerance: 'min',
+      exactOnSingleWordQuery: 'word',
+    })
+    const results = hits.map((hit) => hit.document)
     onSuccess(results || [])
   }
 

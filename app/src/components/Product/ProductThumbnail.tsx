@@ -67,17 +67,22 @@ export const ProductThumbnail = ({
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
+
   const initialVariant = preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
     : variants[0]
 
-  const [currentVariant, setCurrentVariant] = useState(initialVariant)
+  const [currentVariant, setCurrentVariant] = useState<
+    ShopifySourceProductVariant | undefined
+  >(initialVariant)
   const handleClick = () => {
+    // @ts-ignore
     sendProductClick({ product, variant: currentVariant })
   }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
   useEffect(() => {
     if (!isInViewOnce) return
+    // @ts-ignore
     sendProductImpression({ product, variant: currentVariant })
   }, [isInViewOnce, currentVariant])
 
@@ -112,6 +117,7 @@ export const ProductThumbnail = ({
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
   ): boolean => {
+    if (!currentVariant) return false
     const matches = optionMatchesVariant(
       option.name || 'foo',
       value,
@@ -144,7 +150,7 @@ export const ProductThumbnail = ({
             <Image
               image={productImage}
               ratio={imageRatio || 1}
-              sizes="(min-width: 600px) 90vw; (min-width: 780px) 50vw; 30vw"
+              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
               preload
               altText={altText}
               preloadImages={allImages}

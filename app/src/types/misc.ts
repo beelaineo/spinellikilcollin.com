@@ -2,7 +2,12 @@ import {
   SanityImageHotspot,
   SanityImageCrop,
   FilterMatch,
+  Maybe,
 } from './generated-sanity'
+
+export type MaybeAll<T> = {
+  [K in keyof T]?: null | Maybe<T[K]>
+}
 
 /**
  * Used for images returned from a raw JSON (rich text) object
