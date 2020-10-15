@@ -39,6 +39,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   useEffect(() => {
     setQuantityValue(lineItem.quantity)
     if (lineItem.quantity === 0) {
+      // @ts-ignore
       sendRemoveFromCart({ product: lineItem, variant, quantity })
     }
   }, [lineItem.quantity])
@@ -53,6 +54,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   }, [quantityValue, lineItem.quantity])
 
   const remove = async () => {
+    // @ts-ignore
     sendRemoveFromCart({ product: lineItem, variant, quantity })
     await updateLineItem({ id: lineItem.id, quantity: 0 })
   }

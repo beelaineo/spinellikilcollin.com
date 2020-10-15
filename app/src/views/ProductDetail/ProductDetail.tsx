@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { useProductVariant } from 'use-shopify'
 import { ShopifyProduct } from '../../types'
 import {
   getVariantTitle,
@@ -28,6 +27,7 @@ import {
   RingSizerButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
   AffirmWrapper,
@@ -64,6 +64,7 @@ export const ProductDetail = ({ product }: Props) => {
   const {
     currentVariant: currentVariantSource,
     selectVariant,
+    // @ts-ignore annoying
   } = useProductVariant(product.sourceData, useProductVariantOptions)
 
   useEffect(() => {
@@ -91,7 +92,6 @@ export const ProductDetail = ({ product }: Props) => {
   const optionDescriptions = getAdditionalDescriptions(selectedOptions)
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
-    // TODO: Move this over to use-shopify
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
     if (!product.sourceData) {
       throw new Error('Product was loaded without sourceData')

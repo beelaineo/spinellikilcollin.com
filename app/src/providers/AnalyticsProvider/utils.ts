@@ -1,4 +1,3 @@
-import { Product, Variant, CheckoutLineItem } from 'use-shopify'
 import {
   ShopifyProduct,
   ShopifyProductVariant,
@@ -6,6 +5,11 @@ import {
   ShopifySourceProductVariant,
   Maybe,
 } from '../../types'
+import {
+  ShopifyStorefrontProduct as Product,
+  ShopifyStorefrontCheckoutLineItem as CheckoutLineItem,
+  ShopifyStorefrontProductVariant as Variant,
+} from '../../types/generated-shopify'
 import { SelectedProduct, EcommerceObject } from './types'
 
 const getVariantSourceData = (

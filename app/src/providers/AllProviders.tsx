@@ -3,7 +3,7 @@ import fetch from 'isomorphic-unfetch'
 import { ThemeProvider } from '@xstyled/styled-components'
 import { DocumentNode } from 'graphql'
 import { ShopDataResponse } from './ShopDataProvider/shopDataQuery'
-import { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } from '../config'
+import { config } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
 import { CartProvider } from './CartProvider'
@@ -14,6 +14,8 @@ import { ErrorDisplay, ErrorProvider } from './ErrorProvider'
 import { NavigationProvider } from './NavigationProvider'
 import { AnalyticsProvider } from './AnalyticsProvider'
 import { ShopifyProvider } from './ShopifyProvider'
+
+const { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } = config
 
 /**
  * App

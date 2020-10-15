@@ -42,6 +42,7 @@ export const Checkout = () => {
     if (note) await addNote(note)
 
     sendBeginCheckout(
+      // @ts-ignore
       lineItems.map((li) => ({
         product: li,
         variant: li.variant,

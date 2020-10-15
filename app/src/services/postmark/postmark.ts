@@ -11,6 +11,7 @@ import {
   magazineSignup,
   MagazineSignupArgs,
 } from './emails'
+import { config } from '../../config'
 
 const debug = Debug('app:emails')
 
@@ -30,7 +31,7 @@ type PostmarkResponse =
       error: Errors.PostmarkError | null
     }
 
-const POSTMARK_KEY = process.env.POSTMARK_KEY
+const { POSTMARK_KEY } = config
 
 interface PostmarkService {
   sendMagazineSignup: (args: MagazineSignupArgs) => Promise<PostmarkResponse>
