@@ -120,6 +120,12 @@ export const Checkout = () => {
               <Heading my={3} level={6} textAlign="center">
                 Shipping and discount codes are added at checkout.
               </Heading>
+
+              <Heading my={3} level={6} textAlign="center">
+                We accept the following forms of payment: Visa, Mastercard,
+                Amex, Discover, PayPal, BitPay, Affirm, JCB, Diners Club, Elo,
+                Shop Pay, Apple Pay, Google Pay
+              </Heading>
             </Form>
           </CartBottom>
         </>

@@ -180,12 +180,12 @@ export const useSearchReducer = () => {
     dispatch({ type: ActionTypes.SUCCESS, searchResults })
 
   const search = async (newSearchTerm?: string): Promise<void> => {
-    if (newSearchTerm) actions.setSearchTerm(newSearchTerm)
+    if (newSearchTerm) setSearchTerm(newSearchTerm)
     const searchTerm = newSearchTerm || state.searchTerm
     if (!searchTerm.length) return
 
     startSearch()
-    const term = searchTerm.trim().replace(/\s/, '* ')
+    const term = searchTerm.trim()
     const termSingular = term.replace(/s$/, '')
     const params = { searchTerm: term, searchTermSingular: termSingular }
     const results = await query(searchQuery, params)
