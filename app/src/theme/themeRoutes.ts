@@ -3,7 +3,6 @@ import { defaultTheme } from './defaultTheme'
 import { journalTheme } from './journalTheme'
 import { magazineTheme } from './magazineTheme'
 import { pageTheme } from './pageTheme'
-import { pinkTheme } from './pinkTheme'
 
 interface ThemeRoute {
   pattern: RegExp
@@ -22,11 +21,6 @@ const routes: ThemeRoute[] = [
   {
     pattern: /^\/about/,
     theme: pageTheme,
-  },
-
-  {
-    pattern: /^\/collections\/pink-collection/,
-    theme: pinkTheme,
   },
 ]
 

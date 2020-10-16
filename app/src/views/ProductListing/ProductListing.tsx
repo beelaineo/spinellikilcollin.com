@@ -187,7 +187,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
       {hero && validHero ? <HeroBlock hero={hero} /> : null}
-      <Wrapper withHero={Boolean(hero && validHero)}>
+      <Wrapper handle={handle} withHero={Boolean(hero && validHero)}>
         {filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}

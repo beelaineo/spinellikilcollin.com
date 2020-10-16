@@ -2,12 +2,21 @@ import styled, { css } from '@xstyled/styled-components'
 
 interface WrapperProps {
   withHero: boolean
+  handle: string
 }
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ theme, withHero }) => css`
+  ${({ handle, theme, withHero }) => css`
     position: relative;
     padding-top: ${withHero ? 0 : theme.navHeight};
+
+    ${handle === 'pink-collection'
+      ? css`
+          h3 {
+            color: body.0;
+          }
+        `
+      : ''}
   `}
 `
 interface GridWrapperProps {
