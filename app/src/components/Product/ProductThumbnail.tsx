@@ -60,6 +60,7 @@ export const ProductThumbnail = ({
   imageRatio,
 }: ProductThumbnailProps) => {
   const { asPath } = useRouter()
+  const { inquiryOnly } = product
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
   const { sendProductImpression, sendProductClick } = useAnalytics()
@@ -159,7 +160,7 @@ export const ProductThumbnail = ({
 
           <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>
             {displayTags ? <TagBadges product={product} /> : <div />}
-            {displayPrice ? (
+            {displayPrice && inquiryOnly != true ? (
               <>
                 {minVariantPrice &&
                 maxVariantPrice &&

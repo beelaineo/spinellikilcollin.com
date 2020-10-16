@@ -138,6 +138,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
             ...pick(doc, [
               '__typename',
               '_id',
+              'inquiryOnly',
               '_type',
               'title',
               'handle',

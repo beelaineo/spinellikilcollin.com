@@ -122,7 +122,6 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
     cloudinaryVideoMobile,
     mobileImage,
   } = hero
-  console.log({ cloudinaryVideo })
 
   return (
     <HeroWrapper>

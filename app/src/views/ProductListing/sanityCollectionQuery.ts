@@ -64,6 +64,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     minVariantPrice,
     maxVariantPrice,
     shopifyId,
+    inquiryOnly,
     title,
     options[]{
       _key,
@@ -94,7 +95,6 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
           },
         },
       },
-
     },
   },
   preferredVariantMatches,
@@ -125,6 +125,7 @@ export const moreProductsQuery = `
     maxVariantPrice,
     shopifyId,
     title,
+    inquiryOnly,
     options[]{
       _key,
       _type,
