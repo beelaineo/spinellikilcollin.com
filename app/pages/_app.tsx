@@ -54,11 +54,12 @@ export const gtm = {
 
 const App = (props: AppProps) => {
   const { Component, pageProps: allPageProps, router } = props
-  const path = router.pathname
+  const path = router.asPath
   const { shopData, ...pageProps } = allPageProps
   if (!shopData) return null
   const ENV = process.env.STOREFRONT_ENV
 
+  console.log({ router })
   const tagInfo =
     ENV === 'production' ? gtm.prod : ENV === 'staging' ? gtm.staging : gtm.dev
 

@@ -69,7 +69,9 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     return new Intl.NumberFormat(lang, {
       style: 'currency',
       currency: currentCurrency,
-    }).format(amount)
+    })
+      .format(amount)
+      .replace(/\.00$/, '')
   }
 
   const value = {
