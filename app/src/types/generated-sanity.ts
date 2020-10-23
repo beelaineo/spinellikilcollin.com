@@ -295,6 +295,7 @@ export interface Customize extends Document {
   hero?: Maybe<Hero>
   subtitle?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
+  quizBlock?: Maybe<QuizBlock>
   seo?: Maybe<Seo>
 }
 
@@ -310,6 +311,7 @@ export type CustomizeFilter = {
   title?: Maybe<StringFilter>
   hero?: Maybe<HeroFilter>
   subtitle?: Maybe<StringFilter>
+  quizBlock?: Maybe<QuizBlockFilter>
   seo?: Maybe<SeoFilter>
 }
 
@@ -329,6 +331,7 @@ export type CustomizeSorting = {
   title?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
   subtitle?: Maybe<SortOrder>
+  quizBlock?: Maybe<QuizBlockSorting>
   seo?: Maybe<SeoSorting>
 }
 
@@ -1269,6 +1272,31 @@ export type ProductListingSettingsSorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   helpText?: Maybe<SortOrder>
+}
+
+export interface QuizBlock {
+  __typename: 'QuizBlock'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  image?: Maybe<RichImage>
+}
+
+export type QuizBlockFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
+  image?: Maybe<RichImageFilter>
+}
+
+export type QuizBlockSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
+  image?: Maybe<RichImageSorting>
 }
 
 export interface RichImage {

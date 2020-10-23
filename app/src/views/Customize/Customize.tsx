@@ -8,6 +8,7 @@ import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
 import { isValidHero, getHeroImage } from '../../utils'
+import { QuizBlock } from './QuizBlock'
 
 interface CustomizeProps {
   customize: CustomizeType
@@ -28,7 +29,7 @@ const PageText = styled.div`
 `
 
 export const Customize = ({ customize }: CustomizeProps) => {
-  const { seo, title, subtitle, hero, bodyRaw } = customize
+  const { seo, title, subtitle, hero, bodyRaw, quizBlock } = customize
   const defaultSeo = {
     title: 'Customize',
     image: getHeroImage(hero),
@@ -51,6 +52,7 @@ export const Customize = ({ customize }: CustomizeProps) => {
             />
           </PageText>
         </Column>
+        {quizBlock ? <QuizBlock quizBlock={quizBlock} /> : null}
       </PageWrapper>
     </>
   )

@@ -4,7 +4,12 @@ import { GetStaticProps } from 'next'
 import { Maybe, Customize as CustomizeType } from '../src/types'
 import { NotFound } from '../src/views/NotFound'
 import { Customize as CustomizeView } from '../src/views/Customize'
-import { request, seoFragment, heroFragment } from '../src/graphql'
+import {
+  request,
+  richImageFragment,
+  seoFragment,
+  heroFragment,
+} from '../src/graphql'
 import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 
 const customizeQuery = gql`
@@ -21,10 +26,18 @@ const customizeQuery = gql`
       hero {
         ...HeroFragment
       }
+      quizBlock {
+        title
+        subtitle
+        image {
+          ...RichImageFragment
+        }
+      }
     }
   }
   ${seoFragment}
   ${heroFragment}
+  ${richImageFragment}
 `
 
 interface CustomizeProps {
