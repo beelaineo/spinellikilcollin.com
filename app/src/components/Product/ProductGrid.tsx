@@ -29,9 +29,11 @@ const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
     }
 
     ${theme.mediaQueries.tablet} {
-      grid-template-columns: repeat(${reduceColumnCount ? '1' : '2'}, 1fr);
+      grid-template-columns: ${reduceColumnCount ? '1fr' : 'repeat(2, 1fr)'};
+      display: ${reduceColumnCount ? 'block' : 'grid'};
     }
     ${theme.mediaQueries.mobile} {
+      display: block;
       grid-template-columns: 1fr;
     }
   `}
