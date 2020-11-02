@@ -1,16 +1,16 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps } from 'next'
-import { Maybe, Customize as CustomizeType } from '../src/types'
-import { NotFound } from '../src/views/NotFound'
-import { Customize as CustomizeView } from '../src/views/Customize'
+import { Maybe, Customize as CustomizeType } from '../../src/types'
+import { NotFound } from '../../src/views/NotFound'
+import { Customize as CustomizeView } from '../../src/views/Customize'
 import {
   request,
   richImageFragment,
   seoFragment,
   heroFragment,
-} from '../src/graphql'
-import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
+} from '../../src/graphql'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const customizeQuery = gql`
   query CustomizeQuery {

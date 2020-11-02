@@ -1,4 +1,5 @@
 import * as React from 'react'
+import styled, { css } from '@xstyled/styled-components'
 import { unique } from '../../utils'
 
 const { useEffect, useReducer } = React
@@ -8,6 +9,7 @@ interface TabsContextValue {
   remove: (name: string) => void
   currentTab: string | undefined
   goToTab: (name: string) => void
+  mode: 'hidden' | 'normal'
 }
 
 const TabsContext = React.createContext<TabsContextValue | undefined>(undefined)
@@ -61,7 +63,7 @@ const reducer = (state: State, action: Action): State => {
         availableTabs: state.availableTabs.filter((t) => t !== action.name),
       }
     case Actions.GoToTab:
-      if (state.availableTabs.includes(action.name)) {
+      if (!state.availableTabs.includes(action.name)) {
         throw new Error(
           `Tab "${action.name}" is not in the list of available tabs`,
         )
@@ -75,10 +77,11 @@ const reducer = (state: State, action: Action): State => {
 
 interface TabsProps {
   children: React.ReactNode
+  mode?: 'hidden' | 'normal'
   initialTab?: string
 }
 
-const TabsProvider = ({ children, initialTab }: TabsProps) => {
+const TabsProvider = ({ children, initialTab, mode }: TabsProps) => {
   const initialState: State = {
     currentTab: initialTab,
     availableTabs: [],
@@ -95,6 +98,7 @@ const TabsProvider = ({ children, initialTab }: TabsProps) => {
     add,
     remove,
     goToTab,
+    mode: mode || 'normal',
   }
 
   return <TabsContext.Provider value={value}>{children}</TabsContext.Provider>
@@ -104,15 +108,46 @@ export const Tabs = ({ children, initialTab }: TabsProps) => (
   <TabsProvider initialTab={initialTab}>{children}</TabsProvider>
 )
 
+interface TabProps {
+  children: React.ReactNode
+  name: string
+}
+
+interface WithVisible {
+  visible: boolean
+}
+
+const TabWrapper = styled.div<WithVisible>`
+  ${({ visible }) =>
+    visible === false
+      ? css`
+          opacity: 0;
+          pointer-events: none;
+          position: fixed;
+          z-index: -100;
+          left: -1000px;
+          top: -1000px;
+          width: 1px;
+          height: 1px;
+          overflow: hidden;
+        `
+      : ''}
+`
+
 export const Tab = ({ children, name }: TabProps) => {
-  const { currentTab, add, remove } = useTabs()
+  const { currentTab, add, remove, mode } = useTabs()
 
   useEffect(() => {
     add(name)
     return () => remove(name)
   }, [])
+  const isActive = name === currentTab
 
-  if (name !== currentTab) return null
+  if (!isActive && mode !== 'hidden') return null
 
-  return <>{children}</>
+  return (
+    <TabWrapper aria-hidden={!isActive} visible={isActive}>
+      {children}
+    </TabWrapper>
+  )
 }
