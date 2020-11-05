@@ -1,3 +1,17 @@
+export const quizProductType = {
+  title: 'Quiz Product Type',
+  name: 'quizProductType',
+  type: 'object',
+  fields: [
+    { title: 'Title', name: 'title', type: 'string' },
+    {
+      title: 'Image',
+      name: 'image',
+      type: 'richImage',
+    },
+  ],
+}
+
 export const quizBlock = {
   title: 'Quiz Block',
   name: 'quizBlock',
@@ -25,6 +39,7 @@ export const customize = {
   type: 'document',
   name: 'customize',
   title: 'Customize',
+  fieldsets: [{ name: 'quiz', title: 'Quiz' }],
   fields: [
     {
       title: 'Title',
@@ -48,7 +63,20 @@ export const customize = {
     {
       name: 'quizBlock',
       title: 'Quiz Block',
+      fieldset: 'quiz',
       type: 'quizBlock',
+    },
+    {
+      name: 'quizProductTypes',
+      title: 'Product Types',
+      type: 'array',
+      of: [{ type: 'quizProductType' }],
+    },
+    {
+      name: 'quizStyles',
+      title: 'Quiz Styles',
+      type: 'array',
+      of: [{ type: 'string' }],
     },
     {
       name: 'seo',
