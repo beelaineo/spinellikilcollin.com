@@ -19,7 +19,7 @@ export const Name = () => {
         What’s your name?
       </Heading>
       <FieldWithButton>
-        <Field name="full_name" placeholder="name" />
+        <Field name="full_name" placeholder="Name" />
         <Button
           type="button"
           disabled={values.full_name.length === 0}

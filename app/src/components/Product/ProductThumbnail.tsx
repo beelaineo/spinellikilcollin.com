@@ -126,6 +126,7 @@ export const ProductThumbnail = ({
     )
     return matches
   }
+
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
@@ -136,6 +137,7 @@ export const ProductThumbnail = ({
 
   params.delete('search')
   params.delete('v')
+
   if (currentVariant && currentVariant.id) {
     params.set('v', currentVariant.id)
   }
