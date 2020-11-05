@@ -178,6 +178,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const path = ['collections', handle].join('/')
   const defaultSeo = {
     title: collection.title || '',
+    description: collection.sourceData?.description,
     image:
       getHeroImage(hero) || collection?.sourceData?.image || firstProductImage,
   }
