@@ -1,210 +1,72 @@
 {
-  "__schema": {
-    "types": [
-      {
-        "kind": "INTERFACE",
-        "name": "Document",
-        "possibleTypes": [
-          {
-            "name": "About"
-          },
-          {
-            "name": "Contact"
-          },
-          {
-            "name": "SanityImageAsset"
-          },
-          {
-            "name": "Customize"
-          },
-          {
-            "name": "JournalEntry"
-          },
-          {
-            "name": "JournalPage"
-          },
-          {
-            "name": "Magazine"
-          },
-          {
-            "name": "Page"
-          },
-          {
-            "name": "ShopifyCollection"
-          },
-          {
-            "name": "ShopifyProduct"
-          },
-          {
-            "name": "TeamPage"
-          },
-          {
-            "name": "ProductListingSettings"
-          },
-          {
-            "name": "SiteSettings"
-          },
-          {
-            "name": "Menu"
-          },
-          {
-            "name": "Homepage"
-          },
-          {
-            "name": "ProductInfoSettings"
-          },
-          {
-            "name": "SanityFileAsset"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct",
-        "possibleTypes": [
-          {
-            "name": "About"
-          },
-          {
-            "name": "Contact"
-          },
-          {
-            "name": "Customize"
-          },
-          {
-            "name": "JournalEntry"
-          },
-          {
-            "name": "JournalPage"
-          },
-          {
-            "name": "Magazine"
-          },
-          {
-            "name": "Page"
-          },
-          {
-            "name": "ShopifyCollection"
-          },
-          {
-            "name": "ShopifyProduct"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "ExternalLinkOrInternalLink",
-        "possibleTypes": [
-          {
-            "name": "ExternalLink"
-          },
-          {
-            "name": "InternalLink"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "PageOrShopifyCollectionOrShopifyProduct",
-        "possibleTypes": [
-          {
-            "name": "Page"
-          },
-          {
-            "name": "ShopifyCollection"
-          },
-          {
-            "name": "ShopifyProduct"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "FilterSetOrPriceRangeFilter",
-        "possibleTypes": [
-          {
-            "name": "FilterSet"
-          },
-          {
-            "name": "PriceRangeFilter"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "CustomizeOrMagazineOrPageOrTeamPage",
-        "possibleTypes": [
-          {
-            "name": "Customize"
-          },
-          {
-            "name": "Magazine"
-          },
-          {
-            "name": "Page"
-          },
-          {
-            "name": "TeamPage"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "MenuLinkOrSubMenu",
-        "possibleTypes": [
-          {
-            "name": "MenuLink"
-          },
-          {
-            "name": "SubMenu"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "CtaOrSubMenu",
-        "possibleTypes": [
-          {
-            "name": "Cta"
-          },
-          {
-            "name": "SubMenu"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "CarouselOrHeroOrImageTextBlock",
-        "possibleTypes": [
-          {
-            "name": "Carousel"
-          },
-          {
-            "name": "Hero"
-          },
-          {
-            "name": "ImageTextBlock"
-          }
-        ]
-      },
-      {
-        "kind": "UNION",
-        "name": "BlockOrCloudinaryVideoOrFormOrRichImage",
-        "possibleTypes": [
-          {
-            "name": "Block"
-          },
-          {
-            "name": "CloudinaryVideo"
-          },
-          {
-            "name": "Form"
-          },
-          {
-            "name": "RichImage"
-          }
-        ]
-      }
+  "possibleTypes": {
+    "Document": [
+      "About",
+      "Contact",
+      "SanityImageAsset",
+      "Customize",
+      "JournalEntry",
+      "JournalPage",
+      "Magazine",
+      "Page",
+      "ShopifyCollection",
+      "ShopifyProduct",
+      "TeamPage",
+      "ProductListingSettings",
+      "SiteSettings",
+      "Menu",
+      "Homepage",
+      "ProductInfoSettings",
+      "SanityFileAsset"
+    ],
+    "AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct": [
+      "About",
+      "Contact",
+      "Customize",
+      "JournalEntry",
+      "JournalPage",
+      "Magazine",
+      "Page",
+      "ShopifyCollection",
+      "ShopifyProduct"
+    ],
+    "ExternalLinkOrInternalLink": [
+      "ExternalLink",
+      "InternalLink"
+    ],
+    "PageOrShopifyCollectionOrShopifyProduct": [
+      "Page",
+      "ShopifyCollection",
+      "ShopifyProduct"
+    ],
+    "FilterSetOrPriceRangeFilter": [
+      "FilterSet",
+      "PriceRangeFilter"
+    ],
+    "CustomizeOrMagazineOrPageOrTeamPage": [
+      "Customize",
+      "Magazine",
+      "Page",
+      "TeamPage"
+    ],
+    "MenuLinkOrSubMenu": [
+      "MenuLink",
+      "SubMenu"
+    ],
+    "CtaOrSubMenu": [
+      "Cta",
+      "SubMenu"
+    ],
+    "CarouselOrHeroOrImageTextBlock": [
+      "Carousel",
+      "Hero",
+      "ImageTextBlock"
+    ],
+    "BlockOrCloudinaryVideoOrFormOrRichImage": [
+      "Block",
+      "CloudinaryVideo",
+      "Form",
+      "RichImage"
     ]
   }
 }

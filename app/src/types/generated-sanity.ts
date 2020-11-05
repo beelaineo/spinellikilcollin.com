@@ -296,6 +296,8 @@ export interface Customize extends Document {
   subtitle?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
   quizBlock?: Maybe<QuizBlock>
+  quizProductTypes?: Maybe<Array<Maybe<QuizProductType>>>
+  quizStyles?: Maybe<Array<Maybe<Scalars['String']>>>
   seo?: Maybe<Seo>
 }
 
@@ -1296,6 +1298,28 @@ export type QuizBlockSorting = {
   _type?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
   subtitle?: Maybe<SortOrder>
+  image?: Maybe<RichImageSorting>
+}
+
+export interface QuizProductType {
+  __typename: 'QuizProductType'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  image?: Maybe<RichImage>
+}
+
+export type QuizProductTypeFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  image?: Maybe<RichImageFilter>
+}
+
+export type QuizProductTypeSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
   image?: Maybe<RichImageSorting>
 }
 
