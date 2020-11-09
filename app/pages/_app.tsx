@@ -59,7 +59,6 @@ const App = (props: AppProps) => {
   if (!shopData) return null
   const ENV = process.env.STOREFRONT_ENV
 
-  console.log({ router })
   const tagInfo =
     ENV === 'production' ? gtm.prod : ENV === 'staging' ? gtm.staging : gtm.dev
 
@@ -97,7 +96,9 @@ const App = (props: AppProps) => {
              `,
             }}
           />
-          <noscript>
+          <noscript
+            dangerouslySetInnerHtml={{
+              __html: `
             <img
               height="1"
               width="1"
@@ -105,7 +106,9 @@ const App = (props: AppProps) => {
               alt=""
               src="https://ct.pinterest.com/v3/?tid=2613624654029&noscript=1"
             />
-          </noscript>
+              `,
+            }}
+          />
           <script
             /* Affirm */
             dangerouslySetInnerHTML={{
