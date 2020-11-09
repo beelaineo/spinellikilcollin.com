@@ -97,7 +97,7 @@ const App = (props: AppProps) => {
             }}
           />
           <noscript
-            dangerouslySetInnerHtml={{
+            dangerouslySetInnerHTML={{
               __html: `
             <img
               height="1"
