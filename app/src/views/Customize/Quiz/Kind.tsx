@@ -1,37 +1,65 @@
 import * as React from 'react'
 import { useFormikContext } from 'formik'
+import { QuizProductType, RichImage } from '../../../types'
 import { useTabs } from '../../../components/Tabs'
 import { Heading } from '../../../components/Text'
 import { HiddenField } from '../../../components/Forms'
-import { QuizTabWrapper, KindButtons, KindButtonWrapper } from './styled'
+import { Image } from '../../../components/Image'
+import { unique } from '../../../utils'
+import {
+  NextButton,
+  QuizTabWrapper,
+  KindButtons,
+  KindButtonWrapper,
+} from './styled'
 
 const { useState, useEffect } = React
 
 interface KindButtonProps {
-  image: string
+  image: RichImage
+  selected: boolean
   label: string
   onClick: () => void
 }
 
-const KindButton = ({ image, label, onClick }: KindButtonProps) => (
-  <KindButtonWrapper type="button" onClick={onClick}>
-    <img src={`/static/images/quiz_${image}.png`} alt={label} />
-    <Heading level={4}>{label}</Heading>
-  </KindButtonWrapper>
-)
+const KindButton = ({ image, label, selected, onClick }: KindButtonProps) => {
+  if (!image || !label) return null
 
-export const Kind = () => {
-  const [kind, setKind] = useState<string | undefined>(undefined)
+  return (
+    <KindButtonWrapper selected={selected} type="button" onClick={onClick}>
+      <Image ratio={1} image={image} />
+      <Heading color={selected ? 'body.9' : 'body.5'} level={4}>
+        {label}
+      </Heading>
+    </KindButtonWrapper>
+  )
+}
+
+interface KindProps {
+  quizProductTypes: QuizProductType[]
+}
+
+export const Kind = ({ quizProductTypes }: KindProps) => {
+  const [kinds, setKinds] = useState<string[]>([])
   const { setFieldValue } = useFormikContext()
   const { goToTab } = useTabs()
 
-  useEffect(() => {
-    if (!kind) return
-    setFieldValue('kind', kind)
-    goToTab('details')
-  }, [kind])
+  const toggleKindValue = (value: string | null | undefined) => () => {
+    if (!value) return
 
-  const setKindValue = (value: string) => () => setKind(value)
+    if (kinds.includes(value)) {
+      setKinds(kinds.filter((k) => k !== value))
+    } else {
+      setKinds(unique([...kinds, value]))
+    }
+  }
+
+  const advance = () => goToTab('details')
+  const disabled = kinds.length === 0
+
+  useEffect(() => {
+    setFieldValue('kind', kinds)
+  }, [kinds])
 
   return (
     <QuizTabWrapper>
@@ -39,23 +67,19 @@ export const Kind = () => {
       <Heading level={2}>What kind of piece are you looking for?</Heading>
       <HiddenField name="kind" />
       <KindButtons>
-        <KindButton label="Ring" onClick={setKindValue('Ring')} image="ring" />
-        <KindButton
-          label="Necklace"
-          onClick={setKindValue('Necklace')}
-          image="necklace"
-        />
-        <KindButton
-          label="Bracelet"
-          onClick={setKindValue('Bracelet')}
-          image="bracelet"
-        />
-        <KindButton
-          label="Earrings"
-          onClick={setKindValue('Earrings')}
-          image="earrings"
-        />
+        {quizProductTypes.map(({ _key, title, image }) =>
+          title && image ? (
+            <KindButton
+              key={_key || 'some-key'}
+              label={title}
+              image={image}
+              selected={kinds.includes(title)}
+              onClick={toggleKindValue(title)}
+            />
+          ) : null,
+        )}
       </KindButtons>
+      <NextButton onClick={advance} disabled={disabled} />
     </QuizTabWrapper>
   )
 }

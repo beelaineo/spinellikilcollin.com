@@ -26,13 +26,15 @@ const customizeQuery = gql`
       hero {
         ...HeroFragment
       }
-      quizBlock {
+      quizProductTypes {
+        _key
+        _type
         title
-        subtitle
         image {
           ...RichImageFragment
         }
       }
+      quizStyles
     }
   }
   ${seoFragment}

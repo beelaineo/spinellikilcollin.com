@@ -1,11 +1,14 @@
 import * as React from 'react'
 import { useFormikContext } from 'formik'
 import { useTabs } from '../../../components/Tabs'
-import { Button } from '../../../components/Button'
 import { Heading } from '../../../components/Text'
 import { HiddenField } from '../../../components/Forms'
-import RightArrow from '../../../svg/RightArrow.svg'
-import { QuizTabWrapper, DetailButtons, DetailButtonWrapper } from './styled'
+import {
+  NextButton,
+  QuizTabWrapper,
+  DetailButtons,
+  DetailButtonWrapper,
+} from './styled'
 
 const { useState, useEffect } = React
 
@@ -29,15 +32,11 @@ const DetailButton = ({
   </DetailButtonWrapper>
 )
 
-const values = [
-  'Lots of gold!',
-  'Bold and strong',
-  'Minimal and clean',
-  'Delicate',
-  'The more stones, the Merrier!',
-]
+interface DetailsProps {
+  quizStyles: string[]
+}
 
-export const Details = () => {
+export const Details = ({ quizStyles }: DetailsProps) => {
   const [details, setDetails] = useState<string[]>([])
   const { setFieldValue } = useFormikContext()
   const { goToTab } = useTabs()
@@ -64,7 +63,7 @@ export const Details = () => {
       </Heading>
       <HiddenField name="details" />
       <DetailButtons>
-        {values.map((value) => (
+        {quizStyles.map((value) => (
           <DetailButton
             key={value}
             value={value}
@@ -73,10 +72,7 @@ export const Details = () => {
           />
         ))}
       </DetailButtons>
-      <Button onClick={advance} level={3} disabled={details.length === 0}>
-        Next
-        <RightArrow />
-      </Button>
+      <NextButton onClick={advance} disabled={details.length === 0} />
     </QuizTabWrapper>
   )
 }

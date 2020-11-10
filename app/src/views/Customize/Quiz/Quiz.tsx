@@ -5,7 +5,7 @@ import { Customize as CustomizeType } from '../../../types'
 import { PageWrapper } from '../../../components/Layout'
 import { HeroBlock } from '../../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../../components/SEO'
-import { isValidHero, getHeroImage } from '../../../utils'
+import { definitely, isValidHero, getHeroImage } from '../../../utils'
 import { submitToHubspot } from '../../../services/hubspot'
 import { Details } from './Details'
 import { Contact } from './Contact'
@@ -19,7 +19,7 @@ interface QuizProps {
 }
 
 export interface FormValues {
-  kind: string
+  kind: string[]
   styles: string[]
   full_name: string
   email: string
@@ -28,7 +28,7 @@ export interface FormValues {
 }
 
 const initialValues: FormValues = {
-  kind: '',
+  kind: [],
   styles: [],
   full_name: '',
   email: '',
@@ -39,7 +39,7 @@ const initialValues: FormValues = {
 const formId = 'a50b3513-a12c-49fd-88c0-60f0cb4cb6ef'
 
 const QuizInner = ({ customize }: QuizProps) => {
-  const { seo, hero } = customize
+  const { seo, hero, quizProductTypes, quizStyles } = customize
   const { goToTab } = useTabs()
   const defaultSeo = {
     title: 'Customize',
@@ -50,8 +50,9 @@ const QuizInner = ({ customize }: QuizProps) => {
     const values = {
       ...formValues,
       styles: formValues.styles.join(', '),
+      kind: formValues.kind.join(', '),
     }
-    const result = await fetch('/api/submitQuiz', {
+    await fetch('/api/submitQuiz', {
       method: 'POST',
       body: JSON.stringify(values),
     }).then((r) => r.json())
@@ -66,10 +67,10 @@ const QuizInner = ({ customize }: QuizProps) => {
       <PageWrapper pt={3}>
         <Form<FormValues> initialValues={initialValues} onSubmit={handleSubmit}>
           <Tab name="kind">
-            <Kind />
+            <Kind quizProductTypes={definitely(quizProductTypes)} />
           </Tab>
           <Tab name="details">
-            <Details />
+            <Details quizStyles={definitely(quizStyles)} />
           </Tab>
           <Tab name="name">
             <Name />

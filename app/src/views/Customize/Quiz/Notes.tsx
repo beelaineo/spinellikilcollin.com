@@ -7,7 +7,6 @@ import { QuizTabWrapper } from './styled'
 
 export const Notes = () => {
   const { values } = useFormikContext()
-  console.log({ values })
   return (
     <QuizTabWrapper>
       <Heading textAlign="center" level={2}>

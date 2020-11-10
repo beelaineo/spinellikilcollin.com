@@ -1,8 +1,26 @@
 import styled, { css } from '@xstyled/styled-components'
+import { Button } from '../../../components/Button'
+import RightArrow from '../../../svg/RightArrow.svg'
 
 /**
  * Common
  */
+
+import * as React from 'react'
+
+interface NextButtonProps {
+  onClick: () => void
+  disabled: boolean
+}
+
+export const NextButton = ({ onClick, disabled }: NextButtonProps) => {
+  return (
+    <Button mt={3} level={3} disabled={disabled} onClick={onClick}>
+      Next
+      <RightArrow />
+    </Button>
+  )
+}
 
 export const QuizTabWrapper = styled.div`
   min-height: 60vh;
@@ -63,19 +81,31 @@ export const KindButtons = styled.div`
     grid-template-columns: repeat(4, 1fr);
     grid-gap: 3;
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       grid-template-columns: repeat(2, 1fr);
     }
   `}
 `
 
-export const KindButtonWrapper = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  transition: 0.2s;
+interface KindButtonWrapperProps {
+  selected: boolean
+}
+
+export const KindButtonWrapper = styled.button<KindButtonWrapperProps>`
+  ${({ selected }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    transition: 0.2s;
+    width: 175px;
+    max-width: 45vw;
+    border-radius: 4px;
+    border: 1px solid;
+    padding: 3;
+    border-color: ${selected ? 'currentColor' : 'transparent'};
+  `}
 `
 
 /**
@@ -103,4 +133,14 @@ export const DetailButtonWrapper = styled.button<WithIsSelected>`
     background-color: ${isSelected ? 'body.0' : 'transparent'};
     margin: 3;
   `}
+`
+
+/**
+ * Contact
+ */
+
+export const ContactFields = styled.div`
+  div + div {
+    margin-top: 3;
+  }
 `
