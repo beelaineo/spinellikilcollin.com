@@ -19,7 +19,6 @@ export const Button = styled.buttonBox`
     font-size: 5;
     cursor: pointer;
     font-weight: 300;
-    display: flex;
     line-height: 42px;
 
     svg {
