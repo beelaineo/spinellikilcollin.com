@@ -58,7 +58,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [productResults, setProductResults] = useState<ShopifyProduct[]>([
     ...definitely(collection.products).slice(0, PAGE_SIZE),
   ])
-  const { isInView } = useInViewport(bottomRef, '500px 0px')
+  const { isInView } = useInViewport(bottomRef, '500px 0px', true)
   const { productListingSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [filterOpen, setFilterOpen] = useState(false)
@@ -184,7 +184,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   const validHero = isValidHero(hero)
-  console.log(collection, items[0])
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
@@ -234,7 +233,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   <Loading />
                 </Box>
               ) : null}
-              <div key={items.length} ref={bottomRef} />
+              <div ref={bottomRef} />
             </ProductGridWrapper>
           </>
         )}
