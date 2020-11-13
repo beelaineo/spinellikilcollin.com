@@ -167,3 +167,40 @@ export const getProductGoogleCategory = (
       return 188
   }
 }
+
+interface ProductUriOptions {
+  variant?: ShopifySourceProductVariant | ShopifyProductVariant
+  currentPath?: string
+  params?: Record<string, string>
+}
+
+const getVariantId = (
+  v?: ShopifySourceProductVariant | ShopifyProductVariant,
+): string | null | void => {
+  if (!v) return undefined
+  if ('id' in v) return v.id
+  if ('sourceData' in v) return v?.sourceData?.id
+  return undefined
+}
+
+export const getProductUri = (
+  product: ShopifyProduct,
+  { variant, params, currentPath }: ProductUriOptions = {},
+): string => {
+  const matches = currentPath ? currentPath.match(/\?(.*)$/) : undefined
+  const existingParams = matches && matches[1] ? matches[1] : undefined
+  const newParams = new URLSearchParams(existingParams)
+  const variantId = getVariantId(variant)
+  newParams.delete('search')
+  newParams.delete('v')
+  if (variant && variantId) {
+    newParams.set('v', variantId)
+  }
+  if (params) {
+    Object.entries(params).forEach(([k, v]) => newParams.set(k, v))
+  }
+  const uri = `/products/${product.handle}?`
+    .concat(newParams.toString())
+    .replace(/\?$/, '')
+  return uri
+}

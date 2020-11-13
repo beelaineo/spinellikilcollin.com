@@ -7,6 +7,7 @@ import {
   parseHTML,
   definitely,
   getSelectedOptionValues,
+  getProductUri,
   getAdditionalDescriptions,
 } from '../../utils'
 import {
@@ -67,17 +68,24 @@ export const ProductDetail = ({ product }: Props) => {
     // @ts-ignore annoying
   } = useProductVariant(product.sourceData, useProductVariantOptions)
 
-  useEffect(() => {
-    if (!currentVariant) throw new Error('Could not get current variant')
-    sendProductDetailView({ product, variant: currentVariant })
-  }, [])
-
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)
 
   const currentVariant = product.variants.find(
     (v) => v && v.shopifyVariantID === currentVariantSource?.id,
   )
+
+  useEffect(() => {
+    if (!currentVariant) throw new Error('Could not get current variant')
+    sendProductDetailView({ product, variant: currentVariant })
+  }, [currentVariant])
+
+  useEffect(() => {
+    if (!currentVariant) return
+    const uri = getProductUri(product, { variant: currentVariant })
+    if (!uri) return
+    window.history.replaceState(null, product.title || '', uri)
+  }, [currentVariant])
 
   if (!currentVariant) return null
 

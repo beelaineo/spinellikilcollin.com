@@ -86,6 +86,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
         edges[]{
           cursor,
           node {
+            __typename,
             _type,
             id,
             image,

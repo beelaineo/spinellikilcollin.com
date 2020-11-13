@@ -184,6 +184,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   const validHero = isValidHero(hero)
+  console.log(collection, items[0])
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
