@@ -58,7 +58,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [productResults, setProductResults] = useState<ShopifyProduct[]>([
     ...definitely(collection.products).slice(0, PAGE_SIZE),
   ])
-  const { isInView } = useInViewport(bottomRef, '500px 0px', true)
+  const { isInView } = useInViewport(bottomRef, '500px 0px')
   const { productListingSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [filterOpen, setFilterOpen] = useState(false)
