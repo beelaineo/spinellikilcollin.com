@@ -40,3 +40,13 @@ export const getShopifyThumbnail = (item) => {
       )
   }
 }
+
+export const getPageLinkThumbnail = async (pageLink) => {
+  if (!pageLink || !pageLink.document || !pageLink.document._ref)
+    return undefined
+  const doc = await getReferencedDocument(pageLink.document._ref)
+  if (!doc) return undefined
+  if (doc._type === 'shopifyProduct' || doc._type === 'shopifyCollection')
+    return getShopifyThumbnail(doc)
+  return undefined
+}
