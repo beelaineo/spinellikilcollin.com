@@ -4,7 +4,13 @@ import { getParam, definitely } from '../../src/utils'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { Page as PageType } from '../../src/types'
 import { NotFound, PageView } from '../../src/views'
-import { seoFragment, heroFragment, request } from '../../src/graphql'
+import {
+  seoFragment,
+  carouselFragment,
+  imageTextBlockFragment,
+  heroFragment,
+  request,
+} from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const pageQuery = gql`
@@ -20,6 +26,17 @@ const pageQuery = gql`
         current
       }
       bodyRaw
+      content {
+        ... on ImageTextBlock {
+          __typename
+          ...ImageTextBlockFragment
+        }
+        ... on Carousel {
+          __typename
+          ...CarouselFragment
+        }
+      }
+
       seo {
         ...SEOFragment
       }
@@ -27,6 +44,8 @@ const pageQuery = gql`
   }
   ${heroFragment}
   ${seoFragment}
+  ${carouselFragment}
+  ${imageTextBlockFragment}
 `
 
 interface PageResponse {

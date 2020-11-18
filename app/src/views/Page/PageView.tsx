@@ -1,13 +1,19 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { Page } from '../../types'
 import { PageWrapper } from '../../components/Layout'
+import { ContentBlock } from '../../components/ContentBlock'
 import { Heading } from '../../components/Text'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
-import { getHeroImage, isValidHero, getFirstImage } from '../../utils'
+import {
+  definitely,
+  getHeroImage,
+  isValidHero,
+  getFirstImage,
+} from '../../utils'
 
 const PageText = styled.div`
   h1,
@@ -21,8 +27,19 @@ interface PageViewProps {
   page: Page
 }
 
+const Grid = styled.div`
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    ${theme.mediaQueries.mobile} {
+      display: block;
+    }
+  `}
+`
+
 export const PageView = ({ page }: PageViewProps) => {
-  const { seo, title, hero, subtitle, slug, bodyRaw } = page
+  const { seo, content, title, hero, subtitle, slug, bodyRaw } = page
   const defaultSeo = {
     title: title || '',
     image: getHeroImage(hero) || getFirstImage(bodyRaw),
@@ -43,6 +60,11 @@ export const PageView = ({ page }: PageViewProps) => {
           {title}
         </Heading>
         {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
+        <Grid>
+          {definitely(content).map((c) => (
+            <ContentBlock key={c._key || 'some-key'} content={c} />
+          ))}
+        </Grid>
         <Column columnwidth="medium">
           <PageText>
             <RichText
