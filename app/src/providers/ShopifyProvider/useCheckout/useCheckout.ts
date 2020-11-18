@@ -61,6 +61,7 @@ export interface UseCheckoutQueries {
   CHECKOUT_FETCH: string | DocumentNode
   CHECKOUT_DISCOUNT_CODE_APPLY: string | DocumentNode
   CHECKOUT_DISCOUNT_CODE_REMOVE: string | DocumentNode
+  CHECKOUT_ATTRIBUTES_UPDATE: string | DocumentNode
   CHECKOUT_LINE_ITEMS_ADD: string | DocumentNode
   CHECKOUT_LINE_ITEMS_UPDATE: string | DocumentNode
 }
@@ -131,6 +132,7 @@ export const useCheckout = ({
     CHECKOUT_FETCH,
     CHECKOUT_DISCOUNT_CODE_APPLY,
     CHECKOUT_DISCOUNT_CODE_REMOVE,
+    CHECKOUT_ATTRIBUTES_UPDATE,
     CHECKOUT_LINE_ITEMS_ADD,
     CHECKOUT_LINE_ITEMS_UPDATE,
   } = {
@@ -274,13 +276,13 @@ export const useCheckout = ({
     const { checkout } = await getOrCreateCheckout()
     if (!checkout)
       throw new Error(
-        'checkoutDiscountCodeApply was called before a checkout was created.',
+        'checkoutAttributesUpdate was called before a checkout was created.',
       )
     dispatch({ type: STARTED_REQUEST })
     const result = await query<
       CheckoutAttributesUpdateResponse,
       CheckoutAttributesUpdateArgs
-    >(CHECKOUT_DISCOUNT_CODE_APPLY, {
+    >(CHECKOUT_ATTRIBUTES_UPDATE, {
       checkoutId: checkout.id,
       input,
     })
@@ -305,7 +307,7 @@ export const useCheckout = ({
   const updateLineItem = async (lineItem: CheckoutLineItemUpdateInput) =>
     checkoutLineItemsUpdate([lineItem])
 
-  const addNote = (note: string) => checkoutAttributesUpdate({ note })
+  const addNote = async (note: string) => checkoutAttributesUpdate({ note })
 
   /* Clears the cart */
   const clearCheckout = async () => dispatch({ type: CART_CLEARED })

@@ -2,6 +2,7 @@ import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
 import { FieldProps } from './Field'
+import { Label } from './styled'
 
 export const CheckboxElement = styled.input`
   -webkit-appearance: none;
@@ -46,26 +47,25 @@ export interface CheckboxProps extends FieldProps {
 
 export const Checkbox = ({
   required,
-  type,
-  placeholder,
   disabled,
   name,
+  label,
 }: CheckboxProps) => {
   return (
     <FormikField type="checkbox" name={name}>
       {({ field }) => (
         <CheckboxWrapper>
-          <div>
-            <CheckboxElement
-              {...field}
-              value={field.value || false}
-              id={field.name}
-              required={required}
-              placeholder={placeholder}
-              type={type}
-              disabled={disabled}
-            />
-          </div>
+          <CheckboxElement
+            {...field}
+            value={field.value || false}
+            id={field.name}
+            required={required}
+            type="checkbox"
+            disabled={disabled}
+          />
+          <Label color="body.9" htmlFor={field.name}>
+            {label}
+          </Label>
         </CheckboxWrapper>
       )}
     </FormikField>

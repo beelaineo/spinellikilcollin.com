@@ -3,6 +3,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import { Button } from '../Button'
 import { useAnalytics, useCart, useShopify } from '../../providers'
 import { Form, Field } from '../Forms'
+import { Checkbox } from '../Forms/Fields/Checkbox'
 import { Heading } from '../Text'
 import { Hamburger } from '../Hamburger'
 import {
@@ -22,8 +23,11 @@ import { Price } from '../Price'
  */
 
 interface FormValues {
-  note?: string
+  notes?: string
+  giftWrap?: boolean
 }
+
+const defString = (s: string | undefined): string => (s ? s : '')
 
 export const Checkout = () => {
   const { sendBeginCheckout } = useAnalytics()
@@ -38,8 +42,14 @@ export const Checkout = () => {
 
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
-    const { note } = values
-    if (note) await addNote(note)
+    const { notes, giftWrap } = values
+    const fullNote = giftWrap
+      ? defString(notes)
+          .concat('\n\n** Gift wrap requested **')
+          .replace(/^\s+/, '')
+      : notes
+
+    if (fullNote) await addNote(fullNote)
 
     sendBeginCheckout(
       // @ts-ignore
@@ -107,6 +117,7 @@ export const Checkout = () => {
                 Please leave special instructions below
               </Heading>
               <Field type="textarea" name="notes" />
+              <Checkbox label="Gift Wrap" name="giftWrap" />
               <Button
                 type="submit"
                 mt={4}

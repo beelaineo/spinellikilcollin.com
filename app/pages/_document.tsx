@@ -44,14 +44,19 @@ export default class MyDocument extends Document {
       <Html>
         <Head />
         <body>
-          <noscript>
-            <iframe
-              src={tagInfo.iframeSrc}
+          <noscript
+            dangerouslySetInnerHTML={{
+              __html: `
+           <iframe
+              src={${tagInfo.iframeSrc}}
               height="0"
               width="0"
               style={{ display: 'none', visibility: 'hidden' }}
             ></iframe>
-          </noscript>
+        
+            `,
+            }}
+          />
 
           <Main />
           <NextScript />

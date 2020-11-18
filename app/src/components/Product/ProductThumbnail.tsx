@@ -16,6 +16,7 @@ import { TagBadges } from './TagBadges'
 import { ProductSwatches } from './ProductSwatches'
 import { Price } from '../Price'
 import {
+  getProductUri,
   getVariantBySelectedOption,
   optionMatchesVariant,
   getBestVariantByMatch,
@@ -67,6 +68,7 @@ export const ProductThumbnail = ({
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
+  // console.log({ product })
   const [variants] = unwindEdges(product?.sourceData?.variants)
 
   const initialVariant = preferredVariantMatches
@@ -131,19 +133,10 @@ export const ProductThumbnail = ({
     .filter(Boolean)
     .join(' - ')
 
-  const matches = asPath.match(/\?(.*)$/)
-  const existingParams = matches && matches[1] ? matches[1] : undefined
-  const params = new URLSearchParams(existingParams)
-
-  params.delete('search')
-  params.delete('v')
-
-  if (currentVariant && currentVariant.id) {
-    params.set('v', currentVariant.id)
-  }
-  const linkAs = `/products/${product.handle}?`
-    .concat(params.toString())
-    .replace(/\?$/, '')
+  const linkAs = getProductUri(product, {
+    variant: currentVariant,
+    currentPath: asPath,
+  })
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>

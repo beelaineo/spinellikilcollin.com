@@ -76,7 +76,7 @@
 		"bufferutil": "^4.0.2",
 		"common-tags": "^1.8.0",
 		"formik": "^2.2.4",
-		"g": "^2.0.1",
+  	"g": "^2.0.1",
 		"graphql-request": "^3.3.0",
 		"graphql-tag": "^2.11.0",
 		"hls.js": "^0.14.16",

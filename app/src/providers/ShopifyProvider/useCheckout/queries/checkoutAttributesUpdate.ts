@@ -3,7 +3,7 @@ import { CheckoutResponse } from '../../types'
 import { checkoutFragment } from '../../../../graphql'
 
 export const CHECKOUT_ATTRIBUTES_UPDATE = gql`
-  mutation AddNote($checkoutId: ID!, $input: CheckoutAttributesUdpateV2Input!) {
+  mutation AddNote($checkoutId: ID!, $input: CheckoutAttributesUpdateV2Input!) {
     checkoutAttributesUpdateV2(checkoutId: $checkoutId, input: $input) {
       checkoutUserErrors {
         __typename

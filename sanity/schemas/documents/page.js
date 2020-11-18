@@ -14,6 +14,12 @@ export const page = {
       type: 'hero',
     },
     {
+      name: 'content',
+      label: 'Content Blocks',
+      type: 'array',
+      of: [{ type: 'carousel' }, { type: 'imageTextBlock' }],
+    },
+    {
       name: 'subtitle',
       label: 'Subtitle',
       type: 'string',

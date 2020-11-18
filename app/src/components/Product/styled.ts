@@ -99,13 +99,14 @@ export const SwatchWrapper = styled.div<WithClickable>`
     position: relative;
     width: 23px;
     margin: 0;
+    margin-right: 2;
     padding-bottom: 2;
     cursor: ${clickable ? 'pointer' : 'inherit'};
     border-bottom: ${active ? '1px solid' : 'none'};
     border-color: body.5;
 
-    & + & {
-      margin-left: 2;
+    &:last-child {
+      margin-right: 0;
     }
 
     &:hover {

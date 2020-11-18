@@ -30,18 +30,22 @@
       "ShopifyCollection",
       "ShopifyProduct"
     ],
+    "CarouselOrImageTextBlock": [
+      "Carousel",
+      "ImageTextBlock"
+    ],
     "ExternalLinkOrInternalLink": [
       "ExternalLink",
       "InternalLink"
+    ],
+    "FilterSetOrPriceRangeFilter": [
+      "FilterSet",
+      "PriceRangeFilter"
     ],
     "PageOrShopifyCollectionOrShopifyProduct": [
       "Page",
       "ShopifyCollection",
       "ShopifyProduct"
-    ],
-    "FilterSetOrPriceRangeFilter": [
-      "FilterSet",
-      "PriceRangeFilter"
     ],
     "CustomizeOrMagazineOrPageOrTeamPage": [
       "Customize",

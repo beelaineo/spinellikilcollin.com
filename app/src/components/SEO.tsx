@@ -44,13 +44,13 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
 
   return (
-    <>
+    <Head>
       <meta property="og:availability" content={availability} />
       <meta property="product:price:amount" content={formattedPrice} />
       <meta property="product:price:currency" content="USD" />
       <meta property="og:price:amount" content={formattedPrice} />
       <meta property="og:price:currency" content="USD" />
-    </>
+    </Head>
   )
 }
 
@@ -106,25 +106,28 @@ export const SEO = ({
   const canonical = [BASE_URL, path].join('/')
   const imageUrl = getImageUrl(image)
   return (
-    <Head>
-      <title key="title">{title}</title>
-      <meta name="description" content={description || undefined} />
-      <meta name="keywords" content={keywords || undefined} />
-      <meta property="og:title" content={metaTitle || title || undefined} />
-      <meta property="og:description" content={description || undefined} />
-      <meta property="og:image" content={imageUrl || undefined} />
-      <meta property="og:image_secure_url" content={imageUrl || undefined} />
-      <meta property="og:type" content={contentType || 'website'} />
-      <meta property="og:url" content={canonical} />
-      <meta name="robots" content="index, follow" />
-      <meta name="twitter:card" content="summary" />
-      <meta name="twitter:title" content={metaTitle || title || undefined} />
-      <meta name="twitter:description" content={description || undefined} />
-      <meta name="twitter:image" content={imageUrl || undefined} />
-      <link rel="canonical" href={canonical} />
+    <>
+      <Head>
+        <title key="title">{title}</title>
+        <meta name="description" content={description || undefined} />
+        <meta name="keywords" content={keywords || undefined} />
+        <meta property="og:title" content={metaTitle || title || undefined} />
+        <meta property="og:description" content={description || undefined} />
+        <meta property="og:image" content={imageUrl || undefined} />
+        <meta property="og:image_secure_url" content={imageUrl || undefined} />
+        <meta property="og:type" content={contentType || 'website'} />
+        <meta property="og:url" content={canonical} />
+        <meta name="robots" content="index, follow" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={metaTitle || title || undefined} />
+        <meta name="twitter:description" content={description || undefined} />
+        <meta name="twitter:image" content={imageUrl || undefined} />
+        <link rel="canonical" href={canonical} />
+      </Head>
+
       {contentType === 'product' && product ? (
         <ProductSEO product={product} />
       ) : null}
-    </Head>
+    </>
   )
 }
