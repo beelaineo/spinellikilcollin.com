@@ -14,6 +14,17 @@ interface CustomizeProps {
   customize: CustomizeType
 }
 
+const CustomizeBlocks = styled.div`
+  border-top: 1px solid;
+  border-color: body.5;
+`
+
+const BlockWrapper = styled.div`
+  padding: 6 0;
+  border-bottom: 1px solid;
+  border-color: body.5;
+`
+
 const PageText = styled.div`
   h1,
   h2,
@@ -52,7 +63,13 @@ export const Customize = ({ customize }: CustomizeProps) => {
             />
           </PageText>
         </Column>
-        {quizBlock ? <QuizBlock quizBlock={quizBlock} /> : null}
+        <CustomizeBlocks>
+          {quizBlock ? (
+            <BlockWrapper>
+              <QuizBlock quizBlock={quizBlock} />
+            </BlockWrapper>
+          ) : null}
+        </CustomizeBlocks>
       </PageWrapper>
     </>
   )

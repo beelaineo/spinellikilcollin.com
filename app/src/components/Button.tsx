@@ -1,8 +1,8 @@
 import * as React from 'react'
-import styled, { css } from '@xstyled/styled-components'
+import styled, { css, BoxProps } from '@xstyled/styled-components'
 import Link from 'next/link'
 
-interface ButtonProps {
+interface ButtonProps extends BoxProps {
   level?: 1 | 2 | 3
   disabled?: boolean
 }
@@ -58,11 +58,12 @@ export const LinkButton = ({
   children,
   level,
   disabled,
+  ...rest
 }: LinkButtonProps) => {
   return (
     <Link href={href}>
       <a>
-        <Button as="div" level={level} disabled={disabled}>
+        <Button as="div" {...rest} level={level} disabled={disabled}>
           {children}
         </Button>
       </a>

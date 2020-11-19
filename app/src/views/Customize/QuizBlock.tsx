@@ -34,9 +34,13 @@ export const QuizBlock = ({ quizBlock }: QuizBlockProps) => {
   return (
     <QuizBlockWrapper>
       <QuizBlockLeft>
-        <Heading level={2}>{title}</Heading>
+        <Heading mb={2} level={2}>
+          {title}
+        </Heading>
         <Heading level={4}>{subtitle}</Heading>
-        <LinkButton href="/customize/quiz">Launch Quiz</LinkButton>
+        <LinkButton mt={4} level={2} href="/customize/quiz">
+          Launch Quiz
+        </LinkButton>
       </QuizBlockLeft>
       <Image image={image} ratio={1} />
     </QuizBlockWrapper>

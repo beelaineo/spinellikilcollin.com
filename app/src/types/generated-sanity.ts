@@ -280,6 +280,45 @@ export type CtaSorting = {
   link?: Maybe<InternalLinkSorting>
 }
 
+export interface CustomerStories {
+  __typename: 'CustomerStories'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  stories?: Maybe<Array<Maybe<CustomerStory>>>
+}
+
+export type CustomerStoriesFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+}
+
+export type CustomerStoriesSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+}
+
+export interface CustomerStory {
+  __typename: 'CustomerStory'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  body?: Maybe<Scalars['String']>
+  byLine?: Maybe<Scalars['String']>
+}
+
+export type CustomerStoryFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  body?: Maybe<StringFilter>
+  byLine?: Maybe<StringFilter>
+}
+
+export type CustomerStorySorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  body?: Maybe<SortOrder>
+  byLine?: Maybe<SortOrder>
+}
+
 export interface Customize extends Document {
   __typename: 'Customize'
   /** Document ID */
@@ -300,7 +339,32 @@ export interface Customize extends Document {
   quizBlock?: Maybe<QuizBlock>
   quizProductTypes?: Maybe<Array<Maybe<QuizProductType>>>
   quizStyles?: Maybe<Array<Maybe<Scalars['String']>>>
+  customerStories?: Maybe<CustomerStories>
+  examples?: Maybe<CustomizeExamples>
   seo?: Maybe<Seo>
+}
+
+export interface CustomizeExamples {
+  __typename: 'CustomizeExamples'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  Links?: Maybe<Array<Maybe<ImageTextBlock>>>
+}
+
+export type CustomizeExamplesFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
+}
+
+export type CustomizeExamplesSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
 }
 
 export type CustomizeFilter = {
@@ -316,6 +380,8 @@ export type CustomizeFilter = {
   hero?: Maybe<HeroFilter>
   subtitle?: Maybe<StringFilter>
   quizBlock?: Maybe<QuizBlockFilter>
+  customerStories?: Maybe<CustomerStoriesFilter>
+  examples?: Maybe<CustomizeExamplesFilter>
   seo?: Maybe<SeoFilter>
 }
 
@@ -336,6 +402,8 @@ export type CustomizeSorting = {
   hero?: Maybe<HeroSorting>
   subtitle?: Maybe<SortOrder>
   quizBlock?: Maybe<QuizBlockSorting>
+  customerStories?: Maybe<CustomerStoriesSorting>
+  examples?: Maybe<CustomizeExamplesSorting>
   seo?: Maybe<SeoSorting>
 }
 

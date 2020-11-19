@@ -30,13 +30,13 @@
       "ShopifyCollection",
       "ShopifyProduct"
     ],
-    "CarouselOrImageTextBlock": [
-      "Carousel",
-      "ImageTextBlock"
-    ],
     "ExternalLinkOrInternalLink": [
       "ExternalLink",
       "InternalLink"
+    ],
+    "CarouselOrImageTextBlock": [
+      "Carousel",
+      "ImageTextBlock"
     ],
     "FilterSetOrPriceRangeFilter": [
       "FilterSet",
