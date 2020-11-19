@@ -1,3 +1,4 @@
+export * from './directory'
 export * from './about'
 export * from './team'
 export * from './productListingSettings'

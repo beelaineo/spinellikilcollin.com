@@ -91,6 +91,7 @@ export const internalLink = {
         { type: 'shopifyCollection' },
         { type: 'journalPage' },
         { type: 'journalEntry' },
+        { type: 'teamPage' },
         { type: 'magazine' },
         { type: 'contact' },
         { type: 'customize' },

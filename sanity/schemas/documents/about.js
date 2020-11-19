@@ -7,10 +7,16 @@ export const pageLink = {
       name: 'linkedPage',
       type: 'reference',
       to: [
-        { type: 'page' },
-        { type: 'magazine' },
+        { type: 'shopifyProduct' },
+        { type: 'shopifyCollection' },
+        { type: 'journalPage' },
+        { type: 'journalEntry' },
         { type: 'teamPage' },
+        { type: 'magazine' },
+        { type: 'contact' },
         { type: 'customize' },
+        { type: 'about' },
+        { type: 'page' },
       ],
     },
     {
