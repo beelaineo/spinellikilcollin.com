@@ -1,9 +1,10 @@
 {
   "possibleTypes": {
     "Document": [
+      "Directory",
       "About",
-      "Contact",
       "SanityImageAsset",
+      "Contact",
       "Customize",
       "JournalEntry",
       "JournalPage",
@@ -19,7 +20,7 @@
       "ProductInfoSettings",
       "SanityFileAsset"
     ],
-    "AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct": [
+    "AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage": [
       "About",
       "Contact",
       "Customize",
@@ -28,15 +29,16 @@
       "Magazine",
       "Page",
       "ShopifyCollection",
-      "ShopifyProduct"
-    ],
-    "CarouselOrImageTextBlock": [
-      "Carousel",
-      "ImageTextBlock"
+      "ShopifyProduct",
+      "TeamPage"
     ],
     "ExternalLinkOrInternalLink": [
       "ExternalLink",
       "InternalLink"
+    ],
+    "CarouselOrImageTextBlock": [
+      "Carousel",
+      "ImageTextBlock"
     ],
     "FilterSetOrPriceRangeFilter": [
       "FilterSet",
@@ -46,12 +48,6 @@
       "Page",
       "ShopifyCollection",
       "ShopifyProduct"
-    ],
-    "CustomizeOrMagazineOrPageOrTeamPage": [
-      "Customize",
-      "Magazine",
-      "Page",
-      "TeamPage"
     ],
     "MenuLinkOrSubMenu": [
       "MenuLink",

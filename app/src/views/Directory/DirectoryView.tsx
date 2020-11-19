@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { About } from '../../types'
+import { About, Directory } from '../../types'
 import { PageWrapper, Column } from '../../components/Layout'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Heading } from '../../components/Text'
@@ -8,12 +8,12 @@ import { PageLinksWrapper } from './styled'
 import { PageLink } from './PageLink'
 import { SEO } from '../../components/SEO'
 
-interface AboutViewProps {
-  about: About
+interface DirectoryViewProps {
+  data: About | Directory
 }
 
-export const AboutView = ({ about }: AboutViewProps) => {
-  const { seo, hero, introText, pageLinks } = about
+export const DirectoryView = ({ data }: DirectoryViewProps) => {
+  const { seo, hero, introText, pageLinks } = data
 
   const defaultSeo = {
     title: 'About Spinelli Kilcollin',

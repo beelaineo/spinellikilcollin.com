@@ -41,7 +41,7 @@ export const PageLink = ({ pageLink, index }: PageLinkProps) => {
               my={3}
               mx="auto"
               textAlign="center"
-              maxWidth={{ xs: 'calc(100% - 20px)', md: '360px' }}
+              maxWidth={{ xs: 'calc(100% - 20px)', md: '460px' }}
               level={3}
             >
               {summary}

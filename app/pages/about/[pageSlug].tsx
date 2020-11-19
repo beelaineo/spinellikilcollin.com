@@ -2,8 +2,8 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { getParam, definitely } from '../../src/utils'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { Page as PageType } from '../../src/types'
-import { NotFound, PageView } from '../../src/views'
+import { Page as PageType, Directory } from '../../src/types'
+import { NotFound, PageView, DirectoryView } from '../../src/views'
 import {
   seoFragment,
   carouselFragment,
@@ -15,7 +15,86 @@ import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQu
 
 const pageQuery = gql`
   query PageQuery($slug: String!) {
+    allDirectory(where: { slug: { current: { eq: $slug } } }) {
+      __typename
+      introText
+      hero {
+        ...HeroFragment
+      }
+      seo {
+        ...SEOFragment
+      }
+      pageLinks {
+        _key
+        title
+        summary
+        ctaText
+        image {
+          ...RichImageFragment
+        }
+        linkedPage {
+          __typename
+          ... on Contact {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Customize {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on JournalEntry {
+            _id
+            _type
+            _key
+            title
+            slug {
+              current
+            }
+          }
+          ... on JournalPage {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Magazine {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Page {
+            _id
+            _type
+            _key
+            title
+            slug {
+              current
+            }
+          }
+          ... on ShopifyProduct {
+            _id
+            _key
+            _type
+            title
+            handle
+          }
+          ... on ShopifyCollection {
+            _id
+            _key
+            _type
+            title
+            handle
+          }
+        }
+      }
+    }
     allPage(where: { slug: { current: { eq: $slug } } }) {
+      __typename
       _id
       title
       subtitle
@@ -50,13 +129,16 @@ const pageQuery = gql`
 
 interface PageResponse {
   allPage: PageType[]
+  allDirectory: Directory[]
 }
 
 interface PageProps {
-  page?: PageType
+  page?: PageType | Directory
 }
+
 const Page = ({ page }: PageProps) => {
   if (!page) return <NotFound />
+  if (page.__typename === 'Directory') return <DirectoryView data={page} />
   return <PageView page={page} />
 }
 
@@ -74,8 +156,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     requestShopData(),
   ])
 
-  const pages = response?.allPage
-  const page = pages && pages.length ? pages[0] : null
+  const pages = response?.allPage || []
+  const directories = response?.allDirectory || []
+  const page = [...pages, ...directories][0] || null
   return { props: { page, shopData }, revalidate: 60 }
 }
 
