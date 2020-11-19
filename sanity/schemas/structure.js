@@ -33,10 +33,7 @@ export default () =>
         .title('Nav Menu')
         .icon(FiCompass)
         .child(
-          S.editor()
-            .id('menu')
-            .schemaType('menu')
-            .documentId('menu-settings'),
+          S.editor().id('menu').schemaType('menu').documentId('menu-settings'),
         ),
 
       // Products
@@ -104,18 +101,15 @@ export default () =>
       S.listItem()
         .title('About (Main Page)')
         .icon(MdInfoOutline)
-        .child(
-          S.editor()
-            .id('about')
-            .schemaType('about')
-            .documentId('about'),
-        ),
+        .child(S.editor().id('about').schemaType('about').documentId('about')),
 
-      S.listItem()
-        .id('pages')
-        .title('About Pages')
-        .icon(MdInfoOutline)
-        .child(S.documentTypeList('page')),
+      S.listItem().id('pages').title('About Pages').icon(MdInfoOutline).child(
+        S.documentList()
+          .title('Pages')
+          .filter('_type == "page" || _type == "directory"'),
+
+        // S.documentTypeList('page')
+      ),
 
       S.listItem()
         .title('.925')
@@ -131,10 +125,7 @@ export default () =>
         .title('Contact')
         .icon(MdLocalPhone)
         .child(
-          S.editor()
-            .id('contact')
-            .schemaType('contact')
-            .documentId('contact'),
+          S.editor().id('contact').schemaType('contact').documentId('contact'),
         ),
 
       S.listItem()
