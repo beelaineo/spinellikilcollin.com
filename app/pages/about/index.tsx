@@ -1,7 +1,7 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps } from 'next'
-import { AboutView, NotFound } from '../../src/views'
+import { DirectoryView, NotFound } from '../../src/views'
 import { About } from '../../src/types'
 import { richImageFragment, heroFragment } from '../../src/graphql'
 import { seoFragment, request } from '../../src/graphql'
@@ -63,7 +63,7 @@ interface AboutIndexProps {
 
 const AboutIndex = ({ about }: AboutIndexProps) => {
   if (!about) return <NotFound />
-  return <AboutView about={about} />
+  return <DirectoryView data={about} />
 }
 
 /**

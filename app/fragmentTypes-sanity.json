@@ -1,9 +1,10 @@
 {
   "possibleTypes": {
     "Document": [
+      "Directory",
       "About",
-      "Contact",
       "SanityImageAsset",
+      "Contact",
       "Customize",
       "JournalEntry",
       "JournalPage",
@@ -19,7 +20,7 @@
       "ProductInfoSettings",
       "SanityFileAsset"
     ],
-    "AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProduct": [
+    "AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage": [
       "About",
       "Contact",
       "Customize",
@@ -28,7 +29,8 @@
       "Magazine",
       "Page",
       "ShopifyCollection",
-      "ShopifyProduct"
+      "ShopifyProduct",
+      "TeamPage"
     ],
     "ExternalLinkOrInternalLink": [
       "ExternalLink",
@@ -46,12 +48,6 @@
       "Page",
       "ShopifyCollection",
       "ShopifyProduct"
-    ],
-    "CustomizeOrMagazineOrPageOrTeamPage": [
-      "Customize",
-      "Magazine",
-      "Page",
-      "TeamPage"
     ],
     "MenuLinkOrSubMenu": [
       "MenuLink",

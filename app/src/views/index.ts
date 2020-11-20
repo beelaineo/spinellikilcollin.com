@@ -1,4 +1,4 @@
-export * from './About'
+export * from './Directory'
 export * from './Homepage'
 export * from './ProductListing'
 export * from './ProductDetail'
