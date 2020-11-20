@@ -10,6 +10,11 @@ export const page = {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'hideTitle',
+      label: 'Hide Title',
+      type: 'boolean',
+    },
+    {
       name: 'hero',
       type: 'hero',
     },
@@ -18,6 +23,13 @@ export const page = {
       label: 'Content Blocks',
       type: 'array',
       of: [{ type: 'carousel' }, { type: 'imageTextBlock' }],
+    },
+    {
+      name: 'fullWidth',
+      type: 'boolean',
+      name: 'Full Width',
+      description:
+        'When on, padding above and below the content blocks will be removed',
     },
     {
       name: 'subtitle',
