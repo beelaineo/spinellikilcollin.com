@@ -1119,9 +1119,12 @@ export interface Page extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  hideTitle?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
   content?: Maybe<Array<Maybe<CarouselOrImageTextBlock>>>
-  subtitle?: Maybe<Scalars['String']>
+  /** When on, padding above and below the content blocks will be removed */
+  fullWidth?: Maybe<Scalars['Boolean']>
   slug?: Maybe<Slug>
   bodyRaw?: Maybe<Scalars['JSON']>
   seo?: Maybe<Seo>
@@ -1137,8 +1140,10 @@ export type PageFilter = {
   _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
-  hero?: Maybe<HeroFilter>
   subtitle?: Maybe<StringFilter>
+  hideTitle?: Maybe<BooleanFilter>
+  hero?: Maybe<HeroFilter>
+  fullWidth?: Maybe<BooleanFilter>
   slug?: Maybe<SlugFilter>
   seo?: Maybe<SeoFilter>
 }
@@ -1211,8 +1216,10 @@ export type PageSorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
-  hero?: Maybe<HeroSorting>
   subtitle?: Maybe<SortOrder>
+  hideTitle?: Maybe<SortOrder>
+  hero?: Maybe<HeroSorting>
+  fullWidth?: Maybe<SortOrder>
   slug?: Maybe<SlugSorting>
   seo?: Maybe<SeoSorting>
 }

@@ -39,7 +39,17 @@ const Grid = styled.div`
 `
 
 export const PageView = ({ page }: PageViewProps) => {
-  const { seo, content, title, hero, subtitle, slug, bodyRaw } = page
+  const {
+    seo,
+    content,
+    title,
+    hero,
+    subtitle,
+    hideTitle,
+    fullWidth,
+    slug,
+    bodyRaw,
+  } = page
   const defaultSeo = {
     title: title || '',
     image: getHeroImage(hero) || getFirstImage(bodyRaw),
@@ -50,16 +60,20 @@ export const PageView = ({ page }: PageViewProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
       {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
-      <PageWrapper>
-        <Heading
-          mt={{ xs: 6, md: '6px' }}
-          mb={{ xs: 6, md: '0.5em' }}
-          textAlign="center"
-          level={1}
-        >
-          {title}
-        </Heading>
-        {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
+      <PageWrapper p={fullWidth ? '0' : undefined}>
+        {hideTitle !== true ? (
+          <>
+            <Heading
+              mt={{ xs: 6, md: '6px' }}
+              mb={{ xs: 6, md: '0.5em' }}
+              textAlign="center"
+              level={1}
+            >
+              {title}
+            </Heading>
+            {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
+          </>
+        ) : null}
         <Grid>
           {definitely(content).map((c) => (
             <ContentBlock key={c._key || 'some-key'} content={c} />

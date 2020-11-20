@@ -98,6 +98,8 @@ const pageQuery = gql`
       _id
       title
       subtitle
+      fullWidth
+      hideTitle
       hero {
         ...HeroFragment
       }
