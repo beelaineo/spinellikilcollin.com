@@ -219,6 +219,7 @@ const handler: NextApiHandler = (req, res) =>
         searchableAttributes: [
           'title',
           'optionNames',
+          'hidden',
           '_tags',
           'description,optionDescriptions',
         ],
@@ -239,7 +240,7 @@ const handler: NextApiHandler = (req, res) =>
             // @ts-ignore
             if (doc.error) throw new Error(doc.error)
             if (doc._type === 'shopifyProduct') {
-              if (!doc?.shopifyId || doc?.archived || doc?.hidden) return false
+              if (!doc?.shopifyId) return false
               return true
             }
             return false
