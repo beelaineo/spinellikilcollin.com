@@ -197,7 +197,9 @@ export const useSearchReducer = () => {
       typoTolerance: 'min',
       exactOnSingleWordQuery: 'word',
     })
-    const results = hits.map((hit) => hit.document)
+    const results = hits
+      .map((hit) => hit.document)
+      .filter((hit) => hit.hidden !== true)
     onSuccess(results || [])
   }
 
