@@ -109,7 +109,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
         return {
           objectID: doc._id,
           type: doc._type,
-          hidden: doc.hidden,
+          hidden: Boolean(doc.hidden),
           description: doc?.sourceData?.description,
           optionDescriptions: doc?.options?.reduce<string[]>(
             (descriptions, option) => {
