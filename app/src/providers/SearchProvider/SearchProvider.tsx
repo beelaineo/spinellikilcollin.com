@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { SearchState, SearchActions, useSearchReducer } from './reducer'
 import { useNavigation } from '../NavigationProvider'
-import { algoliaIndex } from '../../services/algolia'
 
 const { useEffect } = React
 

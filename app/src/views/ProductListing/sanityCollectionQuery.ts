@@ -22,6 +22,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   _type,
   _key,
   title,
+  hidden,
   handle,
   shopifyId,
   reduceColumnCount,
@@ -54,9 +55,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     "bodyRaw": body,
     ...,
   },
-  "products": products[$productStart...$productEnd]->[hidden != true] | order(${getSortString(
-    sort,
-  )}) {
+  "products": products[]->[hidden != true] | order(${getSortString(sort)}) {
     _id,
     _type,
     hidden,
@@ -97,7 +96,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
         },
       },
     },
-  },
+  }[$productStart..$productEnd],
   preferredVariantMatches,
   collectionBlocks[]{
     _key,
@@ -118,12 +117,13 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[$productStart...$productEnd]->[hidden != true] {
+  "products": products[]->[hidden != true] {
     _id,
     _type,
     handle,
     minVariantPrice,
     maxVariantPrice,
+    hidden,
     shopifyId,
     title,
     inquiryOnly,
@@ -157,7 +157,7 @@ export const moreProductsQuery = `
         },
       },
     },
-  },
+  }[$productStart..$productEnd],
 }
 `
 

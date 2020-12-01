@@ -109,6 +109,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
         return {
           objectID: doc._id,
           type: doc._type,
+          hidden: Boolean(doc.hidden),
           description: doc?.sourceData?.description,
           optionDescriptions: doc?.options?.reduce<string[]>(
             (descriptions, option) => {
@@ -142,6 +143,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
               '_type',
               'title',
               'handle',
+              'hidden',
               'shopifyId',
               'minVariantPrice',
               'maxVariantPrice',
@@ -217,6 +219,7 @@ const handler: NextApiHandler = (req, res) =>
         searchableAttributes: [
           'title',
           'optionNames',
+          'hidden',
           '_tags',
           'description,optionDescriptions',
         ],
@@ -237,7 +240,7 @@ const handler: NextApiHandler = (req, res) =>
             // @ts-ignore
             if (doc.error) throw new Error(doc.error)
             if (doc._type === 'shopifyProduct') {
-              if (!doc?.shopifyId || doc?.archived || doc?.hidden) return false
+              if (!doc?.shopifyId) return false
               return true
             }
             return false
