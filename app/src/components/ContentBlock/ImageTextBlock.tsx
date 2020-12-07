@@ -121,13 +121,17 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
   const ratio = layout === 'fullWidth' ? 0.5 : 1
   return (
     <Wrapper layout={layout}>
-      <ImagesWrapper>
-        <Image image={backgroundImage} hoverImage={hoverImage} ratio={ratio} />
-        <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
-      </ImagesWrapper>
-      {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
-      <TextWrapper textPosition={textPosition}>
-        <PageLink link={link}>
+      <PageLink link={link}>
+        <ImagesWrapper>
+          <Image
+            image={backgroundImage}
+            hoverImage={hoverImage}
+            ratio={ratio}
+          />
+          <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
+        </ImagesWrapper>
+        {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
+        <TextWrapper textPosition={textPosition}>
           <Box color={textColor}>
             <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
             {ctaText ? (
@@ -138,8 +142,8 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
               </CtaWrapper>
             ) : null}
           </Box>
-        </PageLink>
-      </TextWrapper>
+        </TextWrapper>
+      </PageLink>
     </Wrapper>
   )
 }

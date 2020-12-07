@@ -51,6 +51,13 @@ const uniqueImages = (
     return [...acc, image]
   }, [])
 
+const sum = (numberOne: number, numberTwo: number): string => {
+  const all = numberOne + numberTwo
+  return all.toString()
+}
+
+sum('one', 2)
+
 export const ProductThumbnail = ({
   product,
   displayPrice,
@@ -68,7 +75,6 @@ export const ProductThumbnail = ({
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
-  // console.log({ product })
   const [variants] = unwindEdges(product?.sourceData?.variants)
 
   const initialVariant = preferredVariantMatches

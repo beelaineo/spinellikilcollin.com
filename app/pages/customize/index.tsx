@@ -9,6 +9,7 @@ import {
   richImageFragment,
   seoFragment,
   heroFragment,
+  imageTextBlockFragment,
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
@@ -33,11 +34,27 @@ const customizeQuery = gql`
           ...RichImageFragment
         }
       }
+      customerStories {
+        stories {
+          _key
+          body
+          byLine
+        }
+      }
+      examples {
+        _key
+        title
+        subtitle
+        links {
+          ...ImageTextBlockFragment
+        }
+      }
     }
   }
   ${seoFragment}
   ${heroFragment}
   ${richImageFragment}
+  ${imageTextBlockFragment}
 `
 
 interface CustomizeProps {

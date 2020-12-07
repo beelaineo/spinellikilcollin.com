@@ -9,6 +9,8 @@ import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
 import { isValidHero, getHeroImage } from '../../utils'
 import { QuizBlock } from './QuizBlock'
+import { Examples } from './Examples'
+import { CustomerStories } from './CustomerStories'
 
 interface CustomizeProps {
   customize: CustomizeType
@@ -40,11 +42,22 @@ const PageText = styled.div`
 `
 
 export const Customize = ({ customize }: CustomizeProps) => {
-  const { seo, title, subtitle, hero, bodyRaw, quizBlock } = customize
+  const {
+    seo,
+    title,
+    subtitle,
+    hero,
+    bodyRaw,
+    quizBlock,
+    customerStories,
+    examples,
+  } = customize
   const defaultSeo = {
     title: 'Customize',
     image: getHeroImage(hero),
   }
+
+  console.log({ bodyRaw, customerStories, examples })
 
   return (
     <>
@@ -55,20 +68,27 @@ export const Customize = ({ customize }: CustomizeProps) => {
           {title}
         </Heading>
         {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
-        <Column columnwidth="medium">
-          <PageText>
-            <RichText
-              body={bodyRaw}
-              imageSizes="(max-width: 600px) 100vw, 600px"
-            />
-          </PageText>
-        </Column>
+        {bodyRaw ? (
+          <Column columnwidth="medium">
+            <PageText>
+              <RichText
+                body={bodyRaw}
+                imageSizes="(max-width: 600px) 100vw, 600px"
+              />
+            </PageText>
+          </Column>
+        ) : null}
         <CustomizeBlocks>
           {quizBlock ? (
             <BlockWrapper>
               <QuizBlock quizBlock={quizBlock} />
             </BlockWrapper>
           ) : null}
+
+          <BlockWrapper>
+            <CustomerStories customerStories={customerStories} />
+          </BlockWrapper>
+          <Examples examples={examples} />
         </CustomizeBlocks>
       </PageWrapper>
     </>

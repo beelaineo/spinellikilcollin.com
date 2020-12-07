@@ -14,8 +14,8 @@ export const customizeExamples = {
       type: 'string',
     },
     {
-      title: 'links',
-      name: 'Links',
+      title: 'Links',
+      name: 'links',
       type: 'array',
       of: [{ type: 'imageTextBlock' }],
     },

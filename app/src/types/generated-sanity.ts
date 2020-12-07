@@ -351,7 +351,7 @@ export interface CustomizeExamples {
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   subtitle?: Maybe<Scalars['String']>
-  Links?: Maybe<Array<Maybe<ImageTextBlock>>>
+  links?: Maybe<Array<Maybe<ImageTextBlock>>>
 }
 
 export type CustomizeExamplesFilter = {
