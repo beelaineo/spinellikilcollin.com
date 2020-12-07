@@ -199,6 +199,7 @@ export const useSearchReducer = () => {
     })
     const results = hits
       .map((hit) => hit.document)
+      .filter(Boolean)
       .filter((hit) => hit.hidden !== true)
     onSuccess(results || [])
   }
