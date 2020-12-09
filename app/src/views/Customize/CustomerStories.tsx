@@ -1,13 +1,15 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { Maybe, CustomerStories as CustomerStoriesType } from '../../types'
-import { Carousel } from '../../components/Carousel'
+import { Loop } from '../../components/Loop'
+import { P } from '../../components/Text'
 import { definitely } from '../../utils'
 
 const StoryWrapper = styled.div`
   ${({ theme }) => css`
     padding: 3;
     width: 45vw;
+    text-align: center;
 
     ${theme.mediaQueries.mobile} {
       width: 100vw;
@@ -24,12 +26,15 @@ export const CustomerStories = ({ customerStories }: CustomerStoriesProps) => {
   if (!stories.length) return null
 
   return (
-    <Carousel>
+    <Loop>
       {stories.map((story) => (
         <StoryWrapper key={story?._key || 'some-story-key'}>
-          {story.body}
+          <P mb={4} fontStyle="italic">
+            {story.body}
+          </P>
+          <P>—{story.byLine}</P>
         </StoryWrapper>
       ))}
-    </Carousel>
+    </Loop>
   )
 }

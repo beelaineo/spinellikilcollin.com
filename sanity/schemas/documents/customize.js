@@ -30,6 +30,12 @@ export const customerStory = {
     { name: 'body', type: 'text', title: 'Quote' },
     { name: 'byLine', type: 'string', title: 'Byline' },
   ],
+  preview: {
+    select: {
+      title: 'byLine',
+      subtitle: 'body',
+    },
+  },
 }
 
 export const customerStories = {

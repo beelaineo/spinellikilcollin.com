@@ -57,8 +57,6 @@ export const Customize = ({ customize }: CustomizeProps) => {
     image: getHeroImage(hero),
   }
 
-  console.log({ bodyRaw, customerStories, examples })
-
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="customize" />

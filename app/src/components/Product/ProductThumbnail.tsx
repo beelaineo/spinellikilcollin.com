@@ -51,13 +51,6 @@ const uniqueImages = (
     return [...acc, image]
   }, [])
 
-const sum = (numberOne: number, numberTwo: number): string => {
-  const all = numberOne + numberTwo
-  return all.toString()
-}
-
-sum('one', 2)
-
 export const ProductThumbnail = ({
   product,
   displayPrice,
