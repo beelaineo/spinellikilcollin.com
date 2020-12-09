@@ -203,7 +203,7 @@ const handler: NextApiHandler = (req, res) =>
       const partialUpdateObjects = bindCallback((objects, done) => {
         algoliaIndex
           .saveObjects(objects)
-          .then(() => {
+          .then(async () => {
             done(objects)
           })
           .catch((err) => {
@@ -262,8 +262,9 @@ const handler: NextApiHandler = (req, res) =>
           toArray(),
         )
         .subscribe(
-          (batchResults) => {
-            const totalLength = batchResults.flat().length
+          async (batchResults) => {
+            const results = batchResults.flat()
+            const totalLength = results.length
 
             // .reduce(
             //   // @ts-ignore
@@ -274,10 +275,43 @@ const handler: NextApiHandler = (req, res) =>
             //   },
             //   0,
             // )
-
+            // console.log(objectIds[1])
+            // console.log({ objectIds })
+            // console.log(results[0])
             debug(
               `Updated ${totalLength} documents in ${batchResults.length} batches`,
             )
+
+            const searchAll = async (
+              page: number = 0,
+              prevResults: any[] = [],
+            ) => {
+              const requestOptions = {
+                hitsPerPage: 50,
+                page,
+              }
+              const results = await algoliaIndex.search('', requestOptions)
+              const mergedResults = [...prevResults, ...results.hits]
+              if (results.nbHits > mergedResults.length) {
+                return searchAll(page + 1, mergedResults)
+              }
+              return mergedResults
+            }
+
+            const documentIds = results.map((r) => r?.document?._id)
+            const allResults = await searchAll()
+            const toRemove = allResults
+              .filter(
+                (hit) =>
+                  !Boolean(hit?.document?._id) ||
+                  !Boolean(documentIds.includes(hit?.document?._id)),
+              )
+              .map((i) => i.objectID)
+
+            if (toRemove.length) {
+              const removed = await algoliaIndex.deleteObjects(toRemove)
+              debug(`Removed ${removed.objectIDs.length} documents`)
+            }
             res.status(200).send({ success: true })
             resolve()
           },

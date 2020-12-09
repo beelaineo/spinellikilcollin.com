@@ -20,7 +20,7 @@ export const getFirstImage = (
 ): RichImage | undefined =>
   blocks ? blocks.find((b) => b._type === 'richImage') : undefined
 
-const css2obj = (css: string): object => {
+const css2obj = (css: string): Record<string, string> => {
   return css.split(';').reduce((ruleMap, ruleString) => {
     if (ruleString.length === 0) return ruleMap
     const rulePair = ruleString.split(':')
