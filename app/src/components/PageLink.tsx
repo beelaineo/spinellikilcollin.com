@@ -3,9 +3,7 @@ import NextLink from 'next/link'
 import { RichPageLink, ExternalLinkOrInternalLink } from '../types'
 import { getPageLinkUrl, getPageLinkLabel } from '../utils/links'
 
-export interface LinkParams {
-  customizeOpen?: boolean
-}
+export type LinkParams = Record<string, string | number | boolean>
 
 interface LinkProps {
   link?: RichPageLink | ExternalLinkOrInternalLink | null

@@ -3,7 +3,7 @@ import styled, { Box, css } from '@xstyled/styled-components'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
 import { Heading } from '../Text'
 import { RichText } from '../RichText'
-import { PageLink, LinkOptions } from '../PageLink'
+import { PageLink, LinkParams } from '../PageLink'
 import { Image, HoverImage } from '../Image'
 import {
   getFlexJustification,
@@ -103,7 +103,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
 
 interface ImageTextBlockProps {
   content: ImageTextBlockType
-  linkParams?: LinkOptions
+  linkParams?: LinkParams
 }
 
 export const ImageTextBlock = ({
