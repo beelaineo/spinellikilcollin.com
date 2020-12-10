@@ -7,7 +7,7 @@ import { definitely } from '../../utils'
 
 const StoryWrapper = styled.div`
   ${({ theme }) => css`
-    padding: 3;
+    padding: 3 5;
     width: 45vw;
     text-align: center;
 

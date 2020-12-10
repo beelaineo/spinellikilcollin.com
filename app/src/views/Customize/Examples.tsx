@@ -11,6 +11,7 @@ const ExamplesWrapper = styled.div`
 
 const ExamplesGrid = styled.div`
   ${({ theme }) => css`
+    margin-top: 5;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 4;
