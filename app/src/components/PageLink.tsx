@@ -3,12 +3,17 @@ import NextLink from 'next/link'
 import { RichPageLink, ExternalLinkOrInternalLink } from '../types'
 import { getPageLinkUrl, getPageLinkLabel } from '../utils/links'
 
+export interface LinkParams {
+  customizeOpen?: boolean
+}
+
 interface LinkProps {
   link?: RichPageLink | ExternalLinkOrInternalLink | null
   children?: React.ReactNode
   label?: string
   render?: (label: string | void | null) => React.ReactNode
   onClick?: () => void
+  linkParams?: LinkParams
 }
 
 const linkStyles = {
@@ -27,6 +32,7 @@ export const PageLink = ({
   children,
   render,
   label,
+  linkParams,
 }: LinkProps) => {
   if (!link) return <>{children}</>
   if (link.__typename === 'ExternalLink') {
@@ -46,7 +52,7 @@ export const PageLink = ({
   // if no link, just return the children un-wrapped
   if (!document) return <>{children}</>
 
-  const { href, as } = getPageLinkUrl(document) || {}
+  const { href, as } = getPageLinkUrl(document, linkParams) || {}
   if (!href) {
     console.warn('Could not make a link', { link })
     return null

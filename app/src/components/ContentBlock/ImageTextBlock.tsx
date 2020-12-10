@@ -3,7 +3,7 @@ import styled, { Box, css } from '@xstyled/styled-components'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
 import { Heading } from '../Text'
 import { RichText } from '../RichText'
-import { PageLink } from '../PageLink'
+import { PageLink, LinkOptions } from '../PageLink'
 import { Image, HoverImage } from '../Image'
 import {
   getFlexJustification,
@@ -11,10 +11,6 @@ import {
   getTextAlignment,
 } from '../../theme/utils'
 import { VideoWrapper, CloudinaryVideo } from '../CloudinaryVideo'
-
-interface ImageTextBlockProps {
-  content: ImageTextBlockType
-}
 
 const RichTextWrapper = (props: any) => <Heading level={3} {...props} />
 
@@ -105,7 +101,15 @@ const TextWrapper = styled.div<TextWrapperProps>`
   `}
 `
 
-export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
+interface ImageTextBlockProps {
+  content: ImageTextBlockType
+  linkParams?: LinkOptions
+}
+
+export const ImageTextBlock = ({
+  content,
+  linkParams,
+}: ImageTextBlockProps) => {
   const {
     ctaText,
     textPosition,
@@ -121,7 +125,7 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
   const ratio = layout === 'fullWidth' ? 0.5 : 1
   return (
     <Wrapper layout={layout}>
-      <PageLink link={link}>
+      <PageLink link={link} linkParams={linkParams}>
         <ImagesWrapper>
           <Image
             image={backgroundImage}

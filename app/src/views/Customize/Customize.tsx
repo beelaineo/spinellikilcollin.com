@@ -86,7 +86,9 @@ export const Customize = ({ customize }: CustomizeProps) => {
           <BlockWrapper>
             <CustomerStories customerStories={customerStories} />
           </BlockWrapper>
-          <Examples examples={examples} />
+          <BlockWrapper>
+            <Examples examples={examples} />
+          </BlockWrapper>
         </CustomizeBlocks>
       </PageWrapper>
     </>
