@@ -4,7 +4,7 @@ import { Box } from '@xstyled/styled-components'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
 import { RingSizerButton } from './RingSizerButton'
-import { definitely } from '../../../utils'
+import { getValidProductOptions } from '../../../utils'
 
 const OptionWrapper = styled.div`
   justify-content: space-between;
@@ -45,7 +45,7 @@ export const ProductVariantSelector = (props: Props) => {
   const productType = product?.sourceData?.productType
   const { inquiryOnly } = product
 
-  const options = definitely(product.options)
+  const options = getValidProductOptions(product)
   if (options.length < 1) return null
 
   return (

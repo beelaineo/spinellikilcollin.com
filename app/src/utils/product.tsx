@@ -1,3 +1,4 @@
+import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   ShopifyProduct,
   ShopifyProductOptionValue,
@@ -21,14 +22,48 @@ export const isValidSwatchOption = (option: ShopifyProductOption): boolean =>
   )
 
 export const getSwatchOptions = (
-  options?: Maybe<Array<Maybe<ShopifyProductOption>>>,
+  product: ShopifyProduct,
 ): ShopifyProductOption[] =>
-  definitely(options).filter((option) => isValidSwatchOption(option))
+  getValidProductOptions(product).filter((option) =>
+    isValidSwatchOption(option),
+  )
 
 export const getSwatchImages = ({ values }: ShopifyProductOption): Image[] =>
   definitely(values)
     .map(({ swatch }) => swatch)
     .reduce<Image[]>((acc, o) => (o ? [...acc, o] : acc), [])
+
+const optionHasVariant = (
+  variants: ShopifySourceProductVariant[],
+  optionName: string,
+  optionValue: ShopifyProductOptionValue,
+): boolean => {
+  return variants.some((v) =>
+    definitely(v.selectedOptions).some(
+      (o) => o.name === optionName && o.value === optionValue.value,
+    ),
+  )
+}
+
+export const getValidProductOptions = (
+  product: ShopifyProduct,
+): ShopifyProductOption[] => {
+  const options = definitely(product.options)
+  const [variants] = unwindEdges(product?.sourceData?.variants)
+  return options.map((option) => {
+    const optionName = option?.name
+    if (!optionName) {
+      throw new Error('Option name was not supplied')
+    }
+    const values = definitely(option.values).filter((value) =>
+      optionHasVariant(variants, optionName, value),
+    )
+    return {
+      ...option,
+      values,
+    }
+  })
+}
 
 export const optionMatchesVariant = (
   optionName: string,

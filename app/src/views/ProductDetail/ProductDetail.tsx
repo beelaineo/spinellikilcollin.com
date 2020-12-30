@@ -130,6 +130,7 @@ export const ProductDetail = ({ product }: Props) => {
       if (name !== optionName) return { name, value }
       return { name, value: newValue }
     })
+
     const newVariant = variants.find((variant) => {
       const { selectedOptions } = variant
       if (!selectedOptions) return false
