@@ -43,8 +43,13 @@ export const SortButton = ({ applySort }: SortButtonProps) => {
   }
 
   return (
-    <SelectField name="sort" color="body.8" onChange={handleChange}>
-      <option disabled selected hidden value={undefined}>
+    <SelectField
+      name="sort"
+      color="body.8"
+      defaultValue="label"
+      onChange={handleChange}
+    >
+      <option disabled hidden value="label">
         Sort
       </option>
       {sortOptions.map(({ id, value, label }) => (

@@ -73,7 +73,7 @@ export const ProductSwatches = ({
   onSwatchHover,
   isSwatchActive,
 }: ProductSwatchesProps) => {
-  const swatchOptions = getSwatchOptions(product.options)
+  const swatchOptions = getSwatchOptions(product)
   return (
     <div>
       {swatchOptions.map((option) => (
