@@ -27,7 +27,7 @@ export const page = {
     {
       name: 'fullWidth',
       type: 'boolean',
-      name: 'Full Width',
+      title: 'Full Width',
       description:
         'When on, padding above and below the content blocks will be removed',
     },
