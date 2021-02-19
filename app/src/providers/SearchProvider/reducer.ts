@@ -147,7 +147,9 @@ export const useSearchReducer = () => {
   const openSearch = (searchTerm?: string) => {
     dispatch({ type: ActionTypes.OPEN, searchTerm })
   }
+
   const closeSearch = () => dispatch({ type: ActionTypes.CLOSE })
+
   const setSearchTerm = (
     input?: string | React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -159,7 +161,9 @@ export const useSearchReducer = () => {
         : input.target.value
     dispatch({ type: ActionTypes.SET_TERM, searchTerm })
   }
+
   const reset = () => dispatch({ type: ActionTypes.RESET })
+
   const startSearch = (searchTerm?: string) => {
     if (searchTerm || state.searchTerm) {
       const pathWithoutParams = asPath.replace(/\?(.*)$/, '')
@@ -178,6 +182,7 @@ export const useSearchReducer = () => {
     }
     dispatch({ type: ActionTypes.START_SEARCH, searchTerm })
   }
+
   const onError = (errorMessage: string) =>
     dispatch({ type: ActionTypes.ERROR, errorMessage })
   const onSuccess = (searchResults: SearchResult[]) =>
@@ -188,7 +193,7 @@ export const useSearchReducer = () => {
     const searchTerm = newSearchTerm || state.searchTerm
     if (!searchTerm.length) return
 
-    startSearch()
+    startSearch(newSearchTerm)
     const term = searchTerm.trim()
     // const termSingular = term.replace(/s$/, '')
     // const params = { searchTerm: term, searchTermSingular: termSingular }
@@ -213,7 +218,7 @@ export const useSearchReducer = () => {
   useEffect(() => {
     const params = new URLSearchParams(asPath.replace(/^(.*)\?/, ''))
     const searchParam = params.get('search')
-    if (!searchParam) {
+    if (!searchParam || searchParam.length === 0) {
       closeSearch()
     } else {
       search(searchParam)
