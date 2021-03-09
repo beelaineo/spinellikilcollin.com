@@ -39,7 +39,7 @@ const deduplicateFragments = (queryString?: string) =>
 
 async function shopifyQuery<Response>(
   query: string | DocumentNode,
-  variables: object,
+  variables?: Record<string, unknown>,
 ): Promise<Response> {
   const queryString =
     typeof query === 'string'

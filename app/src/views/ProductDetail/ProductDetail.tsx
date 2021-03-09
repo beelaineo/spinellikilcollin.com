@@ -67,8 +67,7 @@ export const ProductDetail = ({ product }: Props) => {
   const {
     currentVariant: currentVariantSource,
     selectVariant,
-    // @ts-ignore annoying
-  } = useProductVariant(product.sourceData, useProductVariantOptions)
+  } = useProductVariant(product, useProductVariantOptions)
 
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)

@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { unwindEdges, Paginated } from '@good-idea/unwind-edges'
+import { unwindEdges } from '@good-idea/unwind-edges'
 import {
-  MaybeAll,
+  ShopifyProduct,
   ShopifySourceProductVariant as SourceVariant,
-  Maybe,
 } from '../types'
 
 const { useState } = React
@@ -12,7 +11,7 @@ interface Options {
   initialVariant?: string | 'first' | 'last'
 }
 
-interface Variant extends Pick<SourceVariant, 'id'> {
+interface Variant extends SourceVariant {
   __typename: any
 }
 
@@ -21,28 +20,25 @@ export interface UseProductVariant {
   selectVariant: (variantId: string) => void
 }
 
-interface Product<V> {
-  title?: Maybe<string>
-  variants?: Maybe<Paginated<Maybe<V>>>
-}
-
-interface ReturnValue<V> {
-  currentVariant: V | null
+interface ReturnValue {
+  currentVariant: SourceVariant | null
   selectVariant: (id: string) => void
 }
 
-export const useProductVariant = <V extends MaybeAll<Variant>>(
-  product: MaybeAll<Product<V>>,
+export const useProductVariant = (
+  product: ShopifyProduct,
   options: Options = {},
-): ReturnValue<V> => {
+): ReturnValue => {
   const { initialVariant } = options
-  const variants = product.variants ? unwindEdges<V>(product.variants)[0] : []
+  const variants = product?.sourceData?.variants
+    ? unwindEdges<SourceVariant>(product?.sourceData?.variants)[0]
+    : []
   if (!variants.length) throw new Error('The supplied product has no variants')
   /**
    * Private Methods
    */
 
-  const findVariant = (variantId: string): V => {
+  const findVariant = (variantId: string) => {
     const variant = variants.find((v) => v.id === variantId)
     if (!variant)
       throw new Error(
@@ -51,7 +47,7 @@ export const useProductVariant = <V extends MaybeAll<Variant>>(
     return variant
   }
 
-  const getInitialState = (): V => {
+  const getInitialState = () => {
     if (!initialVariant || initialVariant === 'first') return variants[0]
     if (initialVariant === 'last') return variants[variants.length - 1]
     return findVariant(initialVariant)
