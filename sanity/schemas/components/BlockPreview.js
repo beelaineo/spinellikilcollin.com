@@ -46,13 +46,13 @@ export class BlockPreview extends React.Component {
               <p style={titleStyles}>{title}</p>
               {subtitles && subtitles.length
                 ? subtitles.slice(0, 2).map((subtitle) => (
-                    <h3
+                    <h4
                       className="DefaultPreview_subtitle_3ARTa"
                       key={subtitle}
                       style={subtitleStyles}
                     >
                       {subtitle}
-                    </h3>
+                    </h4>
                   ))
                 : null}
             </div>

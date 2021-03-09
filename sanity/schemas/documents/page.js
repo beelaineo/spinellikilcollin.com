@@ -10,6 +10,11 @@ export const page = {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'subtitle',
+      label: 'Subtitle',
+      type: 'string',
+    },
+    {
       name: 'hideTitle',
       label: 'Hide Title',
       type: 'boolean',
@@ -30,11 +35,6 @@ export const page = {
       title: 'Full Width',
       description:
         'When on, padding above and below the content blocks will be removed',
-    },
-    {
-      name: 'subtitle',
-      label: 'Subtitle',
-      type: 'string',
     },
     {
       name: 'slug',

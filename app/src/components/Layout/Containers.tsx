@@ -14,6 +14,7 @@ export const Column = styled.divBox`
 export const PageWrapper = styled.divBox`
   ${({ theme }) => css`
     padding: calc(${theme.navHeight} + ${theme.space[9]}px) 10 8;
+    overflow-x: hidden;
 
     ${theme.mediaQueries.tablet} {
       padding: calc(${theme.navHeight} + ${theme.space[9]}px) 8 6;

@@ -8,10 +8,24 @@ import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
 import { isValidHero, getHeroImage } from '../../utils'
+import { QuizBlock } from './QuizBlock'
+import { Examples } from './Examples'
+import { CustomerStories } from './CustomerStories'
 
 interface CustomizeProps {
   customize: CustomizeType
 }
+
+const CustomizeBlocks = styled.div`
+  border-top: 1px solid;
+  border-color: body.5;
+`
+
+const BlockWrapper = styled.div`
+  padding: 6 0;
+  border-bottom: 1px solid;
+  border-color: body.5;
+`
 
 const PageText = styled.div`
   h1,
@@ -28,7 +42,16 @@ const PageText = styled.div`
 `
 
 export const Customize = ({ customize }: CustomizeProps) => {
-  const { seo, title, subtitle, hero, bodyRaw } = customize
+  const {
+    seo,
+    title,
+    subtitle,
+    hero,
+    bodyRaw,
+    quizBlock,
+    customerStories,
+    examples,
+  } = customize
   const defaultSeo = {
     title: 'Customize',
     image: getHeroImage(hero),
@@ -43,14 +66,30 @@ export const Customize = ({ customize }: CustomizeProps) => {
           {title}
         </Heading>
         {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
-        <Column columnwidth="medium">
-          <PageText>
-            <RichText
-              body={bodyRaw}
-              imageSizes="(max-width: 600px) 100vw, 600px"
-            />
-          </PageText>
-        </Column>
+        {bodyRaw ? (
+          <Column columnwidth="medium">
+            <PageText>
+              <RichText
+                body={bodyRaw}
+                imageSizes="(max-width: 600px) 100vw, 600px"
+              />
+            </PageText>
+          </Column>
+        ) : null}
+        <CustomizeBlocks>
+          {quizBlock ? (
+            <BlockWrapper>
+              <QuizBlock quizBlock={quizBlock} />
+            </BlockWrapper>
+          ) : null}
+
+          <BlockWrapper>
+            <CustomerStories customerStories={customerStories} />
+          </BlockWrapper>
+          <BlockWrapper>
+            <Examples examples={examples} />
+          </BlockWrapper>
+        </CustomizeBlocks>
       </PageWrapper>
     </>
   )

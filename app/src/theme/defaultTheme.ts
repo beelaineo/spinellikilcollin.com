@@ -2,16 +2,16 @@ import { DefaultTheme } from '@xstyled/styled-components'
 
 /* generated at: https://www.colorbox.io/#steps=7#hue_start=281#hue_end=271#hue_curve=easeInQuad#sat_start=22#sat_end=0#sat_curve=easeOutQuart#sat_rate=130#lum_start=12#lum_end=100#lum_curve=easeInCubic#minor_steps_map=0 */
 const grays = [
-  '#ffffff',
-  '#f9fafa',
-  '#f5f3f4',
-  '#e7e6e8',
-  '#d1d1d2',
-  '#979797',
-  '#818181',
-  '#444443',
-  '#222222',
-  '#000000',
+  '#ffffff', // 0
+  '#f9fafa', // 1
+  '#f5f3f4', // 2
+  '#e7e6e8', // 3
+  '#d1d1d2', // 4
+  '#979797', // 5
+  '#818181', // 6
+  '#444443', // 7
+  '#222222', // 8
+  '#000000', // 9
 ]
 
 const pink = '#f3dad8'

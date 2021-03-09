@@ -28,6 +28,7 @@ import {
   RingSizerButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useModal } from '../../providers/ModalProvider'
 import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
@@ -48,6 +49,7 @@ interface Props {
 }
 
 export const ProductDetail = ({ product }: Props) => {
+  const { openCustomizationModal } = useModal()
   const router = useRouter()
   const params = new URLSearchParams(router.asPath.replace(/^(.*)\?/, ''))
   const variantId = params.get('v')
@@ -81,10 +83,28 @@ export const ProductDetail = ({ product }: Props) => {
 
   useEffect(() => {
     if (!currentVariant) return
-    const uri = getProductUri(product, { variant: currentVariant })
+    const uri = getProductUri(product, {
+      variant: currentVariant,
+      currentPath: router.asPath,
+    })
     if (!uri) return
     window.history.replaceState(null, product.title || '', uri)
   }, [currentVariant])
+
+  useEffect(() => {
+    const paramString = router.asPath.replace(/^(.*)\?/, '')
+    const params = new URLSearchParams(paramString)
+    console.log(params.get('customizeOpen'))
+    const timeout = setTimeout(() => {
+      if (params.get('customizeOpen') === 'true') {
+        openCustomizationModal({
+          currentProduct: product,
+          currentVariant: currentVariant || undefined,
+        })
+      }
+    }, 1500)
+    return () => clearTimeout(timeout)
+  }, [])
 
   if (!currentVariant) return null
 

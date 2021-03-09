@@ -92,7 +92,14 @@ Heading.defaultProps = {
 
 type PProps = Omit<HeadingProps, 'level'>
 
-export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
+export const P = ({
+  children,
+  color,
+  family,
+  weight,
+  htmlFor,
+  ...rest
+}: PProps) => {
   return (
     <TextBase
       as="p"
@@ -101,6 +108,7 @@ export const P = ({ children, color, family, weight, htmlFor }: PProps) => {
       weight={weight}
       color={color}
       htmlFor={htmlFor}
+      {...rest}
     >
       {children}
     </TextBase>
