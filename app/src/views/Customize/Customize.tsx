@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Customize as CustomizeType } from '../../types'
+import { FeatureFlag } from '../../components/FeatureFlag'
 import { PageWrapper } from '../../components/Layout'
 import { Heading } from '../../components/Text'
 import { Column } from '../../components/Layout'
@@ -76,20 +77,22 @@ export const Customize = ({ customize }: CustomizeProps) => {
             </PageText>
           </Column>
         ) : null}
-        <CustomizeBlocks>
-          {quizBlock ? (
-            <BlockWrapper>
-              <QuizBlock quizBlock={quizBlock} />
-            </BlockWrapper>
-          ) : null}
+        <FeatureFlag flag="customizationPage">
+          <CustomizeBlocks>
+            {quizBlock ? (
+              <BlockWrapper>
+                <QuizBlock quizBlock={quizBlock} />
+              </BlockWrapper>
+            ) : null}
 
-          <BlockWrapper>
-            <CustomerStories customerStories={customerStories} />
-          </BlockWrapper>
-          <BlockWrapper>
-            <Examples examples={examples} />
-          </BlockWrapper>
-        </CustomizeBlocks>
+            <BlockWrapper>
+              <CustomerStories customerStories={customerStories} />
+            </BlockWrapper>
+            <BlockWrapper>
+              <Examples examples={examples} />
+            </BlockWrapper>
+          </CustomizeBlocks>
+        </FeatureFlag>
       </PageWrapper>
     </>
   )
