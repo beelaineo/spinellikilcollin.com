@@ -7,8 +7,8 @@ interface ButtonProps extends BoxProps {
   disabled?: boolean
 }
 
-export const Button = styled.buttonBox`
-  ${({ level, disabled }: ButtonProps) => css`
+export const Button = styled.buttonBox<ButtonProps>`
+  ${({ level, disabled, theme }) => css`
     pointer-events: ${disabled ? 'none' : 'inherit'};
     opacity: ${disabled ? 0.3 : 1};
     font-family: serif;

@@ -66,13 +66,11 @@ export const getPageLinkUrl = (
   switch (document.__typename) {
     case 'ShopifyCollection':
       return {
-        href: `/collections/[collectionSlug]`,
-        as: `/collections/${document.handle}`.concat(paramString),
+        href: `/collections/${document.handle}`.concat(paramString),
       }
     case 'ShopifyProduct':
       return {
-        href: `/products/[productSlug]`,
-        as: `/products/${document.handle}`.concat(paramString),
+        href: `/products/${document.handle}`.concat(paramString),
       }
 
     case 'Magazine':
@@ -94,8 +92,7 @@ export const getPageLinkUrl = (
       const slug = document?.slug?.current
       if (!slug) throw new Error(`Page "${document.title}" has no slug`)
       return {
-        href: '/journal/[entrySlug]',
-        as: `/journal/${slug}`.concat(paramString),
+        href: `/journal/${slug}`.concat(paramString),
       }
 
     case 'Contact':
@@ -109,8 +106,7 @@ export const getPageLinkUrl = (
       }
 
       return {
-        href: '/about/[pageSlug]',
-        as: `/about/${document.slug.current}`.concat(paramString),
+        href: `/about/${document.slug.current}`.concat(paramString),
       }
     case 'TeamPage':
       return {
@@ -131,12 +127,12 @@ export const getPageLinkUrl = (
 export const getLinkFromHref = (href: string): LinkInfo => {
   const { pathname } = new URL(href)
   if (/\/products\/\w+/.test(pathname)) {
-    return { href: '/products/[productSlug]', as: pathname }
+    return { href: pathname }
   }
   if (/\/collections\/\w+/.test(pathname)) {
-    return { href: '/collections/[collectionSlug]', as: pathname }
+    return { href: pathname }
   }
-  return { href: '/[pageSlug]', as: pathname }
+  return { href: pathname }
 }
 
 export const getDocumentLinkImage = (

@@ -22,6 +22,11 @@ const routes: ThemeRoute[] = [
     pattern: /^\/about/,
     theme: pageTheme,
   },
+
+  {
+    pattern: /^\/customize/,
+    theme: pageTheme,
+  },
 ]
 
 export const getThemeByRoute = (path: string): DefaultTheme => {

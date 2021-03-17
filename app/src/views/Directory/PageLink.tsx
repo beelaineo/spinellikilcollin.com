@@ -4,22 +4,29 @@ import { PageLink as PageLinkType } from '../../types'
 import { Image } from '../../components/Image'
 import { Heading } from '../../components/Text'
 import { ImageWrapper, PageLinkWrapper, PageLinkBody } from './styled'
+import { Button } from '../../components/Button'
 import { getPageLinkUrl } from '../../utils'
 
 interface PageLinkProps {
   pageLink: PageLinkType
   index: number
+  href?: string
+  ctaType?: 'button' | 'text'
 }
 
-export const PageLink = ({ pageLink, index }: PageLinkProps) => {
+export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
   const { title, summary, image, ctaText, linkedPage } = pageLink
-  if (!linkedPage) return null
-  const { href, as } = getPageLinkUrl(linkedPage)
+  const linkHref = href
+    ? href
+    : linkedPage
+    ? getPageLinkUrl(linkedPage).href
+    : null
+  if (!linkHref) return null
   return (
     <PageLinkWrapper>
       {image ? (
         <ImageWrapper isOdd={Boolean(index % 2)}>
-          <Link href={href} as={as}>
+          <Link href={linkHref}>
             <a>
               <Image
                 image={image}
@@ -32,7 +39,7 @@ export const PageLink = ({ pageLink, index }: PageLinkProps) => {
       ) : null}
 
       <PageLinkBody isOdd={Boolean(index % 2)}>
-        <Link href={href} as={as}>
+        <Link href={linkHref}>
           <a>
             <Heading mb={0} level={2}>
               {title}
@@ -47,14 +54,20 @@ export const PageLink = ({ pageLink, index }: PageLinkProps) => {
               {summary}
             </Heading>
             {ctaText ? (
-              <Heading
-                mb="-5px"
-                level={4}
-                fontStyle="italic"
-                textDecoration="underline"
-              >
-                {ctaText}
-              </Heading>
+              ctaType === 'button' ? (
+                <Button level={2} as="div">
+                  {ctaText}
+                </Button>
+              ) : (
+                <Heading
+                  mb="-5px"
+                  level={4}
+                  fontStyle="italic"
+                  textDecoration="underline"
+                >
+                  {ctaText}
+                </Heading>
+              )
             ) : null}
           </a>
         </Link>

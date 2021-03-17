@@ -13,6 +13,7 @@ import { Kind } from './Kind'
 import { Notes } from './Notes'
 import { Name } from './Name'
 import { ThankYou } from './ThankYou'
+import { QuizHeroWrapper } from './styled'
 
 interface QuizProps {
   customize: CustomizeType
@@ -63,7 +64,11 @@ const QuizInner = ({ customize }: QuizProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="customize/quiz" />
-      {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
+      {hero && isValidHero(hero) ? (
+        <QuizHeroWrapper>
+          <HeroBlock hero={hero} />
+        </QuizHeroWrapper>
+      ) : null}
       <PageWrapper pt={3}>
         <Form<FormValues> initialValues={initialValues} onSubmit={handleSubmit}>
           <Tab name="kind">

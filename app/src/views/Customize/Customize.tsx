@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { Customize as CustomizeType } from '../../types'
 import { FeatureFlag } from '../../components/FeatureFlag'
 import { PageWrapper } from '../../components/Layout'
@@ -13,19 +13,16 @@ import { QuizBlock } from './QuizBlock'
 import { Examples } from './Examples'
 import { CustomerStories } from './CustomerStories'
 
-interface CustomizeProps {
-  customize: CustomizeType
+interface BlockWrapperProps {
+  borderTop?: boolean
 }
-
-const CustomizeBlocks = styled.div`
-  border-top: 1px solid;
-  border-color: body.5;
-`
-
-const BlockWrapper = styled.div`
-  padding: 6 0;
-  border-bottom: 1px solid;
-  border-color: body.5;
+const BlockWrapper = styled.div<BlockWrapperProps>`
+  ${({ borderTop }) => css`
+    padding: 6 0;
+    border-bottom: 1px solid;
+    border-color: body.5;
+    border-top: ${borderTop ? '1px solid' : 0};
+  `}
 `
 
 const PageText = styled.div`
@@ -78,20 +75,13 @@ export const Customize = ({ customize }: CustomizeProps) => {
           </Column>
         ) : null}
         <FeatureFlag flag="customizationPage">
-          <CustomizeBlocks>
-            {quizBlock ? (
-              <BlockWrapper>
-                <QuizBlock quizBlock={quizBlock} />
-              </BlockWrapper>
-            ) : null}
-
-            <BlockWrapper>
-              <CustomerStories customerStories={customerStories} />
-            </BlockWrapper>
-            <BlockWrapper>
-              <Examples examples={examples} />
-            </BlockWrapper>
-          </CustomizeBlocks>
+          {quizBlock ? <QuizBlock quizBlock={quizBlock} /> : null}
+          <BlockWrapper borderTop={true}>
+            <CustomerStories customerStories={customerStories} />
+          </BlockWrapper>
+          <BlockWrapper>
+            <Examples examples={examples} />
+          </BlockWrapper>
         </FeatureFlag>
       </PageWrapper>
     </>

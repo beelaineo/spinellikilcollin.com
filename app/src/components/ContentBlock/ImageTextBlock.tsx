@@ -122,7 +122,7 @@ export const ImageTextBlock = ({
   const link = content.link ? content.link[0] : undefined
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
-  const ratio = layout === 'fullWidth' ? 0.5 : 1
+  const ratio = layout === 'fullWidth' ? 0.48 : 1
   return (
     <Wrapper layout={layout}>
       <PageLink link={link} linkParams={linkParams}>
