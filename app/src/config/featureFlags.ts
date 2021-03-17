@@ -19,12 +19,7 @@ const createFlags = <FlagsConfig extends Record<string, FeatureFlagEnv>>(
 const flagsConfig = createFlags({
   customizationPage: {
     development: true,
-    staging: false,
-    production: false,
-  },
-  somethingElse: {
-    development: true,
-    staging: false,
+    staging: true,
     production: false,
   },
 })
