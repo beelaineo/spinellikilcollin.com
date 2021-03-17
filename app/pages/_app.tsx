@@ -58,6 +58,7 @@ const App = (props: AppProps) => {
   const { shopData, ...pageProps } = allPageProps
   if (!shopData) return null
   const ENV = process.env.STOREFRONT_ENV
+  console.log({ ENV })
 
   const tagInfo =
     ENV === 'production' ? gtm.prod : ENV === 'staging' ? gtm.staging : gtm.dev
@@ -132,6 +133,7 @@ const App = (props: AppProps) => {
         <div id="modal" />
       </ThemeProvider>
       <script
+        /* Hubspot */
         type="text/javascript"
         id="hs-script-loader"
         async

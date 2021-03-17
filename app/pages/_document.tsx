@@ -43,7 +43,7 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head />
-        <body>
+        <body data-env={process.env.STOREFRONT_ENV}>
           <noscript
             dangerouslySetInnerHTML={{
               __html: `
