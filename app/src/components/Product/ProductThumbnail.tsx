@@ -68,7 +68,6 @@ export const ProductThumbnail = ({
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
-  // console.log({ product })
   const [variants] = unwindEdges(product?.sourceData?.variants)
 
   const initialVariant = preferredVariantMatches
@@ -128,6 +127,7 @@ export const ProductThumbnail = ({
     )
     return matches
   }
+
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
@@ -136,8 +136,6 @@ export const ProductThumbnail = ({
     variant: currentVariant,
     currentPath: asPath,
   })
-
-  // console.log({ linkAs, currentVariant, product })
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>

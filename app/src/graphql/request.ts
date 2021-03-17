@@ -31,7 +31,7 @@ export const request = async <R, V extends Variables = Variables>(
     )
     return result
   } catch (err) {
-    console.error(err)
+    console.error(err.response)
     throw new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
   }
 }

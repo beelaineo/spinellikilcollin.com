@@ -1,4 +1,40 @@
-import { blocksToPlainText } from '../utils'
+import * as React from 'react'
+import {
+  getReferencedDocument,
+  getImageThumbnail,
+  blocksToPlainText,
+} from '../utils'
+import { BlockPreview } from '../components/BlockPreview'
+
+const getPreviewValues = async (values) => {
+  const { body, ctaText, media, link } = values
+  const getTitle = async () => {
+    if (body && body.length) return blocksToPlainText(title)
+    if (ctaText) return ctaText
+    return undefined
+  }
+  const getLinkTitle = async () => {
+    if (link && link.length) {
+      const ref = link[0].document._ref
+      const page = await getReferencedDocument(ref)
+      if (page && page.title) return `🔗 ${page.title}`
+    }
+    return undefined
+  }
+  const [src, inferredTitle, linkTitle] = await Promise.all([
+    getImageThumbnail(media),
+    getTitle(),
+    getLinkTitle(),
+  ])
+
+  const title = inferredTitle ? inferredTitle : linkTitle || '(no text)'
+  const subtitles = title === linkTitle ? [] : [linkTitle]
+  return {
+    src,
+    title,
+    subtitles,
+  }
+}
 
 export const imageTextBlock = {
   name: 'imageTextBlock',
@@ -43,7 +79,6 @@ export const imageTextBlock = {
         layout: 'radio',
         direction: 'horizontal',
       },
-      validation: (Rule) => Rule.required(),
     },
     {
       name: 'cloudinaryVideo',
@@ -68,14 +103,13 @@ export const imageTextBlock = {
   ],
   preview: {
     select: {
-      title: 'body',
+      body: 'body',
+      ctaText: 'ctaText',
       media: 'backgroundImage',
+      link: 'link',
     },
-    prepare: ({ title, media }) => {
-      return {
-        media,
-        title: title && title.length ? blocksToPlainText(title) : '(no text)',
-      }
-    },
+    component: (props) => (
+      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
+    ),
   },
 }

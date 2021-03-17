@@ -37,7 +37,7 @@ export const externalLink = {
   type: 'object',
   name: 'externalLink',
   icon: () => (
-    <span role="img" aria-label="Link" style={{ fontSize: '3em' }}>
+    <span role="img" aria-label="Link" style={{ fontSize: '1em' }}>
       🔗
     </span>
   ),

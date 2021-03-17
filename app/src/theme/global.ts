@@ -91,7 +91,8 @@ export const GlobalStyles = createGlobalStyle`
 		line-height: normal;
 		padding: 0;
 		border-radius: 0;
-	}
+
+  }
 
 	img {
 		max-width: 100%;

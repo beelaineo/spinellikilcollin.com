@@ -100,13 +100,13 @@ const App = (props: AppProps) => {
           <noscript
             dangerouslySetInnerHTML={{
               __html: `
-            <img
-              height="1"
-              width="1"
-              style={{ display: 'none' }}
-              alt=""
-              src="https://ct.pinterest.com/v3/?tid=2613624654029&noscript=1"
-            />
+                <img
+                  height="1"
+                  width="1"
+                  style={{ display: 'none' }}
+                  alt=""
+                  src="https://ct.pinterest.com/v3/?tid=2613624654029&noscript=1"
+                />
               `,
             }}
           />

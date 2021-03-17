@@ -10,6 +10,8 @@ import {
   RequestRingSizerArgs,
   magazineSignup,
   MagazineSignupArgs,
+  quizSubmission,
+  QuizSubmissionArgs,
 } from './emails'
 import { config } from '../../config'
 
@@ -42,6 +44,7 @@ interface PostmarkService {
     args: CustomizationInquiryArgs,
   ) => Promise<PostmarkResponse>
   sendContactInquiry: (args: ContactInquiryArgs) => Promise<PostmarkResponse>
+  sendQuizSubmission: (args: QuizSubmissionArgs) => Promise<PostmarkResponse>
 }
 
 if (!POSTMARK_KEY || !POSTMARK_KEY.length)
@@ -103,6 +106,11 @@ export const postmark: PostmarkService = {
 
   sendContactInquiry: async (args: ContactInquiryArgs) => {
     const message = contactInquiry(args)
+    return send(message)
+  },
+
+  sendQuizSubmission: async (args: QuizSubmissionArgs) => {
+    const message = quizSubmission(args)
     return send(message)
   },
 }

@@ -1,11 +1,17 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps } from 'next'
-import { Maybe, Customize as CustomizeType } from '../src/types'
-import { NotFound } from '../src/views/NotFound'
-import { Customize as CustomizeView } from '../src/views/Customize'
-import { request, seoFragment, heroFragment } from '../src/graphql'
-import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
+import { Maybe, Customize as CustomizeType } from '../../src/types'
+import { NotFound } from '../../src/views/NotFound'
+import { Customize as CustomizeView } from '../../src/views/Customize'
+import {
+  request,
+  richImageFragment,
+  seoFragment,
+  heroFragment,
+  imageTextBlockFragment,
+} from '../../src/graphql'
+import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
 const customizeQuery = gql`
   query CustomizeQuery {
@@ -21,10 +27,34 @@ const customizeQuery = gql`
       hero {
         ...HeroFragment
       }
+      quizBlock {
+        title
+        subtitle
+        image {
+          ...RichImageFragment
+        }
+      }
+      customerStories {
+        stories {
+          _key
+          body
+          byLine
+        }
+      }
+      examples {
+        _key
+        title
+        subtitle
+        links {
+          ...ImageTextBlockFragment
+        }
+      }
     }
   }
   ${seoFragment}
   ${heroFragment}
+  ${richImageFragment}
+  ${imageTextBlockFragment}
 `
 
 interface CustomizeProps {

@@ -59,6 +59,7 @@ export const Label = styled(BaseLabel)`
 export const InputWrapper = styled.div`
   display: flex;
   align-items: center;
+  max-width: 100%;
 `
 
 export const Input = styled.input`
@@ -88,7 +89,7 @@ export const Input = styled.input`
   `}
 `
 
-export const TextArea = styled(Input)`
+export const TextAreaElement = styled(Input)`
   ${({ theme }) => css`
     height: 80px;
     resize: none;

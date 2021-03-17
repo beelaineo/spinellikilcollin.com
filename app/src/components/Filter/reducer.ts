@@ -3,6 +3,7 @@ import {
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
 } from '../../types'
+import { unique } from '../../utils'
 
 export type FilterValues = Record<string, any>
 
@@ -65,11 +66,6 @@ type Action =
   | DisableAction
   | ToggleAction
   | SetValuesAction
-
-const unique = <T>(array: T[]): T[] => {
-  const set = new Set(array)
-  return [...set]
-}
 
 const arrayToggle = <T>(array: T[], item: T): T[] => {
   if (array.some((i) => i === item)) {
