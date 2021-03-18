@@ -2,6 +2,10 @@ export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K]
 }
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> }
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
@@ -145,6 +149,7 @@ export interface ShopifyStorefrontArticleAuthor {
   name: Scalars['String']
 }
 
+/** An auto-generated type for paginating through multiple Articles. */
 export interface ShopifyStorefrontArticleConnection {
   __typename: 'ArticleConnection'
   /** A list of edges. */
@@ -153,6 +158,7 @@ export interface ShopifyStorefrontArticleConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Article and a cursor during pagination. */
 export interface ShopifyStorefrontArticleEdge {
   __typename: 'ArticleEdge'
   /** A cursor for use in pagination. */
@@ -264,6 +270,7 @@ export type ShopifyStorefrontBlogArticlesArgs = {
   query?: Maybe<Scalars['String']>
 }
 
+/** An auto-generated type for paginating through multiple Blogs. */
 export interface ShopifyStorefrontBlogConnection {
   __typename: 'BlogConnection'
   /** A list of edges. */
@@ -272,6 +279,7 @@ export interface ShopifyStorefrontBlogConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Blog and a cursor during pagination. */
 export interface ShopifyStorefrontBlogEdge {
   __typename: 'BlogEdge'
   /** A cursor for use in pagination. */
@@ -876,6 +884,7 @@ export interface ShopifyStorefrontCheckoutLineItem
   variant?: Maybe<ShopifyStorefrontProductVariant>
 }
 
+/** An auto-generated type for paginating through multiple CheckoutLineItems. */
 export interface ShopifyStorefrontCheckoutLineItemConnection {
   __typename: 'CheckoutLineItemConnection'
   /** A list of edges. */
@@ -884,6 +893,7 @@ export interface ShopifyStorefrontCheckoutLineItemConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one CheckoutLineItem and a cursor during pagination. */
 export interface ShopifyStorefrontCheckoutLineItemEdge {
   __typename: 'CheckoutLineItemEdge'
   /** A cursor for use in pagination. */
@@ -1078,6 +1088,7 @@ export type ShopifyStorefrontCollectionProductsArgs = {
   sortKey?: Maybe<ShopifyStorefrontProductCollectionSortKeys>
 }
 
+/** An auto-generated type for paginating through multiple Collections. */
 export interface ShopifyStorefrontCollectionConnection {
   __typename: 'CollectionConnection'
   /** A list of edges. */
@@ -1086,6 +1097,7 @@ export interface ShopifyStorefrontCollectionConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Collection and a cursor during pagination. */
 export interface ShopifyStorefrontCollectionEdge {
   __typename: 'CollectionEdge'
   /** A cursor for use in pagination. */
@@ -1137,6 +1149,7 @@ export interface ShopifyStorefrontCommentAuthor {
   name: Scalars['String']
 }
 
+/** An auto-generated type for paginating through multiple Comments. */
 export interface ShopifyStorefrontCommentConnection {
   __typename: 'CommentConnection'
   /** A list of edges. */
@@ -1145,6 +1158,7 @@ export interface ShopifyStorefrontCommentConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Comment and a cursor during pagination. */
 export interface ShopifyStorefrontCommentEdge {
   __typename: 'CommentEdge'
   /** A cursor for use in pagination. */
@@ -1347,7 +1361,7 @@ export enum ShopifyStorefrontCountryCode {
   Va = 'VA',
   /** Honduras. */
   Hn = 'HN',
-  /** Hong Kong SAR China. */
+  /** Hong Kong SAR. */
   Hk = 'HK',
   /** Hungary. */
   Hu = 'HU',
@@ -1409,7 +1423,7 @@ export enum ShopifyStorefrontCountryCode {
   Lt = 'LT',
   /** Luxembourg. */
   Lu = 'LU',
-  /** Macao SAR China. */
+  /** Macao SAR. */
   Mo = 'MO',
   /** Madagascar. */
   Mg = 'MG',
@@ -1754,8 +1768,6 @@ export enum ShopifyStorefrontCurrencyCode {
   Bhd = 'BHD',
   /** Burundian Franc (BIF). */
   Bif = 'BIF',
-  /** Belarusian Ruble (BYR). */
-  Byr = 'BYR',
   /** Belize Dollar (BZD). */
   Bzd = 'BZD',
   /** Bermudian Dollar (BMD). */
@@ -1992,8 +2004,6 @@ export enum ShopifyStorefrontCurrencyCode {
   Uzs = 'UZS',
   /** Vanuatu Vatu (VUV). */
   Vuv = 'VUV',
-  /** Venezuelan Bolivares (VEF). */
-  Vef = 'VEF',
   /** Vietnamese đồng (VND). */
   Vnd = 'VND',
   /** West African CFA franc (XOF). */
@@ -2002,6 +2012,10 @@ export enum ShopifyStorefrontCurrencyCode {
   Yer = 'YER',
   /** Zambian Kwacha (ZMW). */
   Zmw = 'ZMW',
+  /** Belarusian Ruble (BYR). */
+  Byr = 'BYR',
+  /** Venezuelan Bolivares (VEF). */
+  Vef = 'VEF',
 }
 
 /**
@@ -2416,6 +2430,7 @@ export enum ShopifyStorefrontDiscountApplicationAllocationMethod {
   One = 'ONE',
 }
 
+/** An auto-generated type for paginating through multiple DiscountApplications. */
 export interface ShopifyStorefrontDiscountApplicationConnection {
   __typename: 'DiscountApplicationConnection'
   /** A list of edges. */
@@ -2424,6 +2439,7 @@ export interface ShopifyStorefrontDiscountApplicationConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one DiscountApplication and a cursor during pagination. */
 export interface ShopifyStorefrontDiscountApplicationEdge {
   __typename: 'DiscountApplicationEdge'
   /** A cursor for use in pagination. */
@@ -2530,6 +2546,7 @@ export interface ShopifyStorefrontFulfillmentLineItem {
   quantity: Scalars['Int']
 }
 
+/** An auto-generated type for paginating through multiple FulfillmentLineItems. */
 export interface ShopifyStorefrontFulfillmentLineItemConnection {
   __typename: 'FulfillmentLineItemConnection'
   /** A list of edges. */
@@ -2538,6 +2555,7 @@ export interface ShopifyStorefrontFulfillmentLineItemConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one FulfillmentLineItem and a cursor during pagination. */
 export interface ShopifyStorefrontFulfillmentLineItemEdge {
   __typename: 'FulfillmentLineItemEdge'
   /** A cursor for use in pagination. */
@@ -2656,6 +2674,7 @@ export type ShopifyStorefrontImageTransformedSrcArgs = {
   preferredContentType?: Maybe<ShopifyStorefrontImageContentType>
 }
 
+/** An auto-generated type for paginating through multiple Images. */
 export interface ShopifyStorefrontImageConnection {
   __typename: 'ImageConnection'
   /** A list of edges. */
@@ -2674,6 +2693,7 @@ export enum ShopifyStorefrontImageContentType {
   Webp = 'WEBP',
 }
 
+/** An auto-generated type which holds one Image and a cursor during pagination. */
 export interface ShopifyStorefrontImageEdge {
   __typename: 'ImageEdge'
   /** A cursor for use in pagination. */
@@ -2748,6 +2768,7 @@ export type ShopifyStorefrontMailingAddressFormattedArgs = {
   withCompany?: Maybe<Scalars['Boolean']>
 }
 
+/** An auto-generated type for paginating through multiple MailingAddresses. */
 export interface ShopifyStorefrontMailingAddressConnection {
   __typename: 'MailingAddressConnection'
   /** A list of edges. */
@@ -2756,6 +2777,7 @@ export interface ShopifyStorefrontMailingAddressConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one MailingAddress and a cursor during pagination. */
 export interface ShopifyStorefrontMailingAddressEdge {
   __typename: 'MailingAddressEdge'
   /** A cursor for use in pagination. */
@@ -2832,6 +2854,7 @@ export interface ShopifyStorefrontMetafield extends ShopifyStorefrontNode {
   valueType: ShopifyStorefrontMetafieldValueType
 }
 
+/** An auto-generated type for paginating through multiple Metafields. */
 export interface ShopifyStorefrontMetafieldConnection {
   __typename: 'MetafieldConnection'
   /** A list of edges. */
@@ -2840,6 +2863,7 @@ export interface ShopifyStorefrontMetafieldConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Metafield and a cursor during pagination. */
 export interface ShopifyStorefrontMetafieldEdge {
   __typename: 'MetafieldEdge'
   /** A cursor for use in pagination. */
@@ -2909,13 +2933,9 @@ export interface ShopifyStorefrontMutation {
    * Updates the attributes of a checkout.
    * @deprecated Use `checkoutAttributesUpdateV2` instead
    */
-  checkoutAttributesUpdate?: Maybe<
-    ShopifyStorefrontCheckoutAttributesUpdatePayload
-  >
+  checkoutAttributesUpdate?: Maybe<ShopifyStorefrontCheckoutAttributesUpdatePayload>
   /** Updates the attributes of a checkout. */
-  checkoutAttributesUpdateV2?: Maybe<
-    ShopifyStorefrontCheckoutAttributesUpdateV2Payload
-  >
+  checkoutAttributesUpdateV2?: Maybe<ShopifyStorefrontCheckoutAttributesUpdateV2Payload>
   /**
    * Completes a checkout without providing payment information. You can use this
    * mutation for free items or items whose purchase price is covered by a gift card.
@@ -2925,70 +2945,48 @@ export interface ShopifyStorefrontMutation {
    * Completes a checkout using a credit card token from Shopify's Vault.
    * @deprecated Use `checkoutCompleteWithCreditCardV2` instead
    */
-  checkoutCompleteWithCreditCard?: Maybe<
-    ShopifyStorefrontCheckoutCompleteWithCreditCardPayload
-  >
+  checkoutCompleteWithCreditCard?: Maybe<ShopifyStorefrontCheckoutCompleteWithCreditCardPayload>
   /**
    * Completes a checkout using a credit card token from Shopify's card vault.
    * Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you
    * need to  [_request payment processing_](https://help.shopify.com/api/guides/sales-channel-sdk/getting-started#request-payment-processing).
    */
-  checkoutCompleteWithCreditCardV2?: Maybe<
-    ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload
-  >
+  checkoutCompleteWithCreditCardV2?: Maybe<ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload>
   /**
    * Completes a checkout with a tokenized payment.
    * @deprecated Use `checkoutCompleteWithTokenizedPaymentV2` instead
    */
-  checkoutCompleteWithTokenizedPayment?: Maybe<
-    ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentPayload
-  >
+  checkoutCompleteWithTokenizedPayment?: Maybe<ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentPayload>
   /**
    * Completes a checkout with a tokenized payment.
    * @deprecated Use `checkoutCompleteWithTokenizedPaymentV3` instead
    */
-  checkoutCompleteWithTokenizedPaymentV2?: Maybe<
-    ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV2Payload
-  >
+  checkoutCompleteWithTokenizedPaymentV2?: Maybe<ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV2Payload>
   /** Creates a new checkout. */
   checkoutCreate?: Maybe<ShopifyStorefrontCheckoutCreatePayload>
   /**
    * Associates a customer to the checkout.
    * @deprecated Use `checkoutCustomerAssociateV2` instead
    */
-  checkoutCustomerAssociate?: Maybe<
-    ShopifyStorefrontCheckoutCustomerAssociatePayload
-  >
+  checkoutCustomerAssociate?: Maybe<ShopifyStorefrontCheckoutCustomerAssociatePayload>
   /** Associates a customer to the checkout. */
-  checkoutCustomerAssociateV2?: Maybe<
-    ShopifyStorefrontCheckoutCustomerAssociateV2Payload
-  >
+  checkoutCustomerAssociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerAssociateV2Payload>
   /**
    * Disassociates the current checkout customer from the checkout.
    * @deprecated Use `checkoutCustomerDisassociateV2` instead
    */
-  checkoutCustomerDisassociate?: Maybe<
-    ShopifyStorefrontCheckoutCustomerDisassociatePayload
-  >
+  checkoutCustomerDisassociate?: Maybe<ShopifyStorefrontCheckoutCustomerDisassociatePayload>
   /** Disassociates the current checkout customer from the checkout. */
-  checkoutCustomerDisassociateV2?: Maybe<
-    ShopifyStorefrontCheckoutCustomerDisassociateV2Payload
-  >
+  checkoutCustomerDisassociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerDisassociateV2Payload>
   /**
    * Applies a discount to an existing checkout using a discount code.
    * @deprecated Use `checkoutDiscountCodeApplyV2` instead
    */
-  checkoutDiscountCodeApply?: Maybe<
-    ShopifyStorefrontCheckoutDiscountCodeApplyPayload
-  >
+  checkoutDiscountCodeApply?: Maybe<ShopifyStorefrontCheckoutDiscountCodeApplyPayload>
   /** Applies a discount to an existing checkout using a discount code. */
-  checkoutDiscountCodeApplyV2?: Maybe<
-    ShopifyStorefrontCheckoutDiscountCodeApplyV2Payload
-  >
+  checkoutDiscountCodeApplyV2?: Maybe<ShopifyStorefrontCheckoutDiscountCodeApplyV2Payload>
   /** Removes the applied discount from an existing checkout. */
-  checkoutDiscountCodeRemove?: Maybe<
-    ShopifyStorefrontCheckoutDiscountCodeRemovePayload
-  >
+  checkoutDiscountCodeRemove?: Maybe<ShopifyStorefrontCheckoutDiscountCodeRemovePayload>
   /**
    * Updates the email on an existing checkout.
    * @deprecated Use `checkoutEmailUpdateV2` instead
@@ -3007,62 +3005,40 @@ export interface ShopifyStorefrontMutation {
    */
   checkoutGiftCardRemove?: Maybe<ShopifyStorefrontCheckoutGiftCardRemovePayload>
   /** Removes an applied gift card from the checkout. */
-  checkoutGiftCardRemoveV2?: Maybe<
-    ShopifyStorefrontCheckoutGiftCardRemoveV2Payload
-  >
+  checkoutGiftCardRemoveV2?: Maybe<ShopifyStorefrontCheckoutGiftCardRemoveV2Payload>
   /** Appends gift cards to an existing checkout. */
-  checkoutGiftCardsAppend?: Maybe<
-    ShopifyStorefrontCheckoutGiftCardsAppendPayload
-  >
+  checkoutGiftCardsAppend?: Maybe<ShopifyStorefrontCheckoutGiftCardsAppendPayload>
   /** Adds a list of line items to a checkout. */
   checkoutLineItemsAdd?: Maybe<ShopifyStorefrontCheckoutLineItemsAddPayload>
   /** Removes line items from an existing checkout. */
-  checkoutLineItemsRemove?: Maybe<
-    ShopifyStorefrontCheckoutLineItemsRemovePayload
-  >
+  checkoutLineItemsRemove?: Maybe<ShopifyStorefrontCheckoutLineItemsRemovePayload>
   /** Sets a list of line items to a checkout. */
-  checkoutLineItemsReplace?: Maybe<
-    ShopifyStorefrontCheckoutLineItemsReplacePayload
-  >
+  checkoutLineItemsReplace?: Maybe<ShopifyStorefrontCheckoutLineItemsReplacePayload>
   /** Updates line items on a checkout. */
-  checkoutLineItemsUpdate?: Maybe<
-    ShopifyStorefrontCheckoutLineItemsUpdatePayload
-  >
+  checkoutLineItemsUpdate?: Maybe<ShopifyStorefrontCheckoutLineItemsUpdatePayload>
   /**
    * Updates the shipping address of an existing checkout.
    * @deprecated Use `checkoutShippingAddressUpdateV2` instead
    */
-  checkoutShippingAddressUpdate?: Maybe<
-    ShopifyStorefrontCheckoutShippingAddressUpdatePayload
-  >
+  checkoutShippingAddressUpdate?: Maybe<ShopifyStorefrontCheckoutShippingAddressUpdatePayload>
   /** Updates the shipping address of an existing checkout. */
-  checkoutShippingAddressUpdateV2?: Maybe<
-    ShopifyStorefrontCheckoutShippingAddressUpdateV2Payload
-  >
+  checkoutShippingAddressUpdateV2?: Maybe<ShopifyStorefrontCheckoutShippingAddressUpdateV2Payload>
   /** Updates the shipping lines on an existing checkout. */
-  checkoutShippingLineUpdate?: Maybe<
-    ShopifyStorefrontCheckoutShippingLineUpdatePayload
-  >
+  checkoutShippingLineUpdate?: Maybe<ShopifyStorefrontCheckoutShippingLineUpdatePayload>
   /**
    * Creates a customer access token.
    * The customer access token is required to modify the customer object in any way.
    */
-  customerAccessTokenCreate?: Maybe<
-    ShopifyStorefrontCustomerAccessTokenCreatePayload
-  >
+  customerAccessTokenCreate?: Maybe<ShopifyStorefrontCustomerAccessTokenCreatePayload>
   /** Permanently destroys a customer access token. */
-  customerAccessTokenDelete?: Maybe<
-    ShopifyStorefrontCustomerAccessTokenDeletePayload
-  >
+  customerAccessTokenDelete?: Maybe<ShopifyStorefrontCustomerAccessTokenDeletePayload>
   /**
    * Renews a customer access token.
    *
    * Access token renewal must happen *before* a token expires.
    * If a token has already expired, a new one should be created instead via `customerAccessTokenCreate`.
    */
-  customerAccessTokenRenew?: Maybe<
-    ShopifyStorefrontCustomerAccessTokenRenewPayload
-  >
+  customerAccessTokenRenew?: Maybe<ShopifyStorefrontCustomerAccessTokenRenewPayload>
   /** Activates a customer. */
   customerActivate?: Maybe<ShopifyStorefrontCustomerActivatePayload>
   /** Creates a new address for a customer. */
@@ -3074,9 +3050,7 @@ export interface ShopifyStorefrontMutation {
   /** Creates a new customer. */
   customerCreate?: Maybe<ShopifyStorefrontCustomerCreatePayload>
   /** Updates the default address of an existing customer. */
-  customerDefaultAddressUpdate?: Maybe<
-    ShopifyStorefrontCustomerDefaultAddressUpdatePayload
-  >
+  customerDefaultAddressUpdate?: Maybe<ShopifyStorefrontCustomerDefaultAddressUpdatePayload>
   /** Sends a reset password email to the customer, as the first step in the reset password process. */
   customerRecover?: Maybe<ShopifyStorefrontCustomerRecoverPayload>
   /** Resets a customer’s password with a token received from `CustomerRecover`. */
@@ -3446,6 +3420,7 @@ export type ShopifyStorefrontOrderSuccessfulFulfillmentsArgs = {
   first?: Maybe<Scalars['Int']>
 }
 
+/** An auto-generated type for paginating through multiple Orders. */
 export interface ShopifyStorefrontOrderConnection {
   __typename: 'OrderConnection'
   /** A list of edges. */
@@ -3454,6 +3429,7 @@ export interface ShopifyStorefrontOrderConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Order and a cursor during pagination. */
 export interface ShopifyStorefrontOrderEdge {
   __typename: 'OrderEdge'
   /** A cursor for use in pagination. */
@@ -3477,6 +3453,7 @@ export interface ShopifyStorefrontOrderLineItem {
   variant?: Maybe<ShopifyStorefrontProductVariant>
 }
 
+/** An auto-generated type for paginating through multiple OrderLineItems. */
 export interface ShopifyStorefrontOrderLineItemConnection {
   __typename: 'OrderLineItemConnection'
   /** A list of edges. */
@@ -3485,6 +3462,7 @@ export interface ShopifyStorefrontOrderLineItemConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one OrderLineItem and a cursor during pagination. */
 export interface ShopifyStorefrontOrderLineItemEdge {
   __typename: 'OrderLineItemEdge'
   /** A cursor for use in pagination. */
@@ -3533,6 +3511,7 @@ export interface ShopifyStorefrontPage extends ShopifyStorefrontNode {
   url: Scalars['URL']
 }
 
+/** An auto-generated type for paginating through multiple Pages. */
 export interface ShopifyStorefrontPageConnection {
   __typename: 'PageConnection'
   /** A list of edges. */
@@ -3541,6 +3520,7 @@ export interface ShopifyStorefrontPageConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Page and a cursor during pagination. */
 export interface ShopifyStorefrontPageEdge {
   __typename: 'PageEdge'
   /** A cursor for use in pagination. */
@@ -3676,7 +3656,7 @@ export interface ShopifyStorefrontProduct
    * A value of `null` indicates that the product is not published to the Online Store sales channel.
    */
   onlineStoreUrl?: Maybe<Scalars['URL']>
-  /** List of custom product options (maximum of 3 per product). */
+  /** List of product options. */
   options: Array<ShopifyStorefrontProductOption>
   /** List of price ranges in the presentment currencies for this shop. */
   presentmentPriceRanges: ShopifyStorefrontProductPriceRangeConnection
@@ -3693,7 +3673,12 @@ export interface ShopifyStorefrontProduct
   tags: Array<Scalars['String']>
   /** The product’s title. */
   title: Scalars['String']
-  /** The date and time when the product was last modified. */
+  /**
+   * The date and time when the product was last modified.
+   * A product's `updatedAt` value can change for different reasons. For example, if an order
+   * is placed for a product that has inventory tracking set up, then the inventory adjustment
+   * is counted as an update.
+   */
   updatedAt: Scalars['DateTime']
   /**
    * Find a product’s variant based on its selected options.
@@ -3850,6 +3835,7 @@ export enum ShopifyStorefrontProductCollectionSortKeys {
   Relevance = 'RELEVANCE',
 }
 
+/** An auto-generated type for paginating through multiple Products. */
 export interface ShopifyStorefrontProductConnection {
   __typename: 'ProductConnection'
   /** A list of edges. */
@@ -3858,6 +3844,7 @@ export interface ShopifyStorefrontProductConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one Product and a cursor during pagination. */
 export interface ShopifyStorefrontProductEdge {
   __typename: 'ProductEdge'
   /** A cursor for use in pagination. */
@@ -3883,9 +3870,8 @@ export enum ShopifyStorefrontProductImageSortKeys {
 }
 
 /**
- * Custom product property names like "Size", "Color", and "Material".
- * Products are based on permutations of these options.
- * A product may have a maximum of 3 options.
+ * Product property names like "Size", "Color", and "Material" that the customers can select.
+ * Variants are selected based on permutations of these options.
  * 255 characters limit each.
  */
 export interface ShopifyStorefrontProductOption extends ShopifyStorefrontNode {
@@ -3907,6 +3893,7 @@ export interface ShopifyStorefrontProductPriceRange {
   minVariantPrice: ShopifyStorefrontMoneyV2
 }
 
+/** An auto-generated type for paginating through multiple ProductPriceRanges. */
 export interface ShopifyStorefrontProductPriceRangeConnection {
   __typename: 'ProductPriceRangeConnection'
   /** A list of edges. */
@@ -3915,6 +3902,7 @@ export interface ShopifyStorefrontProductPriceRangeConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one ProductPriceRange and a cursor during pagination. */
 export interface ShopifyStorefrontProductPriceRangeEdge {
   __typename: 'ProductPriceRangeEdge'
   /** A cursor for use in pagination. */
@@ -4039,6 +4027,7 @@ export type ShopifyStorefrontProductVariantPresentmentPricesArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
+/** An auto-generated type for paginating through multiple ProductVariants. */
 export interface ShopifyStorefrontProductVariantConnection {
   __typename: 'ProductVariantConnection'
   /** A list of edges. */
@@ -4047,6 +4036,7 @@ export interface ShopifyStorefrontProductVariantConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one ProductVariant and a cursor during pagination. */
 export interface ShopifyStorefrontProductVariantEdge {
   __typename: 'ProductVariantEdge'
   /** A cursor for use in pagination. */
@@ -4064,6 +4054,7 @@ export interface ShopifyStorefrontProductVariantPricePair {
   price: ShopifyStorefrontMoneyV2
 }
 
+/** An auto-generated type for paginating through multiple ProductVariantPricePairs. */
 export interface ShopifyStorefrontProductVariantPricePairConnection {
   __typename: 'ProductVariantPricePairConnection'
   /** A list of edges. */
@@ -4072,6 +4063,7 @@ export interface ShopifyStorefrontProductVariantPricePairConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one ProductVariantPricePair and a cursor during pagination. */
 export interface ShopifyStorefrontProductVariantPricePairEdge {
   __typename: 'ProductVariantPricePairEdge'
   /** A cursor for use in pagination. */
@@ -4113,7 +4105,9 @@ export interface ShopifyStorefrontQueryRoot {
   collections: ShopifyStorefrontCollectionConnection
   /** Find a customer by its access token. */
   customer?: Maybe<ShopifyStorefrontCustomer>
+  /** Returns a specific node by ID. */
   node?: Maybe<ShopifyStorefrontNode>
+  /** Returns the list of nodes with the given IDs. */
   nodes: Array<Maybe<ShopifyStorefrontNode>>
   /** Find a page by its handle. */
   pageByHandle?: Maybe<ShopifyStorefrontPage>
@@ -4272,8 +4266,8 @@ export interface ShopifyStorefrontScriptDiscountApplication
 }
 
 /**
- * Custom properties that a shop owner can use to define product variants.
- * Multiple options can exist. Options are represented as: option1, option2, option3, etc.
+ * Properties used by customers to select a product variant.
+ * Products can have multiple options, like different sizes or colors.
  */
 export interface ShopifyStorefrontSelectedOption {
   __typename: 'SelectedOption'
@@ -4362,7 +4356,7 @@ export interface ShopifyStorefrontShop {
    */
   productByHandle?: Maybe<ShopifyStorefrontProduct>
   /**
-   * A comma separated list of tags that have been added to products.
+   * A list of tags that have been added to products.
    * Additional access scope required: unauthenticated_read_product_tags.
    * @deprecated Use `QueryRoot.productTags` instead.
    */
@@ -4469,6 +4463,7 @@ export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
   url: Scalars['URL']
 }
 
+/** An auto-generated type for paginating through multiple Strings. */
 export interface ShopifyStorefrontStringConnection {
   __typename: 'StringConnection'
   /** A list of edges. */
@@ -4477,6 +4472,7 @@ export interface ShopifyStorefrontStringConnection {
   pageInfo: ShopifyStorefrontPageInfo
 }
 
+/** An auto-generated type which holds one String and a cursor during pagination. */
 export interface ShopifyStorefrontStringEdge {
   __typename: 'StringEdge'
   /** A cursor for use in pagination. */
@@ -4559,18 +4555,32 @@ export interface ShopifyStorefrontTransaction {
   test: Scalars['Boolean']
 }
 
+/** The different kinds of order transactions. */
 export enum ShopifyStorefrontTransactionKind {
+  /** An authorization and capture performed together in a single step. */
   Sale = 'SALE',
+  /** A transfer of the money that was reserved during the authorization stage. */
   Capture = 'CAPTURE',
+  /**
+   * An amount reserved against the cardholder's funding source.
+   * Money does not change hands until the authorization is captured.
+   */
   Authorization = 'AUTHORIZATION',
+  /** An authorization for a payment taken with an EMV credit card reader. */
   EmvAuthorization = 'EMV_AUTHORIZATION',
+  /** Money returned to the customer when they have paid too much. */
   Change = 'CHANGE',
 }
 
+/** Transaction statuses describe the status of a transaction. */
 export enum ShopifyStorefrontTransactionStatus {
+  /** The transaction is pending. */
   Pending = 'PENDING',
+  /** The transaction succeeded. */
   Success = 'SUCCESS',
+  /** The transaction failed. */
   Failure = 'FAILURE',
+  /** There was an error while processing the transaction. */
   Error = 'ERROR',
 }
 

@@ -2,6 +2,7 @@ import * as React from 'react'
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 import { gtm } from './_app'
+import { config } from '../src/config'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -31,7 +32,7 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    const ENV = process.env.STOREFRONT_ENV
+    const ENV = config.STOREFRONT_ENV
 
     const tagInfo =
       ENV === 'production'

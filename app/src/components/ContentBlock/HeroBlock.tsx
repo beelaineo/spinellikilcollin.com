@@ -12,7 +12,7 @@ import { RichText } from '../RichText'
 import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 
-const HeroWrapper = styled.div`
+export const HeroWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
     z-index: 0;

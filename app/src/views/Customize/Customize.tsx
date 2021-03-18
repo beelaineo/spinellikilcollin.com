@@ -1,6 +1,7 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { Customize as CustomizeType } from '../../types'
+import { FeatureFlag } from '../../components/FeatureFlag'
 import { PageWrapper } from '../../components/Layout'
 import { Heading } from '../../components/Text'
 import { Column } from '../../components/Layout'
@@ -8,10 +9,21 @@ import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
 import { isValidHero, getHeroImage } from '../../utils'
+import { QuizBlock } from './QuizBlock'
+import { Examples } from './Examples'
+import { CustomerStories } from './CustomerStories'
 
-interface CustomizeProps {
-  customize: CustomizeType
+interface BlockWrapperProps {
+  borderTop?: boolean
 }
+const BlockWrapper = styled.div<BlockWrapperProps>`
+  ${({ borderTop }) => css`
+    padding: 6 0;
+    border-bottom: 1px solid;
+    border-color: body.5;
+    border-top: ${borderTop ? '1px solid' : 0};
+  `}
+`
 
 const PageText = styled.div`
   h1,
@@ -27,8 +39,21 @@ const PageText = styled.div`
   }
 `
 
+interface CustomizeProps {
+  customize: CustomizeType
+}
+
 export const Customize = ({ customize }: CustomizeProps) => {
-  const { seo, title, subtitle, hero, bodyRaw } = customize
+  const {
+    seo,
+    title,
+    subtitle,
+    hero,
+    bodyRaw,
+    quizBlock,
+    customerStories,
+    examples,
+  } = customize
   const defaultSeo = {
     title: 'Customize',
     image: getHeroImage(hero),
@@ -43,14 +68,25 @@ export const Customize = ({ customize }: CustomizeProps) => {
           {title}
         </Heading>
         {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
-        <Column columnwidth="medium">
-          <PageText>
-            <RichText
-              body={bodyRaw}
-              imageSizes="(max-width: 600px) 100vw, 600px"
-            />
-          </PageText>
-        </Column>
+        {bodyRaw ? (
+          <Column columnwidth="medium">
+            <PageText>
+              <RichText
+                body={bodyRaw}
+                imageSizes="(max-width: 600px) 100vw, 600px"
+              />
+            </PageText>
+          </Column>
+        ) : null}
+        <FeatureFlag flag="customizationPage">
+          {quizBlock ? <QuizBlock quizBlock={quizBlock} /> : null}
+          <BlockWrapper borderTop={true}>
+            <CustomerStories customerStories={customerStories} />
+          </BlockWrapper>
+          <BlockWrapper>
+            <Examples examples={examples} />
+          </BlockWrapper>
+        </FeatureFlag>
       </PageWrapper>
     </>
   )

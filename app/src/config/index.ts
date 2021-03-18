@@ -11,6 +11,7 @@ const {
   ALGOLIA_APP_ID,
   ALGOLIA_SEARCH_KEY,
   SENTRY_DSN,
+  STOREFRONT_ENV,
 } = publicRuntimeConfig
 
 const ALGOLIA_API_KEY =
@@ -30,6 +31,7 @@ if (!SANITY_DATASET)
 if (!ALGOLIA_API_KEY) throw new Error('You must provide an algolia API Key')
 if (!ALGOLIA_APP_ID) throw new Error('You must provide an algolia app ID')
 if (!SENTRY_DSN) throw new Error('You must provide a sentry DSN')
+if (!STOREFRONT_ENV) throw new Error('You must provide a storefront ENV')
 
 const SHOPIFY_STOREFRONT_TOKEN = '0d3e3d2a74d125f799cd78a72e6c0000'
 const SHOPIFY_STOREFRONT_URL =
@@ -39,6 +41,7 @@ const SANITY_GRAPHQL_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v1/graphq
 export const config = {
   ALGOLIA_API_KEY,
   ALGOLIA_APP_ID,
+  STOREFRONT_ENV,
   SHOPIFY_STOREFRONT_TOKEN,
   SHOPIFY_STOREFRONT_URL,
   SANITY_PROJECT_ID,

@@ -7,6 +7,7 @@ import { Footer } from '../src/components/Footer'
 import { Navigation } from '../src/components/Navigation'
 import { SearchPane } from '../src/components/Search'
 import { getThemeByRoute } from '../src/theme'
+import { config } from '../src/config'
 
 interface AppProps {
   Component: React.ComponentType
@@ -52,15 +53,20 @@ export const gtm = {
   },
 }
 
+const { STOREFRONT_ENV } = config
+
 const App = (props: AppProps) => {
   const { Component, pageProps: allPageProps, router } = props
   const path = router.asPath
   const { shopData, ...pageProps } = allPageProps
   if (!shopData) return null
-  const ENV = process.env.STOREFRONT_ENV
 
   const tagInfo =
-    ENV === 'production' ? gtm.prod : ENV === 'staging' ? gtm.staging : gtm.dev
+    STOREFRONT_ENV === 'production'
+      ? gtm.prod
+      : STOREFRONT_ENV === 'staging'
+      ? gtm.staging
+      : gtm.dev
 
   return (
     <Providers shopData={shopData}>
@@ -99,13 +105,13 @@ const App = (props: AppProps) => {
           <noscript
             dangerouslySetInnerHTML={{
               __html: `
-            <img
-              height="1"
-              width="1"
-              style={{ display: 'none' }}
-              alt=""
-              src="https://ct.pinterest.com/v3/?tid=2613624654029&noscript=1"
-            />
+                <img
+                  height="1"
+                  width="1"
+                  style={{ display: 'none' }}
+                  alt=""
+                  src="https://ct.pinterest.com/v3/?tid=2613624654029&noscript=1"
+                />
               `,
             }}
           />
@@ -132,6 +138,7 @@ const App = (props: AppProps) => {
         <div id="modal" />
       </ThemeProvider>
       <script
+        /* Hubspot */
         type="text/javascript"
         id="hs-script-loader"
         async

@@ -3,7 +3,7 @@ import styled, { Box, css } from '@xstyled/styled-components'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
 import { Heading } from '../Text'
 import { RichText } from '../RichText'
-import { PageLink } from '../PageLink'
+import { PageLink, LinkParams } from '../PageLink'
 import { Image, HoverImage } from '../Image'
 import {
   getFlexJustification,
@@ -11,10 +11,6 @@ import {
   getTextAlignment,
 } from '../../theme/utils'
 import { VideoWrapper, CloudinaryVideo } from '../CloudinaryVideo'
-
-interface ImageTextBlockProps {
-  content: ImageTextBlockType
-}
 
 const RichTextWrapper = (props: any) => <Heading level={3} {...props} />
 
@@ -105,7 +101,15 @@ const TextWrapper = styled.div<TextWrapperProps>`
   `}
 `
 
-export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
+interface ImageTextBlockProps {
+  content: ImageTextBlockType
+  linkParams?: LinkParams
+}
+
+export const ImageTextBlock = ({
+  content,
+  linkParams,
+}: ImageTextBlockProps) => {
   const {
     ctaText,
     textPosition,
@@ -118,16 +122,20 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
   const link = content.link ? content.link[0] : undefined
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
-  const ratio = layout === 'fullWidth' ? 0.5 : 1
+  const ratio = layout === 'fullWidth' ? 0.48 : 1
   return (
     <Wrapper layout={layout}>
-      <ImagesWrapper>
-        <Image image={backgroundImage} hoverImage={hoverImage} ratio={ratio} />
-        <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
-      </ImagesWrapper>
-      {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
-      <TextWrapper textPosition={textPosition}>
-        <PageLink link={link}>
+      <PageLink link={link} linkParams={linkParams}>
+        <ImagesWrapper>
+          <Image
+            image={backgroundImage}
+            hoverImage={hoverImage}
+            ratio={ratio}
+          />
+          <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
+        </ImagesWrapper>
+        {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
+        <TextWrapper textPosition={textPosition}>
           <Box color={textColor}>
             <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
             {ctaText ? (
@@ -138,8 +146,8 @@ export const ImageTextBlock = ({ content }: ImageTextBlockProps) => {
               </CtaWrapper>
             ) : null}
           </Box>
-        </PageLink>
-      </TextWrapper>
+        </TextWrapper>
+      </PageLink>
     </Wrapper>
   )
 }

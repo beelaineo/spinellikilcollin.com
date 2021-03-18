@@ -7,7 +7,7 @@ interface ModalProps {
   closeModal: () => void
 }
 
-export const Modal = ({ children, closeModal }: ModalProps) => {
+export const Modal: React.FC<ModalProps> = ({ children, closeModal }) => {
   if (typeof document === 'undefined') return null
   const modalRoot = document.getElementById('modal')
   if (!modalRoot) throw new Error('No modal root')

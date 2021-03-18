@@ -1,4 +1,5 @@
-import { useReducer } from 'react'
+import { useRouter } from 'next/router'
+import { useEffect, useReducer } from 'react'
 import { ShopifyProduct, ShopifyProductVariant } from '../../types'
 
 const CLOSE = 'CLOSE'
@@ -87,6 +88,7 @@ export interface ContactModalArgs {
 
 export const useModalReducer = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { asPath } = useRouter()
 
   const closeModal = () => dispatch({ type: CLOSE })
   const openRingSizerModal = () => dispatch({ type: OPEN_RING_SIZER })
@@ -97,6 +99,11 @@ export const useModalReducer = () => {
     dispatch({ type: OPEN_CUSTOMIZATION, currentProduct, currentVariant })
   const openContactModal = ({ formtype }: ContactModalArgs) =>
     dispatch({ type: OPEN_CONTACT, formtype })
+
+  // Close all modals on route change
+  useEffect(() => {
+    closeModal()
+  }, [asPath])
 
   return {
     state,

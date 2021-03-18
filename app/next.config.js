@@ -22,6 +22,7 @@ const SANITY_PROJECT_ID = process.env.SANITY_PROJECT_ID
 const SANITY_DATASET = process.env.SANITY_DATASET
 const SANITY_READ_TOKEN = process.env.SANITY_READ_TOKEN
 const POSTMARK_KEY = process.env.POSTMARK_KEY
+const STOREFRONT_ENV = process.env.STOREFRONT_ENV
 
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
@@ -35,6 +36,7 @@ module.exports = withSourceMaps(
       SENTRY_DSN,
       ALGOLIA_APP_ID,
       ALGOLIA_SEARCH_KEY,
+      STOREFRONT_ENV,
     },
     serverRuntimeConfig: {
       PROJECT_ROOT: __dirname,

@@ -1,12 +1,14 @@
-import styled, { css } from '@xstyled/styled-components'
+import * as React from 'react'
+import styled, { css, BoxProps } from '@xstyled/styled-components'
+import Link from 'next/link'
 
-interface ButtonProps {
+interface ButtonProps extends BoxProps {
   level?: 1 | 2 | 3
   disabled?: boolean
 }
 
-export const Button = styled.buttonBox`
-  ${({ level, disabled }: ButtonProps) => css`
+export const Button = styled.buttonBox<ButtonProps>`
+  ${({ level, disabled, theme }) => css`
     pointer-events: ${disabled ? 'none' : 'inherit'};
     opacity: ${disabled ? 0.3 : 1};
     font-family: serif;
@@ -15,6 +17,10 @@ export const Button = styled.buttonBox`
     height: 42px;
     padding: 0 3;
     font-size: 5;
+    cursor: pointer;
+    font-weight: 300;
+    line-height: 42px;
+
     svg {
       display: inline-block;
       margin: 0 0.2em;
@@ -42,3 +48,25 @@ export const Button = styled.buttonBox`
         `}
   `}
 `
+
+interface LinkButtonProps extends ButtonProps {
+  href: string
+  children: React.ReactNode
+}
+export const LinkButton = ({
+  href,
+  children,
+  level,
+  disabled,
+  ...rest
+}: LinkButtonProps) => {
+  return (
+    <Link href={href}>
+      <a>
+        <Button as="div" {...rest} level={level} disabled={disabled}>
+          {children}
+        </Button>
+      </a>
+    </Link>
+  )
+}

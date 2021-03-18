@@ -1,4 +1,5 @@
 import styled, { css } from '@xstyled/styled-components'
+import { Button } from '../../components/Button'
 
 export const PageLinksWrapper = styled.div`
   margin-top: 83px;
@@ -31,6 +32,15 @@ export const PageLinkBody = styled.div<WithIsOdd>`
     text-align: center;
     align-items: center;
     justify-content: center;
+
+    & ${Button} {
+      display: inline-block;
+      min-width: 336px;
+
+      ${theme.mediaQueries.mobile} {
+        min-width: 288px;
+      }
+    }
 
     ${theme.mediaQueries.aboveMobile} {
       grid-column: ${isOdd ? '1 / 2' : 'auto'};

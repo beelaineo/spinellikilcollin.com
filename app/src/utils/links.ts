@@ -52,46 +52,52 @@ export const getPageLinkLabel = (
   }
 }
 
-export const getPageLinkUrl = (document: Document): LinkInfo => {
+export const getPageLinkUrl = (
+  document: Document,
+  params?: Record<string, string | number | boolean>,
+): LinkInfo => {
+  const paramKeys = params
+    ? Object.entries(params).map(([key, value]) => [key, value.toString()])
+    : undefined
+  const paramString = ['?', new URLSearchParams(paramKeys)]
+    .join('')
+    .replace(/^\?$/, '')
   if (!document) throw new Error('No document was provided')
   switch (document.__typename) {
     case 'ShopifyCollection':
       return {
-        href: `/collections/[collectionSlug]`,
-        as: `/collections/${document.handle}`,
+        href: `/collections/${document.handle}`.concat(paramString),
       }
     case 'ShopifyProduct':
       return {
-        href: `/products/[productSlug]`,
-        as: `/products/${document.handle}`,
+        href: `/products/${document.handle}`.concat(paramString),
       }
 
     case 'Magazine':
       return {
-        href: '/925',
+        href: '/925'.concat(paramString),
       }
 
     case 'Customize':
       return {
-        href: '/customize',
+        href: '/customize'.concat(paramString),
       }
 
     case 'JournalPage':
       return {
-        href: '/journal',
+        href: '/journal'.concat(paramString),
       }
 
     case 'JournalEntry':
       const slug = document?.slug?.current
       if (!slug) throw new Error(`Page "${document.title}" has no slug`)
       return {
-        href: '/journal/[entrySlug]',
-        as: `/journal/${slug}`,
+        href: `/journal/${slug}`.concat(paramString),
       }
 
     case 'Contact':
       return {
-        href: '/about/contact',
+        href: '/about/contact'.concat(paramString),
       }
 
     case 'Page':
@@ -100,16 +106,15 @@ export const getPageLinkUrl = (document: Document): LinkInfo => {
       }
 
       return {
-        href: '/about/[pageSlug]',
-        as: `/about/${document.slug.current}`,
+        href: `/about/${document.slug.current}`.concat(paramString),
       }
     case 'TeamPage':
       return {
-        href: '/about/team',
+        href: '/about/team'.concat(paramString),
       }
     case 'About':
       return {
-        href: '/about',
+        href: '/about'.concat(paramString),
       }
     default:
       throw new Error(
@@ -122,12 +127,12 @@ export const getPageLinkUrl = (document: Document): LinkInfo => {
 export const getLinkFromHref = (href: string): LinkInfo => {
   const { pathname } = new URL(href)
   if (/\/products\/\w+/.test(pathname)) {
-    return { href: '/products/[productSlug]', as: pathname }
+    return { href: pathname }
   }
   if (/\/collections\/\w+/.test(pathname)) {
-    return { href: '/collections/[collectionSlug]', as: pathname }
+    return { href: pathname }
   }
-  return { href: '/[pageSlug]', as: pathname }
+  return { href: pathname }
 }
 
 export const getDocumentLinkImage = (
