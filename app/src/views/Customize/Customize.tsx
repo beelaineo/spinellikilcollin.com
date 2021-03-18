@@ -39,6 +39,10 @@ const PageText = styled.div`
   }
 `
 
+interface CustomizeProps {
+  customize: CustomizeType
+}
+
 export const Customize = ({ customize }: CustomizeProps) => {
   const {
     seo,

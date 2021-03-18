@@ -940,6 +940,16 @@
     "flags": null
   },
   {
+    "english": "Kuwait",
+    "spanish": "Kuwait",
+    "countryCode": "KW",
+    "currencyCode": "KWD",
+    "dialingCode": 965,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇼",
+    "flags": null
+  },
+  {
     "english": "Liberia",
     "spanish": "Liberia",
     "countryCode": "LR",
