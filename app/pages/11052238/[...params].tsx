@@ -6,7 +6,7 @@ export const InvoiceRedirect = () => {
 
 export const getServerSideProps = ({ res, params }) => {
   const newLocation = [
-    'https://spinellikilcollin.myshopify.com/11052238',
+    'https://checkout.spinellikilcollin.com/11052238',
     ...params.params,
   ].join('/')
   res.setHeader('location', newLocation)
