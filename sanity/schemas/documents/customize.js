@@ -64,15 +64,14 @@ export const experience = {
 
   fields: [
     {
-      name: 'heading',
-      title: 'Heading',
+      title: 'Title',
+      name: 'title',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     },
     {
-      name: 'body',
-      title: 'Body',
-      type: 'text',
+      title: 'Subtitle',
+      name: 'subtitle',
+      type: 'string',
     },
     {
       name: 'blocks',
