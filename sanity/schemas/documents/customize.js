@@ -22,27 +22,65 @@ export const customizeExamples = {
   ],
 }
 
-export const customerStory = {
-  title: 'Customer Story',
-  name: 'customerStory',
+export const experienceBlock = {
+  title: 'Experience Block',
+  name: 'experienceBlock',
   type: 'object',
   fields: [
-    { name: 'body', type: 'text', title: 'Quote' },
-    { name: 'byLine', type: 'string', title: 'Byline' },
+    {
+      name: 'illustration',
+      title: 'Illustration',
+      type: 'richImage',
+    },
+    {
+      name: 'heading',
+      title: 'Heading',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'body',
+      title: 'Body',
+      type: 'text',
+    },
   ],
   preview: {
     select: {
-      title: 'byLine',
+      title: 'heading',
       subtitle: 'body',
+      media: 'illustration',
     },
   },
 }
 
-export const customerStories = {
-  title: 'Customer Stories',
-  name: 'customerStories',
+export const experience = {
+  title: 'Experience',
   type: 'object',
-  fields: [{ name: 'stories', type: 'array', of: [{ type: 'customerStory' }] }],
+  name: 'experience',
+  options: {
+    collapsible: true,
+    collapsed: true,
+  },
+
+  fields: [
+    {
+      name: 'heading',
+      title: 'Heading',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'body',
+      title: 'Body',
+      type: 'text',
+    },
+    {
+      name: 'blocks',
+      title: 'Blocks',
+      type: 'array',
+      of: [{ type: 'experienceBlock' }],
+    },
+  ],
 }
 
 export const quizProductType = {
@@ -87,9 +125,22 @@ export const customize = {
   name: 'customize',
   title: 'Customize',
   fieldsets: [
-    { name: 'quiz', title: 'Quiz' },
-    { name: 'stories', title: 'Customer Stories' },
-    { name: 'examples', title: 'Examples' },
+    {
+      name: 'quiz',
+      title: 'Quiz',
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+    },
+    {
+      name: 'examples',
+      title: 'Examples',
+      options: {
+        collapsible: true,
+        collapsed: true,
+      },
+    },
   ],
   fields: [
     {
@@ -132,10 +183,9 @@ export const customize = {
       of: [{ type: 'string' }],
     },
     {
-      name: 'customerStories',
-      title: 'Customer Stories',
-      fieldset: 'stories',
-      type: 'customerStories',
+      name: 'experience',
+      title: 'Experience',
+      type: 'experience',
     },
     {
       name: 'examples',
@@ -143,7 +193,6 @@ export const customize = {
       fieldset: 'examples',
       type: 'customizeExamples',
     },
-
     {
       name: 'seo',
       title: 'SEO',
