@@ -1,9 +1,9 @@
 overwrite: true
 generates:
-  ./fragmentTypes-sanity.json:
-    schema: ${SANITY_GRAPHQL_URL}
-    plugins:
-      - fragment-matcher
+  # ./fragmentTypes-sanity.json:
+  #   schema: ${SANITY_GRAPHQL_URL}
+  #   plugins:
+  #     - fragment-matcher
   ./src/types/generated-sanity.ts:
     schema: ${SANITY_GRAPHQL_URL}
     plugins:

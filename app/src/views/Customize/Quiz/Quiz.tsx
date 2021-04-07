@@ -3,9 +3,8 @@ import { useTabs, Tabs, Tab } from '../../../components/Tabs'
 import { Form } from '../../../components/Forms'
 import { Customize as CustomizeType } from '../../../types'
 import { PageWrapper } from '../../../components/Layout'
-import { HeroBlock } from '../../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../../components/SEO'
-import { definitely, isValidHero, getHeroImage } from '../../../utils'
+import { definitely, getHeroImage } from '../../../utils'
 import { submitToHubspot } from '../../../services/hubspot'
 import { Details } from './Details'
 import { Contact } from './Contact'
@@ -13,7 +12,6 @@ import { Kind } from './Kind'
 import { Notes } from './Notes'
 import { Name } from './Name'
 import { ThankYou } from './ThankYou'
-import { QuizHeroWrapper } from './styled'
 
 interface QuizProps {
   customize: CustomizeType
@@ -64,12 +62,7 @@ const QuizInner = ({ customize }: QuizProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="customize/quiz" />
-      {hero && isValidHero(hero) ? (
-        <QuizHeroWrapper>
-          <HeroBlock hero={hero} />
-        </QuizHeroWrapper>
-      ) : null}
-      <PageWrapper pt={3}>
+      <PageWrapper>
         <Form<FormValues> initialValues={initialValues} onSubmit={handleSubmit}>
           <Tab name="kind">
             <Kind quizProductTypes={definitely(quizProductTypes)} />

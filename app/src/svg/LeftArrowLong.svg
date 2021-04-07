@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="26px" height="18px" viewBox="0 0 26 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 59.1 (86144) - https://sketch.com -->
+    <title>Arrow</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-72.2%" y="-144.4%" width="238.9%" height="388.9%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="v4-(October)" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="38" transform="translate(-8.000000, -2155.000000)" stroke="#000000">
+            <g id="Group-2" transform="translate(0.000000, 2141.000000)">
+                <g id="Arrow" filter="url(#filter-1)" transform="translate(12.000000, 17.000000)">
+                    <line x1="17.9739769" y1="4.382784" x2="0.290322581" y2="4.382784" id="Path-3"></line>
+                    <path d="M4.61871126,0 L3.63797881e-12,4.47437653 M4.61871126,8.97437653 L3.63797881e-12,4.5" id="Combined-Shape" stroke-linecap="square"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

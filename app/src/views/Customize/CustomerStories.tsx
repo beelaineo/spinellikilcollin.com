@@ -5,13 +5,13 @@ import { Loop } from '../../components/Loop'
 import { P } from '../../components/Text'
 import { definitely } from '../../utils'
 
-const StoryWrapper = styled.div`
+const storywrapper = styled.div`
   ${({ theme }) => css`
     padding: 3 5;
     width: 45vw;
     text-align: center;
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaqueries.mobile} {
       width: 100vw;
     }
   `}
