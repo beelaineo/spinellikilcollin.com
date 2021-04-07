@@ -39,8 +39,9 @@ interface GoToChildAction {
 
 type Action = AddChildAction | RemoveChildAction | GoToChildAction
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 const reducer = (state: State, action: Action): State => {
-  console.log(action)
   switch (action.type) {
     case Actions.AddChild:
       return {
@@ -84,20 +85,31 @@ export const useLoopReducer = (
 
   const { childRefs, currentIndex, transitionDuration } = state
 
-  /* Internal Actions */
-  const goToChild = (newIndex: number, useTransition: boolean = true) => {
-    const { containerRef, currentIndex, childRefs } = state
-    const child = childRefs[newIndex + CLONE_OFFSET]
-    if (!child) {
+  /* Helpers */
+  const getLeft = (childIndex: number): number => {
+    const child = childRefs[childIndex + CLONE_OFFSET]
+
+    if (!containerRef.current) {
+      throw new Error('No container')
+    }
+    if (!child?.current) {
       throw new Error(`There is no child at index ${currentIndex}`)
     }
-    if (!child.current) return
-    if (!containerRef.current) return
+
     const { offsetWidth, offsetLeft } = child.current
     const { offsetWidth: outerWidth } = containerRef.current
     const left = -offsetLeft + outerWidth / 2 - offsetWidth / 2
+    return left
+  }
 
+  /* Internal Actions */
+  const goToChild = async (newIndex: number, useTransition: boolean = true) => {
+    const { containerRef, currentIndex, childRefs } = state
+    if (!containerRef.current) return
+    const left = getLeft(newIndex)
     dispatch({ type: Actions.GoToChild, left, newIndex, useTransition })
+    const duration = useTransition ? DEFAULT_TRANSITION : 0
+    await sleep(duration)
   }
 
   /* Exported Actions */
@@ -105,8 +117,25 @@ export const useLoopReducer = (
 
   const removeRef = (ref: Ref) => dispatch({ type: Actions.RemoveChild, ref })
 
-  const next = () => goToChild(currentIndex + 1)
-  const previous = () => goToChild(currentIndex - 1)
+  const next = async () => {
+    if (currentIndex + 1 === totalChildren) {
+      /* Snap to clone if this step loops */
+      await goToChild(-1, false)
+      goToChild(0)
+      return
+    }
+    goToChild(currentIndex + 1)
+  }
+
+  const previous = async () => {
+    if (currentIndex === 0) {
+      /* Snap to clone if this step loops */
+      await goToChild(totalChildren, false)
+      goToChild(totalChildren - 1)
+      return
+    }
+    goToChild(currentIndex - 1)
+  }
 
   /* Effects */
 
@@ -116,18 +145,11 @@ export const useLoopReducer = (
   }, [childRefs.length])
 
   useEffect(() => {
-    if (!childRefs.length) return
+    if (!autoplay) return
     const timeout = setTimeout(() => {
-      if (currentIndex === totalChildren) {
-        goToChild(0, false)
-      }
-      if (currentIndex === -1) {
-        goToChild(totalChildren - 1, false)
-      }
-    }, transitionDuration)
-
-    return () => clearTimeout(timeout)
-  }, [autoplay, childRefs.length, currentIndex])
+      next()
+    }, interval)
+  }, [autoplay, currentIndex])
 
   return { state, addRef, next, previous, removeRef }
 }

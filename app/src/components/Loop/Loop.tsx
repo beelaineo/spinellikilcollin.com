@@ -118,7 +118,7 @@ export const Loop = ({
         {React.Children.map(lastTwo, (child, index) => (
           <LoopChild
             clone
-            active={index === 1 && currentIndex === -1}
+            active={currentIndex === children.length - 1 && index === 1}
             addRef={addRef}
             removeRef={removeRef}
           >
@@ -137,7 +137,7 @@ export const Loop = ({
         {React.Children.map(firstTwo, (child, index) => (
           <LoopChild
             clone
-            active={index + children.length === currentIndex}
+            active={currentIndex === 0 && index === 0}
             addRef={addRef}
             removeRef={removeRef}
           >

@@ -56,9 +56,10 @@ interface LoopChildContainerProps {
 }
 
 export const LoopChildContainer = styled.div<LoopChildContainerProps>`
-  ${({ active }) => css`
+  ${({ active, clone }) => css`
     display: inline-block;
     transition: 0.3s ease-out;
     opacity: ${active ? 1 : 0.4};
+    // outline: ${clone ? '1px solid blue' : 'none'};
   `}
 `
