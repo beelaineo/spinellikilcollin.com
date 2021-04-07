@@ -45,7 +45,13 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
             <Heading mb={0} level={2}>
               {title}
             </Heading>
-            <Heading my={3} mx="auto" textAlign="center" level={3}>
+            <Heading
+              maxWidth="450px"
+              my={3}
+              mx="auto"
+              textAlign="center"
+              level={3}
+            >
               {summary}
             </Heading>
             {ctaText ? (
