@@ -61,7 +61,7 @@
 	},
 	"dependencies": {
 		"@good-idea/unwind-edges": "^1.5.3",
-		"@sane-shopify/server": "^0.20.3",
+		"@sane-shopify/server": "^0.20.4",
 		"@sanity/block-content-to-react": "^2.0.7",
 		"@sanity/client": "^2.2.6",
 		"@sanity/image-url": "^0.140.22",
@@ -76,7 +76,7 @@
 		"bufferutil": "^4.0.3",
 		"common-tags": "^1.8.0",
 		"formik": "^2.2.6",
-  	"g": "^2.0.1",
+		"g": "^2.0.1",
 		"graphql-request": "^3.4.0",
 		"graphql-tag": "^2.11.0",
 		"hls.js": "^0.14.17",
