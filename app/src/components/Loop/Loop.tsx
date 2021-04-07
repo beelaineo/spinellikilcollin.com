@@ -11,7 +11,8 @@ import {
   DEFAULT_INTERVAL,
   useLoopReducer,
 } from './reducer'
-import { LeftArrowLong, RightArrowLong } from '../../svg'
+import LeftArrowLong from '../../svg/LeftArrowLong.svg'
+import RightArrowLong from '../../svg/RightArrowLong.svg'
 
 const { useEffect, useRef } = React
 
