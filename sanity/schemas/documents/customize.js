@@ -22,6 +22,7 @@ export const customizeExamples = {
   ],
 }
 
+<<<<<<< HEAD
 export const experienceBlock = {
   title: 'Experience Block',
   name: 'experienceBlock',
@@ -49,10 +50,25 @@ export const experienceBlock = {
       title: 'heading',
       subtitle: 'body',
       media: 'illustration',
+=======
+export const customerStory = {
+  title: 'Customer Story',
+  name: 'customerStory',
+  type: 'object',
+  fields: [
+    { name: 'body', type: 'text', title: 'Quote' },
+    { name: 'byLine', type: 'string', title: 'Byline' },
+  ],
+  preview: {
+    select: {
+      title: 'byLine',
+      subtitle: 'body',
+>>>>>>> main
     },
   },
 }
 
+<<<<<<< HEAD
 export const experience = {
   title: 'Experience',
   type: 'object',
@@ -80,6 +96,13 @@ export const experience = {
       of: [{ type: 'experienceBlock' }],
     },
   ],
+=======
+export const customerStories = {
+  title: 'Customer Stories',
+  name: 'customerStories',
+  type: 'object',
+  fields: [{ name: 'stories', type: 'array', of: [{ type: 'customerStory' }] }],
+>>>>>>> main
 }
 
 export const quizProductType = {
@@ -124,6 +147,7 @@ export const customize = {
   name: 'customize',
   title: 'Customize',
   fieldsets: [
+<<<<<<< HEAD
     {
       name: 'quiz',
       title: 'Quiz',
@@ -140,6 +164,11 @@ export const customize = {
         collapsed: true,
       },
     },
+=======
+    { name: 'quiz', title: 'Quiz' },
+    { name: 'stories', title: 'Customer Stories' },
+    { name: 'examples', title: 'Examples' },
+>>>>>>> main
   ],
   fields: [
     {
@@ -182,9 +211,16 @@ export const customize = {
       of: [{ type: 'string' }],
     },
     {
+<<<<<<< HEAD
       name: 'experience',
       title: 'Experience',
       type: 'experience',
+=======
+      name: 'customerStories',
+      title: 'Customer Stories',
+      fieldset: 'stories',
+      type: 'customerStories',
+>>>>>>> main
     },
     {
       name: 'examples',
@@ -192,6 +228,10 @@ export const customize = {
       fieldset: 'examples',
       type: 'customizeExamples',
     },
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     {
       name: 'seo',
       title: 'SEO',
