@@ -64,7 +64,7 @@ export const Kind = ({ quizProductTypes }: KindProps) => {
   return (
     <QuizTabWrapper>
       <Heading level={4}>Let’s start by answering a few questions.</Heading>
-      <Heading level={2}>What kind of piece are you looking for?</Heading>
+      <Heading level={3}>What kind of piece are you looking for?</Heading>
       <HiddenField name="kind" />
       <KindButtons>
         {quizProductTypes.map(({ _key, title, image }) =>

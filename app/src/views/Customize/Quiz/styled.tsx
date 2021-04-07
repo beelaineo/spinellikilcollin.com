@@ -1,3 +1,4 @@
+import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { HeroWrapper } from '../../../components/ContentBlock/HeroBlock'
 import { Button } from '../../../components/Button'
@@ -6,19 +7,6 @@ import RightArrow from '../../../svg/RightArrow.svg'
 /**
  * Common
  */
-
-export const QuizHeroWrapper = styled.div`
-  ${({ theme }) => css`
-    ${theme.mediaQueries.mobile} {
-      padding-top: calc(${theme.mobileNavHeight} + 40px);
-      ${HeroWrapper} {
-        display: none;
-      }
-    }
-  `}
-`
-
-import * as React from 'react'
 
 interface NextButtonProps {
   onClick: () => void
@@ -42,7 +30,7 @@ export const QuizTabWrapper = styled.div`
     justify-content: center;
     text-align: center;
     align-items: center;
-    padding: 9 3 4;
+    padding: 0 3 0;
     max-width: 100%;
 
     input {

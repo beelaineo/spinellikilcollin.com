@@ -29,6 +29,9 @@ const VERCEL_URL = process.env.VERCEL_URL
 
 module.exports = withSourceMaps(
   withBundleAnalyzer({
+    future: {
+      webpack5: true,
+    },
     publicRuntimeConfig: {
       SANITY_PROJECT_ID,
       SANITY_DATASET,

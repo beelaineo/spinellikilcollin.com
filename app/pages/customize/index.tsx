@@ -34,11 +34,17 @@ const customizeQuery = gql`
           ...RichImageFragment
         }
       }
-      customerStories {
-        stories {
+      experience {
+        title
+        subtitle
+        blocks {
+          _type
           _key
+          heading
           body
-          byLine
+          illustration {
+            ...RichImageFragment
+          }
         }
       }
       examples {
