@@ -285,45 +285,6 @@ export type CtaSorting = {
   link?: Maybe<InternalLinkSorting>
 }
 
-export interface CustomerStories {
-  __typename: 'CustomerStories'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  stories?: Maybe<Array<Maybe<CustomerStory>>>
-}
-
-export type CustomerStoriesFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-}
-
-export type CustomerStoriesSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-}
-
-export interface CustomerStory {
-  __typename: 'CustomerStory'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  body?: Maybe<Scalars['String']>
-  byLine?: Maybe<Scalars['String']>
-}
-
-export type CustomerStoryFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  body?: Maybe<StringFilter>
-  byLine?: Maybe<StringFilter>
-}
-
-export type CustomerStorySorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  body?: Maybe<SortOrder>
-  byLine?: Maybe<SortOrder>
-}
-
 export interface Customize extends Document {
   __typename: 'Customize'
   /** Document ID */
@@ -344,7 +305,7 @@ export interface Customize extends Document {
   quizBlock?: Maybe<QuizBlock>
   quizProductTypes?: Maybe<Array<Maybe<QuizProductType>>>
   quizStyles?: Maybe<Array<Maybe<Scalars['String']>>>
-  customerStories?: Maybe<CustomerStories>
+  experience?: Maybe<Experience>
   examples?: Maybe<CustomizeExamples>
   seo?: Maybe<Seo>
 }
@@ -385,7 +346,7 @@ export type CustomizeFilter = {
   hero?: Maybe<HeroFilter>
   subtitle?: Maybe<StringFilter>
   quizBlock?: Maybe<QuizBlockFilter>
-  customerStories?: Maybe<CustomerStoriesFilter>
+  experience?: Maybe<ExperienceFilter>
   examples?: Maybe<CustomizeExamplesFilter>
   seo?: Maybe<SeoFilter>
 }
@@ -401,7 +362,7 @@ export type CustomizeSorting = {
   hero?: Maybe<HeroSorting>
   subtitle?: Maybe<SortOrder>
   quizBlock?: Maybe<QuizBlockSorting>
-  customerStories?: Maybe<CustomerStoriesSorting>
+  experience?: Maybe<ExperienceSorting>
   examples?: Maybe<CustomizeExamplesSorting>
   seo?: Maybe<SeoSorting>
 }
@@ -506,6 +467,54 @@ export type DocumentFilter = {
   references?: Maybe<Scalars['ID']>
   /** All documents that are drafts. */
   is_draft?: Maybe<Scalars['Boolean']>
+}
+
+export interface Experience {
+  __typename: 'Experience'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  blocks?: Maybe<Array<Maybe<ExperienceBlock>>>
+}
+
+export interface ExperienceBlock {
+  __typename: 'ExperienceBlock'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  illustration?: Maybe<RichImage>
+  heading?: Maybe<Scalars['String']>
+  body?: Maybe<Scalars['String']>
+}
+
+export type ExperienceBlockFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  illustration?: Maybe<RichImageFilter>
+  heading?: Maybe<StringFilter>
+  body?: Maybe<StringFilter>
+}
+
+export type ExperienceBlockSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  illustration?: Maybe<RichImageSorting>
+  heading?: Maybe<SortOrder>
+  body?: Maybe<SortOrder>
+}
+
+export type ExperienceFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
+}
+
+export type ExperienceSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
 }
 
 export interface ExternalLink {
@@ -1847,6 +1856,7 @@ export interface SanityFileAsset extends Document {
   label?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
+  altText?: Maybe<Scalars['String']>
   sha1hash?: Maybe<Scalars['String']>
   extension?: Maybe<Scalars['String']>
   mimeType?: Maybe<Scalars['String']>
@@ -1870,6 +1880,7 @@ export type SanityFileAssetFilter = {
   label?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
   description?: Maybe<StringFilter>
+  altText?: Maybe<StringFilter>
   sha1hash?: Maybe<StringFilter>
   extension?: Maybe<StringFilter>
   mimeType?: Maybe<StringFilter>
@@ -1891,6 +1902,7 @@ export type SanityFileAssetSorting = {
   label?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
   description?: Maybe<SortOrder>
+  altText?: Maybe<SortOrder>
   sha1hash?: Maybe<SortOrder>
   extension?: Maybe<SortOrder>
   mimeType?: Maybe<SortOrder>
@@ -1918,6 +1930,7 @@ export interface SanityImageAsset extends Document {
   label?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   description?: Maybe<Scalars['String']>
+  altText?: Maybe<Scalars['String']>
   sha1hash?: Maybe<Scalars['String']>
   extension?: Maybe<Scalars['String']>
   mimeType?: Maybe<Scalars['String']>
@@ -1942,6 +1955,7 @@ export type SanityImageAssetFilter = {
   label?: Maybe<StringFilter>
   title?: Maybe<StringFilter>
   description?: Maybe<StringFilter>
+  altText?: Maybe<StringFilter>
   sha1hash?: Maybe<StringFilter>
   extension?: Maybe<StringFilter>
   mimeType?: Maybe<StringFilter>
@@ -1964,6 +1978,7 @@ export type SanityImageAssetSorting = {
   label?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
   description?: Maybe<SortOrder>
+  altText?: Maybe<SortOrder>
   sha1hash?: Maybe<SortOrder>
   extension?: Maybe<SortOrder>
   mimeType?: Maybe<SortOrder>

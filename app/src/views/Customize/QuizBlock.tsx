@@ -51,19 +51,4 @@ export const QuizBlock = ({ quizBlock }: QuizBlockProps) => {
       ctaType="button"
     />
   )
-
-  // return (
-  //   <QuizBlockWrapper>
-  //     <QuizBlockLeft>
-  //       <Heading mb={2} level={2}>
-  //         {title}
-  //       </Heading>
-  //       <Heading level={4}>{subtitle}</Heading>
-  //       <LinkButton mt={4} mb={{ sm: 3 }} level={2} href="/customize/quiz">
-  //         Launch Quiz
-  //       </LinkButton>
-  //     </QuizBlockLeft>
-  //     <Image image={image} ratio={1} />
-  //   </QuizBlockWrapper>
-  // )
 }

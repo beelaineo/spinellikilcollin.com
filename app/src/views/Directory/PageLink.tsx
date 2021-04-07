@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
+import { Box } from '@xstyled/styled-components'
 import { PageLink as PageLinkType } from '../../types'
 import { Image } from '../../components/Image'
 import { Heading } from '../../components/Text'
@@ -45,10 +46,10 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
               {title}
             </Heading>
             <Heading
+              maxWidth="450px"
               my={3}
               mx="auto"
               textAlign="center"
-              maxWidth={{ xs: 'calc(100% - 20px)', md: '460px' }}
               level={3}
             >
               {summary}

@@ -1,7 +1,7 @@
 import { useReducer, useEffect } from 'react'
 
 export const CLONE_OFFSET = 2
-export const DEFAULT_INTERVAL = 4000
+export const DEFAULT_INTERVAL = 9000
 export const DEFAULT_TRANSITION = 500
 
 type Ref = React.RefObject<HTMLDivElement>
@@ -18,7 +18,6 @@ enum Actions {
   AddChild = 'AddChild',
   RemoveChild = 'RemoveChild',
   GoToChild = 'GoToChild',
-  SetIndex = 'SetIndex',
 }
 
 interface AddChildAction {
@@ -38,16 +37,9 @@ interface GoToChildAction {
   useTransition?: boolean
 }
 
-interface SetIndexAction {
-  type: Actions.SetIndex
-  newIndex: number
-}
+type Action = AddChildAction | RemoveChildAction | GoToChildAction
 
-type Action =
-  | AddChildAction
-  | RemoveChildAction
-  | GoToChildAction
-  | SetIndexAction
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -61,12 +53,6 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         childRefs: state.childRefs.filter((ref) => ref !== action.ref),
       }
-    case Actions.SetIndex:
-      return {
-        ...state,
-        currentIndex: action.newIndex,
-      }
-
     case Actions.GoToChild:
       return {
         ...state,
@@ -88,45 +74,82 @@ export const useLoopReducer = (
   containerRef: Ref,
   interval: number,
   totalChildren: number,
+  autoplay: boolean,
 ) => {
   const initialState = {
     ...defaultState,
     containerRef,
   }
+  /* State */
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const addRef = (ref: Ref) => dispatch({ type: Actions.AddChild, ref })
-  const removeRef = (ref: Ref) => dispatch({ type: Actions.RemoveChild, ref })
-  const setCurrentIndex = (newIndex: number) =>
-    dispatch({ type: Actions.SetIndex, newIndex })
-  const goToChild = (newIndex: number, useTransition = true) => {
-    const { containerRef, currentIndex, childRefs } = state
-    const child = childRefs[currentIndex + CLONE_OFFSET]
-    if (!child) {
+  const { childRefs, currentIndex, transitionDuration } = state
+
+  /* Helpers */
+  const getLeft = (childIndex: number): number => {
+    const child = childRefs[childIndex + CLONE_OFFSET]
+
+    if (!containerRef.current) {
+      throw new Error('No container')
+    }
+    if (!child?.current) {
       throw new Error(`There is no child at index ${currentIndex}`)
     }
-    if (!child.current) return
-    if (!containerRef.current) return
+
     const { offsetWidth, offsetLeft } = child.current
     const { offsetWidth: outerWidth } = containerRef.current
     const left = -offsetLeft + outerWidth / 2 - offsetWidth / 2
-
-    dispatch({ type: Actions.GoToChild, left, newIndex, useTransition })
+    return left
   }
 
-  const { childRefs, currentIndex } = state
+  /* Internal Actions */
+  const goToChild = async (newIndex: number, useTransition: boolean = true) => {
+    const { containerRef, currentIndex, childRefs } = state
+    if (!containerRef.current) return
+    const left = getLeft(newIndex)
+    dispatch({ type: Actions.GoToChild, left, newIndex, useTransition })
+    const duration = useTransition ? DEFAULT_TRANSITION : 0
+    await sleep(duration)
+  }
+
+  /* Exported Actions */
+  const addRef = (ref: Ref) => dispatch({ type: Actions.AddChild, ref })
+
+  const removeRef = (ref: Ref) => dispatch({ type: Actions.RemoveChild, ref })
+
+  const next = async () => {
+    if (currentIndex + 1 === totalChildren) {
+      /* Snap to clone if this step loops */
+      await goToChild(-1, false)
+      goToChild(0)
+      return
+    }
+    goToChild(currentIndex + 1)
+  }
+
+  const previous = async () => {
+    if (currentIndex === 0) {
+      /* Snap to clone if this step loops */
+      await goToChild(totalChildren, false)
+      goToChild(totalChildren - 1)
+      return
+    }
+    goToChild(currentIndex - 1)
+  }
+
+  /* Effects */
+
   useEffect(() => {
     if (!childRefs.length) return
-    const useTransition = currentIndex !== 0
-    const timeoutInterval = useTransition ? interval : 0
-    goToChild(currentIndex, useTransition)
+    goToChild(0, false)
+  }, [childRefs.length])
+
+  useEffect(() => {
+    if (!autoplay) return
     const timeout = setTimeout(() => {
-      const newIndex = currentIndex === totalChildren ? 0 : currentIndex + 1
-      setCurrentIndex(newIndex)
-    }, timeoutInterval)
+      next()
+    }, interval)
+  }, [autoplay, currentIndex])
 
-    return () => clearTimeout(timeout)
-  }, [childRefs.length, currentIndex])
-
-  return { state, addRef, removeRef }
+  return { state, addRef, next, previous, removeRef }
 }
