@@ -11,7 +11,7 @@ import { SEO } from '../../components/SEO'
 import { isValidHero, getHeroImage } from '../../utils'
 import { QuizBlock } from './QuizBlock'
 import { Examples } from './Examples'
-import { CustomerStories } from './CustomerStories'
+import { Experience } from './Experience'
 
 interface BlockWrapperProps {
   borderTop?: boolean
@@ -51,7 +51,7 @@ export const Customize = ({ customize }: CustomizeProps) => {
     hero,
     bodyRaw,
     quizBlock,
-    customerStories,
+    experience,
     examples,
   } = customize
   const defaultSeo = {
@@ -81,7 +81,7 @@ export const Customize = ({ customize }: CustomizeProps) => {
         <FeatureFlag flag="customizationPage">
           {quizBlock ? <QuizBlock quizBlock={quizBlock} /> : null}
           <BlockWrapper borderTop={true}>
-            <CustomerStories customerStories={customerStories} />
+            <Experience experience={experience} />
           </BlockWrapper>
           <BlockWrapper>
             <Examples examples={examples} />

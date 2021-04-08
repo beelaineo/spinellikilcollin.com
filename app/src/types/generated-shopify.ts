@@ -13,6 +13,12 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
+  /** A monetary value string. Example value: `"100.57"`. */
+  Money: any
+  /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
+  Decimal: any
+  /** An ISO-8601 encoded UTC date time string. Example value: `"2019-07-03T20:47:55Z"`. */
+  DateTime: Date
   /**
    * An RFC 3986 and RFC 3987 compliant URI string.
    *
@@ -22,12 +28,6 @@ export type Scalars = {
   URL: any
   /** A string containing HTML code. Example value: `"<p>Grey cotton knit sweater.</p>"`. */
   HTML: any
-  /** An ISO-8601 encoded UTC date time string. Example value: `"2019-07-03T20:47:55Z"`. */
-  DateTime: Date
-  /** A monetary value string. Example value: `"100.57"`. */
-  Money: any
-  /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
-  Decimal: any
 }
 
 /** A version of the API. */
@@ -306,17 +306,17 @@ export enum ShopifyStorefrontBlogSortKeys {
 
 /** Card brand, such as Visa or Mastercard, which can be used for payments. */
 export enum ShopifyStorefrontCardBrand {
-  /** Visa */
+  /** Visa. */
   Visa = 'VISA',
-  /** Mastercard */
+  /** Mastercard. */
   Mastercard = 'MASTERCARD',
-  /** Discover */
+  /** Discover. */
   Discover = 'DISCOVER',
-  /** American Express */
+  /** American Express. */
   AmericanExpress = 'AMERICAN_EXPRESS',
-  /** Diners Club */
+  /** Diners Club. */
   DinersClub = 'DINERS_CLUB',
-  /** JCB */
+  /** JCB. */
   Jcb = 'JCB',
 }
 
@@ -1191,6 +1191,8 @@ export enum ShopifyStorefrontCountryCode {
   Am = 'AM',
   /** Aruba. */
   Aw = 'AW',
+  /** Ascension Island. */
+  Ac = 'AC',
   /** Australia. */
   Au = 'AU',
   /** Austria. */
@@ -1609,6 +1611,8 @@ export enum ShopifyStorefrontCountryCode {
   To = 'TO',
   /** Trinidad & Tobago. */
   Tt = 'TT',
+  /** Tristan da Cunha. */
+  Ta = 'TA',
   /** Tunisia. */
   Tn = 'TN',
   /** Turkey. */
@@ -1685,7 +1689,9 @@ export type ShopifyStorefrontCreditCardPaymentInput = {
   amount: Scalars['Money']
   /**
    * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new one.
+   * duplicate payment is found, the original is returned instead of creating a new
+   * one. For more information, refer to [Idempotent
+   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
    */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
@@ -1705,7 +1711,9 @@ export type ShopifyStorefrontCreditCardPaymentInputV2 = {
   paymentAmount: ShopifyStorefrontMoneyInput
   /**
    * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new one.
+   * duplicate payment is found, the original is returned instead of creating a new
+   * one. For more information, refer to [Idempotent
+   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
    */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
@@ -3574,7 +3582,11 @@ export interface ShopifyStorefrontPayment extends ShopifyStorefrontNode {
   errorMessage?: Maybe<Scalars['String']>
   /** Globally unique identifier. */
   id: Scalars['ID']
-  /** A client-side generated token to identify a payment and perform idempotent operations. */
+  /**
+   * A client-side generated token to identify a payment and perform idempotent operations.
+   * For more information, refer to
+   * [Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
+   */
   idempotencyKey?: Maybe<Scalars['String']>
   /** Whether or not the payment is still processing asynchronously. */
   ready: Scalars['Boolean']
@@ -4490,7 +4502,9 @@ export type ShopifyStorefrontTokenizedPaymentInput = {
   amount: Scalars['Money']
   /**
    * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new one.
+   * duplicate payment is found, the original is returned instead of creating a new
+   * one. For more information, refer to [Idempotent
+   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
    */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
@@ -4514,7 +4528,9 @@ export type ShopifyStorefrontTokenizedPaymentInputV2 = {
   paymentAmount: ShopifyStorefrontMoneyInput
   /**
    * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new one.
+   * duplicate payment is found, the original is returned instead of creating a new
+   * one. For more information, refer to [Idempotent
+   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
    */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
