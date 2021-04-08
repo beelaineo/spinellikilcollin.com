@@ -61,8 +61,10 @@ type WithTypename<T extends Document> = T & {
   __typename?: string
 }
 
-const addTypename = <T extends Document = Document>(item: WithType<T>) => {
-  if (typeof item !== 'object') return item
+const addTypename = <T extends Document = Document>(item: T) => {
+  if (item === null || item === undefined || typeof item !== 'object') {
+    return item
+  }
   return Object.entries(item).reduce((acc, [key, value]) => {
     if (!value) {
       return { ...acc, [key]: value }
@@ -100,8 +102,8 @@ const addTypename = <T extends Document = Document>(item: WithType<T>) => {
   }, {})
 }
 
-export const withTypenames = <T extends Document = Document>(
-  items: WithType<T>[],
+export const withTypenames = <T extends Document>(
+  items: T | T[],
 ): WithTypename<T>[] => toArray(items).map(addTypename)
 
 export function sanityBlocksToPlainText(blocks: any[]): string {
