@@ -94,7 +94,6 @@ export const ProductDetail = ({ product }: Props) => {
   useEffect(() => {
     const paramString = router.asPath.replace(/^(.*)\?/, '')
     const params = new URLSearchParams(paramString)
-    console.log(params.get('customizeOpen'))
     const timeout = setTimeout(() => {
       if (params.get('customizeOpen') === 'true') {
         openCustomizationModal({
@@ -260,7 +259,11 @@ export const ProductDetail = ({ product }: Props) => {
                         )
                       : null}
                     {productType === 'Ring' ? (
-                      <RingSizerButton product={product} mobile />
+                      <RingSizerButton
+                        product={product}
+                        variant={currentVariant}
+                        mobile
+                      />
                     ) : null}
                   </ProductAccordionsWrapper>
                 </ProductInfoWrapper>

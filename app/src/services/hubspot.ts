@@ -1,5 +1,9 @@
 import { getCookie } from '../utils'
 import { Sentry } from '../services/sentry'
+import { config } from '../config'
+import Debug from 'debug'
+
+const debug = Debug('dev:hubspot')
 
 type Values = Record<string, string | number | boolean | undefined>
 
@@ -13,10 +17,15 @@ interface ValueObject {
 }
 
 const parseValues = (values: Values): ValueObject[] =>
-  Object.entries(values).map(([name, value]) => ({
-    name,
-    value,
-  }))
+  Object.entries(values)
+    .map(([name, value]) => ({
+      name,
+      value,
+    }))
+    .filter(
+      ({ name, value }) =>
+        value !== undefined && typeof value === 'string' && value.length > 1,
+    )
 
 export const submitToHubspot = async (
   values: Values,
@@ -33,20 +42,28 @@ export const submitToHubspot = async (
     pageName,
   }
   const body = {
-    submittedAt: new Date().getTime().toString(),
     fields: parseValues(values),
     context,
   }
-  return fetch(url, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((r) => r.json())
-    .catch((e) => {
-      Sentry.configureScope((scope) => scope.setTag('integration', 'hubspot'))
-      Sentry.captureException(e)
-    })
+  if (config.STOREFRONT_ENV !== 'production') {
+    debug('Not currently in production. Mocking Hubpsot form submission:')
+    debug(body)
+    return
+  }
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(body, null, 2),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((r) => r.json())
+    if (response.status === 'error') throw response
+  } catch (err) {
+    Sentry.setContext('hubspotResponse', err)
+    Sentry.setContext('hubspotFormData', { body })
+    Sentry.configureScope((scope) => scope.setTag('integration', 'hubspot'))
+    Sentry.captureException(err)
+  }
 }

@@ -3,16 +3,16 @@ import { useEffect, useReducer } from 'react'
 import { ShopifyProduct, ShopifyProductVariant } from '../../types'
 
 const CLOSE = 'CLOSE'
-const OPEN_CUSTOMIZATION = 'OPEN_CUSTOMIZATION'
-const OPEN_RING_SIZER = 'OPEN_RING_SIZER'
-const OPEN_CONTACT = 'OPEN_CONTACT'
+const OPEN = 'OPEN'
 
-export const RING_SIZER = 'RING_SIZER'
-export const CUSTOMIZATION = 'CUSTOMIZATION'
-export const CONTACT = 'CONTACT'
+export enum ModalName {
+  RING_SIZER = 'RING_SIZER',
+  CUSTOMIZATION = 'CUSTOMIZATION',
+  CONTACT = 'CONTACT',
+}
 
 interface State {
-  currentModal: typeof RING_SIZER | typeof CUSTOMIZATION | typeof CONTACT | null
+  currentModal: ModalName | null
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   formtype?: string
@@ -22,45 +22,26 @@ interface CloseAction {
   type: typeof CLOSE
 }
 
-interface OpenRingSizerAction {
-  type: typeof OPEN_RING_SIZER
-}
-
-interface OpenContactAction {
-  type: typeof OPEN_CONTACT
-  formtype: string
-}
-
-interface OpenCustomizationAction {
-  type: typeof OPEN_CUSTOMIZATION
+interface OpenFormAction {
+  type: typeof OPEN
+  currentModal: ModalName
+  formtype?: string
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
 }
 
-type Action =
-  | CloseAction
-  | OpenCustomizationAction
-  | OpenRingSizerAction
-  | OpenContactAction
+type Action = CloseAction | OpenFormAction
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case OPEN_RING_SIZER: {
+    case OPEN: {
       return {
-        currentModal: RING_SIZER,
-      }
-    }
-    case OPEN_CUSTOMIZATION:
-      return {
-        currentModal: CUSTOMIZATION,
+        currentModal: action.currentModal,
         currentProduct: action.currentProduct,
         currentVariant: action.currentVariant,
-      }
-    case OPEN_CONTACT:
-      return {
-        currentModal: CONTACT,
         formtype: action.formtype,
       }
+    }
     case CLOSE:
       return {
         currentModal: null,
@@ -77,12 +58,13 @@ const initialState = {
   currentModal: null,
 }
 
-export interface CustomizationModalArgs {
+export interface OpenModalArgs {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  formtype?: string
 }
 
-export interface ContactModalArgs {
+export interface ContactModalArgs extends OpenModalArgs {
   formtype: string
 }
 
@@ -91,14 +73,41 @@ export const useModalReducer = () => {
   const { asPath } = useRouter()
 
   const closeModal = () => dispatch({ type: CLOSE })
-  const openRingSizerModal = () => dispatch({ type: OPEN_RING_SIZER })
+
+  const openRingSizerModal = ({
+    currentProduct,
+    currentVariant,
+  }: OpenModalArgs) =>
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.RING_SIZER,
+      currentProduct,
+      currentVariant,
+    })
+
   const openCustomizationModal = ({
     currentProduct,
     currentVariant,
-  }: CustomizationModalArgs) =>
-    dispatch({ type: OPEN_CUSTOMIZATION, currentProduct, currentVariant })
-  const openContactModal = ({ formtype }: ContactModalArgs) =>
-    dispatch({ type: OPEN_CONTACT, formtype })
+  }: OpenModalArgs) =>
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.CUSTOMIZATION,
+      currentProduct,
+      currentVariant,
+    })
+
+  const openContactModal = ({
+    formtype,
+    currentProduct,
+    currentVariant,
+  }: ContactModalArgs) =>
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.CONTACT,
+      formtype,
+      currentProduct,
+      currentVariant,
+    })
 
   // Close all modals on route change
   useEffect(() => {

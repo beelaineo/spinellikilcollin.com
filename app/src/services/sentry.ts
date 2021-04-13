@@ -59,6 +59,10 @@ if (ENV === 'production' || ENV === 'staging' || FORCE) {
     parsers: {
       parseRequest: noop,
     },
+    setContext: (name: string, ctx: any) => {
+      debug('Set context:')
+      debug({ [name]: ctx })
+    },
     configureScope: () => undefined,
     captureException: (e: Error) => {
       debug('Captured exception:')
