@@ -11,7 +11,7 @@ export const sanityClient = createSanityClient({
   token: SANITY_READ_TOKEN, // or leave blank to be anonymous user
   useCdn: true, // `false` if you want to ensure fresh data
   useProjectHostname: true,
-  apiVersion: '2021-04-01',
+  apiVersion: '2021-03-24',
 })
 
 export const sanityQuery = async <R = Document[]>(

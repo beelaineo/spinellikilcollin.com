@@ -64,7 +64,7 @@ export const ProductVariantSelector = (props: Props) => {
                 option={option}
               />
               {productType === 'Ring' && option.name === 'Size' ? (
-                <RingSizerButton product={product} />
+                <RingSizerButton product={product} variant={currentVariant} />
               ) : null}
             </OptionWrapper>
           ) : null,
