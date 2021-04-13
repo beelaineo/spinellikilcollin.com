@@ -20,14 +20,14 @@ export const Wrapper = styled.div<WrapperProps>`
   `}
 `
 interface GridWrapperProps {
-  loading: boolean
+  isLoading: boolean
 }
 
 export const ProductGridWrapper = styled.div<GridWrapperProps>`
-  ${({ loading }) => css`
-    opacity: ${loading ? 0.4 : 1};
+  ${({ isLoading }) => css`
+    opacity: ${isLoading ? 0.4 : 1};
     position: relative;
-    pointer-events: ${loading ? 'none' : 'inherit'};
+    pointer-events: ${isLoading ? 'none' : 'inherit'};
     transition: 0.3s;
   `}
 `
