@@ -60,7 +60,19 @@ export const Checkout = () => {
       })),
     )
     // @ts-ignore
-    window.location = checkout.webUrl
+    const hostname:string= 'checkout.spinellikilcollin.com'
+    const webUrl:string = checkout.webUrl!
+    const {
+      protocol,
+      pathname,
+      search
+    } = new URL(webUrl)
+    /*
+      TODO: before we sort out Shopify Buy SDK, hard coded here
+    */
+    const redirect:string = `${protocol}//${hostname}${pathname}${search}`
+    // @ts-ignore
+    window.location = redirect
   }
 
   return (
