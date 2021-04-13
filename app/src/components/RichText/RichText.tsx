@@ -180,6 +180,9 @@ export const RichText = ({
   const { getLinkByRef } = useShopData()
   const openCustomizationModalWithProduct = () =>
     openCustomizationModal({ currentProduct, currentVariant })
+
+  const openRingSizerModalWithProduct = () =>
+    openRingSizerModal({ currentProduct, currentVariant })
   const Wrapper = CustomWrapper || RichTextWrapper
   return body ? (
     <Wrapper article={article}>
@@ -189,7 +192,7 @@ export const RichText = ({
           blockWrapper,
           imageSizes,
           openCustomizationModal: openCustomizationModalWithProduct,
-          openRingSizerModal,
+          openRingSizerModal: openRingSizerModalWithProduct,
           getLinkByRef,
           openCart,
           weight,

@@ -4,11 +4,12 @@ import { useModal } from '../../../providers/ModalProvider'
 import RingSizerIcon from '../../../svg/RingSizer.svg'
 import { Heading } from '../../../components/Text'
 
-import { ShopifyProduct } from '../../../types'
+import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 
 interface RingSizerButtonProps {
   mobile?: boolean
   product: ShopifyProduct
+  variant: ShopifyProductVariant
 }
 
 interface WithMobile {
@@ -35,9 +36,14 @@ const Wrapper = styled.button<WithMobile>`
   `}
 `
 
-export const RingSizerButton = ({ mobile }: RingSizerButtonProps) => {
+export const RingSizerButton = ({
+  mobile,
+  product,
+  variant,
+}: RingSizerButtonProps) => {
   const { openRingSizerModal } = useModal()
-  const handleClick = () => openRingSizerModal()
+  const handleClick = () =>
+    openRingSizerModal({ currentProduct: product, currentVariant: variant })
   return (
     <Wrapper mobile={mobile} onClick={handleClick}>
       <RingSizerIcon />
