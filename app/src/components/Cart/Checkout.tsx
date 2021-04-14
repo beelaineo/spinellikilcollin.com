@@ -52,27 +52,20 @@ export const Checkout = () => {
     if (fullNote) await addNote(fullNote)
 
     sendBeginCheckout(
-      // @ts-ignore
       lineItems.map((li) => ({
-        product: li,
+        product: li.variant?.product,
         variant: li.variant,
         quantity: li.quantity,
       })),
     )
-    // @ts-ignore
-    const hostname:string= 'checkout.spinellikilcollin.com'
-    const webUrl:string = checkout.webUrl!
-    const {
-      protocol,
-      pathname,
-      search
-    } = new URL(webUrl)
+    const hostname = 'checkout.spinellikilcollin.com'
+    const webUrl = checkout.webUrl
+    const { protocol, pathname, search } = new URL(webUrl)
     /*
       TODO: before we sort out Shopify Buy SDK, hard coded here
     */
-    const redirect:string = `${protocol}//${hostname}${pathname}${search}`
-    // @ts-ignore
-    window.location = redirect
+    const redirect: string = `${protocol}//${hostname}${pathname}${search}`
+    window.location.href = redirect
   }
 
   return (

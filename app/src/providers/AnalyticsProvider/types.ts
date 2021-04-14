@@ -17,14 +17,25 @@ declare global {
 }
 
 export interface SelectedProduct {
-  product: ShopifyProduct | ShopifySourceProduct | Product | CheckoutLineItem
-  variant: ShopifyProductVariant | ShopifySourceProductVariant | Variant
+  product:
+    | ShopifyProduct
+    | ShopifySourceProduct
+    | Product
+    | CheckoutLineItem
+    | undefined
+    | null
+  variant:
+    | ShopifyProductVariant
+    | ShopifySourceProductVariant
+    | Variant
+    | undefined
+    | null
   quantity?: number
 }
 
 export interface EcommerceObject {
-  name: string
-  id: string
+  name?: string | null
+  id?: string | null
   price?: string
   category?: string
   variant?: string

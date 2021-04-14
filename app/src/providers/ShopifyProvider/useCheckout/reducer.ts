@@ -1,4 +1,5 @@
 import { Checkout, UserError } from '../types'
+
 import { CheckoutState } from './useCheckout'
 
 export const STARTED_REQUEST = 'STARTED_REQUEST'
