@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Box } from '@xstyled/styled-components'
 import Link from 'next/link'
 import { useShopify, useAnalytics } from '../../providers'
-import { CheckoutLineItem as CheckoutLineItemType } from '../../providers/ShopifyProvider/types'
+import { ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType } from '../../types/generated-shopify'
 import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
@@ -26,7 +26,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
   const { updateLineItem } = useShopify()
-  const { product } = variant
+  const product = variant?.product
 
   const handleQuantityChange = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -39,7 +39,6 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   useEffect(() => {
     setQuantityValue(lineItem.quantity)
     if (lineItem.quantity === 0) {
-      // @ts-ignore
       sendRemoveFromCart({ product: lineItem, variant, quantity })
     }
   }, [lineItem.quantity])
@@ -54,7 +53,6 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   }, [quantityValue, lineItem.quantity])
 
   const remove = async () => {
-    // @ts-ignore
     sendRemoveFromCart({ product: lineItem, variant, quantity })
     await updateLineItem({ id: lineItem.id, quantity: 0 })
   }
