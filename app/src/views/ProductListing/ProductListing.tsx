@@ -214,7 +214,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
               </LoadingWrapper>
             ) : null}
 
-            <ProductGridWrapper loading={loading}>
+            <ProductGridWrapper isLoading={loading}>
               <ProductGrid
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}

@@ -87,6 +87,7 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
         </Box>
       ) : (
         <Form<FormValues>
+          id="magazine-signup"
           disabled={submitting || success}
           initialValues={initialValues}
           onSubmit={handleSubmit}

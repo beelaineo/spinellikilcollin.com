@@ -98,8 +98,8 @@ export const SEO = ({
   if (!siteSettings) throw new Error('Site settings were not provided')
   const { seo: globalSeo } = siteSettings
   const { keywords, metaTitle, description, title, image } = mergeSeo([
-    defaultSeo,
     globalSeo,
+    defaultSeo,
     seo,
   ])
 
