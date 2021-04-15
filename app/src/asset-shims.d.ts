@@ -24,6 +24,16 @@ declare module 'countries.json' {
   export default content
 }
 
+interface Redirect {
+  from: string
+  to: string
+}
+
+declare module 'redirects.json' {
+  const content: Country[]
+  export default content
+}
+
 interface State {
   English: string
   Spanish: string
