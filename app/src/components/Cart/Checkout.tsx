@@ -17,6 +17,10 @@ import {
 import { CheckoutProduct } from './CheckoutProduct'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
+import { config } from '../../config'
+const {
+  SHOPIFY_CHECKOUT_DOMAIN: domain,
+} = config
 
 /**
  * Main Checkout view
@@ -28,6 +32,7 @@ interface FormValues {
 }
 
 const defString = (s: string | undefined): string => (s ? s : '')
+
 
 export const Checkout = () => {
   const { sendBeginCheckout } = useAnalytics()
@@ -60,17 +65,13 @@ export const Checkout = () => {
       })),
     )
     // @ts-ignore
-    const hostname:string= 'checkout.spinellikilcollin.com'
     const webUrl:string = checkout.webUrl!
     const {
       protocol,
       pathname,
       search
     } = new URL(webUrl)
-    /*
-      TODO: before we sort out Shopify Buy SDK, hard coded here
-    */
-    const redirect:string = `${protocol}//${hostname}${pathname}${search}`
+    const redirect:string = `${protocol}//${domain}${pathname}${search}`
     // @ts-ignore
     window.location = redirect
   }
