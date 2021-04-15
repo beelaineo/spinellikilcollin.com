@@ -13,7 +13,7 @@
 		"build": "yarn build:json && yarn build:next",
 		"build:next": "next build",
 		"build:analyze": "ANALYZE=true next build",
-		"build:json": "DEBUG=build:json yarn ts-node --project tsconfig.scripts.json src/scripts/getIntlJSON.ts",
+		"build:json": "DEBUG=build:json yarn ts-node --project tsconfig.scripts.json src/scripts/getSpreadsheetJSON.ts",
 		"install-types": "typesync && yarn install",
 		"generate-types": "graphql-codegen -r dotenv/config && prettier ./src/types/**/* --write",
 		"test": "jest",
