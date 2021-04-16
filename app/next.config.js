@@ -23,6 +23,7 @@ const SANITY_DATASET = process.env.SANITY_DATASET
 const SANITY_READ_TOKEN = process.env.SANITY_READ_TOKEN
 const POSTMARK_KEY = process.env.POSTMARK_KEY
 const STOREFRONT_ENV = process.env.STOREFRONT_ENV
+const SHOPIFY_CHECKOUT_DOMAIN = process.env.SHOPIFY_CHECKOUT_DOMAIN
 
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
@@ -40,6 +41,7 @@ module.exports = withSourceMaps(
       ALGOLIA_APP_ID,
       ALGOLIA_SEARCH_KEY,
       STOREFRONT_ENV,
+      SHOPIFY_CHECKOUT_DOMAIN,
     },
     serverRuntimeConfig: {
       PROJECT_ROOT: __dirname,
