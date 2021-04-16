@@ -81,14 +81,17 @@ export const ProductDetail = ({ product }: Props) => {
     sendProductDetailView({ product, variant: currentVariant })
   }, [currentVariant])
 
+  /* Add the variant ID as a query parameter */
   useEffect(() => {
     if (!currentVariant) return
-    const uri = getProductUri(product, {
+    const newUri = getProductUri(product, {
       variant: currentVariant,
       currentPath: router.asPath,
     })
-    if (!uri) return
-    window.history.replaceState(null, product.title || '', uri)
+    if (!newUri) return
+    const currentUri = window.history.state.as
+    if (currentUri === newUri) return
+    window.history.replaceState(null, product.title || '', newUri)
   }, [currentVariant])
 
   useEffect(() => {

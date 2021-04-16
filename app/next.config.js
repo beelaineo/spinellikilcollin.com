@@ -4,6 +4,7 @@ const dotEnv = require('dotenv')
 const bundleAnalyzer = require('@next/bundle-analyzer')
 const withSourceMaps = require('@zeit/next-source-maps')
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+const redirectsJson = require('./src/data/redirects.json')
 
 dotEnv.config()
 
@@ -47,6 +48,13 @@ module.exports = withSourceMaps(
       PROJECT_ROOT: __dirname,
       ALGOLIA_ADMIN_KEY,
       POSTMARK_KEY,
+    },
+    redirects: async function redirects() {
+      return redirectsJson.map(({ from, to }) => ({
+        source: from,
+        destination: to,
+        permanent: false,
+      }))
     },
     webpack: (config, { isServer, buildId }) => {
       config.plugins.push(
