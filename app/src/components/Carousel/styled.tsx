@@ -147,15 +147,13 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     height: 77%;
     width: ${theme.space[11]}px;
     top: 0;
-    ${
-      direction === 'next'
-        ? css`
-            right: 0;
-          `
-        : css`
-            left: 0;
-          `
-    }
+    ${direction === 'next'
+      ? css`
+          right: 0;
+        `
+      : css`
+          left: 0;
+        `}
 
     opacity: ${visible ? '1' : '0'};
     pointer-events: ${visible ? 'auto' : 'none'};
@@ -166,8 +164,6 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     ${theme.mediaQueries.mobile} {
       display: none;
     }
-
-
   `}
 `
 
