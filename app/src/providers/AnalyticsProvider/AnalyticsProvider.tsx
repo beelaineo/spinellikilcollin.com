@@ -1,9 +1,13 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
 import { arrayify } from '../../utils'
 import { parseProduct } from './utils'
 import { SelectedProduct, EventType, GTagEvent } from './types'
 
+const { useEffect } = React
+
 interface AnalyticsContextValue {
+  sendPageView: () => void
   sendProductImpression: (
     products: SelectedProduct | SelectedProduct[],
     list?: string,
@@ -39,6 +43,26 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     if (typeof window === 'undefined') return
     if (window.dataLayer) window.dataLayer.push(event)
   }
+  const router = useRouter()
+
+  const { asPath } = router
+
+  const sendPageView = (path: string) => {
+    const search = path.match(/\?.*$/)
+    if (
+      /^\/products\//.test(path) &&
+      (search === null || !/v=/.test(search[0]))
+    ) {
+      // Do not track page hits for product pages without the v= query,
+      // it will be appended after loading and it would be a duplicate hit
+      return
+    }
+    const page_title = document.title
+
+    window.gtag('event', 'page_view')
+  }
+
+  useEffect(() => sendPageView(asPath), [asPath])
 
   const sendProductImpression: AnalyticsContextValue['sendProductImpression'] = (
     selected,
