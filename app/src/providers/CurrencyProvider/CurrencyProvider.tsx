@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { ShopifyMoneyV2, ShopifyStorefrontMoneyV2 } from '../../types'
 import { roundTo, setCookie, getCookie } from '../../utils'
+import { useToast, ToastType } from '../ToastProvider'
 import { useCurrencyState } from './reducer'
 
 const { useEffect } = React
@@ -40,8 +41,12 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     loading,
     currentCurrency,
     exchangeRate,
+    error,
+    message,
     updateCurrency: updateCurrencyState,
   } = useCurrencyState()
+
+  const { createToast } = useToast()
 
   useEffect(() => {
     const viewerCurrency = getCookie(CURRENCY_COOKIE)
@@ -50,9 +55,18 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     }
   }, [])
 
+  useEffect(() => {
+    if (message) {
+      createToast({ message, type: ToastType.Error })
+    }
+  }, [message])
+
+  useEffect(() => {
+    setCookie(CURRENCY_COOKIE, currentCurrency)
+  }, [currentCurrency])
+
   const updateCurrency = async (currency: string) => {
     await updateCurrencyState(currency)
-    setCookie(CURRENCY_COOKIE, currency)
   }
 
   const getPrice = (price: Money, quantity = 1) => {

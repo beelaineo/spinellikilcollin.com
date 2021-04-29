@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface Options {
   min?: number
@@ -82,4 +82,26 @@ export const useViewportSize = (args?: UseViewportArgs): ViewportSize => {
     width,
     height,
   }
+}
+
+/* Copied from: https://github.com/Bedrock-Layouts/Bedrock/blob/90e564191d9e661d60af1f2d99e3b68fa6330c78/packages/use-stateful-ref/src/index.tsx */
+export function useStatefulRef<T>(initialVal = null) {
+  // eslint-disable-next-line prefer-const
+  let [cur, setCur] = useState<T | null>(initialVal)
+
+  const { current: ref } = useRef({
+    current: cur,
+  })
+
+  Object.defineProperty(ref, 'current', {
+    get: () => cur as T,
+    set: (value: T) => {
+      if (!Object.is(cur, value)) {
+        cur = value
+        setCur(value)
+      }
+    },
+  })
+
+  return ref as React.MutableRefObject<T>
 }
