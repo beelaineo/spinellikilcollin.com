@@ -1,8 +1,7 @@
 import * as React from 'react'
 import { DocumentNode } from 'graphql'
+import { UserError, QueryFunction } from '../types'
 import {
-  UserError,
-  QueryFunction,
   Checkout,
   CheckoutLineItemInput,
   CheckoutLineItemUpdateInput,
