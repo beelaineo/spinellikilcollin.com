@@ -66,7 +66,12 @@ export const parseProduct = (
   { position, list }: ProductExtras,
 ): EcommerceObject => {
   const { quantity } = selectedProduct
-  const product = getProductSourceData(selectedProduct.product)
+  const product = selectedProduct.product
+    ? getProductSourceData(selectedProduct.product)
+    : selectedProduct?.variant?.__typename === 'ProductVariant'
+    ? selectedProduct.variant.product
+    : undefined
+
   const variant = selectedProduct.variant
     ? getVariantSourceData(selectedProduct.variant)
     : undefined
@@ -77,10 +82,11 @@ export const parseProduct = (
         .replace(/^\$/, '')
     : undefined
 
-  const productType = 'productType' in product ? product.productType : undefined
+  const productType =
+    product && 'productType' in product ? product.productType : undefined
   const values: EcommerceObject = {
-    name: assertExists(product.title, 'title'),
-    id: assertExists(product.id, 'id'),
+    name: product?.title,
+    id: product?.id,
     price: formattedPrice ? assertExists(formattedPrice, 'price') : undefined,
     category: productType ?? undefined,
     variant: variant ? assertExists(variant.title, 'variant') : undefined,

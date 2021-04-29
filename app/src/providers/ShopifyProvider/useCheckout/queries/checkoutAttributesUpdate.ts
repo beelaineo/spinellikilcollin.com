@@ -35,6 +35,4 @@ export interface CheckoutAttributesUpdateArgs {
   input: CheckoutAttributesUpdateV2Input
 }
 
-export type CheckoutAttributesUpdateResponse = CheckoutResponse<
-  'checkoutAttributesUpdateV2'
->
+export type CheckoutAttributesUpdateResponse = CheckoutResponse<'checkoutAttributesUpdateV2'>

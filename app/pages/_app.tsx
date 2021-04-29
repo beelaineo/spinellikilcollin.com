@@ -6,8 +6,11 @@ import { Providers } from '../src/providers/AllProviders'
 import { Footer } from '../src/components/Footer'
 import { Navigation } from '../src/components/Navigation'
 import { SearchPane } from '../src/components/Search'
+import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { config } from '../src/config'
+
+const { useEffect } = React
 
 interface AppProps {
   Component: React.ComponentType
@@ -23,13 +26,21 @@ const Main = styled.main`
 export const gtm = {
   prod: {
     script: `
-      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','GTM-TRLD2RW');
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-36441837-1', { send_page_view: false });
     `,
-    iframeSrc: `https://www.googletagmanager.com/ns.html?id=GTM-TRLD2RW&gtm_auth=zOnG3Cp61zcz375N0eQCtg&gtm_preview=env-12&gtm_cookies_win=x`,
+    // TODO: Temporarily disabled while testing out normal GA tracking
+    //   script: `
+    //     (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    //     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    //     j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    //     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    //     })(window,document,'script','dataLayer','GTM-TRLD2RW');
+    //   `,
+    //   iframeSrc: `https://www.googletagmanager.com/ns.html?id=GTM-TRLD2RW&gtm_auth=zOnG3Cp61zcz375N0eQCtg&gtm_preview=env-12&gtm_cookies_win=x`,
   },
   staging: {
     script: `
@@ -72,6 +83,10 @@ const App = (props: AppProps) => {
     <Providers shopData={shopData}>
       <ThemeProvider theme={getThemeByRoute(path)}>
         <Head>
+          <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=UA-36441837-1"
+          ></script>
           <script
             /* Tag Manager */
             type="text/javascript"
@@ -132,6 +147,7 @@ const App = (props: AppProps) => {
         <Main>
           <Navigation />
           <SearchPane />
+          <ToastRoot />
           <Component {...pageProps} />
           <Footer />
         </Main>

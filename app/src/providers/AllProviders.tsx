@@ -14,6 +14,7 @@ import { ErrorDisplay, ErrorProvider } from './ErrorProvider'
 import { NavigationProvider } from './NavigationProvider'
 import { AnalyticsProvider } from './AnalyticsProvider'
 import { ShopifyProvider } from './ShopifyProvider'
+import { ToastProvider } from './ToastProvider'
 
 const { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } = config
 
@@ -67,19 +68,21 @@ export const Providers = ({ shopData, children }: Props) => {
       <AnalyticsProvider>
         <ShopifyProvider query={shopifyQuery}>
           <ShopDataProvider shopData={shopData}>
-            <CartProvider>
-              <NavigationProvider>
-                <CurrencyProvider>
-                  <SearchProvider>
-                    <ThemeProvider theme={theme}>
-                      <ErrorDisplay />
-                      <GlobalStyles />
-                      <ModalProvider>{children}</ModalProvider>
-                    </ThemeProvider>
-                  </SearchProvider>
-                </CurrencyProvider>
-              </NavigationProvider>
-            </CartProvider>
+            <ThemeProvider theme={theme}>
+              <ToastProvider>
+                <CartProvider>
+                  <NavigationProvider>
+                    <CurrencyProvider>
+                      <SearchProvider>
+                        <ErrorDisplay />
+                        <GlobalStyles />
+                        <ModalProvider>{children}</ModalProvider>
+                      </SearchProvider>
+                    </CurrencyProvider>
+                  </NavigationProvider>
+                </CartProvider>
+              </ToastProvider>
+            </ThemeProvider>
           </ShopDataProvider>
         </ShopifyProvider>
       </AnalyticsProvider>

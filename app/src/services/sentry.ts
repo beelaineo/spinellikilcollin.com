@@ -1,5 +1,6 @@
 import * as NodeSentryInitializer from '@sentry/node'
 import * as BrowserSentryInitializer from '@sentry/browser'
+import type { Scope } from '@sentry/browser'
 import path from 'path'
 import { RewriteFrames } from '@sentry/integrations'
 import Debug from 'debug'
@@ -63,7 +64,7 @@ if (ENV === 'production' || ENV === 'staging' || FORCE) {
       debug('Set context:')
       debug({ [name]: ctx })
     },
-    configureScope: () => undefined,
+    configureScope: (callback: (scope: Scope) => void) => undefined,
     captureException: (e: Error) => {
       debug('Captured exception:')
       debug(e)

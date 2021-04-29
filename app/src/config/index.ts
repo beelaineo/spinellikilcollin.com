@@ -4,6 +4,7 @@ const { serverRuntimeConfig, publicRuntimeConfig } = getConfig()
 
 const { POSTMARK_KEY, ALGOLIA_ADMIN_KEY } = serverRuntimeConfig
 const {
+  EXCHANGE_RATE_API_KEY,
   SANITY_PROJECT_ID,
   SANITY_DATASET,
   SANITY_READ_TOKEN,
@@ -35,12 +36,16 @@ if (!SENTRY_DSN) throw new Error('You must provide a sentry DSN')
 if (!STOREFRONT_ENV) throw new Error('You must provide a storefront ENV')
 if (!SHOPIFY_CHECKOUT_DOMAIN) throw new Error('You must provide a storefront checkout domain')
 
+if (!EXCHANGE_RATE_API_KEY)
+  throw new Error('You must include a EXCHANGE_RATE_API_KEY variable')
+
 const SHOPIFY_STOREFRONT_TOKEN = '0d3e3d2a74d125f799cd78a72e6c0000'
 const SHOPIFY_STOREFRONT_URL =
   'https://spinellikilcollin.myshopify.com/api/graphql'
 const SANITY_GRAPHQL_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v1/graphql/${SANITY_DATASET}/default`
 
 export const config = {
+  EXCHANGE_RATE_API_KEY,
   ALGOLIA_API_KEY,
   ALGOLIA_APP_ID,
   STOREFRONT_ENV,

@@ -24,6 +24,7 @@ const SANITY_DATASET = process.env.SANITY_DATASET
 const SANITY_READ_TOKEN = process.env.SANITY_READ_TOKEN
 const POSTMARK_KEY = process.env.POSTMARK_KEY
 const STOREFRONT_ENV = process.env.STOREFRONT_ENV
+const EXCHANGE_RATE_API_KEY = process.env.EXCHANGE_RATE_API_KEY
 const SHOPIFY_CHECKOUT_DOMAIN = process.env.SHOPIFY_CHECKOUT_DOMAIN
 
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
@@ -35,6 +36,7 @@ module.exports = withSourceMaps(
     //   webpack5: true,
     // },
     publicRuntimeConfig: {
+      EXCHANGE_RATE_API_KEY,
       SANITY_PROJECT_ID,
       SANITY_DATASET,
       SANITY_READ_TOKEN,

@@ -46,7 +46,12 @@ export const CurrencySelector = () => {
       >
         <SelectField name="currency" color="body.8" onChange={handleChange}>
           {currencyOptions.map(({ id, value, label }) => (
-            <option key={id} id={id} value={value}>
+            <option
+              key={id}
+              id={id}
+              selected={value === currentCurrency}
+              value={value}
+            >
               {label}
             </option>
           ))}

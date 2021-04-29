@@ -1,7 +1,7 @@
 import * as React from 'react'
-import {useRouter} from 'next/router'
-import {unwindEdges} from '@good-idea/unwind-edges'
-import {ShopifyProduct} from '../../types'
+import { useRouter } from 'next/router'
+import { unwindEdges } from '@good-idea/unwind-edges'
+import { ShopifyProduct } from '../../types'
 import {
   getVariantTitle,
   parseHTML,
@@ -15,9 +15,9 @@ import {
   useAnalytics,
   CurrentProductProvider,
 } from '../../providers'
-import {Column} from '../../components/Layout'
-import {RichText} from '../../components/RichText'
-import {Affirm} from '../../components/Affirm'
+import { Column } from '../../components/Layout'
+import { RichText } from '../../components/RichText'
+import { Affirm } from '../../components/Affirm'
 import {
   ProductVariantSelector,
   BuyButton,
@@ -27,9 +27,9 @@ import {
   ProductRelated,
   RingSizerButton,
 } from './components'
-import {useShopData} from '../../providers/ShopDataProvider'
-import {useModal} from '../../providers/ModalProvider'
-import {useProductVariant} from '../../utils'
+import { useShopData } from '../../providers/ShopDataProvider'
+import { useModal } from '../../providers/ModalProvider'
+import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
   AffirmWrapper,
@@ -39,26 +39,26 @@ import {
   ProductAccordionsWrapper,
   InfoWrapper,
 } from './styled'
-import {Accordion} from '../../components/Accordion'
-import {SEO} from '../../components/SEO'
+import { Accordion } from '../../components/Accordion'
+import { SEO } from '../../components/SEO'
 
-const {useEffect} = React
+const { useEffect } = React
 
 interface Props {
   product: ShopifyProduct
 }
 
-export const ProductDetail = ({product}: Props) => {
-  const {openCustomizationModal} = useModal()
+export const ProductDetail = ({ product }: Props) => {
+  const { openCustomizationModal } = useModal()
   const router = useRouter()
   const params = new URLSearchParams(router.asPath.replace(/^(.*)\?/, ''))
   const variantId = params.get('v')
   const useProductVariantOptions = variantId
-    ? {initialVariant: variantId}
+    ? { initialVariant: variantId }
     : undefined
   /* get additional info blocks from Sanity */
-  const {sendProductDetailView} = useAnalytics()
-  const {getProductInfoBlocks} = useShopData()
+  const { sendProductDetailView } = useAnalytics()
+  const { getProductInfoBlocks } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
   /* get product variant utils */
@@ -78,7 +78,7 @@ export const ProductDetail = ({product}: Props) => {
 
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
-    sendProductDetailView({product, variant: currentVariant})
+    sendProductDetailView({ product, variant: currentVariant })
   }, [currentVariant])
 
   /* Add the variant ID as a query parameter */
@@ -89,10 +89,17 @@ export const ProductDetail = ({product}: Props) => {
       currentPath: router.asPath,
     })
     if (!newUri) return
-    const {pathname, search} = window.location
+    const { pathname, search } = window.location
     const currentUri = [pathname, search].join('')
     if (currentUri === newUri) return
-    window.history.replaceState(null, product.title || '', newUri)
+    // window.history.replaceState(null, product.title || '', newUri)
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: router.query,
+      },
+      newUri,
+    )
   }, [currentVariant])
 
   useEffect(() => {
@@ -111,8 +118,8 @@ export const ProductDetail = ({product}: Props) => {
 
   if (!currentVariant) return null
 
-  const {addLineItem} = useShopify()
-  const {inquiryOnly, seo, handle, variants: maybeVariants} = product
+  const { addLineItem } = useShopify()
+  const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)
 
@@ -128,16 +135,16 @@ export const ProductDetail = ({product}: Props) => {
     }
     const [variants] = unwindEdges(product.sourceData.variants)
 
-    const newOptions = definitely(previousOptions).map(({name, value}) => {
-      if (name !== optionName) return {name, value}
-      return {name, value: newValue}
+    const newOptions = definitely(previousOptions).map(({ name, value }) => {
+      if (name !== optionName) return { name, value }
+      return { name, value: newValue }
     })
 
     const newVariant = variants.find((variant) => {
-      const {selectedOptions} = variant
+      const { selectedOptions } = variant
       if (!selectedOptions) return false
 
-      const match = newOptions.every(({name, value}) =>
+      const match = newOptions.every(({ name, value }) =>
         selectedOptions.some(
           (so) => so && so.name === name && so.value === value,
         ),
@@ -156,16 +163,16 @@ export const ProductDetail = ({product}: Props) => {
     const bestVariant = newVariant
       ? newVariant
       : variants.find((variant) => {
-        const {selectedOptions} = variant
+          const { selectedOptions } = variant
 
-        if (!selectedOptions) return false
-        const match = Boolean(
-          selectedOptions.find(
-            (so) => so && so.name === optionName && so.value === newValue,
-          ),
-        )
-        return match
-      })
+          if (!selectedOptions) return false
+          const match = Boolean(
+            selectedOptions.find(
+              (so) => so && so.name === optionName && so.value === newValue,
+            ),
+          )
+          return match
+        })
 
     if (!bestVariant || !bestVariant.id) {
       throw new Error('No variant was found for these options')
@@ -242,25 +249,25 @@ export const ProductDetail = ({product}: Props) => {
                         {description ? description : null}
                         {optionDescriptions.length
                           ? optionDescriptions.map((description) => (
-                            <RichText
-                              key={description._key || 'some-key'}
-                              body={description.descriptionRaw}
-                            />
-                          ))
+                              <RichText
+                                key={description._key || 'some-key'}
+                                body={description.descriptionRaw}
+                              />
+                            ))
                           : null}
                       </Accordion>
                     ) : null}
                     {accordions
                       ? accordions.map((a) =>
-                        a.title ? (
-                          <Accordion
-                            key={a._key || 'some-key'}
-                            label={a.title}
-                          >
-                            <RichText body={a.bodyRaw} />
-                          </Accordion>
-                        ) : null,
-                      )
+                          a.title ? (
+                            <Accordion
+                              key={a._key || 'some-key'}
+                              label={a.title}
+                            >
+                              <RichText body={a.bodyRaw} />
+                            </Accordion>
+                          ) : null,
+                        )
                       : null}
                     {productType === 'Ring' ? (
                       <RingSizerButton
