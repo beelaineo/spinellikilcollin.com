@@ -7,7 +7,6 @@ import { SelectedProduct, EventType, GTagEvent } from './types'
 const { useEffect } = React
 
 interface AnalyticsContextValue {
-  sendPageView: () => void
   sendProductImpression: (
     products: SelectedProduct | SelectedProduct[],
     list?: string,
