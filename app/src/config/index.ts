@@ -12,6 +12,7 @@ const {
   ALGOLIA_SEARCH_KEY,
   SENTRY_DSN,
   STOREFRONT_ENV,
+  SHOPIFY_CHECKOUT_DOMAIN
 } = publicRuntimeConfig
 
 const ALGOLIA_API_KEY =
@@ -32,6 +33,7 @@ if (!ALGOLIA_API_KEY) throw new Error('You must provide an algolia API Key')
 if (!ALGOLIA_APP_ID) throw new Error('You must provide an algolia app ID')
 if (!SENTRY_DSN) throw new Error('You must provide a sentry DSN')
 if (!STOREFRONT_ENV) throw new Error('You must provide a storefront ENV')
+if (!SHOPIFY_CHECKOUT_DOMAIN) throw new Error('You must provide a storefront checkout domain')
 
 const SHOPIFY_STOREFRONT_TOKEN = '0d3e3d2a74d125f799cd78a72e6c0000'
 const SHOPIFY_STOREFRONT_URL =
@@ -51,4 +53,5 @@ export const config = {
   SHOPIFY_SHOP_NAME,
   POSTMARK_KEY,
   SENTRY_DSN,
+  SHOPIFY_CHECKOUT_DOMAIN,
 }

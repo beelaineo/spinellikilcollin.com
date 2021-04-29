@@ -17,6 +17,8 @@ import {
 import { CheckoutProduct } from './CheckoutProduct'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
+import { config } from '../../config'
+const { SHOPIFY_CHECKOUT_DOMAIN: domain } = config
 
 /**
  * Main Checkout view
