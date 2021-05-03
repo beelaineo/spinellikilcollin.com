@@ -84,10 +84,6 @@ const App = (props: AppProps) => {
       <ThemeProvider theme={getThemeByRoute(path)}>
         <Head>
           <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=UA-36441837-1"
-          ></script>
-          <script
             /* Tag Manager */
             type="text/javascript"
             dangerouslySetInnerHTML={{
