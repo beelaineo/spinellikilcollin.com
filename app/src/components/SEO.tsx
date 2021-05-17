@@ -9,7 +9,7 @@ import {
   Maybe,
   Seo,
 } from '../types'
-import { definitely } from '../utils'
+import { definitely, getProductIdLocationSearch } from '../utils'
 
 type ImageType = Image | RichImage | ShopifySourceImage
 
@@ -34,6 +34,7 @@ interface ProductSEOProps {
 }
 
 const ProductSEO = ({ product }: ProductSEOProps) => {
+
   const { minVariantPrice } = product
   const formattedPrice = minVariantPrice
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
@@ -42,10 +43,26 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
     : undefined
 
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
+  let id, description;
+
+  if ( product && product.sourceData ) {
+    if ( product.sourceData.description ) {
+      description = product.sourceData.description
+    }
+
+    if ( typeof(window) !== 'undefined' && window.location.search) {
+      const productId = getProductIdLocationSearch(window.location.search)
+      if ( productId ) {
+        id = productId
+      }
+    }
+  }
 
   return (
     <Head>
       <meta property="og:availability" content={availability} />
+      <meta property="og:description" content={description || undefined} />
+      <meta property="og:id" content={id || undefined} />
       <meta property="product:price:amount" content={formattedPrice} />
       <meta property="product:price:currency" content="USD" />
       <meta property="og:price:amount" content={formattedPrice} />
