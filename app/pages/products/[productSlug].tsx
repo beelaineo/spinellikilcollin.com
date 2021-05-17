@@ -125,20 +125,18 @@ interface ProductPageProps {
 const Product = ({ product }: ProductPageProps) => {
   React.useEffect(() => {
 
-    console.log('>>>>>', product)
-
     let content_ids:string[] = []
 
     const productId = getProductIdLocationSearch(window.location.search)
     if ( productId ) {
       content_ids.push(productId)
+      viewContent({
+        contents: content_ids,
+        content_type: 'product',
+        product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`,
+        test_event_code: 'TEST1169'
+      })
     }
-    viewContent({
-      contents: content_ids,
-      content_type: 'product',
-      product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`,
-      test_event_code: 'TEST1169'
-    });
   }, [])
   try {
     if (!product) return <NotFound />

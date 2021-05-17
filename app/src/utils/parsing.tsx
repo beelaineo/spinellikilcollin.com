@@ -135,7 +135,7 @@ export const getIdFromBase64 = (data: string): string => {
   if ( frag.length > 0 ) {
     let last = frag[1].split('/').pop()
 
-    if (  last) {
+    if ( last) {
       if (last.indexOf('\ufffd') > -1) {
         last = last.replace('\r', '').replace(/\ufffd/g, '')
         id = last
