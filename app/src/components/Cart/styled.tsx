@@ -94,29 +94,24 @@ export const CartInner = styled.div<CartInnerProps>`
     padding-bottom: 90px;
     padding: 7;
     transition: 0.2s;
-    ${
-      isLoading
-        ? css`
-            opacity: 0.7;
-            pointer-events: none;
-          `
-        : ''
-    }
-    ${
-      center
-        ? css`
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          `
-        : ''
-    }
+    ${isLoading
+      ? css`
+          opacity: 0.7;
+          pointer-events: none;
+        `
+      : ''}
+    ${center
+      ? css`
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        `
+      : ''}
 
   ${theme.mediaQueries.mobile} {
-    padding: 3;
-    overflow: initial;
-  }
-
+      padding: 3;
+      overflow: initial;
+    }
   `}
 `
 

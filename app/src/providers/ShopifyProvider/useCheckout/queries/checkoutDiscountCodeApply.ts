@@ -7,9 +7,7 @@ export interface CheckoutDiscountCodeApplyInput {
   discountCode: string
 }
 
-export type CheckoutDiscountCodeApplyResponse = CheckoutResponse<
-  'checkoutDiscountCodeApplyV2'
->
+export type CheckoutDiscountCodeApplyResponse = CheckoutResponse<'checkoutDiscountCodeApplyV2'>
 
 export const CHECKOUT_DISCOUNT_CODE_APPLY = gql`
   mutation CheckoutDiscountCodeApplyV2(

@@ -37,19 +37,22 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    const ENV = config.STOREFRONT_ENV
-
-    const tagInfo =
-      ENV === 'production'
-        ? gtm.prod
-        : ENV === 'staging'
-        ? gtm.staging
-        : gtm.dev
+    // const ENV = config.STOREFRONT_ENV
+    //
+    // const tagInfo =
+    //   ENV === 'production'
+    //     ? gtm.prod
+    //     : ENV === 'staging'
+    //     ? gtm.staging
+    //     : gtm.dev
 
     return (
       <Html>
         <Head />
         <body>
+          {/*
+
+              TODO: GTM temporarily disabled
           <noscript
             dangerouslySetInnerHTML={{
               __html: `
@@ -63,6 +66,7 @@ export default class MyDocument extends Document {
             `,
             }}
           />
+          */}
 
           <Main />
           <NextScript />

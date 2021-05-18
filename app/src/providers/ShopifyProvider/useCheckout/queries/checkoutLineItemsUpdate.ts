@@ -7,9 +7,7 @@ export interface CheckoutLineItemsUpdateInput {
   lineItems: CheckoutLineItemUpdateInput[]
 }
 
-export type CheckoutLineItemsUpdateResponse = CheckoutResponse<
-  'checkoutLineItemsUpdate'
->
+export type CheckoutLineItemsUpdateResponse = CheckoutResponse<'checkoutLineItemsUpdate'>
 
 export const CHECKOUT_LINE_ITEMS_UPDATE = gql`
   mutation CheckoutLineItemsUpdate(
