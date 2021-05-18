@@ -127,3 +127,21 @@ export const parseHTML = (htmlString?: string | null): React.ReactNode => {
 export function arrayify<T>(i: T | T[]): T[] {
   return Array.isArray(i) ? i : [i]
 }
+
+export const getIdFromBase64 = (data: string): string => {
+  let id
+  const buffer = Buffer.from(data, 'base64')
+  const frag = buffer.toString('utf-8').split('gid://')
+  if (frag.length > 0) {
+    let last = frag[1].split('/').pop()
+
+    if (last) {
+      if (last.indexOf('\ufffd') > -1) {
+        last = last.replace('\r', '').replace(/\ufffd/g, '')
+        id = last
+      }
+    }
+  }
+
+  return id
+}

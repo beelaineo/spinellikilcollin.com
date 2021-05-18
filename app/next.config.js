@@ -26,6 +26,8 @@ const POSTMARK_KEY = process.env.POSTMARK_KEY
 const STOREFRONT_ENV = process.env.STOREFRONT_ENV
 const EXCHANGE_RATE_API_KEY = process.env.EXCHANGE_RATE_API_KEY
 const SHOPIFY_CHECKOUT_DOMAIN = process.env.SHOPIFY_CHECKOUT_DOMAIN
+const FB_PIXEL_ID = process.env.FB_PIXEL_ID
+const FB_PRDOUCT_CATALOG_ID = process.env.FB_PRDOUCT_CATALOG_ID
 
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
@@ -45,6 +47,8 @@ module.exports = withSourceMaps(
       ALGOLIA_SEARCH_KEY,
       STOREFRONT_ENV,
       SHOPIFY_CHECKOUT_DOMAIN,
+      FB_PIXEL_ID,
+      FB_PRDOUCT_CATALOG_ID
     },
     serverRuntimeConfig: {
       PROJECT_ROOT: __dirname,

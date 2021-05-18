@@ -92,14 +92,9 @@ export const ProductDetail = ({ product }: Props) => {
     const { pathname, search } = window.location
     const currentUri = [pathname, search].join('')
     if (currentUri === newUri) return
-    // window.history.replaceState(null, product.title || '', newUri)
-    router.replace(
-      {
-        pathname: router.pathname,
-        query: router.query,
-      },
-      newUri,
-    )
+    router.replace(newUri, undefined, {
+      scroll: false,
+    })
   }, [currentVariant])
 
   useEffect(() => {

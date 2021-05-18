@@ -70,6 +70,7 @@
 		"@sentry/integrations": "^6.2.5",
 		"@sentry/node": "^6.2.5",
 		"@sentry/webpack-plugin": "^1.14.2",
+		"@types/gtag.js": "^0.0.4",
 		"@xstyled/styled-components": "^2.4.1",
 		"@zeit/next-source-maps": "^0.0.3",
 		"algoliasearch": "^4.8.6",

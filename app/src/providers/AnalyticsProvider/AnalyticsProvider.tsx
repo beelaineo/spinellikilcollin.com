@@ -58,7 +58,9 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     }
     const page_title = document.title
 
-    window.gtag('event', 'page_view')
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'page_view')
+    }
   }
 
   useEffect(() => sendPageView(asPath), [asPath])
