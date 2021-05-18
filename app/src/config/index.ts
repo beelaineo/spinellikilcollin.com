@@ -15,7 +15,7 @@ const {
   STOREFRONT_ENV,
   SHOPIFY_CHECKOUT_DOMAIN,
   FB_PIXEL_ID,
-  FB_PRDOUCT_CATALOG_ID
+  FB_PRDOUCT_CATALOG_ID,
 } = publicRuntimeConfig
 
 const ALGOLIA_API_KEY =
@@ -36,9 +36,11 @@ if (!ALGOLIA_API_KEY) throw new Error('You must provide an algolia API Key')
 if (!ALGOLIA_APP_ID) throw new Error('You must provide an algolia app ID')
 if (!SENTRY_DSN) throw new Error('You must provide a sentry DSN')
 if (!STOREFRONT_ENV) throw new Error('You must provide a storefront ENV')
-if (!SHOPIFY_CHECKOUT_DOMAIN) throw new Error('You must provide a storefront checkout domain')
+if (!SHOPIFY_CHECKOUT_DOMAIN)
+  throw new Error('You must provide a storefront checkout domain')
 if (!FB_PIXEL_ID) throw new Error('You must provide a facbook pixel id')
-if (!FB_PRDOUCT_CATALOG_ID) throw new Error('You must provide a facbook product catalog id')
+if (!FB_PRDOUCT_CATALOG_ID)
+  throw new Error('You must provide a facbook product catalog id')
 
 if (!EXCHANGE_RATE_API_KEY)
   throw new Error('You must include a EXCHANGE_RATE_API_KEY variable')
@@ -64,5 +66,5 @@ export const config = {
   SENTRY_DSN,
   SHOPIFY_CHECKOUT_DOMAIN,
   FB_PIXEL_ID,
-  FB_PRDOUCT_CATALOG_ID
+  FB_PRDOUCT_CATALOG_ID,
 }

@@ -12,9 +12,7 @@ import {
   Contact,
 } from '../types'
 
-import {
-  getIdFromBase64
-} from './index'
+import { getIdFromBase64 } from './index'
 
 export type Document =
   | ShopifyProduct
@@ -165,10 +163,10 @@ export const getProductIdLocationSearch = (search: string): string => {
   let productId
 
   const searchString = search.split('?v=')
-  if ( searchString.length === 2 ) {
+  if (searchString.length === 2) {
     const id = getIdFromBase64(searchString[1])
 
-    if ( id ) {
+    if (id) {
       productId = id
     }
   }

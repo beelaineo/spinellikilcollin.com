@@ -58,7 +58,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     }
     const page_title = document.title
 
-    if (typeof window !== 'undefined' && window.gtag ) {
+    if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'page_view')
     }
   }

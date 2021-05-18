@@ -34,7 +34,6 @@ interface ProductSEOProps {
 }
 
 const ProductSEO = ({ product }: ProductSEOProps) => {
-
   const { minVariantPrice } = product
   const formattedPrice = minVariantPrice
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
@@ -43,16 +42,16 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
     : undefined
 
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
-  let id, description;
+  let id, description
 
-  if ( product && product.sourceData ) {
-    if ( product.sourceData.description ) {
+  if (product && product.sourceData) {
+    if (product.sourceData.description) {
       description = product.sourceData.description
     }
 
-    if ( typeof(window) !== 'undefined' && window.location.search) {
+    if (typeof window !== 'undefined' && window.location.search) {
       const productId = getProductIdLocationSearch(window.location.search)
-      if ( productId ) {
+      if (productId) {
         id = productId
       }
     }

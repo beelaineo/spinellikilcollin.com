@@ -1,12 +1,11 @@
-
 export type FacebookPixel = {
-  track: string;
-  eventType: string;
-  options?: object;
+  track: string
+  eventType: string
+  options?: object
 }
 
 declare global {
   interface Window {
-    fbq (track: string, eventType: string, options?: object):void
+    fbq(track: string, eventType: string, options?: object): void
   }
 }
