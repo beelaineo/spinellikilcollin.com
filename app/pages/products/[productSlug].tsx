@@ -133,8 +133,7 @@ const Product = ({ product }: ProductPageProps) => {
       viewContent({
         contents: content_ids,
         content_type: 'product',
-        product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`,
-        test_event_code: 'TEST1169'
+        product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`
       })
     }
   }, [])
