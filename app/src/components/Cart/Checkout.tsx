@@ -60,13 +60,12 @@ export const Checkout = () => {
         quantity: li.quantity,
       })),
     )
-    const hostname = 'checkout.spinellikilcollin.com'
     const webUrl = checkout.webUrl
     const { protocol, pathname, search } = new URL(webUrl)
     /*
       TODO: before we sort out Shopify Buy SDK, hard coded here
     */
-    const redirect: string = `${protocol}//${hostname}${pathname}${search}`
+    const redirect: string = `${protocol}//${domain}${pathname}${search}`
     window.location.href = redirect
   }
 
