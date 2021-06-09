@@ -16,6 +16,8 @@ const {
   SHOPIFY_CHECKOUT_DOMAIN,
   FB_PIXEL_ID,
   FB_PRDOUCT_CATALOG_ID,
+  BAMBUSER_SCRIPT,
+  BAMBUSER_SHOWID,
 } = publicRuntimeConfig
 
 const ALGOLIA_API_KEY =
@@ -45,6 +47,11 @@ if (!FB_PRDOUCT_CATALOG_ID)
 if (!EXCHANGE_RATE_API_KEY)
   throw new Error('You must include a EXCHANGE_RATE_API_KEY variable')
 
+if (!BAMBUSER_SCRIPT)
+  throw new Error('You must provide a Bambuser API script url')
+
+if (!BAMBUSER_SHOWID) throw new Error('You must provide a Bambuser show ID')
+
 const SHOPIFY_STOREFRONT_TOKEN = '0d3e3d2a74d125f799cd78a72e6c0000'
 const SHOPIFY_STOREFRONT_URL =
   'https://spinellikilcollin.myshopify.com/api/graphql'
@@ -67,4 +74,6 @@ export const config = {
   SHOPIFY_CHECKOUT_DOMAIN,
   FB_PIXEL_ID,
   FB_PRDOUCT_CATALOG_ID,
+  BAMBUSER_SCRIPT,
+  BAMBUSER_SHOWID,
 }

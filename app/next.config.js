@@ -28,6 +28,8 @@ const EXCHANGE_RATE_API_KEY = process.env.EXCHANGE_RATE_API_KEY
 const SHOPIFY_CHECKOUT_DOMAIN = process.env.SHOPIFY_CHECKOUT_DOMAIN
 const FB_PIXEL_ID = process.env.FB_PIXEL_ID
 const FB_PRDOUCT_CATALOG_ID = process.env.FB_PRDOUCT_CATALOG_ID
+const BAMBUSER_SCRIPT = process.env.BAMBUSER_SCRIPT
+const BAMBUSER_SHOWID = process.env.BAMBUSER_SHOWID
 
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
@@ -48,7 +50,9 @@ module.exports = withSourceMaps(
       STOREFRONT_ENV,
       SHOPIFY_CHECKOUT_DOMAIN,
       FB_PIXEL_ID,
-      FB_PRDOUCT_CATALOG_ID
+      FB_PRDOUCT_CATALOG_ID,
+      BAMBUSER_SCRIPT,
+      BAMBUSER_SHOWID,
     },
     serverRuntimeConfig: {
       PROJECT_ROOT: __dirname,
