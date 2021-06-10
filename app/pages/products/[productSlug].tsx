@@ -1,9 +1,8 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { ShopifyProduct } from '../../src/types'
+import { ShopifyProduct, ShopifyProductVariant } from '../../src/types'
 import { getParam, definitely } from '../../src/utils'
-import { getProductIdLocationSearch } from '../../src/utils'
 import { NotFound, ProductDetail } from '../../src/views'
 import {
   productInfoFragment,
@@ -19,10 +18,7 @@ import {
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { Sentry } from '../../src/services/sentry'
-import { viewContent } from '../../src/utils/fpixel'
-import { config  } from '../../src/config'
-const { FB_PRDOUCT_CATALOG_ID } = config
-
+import { reportFBViewContent } from '../../src/utils/fpixel'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -124,17 +120,8 @@ interface ProductPageProps {
 
 const Product = ({ product }: ProductPageProps) => {
   React.useEffect(() => {
-
-    let content_ids:string[] = []
-
-    const productId = getProductIdLocationSearch(window.location.search)
-    if ( productId ) {
-      content_ids.push(productId)
-      viewContent({
-        contents: content_ids,
-        content_type: 'product',
-        product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`
-      })
+    if (product) {
+      reportFBViewContent(product)
     }
   }, [])
   try {
