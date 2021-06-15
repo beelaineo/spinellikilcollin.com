@@ -22,6 +22,8 @@ export type BambuserTuple = [boolean, (show: ShowType) => void]
 
 type mesgProps = (url: string) => void
 const DELIMITER = ' / '
+const CURRENCY = 'USD'
+const LOCALE = 'en-us'
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -96,7 +98,7 @@ const hydrateSize = (
           .price((pr) =>
             pr.currency(price?.currencyCode).current(price?.amount),
           )
-          .sku('sku')
+          .sku(variant.shopifyVariantID)
       }
     })
   } else {
@@ -110,7 +112,7 @@ const hydrateSize = (
           .price((pr) =>
             pr.currency(price?.currencyCode).current(price?.amount),
           )
-          .sku('sku'),
+          .sku(variant.shopifyVariantID),
       ]
     }
   }
@@ -124,10 +126,9 @@ const hydrate = (product: ShopifyProduct, v: any) => {
   const sizes = product?.options?.find((option) => {
     return option?.name === 'Size'
   })
-  console.log('>>>> response: ', product)
 
   if (colors && colors.values && colors.values.length > 0) {
-    return colors?.values?.map((color) => {
+    return colors.values.map((color) => {
       let variant,
         key,
         image: string[] = []
@@ -150,7 +151,7 @@ const hydrate = (product: ShopifyProduct, v: any) => {
       return v()
         .attributes((a) => a.colorName(color?.value))
         .imageUrls(image)
-        .sku('sku')
+        .sku(variant.shopifyVariantID)
         .name(color?.value)
         .sizes((s) => hydrateSize(product, s, color?.value))
     })
@@ -170,7 +171,7 @@ const hydrate = (product: ShopifyProduct, v: any) => {
     }
     return [
       v()
-        .sku('sku')
+        .sku(variant.shopifyVariantID)
         .name('No Color Option')
         .imageUrls(image)
         .sizes((s) => hydrateSize(product, s)),
@@ -222,6 +223,8 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
         })
 
         player.configure({
+          currency: CURRENCY,
+          locale: LOCALE,
           buttons: {
             checkout: player.BUTTON.LINK,
             // dismiss: player.BUTTON.NONE,
@@ -276,23 +279,30 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
               console.log('>>>>', pid, handle)
 
               const product: ShopifyProduct | null = await queryByHandle(handle)
-
-              const description =
-                product?.sourceData && product?.sourceData?.description
-                  ? product.sourceData.description
-                  : ''
+              console.log('>>>> response: ', product)
 
               if (product) {
+                const description =
+                  product?.sourceData && product?.sourceData?.description
+                    ? product.sourceData.description
+                    : ''
+
+                let currency =
+                  product?.sourceData?.priceRange?.minVariantPrice?.currencyCode
+                currency = currency ? currency : CURRENCY
+
+                const shopifyId = product.shopifyId
+
                 player.updateProduct(productId, (factory) =>
                   factory
-                    .currency('USD')
-                    .locale('en-US')
+                    .currency(currency)
+                    .locale(LOCALE)
                     .product((p) =>
                       p
                         .defaultVariationIndex(0)
                         .description(description)
                         .name(product.title)
-                        .sku('12345')
+                        .sku(shopifyId)
                         .variations((v) => hydrate(product, v)),
                     ),
                 )
