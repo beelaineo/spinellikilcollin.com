@@ -1,11 +1,6 @@
 import { useState, useEffect } from 'react'
-import gql from 'graphql-tag'
 import { config } from '../../../src/config'
-const { BAMBUSER_SCRIPT } = config
-import { Sentry } from '../../../src/services/sentry'
-import { request } from '../../graphql'
-
-import { productQuery } from '../../../pages/products/[productSlug]'
+const { BAMBUSER_SCRIPT, SHOPIFY_CHECKOUT_DOMAIN: domain } = config
 
 import {
   ShopifyProduct,
@@ -15,254 +10,118 @@ import {
   ShopifySourceProductVariant,
 } from '../../../src/types'
 
+import {
+  useShopify,
+  useAnalytics,
+  CurrentProductProvider,
+} from '../../providers'
+
 import { ShowType, INIT, READY, MESSAGE_ID } from './Bambuser'
 import { getLocaltionSearchHash } from '../../utils/links'
 import { getIdFromBase64 } from '../../utils/parsing'
-export type BambuserTuple = [boolean, (show: ShowType) => void]
+import { queryByHandle, hydrate, insideIframe } from './utils'
 
-type mesgProps = (url: string) => void
-const DELIMITER = ' / '
+type BambuserTuple = [boolean, (show: ShowType) => void]
+type bambuserAdded = {
+  sku: string
+  quantity?: number
+}
 const CURRENCY = 'USD'
 const LOCALE = 'en-us'
 
-interface ProductQueryResult {
-  productByHandle: ShopifyProduct
-  allShopifyProducts: [ShopifyProduct]
-}
-interface Response {
-  allShopifyProduct: ShopifyProduct[]
-}
-interface ProductProps {
-  productData: ShopifyProduct
-}
-
-const queryByHandle = async (handle: string) => {
-  const query = gql`
-    query ProductsPageQuery($handle: String) {
-      allShopifyProduct(
-        where: { handle: { eq: $handle }, archived: { neq: true } }
-      ) {
-        title
-        shopifyId
-        sourceData {
-          description
-        }
-      }
-    }
-  `
-
-  try {
-    const response = await request<Response>(productQuery, { handle })
-    const products = response?.allShopifyProduct
-    const product = products && products.length ? products[0] : null
-
-    return product
-  } catch (e) {
-    Sentry.captureException(e)
-    return null
-  }
-}
-
-const findVariant = (product: ShopifyProduct, vid: string) => {
-  return product?.variants?.find((variant) => {
-    return variant?.title === vid
-  })
-}
-
-const hydrateSize = (
-  product: ShopifyProduct,
-  s: any,
-  color: string | null = '',
-) => {
-  const sizes = product?.options?.find((option) => {
-    return option?.name === 'Size'
-  })
-  console.log('>>><<< sizes: ', sizes)
-  if (sizes && sizes.values && sizes.values.length > 0) {
-    return sizes?.values?.map((size) => {
-      let key
-      if (color) {
-        key = `${color}${DELIMITER}${size?.value}`
-      } else {
-        key = `${size?.value}`
-      }
-      const variant = findVariant(product, key)
-      if (
-        variant &&
-        variant.sourceData &&
-        variant.sourceData.availableForSale
-      ) {
-        const price = variant.sourceData.priceV2
-        return s()
-          .name(size?.value)
-          .price((pr) =>
-            pr.currency(price?.currencyCode).current(price?.amount),
-          )
-          .sku(variant.shopifyVariantID)
-      }
-    })
-  } else {
-    const key = `${color}`
-    const variant = findVariant(product, key)
-    if (variant && variant.sourceData && variant.sourceData.availableForSale) {
-      const price = variant.sourceData.priceV2
-      return [
-        s()
-          .name(product.title)
-          .price((pr) =>
-            pr.currency(price?.currencyCode).current(price?.amount),
-          )
-          .sku(variant.shopifyVariantID),
-      ]
-    }
-  }
-}
-
-const hydrate = (product: ShopifyProduct, v: any) => {
-  const colors = product?.options?.find((option) => {
-    return option?.name === 'Color'
-  })
-
-  const sizes = product?.options?.find((option) => {
-    return option?.name === 'Size'
-  })
-
-  if (colors && colors.values && colors.values.length > 0) {
-    return colors.values.map((color) => {
-      let variant,
-        key,
-        image: string[] = []
-
-      const sizeValue =
-        sizes && sizes.values && sizes.values.length > 0
-          ? sizes.values[0]?.value
-          : ''
-      if (colors && sizeValue) {
-        key = `${color?.value}${DELIMITER}${sizeValue}`
-      } else {
-        key = `${color?.value}${sizeValue}`
-      }
-      variant = findVariant(product, key)
-
-      if (variant && variant.sourceData) {
-        image.push(variant.sourceData?.image?.w800)
-      }
-
-      return v()
-        .attributes((a) => a.colorName(color?.value))
-        .imageUrls(image)
-        .sku(variant.shopifyVariantID)
-        .name(color?.value)
-        .sizes((s) => hydrateSize(product, s, color?.value))
-    })
-  } else {
-    let variant,
-      key,
-      image: string[] = []
-    if (sizes) {
-      key =
-        sizes && sizes.values && sizes.values.length > 0
-          ? sizes.values[0]?.value
-          : ''
-      variant = findVariant(product, key)
-      if (variant && variant.sourceData) {
-        image.push(variant.sourceData?.image?.w800)
-      }
-    }
-    return [
-      v()
-        .sku(variant.shopifyVariantID)
-        .name('No Color Option')
-        .imageUrls(image)
-        .sizes((s) => hydrateSize(product, s)),
-    ]
-  }
-}
-
 const useBambuser = (initialValue?: boolean): BambuserTuple => {
   const [isReady, setReady] = useState<boolean>((initialValue = false))
-
-  const insideIframe = (): boolean => {
-    return window !== window.parent
-  }
+  const {
+    checkout,
+    addLineItem,
+    updateLineItem,
+    checkoutLineItemsAdd,
+  } = useShopify()
 
   let addShow = (show: ShowType): void => {
     if (window[INIT]) {
       window[INIT](show)
     }
   }
-  let linkProduct = (url: string): void => {
-    if (url && url.indexOf('/products') > -1) {
-      history.pushState({}, '', url)
-    }
-  }
-  let onMessage = (callback: mesgProps) => {
-    window.addEventListener(
-      'message',
-      (event) => {
-        if (event.origin.indexOf(window.location.hostname) === -1) {
-          return
-        }
-        if (
-          event.data &&
-          event.data[MESSAGE_ID] &&
-          event.data[MESSAGE_ID].indexOf('https://') > -1
-        ) {
-          callback(event.data[MESSAGE_ID])
-        }
-      },
-      false,
-    )
-  }
+
+  useEffect(() => {
+    console.log('>>>>><<<< useEffect checkout state', checkout)
+  }, [checkout])
+
   useEffect(() => {
     // Only execute when not in iframe
-    if (!window[INIT] && !insideIframe()) {
+    if (!window[INIT]) {
       window[READY] = (player) => {
-        onMessage((url) => {
-          window.location.href = url
-        })
+        // onMessage((url) => {
+        //   window.location.href = url
+        // })
 
         player.configure({
           currency: CURRENCY,
           locale: LOCALE,
           buttons: {
-            checkout: player.BUTTON.LINK,
+            // checkout: player.BUTTON.NONE,
             // dismiss: player.BUTTON.NONE,
-            //product: player.BUTTON.NONE,
+            // product: player.BUTTON.MINIMIZE
           },
           floatingPlayer: {
             // IFRAME, MANUAL, IFRAME_SRCDOC
             navigationMode: player.FLOATING_PLAYER_NAVIGATION_MODE.IFRAME,
           },
         })
-        player.on(player.EVENT.NAVIGATE_BEHIND_TO, function (event) {
-          console.log('>>>>>NAVIGATE_BEHIND_TO', event)
-          // if ( event.url ) {
-          //   linkProduct(event.url)
-          // }
-          /*
-           * Triggered when a product is clicked.
-           *
-           * **event.url** holds the targetted url specific in Bambuser Dashboard
-           *
-           * 1. Change url inside browser address bar
-           * eg. history.pushState({}, null, event.url)
-           *
-           * 2. Load page content without reloading the page
-           * eg. Use React Router, AJAX , ...
-           *
-           */
-          // Your codes here
-        })
+        //player.on(player.EVENT.NAVIGATE_BEHIND_TO, function (event) {
+        // console.log('>>>>>NAVIGATE_BEHIND_TO', event)
+        // if ( event.url ) {
+        //   linkProduct(event.url)
+        // }
+        /*
+         * Triggered when a product is clicked.
+         *
+         * **event.url** holds the targetted url specific in Bambuser Dashboard
+         *
+         * 1. Change url inside browser address bar
+         * eg. history.pushState({}, null, event.url)
+         *
+         * 2. Load page content without reloading the page
+         * eg. Use React Router, AJAX , ...
+         *
+         */
+        // Your codes here
+        // })
 
-        player.on(player.EVENT.READY, function () {
-          console.log('>>>>> READY')
+        player.on(player.EVENT.READY, async function () {
+          console.log('>>>>> Player READY', checkout)
         })
-        player.on(player.EVENT.ADD_TO_CART, function (event) {
-          console.log('>>>>> ADD_TO_CART', event)
-        })
+        player.on(
+          player.EVENT.ADD_TO_CART,
+          async (addedItem: bambuserAdded, callback) => {
+            console.log('>>>>> ADD_TO_CART', addedItem, callback)
+            //return callback(true)
+
+            console.log('>>>>> before add to cart', checkout)
+            addLineItem({
+              variantId: addedItem.sku,
+              quantity: 1,
+            })
+              .then(() => {
+                callback(true) // item successfully added to cart
+              })
+              .catch((error) => {
+                if (error.type === 'out-of-stock') {
+                  // Unsuccessful due to 'out of stock'
+                  callback({
+                    success: false,
+                    reason: 'out-of-stock',
+                  })
+                } else {
+                  // Unsuccessful due to other problems
+                  callback(false)
+                }
+              })
+          },
+        )
         player.on(player.EVENT.PROVIDE_PRODUCT_DATA, function (event) {
-          console.log('>>>>> PROVIDE_PRODUCT_DATA', event)
+          // console.log('>>>>> PROVIDE_PRODUCT_DATA', event)
           event.products.forEach(
             async ({ ref: sku, id: productId, url: publicUrl }) => {
               console.log('ref:', sku, 'id:', productId, 'url:', publicUrl)
@@ -276,10 +135,8 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
                 handle = handles[1]
               }
 
-              console.log('>>>>', pid, handle)
-
               const product: ShopifyProduct | null = await queryByHandle(handle)
-              console.log('>>>> response: ', product)
+              // console.log('>>>> response: ', product)
 
               if (product) {
                 const description =
@@ -310,12 +167,42 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
             },
           )
         })
-        player.on(player.EVENT.UPDATE_ITEM_IN_CART, function (event) {
-          console.log('>>>>> UPDATE_ITEM_IN_CART', event)
-        })
+        player.on(
+          player.EVENT.UPDATE_ITEM_IN_CART,
+          function (updatedItem, callback) {
+            console.log('>>>>> UPDATE_ITEM_IN_CART', updatedItem, callback)
 
-        player.on(player.EVENT.CHECKOUT, (event) => {
-          console.log('>>>>> CHECKOUT', event)
+            if (updatedItem.quantity > 0) {
+              updateLineItem({
+                variantId: updatedItem.sku,
+                quantity: updatedItem.quantity,
+              })
+                .then(() => {
+                  // cart update was successful
+                  callback(true)
+                })
+                .catch(function (error) {
+                  if (error.type === 'out-of-stock') {
+                    callback({
+                      success: false,
+                      reason: 'out-of-stock',
+                    })
+                  } else {
+                    callback(false)
+                  }
+                })
+            }
+          },
+        )
+
+        player.on(player.EVENT.CHECKOUT, () => {
+          console.log('>>>>> CHECKOUT', checkout)
+          const webUrl = checkout?.webUrl
+          if (webUrl) {
+            const { protocol, pathname, search } = new URL(webUrl)
+            const url: string = `${protocol}//${domain}${pathname}${search}`
+            window.location.href = url
+          }
         })
       }
 
