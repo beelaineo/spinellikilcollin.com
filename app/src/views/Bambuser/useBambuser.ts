@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { config } from '../../../src/config'
+import { useState, useEffect, useRef } from 'react'
+import { config } from '../../config'
 const { BAMBUSER_SCRIPT, SHOPIFY_CHECKOUT_DOMAIN: domain } = config
 
 import {
@@ -8,7 +8,9 @@ import {
   ShopifyProductVariant,
   ShopifyProductOption,
   ShopifySourceProductVariant,
-} from '../../../src/types'
+} from '../../types'
+
+import { CheckoutLineItemInput } from '../../providers/ShopifyProvider/types'
 
 import {
   useShopify,
@@ -22,21 +24,27 @@ import { getIdFromBase64 } from '../../utils/parsing'
 import { queryByHandle, hydrate, insideIframe } from './utils'
 
 type BambuserTuple = [boolean, (show: ShowType) => void]
-type bambuserAdded = {
+// type ShopifyLineItem = {
+//   variantId: string
+//   quantity?: number
+// }
+type BambuserLineItem = {
   sku: string
   quantity?: number
 }
 const CURRENCY = 'USD'
 const LOCALE = 'en-us'
 
-const useBambuser = (initialValue?: boolean): BambuserTuple => {
-  const [isReady, setReady] = useState<boolean>((initialValue = false))
-  const {
-    checkout,
-    addLineItem,
-    updateLineItem,
-    checkoutLineItemsAdd,
-  } = useShopify()
+const useBambuser = ({
+  checkout,
+  addLineItem,
+  // updateLineItem,
+  checkoutLineItemsAdd,
+}): BambuserTuple => {
+  const [isReady, setReady] = useState<boolean>(false)
+  const [bambuserCart, setCart] = useState<CheckoutLineItemInput[]>([])
+  const cartRef = useRef(bambuserCart)
+  const checkoutRef = useRef(checkout)
 
   let addShow = (show: ShowType): void => {
     if (window[INIT]) {
@@ -44,8 +52,40 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
     }
   }
 
+  const addToCart = (item: CheckoutLineItemInput): void => {
+    setCart((state) => {
+      cartRef.current = [...state, item]
+      return cartRef.current
+    })
+  }
+
+  const updateCart = (updated: BambuserLineItem): void => {
+    if (cartRef.current) {
+      let cartItems
+      let cartItem, cartIndex
+      cartItems = cartRef.current.map((item, index) => {
+        if (item.variantId === updated.sku) {
+          console.log('>>>>', item.variantId, updated.quantity)
+          cartIndex = index
+          return {
+            variantId: updated.sku,
+            quantity: updated.quantity,
+          }
+        } else {
+          return item
+        }
+      })
+      console.log('>>>>> update Cart', cartItems)
+      setCart((state) => {
+        cartRef.current = [...cartItems]
+        return cartRef.current
+      })
+    }
+  }
+
   useEffect(() => {
-    console.log('>>>>><<<< useEffect checkout state', checkout)
+    console.log('>>>>><<<< useEffect checkout cart', checkout)
+    //console.log('>>>>><<<< useEffect bambuser cart', bambuserCart)
   }, [checkout])
 
   useEffect(() => {
@@ -60,7 +100,7 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
           currency: CURRENCY,
           locale: LOCALE,
           buttons: {
-            // checkout: player.BUTTON.NONE,
+            checkout: player.BUTTON.AUTO,
             // dismiss: player.BUTTON.NONE,
             // product: player.BUTTON.MINIMIZE
           },
@@ -94,34 +134,88 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
         })
         player.on(
           player.EVENT.ADD_TO_CART,
-          async (addedItem: bambuserAdded, callback) => {
+          async (addedItem: BambuserLineItem, callback) => {
             console.log('>>>>> ADD_TO_CART', addedItem, callback)
-            //return callback(true)
 
-            console.log('>>>>> before add to cart', checkout)
-            addLineItem({
+            addToCart({
               variantId: addedItem.sku,
               quantity: 1,
             })
-              .then(() => {
-                callback(true) // item successfully added to cart
-              })
-              .catch((error) => {
-                if (error.type === 'out-of-stock') {
-                  // Unsuccessful due to 'out of stock'
-                  callback({
-                    success: false,
-                    reason: 'out-of-stock',
-                  })
-                } else {
-                  // Unsuccessful due to other problems
-                  callback(false)
-                }
-              })
+            callback(true)
+
+            // addLineItem({
+            //   variantId: addedItem.sku,
+            //   quantity: 1,
+            // })
+            //   .then(() => {
+            //     callback(true) // item successfully added to cart
+            //   })
+            //   .catch((error) => {
+            //     if (error.type === 'out-of-stock') {
+            //       // Unsuccessful due to 'out of stock'
+            //       callback({
+            //         success: false,
+            //         reason: 'out-of-stock',
+            //       })
+            //     } else {
+            //       // Unsuccessful due to other problems
+            //       callback(false)
+            //     }
+            //   })
           },
         )
+
+        player.on(
+          player.EVENT.UPDATE_ITEM_IN_CART,
+          function (updatedItem, callback) {
+            console.log('>>>>> UPDATE_ITEM_IN_CART', updatedItem, callback)
+
+            if (updatedItem.quantity > 0) {
+              if (cartRef.current.length > 0) {
+                updateCart(updatedItem)
+                callback(true)
+              }
+
+              // updateLineItem({
+              //   variantId: updatedItem.sku,
+              //   quantity: updatedItem.quantity,
+              // })
+              //   .then(() => {
+              //     // cart update was successful
+              //     callback(true)
+              //   })
+              //   .catch(function (error) {
+              //     if (error.type === 'out-of-stock') {
+              //       callback({
+              //         success: false,
+              //         reason: 'out-of-stock',
+              //       })
+              //     } else {
+              //       callback(false)
+              //     }
+              //   })
+            }
+          },
+        )
+
+        player.on(player.EVENT.CHECKOUT, async () => {
+          console.log('>>>>.', cartRef.current)
+          if (cartRef.current.length === 0) return
+
+          await checkoutLineItemsAdd(cartRef.current)
+
+          console.log('>>>>> CHECKOUT', checkout)
+          const webUrl = checkout?.webUrl
+          if (webUrl) {
+            const { protocol, pathname, search } = new URL(webUrl)
+            const url: string = `${protocol}//${domain}${pathname}${search}`
+            window.location.href = url
+          }
+        })
+
         player.on(player.EVENT.PROVIDE_PRODUCT_DATA, function (event) {
-          // console.log('>>>>> PROVIDE_PRODUCT_DATA', event)
+          console.log('>>>>> PROVIDE_PRODUCT_DATA', event)
+
           event.products.forEach(
             async ({ ref: sku, id: productId, url: publicUrl }) => {
               console.log('ref:', sku, 'id:', productId, 'url:', publicUrl)
@@ -136,7 +230,7 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
               }
 
               const product: ShopifyProduct | null = await queryByHandle(handle)
-              // console.log('>>>> response: ', product)
+              console.log('>>>> response: ', product)
 
               if (product) {
                 const description =
@@ -166,43 +260,6 @@ const useBambuser = (initialValue?: boolean): BambuserTuple => {
               }
             },
           )
-        })
-        player.on(
-          player.EVENT.UPDATE_ITEM_IN_CART,
-          function (updatedItem, callback) {
-            console.log('>>>>> UPDATE_ITEM_IN_CART', updatedItem, callback)
-
-            if (updatedItem.quantity > 0) {
-              updateLineItem({
-                variantId: updatedItem.sku,
-                quantity: updatedItem.quantity,
-              })
-                .then(() => {
-                  // cart update was successful
-                  callback(true)
-                })
-                .catch(function (error) {
-                  if (error.type === 'out-of-stock') {
-                    callback({
-                      success: false,
-                      reason: 'out-of-stock',
-                    })
-                  } else {
-                    callback(false)
-                  }
-                })
-            }
-          },
-        )
-
-        player.on(player.EVENT.CHECKOUT, () => {
-          console.log('>>>>> CHECKOUT', checkout)
-          const webUrl = checkout?.webUrl
-          if (webUrl) {
-            const { protocol, pathname, search } = new URL(webUrl)
-            const url: string = `${protocol}//${domain}${pathname}${search}`
-            window.location.href = url
-          }
         })
       }
 
