@@ -18,7 +18,7 @@ import { CheckoutProduct } from './CheckoutProduct'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
 import { config } from '../../config'
-import { MESSAGE_ID } from '../../views/Bambuser/Bambuser'
+import { MESSAGE_ID } from '../../views/Bambuser/BambuserView'
 const { SHOPIFY_CHECKOUT_DOMAIN: domain } = config
 
 /**

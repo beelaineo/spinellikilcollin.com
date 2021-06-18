@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { GetStaticProps } from 'next'
-import { BambuserView } from '../src/views/Bambuser'
+import BambuserSample from '../src/views/Bambuser/BambuserSample'
 import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 
-const BambuserPage = () => <BambuserView />
+const BambuserPage = () => <BambuserSample />
 
 export const getStaticProps: GetStaticProps = async () => {
   const shopData = await requestShopData()

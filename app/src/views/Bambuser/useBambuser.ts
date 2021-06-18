@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { config } from '../../config'
 const { BAMBUSER_SCRIPT, SHOPIFY_CHECKOUT_DOMAIN: domain } = config
 
@@ -10,24 +10,24 @@ import {
   ShopifySourceProductVariant,
 } from '../../types'
 
-import { CheckoutLineItemInput } from '../../providers/ShopifyProvider/types'
+import {
+  Checkout,
+  CheckoutLineItemInput,
+} from '../../providers/ShopifyProvider/types'
 
 import {
   useShopify,
+  UseCheckoutValues,
   useAnalytics,
   CurrentProductProvider,
 } from '../../providers'
 
-import { ShowType, INIT, READY, MESSAGE_ID } from './Bambuser'
+import { ShowType, INIT, READY, MESSAGE_ID } from './BambuserView'
 import { getLocaltionSearchHash } from '../../utils/links'
 import { getIdFromBase64 } from '../../utils/parsing'
 import { queryByHandle, hydrate, insideIframe } from './utils'
 
 type BambuserTuple = [boolean, (show: ShowType) => void]
-// type ShopifyLineItem = {
-//   variantId: string
-//   quantity?: number
-// }
 type BambuserLineItem = {
   sku: string
   quantity?: number
@@ -35,16 +35,19 @@ type BambuserLineItem = {
 const CURRENCY = 'USD'
 const LOCALE = 'en-us'
 
-const useBambuser = ({
-  checkout,
-  addLineItem,
-  // updateLineItem,
-  checkoutLineItemsAdd,
-}): BambuserTuple => {
+interface Props extends Pick<UseCheckoutValues, 'addLineItem' | 'checkout'> {}
+
+const useBambuser = ({ addLineItem, checkout }: Props): BambuserTuple => {
   const [isReady, setReady] = useState<boolean>(false)
   const [bambuserCart, setCart] = useState<CheckoutLineItemInput[]>([])
   const cartRef = useRef(bambuserCart)
-  const checkoutRef = useRef(checkout)
+  let addLineItemProxy = useCallback(
+    (lineItem: CheckoutLineItemInput) => {
+      console.log('proxy addLineItem called')
+      return addLineItem(lineItem)
+    },
+    [isReady],
+  )
 
   let addShow = (show: ShowType): void => {
     if (window[INIT]) {
@@ -89,7 +92,6 @@ const useBambuser = ({
   }, [checkout])
 
   useEffect(() => {
-    // Only execute when not in iframe
     if (!window[INIT]) {
       window[READY] = (player) => {
         // onMessage((url) => {
@@ -130,38 +132,39 @@ const useBambuser = ({
         // })
 
         player.on(player.EVENT.READY, async function () {
-          console.log('>>>>> Player READY', checkout)
+          //console.log('>>>>> Player READY', checkout)
         })
         player.on(
           player.EVENT.ADD_TO_CART,
           async (addedItem: BambuserLineItem, callback) => {
             console.log('>>>>> ADD_TO_CART', addedItem, callback)
 
-            addToCart({
-              variantId: addedItem.sku,
-              quantity: 1,
-            })
-            callback(true)
-
-            // addLineItem({
+            // addToCart({
             //   variantId: addedItem.sku,
             //   quantity: 1,
             // })
-            //   .then(() => {
-            //     callback(true) // item successfully added to cart
-            //   })
-            //   .catch((error) => {
-            //     if (error.type === 'out-of-stock') {
-            //       // Unsuccessful due to 'out of stock'
-            //       callback({
-            //         success: false,
-            //         reason: 'out-of-stock',
-            //       })
-            //     } else {
-            //       // Unsuccessful due to other problems
-            //       callback(false)
-            //     }
-            //   })
+            // callback(true)
+
+            addLineItemProxy({
+              variantId: addedItem.sku,
+              quantity: 1,
+            })
+              .then((checkout) => {
+                console.log('>><<<< checkout', checkout)
+                callback(true) // item successfully added to cart
+              })
+              .catch((error) => {
+                if (error.type === 'out-of-stock') {
+                  // Unsuccessful due to 'out of stock'
+                  callback({
+                    success: false,
+                    reason: 'out-of-stock',
+                  })
+                } else {
+                  // Unsuccessful due to other problems
+                  callback(false)
+                }
+              })
           },
         )
 
@@ -202,15 +205,16 @@ const useBambuser = ({
           console.log('>>>>.', cartRef.current)
           if (cartRef.current.length === 0) return
 
-          await checkoutLineItemsAdd(cartRef.current)
+          const checkout = await refCheckoutLineItemsAdd(cartRef.current)
+          console.log('>>>>>checkout ', checkout)
 
-          console.log('>>>>> CHECKOUT', checkout)
-          const webUrl = checkout?.webUrl
-          if (webUrl) {
-            const { protocol, pathname, search } = new URL(webUrl)
-            const url: string = `${protocol}//${domain}${pathname}${search}`
-            window.location.href = url
-          }
+          // console.log('>>>>> CHECKOUT', checkout)
+          // const webUrl = checkout?.webUrl
+          // if (webUrl) {
+          //   const { protocol, pathname, search } = new URL(webUrl)
+          //   const url: string = `${protocol}//${domain}${pathname}${search}`
+          //   window.location.href = url
+          // }
         })
 
         player.on(player.EVENT.PROVIDE_PRODUCT_DATA, function (event) {
@@ -218,7 +222,7 @@ const useBambuser = ({
 
           event.products.forEach(
             async ({ ref: sku, id: productId, url: publicUrl }) => {
-              console.log('ref:', sku, 'id:', productId, 'url:', publicUrl)
+              //console.log('ref:', sku, 'id:', productId, 'url:', publicUrl)
 
               const hash = getLocaltionSearchHash(publicUrl)
               const pid = getIdFromBase64(hash)
@@ -230,7 +234,7 @@ const useBambuser = ({
               }
 
               const product: ShopifyProduct | null = await queryByHandle(handle)
-              console.log('>>>> response: ', product)
+              //console.log('>>>> response: ', product)
 
               if (product) {
                 const description =
