@@ -1,1 +1,1 @@
-export * from './Bambuser'
+export * from './BambuserView'

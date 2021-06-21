@@ -26,8 +26,8 @@ import { ShowType, INIT, READY, MESSAGE_ID } from './BambuserView'
 import { getLocaltionSearchHash } from '../../utils/links'
 import { getIdFromBase64 } from '../../utils/parsing'
 import { queryByHandle, hydrate, insideIframe } from './utils'
-
-type BambuserTuple = [boolean, (show: ShowType) => void]
+import useFactory from './useFactory'
+type Hook = [boolean, (show: ShowType) => void]
 type BambuserLineItem = {
   sku: string
   quantity?: number
@@ -37,9 +37,11 @@ const LOCALE = 'en-us'
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem' | 'checkout'> {}
 
-const useBambuser = ({ addLineItem, checkout }: Props): BambuserTuple => {
+const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
   const [isReady, setReady] = useState<boolean>(false)
   const [bambuserCart, setCart] = useState<CheckoutLineItemInput[]>([])
+  const setup = useFactory()
+
   const cartRef = useRef(bambuserCart)
   let addLineItemProxy = useCallback(
     (lineItem: CheckoutLineItemInput) => {
@@ -234,33 +236,9 @@ const useBambuser = ({ addLineItem, checkout }: Props): BambuserTuple => {
               }
 
               const product: ShopifyProduct | null = await queryByHandle(handle)
-              //console.log('>>>> response: ', product)
 
               if (product) {
-                const description =
-                  product?.sourceData && product?.sourceData?.description
-                    ? product.sourceData.description
-                    : ''
-
-                let currency =
-                  product?.sourceData?.priceRange?.minVariantPrice?.currencyCode
-                currency = currency ? currency : CURRENCY
-
-                const shopifyId = product.shopifyId
-
-                player.updateProduct(productId, (factory) =>
-                  factory
-                    .currency(currency)
-                    .locale(LOCALE)
-                    .product((p) =>
-                      p
-                        .defaultVariationIndex(0)
-                        .description(description)
-                        .name(product.title)
-                        .sku(shopifyId)
-                        .variations((v) => hydrate(product, v)),
-                    ),
-                )
+                player.updateProduct(productId, setup(product))
               }
             },
           )
