@@ -37,6 +37,7 @@ import {
   // RECEIVED_ERRORS,
 } from './reducer'
 import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
+import { ShopifyStorefrontCheckout } from '../../../types/generated-shopify'
 
 const { useReducer, useEffect } = React
 
@@ -78,6 +79,11 @@ export interface UseCheckoutValues extends CheckoutState {
   checkoutAttributesUpdate: (
     args: CheckoutAttributesUpdateV2Input,
   ) => Promise<void>
+
+  /* Bambuser Methods */
+  bambuserLineItemsAdd: (lineItems: CheckoutLineItemInput[]) => Promise<void>
+  bambuserLineItemsUpdate: (lineItems: CheckoutLineItemInput[]) => Promise<void>
+  bambuserFetchCheckout: () => Promise<ShopifyStorefrontCheckout>
 
   /* Shortcut Methods */
   addLineItem: (lineItem: CheckoutLineItemInput) => Promise<void>
@@ -292,6 +298,73 @@ export const useCheckout = ({
   }
 
   /**
+   *
+   * Bambuser checkout
+   * Due to the issue when calls initiated from Bambuser callback these are alternative methods
+   */
+
+  const bambuserFetchCheckout = async (): Promise<ShopifyStorefrontCheckout> => {
+    const checkoutToken = getViewerCartCookie()
+    let checkout
+
+    return new Promise(async (resolve, reject) => {
+      if (checkoutToken) {
+        /* If a token exists, fetch it from Shopify */
+        const variables = { id: checkoutToken }
+        const result = await query<CheckoutFetchResponse, CheckoutFetchInput>(
+          CHECKOUT_FETCH,
+          variables,
+        )
+        checkout = result.data ? result.data.node : undefined
+        dispatch({ type: FETCHED_CHECKOUT, checkout })
+        resolve(checkout as ShopifyStorefrontCheckout)
+      } else {
+        /* When no token exists, dispatch this to set "loading" to false. */
+        /* This might deserve its own action type, "NOTHING_TO_FETCH" */
+        dispatch({ type: FETCHED_CHECKOUT, checkout: undefined })
+        reject(undefined)
+      }
+    })
+  }
+
+  const bambuserLineItemsAdd = async (lineItems: CheckoutLineItemInput[]) => {
+    let checkout = await bambuserFetchCheckout()
+    if (!checkout) {
+      throw new Error(
+        'checkoutLineItemsAdd was called before a checkout was created.',
+      )
+    }
+    dispatch({ type: STARTED_REQUEST })
+
+    const variables = { lineItems, checkoutId: checkout.id }
+    const result = await query<
+      CheckoutLineItemsAddResponse,
+      CheckoutLineItemsAddInput
+    >(CHECKOUT_LINE_ITEMS_ADD, variables)
+    dispatch({ type: ADDED_LINE_ITEMS, ...result.data.checkoutLineItemsAdd })
+  }
+
+  const bambuserLineItemsUpdate = async (
+    lineItems: CheckoutLineItemUpdateInput[],
+  ) => {
+    let checkout = await bambuserFetchCheckout()
+    if (!checkout) throw new Error('There is no checkout to update')
+    dispatch({ type: STARTED_REQUEST })
+    const result = await query<
+      CheckoutLineItemsUpdateResponse,
+      CheckoutLineItemsUpdateInput
+    >(CHECKOUT_LINE_ITEMS_UPDATE, {
+      lineItems,
+      checkoutId: checkout.id,
+    })
+
+    dispatch({
+      type: UPDATED_LINE_ITEMS,
+      ...result.data.checkoutLineItemsUpdate,
+    })
+  }
+
+  /**
    * Shortcut Methods
    *
    * These methods implement the base methods to provide simpler "shortcut"
@@ -328,6 +401,11 @@ export const useCheckout = ({
     checkoutDiscountCodeApply,
     checkoutDiscountCodeRemove,
     checkoutAttributesUpdate,
+
+    /* Bambuser Methods */
+    bambuserLineItemsAdd,
+    bambuserLineItemsUpdate,
+    bambuserFetchCheckout,
 
     /* Shortcut Methods */
     addLineItem,
