@@ -198,29 +198,28 @@ const useBambuser = ({
               //   updateCart(updatedItem)
               //   callback(true)
               // }
-              console.log('>>>>> UPDATE_ITEM_IN_CART', updatedItem, callback)
-
-              bambuserLineItemsUpdate([
-                {
-                  variantId: updatedItem.sku,
-                  quantity: updatedItem.quantity,
-                },
-              ])
-                .then(() => {
-                  // cart update was successful
-                  callback(true)
-                })
-                .catch(function (error) {
-                  console.log('>>>>', error)
-                  if (error.type === 'out-of-stock') {
-                    callback({
-                      success: false,
-                      reason: 'out-of-stock',
-                    })
-                  } else {
-                    callback(false)
-                  }
-                })
+              // console.log('>>>>> UPDATE_ITEM_IN_CART', updatedItem, callback)
+              // bambuserLineItemsUpdate([
+              //   {
+              //     variantId: updatedItem.sku,
+              //     quantity: updatedItem.quantity,
+              //   },
+              // ])
+              // .then(() => {
+              //   // cart update was successful
+              //   callback(true)
+              // })
+              // .catch(function (error) {
+              //   console.log('>>>>', error)
+              //   if (error.type === 'out-of-stock') {
+              //     callback({
+              //       success: false,
+              //       reason: 'out-of-stock',
+              //     })
+              //   } else {
+              //     callback(false)
+              //   }
+              // })
             }
           },
         )
