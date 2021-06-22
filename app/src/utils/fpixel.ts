@@ -1,4 +1,4 @@
-import { getLocaltionSearchHash } from './links'
+import { getLocationSearchHash } from './links'
 import { getIdFromBase64 } from './parsing'
 
 import { config } from '../../src/config'
@@ -35,7 +35,7 @@ export const reportFBViewContent = (product: ShopifyProduct): void => {
   let content_ids: string[] = []
   let contentName
   let template: FB_VIEW_CONTENT
-  const hash = getLocaltionSearchHash(window.location.search)
+  const hash = getLocationSearchHash(window.location.search)
   const productId = getIdFromBase64(hash)
   if (productId) {
     content_ids.push(productId)

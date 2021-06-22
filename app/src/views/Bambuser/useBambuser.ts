@@ -23,9 +23,9 @@ import {
 } from '../../providers'
 
 import { ShowType, INIT, READY, MESSAGE_ID } from './BambuserView'
-import { getLocaltionSearchHash } from '../../utils/links'
+import { getLocationSearchHash } from '../../utils/links'
 import { getIdFromBase64 } from '../../utils/parsing'
-import { queryByHandle, hydrate, insideIframe } from './utils'
+import { queryByHandle } from './utils'
 import useFactory from './useFactory'
 type Hook = [boolean, (show: ShowType) => void]
 type BambuserLineItem = {
@@ -226,7 +226,7 @@ const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
             async ({ ref: sku, id: productId, url: publicUrl }) => {
               //console.log('ref:', sku, 'id:', productId, 'url:', publicUrl)
 
-              const hash = getLocaltionSearchHash(publicUrl)
+              const hash = getLocationSearchHash(publicUrl)
               const pid = getIdFromBase64(hash)
               const SHOPIFY_PRODUCT_URL_HANDLE_REGEX = /\/products\/(.[\w\d-+]+)/
               let handle,
@@ -238,7 +238,7 @@ const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
               const product: ShopifyProduct | null = await queryByHandle(handle)
 
               if (product) {
-                player.updateProduct(productId, setup(product))
+                player.updateProduct(productId, setup(product, handle, hash))
               }
             },
           )

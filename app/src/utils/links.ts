@@ -159,7 +159,7 @@ export const getDocumentLinkImage = (
   }
 }
 
-export const getLocaltionSearchHash = (search: string): string => {
+export const getLocationSearchHash = (search: string): string => {
   let result: string = ''
   const searchString = search.split('?v=')
   if (searchString.length === 2) {
