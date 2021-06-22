@@ -27,6 +27,7 @@ import { getLocationSearchHash } from '../../utils/links'
 import { getIdFromBase64 } from '../../utils/parsing'
 import { queryByHandle } from './utils'
 import useFactory from './useFactory'
+import { ShopifyStorefrontCheckout } from '../../types/generated-shopify'
 type Hook = [boolean, (show: ShowType) => void]
 type BambuserLineItem = {
   sku: string
@@ -35,9 +36,22 @@ type BambuserLineItem = {
 const CURRENCY = 'USD'
 const LOCALE = 'en-us'
 
-interface Props extends Pick<UseCheckoutValues, 'addLineItem' | 'checkout'> {}
+interface Props
+  extends Pick<
+    UseCheckoutValues,
+    | 'bambuserLineItemsAdd'
+    | 'bambuserLineItemsUpdate'
+    | 'bambuserFetchCheckout'
+    | 'checkoutLineItemsUpdate'
+    | 'checkout'
+  > {}
 
-const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
+const useBambuser = ({
+  bambuserLineItemsAdd,
+  bambuserLineItemsUpdate,
+  bambuserFetchCheckout,
+  checkout,
+}: Props): Hook => {
   const [isReady, setReady] = useState<boolean>(false)
   const [bambuserCart, setCart] = useState<CheckoutLineItemInput[]>([])
   const setup = useFactory()
@@ -45,8 +59,14 @@ const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
   const cartRef = useRef(bambuserCart)
   let addLineItemProxy = useCallback(
     (lineItem: CheckoutLineItemInput) => {
-      console.log('proxy addLineItem called')
-      return addLineItem(lineItem)
+      return bambuserLineItemsAdd([lineItem])
+    },
+    [isReady],
+  )
+
+  let updateLineItemProxy = useCallback(
+    (lineItem: CheckoutLineItemInput) => {
+      return bambuserLineItemsUpdate([lineItem])
     },
     [isReady],
   )
@@ -173,49 +193,54 @@ const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
         player.on(
           player.EVENT.UPDATE_ITEM_IN_CART,
           function (updatedItem, callback) {
-            console.log('>>>>> UPDATE_ITEM_IN_CART', updatedItem, callback)
-
             if (updatedItem.quantity > 0) {
-              if (cartRef.current.length > 0) {
-                updateCart(updatedItem)
-                callback(true)
-              }
+              // if (cartRef.current.length > 0) {
+              //   updateCart(updatedItem)
+              //   callback(true)
+              // }
+              console.log('>>>>> UPDATE_ITEM_IN_CART', updatedItem, callback)
 
-              // updateLineItem({
-              //   variantId: updatedItem.sku,
-              //   quantity: updatedItem.quantity,
-              // })
-              //   .then(() => {
-              //     // cart update was successful
-              //     callback(true)
-              //   })
-              //   .catch(function (error) {
-              //     if (error.type === 'out-of-stock') {
-              //       callback({
-              //         success: false,
-              //         reason: 'out-of-stock',
-              //       })
-              //     } else {
-              //       callback(false)
-              //     }
-              //   })
+              bambuserLineItemsUpdate([
+                {
+                  variantId: updatedItem.sku,
+                  quantity: updatedItem.quantity,
+                },
+              ])
+                .then(() => {
+                  // cart update was successful
+                  callback(true)
+                })
+                .catch(function (error) {
+                  console.log('>>>>', error)
+                  if (error.type === 'out-of-stock') {
+                    callback({
+                      success: false,
+                      reason: 'out-of-stock',
+                    })
+                  } else {
+                    callback(false)
+                  }
+                })
             }
           },
         )
 
         player.on(player.EVENT.CHECKOUT, async () => {
-          if (cartRef.current.length === 0) return
+          let bambuserCheckout: ShopifyStorefrontCheckout
 
-          //const checkout = await refCheckoutLineItemsAdd(cartRef.current)
-          console.log('>>>>>checkout ', checkout)
+          if (checkout) {
+            bambuserCheckout = checkout
+          } else {
+            bambuserCheckout = await bambuserFetchCheckout()
+          }
 
-          // console.log('>>>>> CHECKOUT', checkout)
-          // const webUrl = checkout?.webUrl
-          // if (webUrl) {
-          //   const { protocol, pathname, search } = new URL(webUrl)
-          //   const url: string = `${protocol}//${domain}${pathname}${search}`
-          //   window.location.href = url
-          // }
+          console.log('>>>>>checkout ', bambuserCheckout)
+          const webUrl = bambuserCheckout?.webUrl
+          if (webUrl) {
+            const { protocol, pathname, search } = new URL(webUrl)
+            const url: string = `${protocol}//${domain}${pathname}${search}`
+            window.location.href = url
+          }
         })
 
         player.on(player.EVENT.PROVIDE_PRODUCT_DATA, function (event) {
