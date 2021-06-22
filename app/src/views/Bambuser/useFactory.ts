@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 
 import {
+  Maybe,
   ShopifyProduct,
   ShopifySourceProduct,
   ShopifyProductVariant,
   ShopifyProductOption,
   ShopifySourceProductVariant,
+  ShopifyProductOptionValue,
 } from '../../types'
 
 const DELIMITER = ' / '
@@ -16,9 +18,24 @@ export const insideIframe = (): boolean => {
   return window !== window.parent
 }
 
-export const findVariant = (product: ShopifyProduct, vid: string) => {
+export const findVariant = (product: ShopifyProduct, key: string) => {
   return product?.variants?.find((variant) => {
-    return variant?.title === vid
+    return variant?.title === key
+  })
+}
+
+const findVariantById = (product: ShopifyProduct, key: string) => {
+  return product?.variants?.find((variant) => {
+    return variant?.shopifyVariantID === key
+  })
+}
+
+const findOptionIndex = (
+  options: Maybe<ShopifyProductOptionValue>[],
+  key: string,
+): number => {
+  return options.findIndex((element) => {
+    return element?.value === key
   })
 }
 
@@ -132,10 +149,10 @@ export const hydrate = (product: ShopifyProduct, v: any) => {
 }
 
 type Hook = {
-  (product: ShopifyProduct): T
+  (product: ShopifyProduct, handle: string, hash: string): T
 }
 const useFactory = (): Hook => {
-  return (product: ShopifyProduct) => {
+  return (product: ShopifyProduct, handle: string, hash: string) => {
     const description =
       product?.sourceData && product?.sourceData?.description
         ? product.sourceData.description
@@ -147,15 +164,37 @@ const useFactory = (): Hook => {
 
     const shopifyId = product.shopifyId
 
+    let index = 0
+    let title = product.title
+    let currentVariant = findVariantById(product, hash)
+
+    const colors = product?.options?.find((option) => {
+      return option?.name === 'Color'
+    })
+
+    if (currentVariant) {
+      let parts = currentVariant.title?.split(DELIMITER)
+
+      if (colors && colors.values) {
+        if (parts && parts?.length > 0) {
+          title = parts[0].trim()
+        }
+        if (title) {
+          index = findOptionIndex(colors.values, title)
+        }
+        index = index > -1 ? index : 0
+      }
+    }
+
     return function (factory) {
       return factory
         .currency(currency)
         .locale(LOCALE)
         .product((p) =>
           p
-            .defaultVariationIndex(0)
+            .defaultVariationIndex(index)
             .description(description)
-            .name(product.title)
+            .name(title)
             .sku(shopifyId)
             .variations((v) => hydrate(product, v)),
         )

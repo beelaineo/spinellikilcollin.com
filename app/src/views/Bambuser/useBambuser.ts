@@ -89,8 +89,8 @@ const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
   }
 
   useEffect(() => {
-    console.log('>>>>><<<< useEffect checkout cart', checkout)
-    //console.log('>>>>><<<< useEffect bambuser cart', bambuserCart)
+    // console.log('>>>>><<<< useEffect checkout cart', checkout)
+    // console.log('>>>>><<<< useEffect bambuser cart', bambuserCart)
   }, [checkout])
 
   useEffect(() => {
@@ -204,10 +204,9 @@ const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
         )
 
         player.on(player.EVENT.CHECKOUT, async () => {
-          console.log('>>>>.', cartRef.current)
           if (cartRef.current.length === 0) return
 
-          const checkout = await refCheckoutLineItemsAdd(cartRef.current)
+          //const checkout = await refCheckoutLineItemsAdd(cartRef.current)
           console.log('>>>>>checkout ', checkout)
 
           // console.log('>>>>> CHECKOUT', checkout)
@@ -220,17 +219,16 @@ const useBambuser = ({ addLineItem, checkout }: Props): Hook => {
         })
 
         player.on(player.EVENT.PROVIDE_PRODUCT_DATA, function (event) {
-          console.log('>>>>> PROVIDE_PRODUCT_DATA', event)
+          // console.log('>>>>> PROVIDE_PRODUCT_DATA', event)
 
           event.products.forEach(
             async ({ ref: sku, id: productId, url: publicUrl }) => {
-              //console.log('ref:', sku, 'id:', productId, 'url:', publicUrl)
-
               const hash = getLocationSearchHash(publicUrl)
-              const pid = getIdFromBase64(hash)
+              // const pid = getIdFromBase64(hash)
               const SHOPIFY_PRODUCT_URL_HANDLE_REGEX = /\/products\/(.[\w\d-+]+)/
-              let handle,
-                handles = SHOPIFY_PRODUCT_URL_HANDLE_REGEX.exec(publicUrl)
+              const handles = SHOPIFY_PRODUCT_URL_HANDLE_REGEX.exec(publicUrl)
+              let handle
+
               if (handles && handles.length === 2) {
                 handle = handles[1]
               }
