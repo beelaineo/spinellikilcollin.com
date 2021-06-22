@@ -97,19 +97,20 @@ export const hydrate = (product: ShopifyProduct, v: any) => {
   })
 
   if (colors && colors.values && colors.values.length > 0) {
+    const sizeValue =
+      sizes && sizes.values && sizes.values.length > 0
+        ? sizes.values[0]?.value
+        : ''
     return colors.values.map((color) => {
       let variant,
         key,
-        image: string[] = []
+        image: string[] = [],
+        colorValue = color?.value
 
-      const sizeValue =
-        sizes && sizes.values && sizes.values.length > 0
-          ? sizes.values[0]?.value
-          : ''
       if (colors && sizeValue) {
-        key = `${color?.value}${DELIMITER}${sizeValue}`
+        key = `${colorValue}${DELIMITER}${sizeValue}`
       } else {
-        key = `${color?.value}${sizeValue}`
+        key = `${colorValue}${sizeValue}`
       }
       variant = findVariant(product, key)
 
@@ -118,16 +119,17 @@ export const hydrate = (product: ShopifyProduct, v: any) => {
       }
 
       return v()
-        .attributes((a) => a.colorName(color?.value))
+        .attributes((a) => a.colorName(colorValue))
         .imageUrls(image)
         .sku(variant.shopifyVariantID)
-        .name(color?.value)
-        .sizes((s) => hydrateSize(product, s, color?.value))
+        .name(colorValue)
+        .sizes((s) => hydrateSize(product, s, colorValue))
     })
   } else {
     let variant,
       key,
-      image: string[] = []
+      image: string[] = [],
+      colorValue = 'No Color Option'
     if (sizes) {
       key =
         sizes && sizes.values && sizes.values.length > 0
@@ -141,7 +143,7 @@ export const hydrate = (product: ShopifyProduct, v: any) => {
     return [
       v()
         .sku(variant.shopifyVariantID)
-        .name('No Color Option')
+        .name(colorValue)
         .imageUrls(image)
         .sizes((s) => hydrateSize(product, s)),
     ]
