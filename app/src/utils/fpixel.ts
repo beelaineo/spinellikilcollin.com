@@ -2,6 +2,7 @@ import { getLocationSearchHash } from './links'
 import { getIdFromBase64 } from './parsing'
 
 import { config } from '../../src/config'
+import { ShopifyProduct } from '../types'
 const { FB_PRDOUCT_CATALOG_ID } = config
 
 export const pageview = () => {
