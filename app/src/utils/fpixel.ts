@@ -48,8 +48,8 @@ export const reportFBViewContent = (product: ShopifyProduct): void => {
     }
 
     let variants = product.variants
-    let variant = variants.find((v) => {
-      return v.shopifyVariantID === hash
+    let variant = variants?.find((v) => {
+      return v?.shopifyVariantID === hash
     })
 
     if (variant && variant.sourceData) {
@@ -66,7 +66,7 @@ export const reportFBViewContent = (product: ShopifyProduct): void => {
 
       if (variant.sourceData.priceV2) {
         if (variant.sourceData.priceV2.amount) {
-          template['value'] = variant.sourceData.priceV2.amount
+          template['value'] = parseFloat(variant.sourceData.priceV2.amount)
         }
         if (variant.sourceData.priceV2.currencyCode) {
           template['currency'] = variant.sourceData.priceV2.currencyCode
