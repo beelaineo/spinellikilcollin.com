@@ -59,7 +59,7 @@ export const reportFBViewContent = (product: ShopifyProduct): void => {
         variant.sourceData.selectedOptions.length
       ) {
         variant.sourceData.selectedOptions.forEach((o) => {
-          contentName = `${contentName} - ${o.name}:${o.value}`
+          contentName = `${contentName} - ${o?.name}:${o?.value}`
         })
         template['content_name'] = contentName
       }
