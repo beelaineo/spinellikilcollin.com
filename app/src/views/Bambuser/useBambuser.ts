@@ -176,16 +176,18 @@ const useBambuser = ({
                 callback(true) // item successfully added to cart
               })
               .catch((error) => {
-                if (error.type === 'out-of-stock') {
-                  // Unsuccessful due to 'out of stock'
-                  callback({
-                    success: false,
-                    reason: 'out-of-stock',
-                  })
-                } else {
-                  // Unsuccessful due to other problems
-                  callback(false)
-                }
+                console.log(error)
+                callback(false)
+                // if (error.type === 'out-of-stock') {
+                //   // Unsuccessful due to 'out of stock'
+                //   callback({
+                //     success: false,
+                //     reason: 'out-of-stock',
+                //   })
+                // } else {
+                //   // Unsuccessful due to other problems
+                //   callback(false)
+                // }
               })
           },
         )
