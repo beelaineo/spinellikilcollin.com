@@ -159,7 +159,7 @@ const useBambuser = ({
         player.on(
           player.EVENT.ADD_TO_CART,
           async (addedItem: BambuserLineItem, callback) => {
-            console.log('>>>>> ADD_TO_CART', addedItem, callback)
+            // console.log('>>>>> ADD_TO_CART', addedItem, callback)
 
             // addToCart({
             //   variantId: addedItem.sku,
