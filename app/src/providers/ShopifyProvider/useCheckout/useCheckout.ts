@@ -303,11 +303,34 @@ export const useCheckout = ({
    * Due to the issue when calls initiated from Bambuser callback these are alternative methods
    */
 
-  const bambuserFetchCheckout = async (): Promise<ShopifyStorefrontCheckout> => {
+  const bambuserCheckoutCreate = async (
+    variables?: CheckoutCreateInput,
+  ): Promise<ShopifyStorefrontCheckout> => {
+    const result = await query<CheckoutCreateResponse, CheckoutCreateInput>(
+      CHECKOUT_CREATE,
+      variables || {},
+    )
+
+    const { checkoutCreate: checkoutCreateResponse } = result.data
+
+    return new Promise(async (resolve, reject) => {
+      if (checkoutCreateResponse.checkout) {
+        setViewerCartCookie(checkoutCreateResponse.checkout.id)
+        dispatch({ type: CREATED_CHECKOUT, ...checkoutCreateResponse })
+        resolve(checkoutCreateResponse as ShopifyStorefrontCheckout)
+      } else {
+        reject(undefined)
+      }
+    })
+  }
+
+  const bambuserFetchCheckout = async (): Promise<
+    ShopifyStorefrontCheckout | undefined
+  > => {
     const checkoutToken = getViewerCartCookie()
     let checkout
 
-    return new Promise(async (resolve, reject) => {
+    return new Promise(async (resolve, _) => {
       if (checkoutToken) {
         /* If a token exists, fetch it from Shopify */
         const variables = { id: checkoutToken }
@@ -322,17 +345,16 @@ export const useCheckout = ({
         /* When no token exists, dispatch this to set "loading" to false. */
         /* This might deserve its own action type, "NOTHING_TO_FETCH" */
         dispatch({ type: FETCHED_CHECKOUT, checkout: undefined })
-        reject(undefined)
+        resolve(undefined)
       }
     })
   }
 
   const bambuserLineItemsAdd = async (lineItems: CheckoutLineItemInput[]) => {
     let checkout = await bambuserFetchCheckout()
+
     if (!checkout) {
-      throw new Error(
-        'checkoutLineItemsAdd was called before a checkout was created.',
-      )
+      checkout = await bambuserCheckoutCreate()
     }
     dispatch({ type: STARTED_REQUEST })
 

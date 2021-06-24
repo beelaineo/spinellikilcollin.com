@@ -171,12 +171,11 @@ const useBambuser = ({
               variantId: addedItem.sku,
               quantity: 1,
             })
-              .then((checkout) => {
-                console.log('>><<<< checkout', checkout)
+              .then(() => {
                 callback(true) // item successfully added to cart
               })
               .catch((error) => {
-                console.log(error)
+                console.log('>>>> error:', error)
                 callback(false)
                 // if (error.type === 'out-of-stock') {
                 //   // Unsuccessful due to 'out of stock'
