@@ -87,7 +87,11 @@ export const hydrateSize = (
   }
 }
 
-export const hydrate = (product: ShopifyProduct, v: any) => {
+export const hydrate = (
+  product: ShopifyProduct,
+  selectedIndex: number,
+  v: any,
+) => {
   const colors = product?.options?.find((option) => {
     return option?.name === 'Color'
   })
@@ -101,7 +105,10 @@ export const hydrate = (product: ShopifyProduct, v: any) => {
       sizes && sizes.values && sizes.values.length > 0
         ? sizes.values[0]?.value
         : ''
-    return colors.values.map((color) => {
+    const selected = colors.values.filter((_, index) => {
+      return index === selectedIndex
+    })
+    return selected.map((color) => {
       let variant,
         key,
         image: string[] = [],
@@ -194,11 +201,11 @@ const useFactory = (): Hook => {
         .locale(LOCALE)
         .product((p) =>
           p
-            .defaultVariationIndex(index)
+            .defaultVariationIndex(0)
             .description(description)
             .name(title)
             .sku(shopifyId)
-            .variations((v) => hydrate(product, v)),
+            .variations((v) => hydrate(product, index, v)),
         )
     }
   }
