@@ -317,7 +317,7 @@ export const useCheckout = ({
       if (checkoutCreateResponse.checkout) {
         setViewerCartCookie(checkoutCreateResponse.checkout.id)
         dispatch({ type: CREATED_CHECKOUT, ...checkoutCreateResponse })
-        resolve(checkoutCreateResponse as ShopifyStorefrontCheckout)
+        resolve(checkoutCreateResponse.checkout as ShopifyStorefrontCheckout)
       } else {
         reject(undefined)
       }
