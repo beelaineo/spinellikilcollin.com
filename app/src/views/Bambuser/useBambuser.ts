@@ -226,20 +226,20 @@ const useBambuser = ({
         )
 
         player.on(player.EVENT.CHECKOUT, async () => {
-          let bambuserCheckout: ShopifyStorefrontCheckout
+          let bambuserCheckout: ShopifyStorefrontCheckout | undefined
 
           if (checkout) {
             bambuserCheckout = checkout
           } else {
             bambuserCheckout = await bambuserFetchCheckout()
           }
-
-          console.log('>>>>>checkout ', bambuserCheckout)
-          const webUrl = bambuserCheckout?.webUrl
-          if (webUrl) {
-            const { protocol, pathname, search } = new URL(webUrl)
-            const url: string = `${protocol}//${domain}${pathname}${search}`
-            window.location.href = url
+          if (bambuserCheckout) {
+            const webUrl = bambuserCheckout?.webUrl
+            if (webUrl) {
+              const { protocol, pathname, search } = new URL(webUrl)
+              const url: string = `${protocol}//${domain}${pathname}${search}`
+              window.location.href = url
+            }
           }
         })
 
