@@ -157,10 +157,10 @@ export const hydrate = (
   }
 }
 
-type Hook = {
-  (product: ShopifyProduct, handle: string, hash: string): T
-}
-const useFactory = (): Hook => {
+// type Hook = {
+//   (product: ShopifyProduct, handle: string, hash: string)
+// }
+const useFactory = () => {
   return (product: ShopifyProduct, handle: string, hash: string) => {
     const description =
       product?.sourceData && product?.sourceData?.description
