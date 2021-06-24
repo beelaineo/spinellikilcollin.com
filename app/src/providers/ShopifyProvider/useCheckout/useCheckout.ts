@@ -83,7 +83,7 @@ export interface UseCheckoutValues extends CheckoutState {
   /* Bambuser Methods */
   bambuserLineItemsAdd: (lineItems: CheckoutLineItemInput[]) => Promise<void>
   bambuserLineItemsUpdate: (lineItems: CheckoutLineItemInput[]) => Promise<void>
-  bambuserFetchCheckout: () => Promise<ShopifyStorefrontCheckout>
+  bambuserFetchCheckout: () => Promise<ShopifyStorefrontCheckout | undefined>
 
   /* Shortcut Methods */
   addLineItem: (lineItem: CheckoutLineItemInput) => Promise<void>
