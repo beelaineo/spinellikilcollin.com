@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { ReactNode } from 'react'
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import {
   getColor,
@@ -107,9 +107,10 @@ const HeroImageWrapper = styled.div`
 
 interface HeroBlockProps {
   hero: Hero
+  children?: ReactNode
 }
 
-export const HeroBlock = ({ hero }: HeroBlockProps) => {
+export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
   const {
     textPosition,
     textColor,
@@ -145,9 +146,13 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
           textPositionMobile={textPositionMobile}
           textColorMobile={textColorMobile}
         >
-          <div className="text-container">
-            <RichText body={bodyRaw} />
-          </div>
+          {children ? (
+            <>{children}</>
+          ) : (
+            <div className="text-container">
+              <RichText body={bodyRaw} />
+            </div>
+          )}
         </HeroText>
       </DocumentLink>
     </HeroWrapper>
