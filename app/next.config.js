@@ -30,6 +30,8 @@ const FB_PIXEL_ID = process.env.FB_PIXEL_ID
 const FB_PRDOUCT_CATALOG_ID = process.env.FB_PRDOUCT_CATALOG_ID
 const BAMBUSER_SCRIPT = process.env.BAMBUSER_SCRIPT
 const BAMBUSER_SHOWID = process.env.BAMBUSER_SHOWID
+const BAMBUSER_SLUG = process.env.BAMBUSER_SLUG
+const BAMBUSER_AUTOPLAY = process.env.BAMBUSER_AUTOPLAY
 
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
@@ -53,6 +55,8 @@ module.exports = withSourceMaps(
       FB_PRDOUCT_CATALOG_ID,
       BAMBUSER_SCRIPT,
       BAMBUSER_SHOWID,
+      BAMBUSER_SLUG,
+      BAMBUSER_AUTOPLAY,
     },
     serverRuntimeConfig: {
       PROJECT_ROOT: __dirname,
