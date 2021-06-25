@@ -8,7 +8,7 @@ const BambuserSample = ({}: BambuserViewProps) => {
   return (
     <>
       <PageWrapper>
-        <BambuserView />
+        <BambuserView autoPlay={false} copy="Launch Player" />
       </PageWrapper>
     </>
   )

@@ -1,9 +1,9 @@
-import React, { useEffect, useCallback } from 'react'
-import useBambuser from './useBambuser'
+import React, { useEffect, ReactNode } from 'react'
+import styled from '@xstyled/styled-components'
 import { config } from '../../../src/config'
 const { BAMBUSER_SHOWID } = config
 import { useShopify } from '../../providers'
-import { CheckoutLineItemInput } from '../../providers/ShopifyProvider/types'
+import useBambuser from './useBambuser'
 
 export const INIT = 'initBambuserLiveShopping'
 export const READY = 'onBambuserLiveShoppingReady'
@@ -17,7 +17,23 @@ export type ShowType = {
 
 const ID = 'bambuser-liveshopping'
 const showId = BAMBUSER_SHOWID
-const BambuserView = () => {
+const CTA_COPY = 'Join show now'
+interface BambuserProps {
+  autoPlay?: boolean
+  copy?: string
+  children?: ReactNode
+}
+
+const ButtonWrapper = styled.button`
+  color: inherit;
+  pointer-events: auto;
+
+  &.hidden {
+    display: none;
+  }
+`
+
+const BambuserView = ({ autoPlay, copy, children }: BambuserProps) => {
   const {
     bambuserLineItemsAdd,
     bambuserLineItemsUpdate,
@@ -32,36 +48,30 @@ const BambuserView = () => {
     checkoutLineItemsUpdate,
     checkout,
   })
-  // const clickHandler = async (event) => {
-  //   await addLineItem({
-  //     variantId: 'Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMjAyNDM3NDU3NTIwMg==',
-  //     quantity: 1,
-  //   })
-  // }
+  let ctaCopy = copy ? copy : CTA_COPY
 
   useEffect(() => {
     if (isReady) {
+      let show: ShowType
       const node = document.getElementById(ID)
       if (node && BAMBUSER_SHOWID) {
-        addShow({
+        show = {
           showId,
-          node,
           type: 'overlay',
-        })
+        }
+        if (!autoPlay) {
+          show.node = node
+        }
+        addShow(show)
       }
-      // auto play
-      // if (BAMBUSER_SHOWID) {
-      //   addShow({
-      //     showId,
-      //     type: 'overlay',
-      //   })
-      // }
     }
   }, [isReady])
 
   return (
     <>
-      <button id={ID}>Join show now</button>
+      <ButtonWrapper id={ID} className={autoPlay ? 'hidden' : ''}>
+        {children ? <>{children}</> : ctaCopy}
+      </ButtonWrapper>
     </>
   )
 }
