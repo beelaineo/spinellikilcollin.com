@@ -36,11 +36,25 @@ export const productOptionValue = {
 export const product = {
   fields: [
     {
-      title: 'Hidden',
+      title: 'Hidden (deprecated)',
       name: 'hidden',
       type: 'boolean',
       description:
-        'Toggle this to ON to hide this product from collection pages & search results. The product will still be viewable at its URL',
+        'DEPRECATED: This has been split up into "Hide from Collections" and "Hide from Search"',
+    },
+    {
+      title: 'Hide from Collections',
+      name: 'hideFromCollections',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL',
+    },
+    {
+      title: 'Hide from Search',
+      name: 'hideFromSearch',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide this product from search results. The product will still be viewable at its URL',
     },
     {
       title: 'Inquiry Only',
