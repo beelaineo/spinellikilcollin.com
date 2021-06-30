@@ -199,6 +199,7 @@ export const useSearchReducer = () => {
       hitsPerPage: 100,
       typoTolerance: 'min',
       exactOnSingleWordQuery: 'word',
+      filters: `hideFromSearch:false`,
     })
     const results = hits
       .map((hit) => hit.document)
