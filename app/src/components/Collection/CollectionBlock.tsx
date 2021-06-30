@@ -96,6 +96,11 @@ export const CollectionBlock = ({
     backgroundColor,
     cloudinaryVideo,
   } = collectionBlock
+  console.log(format)
+  const imageSizes =
+    format === 'wide'
+      ? '(max-width: 1000px) 120vw, 75vw'
+      : '(max-width: 600px) 120vw, (max-width: 780px) 120vw, (max-width: 1000px) 50vw, 40vw'
   return (
     <Wrapper
       backgroundColor={backgroundColor}
@@ -109,10 +114,7 @@ export const CollectionBlock = ({
       ) : null}
       <Padding format={format} />
       {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
-      <Image
-        image={backgroundImage}
-        sizes="(max-width: 600px) 120vw, (max-width: 780px) 50vw, 30vw"
-      />
+      <Image image={backgroundImage} sizes={imageSizes} />
     </Wrapper>
   )
 }
