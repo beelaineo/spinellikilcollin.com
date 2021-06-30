@@ -443,6 +443,8 @@ export const heroFragment = gql`
     textColor
     textPosition
     textPositionMobile
+    backgroundColor
+    backgroundColorMobile
     aspectRatio
     heroLink {
       ...InternalLinkFragment
