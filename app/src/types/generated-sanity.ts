@@ -57,16 +57,17 @@ export type AboutFilter = {
 }
 
 export type AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage =
-  | About
-  | Contact
-  | Customize
-  | JournalEntry
-  | JournalPage
-  | Magazine
-  | Page
-  | ShopifyCollection
-  | ShopifyProduct
-  | TeamPage
+
+    | About
+    | Contact
+    | Customize
+    | JournalEntry
+    | JournalPage
+    | Magazine
+    | Page
+    | ShopifyCollection
+    | ShopifyProduct
+    | TeamPage
 
 export type AboutSorting = {
   _id?: Maybe<SortOrder>

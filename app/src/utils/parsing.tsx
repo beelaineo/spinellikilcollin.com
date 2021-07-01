@@ -34,7 +34,8 @@ const wrapBareText = (text: string) =>
     .replace(/^(?!<)(.*)(<\/\w+>)?/gm, '<span>$1</span>')
     .replace('<span></span>', '')
 
-const internalUrlRegex = /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
+const internalUrlRegex =
+  /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
 
 const parser = new HTMLParser()
 

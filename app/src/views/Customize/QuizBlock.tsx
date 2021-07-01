@@ -36,7 +36,7 @@ interface QuizBlockProps {
 export const QuizBlock = ({ quizBlock }: QuizBlockProps) => {
   const { title, subtitle, image } = quizBlock
   const pageLink = {
-    __typename: 'PageLink' as 'PageLink',
+    __typename: 'PageLink' as const,
     image,
     title,
     summary: subtitle,

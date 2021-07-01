@@ -205,12 +205,10 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
     dispatch({ type: DISABLE, setKey, matchKey })
   const toggle = (setKey: string) => (matchKey: string) => () =>
     dispatch({ type: TOGGLE, setKey, matchKey })
-  const setValues = (setKey: string) => (
-    matchKey: string,
-    values: FilterValues,
-  ) => {
-    dispatch({ type: SET_VALUES, setKey, matchKey, values })
-  }
+  const setValues =
+    (setKey: string) => (matchKey: string, values: FilterValues) => {
+      dispatch({ type: SET_VALUES, setKey, matchKey, values })
+    }
   return {
     filterSetStates,
     resetAll,

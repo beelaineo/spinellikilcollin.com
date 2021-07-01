@@ -20,9 +20,8 @@ import {
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { Sentry } from '../../src/services/sentry'
 import { viewContent } from '../../src/utils/fpixel'
-import { config  } from '../../src/config'
+import { config } from '../../src/config'
 const { FB_PRDOUCT_CATALOG_ID } = config
-
 
 interface ProductQueryResult {
   productByHandle: ShopifyProduct
@@ -124,16 +123,15 @@ interface ProductPageProps {
 
 const Product = ({ product }: ProductPageProps) => {
   React.useEffect(() => {
-
-    let content_ids:string[] = []
+    const content_ids: string[] = []
 
     const productId = getProductIdLocationSearch(window.location.search)
-    if ( productId ) {
+    if (productId) {
       content_ids.push(productId)
       viewContent({
         contents: content_ids,
         content_type: 'product',
-        product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`
+        product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`,
       })
     }
   }, [])

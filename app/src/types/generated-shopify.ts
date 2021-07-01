@@ -3308,22 +3308,25 @@ export type ShopifyStorefrontMutationCheckoutCompleteWithCreditCardV2Args = {
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
-export type ShopifyStorefrontMutationCheckoutCompleteWithTokenizedPaymentArgs = {
-  checkoutId: Scalars['ID']
-  payment: ShopifyStorefrontTokenizedPaymentInput
-}
+export type ShopifyStorefrontMutationCheckoutCompleteWithTokenizedPaymentArgs =
+  {
+    checkoutId: Scalars['ID']
+    payment: ShopifyStorefrontTokenizedPaymentInput
+  }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
-export type ShopifyStorefrontMutationCheckoutCompleteWithTokenizedPaymentV2Args = {
-  checkoutId: Scalars['ID']
-  payment: ShopifyStorefrontTokenizedPaymentInputV2
-}
+export type ShopifyStorefrontMutationCheckoutCompleteWithTokenizedPaymentV2Args =
+  {
+    checkoutId: Scalars['ID']
+    payment: ShopifyStorefrontTokenizedPaymentInputV2
+  }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
-export type ShopifyStorefrontMutationCheckoutCompleteWithTokenizedPaymentV3Args = {
-  checkoutId: Scalars['ID']
-  payment: ShopifyStorefrontTokenizedPaymentInputV3
-}
+export type ShopifyStorefrontMutationCheckoutCompleteWithTokenizedPaymentV3Args =
+  {
+    checkoutId: Scalars['ID']
+    payment: ShopifyStorefrontTokenizedPaymentInputV3
+  }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type ShopifyStorefrontMutationCheckoutCreateArgs = {
@@ -3453,9 +3456,10 @@ export type ShopifyStorefrontMutationCustomerAccessTokenCreateArgs = {
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
-export type ShopifyStorefrontMutationCustomerAccessTokenCreateWithMultipassArgs = {
-  multipassToken: Scalars['String']
-}
+export type ShopifyStorefrontMutationCustomerAccessTokenCreateWithMultipassArgs =
+  {
+    multipassToken: Scalars['String']
+  }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type ShopifyStorefrontMutationCustomerAccessTokenDeleteArgs = {
