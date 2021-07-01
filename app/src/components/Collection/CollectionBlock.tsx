@@ -96,7 +96,6 @@ export const CollectionBlock = ({
     backgroundColor,
     cloudinaryVideo,
   } = collectionBlock
-  console.log(format)
   const imageSizes =
     format === 'wide'
       ? '(max-width: 1000px) 120vw, 75vw'

@@ -20,7 +20,7 @@ interface SelectWrapperProps {
   visible: boolean
 }
 
-const ButtonWrapper = styled.div<ButtonWrapperProps>`
+const ButtonWrapper = styled.div`
   margin: 0 1;
   display: flex;
   align-items: center;
