@@ -24,6 +24,8 @@ export interface FormValues {
   email: string
   phone: string
   notes: string
+  phoneCountryCode: string
+  dialingCode: string
 }
 
 const initialValues: FormValues = {
@@ -33,6 +35,8 @@ const initialValues: FormValues = {
   email: '',
   phone: '',
   notes: '',
+  phoneCountryCode: 'US',
+  dialingCode: '',
 }
 
 const formId = 'a50b3513-a12c-49fd-88c0-60f0cb4cb6ef'

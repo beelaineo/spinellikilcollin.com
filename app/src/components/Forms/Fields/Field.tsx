@@ -13,6 +13,7 @@ import { TextArea } from './TextArea'
 import { NumberInput } from './Number'
 import { Select } from './Select'
 import { Label, FieldWrapper } from './styled'
+import { PhoneField } from '../CustomFields/PhoneField'
 import { countryOptions } from '../CustomFields/countryOptions'
 
 /**
@@ -30,6 +31,8 @@ export type WithFormik<T> = T & {
   formik: FormikFieldProps
 }
 
+export type Mask = Array<string | RegExp>
+
 export interface FieldProps {
   label?: string | React.ReactNode
   name: string
@@ -44,6 +47,7 @@ export interface FieldProps {
   color?: string
   options?: Option[]
   validate?: FieldValidator
+  mask?: Mask
   /* eslint-disable-next-line */
   onChange?: (e: React.ChangeEvent<any>) => void
   readOnly?: boolean
@@ -73,6 +77,8 @@ export const Field = (fieldProps: FieldProps) => {
         return <Select options={countryOptions} {...fieldProps} />
       case 'textarea':
         return <TextArea {...fieldProps} />
+      case 'tel':
+        return <PhoneField {...fieldProps} />
       default:
         return <Input {...fieldProps} />
     }
