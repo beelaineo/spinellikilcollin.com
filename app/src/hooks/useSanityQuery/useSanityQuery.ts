@@ -67,7 +67,7 @@ type Variables = Record<string, string | number | boolean>
 
 export const useSanityQuery = <
   R extends Document[] = Document[],
-  V extends Variables = Variables
+  V extends Variables = Variables,
 >() => {
   const { handleError } = useError()
   const [sanityClient, setSanityClient] = useState<SanityClient | null>(null)

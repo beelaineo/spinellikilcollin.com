@@ -5,12 +5,7 @@ import {
   LoopChildContainer,
   LoopButtonContainer,
 } from './styled'
-import {
-  CLONE_OFFSET,
-  DEFAULT_TRANSITION,
-  DEFAULT_INTERVAL,
-  useLoopReducer,
-} from './reducer'
+import { CLONE_OFFSET, DEFAULT_INTERVAL, useLoopReducer } from './reducer'
 import LeftArrowLong from '../../svg/LeftArrowLong.svg'
 import RightArrowLong from '../../svg/RightArrowLong.svg'
 
