@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { ShopifyProduct } from '../../types'
+import { ShopifyProduct, ShopifySourceImage } from '../../types'
 import {
   getVariantTitle,
   parseHTML,
@@ -179,8 +179,8 @@ export const ProductDetail = ({ product }: Props) => {
     title: getVariantTitle(product, currentVariant),
     image:
       currentVariant?.sourceData?.image ?? images.length
-        ? images[0]
-        : undefined,
+        ? (currentVariant?.sourceData?.image as ShopifySourceImage)
+        : images[0],
   }
 
   if (!handle) throw new Error('No handle fetched')

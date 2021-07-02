@@ -31,9 +31,10 @@ const BASE_URL = 'https://www.spinellikilcollin.com'
 
 interface ProductSEOProps {
   product: ShopifyProduct
+  defaultSeo: DefaultSeo
 }
 
-const ProductSEO = ({ product }: ProductSEOProps) => {
+const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
   const { minVariantPrice } = product
   const formattedPrice = minVariantPrice
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
@@ -42,11 +43,15 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
     : undefined
 
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
-  let id, description
+  let id, description, productType, imageSrc
 
   if (product && product.sourceData) {
     if (product.sourceData.description) {
       description = product.sourceData.description
+    }
+
+    if (product.sourceData.productType) {
+      productType = product.sourceData.productType
     }
 
     if (typeof window !== 'undefined' && window.location.search) {
@@ -55,6 +60,21 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
         id = productId
       }
     }
+  }
+
+  if (defaultSeo?.image) {
+    const image = defaultSeo?.image as ShopifySourceImage
+    imageSrc = image.w100
+  }
+
+  // This is used for Bambuser scraper
+  const ldJson = {
+    '@type': 'Product',
+    '@context': 'http://schema.org/',
+    name: defaultSeo.title,
+    description: description,
+    brand: { '@type': productType },
+    image: imageSrc,
   }
 
   return (
@@ -66,6 +86,10 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
       <meta property="product:price:currency" content="USD" />
       <meta property="og:price:amount" content={formattedPrice} />
       <meta property="og:price:currency" content="USD" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+      />
     </Head>
   )
 }
@@ -142,7 +166,7 @@ export const SEO = ({
       </Head>
 
       {contentType === 'product' && product ? (
-        <ProductSEO product={product} />
+        <ProductSEO product={product} defaultSeo={defaultSeo} />
       ) : null}
     </>
   )
