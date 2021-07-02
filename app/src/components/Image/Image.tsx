@@ -88,8 +88,13 @@ export const Image = ({
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
 
-  const { caption, src, altText: cmsAltText, srcSet, srcSetWebp } =
-    imageDetails || {}
+  const {
+    caption,
+    src,
+    altText: cmsAltText,
+    srcSet,
+    srcSetWebp,
+  } = imageDetails || {}
 
   const altText = customAltText || cmsAltText
   const hoverDetails = React.useMemo(

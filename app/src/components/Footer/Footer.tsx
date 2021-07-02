@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaFacebookF, FaYoutube, FaTwitter, FaPinterest } from 'react-icons/fa'
 import { TiSocialInstagram } from 'react-icons/ti'
@@ -9,7 +10,9 @@ import { NewsletterSignup } from './NewsletterSignup'
 import {
   Socials,
   FooterWrapper,
+  HomepageLink,
   FooterInner,
+  FooterRight,
   FooterInnerLower,
   FooterLinks,
 } from './styled'
@@ -38,10 +41,30 @@ export const Footer = () => {
           )}
         </FooterLinks>
         <div />
-        <NewsletterSignup
-          mailerTitle={mailerTitle}
-          mailerSubtitle={mailerSubtitle}
-        />
+        <FooterRight>
+          <NewsletterSignup
+            mailerTitle={mailerTitle}
+            mailerSubtitle={mailerSubtitle}
+          />
+          <HomepageLink isMobile={false}>
+            <Heading m={0} level={4}>
+              <Link href="/">
+                <a>
+                  → <em>Return</em> to the Homepage
+                </a>
+              </Link>
+            </Heading>
+          </HomepageLink>
+        </FooterRight>
+        <HomepageLink isMobile={true}>
+          <Heading m={0} level={4}>
+            <Link href="/">
+              <a>
+                → <em>Return</em> to the Homepage
+              </a>
+            </Link>
+          </Heading>
+        </HomepageLink>
       </FooterInner>
       <FooterInnerLower>
         <Socials>

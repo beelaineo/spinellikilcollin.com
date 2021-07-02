@@ -57,12 +57,11 @@ export const ProductOptionSelector = ({
     selectOption(value)
   }
 
-  const handleSwatchClick = (
-    option: ShopifyProductOption,
-    { value }: ShopifyProductOptionValue,
-  ) => () => {
-    if (value) selectOption(value)
-  }
+  const handleSwatchClick =
+    (option: ShopifyProductOption, { value }: ShopifyProductOptionValue) =>
+    () => {
+      if (value) selectOption(value)
+    }
 
   const isSwatchActive = (
     option: ShopifyProductOption,

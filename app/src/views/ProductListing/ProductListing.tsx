@@ -66,10 +66,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [
-    currentFilter,
-    setCurrentFilter,
-  ] = useState<FilterConfiguration | null>(null)
+  const [currentFilter, setCurrentFilter] =
+    useState<FilterConfiguration | null>(null)
   const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
     ShopifyCollection[] | ShopifyProduct[],
     PaginationArgs

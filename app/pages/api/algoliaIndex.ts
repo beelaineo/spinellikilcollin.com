@@ -110,6 +110,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
           objectID: doc._id,
           type: doc._type,
           hidden: Boolean(doc.hidden),
+          hideFromSearch: Boolean(doc.hideFromSearch),
           description: doc?.sourceData?.description,
           optionDescriptions: doc?.options?.reduce<string[]>(
             (descriptions, option) => {
@@ -144,6 +145,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
               'title',
               'handle',
               'hidden',
+              'hideFromSearch',
               'shopifyId',
               'minVariantPrice',
               'maxVariantPrice',

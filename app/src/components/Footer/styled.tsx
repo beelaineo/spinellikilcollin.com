@@ -178,3 +178,26 @@ export const Socials = styled.div`
     }
   `}
 `
+
+export const FooterRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`
+
+interface HomepageLinkProps {
+  isMobile: boolean
+}
+
+export const HomepageLink = styled.div<HomepageLinkProps>`
+  ${({ isMobile, theme }) => css`
+    display: ${isMobile ? 'none' : 'block'};
+    font-weight: 2;
+
+    ${theme.mediaQueries.mobile} {
+      display: ${isMobile ? 'block' : 'none'};
+      order: 3;
+      padding: 7 5 0;
+    }
+  `}
+`

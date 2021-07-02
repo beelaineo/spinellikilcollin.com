@@ -102,18 +102,16 @@ export const ProductThumbnail = ({
     e.preventDefault()
   }
 
-  const onSwatchHover = (
-    option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
-  ) => () => {
-    if (!value.value) return
-    const currentSelection = {
-      name: option.name || 'foo',
-      currentValue: value.value,
+  const onSwatchHover =
+    (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
+      if (!value.value) return
+      const currentSelection = {
+        name: option.name || 'foo',
+        currentValue: value.value,
+      }
+      const newVariant = getVariantBySelectedOption(variants, currentSelection)
+      if (newVariant) setCurrentVariant(newVariant)
     }
-    const newVariant = getVariantBySelectedOption(variants, currentSelection)
-    if (newVariant) setCurrentVariant(newVariant)
-  }
 
   const isSwatchActive = (
     option: ShopifyProductOption,

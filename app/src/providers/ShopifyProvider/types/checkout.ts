@@ -25,7 +25,8 @@ export type Checkout = ShopifyStorefrontCheckout
 export type MailingAddressInput = ShopifyStorefrontMailingAddressInput
 export type AttributeInput = ShopifyStorefrontAttributeInput
 export type CheckoutLineItemInput = ShopifyStorefrontCheckoutLineItemInput
-export type CheckoutLineItemUpdateInput = ShopifyStorefrontCheckoutLineItemUpdateInput
+export type CheckoutLineItemUpdateInput =
+  ShopifyStorefrontCheckoutLineItemUpdateInput
 export type UserError = ShopifyStorefrontUserError
 
 export type CheckoutResponse<Key extends string> = {

@@ -57,16 +57,17 @@ export type AboutFilter = {
 }
 
 export type AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage =
-  | About
-  | Contact
-  | Customize
-  | JournalEntry
-  | JournalPage
-  | Magazine
-  | Page
-  | ShopifyCollection
-  | ShopifyProduct
-  | TeamPage
+
+    | About
+    | Contact
+    | Customize
+    | JournalEntry
+    | JournalPage
+    | Magazine
+    | Page
+    | ShopifyCollection
+    | ShopifyProduct
+    | TeamPage
 
 export type AboutSorting = {
   _id?: Maybe<SortOrder>
@@ -1500,31 +1501,31 @@ export interface RichImage {
   __typename: 'RichImage'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  caption?: Maybe<Scalars['String']>
-  /** A short description of the image. Helps with accessibility and SEO */
-  altText?: Maybe<Scalars['String']>
   asset?: Maybe<SanityImageAsset>
   hotspot?: Maybe<SanityImageHotspot>
   crop?: Maybe<SanityImageCrop>
+  caption?: Maybe<Scalars['String']>
+  /** A short description of the image. Helps with accessibility and SEO */
+  altText?: Maybe<Scalars['String']>
 }
 
 export type RichImageFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
-  caption?: Maybe<StringFilter>
-  altText?: Maybe<StringFilter>
   asset?: Maybe<SanityImageAssetFilter>
   hotspot?: Maybe<SanityImageHotspotFilter>
   crop?: Maybe<SanityImageCropFilter>
+  caption?: Maybe<StringFilter>
+  altText?: Maybe<StringFilter>
 }
 
 export type RichImageSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  caption?: Maybe<SortOrder>
-  altText?: Maybe<SortOrder>
   hotspot?: Maybe<SanityImageHotspotSorting>
   crop?: Maybe<SanityImageCropSorting>
+  caption?: Maybe<SortOrder>
+  altText?: Maybe<SortOrder>
 }
 
 export interface RichPageLink {
@@ -2321,11 +2322,12 @@ export interface ShopifyProduct extends Document {
   collections?: Maybe<Array<Maybe<ShopifyCollection>>>
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>
   variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
-  /**
-   * Toggle this to ON to hide this product from collection pages & search results.
-   * The product will still be viewable at its URL
-   */
+  /** DEPRECATED: This has been split up into "Hide from Collections" and "Hide from Search" */
   hidden?: Maybe<Scalars['Boolean']>
+  /** Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL */
+  hideFromCollections?: Maybe<Scalars['Boolean']>
+  /** Toggle this to ON to hide this product from search results. The product will still be viewable at its URL */
+  hideFromSearch?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide a product's price and show an inquiry button instead of "Add to Cart" */
   inquiryOnly?: Maybe<Scalars['Boolean']>
   info?: Maybe<Array<Maybe<ProductInfo>>>
@@ -2352,6 +2354,8 @@ export type ShopifyProductFilter = {
   archived?: Maybe<BooleanFilter>
   sourceData?: Maybe<ShopifySourceProductFilter>
   hidden?: Maybe<BooleanFilter>
+  hideFromCollections?: Maybe<BooleanFilter>
+  hideFromSearch?: Maybe<BooleanFilter>
   inquiryOnly?: Maybe<BooleanFilter>
   related?: Maybe<CarouselFilter>
   seo?: Maybe<SeoFilter>
@@ -2418,6 +2422,8 @@ export type ShopifyProductSorting = {
   archived?: Maybe<SortOrder>
   sourceData?: Maybe<ShopifySourceProductSorting>
   hidden?: Maybe<SortOrder>
+  hideFromCollections?: Maybe<SortOrder>
+  hideFromSearch?: Maybe<SortOrder>
   inquiryOnly?: Maybe<SortOrder>
   related?: Maybe<CarouselSorting>
   seo?: Maybe<SeoSorting>
@@ -2643,6 +2649,7 @@ export interface ShopifySourceProduct {
   createdAt?: Maybe<Scalars['Date']>
   publishedAt?: Maybe<Scalars['Date']>
   updatedAt?: Maybe<Scalars['Date']>
+  compareAtPriceRange?: Maybe<ShopifySourceProductPriceRange>
   priceRange?: Maybe<ShopifySourceProductPriceRange>
   presentmentPriceRanges?: Maybe<ShopifySourceProductPresentmentPriceRangeConnection>
   productType?: Maybe<Scalars['String']>
@@ -2688,6 +2695,7 @@ export type ShopifySourceProductFilter = {
   createdAt?: Maybe<DateFilter>
   publishedAt?: Maybe<DateFilter>
   updatedAt?: Maybe<DateFilter>
+  compareAtPriceRange?: Maybe<ShopifySourceProductPriceRangeFilter>
   priceRange?: Maybe<ShopifySourceProductPriceRangeFilter>
   presentmentPriceRanges?: Maybe<ShopifySourceProductPresentmentPriceRangeConnectionFilter>
   productType?: Maybe<StringFilter>
@@ -2854,6 +2862,7 @@ export type ShopifySourceProductSorting = {
   createdAt?: Maybe<SortOrder>
   publishedAt?: Maybe<SortOrder>
   updatedAt?: Maybe<SortOrder>
+  compareAtPriceRange?: Maybe<ShopifySourceProductPriceRangeSorting>
   priceRange?: Maybe<ShopifySourceProductPriceRangeSorting>
   presentmentPriceRanges?: Maybe<ShopifySourceProductPresentmentPriceRangeConnectionSorting>
   productType?: Maybe<SortOrder>

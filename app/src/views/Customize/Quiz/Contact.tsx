@@ -17,7 +17,9 @@ export const Contact = () => {
   const { goToTab } = useTabs()
   const { values, errors } = useFormikContext<FormValues>()
   const advance = () => goToTab('notes')
-  const advanceDisabled = values.email.length > 0 && errors.email !== undefined
+  const advanceDisabled =
+    Boolean(values.email.length > 0 && errors.email !== undefined) &&
+    Boolean(values.phone.length > 0 && errors.phone !== undefined)
 
   return (
     <QuizTabWrapper>

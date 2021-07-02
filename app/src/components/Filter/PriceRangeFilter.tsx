@@ -123,10 +123,8 @@ export function PriceRangeFilter({
 }: PriceRangeFilterProps) {
   const { _key } = priceRangeFilter
   if (!filterSetState) return null
-  const {
-    minPrice: initialMinPrice,
-    maxPrice: initialMaxPrice,
-  } = filterSetState.initialValues
+  const { minPrice: initialMinPrice, maxPrice: initialMaxPrice } =
+    filterSetState.initialValues
   const { minPrice, maxPrice } = filterSetState.values
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
 
@@ -137,10 +135,10 @@ export function PriceRangeFilter({
     maxPrice / initialMaxPrice,
   )
 
-  const steps = useMemo(() => getSteps(initialMinPrice, initialMaxPrice), [
-    initialMinPrice,
-    initialMaxPrice,
-  ])
+  const steps = useMemo(
+    () => getSteps(initialMinPrice, initialMaxPrice),
+    [initialMinPrice, initialMaxPrice],
+  )
 
   const getClosestStep = (pos: number) => {
     const index = Math.round(

@@ -7,7 +7,7 @@ import { Maybe, Scalars, RichImage, Hero } from '../types'
 
 export const isValidHero = (hero?: Hero | null): boolean => {
   if (!hero) return false
-  return Boolean(hero?.image || hero?.cloudinaryVideo)
+  return Boolean(hero?.bodyRaw?.length || hero?.image || hero?.cloudinaryVideo)
 }
 
 export const getHeroImage = (hero?: Hero | null): RichImage | undefined => {
@@ -34,7 +34,8 @@ const wrapBareText = (text: string) =>
     .replace(/^(?!<)(.*)(<\/\w+>)?/gm, '<span>$1</span>')
     .replace('<span></span>', '')
 
-const internalUrlRegex = /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
+const internalUrlRegex =
+  /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
 
 const parser = new HTMLParser()
 

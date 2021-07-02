@@ -92,13 +92,8 @@ export const Filter = ({
   open: parentOpen,
 }: FilterProps) => {
   const [open, setOpen] = useState(false)
-  const {
-    filterSetStates,
-    setValues,
-    resetAll,
-    resetSet,
-    toggle,
-  } = useFilterState(definitely(filters))
+  const { filterSetStates, setValues, resetAll, resetSet, toggle } =
+    useFilterState(definitely(filters))
 
   if (!filters || filterSetStates.length === 0) return null
 

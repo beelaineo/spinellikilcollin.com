@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { Box } from '@xstyled/styled-components'
+import styled, { css, Box } from '@xstyled/styled-components'
 import { Heading } from '../../../Text'
 import { CountryPhoneOption } from './utils'
 import { HiddenSelect } from './HiddenSelect'
@@ -8,11 +8,12 @@ interface CountryCodeSelectorProps {
   options: CountryPhoneOption[]
   currentOption?: CountryPhoneOption
   name: string
+  currentValue?: string | null
 }
 
 const Wrapper = styled(Box)`
   display: block;
-  position: relative;
+  margin-right: -6px;
 `
 
 interface SelectWrapperProps {
@@ -20,13 +21,14 @@ interface SelectWrapperProps {
 }
 
 const ButtonWrapper = styled.div`
-  margin-right: 1;
+  margin: 0 1;
   display: flex;
   align-items: center;
+  position: relative;
 `
 
 const DialingCode = styled(Heading)`
-  padding: 1px 0 0;
+  padding: 2px 0 0;
 `
 
 const CountryButton = styled.div`
@@ -36,7 +38,7 @@ const CountryButton = styled.div`
   padding: 0 2 0 19px;
   border: 1px solid;
   margin-right: 1;
-  color: body.4;
+  color: body.6;
   position: relative;
   border-radius: 2px;
 
@@ -61,8 +63,12 @@ export const CountryCodeSelector = ({
   name,
   options,
   currentOption,
+  currentValue,
 }: CountryCodeSelectorProps) => {
   const dialingCode = currentOption?.meta?.dialingCode
+  const color = Boolean(currentValue && currentValue.length > 0)
+    ? 'body.9'
+    : 'body.6'
 
   return (
     <Wrapper>
@@ -71,7 +77,7 @@ export const CountryCodeSelector = ({
           {currentOption ? currentOption.meta.flagEmoji : ''}
         </CountryButton>
         <HiddenSelect options={options} name={name} />
-        <DialingCode level={4} color="body.1">
+        <DialingCode level={5} color={color}>
           {dialingCode ? '+' + dialingCode : ''}
         </DialingCode>
       </ButtonWrapper>
