@@ -104,8 +104,14 @@ const App = (props: AppProps) => {
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
           />
-          <meta name="facebook-domain-verification" content="w5tnp2wbd81v1e20fyohim1nynkquj" />
-          <meta name="google-site-verification" content="Kjki-i70-5FfYssOGX8NqsZaiuxYjDluvTiBnNiLoHM" />
+          <meta
+            name="facebook-domain-verification"
+            content="w5tnp2wbd81v1e20fyohim1nynkquj"
+          />
+          <meta
+            name="google-site-verification"
+            content="Kjki-i70-5FfYssOGX8NqsZaiuxYjDluvTiBnNiLoHM"
+          />
           <script
             /* Pinterest tag */
             type="text/javascript"

@@ -3,6 +3,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { HeroWrapper } from '../../../components/ContentBlock/HeroBlock'
 import { Button } from '../../../components/Button'
 import RightArrow from '../../../svg/RightArrow.svg'
+import { InputWrapper } from '../../../components/Forms/Fields/styled'
 
 /**
  * Common
@@ -33,7 +34,7 @@ export const QuizTabWrapper = styled.div`
     padding: 0 3 0;
     max-width: 100%;
 
-    input {
+    ${InputWrapper} {
       width: 300px;
     }
 

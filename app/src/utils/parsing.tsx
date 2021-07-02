@@ -7,7 +7,7 @@ import { Maybe, Scalars, RichImage, Hero } from '../types'
 
 export const isValidHero = (hero?: Hero | null): boolean => {
   if (!hero) return false
-  return Boolean(hero?.image || hero?.cloudinaryVideo)
+  return Boolean(hero?.bodyRaw?.length || hero?.image || hero?.cloudinaryVideo)
 }
 
 export const getHeroImage = (hero?: Hero | null): RichImage | undefined => {

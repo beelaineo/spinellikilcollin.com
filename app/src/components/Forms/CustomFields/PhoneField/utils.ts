@@ -1,5 +1,10 @@
 import { FieldValidator } from 'formik'
-import { Option } from '../../Fields'
+import { Mask, Option } from '../../Fields'
+
+export const maskFromPhoneFormat = (format?: string): undefined | Mask =>
+  format && format !== '#N/A'
+    ? format.split('').map((char) => (/\d/.test(char) ? /\d/ : char))
+    : undefined
 
 export const placeholderFromPhoneFormat = (
   format?: string,
@@ -31,11 +36,10 @@ export interface CountryPhoneOption extends Option {
 
 export const getCountryOptions = async (): Promise<CountryPhoneOption[]> => {
   const countryData = await import('../../../../data/countries.json')
-  return countryData
+  return countryData.default
     .filter(
       (country) =>
-        country?.flags &&
-        (country.flags === '' || country.flags.includes('phone_only')),
+        Boolean(country.dialingCode) && country?.phoneFormat !== '#N/A',
     )
     .map(({ countryCode, english, dialingCode, ...meta }) => {
       const label = [english, meta.flagEmoji, `+ ${dialingCode}`].join('  ')

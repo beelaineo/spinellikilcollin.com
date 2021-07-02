@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react'
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 import {
   getColor,
+  getBackgroundColor,
   getFlexJustification,
   getFlexAlignment,
   getTextAlignment,
@@ -12,18 +13,27 @@ import { RichText } from '../RichText'
 import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 
-export const HeroWrapper = styled.div`
-  ${({ theme }) => css`
+interface HeroWrapperProps {
+  hero: Hero
+}
+
+export const HeroWrapper = styled.div<HeroWrapperProps>`
+  ${({ theme, hero }) => css`
     position: relative;
     z-index: 0;
     grid-column: span 2;
     overflow: hidden;
+    min-height: 400px;
+    background-color: ${getBackgroundColor(hero.backgroundColor)};
 
     video {
       display: block;
     }
 
     ${theme.mediaQueries.mobile} {
+      background-color: ${getBackgroundColor(
+        hero.mobileBackgroundColor || hero.backgroundColor,
+      )};
       overflow: hidden;
     }
   `}
@@ -117,6 +127,8 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
     heroLink,
     bodyRaw,
     image,
+    backgroundColor,
+    mobileBackgroundColor,
     textPositionMobile,
     textColorMobile,
     cloudinaryVideo,
@@ -125,7 +137,7 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
   } = hero
 
   return (
-    <HeroWrapper>
+    <HeroWrapper hero={hero}>
       <DocumentLink document={heroLink?.document ?? undefined}>
         {cloudinaryVideo?.videoId ? (
           <HeroImageWrapper>

@@ -1,15 +1,16 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
   extends: [
+    'prettier',
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
   parserOptions: {
     sourceType: 'module',
   },
   rules: {
+    'react/prop-types': 'off',
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 1,
     // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs

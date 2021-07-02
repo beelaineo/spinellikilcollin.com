@@ -65,7 +65,7 @@ export const FilterSet = ({
 
   const resetKey = `${setKey}-disable`
   const viewAllFilter = {
-    __typename: 'Filter' as 'Filter',
+    __typename: 'Filter' as const,
     label: 'View All',
   }
   const isDisabled = filterSetState.activeMatchKeys.length === 0

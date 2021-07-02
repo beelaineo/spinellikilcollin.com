@@ -15,6 +15,7 @@ export const FieldWrapper = styled.div`
           font-size: 5;
         `}
     text-align: left;
+    position: relative;
     background-color: transparent;
     & + & {
       margin-top: 3;
@@ -56,24 +57,31 @@ export const Label = styled(BaseLabel)`
   `}
 `
 
-export const InputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  max-width: 100%;
+interface InputWrapperProps {
+  type?: string
+}
+export const InputWrapper = styled.div<InputWrapperProps>`
+  ${({ type }) => css`
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    border: 1px solid;
+  `}
 `
 
 export const Input = styled.input`
-  ${({ color, theme }) => css`
+  ${({ color, theme, type }) => css`
     padding: 3 2;
     height: 42px;
     width: 100%;
     display: block;
-    border: 1px solid;
     border-color: body.5;
     font-size: 5;
     font-family: serif;
     background-color: white;
     color: ${color ? theme.colors[color] : theme.colors.body[8]};
+    font-variant-numeric: ${type === 'tel' ? 'tabular-nums' : 'auto'};
+
     &::placeholder {
       color: body.6;
     }
