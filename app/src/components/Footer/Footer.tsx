@@ -106,7 +106,10 @@ export const Footer = () => {
         </Socials>
         <div />
         <Heading m={0} level={5} fontWeight={1} textTransform="uppercase">
-          Copyright © {currentYear} Spinelli Kilcollin
+          Copyright © {currentYear}{' '}
+          <Link href="/">
+            <a>Spinelli Kilcollin</a>
+          </Link>
         </Heading>
       </FooterInnerLower>
     </FooterWrapper>
