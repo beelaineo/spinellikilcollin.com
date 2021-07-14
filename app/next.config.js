@@ -1,16 +1,16 @@
 const path = require('path')
 const webpack = require('webpack')
 const dotEnv = require('dotenv')
-const bundleAnalyzer = require('@next/bundle-analyzer')
+// const bundleAnalyzer = require('@next/bundle-analyzer')
 const withSourceMaps = require('@zeit/next-source-maps')
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 const redirectsJson = require('./src/data/redirects.json')
 
 dotEnv.config()
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-})
+// const withBundleAnalyzer = bundleAnalyzer({
+//   enabled: process.env.ANALYZE === 'true',
+// })
 
 const SENTRY_DSN = process.env.SENTRY_DSN
 const SENTRY_ORG = process.env.SENTRY_ORG
@@ -36,71 +36,67 @@ const BAMBUSER_AUTOPLAY = process.env.BAMBUSER_AUTOPLAY
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
 
-module.exports = withSourceMaps(
-  withBundleAnalyzer({
-    // future: {
-    //   webpack5: true,
-    // },
-    publicRuntimeConfig: {
-      EXCHANGE_RATE_API_KEY,
-      SANITY_PROJECT_ID,
-      SANITY_DATASET,
-      SANITY_READ_TOKEN,
-      SENTRY_DSN,
-      ALGOLIA_APP_ID,
-      ALGOLIA_SEARCH_KEY,
-      STOREFRONT_ENV,
-      SHOPIFY_CHECKOUT_DOMAIN,
-      FB_PIXEL_ID,
-      FB_PRDOUCT_CATALOG_ID,
-      BAMBUSER_SCRIPT,
-      BAMBUSER_SHOWID,
-      BAMBUSER_SLUG,
-      BAMBUSER_AUTOPLAY,
-    },
-    serverRuntimeConfig: {
-      PROJECT_ROOT: __dirname,
-      ALGOLIA_ADMIN_KEY,
-      POSTMARK_KEY,
-    },
-    redirects: async function redirects() {
-      return redirectsJson.map(({ from, to }) => ({
-        source: from,
-        destination: to,
-        permanent: false,
-      }))
-    },
-    webpack: (config, { isServer, buildId }) => {
+module.exports = withSourceMaps({
+  webpack5: false,
+  publicRuntimeConfig: {
+    EXCHANGE_RATE_API_KEY,
+    SANITY_PROJECT_ID,
+    SANITY_DATASET,
+    SANITY_READ_TOKEN,
+    SENTRY_DSN,
+    ALGOLIA_APP_ID,
+    ALGOLIA_SEARCH_KEY,
+    STOREFRONT_ENV,
+    SHOPIFY_CHECKOUT_DOMAIN,
+    FB_PIXEL_ID,
+    FB_PRDOUCT_CATALOG_ID,
+    BAMBUSER_SCRIPT,
+    BAMBUSER_SHOWID,
+    BAMBUSER_SLUG,
+    BAMBUSER_AUTOPLAY,
+  },
+  serverRuntimeConfig: {
+    PROJECT_ROOT: __dirname,
+    ALGOLIA_ADMIN_KEY,
+    POSTMARK_KEY,
+  },
+  redirects: async function redirects() {
+    return redirectsJson.map(({ from, to }) => ({
+      source: from,
+      destination: to,
+      permanent: false,
+    }))
+  },
+  webpack: (config, { isServer, buildId }) => {
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.SENTRY_RELEASE': JSON.stringify(buildId),
+      }),
+    )
+
+    const release = VERCEL_GITHUB_COMMIT_SHA || VERCEL_URL
+
+    if (
+      release &&
+      SENTRY_DSN &&
+      SENTRY_ORG &&
+      SENTRY_PROJECT &&
+      SENTRY_AUTH_TOKEN
+    ) {
       config.plugins.push(
-        new webpack.DefinePlugin({
-          'process.env.SENTRY_RELEASE': JSON.stringify(buildId),
+        new SentryWebpackPlugin({
+          include: '.next',
+          ignore: ['node_modules'],
+          urlPrefix: '~/_next',
+          release,
         }),
       )
+    }
 
-      const release = VERCEL_GITHUB_COMMIT_SHA || VERCEL_URL
+    if (!isServer) {
+      config.resolve.alias['@sentry/node'] = '@sentry/browser'
+    }
 
-      if (
-        release &&
-        SENTRY_DSN &&
-        SENTRY_ORG &&
-        SENTRY_PROJECT &&
-        SENTRY_AUTH_TOKEN
-      ) {
-        config.plugins.push(
-          new SentryWebpackPlugin({
-            include: '.next',
-            ignore: ['node_modules'],
-            urlPrefix: '~/_next',
-            release,
-          }),
-        )
-      }
-
-      if (!isServer) {
-        config.resolve.alias['@sentry/node'] = '@sentry/browser'
-      }
-
-      return config
-    },
-  }),
-)
+    return config
+  },
+})

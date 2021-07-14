@@ -204,8 +204,10 @@ const handler: NextApiHandler = (req, res) =>
     try {
       const partialUpdateObjects = bindCallback((objects, done) => {
         algoliaIndex
+          // @ts-ignore
           .saveObjects(objects)
           .then(async () => {
+            // @ts-ignore
             done(objects)
           })
           .catch((err) => {
@@ -300,6 +302,7 @@ const handler: NextApiHandler = (req, res) =>
               return mergedResults
             }
 
+            // @ts-ignore
             const documentIds = results.map((r) => r?.document?._id)
             const allResults = await searchAll()
             const toRemove = allResults

@@ -239,3 +239,32 @@ export const getProductUri = (
     .replace(/\?$/, '')
   return uri
 }
+
+const btoa = (str: string) => Buffer.from(str).toString('base64')
+const atob = (str: string) => Buffer.from(str, 'base64').toString('binary')
+
+type NodeType = 'Product' | 'Collection' | 'Order'
+
+/**
+ * getStorefrontId
+ *
+ * gets a storefrontID from a numeric Shopify ID
+ */
+export const getStorefrontId = (
+  restId: string | number,
+  type: NodeType,
+): string => btoa(['gid://shopify', type, restId.toString()].join('/'))
+
+/**
+ * getProductIdFromStorefrontId
+ *
+ * returns a numeric Shopify ID when given a storefrontId
+ */
+export const getProductIdFromStorefrontId = (storefrontId: string): string => {
+  const converted = atob(storefrontId)
+  if (!/gid:\/\/shopify\//.test(converted)) {
+    throw new Error(`Converted ID "${converted}" is not a valid Shopify ID`)
+  }
+  // Strip out the gid://shopify/Product/ part of the ID
+  return converted.replace(/gid:\/\/shopify\/\w+\/(.*)/, '$1')
+}
