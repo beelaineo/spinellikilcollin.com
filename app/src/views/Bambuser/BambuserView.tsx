@@ -3,7 +3,7 @@ import styled from '@xstyled/styled-components'
 import { config } from '../../../src/config'
 const { BAMBUSER_SHOWID } = config
 import { useShopify } from '../../providers'
-import useBambuser from './useBambuser'
+import { useBambuser } from './useBambuser'
 
 export const INIT = 'initBambuserLiveShopping'
 export const READY = 'onBambuserLiveShoppingReady'

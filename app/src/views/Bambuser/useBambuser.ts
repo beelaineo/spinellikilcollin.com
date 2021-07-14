@@ -46,7 +46,7 @@ interface Props
     | 'checkout'
   > {}
 
-const useBambuser = ({
+export const useBambuser = ({
   bambuserLineItemsAdd,
   bambuserLineItemsUpdate,
   bambuserFetchCheckout,
@@ -250,7 +250,8 @@ const useBambuser = ({
             async ({ ref: sku, id: productId, url: publicUrl }) => {
               const hash = getLocationSearchHash(publicUrl)
               // const pid = getIdFromBase64(hash)
-              const SHOPIFY_PRODUCT_URL_HANDLE_REGEX = /\/products\/(.[\w\d-+]+)/
+              const SHOPIFY_PRODUCT_URL_HANDLE_REGEX =
+                /\/products\/(.[\w\d-+]+)/
               const handles = SHOPIFY_PRODUCT_URL_HANDLE_REGEX.exec(publicUrl)
               let handle
 
@@ -286,5 +287,3 @@ const useBambuser = ({
 
   return [isReady, addShow]
 }
-
-export default useBambuser
