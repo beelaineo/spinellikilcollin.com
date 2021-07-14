@@ -1,7 +1,7 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { ShopifyProduct, ShopifyProductVariant } from '../../src/types'
+import { ShopifyProduct } from '../../src/types'
 import { getParam, definitely } from '../../src/utils'
 import { NotFound, ProductDetail } from '../../src/views'
 import {
@@ -18,16 +18,6 @@ import {
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { Sentry } from '../../src/services/sentry'
-import { reportFBViewContent } from '../../src/utils/fpixel'
-
-interface ProductQueryResult {
-  productByHandle: ShopifyProduct
-  allShopifyProducts: [ShopifyProduct]
-}
-
-interface ProductProps {
-  productData: ShopifyProduct
-}
 
 const productQuery = gql`
   query ProductsPageQuery($handle: String) {
@@ -119,11 +109,6 @@ interface ProductPageProps {
 }
 
 const Product = ({ product }: ProductPageProps) => {
-  React.useEffect(() => {
-    if (product) {
-      reportFBViewContent(product)
-    }
-  }, [])
   try {
     if (!product) return <NotFound />
     return <ProductDetail key={product._id || 'some-key'} product={product} />

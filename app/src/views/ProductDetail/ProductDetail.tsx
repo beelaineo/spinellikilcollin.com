@@ -64,15 +64,13 @@ export const ProductDetail = ({ product }: Props) => {
   /* get product variant utils */
   if (!product.sourceData) return null
   if (!product.variants) return null
-  const { currentVariant: currentVariantSource, selectVariant } =
-    useProductVariant(product, useProductVariantOptions)
+  const { currentVariant, selectVariant } = useProductVariant(
+    product,
+    useProductVariantOptions,
+  )
 
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)
-
-  const currentVariant = product.variants.find(
-    (v) => v && v.shopifyVariantID === currentVariantSource?.id,
-  )
 
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
