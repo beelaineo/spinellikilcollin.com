@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { BlockPreview } from '../components/BlockPreview'
+import { actionTypes } from './shared'
 import {
   getTypeText,
   getReferencedDocument,
@@ -51,9 +52,27 @@ export const cta = {
     {
       type: 'internalLink',
       name: 'link',
+    },
+    {
+      name: 'action',
+      title: 'Action',
+      description:
+        'Have this CTA launch an action instead of linking to a page. For launching Bambuser, make sure you fill out the Bambuser Settings below. (If selected, this will override any linked document)',
+      type: 'string',
       options: {
-        required: true,
+        list: [
+          ...actionTypes,
+          {
+            title: 'Launch Bambuser',
+            value: 'launchBambuser',
+          },
+        ],
       },
+    },
+    {
+      name: 'bambuser',
+      type: 'bambuserSettings',
+      title: 'Bambuser Action settings',
     },
   ],
 

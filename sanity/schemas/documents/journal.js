@@ -1,3 +1,5 @@
+import { niceDate } from '../utils'
+
 export const journal = {
   title: 'Journal Entry',
   type: 'document',
@@ -59,4 +61,17 @@ export const journal = {
       type: 'seo',
     },
   ],
+  preview: {
+    select: {
+      createdAt: '_createdAt',
+      publishDate: 'publishDate',
+      title: 'title',
+      thumbnail: 'thumbnail',
+    },
+    prepare: ({ title, publishDate, createdAt, thumbnail }) => ({
+      title: title,
+      subtitle: niceDate(publishDate || createdAt),
+      media: thumbnail,
+    }),
+  },
 }

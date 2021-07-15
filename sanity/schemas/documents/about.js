@@ -2,6 +2,16 @@ export const pageLink = {
   name: 'pageLink',
   title: 'Page Link',
   type: 'object',
+  fieldsets: [
+    {
+      name: 'image',
+      title: 'Custom Image',
+      options: {
+        collapsed: true,
+        collapsible: true,
+      },
+    },
+  ],
   fields: [
     {
       name: 'linkedPage',
@@ -22,6 +32,7 @@ export const pageLink = {
     {
       name: 'image',
       type: 'richImage',
+      fieldset: 'image',
     },
     {
       name: 'title',
