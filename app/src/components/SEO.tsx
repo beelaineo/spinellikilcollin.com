@@ -43,22 +43,14 @@ const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
     : undefined
 
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
-  let id, description, productType, imageSrc
+  let id, imageSrc
+  const description = product?.sourceData?.description
+  const productType = product?.sourceData?.productType
 
-  if (product && product.sourceData) {
-    if (product.sourceData.description) {
-      description = product.sourceData.description
-    }
-
-    if (product.sourceData.productType) {
-      productType = product.sourceData.productType
-    }
-
-    if (typeof window !== 'undefined' && window.location.search) {
-      const productId = getProductIdLocationSearch(window.location.search)
-      if (productId) {
-        id = productId
-      }
+  if (typeof window !== 'undefined' && window.location.search) {
+    const productId = getProductIdLocationSearch(window.location.search)
+    if (productId) {
+      id = productId
     }
   }
 
@@ -74,7 +66,7 @@ const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
     name: defaultSeo.title,
     description: description,
     brand: { '@type': productType },
-    image: imageSrc,
+    image: imageSrc ? imageSrc : '',
   }
 
   return (
