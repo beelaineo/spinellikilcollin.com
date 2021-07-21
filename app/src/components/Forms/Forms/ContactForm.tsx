@@ -44,6 +44,8 @@ type FormValues = {
   state: string
   message: string
   formtype?: string
+  phoneCountryCode: string
+  dialingCode: string
 }
 
 const formId = 'd1a0fa82-2130-40e7-b321-d073effb9079'
@@ -70,6 +72,8 @@ export const ContactForm = ({ formtype, onContinue }: ContactFormProps) => {
     state: '',
     message: '',
     formtype,
+    phoneCountryCode: 'US',
+    dialingCode: '',
   }
 
   return (

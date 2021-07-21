@@ -34,9 +34,7 @@ const VERCEL_URL = process.env.VERCEL_URL
 
 module.exports = withSourceMaps(
   withBundleAnalyzer({
-    // future: {
-    //   webpack5: true,
-    // },
+    webpack5: false,
     publicRuntimeConfig: {
       EXCHANGE_RATE_API_KEY,
       SANITY_PROJECT_ID,
@@ -48,7 +46,7 @@ module.exports = withSourceMaps(
       STOREFRONT_ENV,
       SHOPIFY_CHECKOUT_DOMAIN,
       FB_PIXEL_ID,
-      FB_PRDOUCT_CATALOG_ID
+      FB_PRDOUCT_CATALOG_ID,
     },
     serverRuntimeConfig: {
       PROJECT_ROOT: __dirname,

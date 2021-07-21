@@ -36,8 +36,7 @@ export const hero = {
     collapsed: true,
   },
   fieldsets: [
-    { name: 'general', title: 'General Settings' },
-    { name: 'text', title: 'Text Settings' },
+    { name: 'display', title: 'Layout & Colors' },
     { name: 'image', title: 'Image' },
     { name: 'video', title: 'Video' },
   ],
@@ -46,19 +45,26 @@ export const hero = {
       name: 'heroLink',
       title: 'Link',
       type: 'internalLink',
-      fieldset: 'general',
     },
     {
       name: 'body',
       title: 'Text',
       type: 'richText',
-      fieldset: 'text',
     },
+    {
+      name: 'cta',
+      type: 'array',
+      of: [{ type: 'cta' }],
+      validation: (Rule) => Rule.max(1),
+    },
+
+    /* Display Options */
     {
       name: 'aspectRatio',
       title: 'Aspect Ratio',
       type: 'number',
       hidden: true,
+      fieldset: 'display',
       options: {
         list: [
           { title: '2:1', value: 0.5 },
@@ -68,17 +74,14 @@ export const hero = {
         direction: 'horizontal',
       },
     },
-    {
-      name: 'textPosition',
-      title: 'Text Position',
-      type: 'position',
-      fieldset: 'text',
-    },
+
     {
       name: 'textContainer',
-      title: 'Text Container',
+      title: 'Text Container Size',
+      description:
+        'Limit the size of the text container. (Default: Full Width)',
       type: 'string',
-      fieldset: 'text',
+      fieldset: 'display',
       options: {
         list: [
           { title: 'Full Width', value: 'full' },
@@ -90,11 +93,45 @@ export const hero = {
       },
     },
     {
+      name: 'textPosition',
+      title: 'Text Position',
+      type: 'position',
+      fieldset: 'display',
+    },
+    {
+      name: 'textPositionMobile',
+      title: 'Text Position (Mobile)',
+      type: 'position',
+      fieldset: 'display',
+    },
+
+    {
       name: 'textColor',
       title: 'Text Color',
       type: 'colorPicker',
-      fieldset: 'text',
+      fieldset: 'display',
     },
+    {
+      name: 'textColorMobile',
+      title: 'Text Color (Mobile)',
+      type: 'colorPicker',
+      fieldset: 'display',
+    },
+
+    {
+      name: 'backgroundColor',
+      title: 'Background Color',
+      type: 'colorPicker',
+      fieldset: 'display',
+    },
+    {
+      name: 'mobileBackgroundColor',
+      title: 'Background Color (mobile)',
+      type: 'colorPicker',
+      fieldset: 'display',
+    },
+
+    /* Video */
     {
       name: 'cloudinaryVideo',
       title: 'Cloudinary Video',
@@ -107,6 +144,7 @@ export const hero = {
       type: 'cloudinaryVideo',
       fieldset: 'video',
     },
+    /* Images */
     {
       name: 'image',
       title: 'Background Image',
@@ -114,34 +152,10 @@ export const hero = {
       fieldset: 'image',
     },
     {
-      name: 'backgroundColor',
-      title: 'Background Color',
-      type: 'colorPicker',
-      fieldset: 'general',
-    },
-    {
       name: 'mobileImage',
       title: 'Background Image (mobile)',
       type: 'richImage',
       fieldset: 'image',
-    },
-    {
-      name: 'mobileBackgroundColor',
-      title: 'Background Color (mobile)',
-      type: 'colorPicker',
-      fieldset: 'general',
-    },
-    {
-      name: 'textPositionMobile',
-      title: 'Text Position (Mobile)',
-      type: 'position',
-      fieldset: 'text',
-    },
-    {
-      name: 'textColorMobile',
-      title: 'Text Color (Mobile)',
-      type: 'colorPicker',
-      fieldset: 'text',
     },
   ],
   preview: {
