@@ -74,27 +74,22 @@ export const useModalReducer = () => {
 
   const closeModal = () => dispatch({ type: CLOSE })
 
-  const openRingSizerModal = ({
-    currentProduct,
-    currentVariant,
-  }: OpenModalArgs) =>
+  const openRingSizerModal = (args?: OpenModalArgs) =>
     dispatch({
       type: OPEN,
       currentModal: ModalName.RING_SIZER,
-      currentProduct,
-      currentVariant,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
     })
 
-  const openCustomizationModal = ({
-    currentProduct,
-    currentVariant,
-  }: OpenModalArgs) =>
+  const openCustomizationModal = (args?: OpenModalArgs) => {
     dispatch({
       type: OPEN,
       currentModal: ModalName.CUSTOMIZATION,
-      currentProduct,
-      currentVariant,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
     })
+  }
 
   const openContactModal = ({
     formtype,

@@ -12,6 +12,8 @@ import { Hero } from '../../types'
 import { RichText } from '../RichText'
 import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
+import { CTA } from '../CTA'
+import { definitely } from '../../utils'
 
 interface HeroWrapperProps {
   hero: Hero
@@ -126,14 +128,14 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
     heroLink,
     bodyRaw,
     image,
-    backgroundColor,
-    mobileBackgroundColor,
     textPositionMobile,
     textColorMobile,
     cloudinaryVideo,
     cloudinaryVideoMobile,
     mobileImage,
+    cta: ctas,
   } = hero
+  const cta = definitely(ctas).length ? definitely(ctas)[0] : null
 
   return (
     <HeroWrapper hero={hero}>
@@ -159,6 +161,7 @@ export const HeroBlock = ({ hero }: HeroBlockProps) => {
         >
           <div className="text-container">
             <RichText body={bodyRaw} />
+            {cta ? <CTA cta={cta} /> : null}
           </div>
         </HeroText>
       </DocumentLink>
