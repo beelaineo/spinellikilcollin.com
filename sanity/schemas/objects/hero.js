@@ -53,7 +53,9 @@ export const hero = {
     },
     {
       name: 'cta',
-      type: 'cta',
+      type: 'array',
+      of: [{ type: 'cta' }],
+      validation: (Rule) => Rule.max(1),
     },
 
     /* Display Options */

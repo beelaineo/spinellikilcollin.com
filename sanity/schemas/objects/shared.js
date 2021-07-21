@@ -8,4 +8,8 @@ export const actionTypes = [
     title: 'Launch Customization modal',
     value: 'launchCustomizationModal',
   },
+  {
+    title: 'Launch Bambuser',
+    value: 'launchBambuser',
+  },
 ]
