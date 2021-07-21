@@ -7,7 +7,7 @@ import { Maybe, Scalars, RichImage, Hero } from '../types'
 
 export const isValidHero = (hero?: Hero | null): boolean => {
   if (!hero) return false
-  return Boolean(hero?.image || hero?.cloudinaryVideo)
+  return Boolean(hero?.bodyRaw?.length || hero?.image || hero?.cloudinaryVideo)
 }
 
 export const getHeroImage = (hero?: Hero | null): RichImage | undefined => {
@@ -34,7 +34,8 @@ const wrapBareText = (text: string) =>
     .replace(/^(?!<)(.*)(<\/\w+>)?/gm, '<span>$1</span>')
     .replace('<span></span>', '')
 
-const internalUrlRegex = /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
+const internalUrlRegex =
+  /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
 
 const parser = new HTMLParser()
 
@@ -126,4 +127,22 @@ export const parseHTML = (htmlString?: string | null): React.ReactNode => {
 
 export function arrayify<T>(i: T | T[]): T[] {
   return Array.isArray(i) ? i : [i]
+}
+
+export const getIdFromBase64 = (data: string): string => {
+  let id
+  const buffer = Buffer.from(data, 'base64')
+  const frag = buffer.toString('utf-8').split('gid://')
+  if (frag.length > 0) {
+    let last = frag[1].split('/').pop()
+
+    if (last) {
+      if (last.indexOf('\ufffd') > -1) {
+        last = last.replace('\r', '').replace(/\ufffd/g, '')
+        id = last
+      }
+    }
+  }
+
+  return id
 }

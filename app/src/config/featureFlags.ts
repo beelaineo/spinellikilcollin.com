@@ -17,10 +17,11 @@ const createFlags = <FlagsConfig extends Record<string, FeatureFlagEnv>>(
 ) => config
 
 const flagsConfig = createFlags({
+  // TODO: remove flag checks on customization page
   customizationPage: {
     development: true,
     staging: true,
-    production: false,
+    production: true,
   },
 })
 

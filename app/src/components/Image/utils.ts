@@ -42,30 +42,51 @@ interface ImageUrls {
   srcSet: string
 }
 
-const defaultSizes = [100, 300, 600, 800, 1200, 1600]
+type SrcsetWidth = number | [number, number]
+
+const defaultSizes: SrcsetWidth[] = [100, 300, 600, 800, 1200, [1600, 2200]]
+
+interface SrcsetSize {
+  width: number
+  pxWidth: number
+}
+
+const getSrcsetSize = (size: SrcsetWidth): SrcsetSize =>
+  Array.isArray(size)
+    ? {
+        width: size[0],
+        pxWidth: size[1],
+      }
+    : { width: size, pxWidth: size }
 
 const getSanityImageDetails = (
   image: SanityRawImage | RichImage,
-  sizes = defaultSizes,
+  sizes: SrcsetWidth[] = defaultSizes,
 ): ImageDetails | null => {
   if (!image?.asset) return null
   const source = builder.image(image)
   const src = source.url()
   const srcSet = buildSrcSet(
-    sizes.map((width) => ({
-      width,
-      src: source.width(width).url(),
-    })),
+    sizes.map((size) => {
+      const { width, pxWidth } = getSrcsetSize(size)
+      return {
+        width,
+        src: source.width(pxWidth).url(),
+      }
+    }),
   )
   const srcSetWebp = buildSrcSet(
-    sizes.map((width) => ({
-      width,
-      src: source
-        //
-        .width(width)
-        .format('webp')
-        .url(),
-    })),
+    sizes.map((size) => {
+      const { width, pxWidth } = getSrcsetSize(size)
+      return {
+        width,
+        src: source
+          //
+          .width(pxWidth)
+          .format('webp')
+          .url(),
+      }
+    }),
   )
 
   const { altText } = image
@@ -75,8 +96,6 @@ const getSanityImageDetails = (
 
   return { caption, src, srcSet, srcSetWebp, altText }
 }
-
-const widths = [100, 300, 800, 1200, 1600]
 
 const defaultCrop = {
   bottom: 0,
@@ -118,12 +137,14 @@ export const getAspectRatio = (
   return undefined
 }
 
+const shopifyWidths = [100, 300, 800, 1200, 1600]
+
 const getShopifyImageDetails = (
   image: ShopifySourceImage,
 ): ImageDetails | null => {
   const src = image.originalSrc
   const { altText } = image
-  const srcSet = widths
+  const srcSet = shopifyWidths
     .map((width) => {
       const key = `w${width}`
       if (!image[key]) return null

@@ -127,7 +127,7 @@ export const hero = {
     },
     {
       name: 'mobileBackgroundColor',
-      title: 'Background Color',
+      title: 'Background Color (mobile)',
       type: 'colorPicker',
       fieldset: 'general',
     },

@@ -64,10 +64,8 @@ export const ProductDetail = ({ product }: Props) => {
   /* get product variant utils */
   if (!product.sourceData) return null
   if (!product.variants) return null
-  const {
-    currentVariant: currentVariantSource,
-    selectVariant,
-  } = useProductVariant(product, useProductVariantOptions)
+  const { currentVariant: currentVariantSource, selectVariant } =
+    useProductVariant(product, useProductVariantOptions)
 
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)
@@ -92,14 +90,9 @@ export const ProductDetail = ({ product }: Props) => {
     const { pathname, search } = window.location
     const currentUri = [pathname, search].join('')
     if (currentUri === newUri) return
-    // window.history.replaceState(null, product.title || '', newUri)
-    router.replace(
-      {
-        pathname: router.pathname,
-        query: router.query,
-      },
-      newUri,
-    )
+    router.replace(newUri, undefined, {
+      scroll: false,
+    })
   }, [currentVariant])
 
   useEffect(() => {

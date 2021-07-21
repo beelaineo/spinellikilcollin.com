@@ -1,8 +1,6 @@
 import { useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router'
 import { ShopifyProduct, ShopifyCollection } from '../../types'
-// import { useSanityQuery } from '../../hooks'
-// import { searchQuery } from './query'
 import { algoliaIndex } from '../../services/algolia'
 
 export type SearchResult = ShopifyProduct | ShopifyCollection
@@ -201,6 +199,7 @@ export const useSearchReducer = () => {
       hitsPerPage: 100,
       typoTolerance: 'min',
       exactOnSingleWordQuery: 'word',
+      filters: `hideFromSearch:false`,
     })
     const results = hits
       .map((hit) => hit.document)

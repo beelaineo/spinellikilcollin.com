@@ -53,7 +53,6 @@ export const mailchimp: MailchimpService = {
         method: 'put',
         path,
         body: {
-          /* eslint-disable @typescript-eslint/camelcase */
           email_address: email,
           status_if_new: 'subscribed',
         },

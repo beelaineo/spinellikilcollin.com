@@ -55,10 +55,13 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     "bodyRaw": body,
     ...,
   },
-  "products": products[]->[hidden != true] | order(${getSortString(sort)}) {
+  "products": products[]->[hidden != true && hideFromCollections != true] | order(${getSortString(
+    sort,
+  )}) {
     _id,
     _type,
     hidden,
+    hideFromCollections,
     handle,
     minVariantPrice,
     maxVariantPrice,

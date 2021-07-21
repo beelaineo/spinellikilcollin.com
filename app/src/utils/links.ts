@@ -12,6 +12,8 @@ import {
   Contact,
 } from '../types'
 
+import { getIdFromBase64 } from './index'
+
 export type Document =
   | ShopifyProduct
   | ShopifyCollection
@@ -155,4 +157,19 @@ export const getDocumentLinkImage = (
       // @ts-ignore
       throw new Error(`Cannot get image for type "${document.__typename}"`)
   }
+}
+
+export const getProductIdLocationSearch = (search: string): string => {
+  let productId
+
+  const searchString = search.split('?v=')
+  if (searchString.length === 2) {
+    const id = getIdFromBase64(searchString[1])
+
+    if (id) {
+      productId = id
+    }
+  }
+
+  return productId
 }

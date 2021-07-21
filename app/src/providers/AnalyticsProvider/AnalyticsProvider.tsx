@@ -58,23 +58,23 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     }
     const page_title = document.title
 
-    window.gtag('event', 'page_view')
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'page_view')
+    }
   }
 
   useEffect(() => sendPageView(asPath), [asPath])
 
-  const sendProductImpression: AnalyticsContextValue['sendProductImpression'] = (
-    selected,
-    list,
-  ) => {
-    const impressions = arrayify(selected).map((s, i) =>
-      parseProduct(s, { position: i + 1, list }),
-    )
-    sendEvent({
-      event: EventType.Impressions,
-      ecommerce: { impressions },
-    })
-  }
+  const sendProductImpression: AnalyticsContextValue['sendProductImpression'] =
+    (selected, list) => {
+      const impressions = arrayify(selected).map((s, i) =>
+        parseProduct(s, { position: i + 1, list }),
+      )
+      sendEvent({
+        event: EventType.Impressions,
+        ecommerce: { impressions },
+      })
+    }
 
   const sendProductClick: AnalyticsContextValue['sendProductClick'] = (
     selected,
@@ -88,17 +88,16 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     })
   }
 
-  const sendProductDetailView: AnalyticsContextValue['sendProductDetailView'] = (
-    selected,
-  ) => {
-    const products = arrayify(selected).map((s, i) =>
-      parseProduct(s, { position: i + 1 }),
-    )
-    sendEvent({
-      event: EventType.ProductDetailView,
-      ecommerce: { products },
-    })
-  }
+  const sendProductDetailView: AnalyticsContextValue['sendProductDetailView'] =
+    (selected) => {
+      const products = arrayify(selected).map((s, i) =>
+        parseProduct(s, { position: i + 1 }),
+      )
+      sendEvent({
+        event: EventType.ProductDetailView,
+        ecommerce: { products },
+      })
+    }
 
   const sendAddToCart: AnalyticsContextValue['sendAddToCart'] = (selected) => {
     const products = arrayify(selected).map((s, i) =>
