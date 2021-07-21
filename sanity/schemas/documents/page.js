@@ -2,6 +2,13 @@ export const page = {
   title: 'Page',
   type: 'document',
   name: 'page',
+  fieldsets: [
+    {
+      name: 'integrations',
+      title: 'Integrations',
+      options: { collapsed: true, collapsible: true },
+    },
+  ],
   fields: [
     {
       name: 'title',

@@ -82,6 +82,30 @@ export type AboutSorting = {
   seo?: Maybe<SeoSorting>
 }
 
+export interface BambuserSettings {
+  __typename: 'BambuserSettings'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** The slug of the Bambuser video to launch */
+  slug?: Maybe<Scalars['String']>
+  /** (Has no effect within the context of a CTA) */
+  autoplay?: Maybe<Scalars['Boolean']>
+}
+
+export type BambuserSettingsFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  slug?: Maybe<StringFilter>
+  autoplay?: Maybe<BooleanFilter>
+}
+
+export type BambuserSettingsSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  slug?: Maybe<SortOrder>
+  autoplay?: Maybe<SortOrder>
+}
+
 export interface Block {
   __typename: 'Block'
   _key?: Maybe<Scalars['String']>
@@ -268,6 +292,13 @@ export interface Cta {
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
+  /**
+   * Have this CTA launch an action instead of linking to a page. For launching
+   * Bambuser, make sure you fill out the Bambuser Settings below. (If selected,
+   * this will override any linked document)
+   */
+  action?: Maybe<Scalars['String']>
+  bambuser?: Maybe<BambuserSettings>
 }
 
 export type CtaFilter = {
@@ -275,6 +306,8 @@ export type CtaFilter = {
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
+  action?: Maybe<StringFilter>
+  bambuser?: Maybe<BambuserSettingsFilter>
 }
 
 export type CtaOrSubMenu = Cta | SubMenu
@@ -284,6 +317,8 @@ export type CtaSorting = {
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+  action?: Maybe<SortOrder>
+  bambuser?: Maybe<BambuserSettingsSorting>
 }
 
 export interface Customize extends Document {
@@ -693,18 +728,20 @@ export interface Hero {
   _type?: Maybe<Scalars['String']>
   heroLink?: Maybe<InternalLink>
   bodyRaw?: Maybe<Scalars['JSON']>
+  cta?: Maybe<Array<Maybe<Cta>>>
   aspectRatio?: Maybe<Scalars['Float']>
-  textPosition?: Maybe<Scalars['String']>
+  /** Limit the size of the text container. (Default: Full Width) */
   textContainer?: Maybe<Scalars['String']>
+  textPosition?: Maybe<Scalars['String']>
+  textPositionMobile?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
+  textColorMobile?: Maybe<Scalars['String']>
+  backgroundColor?: Maybe<Scalars['String']>
+  mobileBackgroundColor?: Maybe<Scalars['String']>
   cloudinaryVideo?: Maybe<CloudinaryVideo>
   cloudinaryVideoMobile?: Maybe<CloudinaryVideo>
   image?: Maybe<RichImage>
-  backgroundColor?: Maybe<Scalars['String']>
   mobileImage?: Maybe<RichImage>
-  mobileBackgroundColor?: Maybe<Scalars['String']>
-  textPositionMobile?: Maybe<Scalars['String']>
-  textColorMobile?: Maybe<Scalars['String']>
 }
 
 export type HeroFilter = {
@@ -712,17 +749,17 @@ export type HeroFilter = {
   _type?: Maybe<StringFilter>
   heroLink?: Maybe<InternalLinkFilter>
   aspectRatio?: Maybe<FloatFilter>
-  textPosition?: Maybe<StringFilter>
   textContainer?: Maybe<StringFilter>
+  textPosition?: Maybe<StringFilter>
+  textPositionMobile?: Maybe<StringFilter>
   textColor?: Maybe<StringFilter>
+  textColorMobile?: Maybe<StringFilter>
+  backgroundColor?: Maybe<StringFilter>
+  mobileBackgroundColor?: Maybe<StringFilter>
   cloudinaryVideo?: Maybe<CloudinaryVideoFilter>
   cloudinaryVideoMobile?: Maybe<CloudinaryVideoFilter>
   image?: Maybe<RichImageFilter>
-  backgroundColor?: Maybe<StringFilter>
   mobileImage?: Maybe<RichImageFilter>
-  mobileBackgroundColor?: Maybe<StringFilter>
-  textPositionMobile?: Maybe<StringFilter>
-  textColorMobile?: Maybe<StringFilter>
 }
 
 export type HeroSorting = {
@@ -730,17 +767,17 @@ export type HeroSorting = {
   _type?: Maybe<SortOrder>
   heroLink?: Maybe<InternalLinkSorting>
   aspectRatio?: Maybe<SortOrder>
-  textPosition?: Maybe<SortOrder>
   textContainer?: Maybe<SortOrder>
+  textPosition?: Maybe<SortOrder>
+  textPositionMobile?: Maybe<SortOrder>
   textColor?: Maybe<SortOrder>
+  textColorMobile?: Maybe<SortOrder>
+  backgroundColor?: Maybe<SortOrder>
+  mobileBackgroundColor?: Maybe<SortOrder>
   cloudinaryVideo?: Maybe<CloudinaryVideoSorting>
   cloudinaryVideoMobile?: Maybe<CloudinaryVideoSorting>
   image?: Maybe<RichImageSorting>
-  backgroundColor?: Maybe<SortOrder>
   mobileImage?: Maybe<RichImageSorting>
-  mobileBackgroundColor?: Maybe<SortOrder>
-  textPositionMobile?: Maybe<SortOrder>
-  textColorMobile?: Maybe<SortOrder>
 }
 
 export interface Homepage extends Document {
@@ -2236,6 +2273,7 @@ export interface ShopifyCollection extends Document {
   collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
   preferredVariantMatches?: Maybe<Array<Maybe<Scalars['String']>>>
   customFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
+  bambuser?: Maybe<BambuserSettings>
   seo?: Maybe<Seo>
 }
 
@@ -2256,6 +2294,7 @@ export type ShopifyCollectionFilter = {
   hidden?: Maybe<BooleanFilter>
   reduceColumnCount?: Maybe<BooleanFilter>
   hero?: Maybe<HeroFilter>
+  bambuser?: Maybe<BambuserSettingsFilter>
   seo?: Maybe<SeoFilter>
 }
 
@@ -2274,6 +2313,7 @@ export type ShopifyCollectionSorting = {
   hidden?: Maybe<SortOrder>
   reduceColumnCount?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
+  bambuser?: Maybe<BambuserSettingsSorting>
   seo?: Maybe<SeoSorting>
 }
 

@@ -1,4 +1,14 @@
 export const collection = {
+  fieldsets: [
+    {
+      name: 'integrations',
+      title: 'Integrations',
+      options: {
+        collapsed: true,
+        collapsible: true,
+      },
+    },
+  ],
   fields: [
     { name: 'sourceData', hidden: true },
     {
@@ -32,6 +42,7 @@ export const collection = {
         'Add values here to auto-select a preferred variant option when viewing this collection. The first variant that has an option containing one of these values will be used. E.g., "BG" or "Black Gold"',
     },
     { name: 'customFilter', type: 'productFilter' },
+    { name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations' },
     {
       name: 'seo',
       type: 'seo',

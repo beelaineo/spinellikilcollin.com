@@ -89,6 +89,8 @@ type FormValues = {
   country: string
   product?: string
   variant?: string
+  phoneCountryCode: string
+  dialingCode: string
 }
 
 const formId = 'e62200cb-d8d3-468f-a19e-13c7d4bcec26'
@@ -122,6 +124,8 @@ export const RingSizerForm = ({
     state: '',
     product: product?.title || '(none)',
     variant: variant?.title || '(none)',
+    phoneCountryCode: 'US',
+    dialingCode: '',
   }
 
   return (

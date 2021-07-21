@@ -1,6 +1,16 @@
 import client from 'part:@sanity/base/client'
 import { path } from 'ramda'
 
+export const niceDate = (sourceDate) => {
+  const date =
+    typeof sourceDate === 'string' ? new Date(sourceDate) : sourceDate
+  return date.toLocaleString('en-us', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  })
+}
+
 export const getTypeText = (doc) => {
   if (!doc) return ''
   if (doc._type === 'shopifyProduct') return 'Product'
