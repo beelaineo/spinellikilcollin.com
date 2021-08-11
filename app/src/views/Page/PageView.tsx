@@ -8,9 +8,7 @@ import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
-import BambuserView from '../Bambuser/BambuserView'
-import { config } from '../../../src/config'
-const { BAMBUSER_SLUG, BAMBUSER_AUTOPLAY } = config
+
 import {
   definitely,
   getHeroImage,
@@ -60,14 +58,6 @@ export const PageView = ({ page }: PageViewProps) => {
   if (!slug) throw new Error('No slug was fetched')
   const path = ['about', slug.current].join('/')
 
-  // let showBambuser = false
-  // let bambuserAutoPlay =
-  //   BAMBUSER_AUTOPLAY && BAMBUSER_AUTOPLAY === 'true' ? true : false
-  // if (slug?.current && BAMBUSER_SLUG) {
-  //   if (slug?.current.toLowerCase() === BAMBUSER_SLUG.toLowerCase()) {
-  //     showBambuser = true
-  //   }
-  // }
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />

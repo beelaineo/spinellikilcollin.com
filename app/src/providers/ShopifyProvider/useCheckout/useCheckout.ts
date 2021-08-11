@@ -80,11 +80,6 @@ export interface UseCheckoutValues extends CheckoutState {
     args: CheckoutAttributesUpdateV2Input,
   ) => Promise<void>
 
-  // /* Bambuser Methods */
-  // bambuserLineItemsAdd: (lineItems: CheckoutLineItemInput[]) => Promise<void>
-  // bambuserLineItemsUpdate: (lineItems: CheckoutLineItemInput[]) => Promise<void>
-  // bambuserFetchCheckout: () => Promise<ShopifyStorefrontCheckout | undefined>
-
   /* Shortcut Methods */
   addLineItem: (lineItem: CheckoutLineItemInput) => Promise<void>
   updateLineItem: (lineItem: CheckoutLineItemUpdateInput) => Promise<void>
@@ -298,75 +293,6 @@ export const useCheckout = ({
   }
 
   /**
-   *
-   * Bambuser checkout
-   * Due to the issue when calls initiated from Bambuser callback these are alternative methods
-   */
-
-  // const bambuserCheckoutCreate = async (
-  //   variables?: CheckoutCreateInput,
-  // ): Promise<ShopifyStorefrontCheckout> => {
-  //   const result = await query<CheckoutCreateResponse, CheckoutCreateInput>(
-  //     CHECKOUT_CREATE,
-  //     variables || {},
-  //   )
-  //
-  //   const { checkoutCreate: checkoutCreateResponse } = result.data
-  //
-  //   return new Promise(async (resolve, reject) => {
-  //     if (checkoutCreateResponse.checkout) {
-  //       setViewerCartCookie(checkoutCreateResponse.checkout.id)
-  //       dispatch({ type: CREATED_CHECKOUT, ...checkoutCreateResponse })
-  //       resolve(checkoutCreateResponse.checkout as ShopifyStorefrontCheckout)
-  //     } else {
-  //       reject(undefined)
-  //     }
-  //   })
-  // }
-
-  // const bambuserFetchCheckout = async (): Promise<
-  //   ShopifyStorefrontCheckout | undefined
-  // > => {
-  //   const checkoutToken = getViewerCartCookie()
-  //   let checkout
-  //
-  //   return new Promise(async (resolve, _) => {
-  //     if (checkoutToken) {
-  //       /* If a token exists, fetch it from Shopify */
-  //       const variables = { id: checkoutToken }
-  //       const result = await query<CheckoutFetchResponse, CheckoutFetchInput>(
-  //         CHECKOUT_FETCH,
-  //         variables,
-  //       )
-  //       checkout = result.data ? result.data.node : undefined
-  //       dispatch({ type: FETCHED_CHECKOUT, checkout })
-  //       resolve(checkout as ShopifyStorefrontCheckout)
-  //     } else {
-  //       /* When no token exists, dispatch this to set "loading" to false. */
-  //       /* This might deserve its own action type, "NOTHING_TO_FETCH" */
-  //       dispatch({ type: FETCHED_CHECKOUT, checkout: undefined })
-  //       resolve(undefined)
-  //     }
-  //   })
-  // }
-
-  // const bambuserLineItemsAdd = async (lineItems: CheckoutLineItemInput[]) => {
-  //   let checkout = await bambuserFetchCheckout()
-  //
-  //   if (!checkout) {
-  //     checkout = await bambuserCheckoutCreate()
-  //   }
-  //   dispatch({ type: STARTED_REQUEST })
-  //
-  //   const variables = { lineItems, checkoutId: checkout.id }
-  //   const result = await query<
-  //     CheckoutLineItemsAddResponse,
-  //     CheckoutLineItemsAddInput
-  //   >(CHECKOUT_LINE_ITEMS_ADD, variables)
-  //   dispatch({ type: ADDED_LINE_ITEMS, ...result.data.checkoutLineItemsAdd })
-  // }
-
-  /**
    * Shortcut Methods
    *
    * These methods implement the base methods to provide simpler "shortcut"
@@ -403,11 +329,6 @@ export const useCheckout = ({
     checkoutDiscountCodeApply,
     checkoutDiscountCodeRemove,
     checkoutAttributesUpdate,
-
-    /* Bambuser Methods */
-    // bambuserLineItemsAdd,
-    // bambuserLineItemsUpdate,
-    // bambuserFetchCheckout,
 
     /* Shortcut Methods */
     addLineItem,

@@ -1,15 +1,12 @@
 import gql from 'graphql-tag'
-
 import { Sentry } from '../../../src/services/sentry'
 import {
   request,
   shopifySourceProductFragment,
   shopifySourceProductVariantFragment,
 } from '../../graphql'
-
 import { ShopifyProduct } from '../../../src/types'
-
-import { BAMBUSER_MESSAGE_ID } from '../../constants'
+import { BAMBUSER_MESSAGE_ID } from './constants'
 
 interface Response {
   allShopifyProduct: ShopifyProduct[]

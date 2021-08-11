@@ -10,10 +10,6 @@ const DELIMITER = ' / '
 const CURRENCY = 'USD'
 const LOCALE = 'en-us'
 
-const insideIframe = (): boolean => {
-  return window !== window.parent
-}
-
 const findVariant = (product: ShopifyProduct, key: string) => {
   const v = product?.variants?.find((variant) => {
     return variant?.title === key

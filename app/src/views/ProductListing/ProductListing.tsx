@@ -184,7 +184,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const validHero = isValidHero(hero)
 
-  // TODO: launch bambuser
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />

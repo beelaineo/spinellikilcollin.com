@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { BambuserShowType } from '../../types'
-import { BAMBUSER_CHECKOUT_MESSAGE, BAMBUSER_INIT } from '../../constants'
+import { BAMBUSER_INIT } from './constants'
 import { useShopify } from '../ShopifyProvider'
 import {
   configureBambuser,
@@ -8,11 +8,10 @@ import {
   BambuserEvent,
 } from './configureBambuser'
 
-const { useEffect, useCallback } = React
+const { useEffect } = React
 
 interface BambuserContextValue {
   prepareShow: (showId: string, node: HTMLButtonElement) => void
-  // configurePlayer: (config: any) => void
 }
 
 const BambuserContext = React.createContext<BambuserContextValue | undefined>(
@@ -35,7 +34,7 @@ interface BambuserProps {
 export const BambuserProvider = ({ children }: BambuserProps) => {
   const { goToCheckout, checkout, addLineItem, updateLineItem } = useShopify()
 
-  const handleMessage = (e: MessageEvent) => {
+  const handleMessage = (e: MessageEvent<BambuserEvent>) => {
     const event = typeof e.data === 'string' ? JSON.parse(e.data) ?? {} : e.data
     if (event.eventName === EventNames.CHECKOUT) {
       goToCheckout()

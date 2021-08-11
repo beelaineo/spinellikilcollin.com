@@ -9,7 +9,6 @@ import {
 import { useAnalytics } from '../AnalyticsProvider'
 import { QueryFunction } from './types'
 import { config } from '../../config'
-import { BAMBUSER_MESSAGE_ID } from '../../constants'
 
 const { SHOPIFY_CHECKOUT_DOMAIN: domain } = config
 
@@ -43,10 +42,6 @@ interface Props {
 
 const defaultConfig = {
   checkout: undefined,
-}
-
-const insideIframe = (): boolean => {
-  return window !== window.parent
 }
 
 export const ShopifyProvider = ({
@@ -83,22 +78,7 @@ export const ShopifyProvider = ({
     )
     const { protocol, pathname, search } = new URL(checkout.webUrl)
     const redirect: string = `${protocol}//${domain}${pathname}${search}`
-    /* If checkint out from Bambuser, we will be inside an iframe */
-    if (insideIframe()) {
-      try {
-        window.parent.postMessage(
-          {
-            [BAMBUSER_MESSAGE_ID]: redirect,
-          },
-          `https://${window.location.hostname}`,
-          [],
-        )
-      } catch (e) {
-        console.log('There is something wrong with the url', e)
-      }
-    } else {
-      window.location.href = redirect
-    }
+    window.location.href = redirect
   }
 
   const value = {

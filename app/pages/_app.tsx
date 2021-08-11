@@ -188,7 +188,6 @@ const App = (props: AppProps) => {
           <Footer />
         </Main>
         <div id="modal" />
-        <div id="bambuserModal" />
       </ThemeProvider>
       <script
         /* Hubspot */

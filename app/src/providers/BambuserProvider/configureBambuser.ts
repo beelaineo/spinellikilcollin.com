@@ -1,4 +1,4 @@
-import { BAMBUSER_READY } from '../../constants'
+import { BAMBUSER_READY } from './constants'
 import { getLocationSearchHash } from '../../utils'
 import { ShopifyProduct } from '../../types'
 import {
@@ -98,9 +98,12 @@ export const configureBambuser = (options: ConfigureBambuserOptions) => {
     /** Adding product data */
     player.on(player.EVENT.PROVIDE_PRODUCT_DATA, function (event) {
       event.products.forEach(
-        async ({ ref: sku, id: productId, url: publicUrl }) => {
+        async ({
+          // ref: sku, // we don't need the SKU, we get the product info from the URL
+          id: productId,
+          url: publicUrl,
+        }) => {
           const hash = getLocationSearchHash(publicUrl)
-          // const pid = getIdFromBase64(hash)
           const SHOPIFY_PRODUCT_URL_HANDLE_REGEX = /\/products\/(.[\w\d-+]+)/
           const handles = SHOPIFY_PRODUCT_URL_HANDLE_REGEX.exec(publicUrl)
 
