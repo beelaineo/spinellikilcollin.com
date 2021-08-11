@@ -6,11 +6,11 @@
 	"homepage": "https://www.spinellikilcollin.com",
 	"license": "NONE",
 	"scripts": {
-		"start": "yarn build:json && DEBUG=app* next",
+		"start": "DEBUG=app* next",
 		"start:prod": "NODE_ENV=production next",
 		"start:debug": "NODE_OPTIONS='--inspect' DEBUG=app* next dev",
 		"start:algolia": "DEBUG=api:algolia,dev:sentry yarn next",
-		"build": "yarn build:json && yarn build:next",
+		"build": "yarn build:next",
 		"build:next": "next build",
 		"build:analyze": "ANALYZE=true next build",
 		"build:json": "DEBUG=build:json yarn ts-node --project tsconfig.scripts.json src/scripts/getSpreadsheetJSON.ts",
