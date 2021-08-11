@@ -18,9 +18,7 @@ import { useInViewport, useSanityQuery } from '../../hooks'
 import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
-import BambuserView from '../Bambuser/BambuserView'
 import { config } from '../../../src/config'
-const { BAMBUSER_SLUG, BAMBUSER_AUTOPLAY } = config
 import {
   LoadingWrapper,
   ProductGridWrapper,
@@ -186,18 +184,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const validHero = isValidHero(hero)
 
-  let showBambuser = false
-  let bambuserAutoPlay =
-    BAMBUSER_AUTOPLAY && BAMBUSER_AUTOPLAY === 'true' ? true : false
-  if (collection?.handle && BAMBUSER_SLUG) {
-    if (collection?.handle.toLowerCase() === BAMBUSER_SLUG.toLowerCase()) {
-      showBambuser = true
-    }
-  }
+  // TODO: launch bambuser
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
-      {showBambuser ? <BambuserView autoPlay={bambuserAutoPlay} /> : null}
       {hero && validHero ? <HeroBlock hero={hero} /> : null}
       <Wrapper handle={handle} withHero={Boolean(hero && validHero)}>
         {filters && filters.length ? (

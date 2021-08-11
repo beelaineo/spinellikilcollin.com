@@ -2,8 +2,10 @@ import * as React from 'react'
 import Link from 'next/link'
 import styled from '@xstyled/styled-components'
 import { Cta } from '../types'
-import { getPageLinkUrl } from '../utils/links'
-import { useModal } from '../providers/ModalProvider'
+import { useStatefulRef, getPageLinkUrl } from '../utils'
+import { useBambuser, useModal } from '../providers'
+
+const { useEffect } = React
 
 interface CTAProps {
   cta: Cta
@@ -26,17 +28,34 @@ const ActionButton = styled.button`
   color: inherit;
 `
 
-const launchBambuser = () => undefined
+const noop = () => undefined
 
 const ActionCTA = ({ cta }: CTAProps) => {
   const { action, label } = cta
+  const buttonRef = useStatefulRef<HTMLButtonElement>(null)
+  const { prepareShow } = useBambuser()
+
+  useEffect(() => {
+    /**
+     * If it is a bambuser action, attach the event listener
+     * to the button ref
+     */
+    if (!buttonRef.current) return
+    const slug = cta?.bambuser?.slug
+    if (!slug) {
+      throw new Error('No bambuser slug provided')
+    }
+    if (action === 'launchBambuser') {
+      prepareShow(slug, buttonRef.current)
+    }
+  }, [action, buttonRef.current, cta?.bambuser?.slug])
+
   const { openCustomizationModal, openRingSizerModal } = useModal()
   if (!action) return null
   const getActionHandler = (action: string) => {
     switch (action) {
       case 'launchBambuser':
-        // return () => launchBambuser()
-        return () => openRingSizerModal()
+        return noop
       case 'launchRingSizerModal':
         return () => openRingSizerModal()
       case 'launchCustomizationModal':
@@ -51,7 +70,7 @@ const ActionCTA = ({ cta }: CTAProps) => {
 
   return (
     <Outer>
-      <ActionButton onClick={handleClick}>
+      <ActionButton ref={buttonRef} onClick={handleClick}>
         <Wrapper as="div">{label}</Wrapper>
       </ActionButton>
     </Outer>

@@ -4,7 +4,7 @@ import { Background, ModalWrapper, Wrapper, CloseButton } from './styled'
 
 interface ModalProps {
   children: React.ReactNode
-  closeModal: () => void
+  closeModal?: () => void
 }
 
 export const Modal: React.FC<ModalProps> = ({ children, closeModal }) => {

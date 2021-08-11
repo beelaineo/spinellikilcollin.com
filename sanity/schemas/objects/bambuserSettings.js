@@ -5,8 +5,8 @@ export const bambuserSettings = {
   fields: [
     {
       name: 'slug',
-      title: 'Bambuser Slug',
-      description: 'The slug of the Bambuser video to launch',
+      title: 'Bambuser show ID',
+      description: 'The ID of the Bambuser video to launch',
       type: 'string',
     },
     {

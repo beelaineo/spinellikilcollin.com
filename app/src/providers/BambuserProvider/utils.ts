@@ -7,16 +7,9 @@ import {
   shopifySourceProductVariantFragment,
 } from '../../graphql'
 
-import {
-  ShopifyProduct,
-  ShopifySourceProduct,
-  ShopifyProductVariant,
-  ShopifyProductOption,
-  ShopifySourceProductVariant,
-} from '../../../src/types'
-const DELIMITER = ' / '
+import { ShopifyProduct } from '../../../src/types'
 
-import { ShowType, INIT, READY, MESSAGE_ID } from './BambuserView'
+import { BAMBUSER_MESSAGE_ID } from '../../constants'
 
 interface Response {
   allShopifyProduct: ShopifyProduct[]
@@ -82,10 +75,10 @@ export const onMessage = (callback: mesgProps) => {
       }
       if (
         event.data &&
-        event.data[MESSAGE_ID] &&
-        event.data[MESSAGE_ID].indexOf('https://') > -1
+        event.data[BAMBUSER_MESSAGE_ID] &&
+        event.data[BAMBUSER_MESSAGE_ID].indexOf('https://') > -1
       ) {
-        callback(event.data[MESSAGE_ID])
+        callback(event.data[BAMBUSER_MESSAGE_ID])
       }
     },
     false,

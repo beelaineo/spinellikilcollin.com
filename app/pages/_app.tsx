@@ -10,8 +10,6 @@ import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { config } from '../src/config'
 
-const { useEffect } = React
-
 interface AppProps {
   Component: React.ComponentType
   pageProps: any
@@ -190,6 +188,7 @@ const App = (props: AppProps) => {
           <Footer />
         </Main>
         <div id="modal" />
+        <div id="bambuserModal" />
       </ThemeProvider>
       <script
         /* Hubspot */
@@ -199,6 +198,8 @@ const App = (props: AppProps) => {
         defer
         src="//js.hs-scripts.com/7668999.js"
       />
+      {/* Bambuser */}
+      <script src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js" />
     </Providers>
   )
 }

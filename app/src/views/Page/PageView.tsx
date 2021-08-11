@@ -60,33 +60,18 @@ export const PageView = ({ page }: PageViewProps) => {
   if (!slug) throw new Error('No slug was fetched')
   const path = ['about', slug.current].join('/')
 
-  let showBambuser = false
-  let bambuserAutoPlay =
-    BAMBUSER_AUTOPLAY && BAMBUSER_AUTOPLAY === 'true' ? true : false
-  if (slug?.current && BAMBUSER_SLUG) {
-    if (slug?.current.toLowerCase() === BAMBUSER_SLUG.toLowerCase()) {
-      showBambuser = true
-    }
-  }
+  // let showBambuser = false
+  // let bambuserAutoPlay =
+  //   BAMBUSER_AUTOPLAY && BAMBUSER_AUTOPLAY === 'true' ? true : false
+  // if (slug?.current && BAMBUSER_SLUG) {
+  //   if (slug?.current.toLowerCase() === BAMBUSER_SLUG.toLowerCase()) {
+  //     showBambuser = true
+  //   }
+  // }
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
-      {hero && isValidHero(hero) ? (
-        <>
-          {' '}
-          {showBambuser ? (
-            <HeroBlock hero={hero}>
-              {
-                <BambuserView autoPlay={bambuserAutoPlay}>
-                  <RichText body={hero.bodyRaw} />
-                </BambuserView>
-              }
-            </HeroBlock>
-          ) : (
-            <HeroBlock hero={hero} />
-          )}{' '}
-        </>
-      ) : null}
+      {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
       <PageWrapper p={fullWidth ? '0' : undefined}>
         {hideTitle !== true ? (
           <>

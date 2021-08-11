@@ -37,11 +37,6 @@ interface ImageWidth {
 const buildSrcSet = (widths: ImageWidth[]): string =>
   widths.map(({ src, width }) => `${src} ${width}w`).join(', ')
 
-interface ImageUrls {
-  src?: Maybe<string>
-  srcSet: string
-}
-
 type SrcsetWidth = number | [number, number]
 
 const defaultSizes: SrcsetWidth[] = [100, 300, 600, 800, 1200, [1600, 2200]]

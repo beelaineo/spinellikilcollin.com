@@ -7,8 +7,6 @@ import Document, {
   NextScript,
 } from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
-import { gtm } from './_app'
-import { config } from '../src/config'
 
 export default class MyDocument extends Document {
   static async getInitialProps(ctx: DocumentContext) {
