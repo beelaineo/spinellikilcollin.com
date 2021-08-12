@@ -17,6 +17,7 @@ const getActionTitle = (action) => {
 
 const getPreviewValues = async (values) => {
   const { action, label } = values
+  console.log({ values })
 
   if (action) {
     return {
@@ -49,6 +50,9 @@ const getPreviewValues = async (values) => {
       title: doc.title,
       subtitles,
     }
+  }
+  return {
+    title: label || '(Untitled)',
   }
 }
 
