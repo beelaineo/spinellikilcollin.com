@@ -81,6 +81,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     handle,
     collectionBlocks,
     reduceColumnCount,
+    lightTheme,
   } = collection
   if (!handle) {
     throw new Error('The collection is missing a handle')
@@ -186,7 +187,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
       {hero && validHero ? <HeroBlock hero={hero} /> : null}
-      <Wrapper handle={handle} withHero={Boolean(hero && validHero)}>
+      <Wrapper
+        handle={handle}
+        withHero={Boolean(hero && validHero)}
+        isLightTheme={Boolean(lightTheme)}
+      >
         {filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}

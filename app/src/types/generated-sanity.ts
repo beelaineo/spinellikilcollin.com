@@ -2232,6 +2232,8 @@ export interface ShopifyCollection extends Document {
   hidden?: Maybe<Scalars['Boolean']>
   /** Changes the layout to 2 columns on desktop, 1 column on tablet */
   reduceColumnCount?: Maybe<Scalars['Boolean']>
+  /** Changes product listing text color to white */
+  lightTheme?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
   collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
   preferredVariantMatches?: Maybe<Array<Maybe<Scalars['String']>>>
@@ -2255,6 +2257,7 @@ export type ShopifyCollectionFilter = {
   sourceData?: Maybe<ShopifySourceCollectionFilter>
   hidden?: Maybe<BooleanFilter>
   reduceColumnCount?: Maybe<BooleanFilter>
+  lightTheme?: Maybe<BooleanFilter>
   hero?: Maybe<HeroFilter>
   seo?: Maybe<SeoFilter>
 }
@@ -2273,6 +2276,7 @@ export type ShopifyCollectionSorting = {
   sourceData?: Maybe<ShopifySourceCollectionSorting>
   hidden?: Maybe<SortOrder>
   reduceColumnCount?: Maybe<SortOrder>
+  lightTheme?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
   seo?: Maybe<SeoSorting>
 }
