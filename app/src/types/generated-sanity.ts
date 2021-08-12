@@ -82,28 +82,52 @@ export type AboutSorting = {
   seo?: Maybe<SeoSorting>
 }
 
+export interface BambuserLiveSettings {
+  __typename: 'BambuserLiveSettings'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  startDate?: Maybe<Scalars['DateTime']>
+  endDate?: Maybe<Scalars['DateTime']>
+  liveCTALabel?: Maybe<Scalars['String']>
+}
+
+export type BambuserLiveSettingsFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  startDate?: Maybe<DatetimeFilter>
+  endDate?: Maybe<DatetimeFilter>
+  liveCTALabel?: Maybe<StringFilter>
+}
+
+export type BambuserLiveSettingsSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  startDate?: Maybe<SortOrder>
+  endDate?: Maybe<SortOrder>
+  liveCTALabel?: Maybe<SortOrder>
+}
+
 export interface BambuserSettings {
   __typename: 'BambuserSettings'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  /** The slug of the Bambuser video to launch */
+  /** The ID of the Bambuser video to launch */
   slug?: Maybe<Scalars['String']>
-  /** (Has no effect within the context of a CTA) */
-  autoplay?: Maybe<Scalars['Boolean']>
+  liveSettings?: Maybe<BambuserLiveSettings>
 }
 
 export type BambuserSettingsFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   slug?: Maybe<StringFilter>
-  autoplay?: Maybe<BooleanFilter>
+  liveSettings?: Maybe<BambuserLiveSettingsFilter>
 }
 
 export type BambuserSettingsSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   slug?: Maybe<SortOrder>
-  autoplay?: Maybe<SortOrder>
+  liveSettings?: Maybe<BambuserLiveSettingsSorting>
 }
 
 export interface Block {

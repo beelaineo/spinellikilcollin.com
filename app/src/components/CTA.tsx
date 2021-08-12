@@ -30,8 +30,16 @@ const ActionButton = styled.button`
 
 const noop = () => undefined
 
+const isBambuserTime = (cta: Cta): boolean => {
+  const startDate = cta?.bambuser?.liveSettings?.startDate
+  const endDate = cta?.bambuser?.liveSettings?.endDate
+  if (!startDate || !endDate) return false
+  const now = new Date()
+  return now >= new Date(startDate) && now <= new Date(endDate)
+}
+
 const ActionCTA = ({ cta }: CTAProps) => {
-  const { action, label } = cta
+  const { action, label: defaultLabel } = cta
   const buttonRef = useStatefulRef<HTMLButtonElement>(null)
   const { prepareShow } = useBambuser()
 
@@ -67,6 +75,10 @@ const ActionCTA = ({ cta }: CTAProps) => {
   const handler = getActionHandler(action)
 
   const handleClick = () => handler()
+
+  const label = isBambuserTime(cta)
+    ? cta?.bambuser?.liveSettings?.liveCTALabel || defaultLabel
+    : defaultLabel
 
   return (
     <Outer>
