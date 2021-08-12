@@ -1,8 +1,10 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
+import { definitely } from '../utils'
 import {
   ShopifyProduct,
-  ShopifySourceProductVariant as SourceVariant,
+  ShopifyProductVariant,
+  // ShopifySourceProductVariant as SourceVariant,
 } from '../types'
 
 const { useState } = React
@@ -11,17 +13,17 @@ interface Options {
   initialVariant?: string | 'first' | 'last'
 }
 
-interface Variant extends SourceVariant {
-  __typename: any
-}
+// interface Variant extends SourceVariant {
+//   __typename: any
+// }
 
 export interface UseProductVariant {
-  currentVariant?: Variant
+  currentVariant?: ShopifyProductVariant
   selectVariant: (variantId: string) => void
 }
 
 interface ReturnValue {
-  currentVariant: SourceVariant | null
+  currentVariant: ShopifyProductVariant | null
   selectVariant: (id: string) => void
 }
 
@@ -30,16 +32,16 @@ export const useProductVariant = (
   options: Options = {},
 ): ReturnValue => {
   const { initialVariant } = options
-  const variants = product?.sourceData?.variants
-    ? unwindEdges<SourceVariant>(product?.sourceData?.variants)[0]
-    : []
+  const variants = definitely(product?.variants)
+  // ? (product?.variants)
+  // : []
   if (!variants.length) throw new Error('The supplied product has no variants')
   /**
    * Private Methods
    */
 
   const findVariant = (variantId: string) => {
-    const variant = variants.find((v) => v.id === variantId)
+    const variant = variants.find((v) => v.shopifyVariantID === variantId)
     if (!variant)
       throw new Error(
         `There is no variant with the id "${variantId}" on the product ${product.title}`,

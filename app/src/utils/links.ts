@@ -159,6 +159,15 @@ export const getDocumentLinkImage = (
   }
 }
 
+export const getLocationSearchHash = (search: string): string => {
+  let result: string = ''
+  const searchString = search.split('?v=')
+  if (searchString.length === 2) {
+    result = decodeURIComponent(searchString[1])
+  }
+  return result
+}
+
 export const getProductIdLocationSearch = (search: string): string => {
   let productId
 

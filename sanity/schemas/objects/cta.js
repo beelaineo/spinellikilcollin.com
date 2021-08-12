@@ -8,7 +8,9 @@ import {
 } from '../utils'
 
 const getActionTitle = (action) => {
-  const actionType = actionTypes.find((a) => a.value === action)
+  const actionType = actionTypes.find(
+    (a) => a.value === action || a.title === action,
+  )
   if (!actionType) {
     throw new Error(`"${action}" is not a valid CTA action`)
   }
@@ -49,6 +51,9 @@ const getPreviewValues = async (values) => {
       title: doc.title,
       subtitles,
     }
+  }
+  return {
+    title: label || '(Untitled)',
   }
 }
 

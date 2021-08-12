@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { ShopifyProduct } from '../../types'
+import { ShopifyProduct, ShopifySourceImage } from '../../types'
 import {
   getVariantTitle,
   parseHTML,
@@ -64,15 +64,13 @@ export const ProductDetail = ({ product }: Props) => {
   /* get product variant utils */
   if (!product.sourceData) return null
   if (!product.variants) return null
-  const { currentVariant: currentVariantSource, selectVariant } =
-    useProductVariant(product, useProductVariantOptions)
+  const { currentVariant, selectVariant } = useProductVariant(
+    product,
+    useProductVariantOptions,
+  )
 
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)
-
-  const currentVariant = product.variants.find(
-    (v) => v && v.shopifyVariantID === currentVariantSource?.id,
-  )
 
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
@@ -177,8 +175,8 @@ export const ProductDetail = ({ product }: Props) => {
     title: getVariantTitle(product, currentVariant),
     image:
       currentVariant?.sourceData?.image ?? images.length
-        ? images[0]
-        : undefined,
+        ? (currentVariant?.sourceData?.image as ShopifySourceImage)
+        : images[0],
   }
 
   if (!handle) throw new Error('No handle fetched')

@@ -1,0 +1,1462 @@
+[
+  {
+    "english": "Canada",
+    "spanish": "Canadá",
+    "countryCode": "CA",
+    "currencyCode": "CAD",
+    "dialingCode": 1,
+    "phoneFormat": "(999) 999-9999",
+    "flagEmoji": "🇨🇦",
+    "flags": null
+  },
+  {
+    "english": "United States",
+    "spanish": "Estados Unidos",
+    "countryCode": "US",
+    "currencyCode": "USD",
+    "dialingCode": 1,
+    "phoneFormat": "(999) 999-9999",
+    "flagEmoji": "🇺🇸",
+    "flags": null
+  },
+  {
+    "english": "Australia",
+    "spanish": "Australia",
+    "countryCode": "AU",
+    "currencyCode": "AUD",
+    "dialingCode": 61,
+    "phoneFormat": "(99) 9999 9999",
+    "flagEmoji": "🇦🇺",
+    "flags": null
+  },
+  {
+    "english": "Mexico",
+    "spanish": "México",
+    "countryCode": "MX",
+    "currencyCode": "MXN",
+    "dialingCode": 52,
+    "phoneFormat": "99 99 9999 9999",
+    "flagEmoji": "🇲🇽",
+    "flags": null
+  },
+  {
+    "english": "Albania",
+    "spanish": "Albania",
+    "countryCode": "AL",
+    "currencyCode": "ALL",
+    "dialingCode": 355,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇦🇱",
+    "flags": null
+  },
+  {
+    "english": "Germany",
+    "spanish": "Alemania",
+    "countryCode": "DE",
+    "currencyCode": "EUR",
+    "dialingCode": 49,
+    "phoneFormat": "999 99999999",
+    "flagEmoji": "🇩🇪",
+    "flags": null
+  },
+  {
+    "english": "Austria",
+    "spanish": "Austria",
+    "countryCode": "AT",
+    "currencyCode": "EUR",
+    "dialingCode": 43,
+    "phoneFormat": "9999 999999",
+    "flagEmoji": "🇦🇹",
+    "flags": null
+  },
+  {
+    "english": "Belgium",
+    "spanish": "Bélgica",
+    "countryCode": "BE",
+    "currencyCode": "EUR",
+    "dialingCode": 32,
+    "phoneFormat": "99 999 99 99",
+    "flagEmoji": "🇧🇪",
+    "flags": null
+  },
+  {
+    "english": "Belarus",
+    "spanish": "Bielorrusia",
+    "countryCode": "BY",
+    "currencyCode": "BYR",
+    "dialingCode": 375,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇾",
+    "flags": null
+  },
+  {
+    "english": "Bulgaria",
+    "spanish": "Bulgaria",
+    "countryCode": "BG",
+    "currencyCode": "BGN",
+    "dialingCode": 359,
+    "phoneFormat": "99 999 9999",
+    "flagEmoji": "🇧🇬",
+    "flags": null
+  },
+  {
+    "english": "Croatia",
+    "spanish": "Croacia",
+    "countryCode": "HR",
+    "currencyCode": "HRK",
+    "dialingCode": 385,
+    "phoneFormat": "99 9999 999",
+    "flagEmoji": "🇭🇷",
+    "flags": null
+  },
+  {
+    "english": "Greece",
+    "spanish": "Grecia",
+    "countryCode": "GR",
+    "currencyCode": "EUR",
+    "dialingCode": 30,
+    "phoneFormat": "99 9999 9999",
+    "flagEmoji": "🇬🇷",
+    "flags": null
+  },
+  {
+    "english": "Denmark",
+    "spanish": "Dinamarca",
+    "countryCode": "DK",
+    "currencyCode": "DKK",
+    "dialingCode": 45,
+    "phoneFormat": "99 99 99 99",
+    "flagEmoji": "🇩🇰",
+    "flags": null
+  },
+  {
+    "english": "Scotland",
+    "spanish": "Escosia",
+    "countryCode": "GB",
+    "currencyCode": "GBP",
+    "dialingCode": 44,
+    "phoneFormat": "999 9999 9999",
+    "flagEmoji": "🏴󠁧󠁢󠁳󠁣󠁴󠁿",
+    "flags": null
+  },
+  {
+    "english": "Slovakia",
+    "spanish": "Eslovaquia",
+    "countryCode": "SK",
+    "currencyCode": "SKK",
+    "dialingCode": 421,
+    "phoneFormat": "99/999 999 99",
+    "flagEmoji": "🇸🇰",
+    "flags": null
+  },
+  {
+    "english": "Slovenia",
+    "spanish": "Eslovenia",
+    "countryCode": "SI",
+    "currencyCode": "EUR",
+    "dialingCode": 386,
+    "phoneFormat": "(99) 999 99 99",
+    "flagEmoji": "🇸🇮",
+    "flags": null
+  },
+  {
+    "english": "Spain",
+    "spanish": "España",
+    "countryCode": "ES",
+    "currencyCode": "EUR",
+    "dialingCode": 34,
+    "phoneFormat": "999 99 99 99",
+    "flagEmoji": "🇪🇸",
+    "flags": null
+  },
+  {
+    "english": "Estonia",
+    "spanish": "Estonia",
+    "countryCode": "EE",
+    "currencyCode": "EEK",
+    "dialingCode": 372,
+    "phoneFormat": "999 9999",
+    "flagEmoji": "🇪🇪",
+    "flags": null
+  },
+  {
+    "english": "Finland",
+    "spanish": "Finlandia",
+    "countryCode": "FI",
+    "currencyCode": "EUR",
+    "dialingCode": 358,
+    "phoneFormat": "99 99999999",
+    "flagEmoji": "🇫🇮",
+    "flags": null
+  },
+  {
+    "english": "France",
+    "spanish": "Francia",
+    "countryCode": "FR",
+    "currencyCode": "EUR",
+    "dialingCode": 33,
+    "phoneFormat": "99 99 99 99 99",
+    "flagEmoji": "🇫🇷",
+    "flags": null
+  },
+  {
+    "english": "Netherlands",
+    "spanish": "Países Bajos",
+    "countryCode": "NL",
+    "currencyCode": "EUR",
+    "dialingCode": 31,
+    "phoneFormat": "999 999 9999",
+    "flagEmoji": "🇳🇱",
+    "flags": null
+  },
+  {
+    "english": "Hungary",
+    "spanish": "Hungría",
+    "countryCode": "HU",
+    "currencyCode": "HUF",
+    "dialingCode": 36,
+    "phoneFormat": "(9) 999 9999",
+    "flagEmoji": "🇭🇺",
+    "flags": null
+  },
+  {
+    "english": "Italy",
+    "spanish": "Italia",
+    "countryCode": "IT",
+    "currencyCode": "EUR",
+    "dialingCode": 39,
+    "phoneFormat": "99 9999 9999",
+    "flagEmoji": "🇮🇹",
+    "flags": null
+  },
+  {
+    "english": "Ireland",
+    "spanish": "Irlanda",
+    "countryCode": "IE",
+    "currencyCode": "EUR",
+    "dialingCode": 353,
+    "phoneFormat": "(99) 999 9999",
+    "flagEmoji": "🇮🇪",
+    "flags": null
+  },
+  {
+    "english": "Latvia",
+    "spanish": "Letonia",
+    "countryCode": "LV",
+    "currencyCode": "LVL",
+    "dialingCode": 371,
+    "phoneFormat": "99 999 999",
+    "flagEmoji": "🇱🇻",
+    "flags": null
+  },
+  {
+    "english": "Lithuania",
+    "spanish": "Lituania",
+    "countryCode": "LT",
+    "currencyCode": "LTL",
+    "dialingCode": 370,
+    "phoneFormat": "(9-9) 999 9999",
+    "flagEmoji": "🇱🇹",
+    "flags": null
+  },
+  {
+    "english": "Macedonia",
+    "spanish": "Macedonia",
+    "countryCode": "MK",
+    "currencyCode": "MKD",
+    "dialingCode": 389,
+    "phoneFormat": "99 99 99 99",
+    "flagEmoji": "🇲🇰",
+    "flags": null
+  },
+  {
+    "english": "Malta",
+    "spanish": "Malta",
+    "countryCode": "MT",
+    "currencyCode": "MTL",
+    "dialingCode": 356,
+    "phoneFormat": "9999 9999",
+    "flagEmoji": "🇲🇹",
+    "flags": null
+  },
+  {
+    "english": "Montenegro",
+    "spanish": "Montenegro",
+    "countryCode": "ME",
+    "currencyCode": "EUR",
+    "dialingCode": 382,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇪",
+    "flags": null
+  },
+  {
+    "english": "Moldova",
+    "spanish": "Moldavia",
+    "countryCode": "MD",
+    "currencyCode": "MDL",
+    "dialingCode": 373,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇩",
+    "flags": null
+  },
+  {
+    "english": "Norway",
+    "spanish": "Noruega",
+    "countryCode": "NO",
+    "currencyCode": "NOK",
+    "dialingCode": 47,
+    "phoneFormat": "99 99 99 99",
+    "flagEmoji": "🇳🇴",
+    "flags": null
+  },
+  {
+    "english": "Poland",
+    "spanish": "Polonia",
+    "countryCode": "PL",
+    "currencyCode": "PLN",
+    "dialingCode": 48,
+    "phoneFormat": "99 999 99 99",
+    "flagEmoji": "🇵🇱",
+    "flags": null
+  },
+  {
+    "english": "Portugal",
+    "spanish": "Potugal",
+    "countryCode": "PT",
+    "currencyCode": "EUR",
+    "dialingCode": 351,
+    "phoneFormat": "999 999 999",
+    "flagEmoji": "🇵🇹",
+    "flags": null
+  },
+  {
+    "english": "United Kingdom",
+    "spanish": "Reino Unido",
+    "countryCode": "GB",
+    "currencyCode": "GBP",
+    "dialingCode": 44,
+    "phoneFormat": "999 9999 9999",
+    "flagEmoji": "🇬🇧",
+    "flags": null
+  },
+  {
+    "english": "Czech Republic",
+    "spanish": "República Checa",
+    "countryCode": "CZ",
+    "currencyCode": "CZK",
+    "dialingCode": 420,
+    "phoneFormat": "999 999 999",
+    "flagEmoji": "🇨🇿",
+    "flags": null
+  },
+  {
+    "english": "Romania",
+    "spanish": "Rumania",
+    "countryCode": "RO",
+    "currencyCode": "RON",
+    "dialingCode": 40,
+    "phoneFormat": "999 999 9999",
+    "flagEmoji": "🇷🇴",
+    "flags": null
+  },
+  {
+    "english": "Russia",
+    "spanish": "Rusia",
+    "countryCode": "RU",
+    "currencyCode": "RUB",
+    "dialingCode": 7,
+    "phoneFormat": "(999) 999-99-99",
+    "flagEmoji": "🇷🇺",
+    "flags": null
+  },
+  {
+    "english": "Serbia",
+    "spanish": "Serbia",
+    "countryCode": "RS",
+    "currencyCode": "RSD",
+    "dialingCode": 381,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇷🇸",
+    "flags": null
+  },
+  {
+    "english": "Sweden",
+    "spanish": "Suecia",
+    "countryCode": "SE",
+    "currencyCode": "SEK",
+    "dialingCode": 46,
+    "phoneFormat": "99-999 999 99",
+    "flagEmoji": "🇸🇪",
+    "flags": null
+  },
+  {
+    "english": "Switzerland",
+    "spanish": "Suiza",
+    "countryCode": "CH",
+    "currencyCode": "CHF",
+    "dialingCode": 41,
+    "phoneFormat": "999 999 99 99",
+    "flagEmoji": "🇨🇭",
+    "flags": null
+  },
+  {
+    "english": "Ukraine",
+    "spanish": "Ucrania",
+    "countryCode": "UA",
+    "currencyCode": "UAH",
+    "dialingCode": 380,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇺🇦",
+    "flags": null
+  },
+  {
+    "english": "Afghanistan",
+    "spanish": "Afganistán",
+    "countryCode": "AF",
+    "currencyCode": "AFN",
+    "dialingCode": 93,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇦🇫",
+    "flags": null
+  },
+  {
+    "english": "Armenia",
+    "spanish": "Armenia",
+    "countryCode": "AM",
+    "currencyCode": "AMD",
+    "dialingCode": 374,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇦🇲",
+    "flags": null
+  },
+  {
+    "english": "Azerbaijan",
+    "spanish": "Azerbaiyán",
+    "countryCode": "AZ",
+    "currencyCode": "AZN",
+    "dialingCode": 994,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇦🇿",
+    "flags": null
+  },
+  {
+    "english": "Bangladesh",
+    "spanish": "Bangladés",
+    "countryCode": "BD",
+    "currencyCode": "BDT",
+    "dialingCode": 880,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇩",
+    "flags": null
+  },
+  {
+    "english": "Bahrain",
+    "spanish": "Baréin",
+    "countryCode": "BH",
+    "currencyCode": "BHD",
+    "dialingCode": 973,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇭",
+    "flags": null
+  },
+  {
+    "english": "Brunei",
+    "spanish": "Brunéi",
+    "countryCode": "BN",
+    "currencyCode": "BND",
+    "dialingCode": 673,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇳",
+    "flags": null
+  },
+  {
+    "english": "Cambodia",
+    "spanish": "Camboya",
+    "countryCode": "KH",
+    "currencyCode": "KHR",
+    "dialingCode": 855,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇭",
+    "flags": null
+  },
+  {
+    "english": "China",
+    "spanish": "China",
+    "countryCode": "CN",
+    "currencyCode": "CNY",
+    "dialingCode": 86,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇳",
+    "flags": null
+  },
+  {
+    "english": "North Korea",
+    "spanish": "Corea del Norte",
+    "countryCode": "KP",
+    "currencyCode": "KPW",
+    "dialingCode": 850,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇵",
+    "flags": null
+  },
+  {
+    "english": "South Korea",
+    "spanish": "Corea del Sur",
+    "countryCode": "KR",
+    "currencyCode": "KRW",
+    "dialingCode": 82,
+    "phoneFormat": "99-9999-9999",
+    "flagEmoji": "🇰🇷",
+    "flags": null
+  },
+  {
+    "english": "Philippines",
+    "spanish": "Filipinas",
+    "countryCode": "PH",
+    "currencyCode": "PHP",
+    "dialingCode": 63,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇵🇭",
+    "flags": null
+  },
+  {
+    "english": "Georgia",
+    "spanish": "Georgia",
+    "countryCode": "GE",
+    "currencyCode": "GEL",
+    "dialingCode": 995,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇬🇪",
+    "flags": null
+  },
+  {
+    "english": "India",
+    "spanish": "India",
+    "countryCode": "IN",
+    "currencyCode": "INR",
+    "dialingCode": 91,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇮🇳",
+    "flags": null
+  },
+  {
+    "english": "Indonesia",
+    "spanish": "Indonesia",
+    "countryCode": "ID",
+    "currencyCode": "IDR",
+    "dialingCode": 62,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇮🇩",
+    "flags": null
+  },
+  {
+    "english": "Iraq",
+    "spanish": "Irak",
+    "countryCode": "IQ",
+    "currencyCode": "IQD",
+    "dialingCode": 964,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇮🇶",
+    "flags": null
+  },
+  {
+    "english": "Iran",
+    "spanish": "Irán",
+    "countryCode": "IR",
+    "currencyCode": "IRR",
+    "dialingCode": 98,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇮🇷",
+    "flags": null
+  },
+  {
+    "english": "Israel",
+    "spanish": "Israel",
+    "countryCode": "IL",
+    "currencyCode": "ILS",
+    "dialingCode": 972,
+    "phoneFormat": "999-999-9999",
+    "flagEmoji": "🇮🇱",
+    "flags": null
+  },
+  {
+    "english": "Japan",
+    "spanish": "Japón",
+    "countryCode": "JP",
+    "currencyCode": "JPY",
+    "dialingCode": 81,
+    "phoneFormat": "99-9999-9999",
+    "flagEmoji": "🇯🇵",
+    "flags": null
+  },
+  {
+    "english": "Jordan",
+    "spanish": "Jordania",
+    "countryCode": "JO",
+    "currencyCode": "JOD",
+    "dialingCode": 962,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇯🇴",
+    "flags": null
+  },
+  {
+    "english": "Kazakhstan",
+    "spanish": "Kazajistán",
+    "countryCode": "KZ",
+    "currencyCode": "KZT",
+    "dialingCode": 7,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇿",
+    "flags": null
+  },
+  {
+    "english": "Kyrgyzstan",
+    "spanish": "Kirguistán",
+    "countryCode": "KG",
+    "currencyCode": "KGS",
+    "dialingCode": 996,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇬",
+    "flags": null
+  },
+  {
+    "english": "Malaysia",
+    "spanish": "Malasia",
+    "countryCode": "MY",
+    "currencyCode": "MYR",
+    "dialingCode": 60,
+    "phoneFormat": "99-9999 9999",
+    "flagEmoji": "🇲🇾",
+    "flags": null
+  },
+  {
+    "english": "Maldives",
+    "spanish": "Maldivas",
+    "countryCode": "MV",
+    "currencyCode": "MVR",
+    "dialingCode": 960,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇻",
+    "flags": null
+  },
+  {
+    "english": "Mongolia",
+    "spanish": "Mongolia",
+    "countryCode": "MN",
+    "currencyCode": "MNT",
+    "dialingCode": 976,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇳",
+    "flags": null
+  },
+  {
+    "english": "Oman",
+    "spanish": "Omán",
+    "countryCode": "OM",
+    "currencyCode": "OMR",
+    "dialingCode": 968,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇴🇲",
+    "flags": null
+  },
+  {
+    "english": "Palestine",
+    "spanish": "Palestina",
+    "countryCode": "PS",
+    "currencyCode": "JOD",
+    "dialingCode": 970,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇵🇸",
+    "flags": null
+  },
+  {
+    "english": "Pakistan",
+    "spanish": "Pakistán",
+    "countryCode": "PK",
+    "currencyCode": "PKR",
+    "dialingCode": 92,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇵🇰",
+    "flags": null
+  },
+  {
+    "english": "Singapore",
+    "spanish": "Singapur",
+    "countryCode": "SG",
+    "currencyCode": "SGD",
+    "dialingCode": 65,
+    "phoneFormat": "9999 9999",
+    "flagEmoji": "🇸🇬",
+    "flags": null
+  },
+  {
+    "english": "Syria",
+    "spanish": "Siria",
+    "countryCode": "SY",
+    "currencyCode": "SYP",
+    "dialingCode": 963,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇸🇾",
+    "flags": null
+  },
+  {
+    "english": "Thailand",
+    "spanish": "Tailandia",
+    "countryCode": "TH",
+    "currencyCode": "THB",
+    "dialingCode": 66,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇹🇭",
+    "flags": null
+  },
+  {
+    "english": "East Timor",
+    "spanish": "Timor Oriental",
+    "countryCode": "TL",
+    "currencyCode": "#N/A",
+    "dialingCode": 670,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇹🇱",
+    "flags": null
+  },
+  {
+    "english": "Turkey",
+    "spanish": "Turquía",
+    "countryCode": "TR",
+    "currencyCode": "TRY",
+    "dialingCode": 90,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇹🇷",
+    "flags": null
+  },
+  {
+    "english": "Uzbekistan",
+    "spanish": "Uzbekistán",
+    "countryCode": "UZ",
+    "currencyCode": "UZS",
+    "dialingCode": 998,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇺🇿",
+    "flags": null
+  },
+  {
+    "english": "Vietnam",
+    "spanish": "Vietnam",
+    "countryCode": "VN",
+    "currencyCode": "VND",
+    "dialingCode": 84,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇻🇳",
+    "flags": null
+  },
+  {
+    "english": "Yemen",
+    "spanish": "Yemen",
+    "countryCode": "YE",
+    "currencyCode": "YER",
+    "dialingCode": 967,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇾🇪",
+    "flags": null
+  },
+  {
+    "english": "Angola",
+    "spanish": "Angola",
+    "countryCode": "AO",
+    "currencyCode": "AOA",
+    "dialingCode": 244,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇦🇴",
+    "flags": null
+  },
+  {
+    "english": "Algeria",
+    "spanish": "Argelia",
+    "countryCode": "DZ",
+    "currencyCode": "DZD",
+    "dialingCode": 213,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇩🇿",
+    "flags": null
+  },
+  {
+    "english": "Benin",
+    "spanish": "Benín",
+    "countryCode": "BJ",
+    "currencyCode": "XOF",
+    "dialingCode": 229,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇯",
+    "flags": null
+  },
+  {
+    "english": "Botswana",
+    "spanish": "Botsuana",
+    "countryCode": "BW",
+    "currencyCode": "BWP",
+    "dialingCode": 267,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇼",
+    "flags": null
+  },
+  {
+    "english": "Burkina Faso",
+    "spanish": "Burkina Faso",
+    "countryCode": "BF",
+    "currencyCode": "XOF",
+    "dialingCode": 226,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇫",
+    "flags": null
+  },
+  {
+    "english": "Burundi",
+    "spanish": "Burundi",
+    "countryCode": "BI",
+    "currencyCode": "BIF",
+    "dialingCode": 257,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇮",
+    "flags": null
+  },
+  {
+    "english": "Cape Verde",
+    "spanish": "Cabo Verde",
+    "countryCode": "CV",
+    "currencyCode": "CVE",
+    "dialingCode": 238,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇻",
+    "flags": null
+  },
+  {
+    "english": "Cameroon",
+    "spanish": "Camerún",
+    "countryCode": "CM",
+    "currencyCode": "XAF",
+    "dialingCode": 237,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇲",
+    "flags": null
+  },
+  {
+    "english": "Chad",
+    "spanish": "Chad",
+    "countryCode": "TD",
+    "currencyCode": "XAF",
+    "dialingCode": 235,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇹🇩",
+    "flags": null
+  },
+  {
+    "english": "Comoros",
+    "spanish": "Comoras",
+    "countryCode": "KM",
+    "currencyCode": "KMF",
+    "dialingCode": 269,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇲",
+    "flags": null
+  },
+  {
+    "english": "Egypt",
+    "spanish": "Egipto",
+    "countryCode": "EG",
+    "currencyCode": "EGP",
+    "dialingCode": 20,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇪🇬",
+    "flags": null
+  },
+  {
+    "english": "Eritrea",
+    "spanish": "Eritrea",
+    "countryCode": "ER",
+    "currencyCode": "ETB",
+    "dialingCode": 291,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇪🇷",
+    "flags": null
+  },
+  {
+    "english": "Ethiopia",
+    "spanish": "Etiopía",
+    "countryCode": "ET",
+    "currencyCode": "ETB",
+    "dialingCode": 251,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇪🇹",
+    "flags": null
+  },
+  {
+    "english": "Gabon",
+    "spanish": "Gabón",
+    "countryCode": "GA",
+    "currencyCode": "XAF",
+    "dialingCode": 241,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇬🇦",
+    "flags": null
+  },
+  {
+    "english": "Gambia",
+    "spanish": "Gambia",
+    "countryCode": "GM",
+    "currencyCode": "GMD",
+    "dialingCode": 220,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇬🇲",
+    "flags": null
+  },
+  {
+    "english": "Ghana",
+    "spanish": "Ghana",
+    "countryCode": "GH",
+    "currencyCode": "GHS",
+    "dialingCode": 233,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇬🇭",
+    "flags": null
+  },
+  {
+    "english": "Guinea",
+    "spanish": "Guinea",
+    "countryCode": "GN",
+    "currencyCode": "GNF",
+    "dialingCode": 224,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇬🇳",
+    "flags": null
+  },
+  {
+    "english": "Kenya",
+    "spanish": "Kenia",
+    "countryCode": "KE",
+    "currencyCode": "KES",
+    "dialingCode": 254,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇪",
+    "flags": null
+  },
+  {
+    "english": "Kuwait",
+    "spanish": "Kuwait",
+    "countryCode": "KW",
+    "currencyCode": "KWD",
+    "dialingCode": 965,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇰🇼",
+    "flags": null
+  },
+  {
+    "english": "Liberia",
+    "spanish": "Liberia",
+    "countryCode": "LR",
+    "currencyCode": "LRD",
+    "dialingCode": 231,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇱🇷",
+    "flags": null
+  },
+  {
+    "english": "Libya",
+    "spanish": "Libia",
+    "countryCode": "LY",
+    "currencyCode": "LYD",
+    "dialingCode": 218,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇱🇾",
+    "flags": null
+  },
+  {
+    "english": "Madagascar",
+    "spanish": "Madagascar",
+    "countryCode": "MG",
+    "currencyCode": "MGA",
+    "dialingCode": 261,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇬",
+    "flags": null
+  },
+  {
+    "english": "Malawi",
+    "spanish": "Malaui",
+    "countryCode": "MW",
+    "currencyCode": "MWK",
+    "dialingCode": 265,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇼",
+    "flags": null
+  },
+  {
+    "english": "Mali",
+    "spanish": "Mali",
+    "countryCode": "ML",
+    "currencyCode": "XOF",
+    "dialingCode": 223,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇱",
+    "flags": null
+  },
+  {
+    "english": "Morocco",
+    "spanish": "Marruecos",
+    "countryCode": "MA",
+    "currencyCode": "MAD",
+    "dialingCode": 212,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇦",
+    "flags": null
+  },
+  {
+    "english": "Mauritius",
+    "spanish": "Mauricio",
+    "countryCode": "MU",
+    "currencyCode": "MUR",
+    "dialingCode": 230,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇺",
+    "flags": null
+  },
+  {
+    "english": "Mauritania",
+    "spanish": "Mauritania",
+    "countryCode": "MR",
+    "currencyCode": "MRO",
+    "dialingCode": 222,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇷",
+    "flags": null
+  },
+  {
+    "english": "Mozambique",
+    "spanish": "Mozambique",
+    "countryCode": "MZ",
+    "currencyCode": "MZN",
+    "dialingCode": 258,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇲🇿",
+    "flags": null
+  },
+  {
+    "english": "Namibia",
+    "spanish": "Namibia",
+    "countryCode": "NA",
+    "currencyCode": "NAD",
+    "dialingCode": 264,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇳🇦",
+    "flags": null
+  },
+  {
+    "english": "Niger",
+    "spanish": "Niger",
+    "countryCode": "NE",
+    "currencyCode": "XOF",
+    "dialingCode": 227,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇳🇪",
+    "flags": null
+  },
+  {
+    "english": "Central African Republic",
+    "spanish": "República centroafricana",
+    "countryCode": "CF",
+    "currencyCode": "XAF",
+    "dialingCode": 236,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇫",
+    "flags": null
+  },
+  {
+    "english": "Democratic Republic of the Congo",
+    "spanish": "República Democratico del Congo",
+    "countryCode": "CD",
+    "currencyCode": "CDF",
+    "dialingCode": 243,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇩",
+    "flags": null
+  },
+  {
+    "english": "Republic of the Congo",
+    "spanish": "República del Congo",
+    "countryCode": "CG",
+    "currencyCode": "CDF",
+    "dialingCode": 242,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇬",
+    "flags": null
+  },
+  {
+    "english": "Rwanda",
+    "spanish": "Ruanda",
+    "countryCode": "RW",
+    "currencyCode": "RWF",
+    "dialingCode": 250,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇷🇼",
+    "flags": null
+  },
+  {
+    "english": "Senegal",
+    "spanish": "Senegal",
+    "countryCode": "SN",
+    "currencyCode": "XOF",
+    "dialingCode": 221,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇸🇳",
+    "flags": null
+  },
+  {
+    "english": "Seychelles",
+    "spanish": "Seychelles",
+    "countryCode": "SC",
+    "currencyCode": "SCR",
+    "dialingCode": 248,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇸🇨",
+    "flags": null
+  },
+  {
+    "english": "Sierra Leone",
+    "spanish": "Sierra Leona",
+    "countryCode": "SL",
+    "currencyCode": "SLL",
+    "dialingCode": 232,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇸🇱",
+    "flags": null
+  },
+  {
+    "english": "Somalia",
+    "spanish": "Somalia",
+    "countryCode": "SO",
+    "currencyCode": "SOS",
+    "dialingCode": 252,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇸🇴",
+    "flags": null
+  },
+  {
+    "english": "Eswatini",
+    "spanish": "Eswatini",
+    "countryCode": "SZ",
+    "currencyCode": "SZL",
+    "dialingCode": 268,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇸🇿",
+    "flags": null
+  },
+  {
+    "english": "South Africa",
+    "spanish": "Sudáfrica",
+    "countryCode": "ZA",
+    "currencyCode": "ZAR",
+    "dialingCode": 27,
+    "phoneFormat": "999 999 9999",
+    "flagEmoji": "🇿🇦",
+    "flags": null
+  },
+  {
+    "english": "Sudan",
+    "spanish": "Sudán",
+    "countryCode": "SD",
+    "currencyCode": "SDG",
+    "dialingCode": 249,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇸🇩",
+    "flags": null
+  },
+  {
+    "english": "Tanzania",
+    "spanish": "Tanzania",
+    "countryCode": "TZ",
+    "currencyCode": "TZS",
+    "dialingCode": 255,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇹🇿",
+    "flags": null
+  },
+  {
+    "english": "Togo",
+    "spanish": "Togo",
+    "countryCode": "TG",
+    "currencyCode": "XOF",
+    "dialingCode": 228,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇹🇬",
+    "flags": null
+  },
+  {
+    "english": "Tunisia",
+    "spanish": "Túnez",
+    "countryCode": "TN",
+    "currencyCode": "TND",
+    "dialingCode": 216,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇹🇳",
+    "flags": null
+  },
+  {
+    "english": "Uganda",
+    "spanish": "Uganda",
+    "countryCode": "UG",
+    "currencyCode": "UGX",
+    "dialingCode": 256,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇺🇬",
+    "flags": null
+  },
+  {
+    "english": "Zambia",
+    "spanish": "Zambia",
+    "countryCode": "ZM",
+    "currencyCode": "ZMK",
+    "dialingCode": 260,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇿🇲",
+    "flags": null
+  },
+  {
+    "english": "Zimbabwe",
+    "spanish": "Zimbabue",
+    "countryCode": "ZW",
+    "currencyCode": "ZWD",
+    "dialingCode": 263,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇿🇼",
+    "flags": null
+  },
+  {
+    "english": "Argentina",
+    "spanish": "Argentina",
+    "countryCode": "AR",
+    "currencyCode": "ARS",
+    "dialingCode": 54,
+    "phoneFormat": "999 9999-9999",
+    "flagEmoji": "🇦🇷",
+    "flags": null
+  },
+  {
+    "english": "Bolivia",
+    "spanish": "Bolivia",
+    "countryCode": "BO",
+    "currencyCode": "BOB",
+    "dialingCode": 591,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇴",
+    "flags": null
+  },
+  {
+    "english": "Brazil",
+    "spanish": "Brazil",
+    "countryCode": "BR",
+    "currencyCode": "BRL",
+    "dialingCode": 55,
+    "phoneFormat": "(99) 9999-9999",
+    "flagEmoji": "🇧🇷",
+    "flags": null
+  },
+  {
+    "english": "Chile",
+    "spanish": "Chile",
+    "countryCode": "CL",
+    "currencyCode": "CLP",
+    "dialingCode": 56,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇱",
+    "flags": null
+  },
+  {
+    "english": "Colombia",
+    "spanish": "Colombia",
+    "countryCode": "CO",
+    "currencyCode": "COP",
+    "dialingCode": 57,
+    "phoneFormat": "(9) 9999999",
+    "flagEmoji": "🇨🇴",
+    "flags": null
+  },
+  {
+    "english": "Ecuador",
+    "spanish": "Ecuador",
+    "countryCode": "EC",
+    "currencyCode": "ECS",
+    "dialingCode": 593,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇪🇨",
+    "flags": null
+  },
+  {
+    "english": "Paraguay",
+    "spanish": "Paraguay",
+    "countryCode": "PY",
+    "currencyCode": "PYG",
+    "dialingCode": 595,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇵🇾",
+    "flags": null
+  },
+  {
+    "english": "Peru",
+    "spanish": "Perú",
+    "countryCode": "PE",
+    "currencyCode": "PEN",
+    "dialingCode": 51,
+    "phoneFormat": "(99) 9999999",
+    "flagEmoji": "🇵🇪",
+    "flags": null
+  },
+  {
+    "english": "Uruguay",
+    "spanish": "Uruguay",
+    "countryCode": "UY",
+    "currencyCode": "UYU",
+    "dialingCode": 598,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇺🇾",
+    "flags": null
+  },
+  {
+    "english": "Venezuela",
+    "spanish": "Venezuela",
+    "countryCode": "VE",
+    "currencyCode": "VEF",
+    "dialingCode": 58,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇻🇪",
+    "flags": null
+  },
+  {
+    "english": "Belize",
+    "spanish": "Belice",
+    "countryCode": "BZ",
+    "currencyCode": "BZD",
+    "dialingCode": 501,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇧🇿",
+    "flags": null
+  },
+  {
+    "english": "Costa Rica",
+    "spanish": "Costa Rica",
+    "countryCode": "CR",
+    "currencyCode": "CRC",
+    "dialingCode": 506,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇷",
+    "flags": null
+  },
+  {
+    "english": "Cuba",
+    "spanish": "Cuba",
+    "countryCode": "CU",
+    "currencyCode": "CUP",
+    "dialingCode": 53,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇨🇺",
+    "flags": null
+  },
+  {
+    "english": "Guatemala",
+    "spanish": "Guatemala",
+    "countryCode": "GT",
+    "currencyCode": "GTQ",
+    "dialingCode": 502,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇬🇹",
+    "flags": null
+  },
+  {
+    "english": "Honduras",
+    "spanish": "Honduras",
+    "countryCode": "HN",
+    "currencyCode": "HNL",
+    "dialingCode": 504,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇭🇳",
+    "flags": null
+  },
+  {
+    "english": "Nicaragua",
+    "spanish": "Nicaragua",
+    "countryCode": "NI",
+    "currencyCode": "NIO",
+    "dialingCode": 505,
+    "phoneFormat": "#N/A",
+    "flagEmoji": "🇳🇮",
+    "flags": null
+  },
+  {
+    "english": "Panama",
+    "spanish": "Panamá",
+    "countryCode": "PA",
+    "currencyCode": "PAB",
+    "dialingCode": 507,
+    "phoneFormat": "999-9999",
+    "flagEmoji": "🇵🇦",
+    "flags": null
+  },
+  {
+    "english": "Puerto Rico",
+    "spanish": "Puerto Rico",
+    "countryCode": "PR",
+    "currencyCode": "USD",
+    "dialingCode": 1,
+    "phoneFormat": "(999) 999-9999",
+    "flagEmoji": "🇵🇷",
+    "flags": null
+  },
+  {
+    "english": "Dominican Republic",
+    "spanish": "República Dominicana",
+    "countryCode": "DO",
+    "currencyCode": "DOP",
+    "dialingCode": "",
+    "phoneFormat": "(999) 999-9999",
+    "flagEmoji": "🇩🇴",
+    "flags": "address_only"
+  },
+  {
+    "english": "Dominican Republic (809)",
+    "spanish": "República Dominicana (809)",
+    "countryCode": "DO",
+    "currencyCode": "DOP",
+    "dialingCode": 809,
+    "phoneFormat": "(999) 999-9999",
+    "flagEmoji": "🇩🇴",
+    "flags": "phone_only"
+  },
+  {
+    "english": "Dominican Republic (829)",
+    "spanish": "República Dominicana (829)",
+    "countryCode": "DO",
+    "currencyCode": "DOP",
+    "dialingCode": 829,
+    "phoneFormat": "(999) 999-9999",
+    "flagEmoji": "🇩🇴",
+    "flags": "phone_only"
+  },
+  {
+    "english": "Dominican Republic (849)",
+    "spanish": "República Dominicana (849)",
+    "countryCode": "DO",
+    "currencyCode": "DOP",
+    "dialingCode": 849,
+    "phoneFormat": "(999) 999-9999",
+    "flagEmoji": "🇩🇴",
+    "flags": "phone_only"
+  },
+  {
+    "english": "El Salvador",
+    "spanish": "Salvador",
+    "countryCode": "SV",
+    "currencyCode": "SVC",
+    "dialingCode": 503,
+    "phoneFormat": "9999 9999",
+    "flagEmoji": "🇸🇻",
+    "flags": null
+  }
+]

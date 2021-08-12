@@ -37,6 +37,7 @@ import {
   // RECEIVED_ERRORS,
 } from './reducer'
 import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
+import { ShopifyStorefrontCheckout } from '../../../types/generated-shopify'
 
 const { useReducer, useEffect } = React
 

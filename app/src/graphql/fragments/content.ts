@@ -447,9 +447,7 @@ export const heroFragment = gql`
     mobileBackgroundColor
     aspectRatio
     cta {
-      cta {
-        ...CTAFragment
-      }
+      ...CTAFragment
     }
     heroLink {
       ...InternalLinkFragment

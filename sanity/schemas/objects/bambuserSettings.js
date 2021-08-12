@@ -1,3 +1,36 @@
+export const bambuserLiveSettings = {
+  name: 'bambuserLiveSettings',
+  title: 'Bambuser Live Settings',
+  description: 'Add a start & end date to change the UI during a live show.',
+  options: { collapsed: true, collapsible: true },
+  type: 'object',
+  fields: [
+    {
+      name: 'startDate',
+      title: 'Start date & time',
+      type: 'datetime',
+      options: {
+        timeStep: 15,
+        timeFormat: 'h:mm',
+      },
+    },
+    {
+      name: 'endDate',
+      title: 'End date & time',
+      type: 'datetime',
+      options: {
+        timeStep: 15,
+        timeFormat: 'h:mm',
+      },
+    },
+    {
+      name: 'liveCTALabel',
+      title: 'Alternate CTA Label during live show',
+      type: 'string',
+    },
+  ],
+}
+
 export const bambuserSettings = {
   name: 'bambuserSettings',
   title: 'Bambuser Settings',
@@ -5,15 +38,14 @@ export const bambuserSettings = {
   fields: [
     {
       name: 'slug',
-      title: 'Bambuser Slug',
-      description: 'The slug of the Bambuser video to launch',
+      title: 'Bambuser show ID',
+      description: 'The ID of the Bambuser video to launch',
       type: 'string',
     },
     {
-      name: 'autoplay',
-      title: 'Autoplay',
-      type: 'boolean',
-      description: '(Has no effect within the context of a CTA)',
+      name: 'liveSettings',
+      type: 'bambuserLiveSettings',
+      title: 'Live Show settings',
     },
   ],
 }
