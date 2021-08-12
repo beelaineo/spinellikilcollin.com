@@ -31,6 +31,7 @@ const ActionButton = styled.button`
 const noop = () => undefined
 
 const isBambuserTime = (cta: Cta): boolean => {
+  if (cta?.action !== 'launchBambuser') return false
   const startDate = cta?.bambuser?.liveSettings?.startDate
   const endDate = cta?.bambuser?.liveSettings?.endDate
   if (!startDate || !endDate) return false
@@ -42,6 +43,8 @@ const ActionCTA = ({ cta }: CTAProps) => {
   const { action, label: defaultLabel } = cta
   const buttonRef = useStatefulRef<HTMLButtonElement>(null)
   const { prepareShow } = useBambuser()
+
+  const isLive = isBambuserTime(cta)
 
   useEffect(() => {
     /**
@@ -57,6 +60,14 @@ const ActionCTA = ({ cta }: CTAProps) => {
       prepareShow(slug, buttonRef.current)
     }
   }, [action, buttonRef.current, cta?.bambuser?.slug])
+
+  useEffect(() => {
+    if (!buttonRef.current) return
+    const timeout = setTimeout(() => {
+      buttonRef.current.dispatchEvent(new MouseEvent('click'))
+    }, 1000)
+    return () => clearTimeout(timeout)
+  }, [isLive])
 
   const { openCustomizationModal, openRingSizerModal } = useModal()
   if (!action) return null
@@ -76,7 +87,7 @@ const ActionCTA = ({ cta }: CTAProps) => {
 
   const handleClick = () => handler()
 
-  const label = isBambuserTime(cta)
+  const label = isLive
     ? cta?.bambuser?.liveSettings?.liveCTALabel || defaultLabel
     : defaultLabel
 
