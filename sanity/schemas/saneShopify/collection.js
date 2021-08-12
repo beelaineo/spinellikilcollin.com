@@ -17,6 +17,14 @@ export const collection = {
         'Changes the layout to 2 columns on desktop, 1 column on tablet',
     },
 
+    {
+      title: 'Product Listing Text Color',
+      name: 'lightTheme',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to change text color to white for all products in collection.',
+    },
+
     { name: 'hero', type: 'hero' },
     {
       name: 'collectionBlocks',
