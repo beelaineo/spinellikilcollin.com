@@ -32,6 +32,7 @@ export const directory = {
     },
     {
       name: 'pageLinks',
+      title: 'Page Blocks',
       type: 'array',
       of: [{ type: 'pageLink' }],
     },

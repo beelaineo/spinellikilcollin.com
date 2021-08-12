@@ -8,6 +8,7 @@ import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
+
 import {
   definitely,
   getHeroImage,
@@ -56,6 +57,7 @@ export const PageView = ({ page }: PageViewProps) => {
   }
   if (!slug) throw new Error('No slug was fetched')
   const path = ['about', slug.current].join('/')
+
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />

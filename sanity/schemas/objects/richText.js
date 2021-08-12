@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { actionTypes } from './shared'
 
 export const defaultExternalLink = {
   type: 'object',
@@ -38,17 +39,7 @@ export const textAction = {
       title: 'Action Type',
       type: 'string',
       options: {
-        list: [
-          { title: 'Open Cart', value: 'openCart' },
-          {
-            title: 'Launch Ring Sizer modal',
-            value: 'launchRingSizerModal',
-          },
-          {
-            title: 'Launch Customization modal',
-            value: 'launchCustomizationModal',
-          },
-        ],
+        list: actionTypes,
       },
     },
   ],

@@ -85,14 +85,8 @@ const serializers = ({
     internalLink: ({ children, mark }) => {
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
-      const { href, as } = linkData
+      const { as } = linkData
       return <a href={as}>{children}</a>
-      //  return (
-      //   <Link href={href} as={as}>
-      //     <a>{children}</a>
-      //   </Link>
-      // )
-      return null
     },
     action: ({ children, mark }) => {
       const { actionType } = mark
@@ -105,7 +99,6 @@ const serializers = ({
           ? () => openRingSizerModal()
           : null
       if (!actionType) {
-        console.warn(`Action type "${actionType}" is not a valid option`)
         return <>{children}</>
       }
       return (

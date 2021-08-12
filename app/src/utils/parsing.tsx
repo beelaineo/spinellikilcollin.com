@@ -130,17 +130,15 @@ export function arrayify<T>(i: T | T[]): T[] {
 }
 
 export const getIdFromBase64 = (data: string): string => {
-  let id
-  const buffer = Buffer.from(data, 'base64')
-  const frag = buffer.toString('utf-8').split('gid://')
-  if (frag.length > 0) {
+  let id,
+    indentifier = 'gid://'
+  const buffer = Buffer.from(decodeURIComponent(data), 'base64')
+  const frag = buffer.toString('utf-8').split(indentifier)
+  if (frag.length >= 2) {
     let last = frag[1].split('/').pop()
 
     if (last) {
-      if (last.indexOf('\ufffd') > -1) {
-        last = last.replace('\r', '').replace(/\ufffd/g, '')
-        id = last
-      }
+      id = last
     }
   }
 

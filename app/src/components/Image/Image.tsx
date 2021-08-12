@@ -24,10 +24,17 @@ import { useInViewport } from '../../hooks'
 interface RatioPaddingProps {
   ratio: number
   canvasFill?: boolean
+  backgroundColor?: string
 }
 
-const RatioPadding = ({ ratio, canvasFill }: RatioPaddingProps) => {
+const RatioPadding = ({
+  ratio,
+  canvasFill,
+  backgroundColor: customBGColor,
+}: RatioPaddingProps) => {
   const [src, setSrc] = React.useState<string | void>(undefined)
+
+  const backgroundColor = customBGColor || 'transparent'
 
   React.useEffect(() => {
     if (!canvasFill) return
@@ -39,15 +46,15 @@ const RatioPadding = ({ ratio, canvasFill }: RatioPaddingProps) => {
     if (!ctx) return
     ctx.beginPath()
     ctx.rect(0, 0, 1600, 1600 * ratio)
-    ctx.fillStyle = 'rgba(220, 220, 220, 0)'
+    ctx.fillStyle = backgroundColor || 'rgba(220, 220, 220, 0)'
     ctx.fill()
     const srcData = canvas.toDataURL('image/png')
     setSrc(srcData)
-  }, [ratio, canvasFill])
+  }, [ratio, canvasFill, backgroundColor])
 
   const paddingBottom = src ? 0 : `${ratio * 100}%`
   return (
-    <RatioImageFill style={{ paddingBottom }} aria-hidden>
+    <RatioImageFill style={{ paddingBottom, backgroundColor }} aria-hidden>
       {src ? <img src={src} /> : null}
     </RatioImageFill>
   )
@@ -58,12 +65,39 @@ interface ImageProps {
   altText?: Maybe<string>
   hoverImage?: Maybe<ImageType>
   ratio?: number
+  /**
+   * The css/html sizes at which this image is expected to appear,
+   * from mobile to desktop. The final value will be used without a breakpoint.
+   *
+   * Examples:
+   *
+   * ['100vw', '80vw', '500px'] =>
+   *   '(max-width: 650px) 100vw, (max-width: 900px) 80vw, 500px'
+   *
+   * ['100vw', '80vw'] =>
+   *   '(max-width: 650px) 100vw, 80vw'
+   *
+   * ['80vw'] =>
+   *   '80vw'
+   */
   sizes?: string
   onLoad?: () => void
   preloadImages?: ImageType[]
   preload?: boolean
-  canvasFill?: boolean
   objectFit?: string
+  /**
+   * Set to `true` if you want to use HTML canvas
+   * to render the placeholder. This is only necessary when
+   * the default usage of a container with padding-bottom
+   * produces undesired reuslts.
+   */
+  canvasFill?: boolean
+  /**
+   * An optional color to use as the background of the image container.
+   * This is only visible before the image loads.
+   * Defaults to 'transparent'
+   */
+  backgroundColor?: string
 }
 
 export const ImageWrapper = Wrapper

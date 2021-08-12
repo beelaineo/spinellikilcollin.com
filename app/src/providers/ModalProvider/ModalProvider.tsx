@@ -5,7 +5,7 @@ import {
   RingSizerModal,
 } from '../../components/Modals'
 import { useLockScroll } from '../../components/LockScroll'
-import { ModalName, ContactModalArgs, useModalReducer } from './reducer'
+import { ModalName, useModalReducer } from './reducer'
 
 const { useEffect } = React
 
