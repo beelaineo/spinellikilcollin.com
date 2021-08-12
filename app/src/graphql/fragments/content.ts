@@ -446,6 +446,9 @@ export const heroFragment = gql`
     backgroundColor
     mobileBackgroundColor
     aspectRatio
+    cta {
+      ...CTAFragment
+    }
     heroLink {
       ...InternalLinkFragment
     }
@@ -465,4 +468,5 @@ export const heroFragment = gql`
   ${cloudinaryVideoFragment}
   ${richImageFragment}
   ${internalLinkFragment}
+  ${ctaFragment}
 `

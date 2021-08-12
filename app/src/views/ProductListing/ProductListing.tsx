@@ -18,6 +18,7 @@ import { useInViewport, useSanityQuery } from '../../hooks'
 import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
+import { config } from '../../../src/config'
 import {
   LoadingWrapper,
   ProductGridWrapper,
@@ -183,6 +184,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   const validHero = isValidHero(hero)
+
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />

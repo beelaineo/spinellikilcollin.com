@@ -1,4 +1,5 @@
 export * from './AnalyticsProvider'
+export * from './BambuserProvider'
 export * from './CurrencyProvider'
 export * from './ErrorProvider'
 export * from './ModalProvider'

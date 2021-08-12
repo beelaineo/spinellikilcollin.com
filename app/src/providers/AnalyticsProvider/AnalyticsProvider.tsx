@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
-import { arrayify } from '../../utils'
+import { arrayify, reportFBViewContent, isShopifyProduct } from '../../utils'
 import { parseProduct } from './utils'
 import { SelectedProduct, EventType, GTagEvent } from './types'
 
@@ -56,7 +56,6 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
       // it will be appended after loading and it would be a duplicate hit
       return
     }
-    const page_title = document.title
 
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'page_view')
@@ -93,6 +92,13 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
       const products = arrayify(selected).map((s, i) =>
         parseProduct(s, { position: i + 1 }),
       )
+
+      arrayify(selected).forEach((s) => {
+        const selectedProduct = s?.product
+        if (isShopifyProduct(selectedProduct)) {
+          reportFBViewContent(selectedProduct)
+        }
+      })
       sendEvent({
         event: EventType.ProductDetailView,
         ecommerce: { products },

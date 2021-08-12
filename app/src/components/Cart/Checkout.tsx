@@ -18,8 +18,6 @@ import {
 import { CheckoutProduct } from './CheckoutProduct'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
-import { config } from '../../config'
-const { SHOPIFY_CHECKOUT_DOMAIN: domain } = config
 
 /**
  * Main Checkout view
@@ -33,10 +31,9 @@ interface FormValues {
 const defString = (s: string | undefined): string => (s ? s : '')
 
 export const Checkout = () => {
-  const { sendBeginCheckout } = useAnalytics()
   /* State */
   const { message, open: cartOpen, closeCart } = useCart()
-  const { checkout, loading, addNote } = useShopify()
+  const { goToCheckout, checkout, loading, addNote } = useShopify()
 
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
@@ -53,22 +50,7 @@ export const Checkout = () => {
       : notes
 
     if (fullNote) await addNote(fullNote)
-
-    sendBeginCheckout(
-      lineItems.map((li) => ({
-        product: li.variant?.product,
-        variant: li.variant,
-        quantity: li.quantity,
-      })),
-    )
-    const hostname = 'checkout.spinellikilcollin.com'
-    const webUrl = checkout.webUrl
-    const { protocol, pathname, search } = new URL(webUrl)
-    /*
-      TODO: before we sort out Shopify Buy SDK, hard coded here
-    */
-    const redirect: string = `${protocol}//${hostname}${pathname}${search}`
-    window.location.href = redirect
+    goToCheckout()
   }
 
   return (
