@@ -8,7 +8,9 @@ import {
 } from '../utils'
 
 const getActionTitle = (action) => {
-  const actionType = actionTypes.find((a) => a.value === action)
+  const actionType = actionTypes.find(
+    (a) => a.value === action || a.title === action,
+  )
   if (!actionType) {
     throw new Error(`"${action}" is not a valid CTA action`)
   }
@@ -17,7 +19,6 @@ const getActionTitle = (action) => {
 
 const getPreviewValues = async (values) => {
   const { action, label } = values
-  console.log({ values })
 
   if (action) {
     return {
