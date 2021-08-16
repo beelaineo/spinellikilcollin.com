@@ -9,11 +9,13 @@ import Cart from '../../svg/Cart.svg'
 import Logotype from '../../svg/Logotype.svg'
 import { Checkout } from '../Cart/Checkout'
 import { Hamburger } from '../Hamburger'
+import { SearchButton } from './SearchButton'
 import {
   Wrapper,
   Inner,
   CartBadge,
   CartButtonWrapper,
+  SearchButtonWrapper,
   SideNavigation,
   LogoWrapper,
   NavInnerBackground,
@@ -67,6 +69,9 @@ export const Navigation = () => {
           </LogoWrapper>
           <ToolsWrapper>
             <CurrencySelector />
+            <SearchButtonWrapper>
+              <SearchButton />
+            </SearchButtonWrapper>
             <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
               {cartCount ? (
                 <CartBadge>

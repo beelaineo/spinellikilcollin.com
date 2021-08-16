@@ -62,7 +62,7 @@ export const Inner = styled.div<WithBorder>`
     }
 
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 50px 1fr 50px;
+      grid-template-columns: 80px 1fr 80px;
       max-width: calc(100% - (${theme.space[4]}px * 2));
     }
   `}
@@ -145,6 +145,28 @@ export const HamburgerWrapper = styled.div`
   `}
 `
 
+export const SearchButtonWrapper = styled.button`
+  ${({ theme }) => css`
+    position: relative;
+    transition: 250ms ease;
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    width: 24px;
+    height: 20px;
+    margin-right: 3;
+    svg {
+      display: inline-block;
+      width: 100%;
+    }
+    ${theme.mediaQueries.mobile} {
+      width: 18px;
+      height: 16px;
+      margin-right: 8px;
+    }
+  `}
+`
+
 export const CurrencySelectorWrapper = styled.div`
   ${({ theme }) => css`
     margin-right: 3;
@@ -152,6 +174,7 @@ export const CurrencySelectorWrapper = styled.div`
     ${theme.mediaQueries.mobile} {
       width: 24px;
       overflow: hidden;
+      margin-right: 8px;
     }
   `}
 `
