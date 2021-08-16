@@ -56,7 +56,6 @@ export const Inner = styled.div<WithBorder>`
 
     ${theme.mediaQueries.tablet} {
       padding: 5 0 3;
-
       grid-template-columns: 1fr 230px 1fr;
       max-width: calc(100% - (${theme.space[7]}px * 2));
     }
@@ -64,6 +63,10 @@ export const Inner = styled.div<WithBorder>`
     ${theme.mediaQueries.mobile} {
       grid-template-columns: 80px 1fr 80px;
       max-width: calc(100% - (${theme.space[4]}px * 2));
+    }
+
+    @media screen and (max-width: 360px) {
+      grid-template-columns: 32px 1fr 80px;
     }
   `}
 `
@@ -154,7 +157,7 @@ export const SearchButtonWrapper = styled.button`
     justify-self: start;
     width: 24px;
     height: 20px;
-    margin-right: 3;
+    margin-right: 5;
     svg {
       display: inline-block;
       width: 100%;
@@ -162,7 +165,7 @@ export const SearchButtonWrapper = styled.button`
     ${theme.mediaQueries.mobile} {
       width: 18px;
       height: 16px;
-      margin-right: 8px;
+      margin-right: 3;
     }
   `}
 `
