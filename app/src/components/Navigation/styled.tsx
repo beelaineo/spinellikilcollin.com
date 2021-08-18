@@ -157,7 +157,7 @@ export const SearchButtonWrapper = styled.button`
     justify-self: start;
     width: 24px;
     height: 20px;
-    margin-right: 22px;
+    margin-right: 19px;
     svg {
       display: inline-block;
       width: 100%;
