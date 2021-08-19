@@ -13,8 +13,12 @@ export const Wrapper = styled.div<WrapperProps>`
 
     ${isLightTheme === true
       ? css`
-          h3 {
+          h3,
+          h5 {
             color: body.0;
+          }
+          .tag-badge {
+            border-color: body.0;
           }
         `
       : ''}

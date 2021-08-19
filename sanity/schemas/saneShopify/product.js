@@ -50,6 +50,14 @@ export const product = {
         'Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL',
     },
     {
+      title: 'Show in Collection',
+      name: 'showInCollection',
+      type: 'reference',
+      description: 'Always show product in specified collection.',
+      weak: true,
+      to: [{ type: 'shopifyCollection' }],
+    },
+    {
       title: 'Hide from Search',
       name: 'hideFromSearch',
       type: 'boolean',

@@ -2293,7 +2293,7 @@ export interface ShopifyCollection extends Document {
   hidden?: Maybe<Scalars['Boolean']>
   /** Changes the layout to 2 columns on desktop, 1 column on tablet */
   reduceColumnCount?: Maybe<Scalars['Boolean']>
-  /** Changes product listing text color to white */
+  /** Toggle this to ON to change text color to white for all products in collection. */
   lightTheme?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
   collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
@@ -2394,6 +2394,8 @@ export interface ShopifyProduct extends Document {
   hidden?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL */
   hideFromCollections?: Maybe<Scalars['Boolean']>
+  /** Always show product in specified collection. */
+  showInCollection?: Maybe<ShopifyCollection>
   /** Toggle this to ON to hide this product from search results. The product will still be viewable at its URL */
   hideFromSearch?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide a product's price and show an inquiry button instead of "Add to Cart" */
@@ -2423,6 +2425,7 @@ export type ShopifyProductFilter = {
   sourceData?: Maybe<ShopifySourceProductFilter>
   hidden?: Maybe<BooleanFilter>
   hideFromCollections?: Maybe<BooleanFilter>
+  showInCollection?: Maybe<ShopifyCollectionFilter>
   hideFromSearch?: Maybe<BooleanFilter>
   inquiryOnly?: Maybe<BooleanFilter>
   related?: Maybe<CarouselFilter>
