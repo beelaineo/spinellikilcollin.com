@@ -12,11 +12,7 @@ interface CTAProps {
 }
 
 const Outer = styled.div`
-<<<<<<< HEAD
-  margin: 2 0;
-=======
   margin: 2 0 0 0;
->>>>>>> main
   color: inherit;
 `
 
