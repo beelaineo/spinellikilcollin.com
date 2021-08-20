@@ -71,6 +71,7 @@ export const ProductDetail = ({ product }: Props) => {
 
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)
+  const hidden = product?.hideFromSearch
 
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
@@ -193,6 +194,7 @@ export const ProductDetail = ({ product }: Props) => {
         path={path}
         contentType="product"
         product={product}
+        hidden={hidden}
       />
       <CurrentProductProvider product={product} currentVariant={currentVariant}>
         <ProductPageWrapper>

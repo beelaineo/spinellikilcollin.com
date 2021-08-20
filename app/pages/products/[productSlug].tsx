@@ -31,6 +31,7 @@ const productQuery = gql`
       title
       handle
       archived
+      hideFromSearch
       inquiryOnly
       minVariantPrice
       maxVariantPrice
