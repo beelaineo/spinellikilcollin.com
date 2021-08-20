@@ -1,12 +1,12 @@
 import * as React from 'react'
 import NextLink from 'next/link'
-import { RichPageLink, ExternalLinkOrInternalLink } from '../types'
+import { RichPageLink, ExternalLinkOrInternalLinkOrPdfLink } from '../types'
 import { getPageLinkUrl, getPageLinkLabel } from '../utils/links'
 
 export type LinkParams = Record<string, string | number | boolean>
 
 interface LinkProps {
-  link?: RichPageLink | ExternalLinkOrInternalLink | null
+  link?: RichPageLink | ExternalLinkOrInternalLinkOrPdfLink | null
   children?: React.ReactNode
   label?: string
   render?: (label: string | void | null) => React.ReactNode
@@ -41,6 +41,18 @@ export const PageLink = ({
         href={link.url}
         rel="noopener noreferrer"
         target="_blank"
+      >
+        {children}
+      </a>
+    )
+  }
+  if (link.__typename === 'PdfLink') {
+    if (!link.pdf?.asset) return <>{children}</>
+    return (
+      <a
+        onClick={onClick}
+        href={link.pdf.asset.url + '?dl='}
+        download={link.title}
       >
         {children}
       </a>
