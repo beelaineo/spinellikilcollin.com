@@ -1,5 +1,6 @@
 export * from './form'
 export * from './link'
+export * from './pdfLink'
 export * from './filter'
 export * from './subMenu'
 export * from './cta'

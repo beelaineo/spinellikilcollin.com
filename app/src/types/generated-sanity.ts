@@ -594,6 +594,11 @@ export type ExternalLinkFilter = {
 
 export type ExternalLinkOrInternalLink = ExternalLink | InternalLink
 
+export type ExternalLinkOrInternalLinkOrPdfLink =
+  | ExternalLink
+  | InternalLink
+  | PdfLink
+
 export type ExternalLinkSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
@@ -884,7 +889,7 @@ export interface ImageTextBlock {
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
   ctaText?: Maybe<Scalars['String']>
-  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
+  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLinkOrPdfLink>>>
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
   layout?: Maybe<Scalars['String']>
@@ -1331,6 +1336,28 @@ export type PageSorting = {
   fullWidth?: Maybe<SortOrder>
   slug?: Maybe<SlugSorting>
   seo?: Maybe<SeoSorting>
+}
+
+export interface PdfLink {
+  __typename: 'PdfLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  pdf?: Maybe<File>
+}
+
+export type PdfLinkFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  pdf?: Maybe<FileFilter>
+}
+
+export type PdfLinkSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  pdf?: Maybe<FileSorting>
 }
 
 export interface PriceRangeFilter {
