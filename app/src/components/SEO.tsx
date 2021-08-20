@@ -25,6 +25,7 @@ interface SEOProps {
   path: string
   contentType?: string
   product?: ShopifyProduct
+  hidden?: Maybe<boolean>
 }
 
 const BASE_URL = 'https://www.spinellikilcollin.com'
@@ -124,6 +125,7 @@ export const SEO = ({
   defaultSeo,
   contentType,
   product,
+  hidden,
 }: SEOProps) => {
   if (!defaultSeo.title) throw new Error('No default title was supplied')
   const { siteSettings } = useShopData()
@@ -149,7 +151,11 @@ export const SEO = ({
         <meta property="og:image_secure_url" content={imageUrl || undefined} />
         <meta property="og:type" content={contentType || 'website'} />
         <meta property="og:url" content={canonical} />
-        <meta name="robots" content="index, follow" />
+        {hidden === true ? (
+          <meta name="robots" content="noindex" />
+        ) : (
+          <meta name="robots" content="index, follow" />
+        )}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={metaTitle || title || undefined} />
         <meta name="twitter:description" content={description || undefined} />
