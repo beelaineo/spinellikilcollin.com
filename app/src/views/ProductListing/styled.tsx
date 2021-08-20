@@ -3,17 +3,22 @@ import styled, { css } from '@xstyled/styled-components'
 interface WrapperProps {
   withHero: boolean
   handle: string
+  isLightTheme: boolean
 }
 
 export const Wrapper = styled.div<WrapperProps>`
-  ${({ handle, theme, withHero }) => css`
+  ${({ handle, theme, withHero, isLightTheme }) => css`
     position: relative;
     padding-top: ${withHero ? 0 : theme.navHeight};
 
-    ${handle === 'pink-collection'
+    ${isLightTheme === true
       ? css`
-          h3 {
+          h3,
+          h5 {
             color: body.0;
+          }
+          .tag-badge {
+            border-color: body.0;
           }
         `
       : ''}

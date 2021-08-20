@@ -12,7 +12,11 @@ interface CTAProps {
 }
 
 const Outer = styled.div`
+<<<<<<< HEAD
   margin: 2 0;
+=======
+  margin: 2 0 0 0;
+>>>>>>> main
   color: inherit;
 `
 
@@ -20,8 +24,9 @@ const Wrapper = styled.a`
   padding: 3;
   border: 1px solid;
   color: inherit;
-  display: inline;
+  display: inline-block;
   text-decoration: none;
+  font-size: 5;
 `
 
 const ActionButton = styled.button`

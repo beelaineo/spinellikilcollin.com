@@ -26,6 +26,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   handle,
   shopifyId,
   reduceColumnCount,
+  lightTheme,
 	seo{
   	"image": select(
   		defined(image.asset) => {
@@ -55,13 +56,14 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     "bodyRaw": body,
     ...,
   },
-  "products": products[]->[hidden != true && hideFromCollections != true] | order(${getSortString(
+  "products": products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] | order(${getSortString(
     sort,
   )}) {
     _id,
     _type,
     hidden,
     hideFromCollections,
+    "showInCollection": showInCollection->handle,
     handle,
     minVariantPrice,
     maxVariantPrice,
@@ -120,7 +122,7 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[]->[hidden != true] {
+  "products": products[]->[hidden != true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] {
     _id,
     _type,
     handle,
@@ -176,6 +178,7 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
   _type == "shopifyProduct" &&
     defined(shopifyId) &&
     hidden != true &&
+    (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
     references($collectionId) 
   ${filterString ? `&& ${filterString}` : ''}
 ] | order(${getSortString(sort)}) {
