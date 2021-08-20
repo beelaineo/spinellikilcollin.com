@@ -64,10 +64,6 @@ export const Inner = styled.div<WithBorder>`
       grid-template-columns: 80px 1fr 80px;
       max-width: calc(100% - (${theme.space[4]}px * 2));
     }
-
-    @media screen and (max-width: 360px) {
-      grid-template-columns: 32px 1fr 80px;
-    }
   `}
 `
 
@@ -116,6 +112,9 @@ export const LogoWrapper = styled.div`
       svg {
         width: 100%;
       }
+    }
+    @media screen and (max-width: 360px) {
+      width: 100%;
     }
   `}
 `
@@ -172,12 +171,12 @@ export const SearchButtonWrapper = styled.button`
 
 export const CurrencySelectorWrapper = styled.div`
   ${({ theme }) => css`
-    margin-right: 3;
+    margin-right: 2px;
 
     ${theme.mediaQueries.mobile} {
       width: 24px;
       overflow: hidden;
-      margin-right: 8px;
+      margin-right: 4px;
     }
   `}
 `
