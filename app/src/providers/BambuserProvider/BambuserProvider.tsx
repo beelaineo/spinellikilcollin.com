@@ -34,14 +34,22 @@ interface BambuserProps {
 export const BambuserProvider = ({ children }: BambuserProps) => {
   const { goToCheckout, checkout, addLineItem, updateLineItem } = useShopify()
 
-  const handleMessage = (e: MessageEvent<BambuserEvent>) => {
+  const handleMessage = async (e: MessageEvent<BambuserEvent>) => {
     const event = typeof e.data === 'string' ? JSON.parse(e.data) ?? {} : e.data
     if (event.eventName === EventNames.CHECKOUT) {
       goToCheckout()
     } else if (event.eventName === EventNames.ADD_ITEM) {
       addLineItem(event.lineItem)
     } else if (event.eventName === EventNames.UPDATE_ITEM) {
-      updateLineItem(event.lineItem)
+      const lineItem = checkout?.lineItems?.edges?.find((item) => {
+        return item.node?.variant?.id === event.lineItem?.variantId
+      })
+      if (checkout && lineItem?.node?.id) {
+        updateLineItem({
+          ...event.lineItem,
+          id: lineItem?.node?.id,
+        })
+      }
     }
   }
 
@@ -66,7 +74,7 @@ export const BambuserProvider = ({ children }: BambuserProps) => {
    */
   const prepareShow = (slug: string, node: HTMLButtonElement): void => {
     const show: BambuserShowType = {
-      showId: slug,
+      showId: 'JLmKRhIA3Od5xnghASWz',
       type: 'overlay',
       node,
     }
