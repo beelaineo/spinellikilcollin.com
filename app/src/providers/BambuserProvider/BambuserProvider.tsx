@@ -74,7 +74,7 @@ export const BambuserProvider = ({ children }: BambuserProps) => {
    */
   const prepareShow = (slug: string, node: HTMLButtonElement): void => {
     const show: BambuserShowType = {
-      showId: 'JLmKRhIA3Od5xnghASWz',
+      showId: slug,
       type: 'overlay',
       node,
     }
