@@ -86,10 +86,10 @@ const App = (props: AppProps) => {
     if (!router.isReady) return
 
     const { query } = router
-    // @ts-ignore
     if (
       'chat' in query &&
       typeof window !== 'undefined' &&
+      // @ts-ignore
       window?.HubSpotConversations?.widget
     ) {
       // @ts-ignore
