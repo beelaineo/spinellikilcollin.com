@@ -10,6 +10,8 @@ import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { config } from '../src/config'
 
+const { useEffect } = React
+
 interface AppProps {
   Component: React.ComponentType
   pageProps: any
@@ -79,6 +81,21 @@ const App = (props: AppProps) => {
       : STOREFRONT_ENV === 'staging'
       ? gtm.staging
       : gtm.dev
+
+  useEffect(() => {
+    if (!router.isReady) return
+
+    const { query } = router
+    // @ts-ignore
+    if (
+      'chat' in query &&
+      typeof window !== 'undefined' &&
+      window?.HubSpotConversations?.widget
+    ) {
+      // @ts-ignore
+      window.HubSpotConversations.widget.open()
+    }
+  }, [router.isReady])
 
   return (
     <Providers shopData={shopData}>
