@@ -2292,7 +2292,7 @@ export interface ShopifyStorefrontCustomerAddressUpdatePayload {
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Specifies the fields required to create a new customer. */
+/** The fields required to create a new customer. */
 export type ShopifyStorefrontCustomerCreateInput = {
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
@@ -3988,8 +3988,8 @@ export interface ShopifyStorefrontProduct
   /** A paginated list of metafields associated with the resource. */
   metafields: ShopifyStorefrontMetafieldConnection
   /**
-   * The online store URL for the product.
-   * A value of `null` indicates that the product is not published to the Online Store sales channel.
+   * The URL used for viewing the resource on the shop's Online Store. May be null
+   * if the resource is currently not published to the Online Store sales channel.
    */
   onlineStoreUrl?: Maybe<Scalars['URL']>
   /** List of product options. */
