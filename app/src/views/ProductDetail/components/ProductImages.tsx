@@ -113,13 +113,9 @@ export const ProductImages = ({
   ) : screen === 'mobile' ? (
     <ProductGalleryWrapper>
       <MobileWrapper>
-        <CarouselProvider>
-          <ProductGalleryCarousel
-            images={images}
-            product={product}
-            currentVariant={currentVariant}
-          />
-        </CarouselProvider>
+        <MainImage>
+          <Image ratio={1} image={mainImage} />
+        </MainImage>
       </MobileWrapper>
     </ProductGalleryWrapper>
   ) : null

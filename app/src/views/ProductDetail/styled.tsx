@@ -197,11 +197,7 @@ export const MobileWrapper = styled.div`
   `}
 `
 export const MainImage = styled.div`
-  ${({ theme }) => css`
-    ${theme.mediaQueries.tablet} {
-      display: none;
-    }
-  `}
+  ${({ theme }) => css``}
 `
 
 export const ThumbnailButton = styled.div`
