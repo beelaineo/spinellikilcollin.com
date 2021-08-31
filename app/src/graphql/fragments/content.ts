@@ -177,6 +177,7 @@ export const ctaFragment = gql`
     __typename
     _key
     _type
+    action
     label
     link {
       ...InternalLinkFragment
