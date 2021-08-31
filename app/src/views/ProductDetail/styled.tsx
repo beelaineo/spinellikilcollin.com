@@ -190,6 +190,7 @@ export const MobileWrapper = styled.div`
     }
 
     ${theme.mediaQueries.mobile} {
+      margin: 5 -7 2;
       ${DotsInner} {
         margin: auto;
       }
