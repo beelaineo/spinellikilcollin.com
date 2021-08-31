@@ -41,7 +41,6 @@ const isBambuserTime = (cta: Cta): boolean => {
 }
 
 const openHubspotChat = () => {
-  console.log('open chat!')
   // @ts-ignore
   if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
     // @ts-ignore
@@ -66,7 +65,7 @@ const ActionCTA = ({ cta }: CTAProps) => {
     if (action === 'launchBambuser' && !slug) {
       throw new Error('No bambuser slug provided')
     }
-    if (action === 'launchBambuser') {
+    if (action === 'launchBambuser' && slug) {
       prepareShow(slug, buttonRef.current)
     }
   }, [action, buttonRef.current, cta?.bambuser?.slug])

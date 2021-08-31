@@ -137,7 +137,6 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
     cta: ctas,
   } = hero
   const cta = definitely(ctas).length ? definitely(ctas)[0] : null
-  console.log('cta: ', cta)
   return (
     <HeroWrapper hero={hero}>
       <DocumentLink document={heroLink?.document ?? undefined}>
