@@ -48,11 +48,11 @@ export const submitToHubspot = async (
     hutk,
     pageUri,
     pageName,
+    ipAddress,
   }
   const body = {
     fields: parseValues(formatPhoneField(values)),
     context,
-    ipAddress: ipAddress,
   }
   if (config.STOREFRONT_ENV !== 'production') {
     debug('Not currently in production. Mocking Hubpsot form submission:')
