@@ -70,7 +70,6 @@ export const submitToHubspot = async (
       },
     }).then((r) => r.json())
     if (response.status === 'error') {
-      console.log(response)
       throw response
     }
   } catch (err) {
