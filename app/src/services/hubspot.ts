@@ -30,11 +30,7 @@ const parseValues = (values: Values): ValueObject[] =>
     }))
     .filter(
       ({ name, value }) =>
-        name !== 'dialingCode' &&
-        name !== 'phoneCountryCode' &&
-        value !== undefined &&
-        typeof value === 'string' &&
-        value.length > 1,
+        value !== undefined && typeof value === 'string' && value.length > 1,
     )
 
 export const submitToHubspot = async (
