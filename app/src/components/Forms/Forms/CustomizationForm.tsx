@@ -22,6 +22,8 @@ type FormValues = {
   message: string
   product?: string
   variant?: string
+  phoneCountryCode?: string
+  dialingCode?: string
 }
 
 interface ProductBadgeProps {
@@ -72,6 +74,8 @@ export const CustomizationForm = ({
     message: '',
     product: product?.title || '(no product specified)',
     variant: variant?.title || '',
+    phoneCountryCode: 'US',
+    dialingCode: '',
   }
 
   return (
