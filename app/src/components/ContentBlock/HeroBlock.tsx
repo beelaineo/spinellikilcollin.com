@@ -106,6 +106,10 @@ const HeroImageWrapper = styled.div`
       display: none;
     }
 
+    & > div:nth-of-type(1) {
+      min-height: 400px;
+    }
+
     ${theme.mediaQueries.mobile} {
       & > *:nth-of-type(1) {
         display: none;
