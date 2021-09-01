@@ -16,6 +16,12 @@ interface ValueObject {
   value: string | number | boolean | undefined
 }
 
+const formatPhoneField = function (values: Values) {
+  values.phone = '+' + values.dialingCode + ' ' + values.phone
+  const { dialingCode, phoneCountryCode, ...hubspotValues } = values
+  return hubspotValues
+}
+
 const parseValues = (values: Values): ValueObject[] =>
   Object.entries(values)
     .map(([name, value]) => ({
@@ -24,7 +30,11 @@ const parseValues = (values: Values): ValueObject[] =>
     }))
     .filter(
       ({ name, value }) =>
-        value !== undefined && typeof value === 'string' && value.length > 1,
+        name !== 'dialingCode' &&
+        name !== 'phoneCountryCode' &&
+        value !== undefined &&
+        typeof value === 'string' &&
+        value.length > 1,
     )
 
 export const submitToHubspot = async (
@@ -42,10 +52,11 @@ export const submitToHubspot = async (
     pageName,
   }
   const body = {
-    fields: parseValues(values),
+    fields: parseValues(formatPhoneField(values)),
     context,
   }
   if (config.STOREFRONT_ENV !== 'production') {
+    console.log(body)
     debug('Not currently in production. Mocking Hubpsot form submission:')
     debug(body)
     return
@@ -59,7 +70,10 @@ export const submitToHubspot = async (
         'Content-Type': 'application/json',
       },
     }).then((r) => r.json())
-    if (response.status === 'error') throw response
+    if (response.status === 'error') {
+      console.log(response)
+      throw response
+    }
   } catch (err) {
     Sentry.setContext('hubspotResponse', err)
     Sentry.setContext('hubspotFormData', { body })
