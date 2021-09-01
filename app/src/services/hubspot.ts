@@ -56,7 +56,6 @@ export const submitToHubspot = async (
     context,
   }
   if (config.STOREFRONT_ENV !== 'production') {
-    console.log(body)
     debug('Not currently in production. Mocking Hubpsot form submission:')
     debug(body)
     return
