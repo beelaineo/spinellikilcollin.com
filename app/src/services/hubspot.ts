@@ -2,6 +2,7 @@ import { getCookie } from '../utils'
 import { Sentry } from '../services/sentry'
 import { config } from '../config'
 import Debug from 'debug'
+import publicIp from 'public-ip'
 
 const debug = Debug('dev:hubspot')
 
@@ -30,11 +31,7 @@ const parseValues = (values: Values): ValueObject[] =>
     }))
     .filter(
       ({ name, value }) =>
-        name !== 'dialingCode' &&
-        name !== 'phoneCountryCode' &&
-        value !== undefined &&
-        typeof value === 'string' &&
-        value.length > 1,
+        value !== undefined && typeof value === 'string' && value.length > 1,
     )
 
 export const submitToHubspot = async (
@@ -46,10 +43,12 @@ export const submitToHubspot = async (
   const hutk = getCookie('hubspotutk')
   const pageUri = window.location.href.replace(/https?:\/\//, '')
   const pageName = document.title
+  const ipAddress = await publicIp.v4()
   const context = {
     hutk,
     pageUri,
     pageName,
+    ipAddress,
   }
   const body = {
     fields: parseValues(formatPhoneField(values)),
