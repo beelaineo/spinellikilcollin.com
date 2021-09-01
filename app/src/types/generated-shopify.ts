@@ -65,7 +65,7 @@ export interface ShopifyStorefrontAppliedGiftCard
   balance: Scalars['Money']
   /** The amount left on the gift card. */
   balanceV2: ShopifyStorefrontMoneyV2
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The last characters of the gift card. */
   lastCharacters: Scalars['String']
@@ -97,7 +97,7 @@ export interface ShopifyStorefrontArticle extends ShopifyStorefrontNode {
   excerptHtml?: Maybe<Scalars['HTML']>
   /** A human-friendly unique string for the Article automatically generated from its title. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The image associated with the article. */
   image?: Maybe<ShopifyStorefrontImage>
@@ -252,7 +252,7 @@ export interface ShopifyStorefrontBlog extends ShopifyStorefrontNode {
   authors: Array<ShopifyStorefrontArticleAuthor>
   /** A human-friendly unique string for the Blog automatically generated from its title. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The blogs’s title. */
   title: Scalars['String']
@@ -354,7 +354,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   discountApplications: ShopifyStorefrontDiscountApplicationConnection
   /** The email attached to this checkout. */
   email?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** A list of line item objects, each one containing information about an item in the checkout. */
   lineItems: ShopifyStorefrontCheckoutLineItemConnection
@@ -903,7 +903,7 @@ export interface ShopifyStorefrontCheckoutLineItem
   customAttributes: Array<ShopifyStorefrontAttribute>
   /** The discounts that have been allocated onto the checkout line item by discount applications. */
   discountAllocations: Array<ShopifyStorefrontDiscountAllocation>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The quantity of the line item. */
   quantity: Scalars['Int']
@@ -1075,7 +1075,7 @@ export interface ShopifyStorefrontCollection extends ShopifyStorefrontNode {
    * Limit of 255 characters.
    */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** Image associated with the collection. */
   image?: Maybe<ShopifyStorefrontImage>
@@ -1162,7 +1162,7 @@ export interface ShopifyStorefrontComment extends ShopifyStorefrontNode {
   content: Scalars['String']
   /** The content of the comment, complete with HTML formatting. */
   contentHtml: Scalars['HTML']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
 }
 
@@ -2292,7 +2292,7 @@ export interface ShopifyStorefrontCustomerAddressUpdatePayload {
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Specifies the fields required to create a new customer. */
+/** The fields required to create a new customer. */
 export type ShopifyStorefrontCustomerCreateInput = {
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
@@ -2611,7 +2611,7 @@ export interface ShopifyStorefrontExternalVideo
   alt?: Maybe<Scalars['String']>
   /** The URL. */
   embeddedUrl: Scalars['URL']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
@@ -2844,7 +2844,7 @@ export interface ShopifyStorefrontMailingAddress extends ShopifyStorefrontNode {
   formatted: Array<Scalars['String']>
   /** A comma-separated list of the values for city, province, and country. */
   formattedArea?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The last name of the customer. */
   lastName?: Maybe<Scalars['String']>
@@ -2989,7 +2989,7 @@ export interface ShopifyStorefrontMediaImage
   __typename: 'MediaImage'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The image for the media. */
   image?: Maybe<ShopifyStorefrontImage>
@@ -3009,7 +3009,7 @@ export interface ShopifyStorefrontMetafield extends ShopifyStorefrontNode {
   createdAt: Scalars['DateTime']
   /** The description of a metafield. */
   description?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The key name for a metafield. */
   key: Scalars['String']
@@ -3068,7 +3068,7 @@ export interface ShopifyStorefrontModel3d
   __typename: 'Model3d'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
@@ -3531,7 +3531,7 @@ export type ShopifyStorefrontMutationCustomerUpdateArgs = {
 
 /** An object with an ID to support global identification. */
 export type ShopifyStorefrontNode = {
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
 }
 
@@ -3573,7 +3573,7 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   financialStatus?: Maybe<ShopifyStorefrontOrderFinancialStatus>
   /** The fulfillment status for the order. */
   fulfillmentStatus: ShopifyStorefrontOrderFulfillmentStatus
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** List of the order’s line items. */
   lineItems: ShopifyStorefrontOrderLineItemConnection
@@ -3815,7 +3815,7 @@ export interface ShopifyStorefrontPage extends ShopifyStorefrontNode {
   createdAt: Scalars['DateTime']
   /** A human-friendly unique string for the page automatically generated from its title. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The title of the page. */
   title: Scalars['String']
@@ -3886,7 +3886,7 @@ export interface ShopifyStorefrontPayment extends ShopifyStorefrontNode {
   creditCard?: Maybe<ShopifyStorefrontCreditCard>
   /** A message describing a processing error during asynchronous processing. */
   errorMessage?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /**
    * A client-side generated token to identify a payment and perform idempotent operations.
@@ -3977,7 +3977,7 @@ export interface ShopifyStorefrontProduct
    * They are used by the Liquid templating language to refer to objects.
    */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** List of images associated with the product. */
   images: ShopifyStorefrontImageConnection
@@ -3988,8 +3988,8 @@ export interface ShopifyStorefrontProduct
   /** A paginated list of metafields associated with the resource. */
   metafields: ShopifyStorefrontMetafieldConnection
   /**
-   * The online store URL for the product.
-   * A value of `null` indicates that the product is not published to the Online Store sales channel.
+   * The URL used for viewing the resource on the shop's Online Store. May be null
+   * if the resource is currently not published to the Online Store sales channel.
    */
   onlineStoreUrl?: Maybe<Scalars['URL']>
   /** List of product options. */
@@ -4231,7 +4231,7 @@ export enum ShopifyStorefrontProductImageSortKeys {
  */
 export interface ShopifyStorefrontProductOption extends ShopifyStorefrontNode {
   __typename: 'ProductOption'
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The product option’s name. */
   name: Scalars['String']
@@ -4317,7 +4317,7 @@ export interface ShopifyStorefrontProductVariant
   compareAtPriceV2?: Maybe<ShopifyStorefrontMoneyV2>
   /** Whether a product is out of stock but still available for purchase (used for backorders). */
   currentlyNotInStock: Scalars['Boolean']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** Image associated with the product variant. This field falls back to the product image if no image is available. */
   image?: Maybe<ShopifyStorefrontImage>
@@ -4838,7 +4838,7 @@ export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
   body: Scalars['String']
   /** Policy’s handle. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** Policy’s title. */
   title: Scalars['String']
@@ -5070,7 +5070,7 @@ export interface ShopifyStorefrontVideo
   __typename: 'Video'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique identifier. */
   id: Scalars['ID']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType

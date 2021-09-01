@@ -16,6 +16,7 @@ interface CustomSerializerConfig {
   imageSizes?: string
   openCustomizationModal: () => void
   openRingSizerModal: () => void
+  openHubspotChat: () => void
   openCart: () => void
   getLinkByRef: (ref: string) => LinkInfo | null
   weight?: number
@@ -66,6 +67,7 @@ const serializers = ({
   imageSizes,
   openCustomizationModal,
   openRingSizerModal,
+  openHubspotChat,
   openCart,
   getLinkByRef,
   weight: customWeight,
@@ -93,6 +95,8 @@ const serializers = ({
       const onClick =
         actionType === 'openCart'
           ? openCart
+          : actionType === 'launchHubspot'
+          ? () => openHubspotChat()
           : actionType === 'launchCustomizationModal'
           ? () => openCustomizationModal()
           : actionType === 'launchRingSizerModal'
@@ -170,6 +174,14 @@ export const RichText = ({
   const currentVariant = currentProductContext?.currentVariant
   const { openCart } = useCart()
   const { openCustomizationModal, openRingSizerModal } = useModal()
+  const openHubspotChat = () => {
+    console.log('open chat!')
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
+      // @ts-ignore
+      window.HubSpotConversations.widget.open()
+    }
+  }
   const { getLinkByRef } = useShopData()
   const openCustomizationModalWithProduct = () =>
     openCustomizationModal({ currentProduct, currentVariant })
@@ -188,6 +200,7 @@ export const RichText = ({
           openRingSizerModal: openRingSizerModalWithProduct,
           getLinkByRef,
           openCart,
+          openHubspotChat,
           weight,
         })}
       />

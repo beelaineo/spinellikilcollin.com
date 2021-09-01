@@ -40,6 +40,14 @@ const isBambuserTime = (cta: Cta): boolean => {
   return now >= new Date(startDate) && now <= new Date(endDate)
 }
 
+const openHubspotChat = () => {
+  // @ts-ignore
+  if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
+    // @ts-ignore
+    window.HubSpotConversations.widget.open()
+  }
+}
+
 const ActionCTA = ({ cta }: CTAProps) => {
   const { action, label: defaultLabel } = cta
   const buttonRef = useStatefulRef<HTMLButtonElement>(null)
@@ -54,10 +62,10 @@ const ActionCTA = ({ cta }: CTAProps) => {
      */
     if (!buttonRef.current) return
     const slug = cta?.bambuser?.slug
-    if (!slug) {
+    if (action === 'launchBambuser' && !slug) {
       throw new Error('No bambuser slug provided')
     }
-    if (action === 'launchBambuser') {
+    if (action === 'launchBambuser' && slug) {
       prepareShow(slug, buttonRef.current)
     }
   }, [action, buttonRef.current, cta?.bambuser?.slug])
@@ -76,6 +84,8 @@ const ActionCTA = ({ cta }: CTAProps) => {
     switch (action) {
       case 'launchBambuser':
         return noop
+      case 'launchHubspot':
+        return () => openHubspotChat()
       case 'launchRingSizerModal':
         return () => openRingSizerModal()
       case 'launchCustomizationModal':

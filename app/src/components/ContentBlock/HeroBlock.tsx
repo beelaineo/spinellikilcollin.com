@@ -106,6 +106,10 @@ const HeroImageWrapper = styled.div`
       display: none;
     }
 
+    & > div:nth-of-type(1) {
+      min-height: 400px;
+    }
+
     ${theme.mediaQueries.mobile} {
       & > *:nth-of-type(1) {
         display: none;
@@ -137,7 +141,6 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
     cta: ctas,
   } = hero
   const cta = definitely(ctas).length ? definitely(ctas)[0] : null
-
   return (
     <HeroWrapper hero={hero}>
       <DocumentLink document={heroLink?.document ?? undefined}>
