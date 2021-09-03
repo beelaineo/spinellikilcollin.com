@@ -25,7 +25,6 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     z-index: 0;
     grid-column: span 2;
     overflow: hidden;
-    min-height: 400px;
     background-color: ${getBackgroundColor(hero.backgroundColor)};
 
     video {
@@ -104,10 +103,6 @@ const HeroImageWrapper = styled.div`
 
     & > *:nth-of-type(2) {
       display: none;
-    }
-
-    & > div:nth-of-type(1) {
-      min-height: 400px;
     }
 
     ${theme.mediaQueries.mobile} {
