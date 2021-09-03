@@ -73,7 +73,11 @@ export const ProductSwatches = ({
   onSwatchHover,
   isSwatchActive,
 }: ProductSwatchesProps) => {
-  const swatchOptions = getSwatchOptions(product)
+  const swatchOptions = getSwatchOptions(product).filter(
+    // eslint-disable-next-line
+    (option) => option.values.length > 0,
+  )
+
   return (
     <div>
       {swatchOptions.map((option) => (
