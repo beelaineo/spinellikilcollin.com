@@ -74,7 +74,7 @@ export const ProductSwatches = ({
   isSwatchActive,
 }: ProductSwatchesProps) => {
   const swatchOptions = getSwatchOptions(product).filter(
-    // eslint-disable-next-line
+    // @ts-ignore: Object is possibly 'null' or 'undefined'.
     (option) => option.values.length > 0,
   )
 
