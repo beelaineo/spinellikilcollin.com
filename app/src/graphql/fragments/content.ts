@@ -40,6 +40,7 @@ export const shopifySourceProductVariantFragment = gql`
     _type
     availableForSale
     id
+    sku
     title
     image {
       ...ShopifySourceImageFragment

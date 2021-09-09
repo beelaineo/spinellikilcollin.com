@@ -194,6 +194,7 @@ export const ProductDetail = ({ product }: Props) => {
         path={path}
         contentType="product"
         product={product}
+        currentVariant={currentVariant}
         hidden={hidden}
       />
       <CurrentProductProvider product={product} currentVariant={currentVariant}>
