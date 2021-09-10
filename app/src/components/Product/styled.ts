@@ -85,7 +85,7 @@ export const TagBadge = styled.div`
 `
 
 export const SwatchesWrapper = styled.div`
-  ${({ theme, clickable, active }) => css`
+  ${({ theme }) => css`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
