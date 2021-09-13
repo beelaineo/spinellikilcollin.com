@@ -92,7 +92,6 @@ const App = (props: AppProps) => {
         // @ts-ignore
         window?.HubSpotConversations?.widget
       ) {
-        console.log('params', params)
         // @ts-ignore
         window.HubSpotConversations.widget.open()
       }
