@@ -117,7 +117,6 @@ export const Breadcrumbs = () => {
   const [crumbs, setCrumbs] = useState([])
   const storage = globalThis?.sessionStorage
   const getProduct = async () => {
-    if (!router?.query.productSlug) return { product: undefined }
     const handle = router?.query.productSlug
     const variables = { handle }
     const [response] = await Promise.all([
@@ -127,7 +126,7 @@ export const Breadcrumbs = () => {
     const product = products && products.length ? products[0] : null
     return product
   }
-  const getCollection = async (handle: string) => {
+  const getCollection = async (handle) => {
     const variables = { handle }
     const [response] = await Promise.all([
       request<Response>(collectionQuery, variables),
@@ -136,7 +135,7 @@ export const Breadcrumbs = () => {
     const collection = collections && collections.length ? collections[0] : null
     return collection
   }
-  const getPage = async (slug: string) => {
+  const getPage = async (slug) => {
     const variables = { slug }
     const [response] = await Promise.all([
       request<Response>(pageQuery, variables),
@@ -145,7 +144,7 @@ export const Breadcrumbs = () => {
     const page = pages && pages.length ? pages[0] : null
     return page
   }
-  const getJournalEntry = async (slug: string) => {
+  const getJournalEntry = async (slug) => {
     const variables = { slug }
     const [response] = await Promise.all([
       request<Response>(journalEntryQuery, variables),
@@ -178,18 +177,24 @@ export const Breadcrumbs = () => {
             crumbLinks.splice(1, 1, collectionLink)
             crumbLabels.splice(1, 1, collectionLabel)
           } else {
+            const collection =
+              product?.collections && product?.collections.length
+                ? product.collections[0]
+                : null
             const collectionLink =
-              `/collections/${product?.collections[0].handle}` ||
-              '/collections/new-arrivals'
+              collection !== null
+                ? `/collections/${collection.handle}`
+                : '/collections/new-arrivals'
             const collectionLabel =
-              product?.collections[0].title || 'Collection'
+              collection !== null ? collection.title : 'Collection'
             crumbLinks.splice(1, 1, collectionLink)
             crumbLabels.splice(1, 1, collectionLabel)
           }
           crumbLabels[2] = product?.title || 'Product'
           break
         case 'collections':
-          const collection = await getCollection(router.query?.collectionSlug)
+          const handle = router.query?.productSlug
+          const collection = handle ? await getCollection(handle) : null
           crumbLinks.splice(1, 1)
           crumbLabels.splice(1, 1)
           crumbLabels[1] = collection?.title
@@ -205,7 +210,7 @@ export const Breadcrumbs = () => {
         default:
       }
 
-      const crumbs: BreadcrumbProps[] = crumbLinks.map((link, index) => {
+      const crumbs = crumbLinks.map((link, index) => {
         const route = crumbLabels[index]
         const crumb = {
           link: link,
@@ -222,7 +227,7 @@ export const Breadcrumbs = () => {
 
   return (
     <BreadcrumbWrapper>
-      {crumbs.map((c, i) => {
+      {crumbs.map((c: BreadcrumbProps, i: number) => {
         return (
           <div key={i}>
             {i > 0 ? <div>{'→'}</div> : null}
