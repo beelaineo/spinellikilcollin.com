@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FaFacebookF, FaYoutube, FaTwitter, FaPinterest } from 'react-icons/fa'
 import { TiSocialInstagram } from 'react-icons/ti'
+import { Breadcrumbs } from './Breadcrumbs'
 import { PageLink } from '../../components/PageLink'
 import { Heading } from '../../components/Text'
 import { useShopData } from '../../providers/ShopDataProvider'
@@ -30,6 +31,7 @@ export const Footer = () => {
 
   return (
     <FooterWrapper>
+      <Breadcrumbs />
       <FooterInner topBorder={topBorder}>
         <FooterLinks>
           {footerLinks.map((link) =>

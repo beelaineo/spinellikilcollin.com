@@ -43,6 +43,23 @@ export const FooterInner = styled.div<WithTopBorder>`
     }
   `}
 `
+export const BreadcrumbWrapper = styled.div`
+  ${({ theme }) => css`
+    padding: 4;
+
+    div {
+      display: inline-block;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      padding: 2;
+    }
+    ${theme.mediaQueries.mobile} {
+      padding: 1;
+    }
+  `}
+`
+
 export const FooterInnerLower = styled.div`
   ${({ theme }) => css`
     display: grid;
