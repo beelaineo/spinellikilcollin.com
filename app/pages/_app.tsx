@@ -81,7 +81,7 @@ const App = (props: AppProps) => {
       : STOREFRONT_ENV === 'staging'
       ? gtm.staging
       : gtm.dev
-
+  // Hubspot Conversations launcher
   useEffect(() => {
     if (!router.isReady) return
 
@@ -96,6 +96,19 @@ const App = (props: AppProps) => {
       window.HubSpotConversations.widget.open()
     }
   }, [router.isReady])
+  // Breadcrumbs (previous and current browsing paths)
+  useEffect(() => storePathValues, [router.asPath])
+
+  function storePathValues() {
+    const storage = globalThis?.sessionStorage
+    if (!storage) return
+    // Set the previous path as the value of the current path.
+    const prevPath = storage.getItem('currentPath')
+    //@ts-ignore
+    storage.setItem('prevPath', prevPath)
+    // Set the current path value by looking at the browser's location object.
+    storage.setItem('currentPath', globalThis.location.pathname)
+  }
 
   return (
     <Providers shopData={shopData}>
