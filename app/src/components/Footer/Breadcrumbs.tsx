@@ -102,6 +102,8 @@ const Route2LabelMap = {
   '/': 'Home',
   '/404': 'Page Not Found',
   '/about': 'About',
+  '/about/contact': 'Contact',
+  '/about/team': 'Team',
   '/blogs': 'Blog',
   '/collections': 'Collections',
   '/customize': 'Customize',
@@ -200,12 +202,24 @@ export const Breadcrumbs = () => {
           crumbLabels[1] = collection?.title
           break
         case 'about':
-          const page = await getPage(router.query?.pageSlug)
-          crumbLabels[2] = page?.title
+          if (
+            segmentsRoute.length > 2 &&
+            segmentsRoute[2] !== 'contact' &&
+            segmentsRoute[2] !== 'team'
+          ) {
+            const page = await getPage(router.query?.pageSlug)
+            crumbLabels[2] = page?.title
+          }
           break
         case 'journal':
-          const journal = await getJournalEntry(router.query?.entrySlug)
-          crumbLabels[2] = journal?.title
+          if (segmentsRoute.length > 2) {
+            const journal = await getJournalEntry(router.query?.entrySlug)
+            crumbLabels[2] = journal?.title
+          }
+          break
+        case '':
+          crumbLinks.splice(1, 1)
+          crumbLabels.splice(1, 1)
           break
         default:
       }
