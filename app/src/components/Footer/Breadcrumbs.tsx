@@ -230,7 +230,7 @@ export const Breadcrumbs = () => {
       {crumbs.map((c: BreadcrumbProps, i: number) => {
         return (
           <div key={i}>
-            {i > 0 ? <div>{'→'}</div> : null}
+            {i > 0 ? <div className={'separator'}>{'→'}</div> : null}
             <div className={i == crumbs.length - 1 ? 'active ' : ''}>
               <Link href={c.link}>
                 <a>{c.label}</a>
@@ -239,6 +239,7 @@ export const Breadcrumbs = () => {
           </div>
         )
       })}
+      <div className={'border'} />
     </BreadcrumbWrapper>
   )
 }
