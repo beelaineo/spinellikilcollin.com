@@ -83,18 +83,20 @@ const App = (props: AppProps) => {
       : gtm.dev
 
   useEffect(() => {
-    if (!router.isReady) return
-
-    const { query } = router
-    if (
-      'chat' in query &&
-      typeof window !== 'undefined' &&
-      // @ts-ignore
-      window?.HubSpotConversations?.widget
-    ) {
-      // @ts-ignore
-      window.HubSpotConversations.widget.open()
-    }
+    const paramString = router.asPath.replace(/^(.*)\?/, '')
+    const params = new URLSearchParams(paramString)
+    const timeout = setTimeout(() => {
+      if (
+        params.get('openChat') === 'true' &&
+        window &&
+        // @ts-ignore
+        window?.HubSpotConversations?.widget
+      ) {
+        // @ts-ignore
+        window.HubSpotConversations.widget.open()
+      }
+    }, 500)
+    return () => clearTimeout(timeout)
   }, [router.isReady])
 
   return (
