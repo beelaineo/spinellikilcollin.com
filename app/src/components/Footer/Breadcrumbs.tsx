@@ -233,11 +233,19 @@ export const Breadcrumbs = () => {
         }
         return crumb
       })
-
       setCrumbs(crumbs)
     }
     fetchCrumbs()
-  }, [router.route])
+    console.log({
+      router: router,
+      storage: storage,
+      crumbs: crumbs,
+      crumbLinks: crumbLinks,
+      crumbLabels: crumbLabels,
+      segmentsRoute: segmentsRoute,
+      segmentsPath: segmentsPath,
+    })
+  }, [router.asPath])
 
   return (
     <BreadcrumbWrapper>
