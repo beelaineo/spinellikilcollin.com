@@ -44,6 +44,9 @@ const hydrateSize = (
   const lengths = product?.options?.find((option) => {
     return option?.name === 'Length'
   })
+  const titles = product?.options?.find((option) => {
+    return option?.name === 'Title'
+  })
 
   if (sizes && sizes.values && sizes.values.length > 0) {
     return sizes?.values?.map((size) => {
@@ -61,7 +64,6 @@ const hydrateSize = (
         variant.sourceData.availableForSale
       ) {
         const price = variant.sourceData.priceV2
-        console.log('size variant: ', variant)
         return s()
           .name(size?.value)
           .price((pr) =>
@@ -86,9 +88,32 @@ const hydrateSize = (
         variant.sourceData.availableForSale
       ) {
         const price = variant.sourceData.priceV2
-        console.log('lengths variant: ', variant)
         return s()
           .name(length?.value)
+          .price((pr) =>
+            pr.currency(price?.currencyCode).current(price?.amount),
+          )
+          .sku(variant.shopifyVariantID)
+      }
+    })
+  } else if (titles && titles.values && titles.values.length > 0) {
+    return titles?.values?.map((title) => {
+      const key =
+        color == 'No Color Option'
+          ? `${title?.value}`
+          : color
+          ? `${color}${DELIMITER}${title?.value}`
+          : `${title?.value}`
+
+      const variant = findVariant(product, key)
+      if (
+        variant &&
+        variant.sourceData &&
+        variant.sourceData.availableForSale
+      ) {
+        const price = variant.sourceData.priceV2
+        return s()
+          .name(title?.value)
           .price((pr) =>
             pr.currency(price?.currencyCode).current(price?.amount),
           )
@@ -100,7 +125,6 @@ const hydrateSize = (
     const variant = findVariant(product, key)
     if (variant && variant.sourceData && variant.sourceData.availableForSale) {
       const price = variant.sourceData.priceV2
-      console.log('color variant: ', variant)
       return [
         s()
           .name(product.title)
@@ -131,10 +155,9 @@ const hydrate = (product: ShopifyProduct, selectedIndex: number, v: any) => {
     return option?.name === 'Length'
   })
 
-  console.log('product: ', product)
-  console.log('colors: ', colors)
-  console.log('lengths: ', lengths)
-  console.log('sizes: ', sizes)
+  const titles = product?.options?.find((option) => {
+    return option?.name === 'Title'
+  })
 
   if (colors && colors.values && colors.values.length > 0) {
     const sizeValue =
@@ -144,6 +167,10 @@ const hydrate = (product: ShopifyProduct, selectedIndex: number, v: any) => {
     const lengthValue =
       lengths && lengths.values && lengths.values.length > 0
         ? lengths.values[0]?.value
+        : ''
+    const titleValue =
+      titles && titles.values && titles.values.length > 0
+        ? titles.values[0]?.value
         : ''
     const selected = colors.values.filter((_, index) => {
       return index === selectedIndex
@@ -156,6 +183,8 @@ const hydrate = (product: ShopifyProduct, selectedIndex: number, v: any) => {
           ? `${colorValue}${DELIMITER}${sizeValue}`
           : colors && lengthValue
           ? `${colorValue}${DELIMITER}${lengthValue}`
+          : colors && titleValue
+          ? `${colorValue}${DELIMITER}${titleValue}`
           : `${colorValue}${sizeValue}`
 
       const variant = findVariant(product, key)
@@ -175,6 +204,8 @@ const hydrate = (product: ShopifyProduct, selectedIndex: number, v: any) => {
         ? sizes.values[0]?.value
         : lengths && lengths.values && lengths.values.length > 0
         ? lengths.values[0]?.value
+        : titles && titles.values && titles.values.length > 0
+        ? titles.values[0]?.value
         : ''
 
     if (!key) {
@@ -195,6 +226,14 @@ const hydrate = (product: ShopifyProduct, selectedIndex: number, v: any) => {
           .sizes((s) => hydrateSize(product, s, colorValue)),
       ]
     } else if (lengths && lengths.values && lengths.values.length > 0) {
+      return [
+        v()
+          .sku(variant.shopifyVariantID)
+          .name(colorValue)
+          .imageUrls(imageUrls)
+          .sizes((s) => hydrateSize(product, s, colorValue)),
+      ]
+    } else {
       return [
         v()
           .sku(variant.shopifyVariantID)
