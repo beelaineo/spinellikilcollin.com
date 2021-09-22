@@ -34,7 +34,11 @@ export const page = {
       name: 'content',
       label: 'Content Blocks',
       type: 'array',
-      of: [{ type: 'carousel' }, { type: 'imageTextBlock' }],
+      of: [
+        { type: 'carousel' },
+        { type: 'imageTextBlock' },
+        { type: 'textBlock' },
+      ],
     },
     {
       name: 'fullWidth',
