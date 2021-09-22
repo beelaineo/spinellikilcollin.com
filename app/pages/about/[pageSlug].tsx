@@ -8,6 +8,7 @@ import {
   seoFragment,
   carouselFragment,
   imageTextBlockFragment,
+  textBlockFragment,
   heroFragment,
   request,
 } from '../../src/graphql'
@@ -112,6 +113,10 @@ const pageQuery = gql`
           __typename
           ...ImageTextBlockFragment
         }
+        ... on TextBlock {
+          __typename
+          ...TextBlockFragment
+        }
         ... on Carousel {
           __typename
           ...CarouselFragment
@@ -127,6 +132,7 @@ const pageQuery = gql`
   ${seoFragment}
   ${carouselFragment}
   ${imageTextBlockFragment}
+  ${textBlockFragment}
 `
 
 interface PageResponse {
