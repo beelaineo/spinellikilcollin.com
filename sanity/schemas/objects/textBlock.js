@@ -51,11 +51,6 @@ export const textBlock = {
       title: 'Background Image',
       type: 'richImage',
     },
-    {
-      name: 'backgroundColor',
-      title: 'Background Color',
-      type: 'colorPicker',
-    },
   ],
   preview: {
     select: {
