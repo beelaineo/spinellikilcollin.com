@@ -172,7 +172,10 @@ export type CarouselFilter = {
 
 export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
 
-export type CarouselOrImageTextBlock = Carousel | ImageTextBlock
+export type CarouselOrImageTextBlockOrTextBlock =
+  | Carousel
+  | ImageTextBlock
+  | TextBlock
 
 export type CarouselSorting = {
   _key?: Maybe<SortOrder>
@@ -1238,7 +1241,7 @@ export interface Page extends Document {
   subtitle?: Maybe<Scalars['String']>
   hideTitle?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
-  content?: Maybe<Array<Maybe<CarouselOrImageTextBlock>>>
+  content?: Maybe<Array<Maybe<CarouselOrImageTextBlockOrTextBlock>>>
   /** When on, padding above and below the content blocks will be removed */
   fullWidth?: Maybe<Scalars['Boolean']>
   slug?: Maybe<Slug>
@@ -3348,4 +3351,36 @@ export type TextActionSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   actionType?: Maybe<SortOrder>
+}
+
+export interface TextBlock {
+  __typename: 'TextBlock'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+  textColor?: Maybe<Scalars['String']>
+  alignment?: Maybe<Scalars['String']>
+  layout?: Maybe<Scalars['String']>
+  backgroundImage?: Maybe<RichImage>
+  backgroundColor?: Maybe<Scalars['String']>
+}
+
+export type TextBlockFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  textColor?: Maybe<StringFilter>
+  alignment?: Maybe<StringFilter>
+  layout?: Maybe<StringFilter>
+  backgroundImage?: Maybe<RichImageFilter>
+  backgroundColor?: Maybe<StringFilter>
+}
+
+export type TextBlockSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  textColor?: Maybe<SortOrder>
+  alignment?: Maybe<SortOrder>
+  layout?: Maybe<SortOrder>
+  backgroundImage?: Maybe<RichImageSorting>
+  backgroundColor?: Maybe<SortOrder>
 }
