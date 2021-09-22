@@ -167,7 +167,7 @@ export const Breadcrumbs = () => {
         case 'products':
           const product = await getProduct()
           if (
-            storage.prevPath !== 'null' &&
+            typeof storage.prevPath !== 'undefined' &&
             storage.prevPath.split('/')[1] == 'collections'
           ) {
             const segmentsPrevPath = storage.prevPath.split('/')
@@ -195,7 +195,7 @@ export const Breadcrumbs = () => {
           crumbLabels[2] = product?.title || 'Product'
           break
         case 'collections':
-          const handle = router.query?.productSlug
+          const handle = router.query?.collectionSlug
           const collection = handle ? await getCollection(handle) : null
           crumbLinks.splice(1, 1)
           crumbLabels.splice(1, 1)
