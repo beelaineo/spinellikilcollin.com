@@ -75,6 +75,10 @@ export const BreadcrumbWrapper = styled.div`
       padding-bottom: 4;
       max-width: 265px;
       margin: 0 auto;
+
+      .border {
+        margin-left: 0.5em;
+      }
     }
   `}
 `
