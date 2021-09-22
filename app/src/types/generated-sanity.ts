@@ -3362,7 +3362,6 @@ export interface TextBlock {
   alignment?: Maybe<Scalars['String']>
   layout?: Maybe<Scalars['String']>
   backgroundImage?: Maybe<RichImage>
-  backgroundColor?: Maybe<Scalars['String']>
 }
 
 export type TextBlockFilter = {
@@ -3372,7 +3371,6 @@ export type TextBlockFilter = {
   alignment?: Maybe<StringFilter>
   layout?: Maybe<StringFilter>
   backgroundImage?: Maybe<RichImageFilter>
-  backgroundColor?: Maybe<StringFilter>
 }
 
 export type TextBlockSorting = {
@@ -3382,5 +3380,4 @@ export type TextBlockSorting = {
   alignment?: Maybe<SortOrder>
   layout?: Maybe<SortOrder>
   backgroundImage?: Maybe<RichImageSorting>
-  backgroundColor?: Maybe<SortOrder>
 }

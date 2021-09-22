@@ -54,6 +54,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
     z-index: 10;
     display: flex;
     text-align: ${textAlignment};
+    align-items: center;
 
     h1,
     h2,
