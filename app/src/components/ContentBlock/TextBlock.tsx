@@ -37,7 +37,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
   ${({ textAlignment, layout, backgroundImage, theme }) => css`
     margin: ${backgroundImage ? '0 48px' : '48px'};
     padding: ${backgroundImage ? '48px 0' : '0'};
-    min-height: 50vh;
+    min-height: calc(50vh - 96px);
     height: calc(100% - 96px);
     width: auto;
     z-index: 10;
@@ -52,6 +52,15 @@ const TextWrapper = styled.div<TextWrapperProps>`
     h4,
     h5 {
       margin: 0;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    p {
+      white-space: pre-wrap;
     }
 
     & > div > div {
