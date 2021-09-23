@@ -82,10 +82,7 @@ interface TextBlockProps {
 
 export const TextBlock = ({ content }: TextBlockProps) => {
   const { alignment, backgroundImage, layout } = content
-
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
-  console.log('wrapper:', Wrapper)
-  console.log('backgroundImage:', backgroundImage)
   return (
     <Wrapper layout={layout} backgroundImage={backgroundImage}>
       <TextWrapper
