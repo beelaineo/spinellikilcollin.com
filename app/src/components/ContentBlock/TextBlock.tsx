@@ -1,60 +1,50 @@
 import * as React from 'react'
 import styled, { Box, css } from '@xstyled/styled-components'
-import { TextBlock as TextBlockType } from '../../types'
+import { TextBlock as TextBlockType, RichImage } from '../../types'
 import { RichText } from '../RichText'
-import { Image } from '../Image'
 
-interface WithLayout {
+interface WrapperProps {
+  backgroundImage?: RichImage | null
   layout?: string | null
 }
 
-const Wrapper = styled.div<WithLayout>`
-  ${({ theme, layout }) => css`
-    position: relative;
+const Wrapper = styled.div<WrapperProps>`
+  ${({ theme, layout, backgroundImage }) => css`
     height: 100%;
+    position: relative;
     width: 100%;
     background-color: body.0;
     grid-column: ${layout === 'fullWidth' ? '1 / 3' : 'auto'};
+    background-image: ${backgroundImage
+      ? `url(${backgroundImage.asset?.url})`
+      : 'none'};
 
     ${theme.mediaQueries.mobile} {
       grid-column: auto;
-    }
-  `}
-`
-
-const ImagesWrapper = styled.div`
-  ${({ theme }) => css`
-    & > *:nth-of-type(2) {
-      display: none;
-    }
-
-    ${theme.mediaQueries.mobile} {
-      & > *:nth-of-type(1) {
-        display: none;
-      }
-      & > *:last-child {
-        display: block;
-      }
+      height: auto;
+      position: static;
     }
   `}
 `
 
 interface TextWrapperProps {
   textAlignment: string | null | undefined
+  layout?: string | null
+  backgroundImage?: RichImage | null
 }
 
 const TextWrapper = styled.div<TextWrapperProps>`
-  ${({ textAlignment, theme }) => css`
-    padding: 6;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  ${({ textAlignment, layout, backgroundImage, theme }) => css`
+    margin: ${backgroundImage ? '0 48px' : '48px'};
+    padding: ${backgroundImage ? '48px 0' : '0'};
+    min-height: 50vh;
+    height: calc(100% - 96px);
+    width: auto;
     z-index: 10;
     display: flex;
     text-align: ${textAlignment};
     align-items: center;
+    justify-content: ${layout === 'fullWidth' ? 'center' : 'initial'};
 
     h1,
     h2,
@@ -64,8 +54,24 @@ const TextWrapper = styled.div<TextWrapperProps>`
       margin: 0;
     }
 
+    & > div > div {
+      max-width: ${layout === 'fullWidth' ? '720px' : '100%'};
+    }
+
     ${theme.mediaQueries.tablet} {
-      padding: 4;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      min-height: unset;
+      margin: ${backgroundImage ? '0 36px' : '36px'};
+      padding: ${backgroundImage ? '36px 0' : '0'};
+      position: static;
+      top: unset;
+      left: unset;
+      height: auto;
+      min-height: unset;
+      display: block;
+      text-align: ${textAlignment};
     }
   `}
 `
@@ -78,15 +84,15 @@ export const TextBlock = ({ content }: TextBlockProps) => {
   const { alignment, backgroundImage, layout } = content
 
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
-
-  const ratio = layout === 'fullWidth' ? 0.48 : 1
+  console.log('wrapper:', Wrapper)
+  console.log('backgroundImage:', backgroundImage)
   return (
-    <Wrapper layout={layout}>
-      <ImagesWrapper>
-        <Image image={backgroundImage} ratio={ratio} />
-        <Image image={backgroundImage} ratio={1} />
-      </ImagesWrapper>
-      <TextWrapper textAlignment={alignment}>
+    <Wrapper layout={layout} backgroundImage={backgroundImage}>
+      <TextWrapper
+        textAlignment={alignment}
+        layout={layout}
+        backgroundImage={backgroundImage}
+      >
         <Box color={textColor}>
           <RichText body={content.bodyRaw} />
         </Box>
