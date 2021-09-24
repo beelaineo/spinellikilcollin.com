@@ -67,13 +67,8 @@ export const BreadcrumbWrapper = styled.div`
       font-style: italic;
     }
 
-    ${theme.mediaQueries.tablet} {
-      padding: 0;
-    }
     ${theme.mediaQueries.mobile} {
-      padding: 0;
-      padding-bottom: 4;
-      max-width: 265px;
+      padding: 4 0;
       margin: 0 auto;
 
       .border {
