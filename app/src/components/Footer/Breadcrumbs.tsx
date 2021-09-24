@@ -236,34 +236,28 @@ export const Breadcrumbs = () => {
       setCrumbs(crumbs)
     }
     fetchCrumbs()
-    console.log({
-      router: router,
-      storage: storage,
-      crumbs: crumbs,
-      crumbLinks: crumbLinks,
-      crumbLabels: crumbLabels,
-      segmentsRoute: segmentsRoute,
-      segmentsPath: segmentsPath,
-    })
   }, [router.asPath])
-
-  return (
-    <BreadcrumbWrapper>
-      {crumbs.map((c: BreadcrumbProps, i: number) => {
-        return (
-          <div key={i}>
-            {i > 0 ? <div className={'separator'}>{'→'}</div> : null}
-            <div className={i == crumbs.length - 1 ? 'active ' : ''}>
-              <Link href={c.link}>
-                <a>{c.label}</a>
-              </Link>
+  if (router.route === '/') {
+    return null
+  } else {
+    return (
+      <BreadcrumbWrapper>
+        {crumbs.map((c: BreadcrumbProps, i: number) => {
+          return (
+            <div key={i}>
+              {i > 0 ? <div className={'separator'}>{'→'}</div> : null}
+              <div className={i == crumbs.length - 1 ? 'active ' : ''}>
+                <Link href={c.link}>
+                  <a>{c.label}</a>
+                </Link>
+              </div>
             </div>
-          </div>
-        )
-      })}
-      <div className={'border'} />
-    </BreadcrumbWrapper>
-  )
+          )
+        })}
+        <div className={'border'} />
+      </BreadcrumbWrapper>
+    )
+  }
 }
 
 function CombineAccumulatively(segments) {
