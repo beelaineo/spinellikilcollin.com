@@ -1,15 +1,17 @@
 import * as React from 'react'
 import {
   ImageTextBlock as ImageTextBlockType,
+  TextBlock as TextBlockType,
   Hero,
   Carousel,
 } from '../../types'
 import { ImageTextBlock } from './ImageTextBlock'
+import { TextBlock } from './TextBlock'
 import { HeroBlock } from './HeroBlock'
 import { CarouselBlock } from './CarouselBlock'
 
 interface ContentBlockProps {
-  content: ImageTextBlockType | Hero | Carousel
+  content: ImageTextBlockType | TextBlockType | Hero | Carousel
 }
 
 /**
@@ -20,6 +22,8 @@ export const ContentBlock = ({ content }: ContentBlockProps) => {
   switch (content.__typename) {
     case 'ImageTextBlock':
       return <ImageTextBlock content={content} />
+    case 'TextBlock':
+      return <TextBlock content={content} />
     case 'Hero':
       return <HeroBlock hero={content} />
     case 'Carousel':

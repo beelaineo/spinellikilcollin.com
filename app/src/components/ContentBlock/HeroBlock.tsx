@@ -46,6 +46,7 @@ interface HeroTextProps {
   textColor?: string | null
   textPositionMobile?: string | null
   textColorMobile?: string | null
+  textContainer?: string | null
 }
 
 const HeroText = styled.div`
@@ -55,6 +56,7 @@ const HeroText = styled.div`
     textColor,
     textPositionMobile,
     textColorMobile,
+    textContainer,
   }: HeroTextProps) => css`
     pointer-events: none;
     position: absolute;
@@ -72,19 +74,47 @@ const HeroText = styled.div`
     color: ${textColor ? getColor(textColor) : 'inherit'};
 
     .text-container {
-      max-width: 400px;
+      ${textContainer == 'full' ? 'max-width: 720px;' : 'max-width: 400px'};
 
       > * {
         pointer-events: auto;
       }
     }
 
+    ${theme.mediaQueries.tablet} {
+      ${textContainer == 'full'
+        ? `h1 {
+              font-size: ${theme.mobileFontSizes[1]};
+            }
+            h2 {
+              font-size: ${theme.mobileFontSizes[2]};
+            }
+            h3 {
+              font-size: ${theme.mobileFontSizes[3]};
+            }
+            p,
+            h4 {
+              font-size: ${theme.mobileFontSizes[4]};
+            }
+            h5 {
+              font-size: ${theme.mobileFontSizes[5]};
+            }
+            h6 {
+              font-size: ${theme.mobileFontSizes[6]};
+            }`
+        : ''}
+    }
+
     ${theme.mediaQueries.mobile} {
       justify-content: ${getFlexJustification(textPositionMobile)};
       align-items: ${getFlexAlignment(textPositionMobile)};
       text-align: ${getTextAlignment(textPositionMobile)};
-      color: ${getColor(textColorMobile)};
+      color: ${textColorMobile ? getColor(textColorMobile) : 'inherit'};
       padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;
+
+      .text-container {
+        ${textContainer == 'full' ? 'padding: ;' : 'padding: inherit'};
+      }
     }
   `}
 `
@@ -125,6 +155,7 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
   const {
     textPosition,
     textColor,
+    textContainer,
     heroLink,
     bodyRaw,
     image,
@@ -157,6 +188,7 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
           textColor={textColor}
           textPositionMobile={textPositionMobile}
           textColorMobile={textColorMobile}
+          textContainer={textContainer}
         >
           <div className="text-container">
             <RichText body={bodyRaw} />
