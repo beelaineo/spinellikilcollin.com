@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { FaFacebookF, FaYoutube, FaTwitter, FaPinterest } from 'react-icons/fa'
 import { TiSocialInstagram } from 'react-icons/ti'
 import { Breadcrumbs } from './Breadcrumbs'
@@ -21,7 +20,6 @@ import {
 const currentYear = new Date().getFullYear()
 
 export const Footer = () => {
-  const router = useRouter()
   const shopData = useShopData()
   const footerLinks = shopData?.siteSettings?.links ?? []
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''
