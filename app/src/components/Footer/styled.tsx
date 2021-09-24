@@ -223,6 +223,7 @@ export const FooterRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 `
 
 interface HomepageLinkProps {
