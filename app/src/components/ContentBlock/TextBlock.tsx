@@ -64,7 +64,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
     }
 
     & > div > div {
-      max-width: ${layout === 'fullWidth' ? '640px' : '100%'};
+      max-width: ${layout === 'fullWidth' ? '700px' : '100%'};
     }
 
     ${theme.mediaQueries.tablet} {
