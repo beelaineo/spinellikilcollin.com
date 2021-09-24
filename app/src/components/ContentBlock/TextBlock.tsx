@@ -44,7 +44,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
     display: flex;
     text-align: ${textAlignment};
     align-items: center;
-    justify-content: ${layout === 'fullWidth' ? 'center' : 'initial'};
+    justify-content: initial;
 
     h1,
     h2,
@@ -64,10 +64,19 @@ const TextWrapper = styled.div<TextWrapperProps>`
     }
 
     & > div > div {
-      max-width: ${layout === 'fullWidth' ? '700px' : '100%'};
+      max-width: 500px;
+    }
+
+    @media screen and (min-width: 1680px) {
+      & > div > div {
+        max-width: 700px;
+      }
     }
 
     ${theme.mediaQueries.tablet} {
+      p {
+        font-size: ${theme.tabletFontSizes[5]};
+      }
     }
 
     ${theme.mediaQueries.mobile} {
