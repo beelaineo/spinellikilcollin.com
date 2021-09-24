@@ -482,6 +482,8 @@ export const heroFragment = gql`
     _type
     bodyRaw
     textColor
+    textColorMobile
+    textContainer
     textPosition
     textPositionMobile
     backgroundColor
