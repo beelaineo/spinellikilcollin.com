@@ -203,12 +203,22 @@ export const Breadcrumbs = () => {
           break
         case 'about':
           if (
-            segmentsRoute.length > 2 &&
-            segmentsRoute[2] !== 'contact' &&
-            segmentsRoute[2] !== 'team'
+            segmentsPath[2] === 'issues-we-care-about' ||
+            segmentsPath[2] === 'product-sourcing'
           ) {
+            crumbLinks.splice(1, 1, '/about/our-values')
+            crumbLabels.splice(1, 1, 'Our Values')
             const page = await getPage(router.query?.pageSlug)
             crumbLabels[2] = page?.title
+          } else {
+            if (
+              segmentsRoute.length > 2 &&
+              segmentsRoute[2] !== 'contact' &&
+              segmentsRoute[2] !== 'team'
+            ) {
+              const page = await getPage(router.query?.pageSlug)
+              crumbLabels[2] = page?.title
+            }
           }
           break
         case 'journal':
