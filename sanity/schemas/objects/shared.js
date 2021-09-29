@@ -12,4 +12,8 @@ export const actionTypes = [
     title: 'Launch Bambuser',
     value: 'launchBambuser',
   },
+  {
+    title: 'Launch Chat (Hubspot)',
+    value: 'launchHubspot',
+  },
 ]

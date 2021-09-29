@@ -25,7 +25,6 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     z-index: 0;
     grid-column: span 2;
     overflow: hidden;
-    min-height: 400px;
     background-color: ${getBackgroundColor(hero.backgroundColor)};
 
     video {
@@ -137,7 +136,6 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
     cta: ctas,
   } = hero
   const cta = definitely(ctas).length ? definitely(ctas)[0] : null
-
   return (
     <HeroWrapper hero={hero}>
       <DocumentLink document={heroLink?.document ?? undefined}>

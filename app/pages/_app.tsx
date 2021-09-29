@@ -10,6 +10,8 @@ import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { config } from '../src/config'
 
+const { useEffect } = React
+
 interface AppProps {
   Component: React.ComponentType
   pageProps: any
@@ -79,6 +81,23 @@ const App = (props: AppProps) => {
       : STOREFRONT_ENV === 'staging'
       ? gtm.staging
       : gtm.dev
+
+  useEffect(() => {
+    const paramString = router.asPath.replace(/^(.*)\?/, '')
+    const params = new URLSearchParams(paramString)
+    const timeout = setTimeout(() => {
+      if (
+        params.get('openChat') === 'true' &&
+        window &&
+        // @ts-ignore
+        window?.HubSpotConversations?.widget
+      ) {
+        // @ts-ignore
+        window.HubSpotConversations.widget.open()
+      }
+    }, 500)
+    return () => clearTimeout(timeout)
+  }, [router.isReady])
 
   return (
     <Providers shopData={shopData}>

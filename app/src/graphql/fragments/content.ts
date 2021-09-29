@@ -1,5 +1,9 @@
 import gql from 'graphql-tag'
-import { sanityImageFragment, richImageFragment } from './media'
+import {
+  sanityImageFragment,
+  sanityFileAssetFragment,
+  richImageFragment,
+} from './media'
 
 export const seoFragment = gql`
   fragment SEOFragment on Seo {
@@ -36,6 +40,7 @@ export const shopifySourceProductVariantFragment = gql`
     _type
     availableForSale
     id
+    sku
     title
     image {
       ...ShopifySourceImageFragment
@@ -173,6 +178,7 @@ export const ctaFragment = gql`
     __typename
     _key
     _type
+    action
     label
     link {
       ...InternalLinkFragment
@@ -189,6 +195,21 @@ export const externalLinkFragment = gql`
     url
     newTab
   }
+`
+
+export const pdfLinkFragment = gql`
+  fragment PdfLinkFragment on PdfLink {
+    __typename
+    _key
+    _type
+    title
+    pdf {
+      asset {
+        ...SanityFileAssetFragment
+      }
+    }
+  }
+  ${sanityFileAssetFragment}
 `
 
 export const cloudinaryVideoFragment = gql`
@@ -225,10 +246,14 @@ export const imageTextBlockFragment = gql`
       ... on ExternalLink {
         ...ExternalLinkFragment
       }
+      ... on PdfLink {
+        ...PdfLinkFragment
+      }
     }
   }
   ${internalLinkFragment}
   ${externalLinkFragment}
+  ${pdfLinkFragment}
   ${richImageFragment}
   ${cloudinaryVideoFragment}
 `

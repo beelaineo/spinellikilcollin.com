@@ -55,7 +55,11 @@ export const imageTextBlock = {
     {
       name: 'link',
       type: 'array',
-      of: [{ type: 'internalLink' }, { type: 'externalLink' }],
+      of: [
+        { type: 'internalLink' },
+        { type: 'externalLink' },
+        { type: 'pdfLink' },
+      ],
     },
     {
       name: 'textPosition',

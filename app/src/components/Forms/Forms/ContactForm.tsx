@@ -39,13 +39,13 @@ interface ContactFormProps {
 type FormValues = {
   name: string
   email: string
-  phone: string
+  phone?: string
   country: string
   state: string
   message: string
   formtype?: string
-  phoneCountryCode: string
-  dialingCode: string
+  phoneCountryCode?: string
+  dialingCode?: string
 }
 
 const formId = 'd1a0fa82-2130-40e7-b321-d073effb9079'

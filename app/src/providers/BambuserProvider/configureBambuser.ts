@@ -56,6 +56,10 @@ export const configureBambuser = (options: ConfigureBambuserOptions) => {
         // IFRAME, MANUAL, IFRAME_SRCDOC
         navigationMode: player.FLOATING_PLAYER_NAVIGATION_MODE.IFRAME,
       },
+      cookie: {
+        // Make cookies readable from spinellikilcollin.com & sub-domains ("checkout")
+        domain: '.spinellikilcollin.com',
+      },
     })
     /* Add to Cart */
     player.on(

@@ -2,6 +2,7 @@ import { getCookie } from '../utils'
 import { Sentry } from '../services/sentry'
 import { config } from '../config'
 import Debug from 'debug'
+import publicIp from 'public-ip'
 
 const debug = Debug('dev:hubspot')
 
@@ -14,6 +15,12 @@ const PORTAL_ID = '7668999'
 interface ValueObject {
   name: string
   value: string | number | boolean | undefined
+}
+
+const formatPhoneField = function (values: Values) {
+  values.phone = '+' + values.dialingCode + ' ' + values.phone
+  const { dialingCode, phoneCountryCode, ...hubspotValues } = values
+  return hubspotValues
 }
 
 const parseValues = (values: Values): ValueObject[] =>
@@ -36,13 +43,15 @@ export const submitToHubspot = async (
   const hutk = getCookie('hubspotutk')
   const pageUri = window.location.href.replace(/https?:\/\//, '')
   const pageName = document.title
+  const ipAddress = await publicIp.v4()
   const context = {
     hutk,
     pageUri,
     pageName,
+    ipAddress,
   }
   const body = {
-    fields: parseValues(values),
+    fields: parseValues(formatPhoneField(values)),
     context,
   }
   if (config.STOREFRONT_ENV !== 'production') {
@@ -59,7 +68,9 @@ export const submitToHubspot = async (
         'Content-Type': 'application/json',
       },
     }).then((r) => r.json())
-    if (response.status === 'error') throw response
+    if (response.status === 'error') {
+      throw response
+    }
   } catch (err) {
     Sentry.setContext('hubspotResponse', err)
     Sentry.setContext('hubspotFormData', { body })

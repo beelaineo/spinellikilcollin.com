@@ -1,4 +1,5 @@
 import * as React from 'react'
+import Head from 'next/head'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Box } from '@xstyled/styled-components'
 import {
@@ -83,6 +84,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     collectionBlocks,
     reduceColumnCount,
     lightTheme,
+    hidden,
   } = collection
   if (!handle) {
     throw new Error('The collection is missing a handle')
@@ -187,7 +189,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   return (
     <>
-      <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
+      <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
       {hero && validHero ? <HeroBlock hero={hero} /> : null}
       <Wrapper
         handle={handle}

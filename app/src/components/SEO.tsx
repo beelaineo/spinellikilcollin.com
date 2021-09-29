@@ -1,9 +1,10 @@
 import * as React from 'react'
 import Head from 'next/head'
-import { useShopData } from '../providers'
+import { CurrentProductProvider, useShopData } from '../providers'
 import {
   ShopifySourceImage,
   ShopifyProduct,
+  ShopifyProductVariant,
   RichImage,
   Image,
   Maybe,
@@ -25,6 +26,8 @@ interface SEOProps {
   path: string
   contentType?: string
   product?: ShopifyProduct
+  hidden?: Maybe<boolean>
+  currentVariant?: ShopifyProductVariant
 }
 
 const BASE_URL = 'https://www.spinellikilcollin.com'
@@ -32,9 +35,14 @@ const BASE_URL = 'https://www.spinellikilcollin.com'
 interface ProductSEOProps {
   product: ShopifyProduct
   defaultSeo: DefaultSeo
+  currentVariant?: ShopifyProductVariant
 }
 
-const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
+const ProductSEO = ({
+  product,
+  currentVariant,
+  defaultSeo,
+}: ProductSEOProps) => {
   const { minVariantPrice } = product
   const formattedPrice = minVariantPrice
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
@@ -46,6 +54,11 @@ const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
   let id, imageSrc
   const description = product?.sourceData?.description
   const productType = product?.sourceData?.productType
+  const sku = currentVariant?.sourceData?.sku
+  const variantPrice =
+    currentVariant?.sourceData?.compareAtPriceV2?.amount !== '0'
+      ? currentVariant?.sourceData?.compareAtPriceV2?.amount
+      : currentVariant?.sourceData?.priceV2?.amount
 
   if (typeof window !== 'undefined' && window.location.search) {
     const productId = getProductIdLocationSearch(window.location.search)
@@ -67,6 +80,14 @@ const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
     description: description,
     brand: { '@type': productType },
     image: imageSrc ? imageSrc : '',
+    sku: sku ? sku : '',
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: variantPrice,
+      itemCondition: 'http://schema.org/NewCondition',
+      availability: 'http://schema.org/InStock',
+    },
   }
 
   return (
@@ -124,6 +145,8 @@ export const SEO = ({
   defaultSeo,
   contentType,
   product,
+  currentVariant,
+  hidden,
 }: SEOProps) => {
   if (!defaultSeo.title) throw new Error('No default title was supplied')
   const { siteSettings } = useShopData()
@@ -149,7 +172,11 @@ export const SEO = ({
         <meta property="og:image_secure_url" content={imageUrl || undefined} />
         <meta property="og:type" content={contentType || 'website'} />
         <meta property="og:url" content={canonical} />
-        <meta name="robots" content="index, follow" />
+        {hidden === true ? (
+          <meta name="robots" content="noindex" />
+        ) : (
+          <meta name="robots" content="index, follow" />
+        )}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={metaTitle || title || undefined} />
         <meta name="twitter:description" content={description || undefined} />
@@ -158,7 +185,11 @@ export const SEO = ({
       </Head>
 
       {contentType === 'product' && product ? (
-        <ProductSEO product={product} defaultSeo={defaultSeo} />
+        <ProductSEO
+          product={product}
+          defaultSeo={defaultSeo}
+          currentVariant={currentVariant}
+        />
       ) : null}
     </>
   )

@@ -594,6 +594,11 @@ export type ExternalLinkFilter = {
 
 export type ExternalLinkOrInternalLink = ExternalLink | InternalLink
 
+export type ExternalLinkOrInternalLinkOrPdfLink =
+  | ExternalLink
+  | InternalLink
+  | PdfLink
+
 export type ExternalLinkSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
@@ -884,7 +889,7 @@ export interface ImageTextBlock {
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
   ctaText?: Maybe<Scalars['String']>
-  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLink>>>
+  link?: Maybe<Array<Maybe<ExternalLinkOrInternalLinkOrPdfLink>>>
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
   layout?: Maybe<Scalars['String']>
@@ -1331,6 +1336,28 @@ export type PageSorting = {
   fullWidth?: Maybe<SortOrder>
   slug?: Maybe<SlugSorting>
   seo?: Maybe<SeoSorting>
+}
+
+export interface PdfLink {
+  __typename: 'PdfLink'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  pdf?: Maybe<File>
+}
+
+export type PdfLinkFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  pdf?: Maybe<FileFilter>
+}
+
+export type PdfLinkSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  pdf?: Maybe<FileSorting>
 }
 
 export interface PriceRangeFilter {
@@ -2293,7 +2320,7 @@ export interface ShopifyCollection extends Document {
   hidden?: Maybe<Scalars['Boolean']>
   /** Changes the layout to 2 columns on desktop, 1 column on tablet */
   reduceColumnCount?: Maybe<Scalars['Boolean']>
-  /** Changes product listing text color to white */
+  /** Toggle this to ON to change text color to white for all products in collection. */
   lightTheme?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
   collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
@@ -2394,6 +2421,8 @@ export interface ShopifyProduct extends Document {
   hidden?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL */
   hideFromCollections?: Maybe<Scalars['Boolean']>
+  /** Always show product in specified collection. */
+  showInCollection?: Maybe<ShopifyCollection>
   /** Toggle this to ON to hide this product from search results. The product will still be viewable at its URL */
   hideFromSearch?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide a product's price and show an inquiry button instead of "Add to Cart" */
@@ -2423,6 +2452,7 @@ export type ShopifyProductFilter = {
   sourceData?: Maybe<ShopifySourceProductFilter>
   hidden?: Maybe<BooleanFilter>
   hideFromCollections?: Maybe<BooleanFilter>
+  showInCollection?: Maybe<ShopifyCollectionFilter>
   hideFromSearch?: Maybe<BooleanFilter>
   inquiryOnly?: Maybe<BooleanFilter>
   related?: Maybe<CarouselFilter>

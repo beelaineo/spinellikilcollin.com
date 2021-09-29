@@ -89,8 +89,8 @@ type FormValues = {
   country: string
   product?: string
   variant?: string
-  phoneCountryCode: string
-  dialingCode: string
+  phoneCountryCode?: string
+  dialingCode?: string
 }
 
 const formId = 'e62200cb-d8d3-468f-a19e-13c7d4bcec26'
@@ -116,6 +116,7 @@ export const RingSizerForm = ({
   const initialValues: FormValues = {
     name: '',
     email: '',
+    phone: '',
     message: '',
     country: 'United States',
     address1: '',

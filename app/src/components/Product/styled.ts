@@ -43,7 +43,14 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
 
     ${theme.mediaQueries.mobile} {
       margin-top: 3;
-      padding: 0 0 4;
+      padding: 0px;
+      grid-row-gap: 1;
+      h3 {
+        font-size: ${theme.mobileFontSizes[5]};
+      }
+      h5 {
+        font-size: ${theme.mobileFontSizes[6]};
+      }
     }
   `}
 `
@@ -60,22 +67,34 @@ export const TagBadgeWrapper = styled.div`
 `
 
 export const TagBadge = styled.div`
-  border: 1px solid;
-  border-color: body.6;
-  border-radius: 20px;
-  margin: 0 1;
-  height: 19px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1px 3 0;
+  ${({ theme }) => css`
+    border: 1px solid;
+    border-color: body.6;
+    border-radius: 20px;
+    margin: 0 1;
+    height: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px 3 0;
+
+    ${theme.mediaQueries.mobile} {
+      height: unset;
+    }
+  `}
 `
 
 export const SwatchesWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 2;
+  ${({ theme }) => css`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2;
+
+    ${theme.mediaQueries.mobile} {
+      padding-bottom: 8px;
+    }
+  `}
 `
 
 export const SwatchLabel = styled.div`
@@ -95,7 +114,7 @@ interface WithClickable {
 }
 
 export const SwatchWrapper = styled.div<WithClickable>`
-  ${({ clickable, active }) => css`
+  ${({ theme, clickable, active }) => css`
     position: relative;
     width: 23px;
     margin: 0;
@@ -113,6 +132,10 @@ export const SwatchWrapper = styled.div<WithClickable>`
       ${SwatchLabel} {
         opacity: 1;
       }
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding-bottom: 0px;
     }
   `}
 `

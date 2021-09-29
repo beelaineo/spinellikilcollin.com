@@ -73,7 +73,11 @@ export const ProductSwatches = ({
   onSwatchHover,
   isSwatchActive,
 }: ProductSwatchesProps) => {
-  const swatchOptions = getSwatchOptions(product)
+  const swatchOptions = getSwatchOptions(product).filter(
+    // @ts-ignore: Object is possibly 'null' or 'undefined'.
+    (option) => option.values.length > 0,
+  )
+
   return (
     <div>
       {swatchOptions.map((option) => (
