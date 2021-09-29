@@ -129,6 +129,7 @@ const Product = ({ product, preview }: ProductPageProps) => {
   })
   try {
     if (!data) return <NotFound />
+    console.log('product data:', data)
     return <ProductDetail key={data._id || 'some-key'} product={data} />
   } catch (e) {
     Sentry.captureException(e)

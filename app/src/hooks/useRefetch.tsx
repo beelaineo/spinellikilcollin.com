@@ -49,9 +49,11 @@ export const useRefetch = <DataType, Response>(
 
   useEffect(() => {
     if (!enabled) return
+    console.log('listening for revisions on sanity document')
     const subscription = sanityClient
       .listen(listenQuery, listenQueryParams)
       .subscribe((update) => {
+        console.log('document updated:', update)
         setLastRev(update.result._rev)
       })
     return () => subscription.unsubscribe()
