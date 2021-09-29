@@ -18,6 +18,7 @@ import {
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { Sentry } from '../../src/services/sentry'
+import { useRefetch } from '../../src/hooks'
 
 const productQuery = gql`
   query ProductsPageQuery($handle: String) {
@@ -106,12 +107,28 @@ interface Response {
 
 interface ProductPageProps {
   product: ShopifyProduct
+  preview: boolean
 }
 
-const Product = ({ product }: ProductPageProps) => {
+const getProductFromResponse = (response: Response) => {
+  const products = response?.allShopifyProduct
+
+  const product = products && products.length ? products[0] : null
+  return product
+}
+
+const Product = ({ product, preview }: ProductPageProps) => {
+  const data = useRefetch<ShopifyProduct, Response>(product, {
+    query: productQuery,
+    queryParams: { handle: product.handle },
+    listenQuery: `*[_type == "shopifyProduct" && _id == $id]`,
+    listenQueryParams: { id: product._id },
+    parseResponse: getProductFromResponse,
+    enabled: preview,
+  })
   try {
-    if (!product) return <NotFound />
-    return <ProductDetail key={product._id || 'some-key'} product={product} />
+    if (!data) return <NotFound />
+    return <ProductDetail key={data._id || 'some-key'} product={data} />
   } catch (e) {
     Sentry.captureException(e)
     return <NotFound />
@@ -124,7 +141,13 @@ const Product = ({ product }: ProductPageProps) => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   try {
+    /** This is wrong, i forget how to get a query param like ?preview=abc in getStaticProps..
+     *  GetStaticProps may not support it... in which case you could parse the window.location
+     *  in the Product component above */
+    // const { params, queryParams } = ctx
     const { params } = ctx
+    // const preview = Boolean(queryParams?.preview)
+    const preview = true
     if (!params?.productSlug) return { props: { product: undefined } }
     const handle = getParam(params.productSlug)
     const variables = { handle }
@@ -134,11 +157,9 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       requestShopData(),
     ])
 
-    const products = response?.allShopifyProduct
+    const product = getProductFromResponse(response)
 
-    const product = products && products.length ? products[0] : null
-
-    return { props: { product, shopData }, revalidate: 60 }
+    return { props: { product, shopData, preview }, revalidate: 60 }
   } catch (e) {
     Sentry.captureException(e)
     return { props: {}, revalidate: 1 }
