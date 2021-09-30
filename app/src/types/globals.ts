@@ -2,6 +2,7 @@ export type FacebookPixel = {
   track: string
   eventType: string
   options?: Record<string, unknown>
+  eventData?: Record<string, unknown>
 }
 
 declare global {
@@ -10,6 +11,7 @@ declare global {
       track: string,
       eventType: string,
       options?: Record<string, unknown>,
+      eventData?: Record<string, unknown>,
     ): void
   }
 }
