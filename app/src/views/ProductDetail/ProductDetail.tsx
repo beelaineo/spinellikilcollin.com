@@ -231,7 +231,8 @@ export const ProductDetail = ({ product }: Props) => {
                     addLineItem={addLineItem}
                     currentVariant={currentVariant}
                   />
-                  {inquiryOnly !== true ? (
+                  {inquiryOnly !== true &&
+                  product.sourceData?.productType !== 'Gift Card' ? (
                     <AffirmWrapper>
                       <Affirm price={currentVariant?.sourceData?.priceV2} />
                     </AffirmWrapper>

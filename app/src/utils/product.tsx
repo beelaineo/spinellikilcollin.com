@@ -148,6 +148,7 @@ export const getVariantTitle = (
   product: ShopifyProduct,
   variant: ShopifyProductVariant | ShopifySourceProductVariant,
 ): string | null | undefined => {
+  if (product?.sourceData?.productType === 'Gift Card') return product?.title
   if (product?.variants?.length && product.variants.length < 2) {
     // If there is only one variant, its name will be "Default Title",
     // so we should return the product title instead.
