@@ -173,7 +173,10 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const defaultSeo = {
-    title: getVariantTitle(product, currentVariant),
+    title:
+      product.sourceData.productType !== 'Gift Card'
+        ? getVariantTitle(product, currentVariant)
+        : getVariantTitle(product, null),
     image:
       currentVariant?.sourceData?.image ?? images.length
         ? (currentVariant?.sourceData?.image as ShopifySourceImage)
@@ -231,7 +234,8 @@ export const ProductDetail = ({ product }: Props) => {
                     addLineItem={addLineItem}
                     currentVariant={currentVariant}
                   />
-                  {inquiryOnly !== true ? (
+                  {inquiryOnly !== true &&
+                  product.sourceData.productType !== 'Gift Card' ? (
                     <AffirmWrapper>
                       <Affirm price={currentVariant?.sourceData?.priceV2} />
                     </AffirmWrapper>
