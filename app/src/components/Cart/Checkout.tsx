@@ -37,7 +37,7 @@ export const Checkout = () => {
 
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
-
+  console.log(lineItems)
   const title = message || 'Your Cart'
 
   const handleSubmit = async (values: FormValues) => {
@@ -98,7 +98,12 @@ export const Checkout = () => {
                     {/* @ts-ignore */}
                     <Price price={checkout.paymentDueV2} />
                   </Heading>
-                  <Affirm price={checkout.paymentDueV2} />
+                  {lineItems?.some(
+                    (item) =>
+                      item.variant?.product?.productType === 'Gift Card',
+                  ) ? null : (
+                    <Affirm price={checkout.paymentDueV2} />
+                  )}
                 </div>
               </SubtotalWrapper>
             ) : null}
