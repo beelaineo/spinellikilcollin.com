@@ -52,12 +52,9 @@ export const ProductDetail = ({ product }: Props) => {
   const { openCustomizationModal } = useModal()
   const router = useRouter()
   const params = new URLSearchParams(router.asPath.replace(/^(.*)\?/, ''))
-  const shopifyVariantId = params.get('variant')
   const variantId = params.get('v')
   const useProductVariantOptions = variantId
     ? { initialVariant: variantId }
-    : shopifyVariantId
-    ? { shopifyVariant: shopifyVariantId }
     : undefined
   /* get additional info blocks from Sanity */
   const { sendProductDetailView } = useAnalytics()
@@ -234,7 +231,8 @@ export const ProductDetail = ({ product }: Props) => {
                     addLineItem={addLineItem}
                     currentVariant={currentVariant}
                   />
-                  {inquiryOnly !== true ? (
+                  {inquiryOnly !== true &&
+                  product.sourceData?.productType !== 'Gift Card' ? (
                     <AffirmWrapper>
                       <Affirm price={currentVariant?.sourceData?.priceV2} />
                     </AffirmWrapper>
