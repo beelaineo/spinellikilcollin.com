@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { definitely } from '../utils'
+import atob from 'atob'
 import {
   ShopifyProduct,
   ShopifyProductVariant,
@@ -11,6 +12,7 @@ const { useState } = React
 
 interface Options {
   initialVariant?: string | 'first' | 'last'
+  shopifyVariant?: string
 }
 
 // interface Variant extends SourceVariant {
@@ -31,7 +33,7 @@ export const useProductVariant = (
   product: ShopifyProduct,
   options: Options = {},
 ): ReturnValue => {
-  const { initialVariant } = options
+  const { initialVariant, shopifyVariant } = options
   const variants = definitely(product?.variants)
   // ? (product?.variants)
   // : []
@@ -50,6 +52,12 @@ export const useProductVariant = (
   }
 
   const getInitialState = () => {
+    if (shopifyVariant) {
+      const btoa = (str: string) => Buffer.from(str).toString('base64')
+      const variantStorefrontId =
+        'gid://shopify/ProductVariant/' + shopifyVariant
+      return findVariant(btoa(variantStorefrontId))
+    }
     if (!initialVariant || initialVariant === 'first') return variants[0]
     if (initialVariant === 'last') return variants[variants.length - 1]
     return findVariant(initialVariant)
