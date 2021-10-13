@@ -14,27 +14,16 @@ export const FooterWrapper = styled.footer`
   `}
 `
 
-interface WithTopBorder {
-  topBorder: boolean
-}
-
-export const FooterInner = styled.div<WithTopBorder>`
-  ${({ theme, topBorder }) => css`
+export const FooterInner = styled.div`
+  ${({ theme }) => css`
     display: grid;
-    padding: 9 0;
+    padding: 9 0 9 0;
     grid-template-columns: 50% 10% 1fr;
     grid-column-gap: 3;
 
     &:nth-of-type(2) {
       align-items: center;
     }
-
-    ${topBorder
-      ? css`
-          border-top: 1px solid;
-          border-top-color: body.4;
-        `
-      : ''}
 
     ${theme.mediaQueries.mobile} {
       padding: 5 1 8;
@@ -43,6 +32,52 @@ export const FooterInner = styled.div<WithTopBorder>`
     }
   `}
 `
+export const BreadcrumbWrapper = styled.div`
+  ${({ theme }) => css`
+    padding-top: 4;
+    display: flex;
+    align-items: center;
+
+    div {
+      display: inline-block;
+      font-size: 5;
+      font-weight: 2;
+    }
+
+    .border {
+      flex: 1;
+      height: 1px;
+      background-color: body.4;
+      margin-left: 1em;
+    }
+
+    & > div > div {
+      margin: 0 0.25em;
+    }
+
+    & > div:first-child div {
+      margin-left: 0;
+    }
+    .separator {
+      font-size: 6;
+      position: relative;
+      bottom: 1px;
+    }
+    .active {
+      font-style: italic;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 4 0;
+      margin: 0 auto;
+
+      .border {
+        margin-left: 0.5em;
+      }
+    }
+  `}
+`
+
 export const FooterInnerLower = styled.div`
   ${({ theme }) => css`
     display: grid;
@@ -183,6 +218,7 @@ export const FooterRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 `
 
 interface HomepageLinkProps {

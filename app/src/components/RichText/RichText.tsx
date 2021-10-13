@@ -175,7 +175,6 @@ export const RichText = ({
   const { openCart } = useCart()
   const { openCustomizationModal, openRingSizerModal } = useModal()
   const openHubspotChat = () => {
-    console.log('open chat!')
     // @ts-ignore
     if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
       // @ts-ignore

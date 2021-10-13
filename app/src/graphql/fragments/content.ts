@@ -258,6 +258,22 @@ export const imageTextBlockFragment = gql`
   ${cloudinaryVideoFragment}
 `
 
+export const textBlockFragment = gql`
+  fragment TextBlockFragment on TextBlock {
+    __typename
+    _key
+    _type
+    bodyRaw
+    alignment
+    textColor
+    layout
+    backgroundImage {
+      ...RichImageFragment
+    }
+  }
+  ${richImageFragment}
+`
+
 export const shopifySourceProductFragment = gql`
   fragment ShopifySourceProductFragment on ShopifySourceProduct {
     __typename
@@ -466,6 +482,8 @@ export const heroFragment = gql`
     _type
     bodyRaw
     textColor
+    textColorMobile
+    textContainer
     textPosition
     textPositionMobile
     backgroundColor

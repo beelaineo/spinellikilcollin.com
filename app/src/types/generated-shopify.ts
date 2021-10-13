@@ -109,7 +109,10 @@ export interface ShopifyStorefrontArticle extends ShopifyStorefrontNode {
   tags: Array<Scalars['String']>
   /** The article’s name. */
   title: Scalars['String']
-  /** The url pointing to the article accessible from the web. */
+  /**
+   * The url pointing to the article accessible from the web.
+   * @deprecated Use `onlineStoreUrl` instead
+   */
   url: Scalars['URL']
 }
 
@@ -256,7 +259,10 @@ export interface ShopifyStorefrontBlog extends ShopifyStorefrontNode {
   id: Scalars['ID']
   /** The blogs’s title. */
   title: Scalars['String']
-  /** The url pointing to the blog accessible from the web. */
+  /**
+   * The url pointing to the blog accessible from the web.
+   * @deprecated Use `onlineStoreUrl` instead
+   */
   url: Scalars['URL']
 }
 
@@ -3821,7 +3827,10 @@ export interface ShopifyStorefrontPage extends ShopifyStorefrontNode {
   title: Scalars['String']
   /** The timestamp of the latest page update. */
   updatedAt: Scalars['DateTime']
-  /** The url pointing to the page accessible from the web. */
+  /**
+   * The url pointing to the page accessible from the web.
+   * @deprecated Use `onlineStoreUrl` instead
+   */
   url: Scalars['URL']
 }
 
@@ -3988,8 +3997,8 @@ export interface ShopifyStorefrontProduct
   /** A paginated list of metafields associated with the resource. */
   metafields: ShopifyStorefrontMetafieldConnection
   /**
-   * The URL used for viewing the resource on the shop's Online Store. May be null
-   * if the resource is currently not published to the Online Store sales channel.
+   * The URL used for viewing the resource on the shop's Online Store. Returns
+   * `null` if the resource is currently not published to the Online Store sales channel.
    */
   onlineStoreUrl?: Maybe<Scalars['URL']>
   /** List of product options. */
@@ -4476,11 +4485,17 @@ export interface ShopifyStorefrontQueryRoot {
   __typename: 'QueryRoot'
   /** List of the shop's articles. */
   articles: ShopifyStorefrontArticleConnection
-  /** Find a blog by its handle. */
+  /**
+   * Find a blog by its handle.
+   * @deprecated Use `blog` instead
+   */
   blogByHandle?: Maybe<ShopifyStorefrontBlog>
   /** List of the shop's blogs. */
   blogs: ShopifyStorefrontBlogConnection
-  /** Find a collection by its handle. */
+  /**
+   * Find a collection by its handle.
+   * @deprecated Use `collection` instead
+   */
   collectionByHandle?: Maybe<ShopifyStorefrontCollection>
   /** List of the shop’s collections. */
   collections: ShopifyStorefrontCollectionConnection
@@ -4490,11 +4505,17 @@ export interface ShopifyStorefrontQueryRoot {
   node?: Maybe<ShopifyStorefrontNode>
   /** Returns the list of nodes with the given IDs. */
   nodes: Array<Maybe<ShopifyStorefrontNode>>
-  /** Find a page by its handle. */
+  /**
+   * Find a page by its handle.
+   * @deprecated Use `page` instead
+   */
   pageByHandle?: Maybe<ShopifyStorefrontPage>
   /** List of the shop's pages. */
   pages: ShopifyStorefrontPageConnection
-  /** Find a product by its handle. */
+  /**
+   * Find a product by its handle.
+   * @deprecated Use `product` instead
+   */
   productByHandle?: Maybe<ShopifyStorefrontProduct>
   /**
    * Find recommended products related to a given `product_id`.

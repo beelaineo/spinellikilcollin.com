@@ -300,8 +300,12 @@
     "to": "/"
   },
   {
+    "from": "/products/libra",
+    "to": "/products/libra"
+  },
+  {
     "from": "/products/libra-noir",
-    "to": "/products/libra-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
+    "to": "/products/libra?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
   },
   {
     "from": "/collections/from-the-vault",
@@ -341,7 +345,7 @@
   },
   {
     "from": "/products/libra-bg-v",
-    "to": "/products/libra-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
+    "to": "/products/libra?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
   },
   {
     "from": "/products/anaka-pearl-yg",
@@ -453,7 +457,7 @@
   },
   {
     "from": "/collections/stellar-collection/products/libra-rose",
-    "to": "/products/libra-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
+    "to": "/products/libra?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
   },
   {
     "from": "/products/gemini-ex",

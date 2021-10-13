@@ -1,8 +1,8 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import { FaFacebookF, FaYoutube, FaTwitter, FaPinterest } from 'react-icons/fa'
 import { TiSocialInstagram } from 'react-icons/ti'
+import { Breadcrumbs } from './Breadcrumbs'
 import { PageLink } from '../../components/PageLink'
 import { Heading } from '../../components/Text'
 import { useShopData } from '../../providers/ShopDataProvider'
@@ -20,17 +20,15 @@ import {
 const currentYear = new Date().getFullYear()
 
 export const Footer = () => {
-  const router = useRouter()
   const shopData = useShopData()
   const footerLinks = shopData?.siteSettings?.links ?? []
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''
   const mailerSubtitle = shopData?.siteSettings?.mailerSubtitle ?? ''
 
-  const topBorder = /(^\/925)|(^\/about)|(^\/products)/.test(router.asPath)
-
   return (
     <FooterWrapper>
-      <FooterInner topBorder={topBorder}>
+      <Breadcrumbs />
+      <FooterInner>
         <FooterLinks>
           {footerLinks.map((link) =>
             link ? (
