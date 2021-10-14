@@ -1592,31 +1592,31 @@ export interface RichImage {
   __typename: 'RichImage'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  asset?: Maybe<SanityImageAsset>
-  hotspot?: Maybe<SanityImageHotspot>
-  crop?: Maybe<SanityImageCrop>
   caption?: Maybe<Scalars['String']>
   /** A short description of the image. Helps with accessibility and SEO */
   altText?: Maybe<Scalars['String']>
+  asset?: Maybe<SanityImageAsset>
+  hotspot?: Maybe<SanityImageHotspot>
+  crop?: Maybe<SanityImageCrop>
 }
 
 export type RichImageFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
+  caption?: Maybe<StringFilter>
+  altText?: Maybe<StringFilter>
   asset?: Maybe<SanityImageAssetFilter>
   hotspot?: Maybe<SanityImageHotspotFilter>
   crop?: Maybe<SanityImageCropFilter>
-  caption?: Maybe<StringFilter>
-  altText?: Maybe<StringFilter>
 }
 
 export type RichImageSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  hotspot?: Maybe<SanityImageHotspotSorting>
-  crop?: Maybe<SanityImageCropSorting>
   caption?: Maybe<SortOrder>
   altText?: Maybe<SortOrder>
+  hotspot?: Maybe<SanityImageHotspotSorting>
+  crop?: Maybe<SanityImageCropSorting>
 }
 
 export interface RichPageLink {

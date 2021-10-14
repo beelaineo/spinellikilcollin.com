@@ -257,6 +257,8 @@ export interface ShopifyStorefrontBlog extends ShopifyStorefrontNode {
   handle: Scalars['String']
   /** A globally-unique identifier. */
   id: Scalars['ID']
+  /** The blog's SEO information. */
+  seo?: Maybe<ShopifyStorefrontSeo>
   /** The blogs’s title. */
   title: Scalars['String']
   /**
@@ -2057,6 +2059,8 @@ export enum ShopifyStorefrontCurrencyCode {
   Yer = 'YER',
   /** Zambian Kwacha (ZMW). */
   Zmw = 'ZMW',
+  /** Belarusian Ruble (BYN). */
+  Byn = 'BYN',
   /** Belarusian Ruble (BYR). */
   Byr = 'BYR',
   /** Djiboutian Franc (DJF). */
@@ -2718,6 +2722,8 @@ export interface ShopifyStorefrontImage {
   __typename: 'Image'
   /** A word or phrase to share the nature or contents of an image. */
   altText?: Maybe<Scalars['String']>
+  /** The original height of the image in pixels. Returns `null` if the image is not hosted by Shopify. */
+  height?: Maybe<Scalars['Int']>
   /** A unique identifier for the image. */
   id?: Maybe<Scalars['ID']>
   /**
@@ -2779,6 +2785,8 @@ export interface ShopifyStorefrontImage {
    * Otherwise any transformations which an image type does not support will be ignored.
    */
   transformedSrc: Scalars['URL']
+  /** The original width of the image in pixels. Returns `null` if the image is not hosted by Shopify. */
+  width?: Maybe<Scalars['Int']>
 }
 
 /** Represents an image resource. */
@@ -3065,6 +3073,8 @@ export enum ShopifyStorefrontMetafieldValueType {
   Integer = 'INTEGER',
   /** A json string metafield. */
   JsonString = 'JSON_STRING',
+  /** A boolean metafield. */
+  Boolean = 'BOOLEAN',
 }
 
 /** Represents a Shopify hosted 3D model. */
@@ -3746,6 +3756,8 @@ export enum ShopifyStorefrontOrderFulfillmentStatus {
   Open = 'OPEN',
   /** Displayed as **In progress**. */
   InProgress = 'IN_PROGRESS',
+  /** Displayed as **Scheduled**. */
+  Scheduled = 'SCHEDULED',
 }
 
 /** Represents a single line in an order. There is one line item for each distinct product variant. */
@@ -3823,6 +3835,8 @@ export interface ShopifyStorefrontPage extends ShopifyStorefrontNode {
   handle: Scalars['String']
   /** A globally-unique identifier. */
   id: Scalars['ID']
+  /** The page's SEO information. */
+  seo?: Maybe<ShopifyStorefrontSeo>
   /** The title of the page. */
   title: Scalars['String']
   /** The timestamp of the latest page update. */
@@ -4014,6 +4028,8 @@ export interface ShopifyStorefrontProduct
   productType: Scalars['String']
   /** The date and time when the product was published to the channel. */
   publishedAt: Scalars['DateTime']
+  /** The product's SEO information. */
+  seo: ShopifyStorefrontSeo
   /**
    * A comma separated list of tags that have been added to the product.
    * Additional access scope required for private apps: unauthenticated_read_product_tags.
@@ -4097,6 +4113,7 @@ export type ShopifyStorefrontProductMediaArgs = {
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
+  sortKey?: Maybe<ShopifyStorefrontProductMediaSortKeys>
 }
 
 /**
@@ -4221,6 +4238,20 @@ export interface ShopifyStorefrontProductEdge {
 export enum ShopifyStorefrontProductImageSortKeys {
   /** Sort by the `created_at` value. */
   CreatedAt = 'CREATED_AT',
+  /** Sort by the `position` value. */
+  Position = 'POSITION',
+  /** Sort by the `id` value. */
+  Id = 'ID',
+  /**
+   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
+   * results by relevance to the search term(s). When no search query is specified, this sort key is not
+   * deterministic and should not be used.
+   */
+  Relevance = 'RELEVANCE',
+}
+
+/** The set of valid sort keys for the ProductMedia query. */
+export enum ShopifyStorefrontProductMediaSortKeys {
   /** Sort by the `position` value. */
   Position = 'POSITION',
   /** Sort by the `id` value. */
