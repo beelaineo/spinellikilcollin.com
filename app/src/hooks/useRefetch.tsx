@@ -1,21 +1,22 @@
 import { DocumentNode } from 'graphql'
 import { useState, useEffect } from 'react'
-import { request } from '../graphql'
-import { sanityClient } from '../services/sanity'
+import { requestTokenized } from '../graphql'
+import { sanityClientForPreview } from '../services/sanity'
 
 interface UseRefetchConfig<DataType, Response> {
-  /** The initial query that should be refetched */
-  query: DocumentNode
-  /** Any params for the initial query */
-  queryParams?: Record<string, any>
   /** The listener query */
   listenQuery: string
   /** Any params for the listener query */
   listenQueryParams?: Record<string, any>
+  /** The initial query that should be refetched */
+  refetchQuery: DocumentNode
+  /** Any params for the refetch query */
+  refetchQueryParams?: Record<string, any>
   /** An optional function used to extract data from the response */
-  parseResponse?: (r: Response) => DataType | null
+  parseResponse?: (r: Response) => DataType
   /** An option to enable refetching */
-  enabled: boolean
+  enabled: boolean | null | undefined
+  token: string | null | undefined
 }
 
 export const useRefetch = <DataType, Response>(
@@ -23,19 +24,27 @@ export const useRefetch = <DataType, Response>(
   config: UseRefetchConfig<DataType, Response>,
 ) => {
   const {
-    query,
-    queryParams,
     listenQuery,
     listenQueryParams,
+    refetchQuery,
+    refetchQueryParams,
     parseResponse,
     enabled,
+    token,
   } = config
   const [data, setData] = useState(initialData)
-  const [lastRev, setLastRev] = useState<string | null>(null)
+  const [lastRev, setLastRev] = useState<string | undefined>(undefined)
 
   const refetch = async () => {
-    const result = await request<Response>(query, queryParams)
+    const headers = { Authorization: `Bearer ${token}` }
+    const result = await requestTokenized<Response>(
+      refetchQuery,
+      refetchQueryParams,
+      headers,
+    )
+    console.log('refetch result:', result)
     const newData = parseResponse ? parseResponse(result) : result
+    //@ts-ignore
     setData(newData)
   }
 
@@ -44,17 +53,18 @@ export const useRefetch = <DataType, Response>(
    */
   useEffect(() => {
     if (!lastRev) return
+    console.log('refetching preview data...')
     refetch()
   }, [lastRev])
 
   useEffect(() => {
     if (!enabled) return
     console.log('listening for revisions on sanity document')
-    const subscription = sanityClient
+    const subscription = sanityClientForPreview
       .listen(listenQuery, listenQueryParams)
       .subscribe((update) => {
         console.log('document updated:', update)
-        setLastRev(update.result._rev)
+        setLastRev(update.result?._rev)
       })
     return () => subscription.unsubscribe()
   }, [enabled])

@@ -17,6 +17,7 @@ interface RequestArgs<V> {
   query: DocumentNode | string
   variables?: V
   options?: RequestOptions
+  headers?: HeadersInit | undefined
 }
 
 export const request = async <R, V extends Variables = Variables>(
@@ -28,6 +29,25 @@ export const request = async <R, V extends Variables = Variables>(
       SANITY_GRAPHQL_URL,
       typeof query === 'string' ? query : print(query),
       variables,
+    )
+    return result
+  } catch (err) {
+    console.error(err.response)
+    throw new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
+  }
+}
+
+export const requestTokenized = async <R, V extends Variables = Variables>(
+  query: DocumentNode | string,
+  variables?: V,
+  headers?: HeadersInit | undefined,
+): Promise<R> => {
+  try {
+    const result = await gqlRequest<R>(
+      SANITY_GRAPHQL_URL,
+      typeof query === 'string' ? query : print(query),
+      variables,
+      headers,
     )
     return result
   } catch (err) {
