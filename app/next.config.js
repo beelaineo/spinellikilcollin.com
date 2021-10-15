@@ -1,9 +1,15 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const webpack = require('webpack')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const dotEnv = require('dotenv')
 // const bundleAnalyzer = require('@next/bundle-analyzer')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const withSourceMaps = require('@zeit/next-source-maps')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const redirectsJson = require('./src/data/redirects.json')
 
 dotEnv.config()

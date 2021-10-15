@@ -22,8 +22,7 @@
     "@sanity/desk-tool",
     "@sane-shopify/sanity-plugin",
     "@sanity/vision",
-    "media",
-    "@sanity/production-preview"
+    "media"
   ],
   "parts": [
     {
@@ -37,10 +36,6 @@
     {
       "implements": "part:@sanity/form-builder/input/image/asset-sources",
       "path": "./parts/assetSources.js"
-    },
-    {
-      "implements": "part:@sanity/production-preview/resolve-production-url",
-      "path": "./resolveProductionUrl.js"
     }
   ]
 }
