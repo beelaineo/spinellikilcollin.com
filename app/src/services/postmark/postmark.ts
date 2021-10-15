@@ -79,7 +79,7 @@ const send = async (message: Message): Promise<PostmarkResponse> => {
       success: true,
       message,
     }
-  } catch (error) {
+  } catch (error: any | unknown) {
     Sentry.captureException(error)
     return {
       success: false,
