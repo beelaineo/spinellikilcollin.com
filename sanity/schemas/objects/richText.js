@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { actionTypes } from './shared'
 
 export const defaultExternalLink = {
   type: 'object',
@@ -17,30 +16,6 @@ export const defaultExternalLink = {
           scheme: ['http', 'https', 'tel', 'mailto'],
           allowRelative: true,
         }),
-    },
-  ],
-}
-
-export const textAction = {
-  name: 'textAction',
-  title: 'Action',
-  type: 'object',
-  description: 'Have the selected text launch an action when clicked',
-  blockEditor: {
-    icon: () => (
-      <span role="img" aria-label="Link" style={{ fontSize: '1em' }}>
-        🚀
-      </span>
-    ),
-  },
-  fields: [
-    {
-      name: 'actionType',
-      title: 'Action Type',
-      type: 'string',
-      options: {
-        list: actionTypes,
-      },
     },
   ],
 }
