@@ -60,6 +60,9 @@ export const useRefetch = <DataType, Response>(
 
   useEffect(() => {
     if (!enabled) return
+    console.log('initial refetch of draft/preview data')
+    refetch()
+    // need to add a conditional to return if there's no draft document
     console.log('listening for revisions on sanity document')
     const subscription = sanityClientForPreview
       .listen(listenQuery, listenQueryParams)
