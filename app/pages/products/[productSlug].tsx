@@ -151,18 +151,26 @@ const Product = ({ product }: ProductPageProps) => {
   const token = params?.get('preview')
   const preview = Boolean(params?.get('preview'))
 
-  const data = useRefetch<ShopifyProduct, Response>(product, {
-    listenQuery: `*[_type == "shopifyProduct" && _id == $id]`,
-    listenQueryParams: { id: 'drafts.' + product._id },
-    refetchQuery: productQueryById,
-    refetchQueryParams: { id: 'drafts.' + product._id },
-    parseResponse: getProductFromPreviewResponse,
-    enabled: preview,
-    token: token,
-  })
   try {
-    if (!data) return <NotFound />
-    return <ProductDetail key={data._id || 'some-key'} product={data} />
+    if (preview === true) {
+      if (!product) return <NotFound />
+      const refetchConfig = {
+        listenQuery: `*[_type == "shopifyProduct" && _id == $id]`,
+        listenQueryParams: { id: 'drafts.' + product._id },
+        refetchQuery: productQueryById,
+        refetchQueryParams: { id: 'drafts.' + product._id },
+        parseResponse: getProductFromPreviewResponse,
+        enabled: preview,
+        token: token,
+      }
+      const data = useRefetch<ShopifyProduct, Response>(product, refetchConfig)
+
+      if (!data) return <NotFound />
+      return <ProductDetail key={data._id || 'some-key'} product={data} />
+    } else {
+      if (!product) return <NotFound />
+      return <ProductDetail key={product._id || 'some-key'} product={product} />
+    }
   } catch (e) {
     Sentry.captureException(e)
     return <NotFound />

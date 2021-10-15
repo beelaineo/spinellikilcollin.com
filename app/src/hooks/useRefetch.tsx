@@ -36,6 +36,7 @@ export const useRefetch = <DataType, Response>(
   const [lastRev, setLastRev] = useState<string | undefined>(undefined)
 
   const refetch = async () => {
+    if (!token) return
     const headers = { Authorization: `Bearer ${token}` }
     const result = await requestTokenized<Response>(
       refetchQuery,
