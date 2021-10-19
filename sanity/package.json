@@ -26,6 +26,7 @@
     "sync": "yarn sync:reset && yarn sync:export && yarn sync:import && yarn sync:cleanup"
   },
   "dependencies": {
+    "@reach/auto-id": "^0.16.0",
     "@sane-shopify/sanity-plugin": "^0.22.2",
     "@sanity/base": "^2.21.3",
     "@sanity/block-content-to-react": "^3.0.0",
