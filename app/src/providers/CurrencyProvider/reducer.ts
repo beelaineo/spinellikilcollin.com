@@ -87,7 +87,7 @@ export const useCurrencyState = () => {
         throw new Error(`Could not get exchange rate for ${currency}`)
       }
       dispatch({ type: ActionTypes.SUCCESS, currency, exchangeRate })
-    } catch (error) {
+    } catch (error: Error | any | unknown) {
       Sentry.configureScope((scope) => {
         scope.setTag('currency', currency)
       })

@@ -17,6 +17,7 @@ interface RequestArgs<V> {
   query: DocumentNode | string
   variables?: V
   options?: RequestOptions
+  headers?: HeadersInit | undefined
 }
 
 export const request = async <R, V extends Variables = Variables>(
@@ -30,7 +31,26 @@ export const request = async <R, V extends Variables = Variables>(
       variables,
     )
     return result
-  } catch (err) {
+  } catch (err: any | unknown) {
+    console.error(err?.response)
+    throw new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
+  }
+}
+
+export const requestTokenized = async <R, V extends Variables = Variables>(
+  query: DocumentNode | string,
+  variables?: V,
+  headers?: HeadersInit | undefined,
+): Promise<R> => {
+  try {
+    const result = await gqlRequest<R>(
+      SANITY_GRAPHQL_URL,
+      typeof query === 'string' ? query : print(query),
+      variables,
+      headers,
+    )
+    return result
+  } catch (err: any | unknown) {
     console.error(err.response)
     throw new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
   }
@@ -45,7 +65,7 @@ export const useRequest = <R, V extends Variables = Variables>(
     return useSWR<R | null>([print(query), JSON.stringify(variables)], (q) =>
       request<R>(q, variables),
     )
-  } catch (e) {
+  } catch (e: any | unknown) {
     handleError(e)
   }
 }
@@ -72,7 +92,7 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
     try {
       const result = await request<R>(query, variables)
       response.mutate(result, false)
-    } catch (e) {
+    } catch (e: any | unknown) {
       handleError(e)
     }
   }

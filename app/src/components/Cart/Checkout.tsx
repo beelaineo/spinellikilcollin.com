@@ -37,7 +37,6 @@ export const Checkout = () => {
 
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
-  console.log(lineItems)
   const title = message || 'Your Cart'
 
   const handleSubmit = async (values: FormValues) => {

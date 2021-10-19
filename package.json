@@ -51,5 +51,7 @@
 	},
 	"resolutions": {
 		"graphql": "^14.6.0"
-	}
+	},
+	"version": "1.22.15",
+	"packageManager": "yarn@1.18.0"
 }

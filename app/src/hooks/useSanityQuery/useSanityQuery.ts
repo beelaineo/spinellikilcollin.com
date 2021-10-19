@@ -98,7 +98,7 @@ export const useSanityQuery = <
       dispatch({ type: SUCCESS, results: r })
       // @ts-ignore
       return r
-    } catch (err) {
+    } catch (err: any | unknown) {
       handleError(err)
       // @ts-ignore
       return []

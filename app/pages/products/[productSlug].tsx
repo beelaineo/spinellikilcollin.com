@@ -18,76 +18,98 @@ import {
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { Sentry } from '../../src/services/sentry'
+import { useRefetch } from '../../src/hooks'
 
-const productQuery = gql`
+const productQueryInner = `
+  __typename
+  _id
+  _key
+  shopifyId
+  title
+  handle
+  archived
+  hideFromSearch
+  inquiryOnly
+  minVariantPrice
+  maxVariantPrice
+  sourceData {
+    ...ShopifySourceProductFragment
+  }
+  collections {
+    __typename
+    _id
+    _key
+    title
+    handle
+    shopifyId
+  }
+  options {
+    __typename
+    _key
+    _type
+    shopifyOptionId
+    name
+    values {
+      __typename
+      _key
+      _type
+      value
+      descriptionRaw
+      swatch {
+        ...SanityImageFragment
+      }
+    }
+  }
+  variants {
+    __typename
+    _key
+    _type
+    shopifyVariantID
+    title
+    sourceData {
+      ...ShopifySourceProductVariantFragment
+    }
+  }
+  info {
+    ...ProductInfoFragment
+  }
+  contentAfter {
+    ...ImageTextBlockFragment
+  }
+  gallery {
+    ...RichImageFragment
+  }
+  related {
+    ...CarouselFragment
+  }
+  seo {
+    ...SEOFragment
+  }
+`
+
+const productQueryById = gql`
+  query ShopifyProductQuery($id: ID!) {
+    ShopifyProduct(id: $id) {
+      ${productQueryInner}
+    }
+  }
+  ${shopifySourceProductFragment}
+  ${shopifySourceProductVariantFragment}
+  ${shopifySourceImageFragment}
+  ${sanityImageFragment}
+  ${richImageFragment}
+  ${productInfoFragment}
+  ${carouselFragment}
+  ${imageTextBlockFragment}
+  ${seoFragment}
+`
+
+const productQueryByHandle = gql`
   query ProductsPageQuery($handle: String) {
     allShopifyProduct(
       where: { handle: { eq: $handle }, archived: { neq: true } }
     ) {
-      __typename
-      _id
-      _key
-      shopifyId
-      title
-      handle
-      archived
-      hideFromSearch
-      inquiryOnly
-      minVariantPrice
-      maxVariantPrice
-      sourceData {
-        ...ShopifySourceProductFragment
-      }
-      collections {
-        __typename
-        _id
-        _key
-        title
-        handle
-        shopifyId
-      }
-      options {
-        __typename
-        _key
-        _type
-        shopifyOptionId
-        name
-        values {
-          __typename
-          _key
-          _type
-          value
-          descriptionRaw
-          swatch {
-            ...SanityImageFragment
-          }
-        }
-      }
-      variants {
-        __typename
-        _key
-        _type
-        shopifyVariantID
-        title
-        sourceData {
-          ...ShopifySourceProductVariantFragment
-        }
-      }
-      info {
-        ...ProductInfoFragment
-      }
-      contentAfter {
-        ...ImageTextBlockFragment
-      }
-      gallery {
-        ...RichImageFragment
-      }
-      related {
-        ...CarouselFragment
-      }
-      seo {
-        ...SEOFragment
-      }
+      ${productQueryInner}
     }
   }
   ${shopifySourceProductFragment}
@@ -103,16 +125,52 @@ const productQuery = gql`
 
 interface Response {
   allShopifyProduct: ShopifyProduct[]
+  ShopifyProduct: ShopifyProduct
 }
 
 interface ProductPageProps {
   product: ShopifyProduct
 }
 
+const getProductFromResponse = (response: Response) => {
+  const products = response?.allShopifyProduct
+  const product = products && products.length ? products[0] : null
+  return product
+}
+
+const getProductFromPreviewResponse = (response: Response) => {
+  const product = response?.ShopifyProduct
+  return product
+}
+
 const Product = ({ product }: ProductPageProps) => {
+  const params =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : null
+  const token = params?.get('preview')
+  const preview = Boolean(params?.get('preview'))
+
   try {
-    if (!product) return <NotFound />
-    return <ProductDetail key={product._id || 'some-key'} product={product} />
+    if (preview === true) {
+      if (!product) return <NotFound />
+      const refetchConfig = {
+        listenQuery: `*[_type == "shopifyProduct" && _id == $id]`,
+        listenQueryParams: { id: 'drafts.' + product._id },
+        refetchQuery: productQueryById,
+        refetchQueryParams: { id: 'drafts.' + product._id },
+        parseResponse: getProductFromPreviewResponse,
+        enabled: preview,
+        token: token,
+      }
+      const data = useRefetch<ShopifyProduct, Response>(product, refetchConfig)
+
+      if (!data) return <NotFound />
+      return <ProductDetail key={data._id || 'some-key'} product={data} />
+    } else {
+      if (!product) return <NotFound />
+      return <ProductDetail key={product._id || 'some-key'} product={product} />
+    }
   } catch (e) {
     Sentry.captureException(e)
     return <NotFound />
@@ -131,13 +189,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     const variables = { handle }
 
     const [response, shopData] = await Promise.all([
-      request<Response>(productQuery, variables),
+      request<Response>(productQueryByHandle, variables),
       requestShopData(),
     ])
 
-    const products = response?.allShopifyProduct
-
-    const product = products && products.length ? products[0] : null
+    const product = getProductFromResponse(response)
 
     return { props: { product, shopData }, revalidate: 60 }
   } catch (e) {

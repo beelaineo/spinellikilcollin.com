@@ -39,6 +39,7 @@ export const Input = (props: InputProps) => {
                   return (
                     <InputElement
                       {...maskProps}
+                      //@ts-ignore
                       ref={ref}
                       value={field.value || ''}
                       id={field.name}
