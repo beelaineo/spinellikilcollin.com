@@ -11,7 +11,7 @@ export const sanityClient = createSanityClient({
   token: SANITY_READ_TOKEN, // or leave blank to be anonymous user
   useCdn: true, // `false` if you want to ensure fresh data
   useProjectHostname: true,
-  apiVersion: '2021-10-13',
+  apiVersion: '2021-03-15',
 })
 
 export const sanityClientForPreview = createSanityClient({
@@ -29,7 +29,7 @@ export const sanityQuery = async <R = Document[]>(
   params?: Record<string, any>,
 ): Promise<R> => {
   const results = await sanityClient.fetch<R>(query, params || {})
-
+  console.log('sanityQuery results:', results)
   // @ts-ignore
   return withTypenames<R>(results)
 }
