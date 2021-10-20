@@ -99,12 +99,14 @@ interface ProductGridProps {
   items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
   reduceColumnCount?: boolean | null
+  collectionId?: string | null
 }
 
 export const ProductGrid = ({
   preferredVariantMatches,
   items,
   reduceColumnCount,
+  collectionId,
 }: ProductGridProps) => {
   return (
     <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
@@ -129,6 +131,7 @@ export const ProductGrid = ({
                   displayPrice
                   imageRatio={1}
                   preferredVariantMatches={preferredVariantMatches}
+                  collectionId={collectionId}
                 />
               </ProductGridItem>
             )
