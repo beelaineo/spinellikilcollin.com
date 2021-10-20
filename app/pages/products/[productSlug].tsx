@@ -32,7 +32,6 @@ const productQueryInner = `
   inquiryOnly
   minVariantPrice
   maxVariantPrice
-  initialVariantSelections
   sourceData {
     ...ShopifySourceProductFragment
   }

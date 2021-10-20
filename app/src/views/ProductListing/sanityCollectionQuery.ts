@@ -67,7 +67,9 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     handle,
     minVariantPrice,
     maxVariantPrice,
-    initialVariantSelections,
+    initialVariantSelections[]{
+      ...
+    },
     shopifyId,
     inquiryOnly,
     title,
@@ -129,7 +131,9 @@ export const moreProductsQuery = `
     handle,
     minVariantPrice,
     maxVariantPrice,
-    initialVariantSelections,
+    initialVariantSelections[]{
+      ...
+    },
     hidden,
     shopifyId,
     title,
@@ -189,7 +193,9 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
   handle,
   minVariantPrice,
   maxVariantPrice,
-  initialVariantSelections,
+  initialVariantSelections[]{
+    ...
+  },
   shopifyId,
   title,
   options[]{
