@@ -35,9 +35,9 @@ export const ProductVariantSelector = React.forwardRef(({ props }, ref) => {
   useEffect(() => {
     // get product variants in an array here
     // ["Libra Gold - Not sure og my size", "Libra BG - 3", etcetera]
-    console.log('document:', document)
-    console.log('withDocument:', withDocument)
-    console.log('props:', props)
+    // console.log('document:', document)
+    // console.log('withDocument:', withDocument)
+    // console.log('props:', props)
     const results = ['Variant 1', 'Variant 2', 'Variant 3']
     setVariants(results)
   }, [])
@@ -52,7 +52,6 @@ export const ProductVariantSelector = React.forwardRef(({ props }, ref) => {
   // )
 
   const handleChange = ({ props }) => {
-    console.log('props:', props)
     onChange(PatchEvent.from(set(props.children)))
     setInputValue(null)
   }
