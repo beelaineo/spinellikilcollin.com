@@ -29,7 +29,6 @@ export const sanityQuery = async <R = Document[]>(
   params?: Record<string, any>,
 ): Promise<R> => {
   const results = await sanityClient.fetch<R>(query, params || {})
-  console.log('sanityQuery results:', results)
   // @ts-ignore
   return withTypenames<R>(results)
 }

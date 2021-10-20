@@ -58,6 +58,14 @@ export const product = {
       to: [{ type: 'shopifyCollection' }],
     },
     {
+      title: 'Initial Variant (by Collection)',
+      name: 'initialVariantSelections',
+      type: 'array',
+      description:
+        "Choose initial variant to show based on the product's parent collection.",
+      of: [{ type: 'initialVariantSelection' }],
+    },
+    {
       title: 'Hide from Search',
       name: 'hideFromSearch',
       type: 'boolean',

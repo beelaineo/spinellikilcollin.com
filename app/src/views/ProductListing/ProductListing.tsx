@@ -226,6 +226,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}
                 items={items}
+                collectionId={_id}
               />
               {!fetchComplete ? (
                 <Box my={8}>

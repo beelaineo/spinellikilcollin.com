@@ -37,6 +37,7 @@ interface ProductThumbnailProps {
   headingLevel?: number
   preferredVariantMatches?: Maybe<string>[] | null
   imageRatio?: number
+  collectionId?: string | null
 }
 
 const uniqueImages = (
@@ -59,6 +60,7 @@ export const ProductThumbnail = ({
   headingLevel,
   preferredVariantMatches,
   imageRatio,
+  collectionId,
 }: ProductThumbnailProps) => {
   const { asPath } = useRouter()
   const { inquiryOnly } = product
@@ -70,7 +72,25 @@ export const ProductThumbnail = ({
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
 
-  const initialVariant = preferredVariantMatches
+  const mappedSelections = !product.initialVariantSelections
+    ? false
+    : product.initialVariantSelections.map((selection) => ({
+        // @ts-ignore
+        selectedCollection: selection?.selectedCollection?._ref,
+        selectedVariant: selection?.selectedVariant,
+      }))
+
+  const initialVariantSelections = !mappedSelections
+    ? false
+    : mappedSelections
+        .filter((selection) => {
+          return selection.selectedCollection === collectionId
+        })
+        .map((s) => s.selectedVariant)
+
+  const initialVariant = initialVariantSelections
+    ? getBestVariantByMatch(variants, definitely(initialVariantSelections))
+    : preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
     : variants[0]
 
