@@ -165,7 +165,10 @@ const Product = ({ product }: ProductPageProps) => {
       }
       const data = useRefetch<ShopifyProduct, Response>(product, refetchConfig)
 
-      if (!data) return <NotFound />
+      if (!data)
+        return (
+          <ProductDetail key={product._id || 'some-key'} product={product} />
+        )
       return <ProductDetail key={data._id || 'some-key'} product={data} />
     } else {
       if (!product) return <NotFound />

@@ -4,10 +4,71 @@ import { GetStaticProps, GetStaticPaths } from 'next'
 import { ShopifyCollection } from '../../src/types'
 import { sanityQuery } from '../../src/services/sanity'
 import { NotFound, ProductListing } from '../../src/views'
-import { request } from '../../src/graphql'
+import {
+  richImageFragment,
+  shopifySourceCollectionFragment,
+  shopifyProductFragment,
+  heroFragment,
+  collectionBlockFragment,
+  seoFragment,
+  request,
+} from '../../src/graphql'
 import { getParam, definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { createSanityCollectionQuery } from '../../src/views/ProductListing'
+import { useRefetch } from '../../src/hooks'
+
+const collectionQueryById = gql`
+  query ShopifyCollectionQuery($id: ID!) {
+    ShopifyCollection(id: $id) {
+      __typename
+      _id
+      _key
+      _rev
+      shopifyId
+      title
+      handle
+      archived
+      sourceData {
+        ...ShopifySourceCollectionFragment
+      }
+      products {
+        ...ShopifyProductFragment
+      }
+      hidden
+      reduceColumnCount
+      lightTheme
+      hero {
+        ...HeroFragment
+      }
+      collectionBlocks {
+        ...CollectionBlockFragment
+      }
+      preferredVariantMatches
+      bambuser {
+        _key
+        __typename
+        slug
+        liveSettings {
+          _key
+          __typename
+          startDate
+          endDate
+          liveCTALabel
+        }
+      }
+      seo {
+        ...SEOFragment
+      }
+    }
+  }
+  ${shopifySourceCollectionFragment}
+  ${shopifyProductFragment}
+  ${heroFragment}
+  ${collectionBlockFragment}
+  ${richImageFragment}
+  ${seoFragment}
+`
 
 export interface CollectionResult {
   Collection: ShopifyCollection
@@ -21,14 +82,61 @@ interface CollectionPageProps {
   collection: ShopifyCollection
 }
 
+interface Response {
+  ShopifyCollection: ShopifyCollection
+}
+
+const getCollectionFromPreviewResponse = (response: Response) => {
+  const collection = response?.ShopifyCollection
+  return collection
+}
+
 const Collection = ({ collection }: CollectionPageProps) => {
-  if (!collection) return <NotFound />
-  return (
-    <ProductListing
-      key={collection._id || 'some-key'}
-      collection={collection}
-    />
-  )
+  const params =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : null
+  const token = params?.get('preview')
+  const preview = Boolean(params?.get('preview'))
+
+  try {
+    if (preview === true) {
+      if (!collection) return <NotFound />
+      const refetchConfig = {
+        listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
+        listenQueryParams: { id: 'drafts.' + collection._id },
+        refetchQuery: collectionQueryById,
+        refetchQueryParams: { id: 'drafts.' + collection._id },
+        parseResponse: getCollectionFromPreviewResponse,
+        enabled: preview,
+        token: token,
+      }
+
+      const data = useRefetch<ShopifyCollection, Response>(
+        collection,
+        refetchConfig,
+      )
+
+      if (!data)
+        return (
+          <ProductListing
+            key={collection._id || 'some-key'}
+            collection={collection}
+          />
+        )
+      return <ProductListing key={data._id || 'some-key'} collection={data} />
+    } else {
+      if (!collection) return <NotFound />
+      return (
+        <ProductListing
+          key={collection._id || 'some-key'}
+          collection={collection}
+        />
+      )
+    }
+  } catch (e) {
+    return <NotFound />
+  }
 }
 
 /**
