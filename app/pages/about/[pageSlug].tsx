@@ -249,6 +249,12 @@ const pageQueryById = gql`
           __typename
           ...CarouselFragment
         }
+        ... on EmbedBlock {
+          __typename
+          title
+          url
+          layout
+        }
       }
 
       seo {
