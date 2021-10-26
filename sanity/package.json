@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@good-idea/unwind-edges": "^1.5.3",
-    "@sanity/client": "2.21.6",
+    "@sanity/client": "2.21.3",
     "@types/eslint": "^7.28.1",
     "@types/lodash": "^4.14.175",
     "@types/prop-types": "^15.7.4",
