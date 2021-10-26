@@ -203,9 +203,7 @@ export default () =>
         .child(S.editor().id('about').schemaType('about').documentId('about')),
 
       S.listItem().id('pages').title('About Pages').icon(MdInfoOutline).child(
-        S.documentList()
-          .title('Pages')
-          .filter('_type == "page" || _type == "directory"'),
+        S.documentList().title('Pages').filter('_type == "page"'),
 
         // S.documentTypeList('page')
       ),
