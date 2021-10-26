@@ -117,7 +117,13 @@ const Collection = ({ collection }: CollectionPageProps) => {
         refetchConfig,
       )
 
-      if (!data) return <NotFound />
+      if (!data)
+        return (
+          <ProductListing
+            key={collection._id || 'some-key'}
+            collection={collection}
+          />
+        )
       return <ProductListing key={data._id || 'some-key'} collection={data} />
     } else {
       if (!collection) return <NotFound />

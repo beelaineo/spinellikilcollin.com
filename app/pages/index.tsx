@@ -14,30 +14,27 @@ import { request } from '../src/graphql'
 import { Sentry } from '../src/services/sentry'
 import { useRefetch } from '../src/hooks'
 
-const homepageQueryInner = gql`
-  _id
-  seo {
-    ...SEOFragment
-  }
-  content {
-    ... on ImageTextBlock {
-      __typename
-      ...ImageTextBlockFragment
-    }
-    ... on Hero {
-      __typename
-      ...HeroFragment
-    }
-    ... on Carousel {
-      __typename
-      ...CarouselFragment
-    }
-  }
-`
 const homepageQueryById = gql`
   query HomepageQuery($id: ID!) {
     Homepage(id: $id) {
-      ${homepageQueryInner}
+      _id
+      seo {
+        ...SEOFragment
+      }
+      content {
+        ... on ImageTextBlock {
+          __typename
+          ...ImageTextBlockFragment
+        }
+        ... on Hero {
+          __typename
+          ...HeroFragment
+        }
+        ... on Carousel {
+          __typename
+          ...CarouselFragment
+        }
+      }
     }
   }
   ${imageTextBlockFragment}
@@ -48,7 +45,24 @@ const homepageQueryById = gql`
 const homepageQuery = gql`
   query HomepageQuery {
     Homepage(id: "homepage") {
-      ${homepageQueryInner}
+      _id
+      seo {
+        ...SEOFragment
+      }
+      content {
+        ... on ImageTextBlock {
+          __typename
+          ...ImageTextBlockFragment
+        }
+        ... on Hero {
+          __typename
+          ...HeroFragment
+        }
+        ... on Carousel {
+          __typename
+          ...CarouselFragment
+        }
+      }
     }
   }
   ${imageTextBlockFragment}
@@ -95,7 +109,7 @@ export const Homepage = ({ homepage }: HomepageProps) => {
         refetchConfig,
       )
 
-      if (!data) return <NotFound />
+      if (!data) return <HomepageView homepage={homepage} />
       return <HomepageView homepage={data} />
     } else {
       if (!homepage) return <NotFound />
