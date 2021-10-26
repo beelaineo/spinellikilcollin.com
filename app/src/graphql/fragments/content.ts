@@ -364,6 +364,42 @@ export const shopifyProductFragment = gql`
   ${imageTextBlockFragment}
 `
 
+export const shopifySourceCollectionFragment = gql`
+  fragment ShopifySourceCollectionFragment on ShopifySourceCollection {
+    __typename
+    id
+    title
+    handle
+    description
+    descriptionHtml
+    image {
+      ...ShopifySourceImageFragment
+    }
+    products {
+      _key
+      __typename
+      pageInfo {
+        _key
+        __typename
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        _key
+        __typename
+        cursor
+        node {
+          __typename
+          handle
+          id
+        }
+      }
+    }
+  }
+  ${shopifySourceImageFragment}
+  ${shopifyProductFragment}
+`
+
 export const shopifyCollectionFragment = gql`
   fragment ShopifyCollectionFragment on ShopifyCollection {
     __typename
@@ -380,6 +416,28 @@ export const shopifyCollectionFragment = gql`
   }
   ${shopifyProductFragment}
 `
+
+export const collectionBlockFragment = gql`
+  fragment CollectionBlockFragment on CollectionBlock {
+    __typename
+    _key
+    position
+    format
+    bodyRaw
+    textPosition
+    textColor
+    cloudinaryVideo {
+      ...CloudinaryVideoFragment
+    }
+    backgroundImage {
+      ...RichImageFragment
+    }
+    backgroundColor
+  }
+  ${cloudinaryVideoFragment}
+  ${richImageFragment}
+`
+
 export const shopifyProductThumbnailFragment = gql`
   fragment ShopifyProductThumbnailFragment on ShopifyProduct {
     __typename
