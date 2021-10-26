@@ -24,6 +24,7 @@ const collectionQueryById = gql`
       __typename
       _id
       _key
+      _rev
       shopifyId
       title
       handle

@@ -367,7 +367,6 @@ export const shopifyProductFragment = gql`
 export const shopifySourceCollectionFragment = gql`
   fragment ShopifySourceCollectionFragment on ShopifySourceCollection {
     __typename
-    id
     title
     handle
     description
@@ -390,6 +389,7 @@ export const shopifySourceCollectionFragment = gql`
         cursor
         node {
           __typename
+          _key
           handle
           id
         }
@@ -397,7 +397,6 @@ export const shopifySourceCollectionFragment = gql`
     }
   }
   ${shopifySourceImageFragment}
-  ${shopifyProductFragment}
 `
 
 export const shopifyCollectionFragment = gql`
