@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
   ImageTextBlock as ImageTextBlockType,
   TextBlock as TextBlockType,
+  EmbedBlock as EmbedBlockType,
   Hero,
   Carousel,
 } from '../../types'
@@ -9,9 +10,10 @@ import { ImageTextBlock } from './ImageTextBlock'
 import { TextBlock } from './TextBlock'
 import { HeroBlock } from './HeroBlock'
 import { CarouselBlock } from './CarouselBlock'
+import { EmbedBlock } from './EmbedBlock'
 
 interface ContentBlockProps {
-  content: ImageTextBlockType | TextBlockType | Hero | Carousel
+  content: ImageTextBlockType | TextBlockType | Hero | Carousel | EmbedBlockType
 }
 
 /**
@@ -28,6 +30,8 @@ export const ContentBlock = ({ content }: ContentBlockProps) => {
       return <HeroBlock hero={content} />
     case 'Carousel':
       return <CarouselBlock content={content} />
+    case 'EmbedBlock':
+      return <EmbedBlock content={content} />
     default:
       // @ts-ignore
       console.warn(`No content block for type "${content.__typename}"`)

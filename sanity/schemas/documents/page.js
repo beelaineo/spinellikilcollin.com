@@ -38,6 +38,7 @@ export const page = {
         { type: 'carousel' },
         { type: 'imageTextBlock' },
         { type: 'textBlock' },
+        { type: 'embedBlock' },
       ],
     },
     {

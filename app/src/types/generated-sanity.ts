@@ -172,12 +172,13 @@ export type CarouselFilter = {
   collection?: Maybe<ShopifyCollectionFilter>
 }
 
-export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
-
-export type CarouselOrImageTextBlockOrTextBlock =
+export type CarouselOrEmbedBlockOrImageTextBlockOrTextBlock =
   | Carousel
+  | EmbedBlock
   | ImageTextBlock
   | TextBlock
+
+export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
 
 export type CarouselSorting = {
   _key?: Maybe<SortOrder>
@@ -532,6 +533,33 @@ export type DocumentFilter = {
   references?: Maybe<Scalars['ID']>
   /** All documents that are drafts. */
   is_draft?: Maybe<Scalars['Boolean']>
+}
+
+export interface EmbedBlock {
+  __typename: 'EmbedBlock'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  /** Descriptive title (for internal purposes) */
+  title?: Maybe<Scalars['String']>
+  /** https://meetings.hubspot.com/MEETING_SLUG */
+  url?: Maybe<Scalars['String']>
+  layout?: Maybe<Scalars['String']>
+}
+
+export type EmbedBlockFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  url?: Maybe<StringFilter>
+  layout?: Maybe<StringFilter>
+}
+
+export type EmbedBlockSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  url?: Maybe<SortOrder>
+  layout?: Maybe<SortOrder>
 }
 
 export interface Experience {
@@ -1266,7 +1294,7 @@ export interface Page extends Document {
   subtitle?: Maybe<Scalars['String']>
   hideTitle?: Maybe<Scalars['Boolean']>
   hero?: Maybe<Hero>
-  content?: Maybe<Array<Maybe<CarouselOrImageTextBlockOrTextBlock>>>
+  content?: Maybe<Array<Maybe<CarouselOrEmbedBlockOrImageTextBlockOrTextBlock>>>
   /** When on, padding above and below the content blocks will be removed */
   fullWidth?: Maybe<Scalars['Boolean']>
   slug?: Maybe<Slug>
