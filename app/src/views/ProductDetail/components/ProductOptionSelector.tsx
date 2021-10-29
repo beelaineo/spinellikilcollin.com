@@ -6,8 +6,9 @@ import {
   ShopifyProductOptionValue,
 } from '../../../types'
 import { Heading } from '../../../components/Text'
-import { Form, Field } from '../../../components/Forms'
+import { Form, Field, Input } from '../../../components/Forms'
 import { OptionSwatches } from '../../../components/Product/ProductSwatches'
+import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import {
   optionMatchesVariant,
   isValidSwatchOption,
@@ -19,6 +20,7 @@ interface ProductOptionSelectorProps {
   currentVariant: ShopifyProductVariant
   option: ShopifyProductOption
   changeValueForOption: (optionId: string) => (value: string) => void
+  isInput: boolean
 }
 
 const Wrapper = styled.div``
@@ -38,10 +40,24 @@ const SelectWrapper = styled.div`
   `}
 `
 
+const currencyMask = createNumberMask({
+  prefix: '$',
+  suffix: '',
+  includeThousandsSeparator: true,
+  thousandsSeparatorSymbol: ',',
+  allowDecimal: true,
+  decimalSymbol: '.',
+  decimalLimit: 2,
+  integerLimit: 5,
+  allowNegative: false,
+  allowLeadingZeroes: false,
+})
+
 export const ProductOptionSelector = ({
   option,
   changeValueForOption,
   currentVariant,
+  isInput,
 }: ProductOptionSelectorProps) => {
   if (!option || !option.name || !option.shopifyOptionId || !option.values) {
     console.warn('Missing option config', option)
@@ -102,12 +118,22 @@ export const ProductOptionSelector = ({
           </SwatchesWrapper>
         ) : (
           <Form onSubmit={handleSubmit} initialValues={{}}>
-            <Field
-              type="select"
-              name={option.name}
-              onChange={handleSelectChange}
-              options={options}
-            />
+            {isInput ? (
+              <Input
+                type="numeric"
+                name={option.name}
+                mask={currencyMask}
+                // onChange={handleSelectChange}
+                // options={options}
+              />
+            ) : (
+              <Field
+                type="select"
+                name={option.name}
+                onChange={handleSelectChange}
+                options={options}
+              />
+            )}
           </Form>
         )}
       </SelectWrapper>
