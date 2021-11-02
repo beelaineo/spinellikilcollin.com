@@ -52,6 +52,7 @@ const ProductSEO = ({
 
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
   let id, imageSrc
+  const vendor = product?.sourceData?.vendor
   const description = product?.sourceData?.description
   const productType = product?.sourceData?.productType
   const sku = currentVariant?.sourceData?.sku
@@ -80,6 +81,7 @@ const ProductSEO = ({
     description: description,
     brand: { '@type': productType },
     image: imageSrc ? imageSrc : '',
+    productID: id,
     sku: sku ? sku : '',
     offers: {
       '@type': 'Offer',
@@ -87,6 +89,10 @@ const ProductSEO = ({
       price: variantPrice,
       itemCondition: 'http://schema.org/NewCondition',
       availability: 'http://schema.org/InStock',
+    },
+    seller: {
+      '@type': 'Organization',
+      name: vendor ? vendor : '',
     },
   }
 
