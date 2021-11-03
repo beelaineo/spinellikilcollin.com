@@ -32,10 +32,32 @@ interface SEOProps {
 
 const BASE_URL = 'https://www.spinellikilcollin.com'
 
+interface HomeSEOProps {
+  defaultSeo: DefaultSeo
+}
+
 interface ProductSEOProps {
   product: ShopifyProduct
   defaultSeo: DefaultSeo
   currentVariant?: ShopifyProductVariant
+}
+
+const HomeSEO = ({ defaultSeo }: HomeSEOProps) => {
+  const { description } = defaultSeo
+  const ldJson = {
+    '@type': 'store',
+    '@context': 'http://schema.org',
+    description: description,
+    telephone: '',
+  }
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+      />
+    </Head>
+  )
 }
 
 const ProductSEO = ({
@@ -98,6 +120,7 @@ const ProductSEO = ({
 
   return (
     <Head>
+      <meta property="og:separator1" content="separator 1" />
       <meta property="og:availability" content={availability} />
       <meta property="og:description" content={description || undefined} />
       <meta property="og:id" content={id || undefined} />
@@ -109,6 +132,8 @@ const ProductSEO = ({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
       />
+
+      <meta property="og:separator2" content="separator 2" />
     </Head>
   )
 }
@@ -189,6 +214,8 @@ export const SEO = ({
         <meta name="twitter:image" content={imageUrl || undefined} />
         <link rel="canonical" href={canonical} />
       </Head>
+
+      {contentType === 'homepage' ? <HomeSEO defaultSeo={defaultSeo} /> : null}
 
       {contentType === 'product' && product ? (
         <ProductSEO
