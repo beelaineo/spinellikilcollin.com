@@ -63,6 +63,12 @@ const TextWrapper = styled.div<TextWrapperProps>`
       white-space: pre-wrap;
     }
 
+    ${layout === 'fullWidth'
+      ? `& > div {
+        flex: 1;
+      }`
+      : ''}
+
     ${layout !== 'fullWidth'
       ? `& > div > div {
       max-width: 500px;
