@@ -120,7 +120,6 @@ const ProductSEO = ({
 
   return (
     <Head>
-      <meta property="og:separator1" content="separator 1" />
       <meta property="og:availability" content={availability} />
       <meta property="og:description" content={description || undefined} />
       <meta property="og:id" content={id || undefined} />
@@ -132,8 +131,6 @@ const ProductSEO = ({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
       />
-
-      <meta property="og:separator2" content="separator 2" />
     </Head>
   )
 }
