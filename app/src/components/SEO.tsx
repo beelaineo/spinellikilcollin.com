@@ -12,7 +12,7 @@ import {
 } from '../types'
 import { definitely, getProductIdLocationSearch } from '../utils'
 
-type ImageType = Image | RichImage | ShopifySourceImage
+type ImageType = Image | RichImage | ShopifySourceImage | null
 
 type DefaultSeo = {
   title?: string | null
@@ -36,10 +36,33 @@ interface HomeSEOProps {
   defaultSeo: DefaultSeo
 }
 
+interface AboutSEOProps {
+  defaultSeo: DefaultSeo
+}
+
 interface ProductSEOProps {
   product: ShopifyProduct
   defaultSeo: DefaultSeo
   currentVariant?: ShopifyProductVariant
+}
+
+const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
+  const { description, image } = defaultSeo
+  const ldJson = {
+    '@type': 'about',
+    '@context': 'http://schema.org',
+    description: description,
+    image: getImageUrl(image),
+    offers: '',
+  }
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+      />
+    </Head>
+  )
 }
 
 const HomeSEO = ({ defaultSeo }: HomeSEOProps) => {
@@ -213,6 +236,10 @@ export const SEO = ({
       </Head>
 
       {contentType === 'homepage' ? <HomeSEO defaultSeo={defaultSeo} /> : null}
+
+      {contentType === 'about' ? (
+        <AboutSEO defaultSeo={defaultSeo} seo={seo} />
+      ) : null}
 
       {contentType === 'product' && product ? (
         <ProductSEO
