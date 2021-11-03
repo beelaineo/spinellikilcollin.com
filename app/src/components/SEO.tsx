@@ -35,6 +35,9 @@ const BASE_URL = 'https://www.spinellikilcollin.com'
 interface HomeSEOProps {
   defaultSeo: DefaultSeo
 }
+interface ContactSEOProps {
+  defaultSeo: DefaultSeo
+}
 
 interface AboutSEOProps {
   defaultSeo: DefaultSeo
@@ -44,6 +47,24 @@ interface ProductSEOProps {
   product: ShopifyProduct
   defaultSeo: DefaultSeo
   currentVariant?: ShopifyProductVariant
+}
+
+const ContactSEO = ({ defaultSeo }: ContactSEOProps) => {
+  const { description, image } = defaultSeo
+  const ldJson = {
+    '@type': 'contact',
+    '@context': 'http://schema.org',
+    description: description,
+    image: getImageUrl(image),
+  }
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+      />
+    </Head>
+  )
 }
 
 const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
@@ -238,6 +259,10 @@ export const SEO = ({
       {contentType === 'homepage' ? <HomeSEO defaultSeo={defaultSeo} /> : null}
 
       {contentType === 'about' ? <AboutSEO defaultSeo={defaultSeo} /> : null}
+
+      {contentType === 'contact' ? (
+        <ContactSEO defaultSeo={defaultSeo} />
+      ) : null}
 
       {contentType === 'product' && product ? (
         <ProductSEO
