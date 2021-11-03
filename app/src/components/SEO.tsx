@@ -237,9 +237,7 @@ export const SEO = ({
 
       {contentType === 'homepage' ? <HomeSEO defaultSeo={defaultSeo} /> : null}
 
-      {contentType === 'about' ? (
-        <AboutSEO defaultSeo={defaultSeo} seo={seo} />
-      ) : null}
+      {contentType === 'about' ? <AboutSEO defaultSeo={defaultSeo} /> : null}
 
       {contentType === 'product' && product ? (
         <ProductSEO
