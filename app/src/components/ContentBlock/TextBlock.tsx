@@ -63,7 +63,14 @@ const TextWrapper = styled.div<TextWrapperProps>`
       white-space: pre-wrap;
     }
 
-    & > div > div {
+    ${layout === 'fullWidth'
+      ? `& > div {
+        flex: 1;
+      }`
+      : ''}
+
+    ${layout !== 'fullWidth'
+      ? `& > div > div {
       max-width: 500px;
     }
 
@@ -71,7 +78,8 @@ const TextWrapper = styled.div<TextWrapperProps>`
       & > div > div {
         max-width: 700px;
       }
-    }
+    }`
+      : ''}
 
     ${theme.mediaQueries.tablet} {
       p {
