@@ -74,7 +74,6 @@ const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
     '@context': 'http://schema.org',
     description: description,
     image: getImageUrl(image),
-    offers: '',
   }
   return (
     <Head>
