@@ -34,6 +34,7 @@ const BASE_URL = 'https://www.spinellikilcollin.com'
 
 interface HomeSEOProps {
   defaultSeo: DefaultSeo
+  phone?: Maybe<string>
 }
 interface ContactSEOProps {
   defaultSeo: DefaultSeo
@@ -85,13 +86,13 @@ const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
   )
 }
 
-const HomeSEO = ({ defaultSeo }: HomeSEOProps) => {
+const HomeSEO = ({ defaultSeo, phone }: HomeSEOProps) => {
   const { description } = defaultSeo
   const ldJson = {
     '@type': 'store',
     '@context': 'http://schema.org',
     description: description,
-    telephone: '',
+    telephone: phone ? phone : '',
   }
   return (
     <Head>
@@ -255,7 +256,9 @@ export const SEO = ({
         <link rel="canonical" href={canonical} />
       </Head>
 
-      {contentType === 'homepage' ? <HomeSEO defaultSeo={defaultSeo} /> : null}
+      {contentType === 'homepage' ? (
+        <HomeSEO defaultSeo={defaultSeo} phone={siteSettings?.phone} />
+      ) : null}
 
       {contentType === 'about' ? <AboutSEO defaultSeo={defaultSeo} /> : null}
 
