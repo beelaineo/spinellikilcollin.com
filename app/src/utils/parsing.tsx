@@ -33,6 +33,7 @@ const wrapBareText = (text: string) =>
   text
     .replace(/^(?!<)(.*)(<\/\w+>)?/gm, '<span>$1</span>')
     .replace('<span></span>', '')
+    .replace(/<meta [^>]+>/, '')
 
 const internalUrlRegex =
   /^https?:\/\/(www.)?(localhost:3000|spinellikilcollin.com|spinellikilcollin.(good-idea.)?now.sh)(\/[\w|\/]+)?/
@@ -121,6 +122,7 @@ const transform = (node, index) => {
 
 export const parseHTML = (htmlString?: string | null): React.ReactNode => {
   if (!htmlString) return null
+  console.log('html:', wrapBareText(htmlString))
   const parsed = parser.parse(wrapBareText(htmlString))
   return transform(parsed, 'root')
 }
@@ -130,12 +132,12 @@ export function arrayify<T>(i: T | T[]): T[] {
 }
 
 export const getIdFromBase64 = (data: string): string => {
-  let id,
-    indentifier = 'gid://'
+  let id = 'gid://'
+  const indentifier = 'gid://'
   const buffer = Buffer.from(decodeURIComponent(data), 'base64')
   const frag = buffer.toString('utf-8').split(indentifier)
   if (frag.length >= 2) {
-    let last = frag[1].split('/').pop()
+    const last = frag[1].split('/').pop()
 
     if (last) {
       id = last
