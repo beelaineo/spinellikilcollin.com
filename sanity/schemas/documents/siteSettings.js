@@ -2,8 +2,29 @@ export const siteSettings = {
   title: 'Site Settings',
   type: 'document',
   name: 'siteSettings',
-  fieldsets: [{ name: 'footer', title: 'Footer' }],
+  fieldsets: [
+    { name: 'info', title: 'Site Info' },
+    { name: 'footer', title: 'Footer' },
+  ],
   fields: [
+    {
+      name: 'phone',
+      fieldset: 'info',
+      title: 'Business Phone Number',
+      type: 'string',
+      validation: (Rule) =>
+        Rule.custom((phone) => {
+          if (typeof phone === 'undefined') {
+            return true
+          }
+          const regex = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
+          if (regex.test(phone)) {
+            return true
+          } else {
+            return 'Not a valid phone number'
+          }
+        }),
+    },
     {
       name: 'links',
       fieldset: 'footer',
