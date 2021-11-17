@@ -119,7 +119,6 @@ const transform = (node, index) => {
 export const parseHTML = (htmlString?: string | null): React.ReactNode => {
   if (!htmlString) return null
   const parsed = htmlparser2.parseDocument(wrapBareText(htmlString))
-  console.log('parsed', parsed)
   return transform(parsed, 'root')
 }
 
