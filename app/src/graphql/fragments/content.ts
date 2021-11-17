@@ -280,6 +280,7 @@ export const shopifySourceProductFragment = gql`
     id
     title
     handle
+    vendor
     tags
     productType
     description

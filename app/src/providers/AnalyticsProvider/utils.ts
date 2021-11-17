@@ -11,6 +11,7 @@ import {
   ShopifyStorefrontProductVariant as Variant,
 } from '../../types/generated-shopify'
 import { SelectedProduct, EcommerceObject } from './types'
+import { getProductIdFromStorefrontId } from '../../utils'
 
 const getVariantSourceData = (
   variant: ShopifyProductVariant | ShopifySourceProductVariant | Variant,
@@ -72,6 +73,10 @@ export const parseProduct = (
     ? selectedProduct.variant.product
     : undefined
 
+  const decodedProductId = product?.id
+    ? getProductIdFromStorefrontId(product.id)
+    : undefined
+
   const variant = selectedProduct.variant
     ? getVariantSourceData(selectedProduct.variant)
     : undefined
@@ -86,7 +91,7 @@ export const parseProduct = (
     product && 'productType' in product ? product.productType : undefined
   const values: EcommerceObject = {
     name: product?.title,
-    id: product?.id,
+    id: decodedProductId,
     price: formattedPrice ? assertExists(formattedPrice, 'price') : undefined,
     category: productType ?? undefined,
     variant: variant ? assertExists(variant.title, 'variant') : undefined,

@@ -115,6 +115,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       seo {
         ...SEOFragment
       }
+      phone
       mailerTitle
       mailerSubtitle
     }

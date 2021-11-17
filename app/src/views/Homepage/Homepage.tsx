@@ -21,10 +21,11 @@ const Grid = styled.div`
 `
 
 export const Homepage = (props: HomepageProps) => {
-  const { seo, content } = props.homepage
+  const { seo, content, _id: id } = props.homepage
   const firstHero = definitely(content).find((b) => b.__typename === 'Hero')
   const defaultSeo = {
-    title: 'Spinelli Kilcollin',
+    title: seo?.title,
+    description: seo?.description,
     image:
       firstHero && firstHero.__typename === 'Hero'
         ? getHeroImage(firstHero)
@@ -32,7 +33,7 @@ export const Homepage = (props: HomepageProps) => {
   }
   return (
     <>
-      <SEO seo={seo} defaultSeo={defaultSeo} path="" />
+      <SEO seo={seo} defaultSeo={defaultSeo} contentType={id!} path="" />
       <Grid>
         {definitely(content).map((c) => (
           <ContentBlock key={c._key || 'some-key'} content={c} />
