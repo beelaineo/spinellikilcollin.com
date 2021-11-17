@@ -40,17 +40,24 @@ interface ContactProps {
 }
 
 export const ContactView = ({ contact }: ContactProps) => {
-  const { seo, title } = contact
+  const { seo, title, _id } = contact
   const { openContactModal } = useModal()
   const defaultSeo = {
     title: 'Contact',
+    description: seo?.description,
+    image: seo?.image,
   }
   const handleModalClick = (formtype: string) => () =>
     openContactModal({ formtype })
 
   return (
     <>
-      <SEO seo={seo} defaultSeo={defaultSeo} path="about/contact" />
+      <SEO
+        seo={seo}
+        defaultSeo={defaultSeo}
+        path="about/contact"
+        contentType={_id!}
+      />
       <PageWrapper>
         <Heading level={1} textAlign="center">
           {title || 'Contact'}

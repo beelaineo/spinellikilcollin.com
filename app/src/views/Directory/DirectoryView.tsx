@@ -3,7 +3,7 @@ import { About, Directory } from '../../types'
 import { PageWrapper, Column } from '../../components/Layout'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Heading } from '../../components/Text'
-import { definitely, isValidHero, getHeroImage } from '../../utils'
+import { definitely, isValidHero } from '../../utils'
 import { PageLinksWrapper } from './styled'
 import { PageLink } from './PageLink'
 import { SEO } from '../../components/SEO'
@@ -17,12 +17,13 @@ export const DirectoryView = ({ data }: DirectoryViewProps) => {
 
   const defaultSeo = {
     title: 'About Spinelli Kilcollin',
-    image: getHeroImage(hero),
+    description: seo?.description,
+    image: seo?.image,
   }
 
   return (
     <>
-      <SEO seo={seo} defaultSeo={defaultSeo} path="about" />
+      <SEO seo={seo} defaultSeo={defaultSeo} path="about" contentType="about" />
       {isValidHero(hero) && hero ? <HeroBlock hero={hero} /> : null}
       <PageWrapper pt="83px">
         <Column maxWidth="800px" textAlign="center">

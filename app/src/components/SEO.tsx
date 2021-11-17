@@ -12,7 +12,7 @@ import {
 } from '../types'
 import { definitely, getProductIdLocationSearch } from '../utils'
 
-type ImageType = Image | RichImage | ShopifySourceImage
+type ImageType = Image | RichImage | ShopifySourceImage | null
 
 type DefaultSeo = {
   title?: string | null
@@ -32,10 +32,76 @@ interface SEOProps {
 
 const BASE_URL = 'https://www.spinellikilcollin.com'
 
+interface HomeSEOProps {
+  defaultSeo: DefaultSeo
+  phone?: Maybe<string>
+}
+interface ContactSEOProps {
+  defaultSeo: DefaultSeo
+}
+
+interface AboutSEOProps {
+  defaultSeo: DefaultSeo
+}
+
 interface ProductSEOProps {
   product: ShopifyProduct
   defaultSeo: DefaultSeo
   currentVariant?: ShopifyProductVariant
+}
+
+const ContactSEO = ({ defaultSeo }: ContactSEOProps) => {
+  const { description, image } = defaultSeo
+  const ldJson = {
+    '@type': 'contact',
+    '@context': 'http://schema.org',
+    description: description,
+    image: getImageUrl(image),
+  }
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+      />
+    </Head>
+  )
+}
+
+const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
+  const { description, image } = defaultSeo
+  const ldJson = {
+    '@type': 'about',
+    '@context': 'http://schema.org',
+    description: description,
+    image: getImageUrl(image),
+  }
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+      />
+    </Head>
+  )
+}
+
+const HomeSEO = ({ defaultSeo, phone }: HomeSEOProps) => {
+  const { description } = defaultSeo
+  const ldJson = {
+    '@type': 'store',
+    '@context': 'http://schema.org',
+    description: description,
+    telephone: phone ? phone : '',
+  }
+  return (
+    <Head>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+      />
+    </Head>
+  )
 }
 
 const ProductSEO = ({
@@ -52,6 +118,7 @@ const ProductSEO = ({
 
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
   let id, imageSrc
+  const vendor = product?.sourceData?.vendor
   const description = product?.sourceData?.description
   const productType = product?.sourceData?.productType
   const sku = currentVariant?.sourceData?.sku
@@ -80,6 +147,7 @@ const ProductSEO = ({
     description: description,
     brand: { '@type': productType },
     image: imageSrc ? imageSrc : '',
+    productID: id,
     sku: sku ? sku : '',
     offers: {
       '@type': 'Offer',
@@ -87,6 +155,10 @@ const ProductSEO = ({
       price: variantPrice,
       itemCondition: 'http://schema.org/NewCondition',
       availability: 'http://schema.org/InStock',
+    },
+    seller: {
+      '@type': 'Organization',
+      name: vendor ? vendor : '',
     },
   }
 
@@ -183,6 +255,16 @@ export const SEO = ({
         <meta name="twitter:image" content={imageUrl || undefined} />
         <link rel="canonical" href={canonical} />
       </Head>
+
+      {contentType === 'homepage' ? (
+        <HomeSEO defaultSeo={defaultSeo} phone={siteSettings?.phone} />
+      ) : null}
+
+      {contentType === 'about' ? <AboutSEO defaultSeo={defaultSeo} /> : null}
+
+      {contentType === 'contact' ? (
+        <ContactSEO defaultSeo={defaultSeo} />
+      ) : null}
 
       {contentType === 'product' && product ? (
         <ProductSEO
