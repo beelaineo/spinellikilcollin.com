@@ -125,6 +125,14 @@ export const ProductImagesWrapper = styled.div`
 export const ProductAccordionsWrapper = styled.div`
   ${({ theme }) => css`
     margin-top: 5;
+    ul,
+    ol,
+    li {
+      white-space: nowrap;
+    }
+    p {
+      font-weight: 300;
+    }
     ${theme.mediaQueries.tablet} {
       margin-top: 4;
     }
