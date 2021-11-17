@@ -138,6 +138,11 @@ const App = (props: AppProps) => {
                 })(window,document,'script','dataLayer','GTM-TRLD2RW');`,
             }}
           />
+          <link
+            id="GEPIStyles"
+            rel="stylesheet"
+            href="//gepi.global-e.com/includes/css/1000945"
+          />
 
           <link rel="stylesheet" href="/static/fonts/fonts.css" />
           <link rel="icon" href="/static/favicon.png" />
@@ -253,6 +258,20 @@ const App = (props: AppProps) => {
       />
       {/* Bambuser */}
       <script src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js" />
+      <script
+        id="globaleScript"
+        dangerouslySetInnerHTML={{
+          __html: `
+          (function () { 
+            var s = document.createElement('script'); 
+            s.type = 'text/javascript'; 
+            s.async = true; 
+            s.src = '//gepi.global-e.com/includes/js/1000945'; 
+            document.getElementsByTagName('head')[0].appendChild(s);
+          })()
+          `,
+        }}
+      />
     </Providers>
   )
 }
