@@ -23,15 +23,19 @@ interface ProductOptionSelectorProps {
   isInput: boolean
 }
 
+interface SelectWrapperProps {
+  isInput: boolean
+}
+
 const Wrapper = styled.div``
 
 const SwatchesWrapper = styled.div`
   display: flex;
 `
 
-const SelectWrapper = styled.div`
-  ${({ theme }) => css`
-    max-width: 200px;
+const SelectWrapper = styled.div<SelectWrapperProps>`
+  ${({ theme, isInput }) => css`
+    max-width: ${isInput ? '100%' : '200px'};
 
     ${theme.mediaQueries.mobile} {
       width: 100%;
@@ -100,7 +104,7 @@ export const ProductOptionSelector = ({
       <Heading level={5} mb={2}>
         {isInput ? 'Please enter your gift amount:' : option.name}
       </Heading>
-      <SelectWrapper>
+      <SelectWrapper isInput={isInput}>
         {isValidSwatchOption(option) ? (
           <SwatchesWrapper>
             <OptionSwatches
