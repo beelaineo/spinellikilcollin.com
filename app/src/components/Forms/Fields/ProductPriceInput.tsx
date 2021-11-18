@@ -98,7 +98,7 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
             </InputWrapper>
             <InputRangeElement
               {...field}
-              value={field.value || ''}
+              value={field.value || '50'}
               id={field.name}
               onChange={field.onChange}
               required={required}
