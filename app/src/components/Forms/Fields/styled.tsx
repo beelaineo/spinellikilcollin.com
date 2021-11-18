@@ -101,6 +101,17 @@ export const Input = styled.input`
   `}
 `
 
+export const KnobHandle = styled.div<WithPosition>`
+  ${({ position }) => css`
+    position: absolute;
+    cursor: pointer;
+    text-align: center;
+    z-index: 10;
+    top: calc(50% - 7px);
+    left: calc(${position * 100}% - (${position} * 16px));
+  `}
+`
+
 export const InputRange = styled.input`
   ${({ color, theme, type }) => css`
     padding: 3 2;
@@ -137,71 +148,74 @@ export const InputRange = styled.input`
 
     &::-webkit-slider-thumb {
       -webkit-appearance: none;
-      height: 24px;
-      width: 24px;
-      border-radius: 50%;
-      background: ${theme.colors.body[1]};
+      height: 15px;
+      width: 15px;
+      border: 1px solid;
+      border-color: ${theme.colors.body[6]};
+      border-radius: 16px;
+      background: ${theme.colors.body[0]};
       cursor: pointer;
-      margin-top: -8px;
-      box-shadow: 0px 0px 3px 1px ${theme.colors.body[6]};
+      margin-top: -7.5px;
     }
 
     &::-moz-range-thumb {
-      box-shadow: 0px 0px 3px 1px ${theme.colors.body[6]};
-      height: 24px;
-      width: 24px;
-      border-radius: 50%;
-      background: ${theme.colors.body[1]};
+      height: 15px;
+      width: 15px;
+      border: 1px solid;
+      border-color: ${theme.colors.body[6]};
+      border-radius: 16px;
+      background: ${theme.colors.body[0]};
       cursor: pointer;
     }
 
     &::-ms-thumb {
-      box-shadow: 0px 0px 3px 1px ${theme.colors.body[6]};
-      height: 24px;
-      width: 24px;
-      border-radius: 50%;
-      background: ${theme.colors.body[1]};
+      height: 15px;
+      width: 15px;
+      border: 1px solid;
+      border-color: ${theme.colors.body[6]};
+      border-radius: 16px;
+      background: ${theme.colors.body[0]};
       cursor: pointer;
     }
 
     &::-webkit-slider-runnable-track {
       width: 100%;
-      height: 8px;
+      height: 1px;
       cursor: pointer;
-      background: ${theme.colors.body[5]};
+      background: ${theme.colors.body[6]};
     }
 
     &:focus::-webkit-slider-runnable-track {
-      background: ${theme.colors.body[7]};
+      border-color: ${theme.colors.body[7]};
     }
 
     &::-moz-range-track {
       width: 100%;
-      height: 8px;
+      height: 1px;
       cursor: pointer;
-      background: ${theme.colors.body[5]};
+      background: ${theme.colors.body[6]};
     }
 
     &::-ms-track {
       width: 100%;
-      height: 8px;
+      height: 1px;
       cursor: pointer;
       background: transparent;
       border-color: transparent;
-      border-width: 16px 0;
+      border-width: 1px 0;
       color: transparent;
     }
     &::-ms-fill-lower {
-      background: ${theme.colors.body[5]};
+      border-color: ${theme.colors.body[6]};
     }
     &:focus::-ms-fill-lower {
-      background: ${theme.colors.body[7]};
+      border-color: ${theme.colors.body[7]};
     }
     &::-ms-fill-upper {
-      background: ${theme.colors.body[7]};
+      border-color: ${theme.colors.body[6]};
     }
     &:focus::-ms-fill-upper {
-      background: ${theme.colors.body[7]};
+      border-color: ${theme.colors.body[7]};
     }
 
     & + ${Label} {
@@ -210,7 +224,6 @@ export const InputRange = styled.input`
 
     ${theme.mediaQueries.mobile} {
       padding: 2;
-      height: 32px;
     }
   `}
 `
