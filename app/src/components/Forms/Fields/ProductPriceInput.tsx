@@ -4,7 +4,11 @@ import MaskedInput, { conformToMask } from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { FieldProps } from './Field'
 import { FieldWrapper } from './styled'
-import { InputWrapper, Input as InputElement } from './styled'
+import {
+  InputWrapper,
+  Input as InputElement,
+  InputRange as InputRangeElement,
+} from './styled'
 import { Option } from '.'
 
 export interface ProductPriceInputProps extends FieldProps {
@@ -78,6 +82,7 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
                   return (
                     <InputElement
                       {...maskProps}
+                      className={'gift-card-input'}
                       //@ts-ignore
                       ref={ref}
                       inputMode={'numeric'}
@@ -91,7 +96,7 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
                 }}
               />
             </InputWrapper>
-            <InputElement
+            <InputRangeElement
               {...field}
               value={field.value || ''}
               id={field.name}
