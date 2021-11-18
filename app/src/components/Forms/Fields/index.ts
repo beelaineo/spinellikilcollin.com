@@ -1,6 +1,5 @@
 export * from './Field'
 export * from './Checkbox'
-export * from './InputRange'
 export * from './ProductPriceInput'
 export * from './HiddenField'
 export * from './TextArea'
