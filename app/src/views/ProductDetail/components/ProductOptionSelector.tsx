@@ -6,9 +6,9 @@ import {
   ShopifyProductOptionValue,
 } from '../../../types'
 import { Heading } from '../../../components/Text'
-import { Form, Field, Input } from '../../../components/Forms'
+import { Form, Field } from '../../../components/Forms'
 import { OptionSwatches } from '../../../components/Product/ProductSwatches'
-import createNumberMask from 'text-mask-addons/dist/createNumberMask'
+import { ProductPriceInput } from '../../../components/Forms/Fields/ProductPriceInput'
 import {
   optionMatchesVariant,
   isValidSwatchOption,
@@ -40,19 +40,6 @@ const SelectWrapper = styled.div`
   `}
 `
 
-const currencyMask = createNumberMask({
-  prefix: '$',
-  suffix: '',
-  includeThousandsSeparator: true,
-  thousandsSeparatorSymbol: ',',
-  allowDecimal: true,
-  decimalSymbol: '.',
-  decimalLimit: 2,
-  integerLimit: 5,
-  allowNegative: false,
-  allowLeadingZeroes: false,
-})
-
 export const ProductOptionSelector = ({
   option,
   changeValueForOption,
@@ -69,6 +56,12 @@ export const ProductOptionSelector = ({
   const selectOption = changeValueForOption(option.name)
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target
+    selectOption(value)
+  }
+
+  const handleProductInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('handleProductInputChange', e.target.value)
     const { value } = e.target
     selectOption(value)
   }
@@ -105,7 +98,7 @@ export const ProductOptionSelector = ({
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
-        {option.name}
+        {isInput ? 'Please enter your gift amount:' : option.name}
       </Heading>
       <SelectWrapper>
         {isValidSwatchOption(option) ? (
@@ -119,12 +112,10 @@ export const ProductOptionSelector = ({
         ) : (
           <Form onSubmit={handleSubmit} initialValues={{}}>
             {isInput ? (
-              <Input
-                type="numeric"
+              <ProductPriceInput
                 name={option.name}
-                mask={currencyMask}
-                // onChange={handleSelectChange}
-                // options={options}
+                onChange={handleProductInputChange}
+                options={options}
               />
             ) : (
               <Field
