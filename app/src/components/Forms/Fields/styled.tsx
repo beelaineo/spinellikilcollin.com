@@ -101,17 +101,6 @@ export const Input = styled.input`
   `}
 `
 
-export const KnobHandle = styled.div<WithPosition>`
-  ${({ position }) => css`
-    position: absolute;
-    cursor: pointer;
-    text-align: center;
-    z-index: 10;
-    top: calc(50% - 7px);
-    left: calc(${position * 100}% - (${position} * 16px));
-  `}
-`
-
 export const InputRange = styled.input`
   ${({ color, theme, type }) => css`
     padding: 3 2;
