@@ -99,7 +99,6 @@ export const ProductOptionSelector = ({
       : []
 
   const handleProductInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('handleProductInputChange', e.target.value)
     const inputValue: number = Number(e.target.value) || 50
     const closest = optionsNumeric.reduce(function (prev, curr) {
       return Math.abs(curr - inputValue) < Math.abs(prev - inputValue)

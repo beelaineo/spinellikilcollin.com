@@ -50,13 +50,8 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
         })
       : []
 
-  console.log('options original:', options)
-  console.log('optionsNumeric', optionsNumeric)
-
   const conformValue = (conformedValue: string) => {
-    console.log('conformedValue', conformedValue)
     const numericValue = Number(conformedValue.replace(/[^0-9\.-]+/g, ''))
-    console.log('numericValue,', numericValue)
 
     const closest = optionsNumeric.reduce(function (prev, curr) {
       return Math.abs(curr - numericValue) < Math.abs(prev - numericValue)
