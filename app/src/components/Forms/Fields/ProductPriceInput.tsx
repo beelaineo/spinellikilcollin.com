@@ -40,6 +40,7 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
     options,
     renderBeforeInput,
     validate,
+    onChange,
   } = props
 
   const optionsNumeric =
@@ -75,7 +76,6 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
               {renderBeforeInput ? renderBeforeInput() : null}
               <MaskedInput
                 mask={currencyMask}
-                onChange={field.onChange}
                 pipe={conformValue}
                 placeholder={placeholder}
                 render={(ref, maskProps) => {
@@ -89,6 +89,7 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
                       value={field.value || ''}
                       id={field.name}
                       color={color}
+                      disabled={true}
                       required={required}
                       type={'text'}
                     />
@@ -101,6 +102,7 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
               value={field.value || '50'}
               id={field.name}
               onChange={field.onChange}
+              onInput={onChange}
               required={required}
               placeholder={placeholder}
               color={color}
