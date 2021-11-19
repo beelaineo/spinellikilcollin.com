@@ -42,6 +42,7 @@ interface Props {
 export const ProductVariantSelector = (props: Props) => {
   const { variants, changeValueForOption, product, currentVariant } = props
   if (!variants || !variants.length) return null
+  console.log(variants)
   const productType = product?.sourceData?.productType
   const { inquiryOnly } = product
 
@@ -62,6 +63,7 @@ export const ProductVariantSelector = (props: Props) => {
                 variants={variants}
                 currentVariant={currentVariant}
                 option={option}
+                isInput={Boolean(productType === 'Gift Card')}
               />
               {productType === 'Ring' && option.name === 'Size' ? (
                 <RingSizerButton product={product} variant={currentVariant} />
