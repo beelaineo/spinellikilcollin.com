@@ -128,7 +128,7 @@ export const ProductAccordionsWrapper = styled.div`
     ul,
     ol,
     li {
-      white-space: nowrap;
+      white-space: normal;
     }
     p {
       font-weight: 300;
