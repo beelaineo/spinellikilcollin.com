@@ -106,6 +106,7 @@ export const ProductOptionSelector = ({
         : prev
     })
     const remasked = conformToMask(closest.toString(), currencyMask)
+    console.log(remasked)
     selectOption(remasked.conformedValue)
   }
 
@@ -129,7 +130,7 @@ export const ProductOptionSelector = ({
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
-        {isInput ? 'Please enter your gift amount:' : option.name}
+        {isInput ? null : option.name}
       </Heading>
       <SelectWrapper isInput={isInput}>
         {isValidSwatchOption(option) ? (

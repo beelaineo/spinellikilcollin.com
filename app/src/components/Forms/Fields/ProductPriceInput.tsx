@@ -3,6 +3,7 @@ import { Field as FormikField } from 'formik'
 import MaskedInput, { conformToMask } from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
 import { FieldProps } from './Field'
+import { Span } from '../../Text'
 import { FieldWrapper } from './styled'
 import {
   InputWrapper,
@@ -67,31 +68,9 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
       <FormikField validate={validate} name={name}>
         {({ field }) => (
           <>
-            <InputWrapper type={type}>
-              {renderBeforeInput ? renderBeforeInput() : null}
-              <MaskedInput
-                mask={currencyMask}
-                pipe={conformValue}
-                placeholder={placeholder}
-                render={(ref, maskProps) => {
-                  return (
-                    <InputElement
-                      {...maskProps}
-                      className={'gift-card-input'}
-                      //@ts-ignore
-                      ref={ref}
-                      inputMode={'numeric'}
-                      value={field.value || ''}
-                      id={field.name}
-                      color={color}
-                      disabled={true}
-                      required={required}
-                      type={'text'}
-                    />
-                  )
-                }}
-              />
-            </InputWrapper>
+            <Span mr={2} fontWeight={200} color="body.7">
+              Slide to select amount:
+            </Span>
             <InputRangeElement
               {...field}
               value={field.value || '50'}
@@ -103,8 +82,8 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
               color={color}
               type={'range'}
               min={50}
-              max={7500}
-              step={25}
+              max={5000}
+              step={50}
             />
           </>
         )}
