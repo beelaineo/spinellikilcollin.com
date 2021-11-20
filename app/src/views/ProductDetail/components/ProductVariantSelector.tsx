@@ -42,7 +42,6 @@ interface Props {
 export const ProductVariantSelector = (props: Props) => {
   const { variants, changeValueForOption, product, currentVariant } = props
   if (!variants || !variants.length) return null
-  console.log(variants)
   const productType = product?.sourceData?.productType
   const { inquiryOnly } = product
 
