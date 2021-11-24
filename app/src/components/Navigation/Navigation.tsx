@@ -44,9 +44,6 @@ export const Navigation = () => {
 
   const innerBorder = !/\/collections/.test(router.asPath)
 
-  const isLightTheme = router.asPath
-  console.log(isLightTheme)
-
   return (
     <>
       <NavInnerBackground
@@ -63,7 +60,7 @@ export const Navigation = () => {
         <Inner withBorder={innerBorder}>
           <Hamburger onClick={toggleMenu} open={false} />
 
-          <LogoWrapper isLightTheme={isLightTheme}>
+          <LogoWrapper>
             <Link href="/" as="/">
               <a>
                 <Logotype />

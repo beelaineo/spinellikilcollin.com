@@ -149,9 +149,10 @@ const HeroImageWrapper = styled.div`
 interface HeroBlockProps {
   hero: Hero
   children?: ReactNode
+  ref?: React.RefObject<HTMLDivElement>
 }
 
-export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
+export const HeroBlock = ({ hero, children }: HeroBlockProps, ref) => {
   const {
     textPosition,
     textColor,
@@ -168,7 +169,7 @@ export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
   } = hero
   const cta = definitely(ctas).length ? definitely(ctas)[0] : null
   return (
-    <HeroWrapper hero={hero}>
+    <HeroWrapper hero={hero} ref={ref}>
       <DocumentLink document={heroLink?.document ?? undefined}>
         {cloudinaryVideo?.videoId ? (
           <HeroImageWrapper>

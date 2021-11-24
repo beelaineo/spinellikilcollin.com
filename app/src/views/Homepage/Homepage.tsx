@@ -4,6 +4,10 @@ import { ContentBlock } from '../../components/ContentBlock'
 import { getHeroImage, definitely } from '../../utils'
 import { Homepage as HomepageType } from '../../types'
 import { SEO } from '../../components/SEO'
+import { useNavigation } from '../../providers/NavigationProvider'
+import { useInViewport } from '../../hooks'
+
+const { useEffect, useRef } = React
 
 interface HomepageProps {
   homepage: HomepageType
@@ -31,13 +35,31 @@ export const Homepage = (props: HomepageProps) => {
         ? getHeroImage(firstHero)
         : undefined,
   }
+
+  const firstBlockRef = useRef<HTMLDivElement>(null)
+  const { setColorTheme } = useNavigation()
+  const { isInView } = useInViewport(firstBlockRef)
+
+  console.log(firstBlockRef)
+  console.log(isInView)
+
+  useEffect(() => {
+    setColorTheme('light')
+  }, [])
+
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} contentType={id!} path="" />
       <Grid>
-        {definitely(content).map((c) => (
-          <ContentBlock key={c._key || 'some-key'} content={c} />
-        ))}
+        {definitely(content).map((c, i) => {
+          return (
+            <ContentBlock
+              key={c._key || 'some-key'}
+              content={c}
+              ref={i === 0 ? firstBlockRef : null}
+            />
+          )
+        })}
       </Grid>
     </>
   )

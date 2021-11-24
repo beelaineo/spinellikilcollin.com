@@ -14,6 +14,7 @@ import { EmbedBlock } from './EmbedBlock'
 
 interface ContentBlockProps {
   content: ImageTextBlockType | TextBlockType | Hero | Carousel | EmbedBlockType
+  ref?: React.Ref<HTMLDivElement>
 }
 
 /**
