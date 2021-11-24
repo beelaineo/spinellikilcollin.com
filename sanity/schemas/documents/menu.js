@@ -17,6 +17,20 @@ export const Menu = {
         },
       ],
     },
+    {
+      name: 'footerMenuItems',
+      title: 'Footer Menu Items',
+      type: 'array',
+      of: [
+        {
+          type: 'menuLink',
+        },
+        {
+          type: 'subMenu',
+          name: 'subMenu',
+        },
+      ],
+    },
   ],
   preview: {
     select: {},
