@@ -39,6 +39,9 @@ export const useProductVariant = (
     variants = definitely(product?.variants).filter(
       (v) => v.sourceData?.availableForSale === true,
     )
+    if (variants.length === 0) {
+      variants = definitely(product?.variants)
+    }
   } else {
     variants = definitely(product?.variants)
   }
