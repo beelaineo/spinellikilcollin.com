@@ -62,6 +62,17 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           }
         }
       }
+      footerMenuItems {
+        __typename
+        label
+        ... on MenuLink {
+          _key
+          _type
+          link {
+            ...InternalLinkFragment
+          }
+        }
+      }
     }
     ProductListingSettings(id: "productListingSettings") {
       _id
