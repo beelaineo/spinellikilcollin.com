@@ -55,7 +55,7 @@ export const ProductVariantSelector = (props: Props) => {
           (option) => !Boolean(option.name === 'Size' && inquiryOnly === true),
         )
         .map((option) =>
-          option?.values && option.values.length > 1 ? (
+          option?.values && option.values.length > 0 ? (
             <OptionWrapper key={option._key || 'some-key'}>
               <ProductOptionSelector
                 changeValueForOption={changeValueForOption}
