@@ -34,7 +34,9 @@ export const useProductVariant = (
   options: Options = {},
 ): ReturnValue => {
   const { initialVariant, shopifyVariant } = options
-  const variants = definitely(product?.variants)
+  const variants = definitely(product?.variants).filter(
+    (v) => v.sourceData?.availableForSale === true,
+  )
   // ? (product?.variants)
   // : []
   if (!variants.length) throw new Error('The supplied product has no variants')
