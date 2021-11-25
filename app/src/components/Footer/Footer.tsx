@@ -25,7 +25,7 @@ const NavItemWrapper = styled.div`
     display: inline-block;
     margin-right: 3;
     ${theme.mediaQueries.mobile} {
-      margin-bottom: 2;
+      margin-bottom: 3;
     }
   `}
 `
@@ -36,6 +36,8 @@ const FooterMenuWrapper = styled.div`
     align-items: baseline;
     ${theme.mediaQueries.mobile} {
       flex-direction: column;
+      align-self: flex-start;
+      padding: 0 5;
     }
   `}
 `
