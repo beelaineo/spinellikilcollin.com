@@ -15,12 +15,12 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
-  Date: any
   /** A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
   DateTime: Date
   /** The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf). */
   JSON: { [key: string]: any }
+  /** A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar. */
+  Date: any
 }
 
 export interface About extends Document {
@@ -322,7 +322,11 @@ export interface Cta {
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
-  /** Have this CTA launch an action instead of linking to a page. For launching Bambuser, make sure you fill out the Bambuser Settings below. (If selected, this will override any linked document) */
+  /**
+   * Have this CTA launch an action instead of linking to a page. For launching
+   * Bambuser, make sure you fill out the Bambuser Settings below. (If selected,
+   * this will override any linked document)
+   */
   action?: Maybe<Scalars['String']>
   bambuser?: Maybe<BambuserSettings>
 }
@@ -977,21 +981,6 @@ export type InitialVariantSelectionSorting = {
   selectedVariant?: Maybe<SortOrder>
 }
 
-export type IntFilter = {
-  /** Checks if the value is equal to the given input. */
-  eq?: Maybe<Scalars['Int']>
-  /** Checks if the value is not equal to the given input. */
-  neq?: Maybe<Scalars['Int']>
-  /** Checks if the value is greater than the given input. */
-  gt?: Maybe<Scalars['Int']>
-  /** Checks if the value is greater than or equal to the given input. */
-  gte?: Maybe<Scalars['Int']>
-  /** Checks if the value is lesser than the given input. */
-  lt?: Maybe<Scalars['Int']>
-  /** Checks if the value is lesser than or equal to the given input. */
-  lte?: Maybe<Scalars['Int']>
-}
-
 export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']>
@@ -1007,6 +996,21 @@ export type InternalLinkFilter = {
 export type InternalLinkSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
+}
+
+export type IntFilter = {
+  /** Checks if the value is equal to the given input. */
+  eq?: Maybe<Scalars['Int']>
+  /** Checks if the value is not equal to the given input. */
+  neq?: Maybe<Scalars['Int']>
+  /** Checks if the value is greater than the given input. */
+  gt?: Maybe<Scalars['Int']>
+  /** Checks if the value is greater than or equal to the given input. */
+  gte?: Maybe<Scalars['Int']>
+  /** Checks if the value is lesser than the given input. */
+  lt?: Maybe<Scalars['Int']>
+  /** Checks if the value is lesser than or equal to the given input. */
+  lte?: Maybe<Scalars['Int']>
 }
 
 export interface JournalEntry extends Document {
@@ -1227,6 +1231,7 @@ export interface Menu extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   menuItems?: Maybe<Array<Maybe<MenuLinkOrSubMenu>>>
+  footerMenuItems?: Maybe<Array<Maybe<MenuLink>>>
 }
 
 export type MenuFilter = {
@@ -1503,7 +1508,14 @@ export interface ProductInfoSettings extends Document {
   /** Current document revision */
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
-  /** Use these fields to add snippets of descriptions to all or some projects. For instance, you could add a 'Shipping and Returns' accordion on all items, a 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold' accordion to any product tagged with 'Black Gold'. These accordions will be displayed in accordion-dropdowns below the main product information. You can also add info accordions to individual items on their page here in the CMS. */
+  /**
+   * Use these fields to add snippets of descriptions to all or some projects. For
+   * instance, you could add a 'Shipping and Returns' accordion on all items, a
+   * 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold'
+   * accordion to any product tagged with 'Black Gold'. These accordions will be
+   * displayed in accordion-dropdowns below the main product information. You can
+   * also add info accordions to individual items on their page here in the CMS.
+   */
   helpText?: Maybe<Scalars['String']>
   globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
   infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
@@ -1552,7 +1564,11 @@ export interface ProductListingSettings extends Document {
   /** Current document revision */
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
-  /** Use these fields to define a default set of filters to be used on collection pages and in search results. You can add specific filter configuration to each Collection within their own documents. */
+  /**
+   * Use these fields to define a default set of filters to be used on collection
+   * pages and in search results. You can add specific filter configuration to each
+   * Collection within their own documents.
+   */
   helpText?: Maybe<Scalars['String']>
   defaultFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
 }
@@ -2314,7 +2330,10 @@ export interface Seo {
   title?: Maybe<Scalars['String']>
   /** title for search results */
   metaTitle?: Maybe<Scalars['String']>
-  /** This is the description that will appear underneath the preview link when shared in Facebook. It should be less than 200 characters */
+  /**
+   * This is the description that will appear underneath the preview link when
+   * shared in Facebook. It should be less than 200 characters
+   */
   description?: Maybe<Scalars['String']>
   image?: Maybe<Image>
   /** Comma-separated SEO keywords */
@@ -2668,19 +2687,6 @@ export type ShopifySourceCollectionNodeSorting = {
   id?: Maybe<SortOrder>
 }
 
-export type ShopifySourceCollectionSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  updatedAt?: Maybe<SortOrder>
-  handle?: Maybe<SortOrder>
-  description?: Maybe<SortOrder>
-  descriptionHtml?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
-  image?: Maybe<ShopifySourceImageSorting>
-  products?: Maybe<ShopifySourceProductsConnectionSorting>
-}
-
 export interface ShopifySourceCollectionsConnection {
   __typename: 'ShopifySourceCollectionsConnection'
   _key?: Maybe<Scalars['String']>
@@ -2699,6 +2705,19 @@ export type ShopifySourceCollectionsConnectionSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   pageInfo?: Maybe<PageInfoSorting>
+}
+
+export type ShopifySourceCollectionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  updatedAt?: Maybe<SortOrder>
+  handle?: Maybe<SortOrder>
+  description?: Maybe<SortOrder>
+  descriptionHtml?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+  image?: Maybe<ShopifySourceImageSorting>
+  products?: Maybe<ShopifySourceProductsConnectionSorting>
 }
 
 export interface ShopifySourceImage {
@@ -2753,6 +2772,18 @@ export type ShopifySourceImageFilter = {
   w1600?: Maybe<StringFilter>
 }
 
+export interface ShopifySourceImages {
+  __typename: 'ShopifySourceImages'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  edges?: Maybe<Array<Maybe<ShopifySourceImageEdge>>>
+}
+
+export type ShopifySourceImagesFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+}
+
 export type ShopifySourceImageSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
@@ -2764,18 +2795,6 @@ export type ShopifySourceImageSorting = {
   w800?: Maybe<SortOrder>
   w1200?: Maybe<SortOrder>
   w1600?: Maybe<SortOrder>
-}
-
-export interface ShopifySourceImages {
-  __typename: 'ShopifySourceImages'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  edges?: Maybe<Array<Maybe<ShopifySourceImageEdge>>>
-}
-
-export type ShopifySourceImagesFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
 }
 
 export type ShopifySourceImagesSorting = {
@@ -2977,6 +2996,26 @@ export type ShopifySourceProductPriceRangeSorting = {
   maxVariantPrice?: Maybe<ShopifyMoneyV2Sorting>
 }
 
+export interface ShopifySourceProductsConnection {
+  __typename: 'ShopifySourceProductsConnection'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  pageInfo?: Maybe<PageInfo>
+  edges?: Maybe<Array<Maybe<ShopifySourceProductEdge>>>
+}
+
+export type ShopifySourceProductsConnectionFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  pageInfo?: Maybe<PageInfoFilter>
+}
+
+export type ShopifySourceProductsConnectionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  pageInfo?: Maybe<PageInfoSorting>
+}
+
 export type ShopifySourceProductSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
@@ -3094,22 +3133,6 @@ export type ShopifySourceProductVariantPricePresenentmentConnectionSorting = {
   _type?: Maybe<SortOrder>
 }
 
-export type ShopifySourceProductVariantSorting = {
-  _key?: Maybe<SortOrder>
-  _type?: Maybe<SortOrder>
-  title?: Maybe<SortOrder>
-  availableForSale?: Maybe<SortOrder>
-  currentlyNotInStock?: Maybe<SortOrder>
-  id?: Maybe<SortOrder>
-  image?: Maybe<ShopifySourceImageSorting>
-  priceV2?: Maybe<ShopifyMoneyV2Sorting>
-  compareAtPriceV2?: Maybe<ShopifyMoneyV2Sorting>
-  requiresShipping?: Maybe<SortOrder>
-  sku?: Maybe<SortOrder>
-  weight?: Maybe<SortOrder>
-  weightUnit?: Maybe<SortOrder>
-}
-
 export interface ShopifySourceProductVariantsConnection {
   __typename: 'ShopifySourceProductVariantsConnection'
   _key?: Maybe<Scalars['String']>
@@ -3130,24 +3153,20 @@ export type ShopifySourceProductVariantsConnectionSorting = {
   pageInfo?: Maybe<PageInfoSorting>
 }
 
-export interface ShopifySourceProductsConnection {
-  __typename: 'ShopifySourceProductsConnection'
-  _key?: Maybe<Scalars['String']>
-  _type?: Maybe<Scalars['String']>
-  pageInfo?: Maybe<PageInfo>
-  edges?: Maybe<Array<Maybe<ShopifySourceProductEdge>>>
-}
-
-export type ShopifySourceProductsConnectionFilter = {
-  _key?: Maybe<StringFilter>
-  _type?: Maybe<StringFilter>
-  pageInfo?: Maybe<PageInfoFilter>
-}
-
-export type ShopifySourceProductsConnectionSorting = {
+export type ShopifySourceProductVariantSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  pageInfo?: Maybe<PageInfoSorting>
+  title?: Maybe<SortOrder>
+  availableForSale?: Maybe<SortOrder>
+  currentlyNotInStock?: Maybe<SortOrder>
+  id?: Maybe<SortOrder>
+  image?: Maybe<ShopifySourceImageSorting>
+  priceV2?: Maybe<ShopifyMoneyV2Sorting>
+  compareAtPriceV2?: Maybe<ShopifyMoneyV2Sorting>
+  requiresShipping?: Maybe<SortOrder>
+  sku?: Maybe<SortOrder>
+  weight?: Maybe<SortOrder>
+  weightUnit?: Maybe<SortOrder>
 }
 
 export interface ShopifySourceSelectedOption {
