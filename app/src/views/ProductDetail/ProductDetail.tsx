@@ -114,6 +114,8 @@ export const ProductDetail = ({ product }: Props) => {
   const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)
+  console.log('variants:', variants)
+  console.log('product:', product)
 
   /* get product image variants from Shopify */
   const description = parseHTML(product?.sourceData?.descriptionHtml)

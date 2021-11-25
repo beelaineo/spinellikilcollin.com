@@ -7,6 +7,7 @@ const {
   EXCHANGE_RATE_API_KEY,
   SANITY_PROJECT_ID,
   SANITY_DATASET,
+  SANITY_AUTH_TOKEN,
   SANITY_READ_TOKEN,
   SHOPIFY_SHOP_NAME,
   ALGOLIA_APP_ID,
@@ -32,6 +33,8 @@ if (!SANITY_PROJECT_ID)
   throw new Error('You must include a SANITY_PROJECT_ID variable')
 if (!SANITY_DATASET)
   throw new Error('You must include a SANITY_DATASET variable')
+if (!SANITY_AUTH_TOKEN)
+  throw new Error('You must include a SANITY_AUTH_TOKEN variable')
 if (!ALGOLIA_API_KEY) throw new Error('You must provide an algolia API Key')
 if (!ALGOLIA_APP_ID) throw new Error('You must provide an algolia app ID')
 if (!SENTRY_DSN) throw new Error('You must provide a sentry DSN')
@@ -59,6 +62,7 @@ export const config = {
   SHOPIFY_STOREFRONT_URL,
   SANITY_PROJECT_ID,
   SANITY_DATASET,
+  SANITY_AUTH_TOKEN,
   SANITY_READ_TOKEN,
   SANITY_GRAPHQL_URL,
   SHOPIFY_SHOP_NAME,
