@@ -1231,7 +1231,7 @@ export interface Menu extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   menuItems?: Maybe<Array<Maybe<MenuLinkOrSubMenu>>>
-  footerMenuItems?: Maybe<Array<Maybe<MenuLinkOrSubMenu>>>
+  footerMenuItems?: Maybe<Array<Maybe<MenuLink>>>
 }
 
 export type MenuFilter = {

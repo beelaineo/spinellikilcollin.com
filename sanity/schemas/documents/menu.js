@@ -25,10 +25,6 @@ export const Menu = {
         {
           type: 'menuLink',
         },
-        {
-          type: 'subMenu',
-          name: 'subMenu',
-        },
       ],
     },
   ],
