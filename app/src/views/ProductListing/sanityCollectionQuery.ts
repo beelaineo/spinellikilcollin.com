@@ -90,7 +90,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       priceRange,
       publishedAt,
       variants {
-        edges[]{
+        "edges": edges[][node.availableForSale == true] {
           cursor,
           node {
             __typename,
@@ -99,7 +99,8 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
             image,
             title,
             selectedOptions,
-            priceV2
+            priceV2,
+            availableForSale
           },
         },
       },
@@ -155,7 +156,7 @@ export const moreProductsQuery = `
       priceRange,
       publishedAt,
       variants {
-        edges[]{
+        "edges": edges[][node.availableForSale == true] {
           cursor,
           node {
             _type,
@@ -163,7 +164,8 @@ export const moreProductsQuery = `
             image,
             title,
             selectedOptions,
-            priceV2
+            priceV2,
+            availableForSale
           },
         },
       },
@@ -215,7 +217,7 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
     priceRange,
     publishedAt,
     variants {
-      edges[]{
+      "edges": edges[][node.availableForSale == true] {
         cursor,
         node {
           _type,
@@ -223,7 +225,8 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
           image,
           title,
           selectedOptions,
-          priceV2
+          priceV2,
+          availableForSale
         },
       },
     },
