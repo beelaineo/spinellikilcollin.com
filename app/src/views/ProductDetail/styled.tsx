@@ -1,9 +1,14 @@
 import styled, { css } from '@xstyled/styled-components'
+import { ShopifyProduct } from '../../types'
 import {
   CarouselContainer,
   SlidesContainer,
   DotsInner,
 } from '../../components/Carousel/styled'
+
+interface WithProduct {
+  product?: ShopifyProduct
+}
 
 export const Wrapper = styled.div`
   position: relative;
@@ -45,8 +50,8 @@ export const ProductDetails = styled.div`
   `}
 `
 
-export const InfoWrapper = styled.div`
-  ${({ theme }) => css`
+export const InfoWrapper = styled.div<WithProduct>`
+  ${({ product, theme }) => css`
     height: 100%;
     display: flex;
     padding: 190px 0 9 0;
@@ -54,11 +59,15 @@ export const InfoWrapper = styled.div`
     justify-content: flex-start;
 
     ${theme.mediaQueries.tablet} {
-      padding: 9 81px 7;
+      padding: ${product?.sourceData?.productType === 'Gift Card'
+        ? '0 81px 7'
+        : '9 81px 7'};
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 6 0 7;
+      padding: ${product?.sourceData?.productType === 'Gift Card'
+        ? '0 0 7'
+        : '6 0 7'};
     }
   `}
 `
@@ -76,13 +85,17 @@ export const AffirmWrapper = styled.div`
   `}
 `
 
-export const TitleWrapper = styled.div`
-  ${({ theme }) => css`
+export const TitleWrapper = styled.div<WithProduct>`
+  ${({ product, theme }) => css`
     ${theme.mediaQueries.tablet} {
       text-align: center;
       grid-row: 1;
-      margin-top: -2;
-      margin-bottom: 0;
+      margin-top: ${product?.sourceData?.productType === 'Gift Card'
+        ? '0'
+        : '-2'};
+      margin-bottom: ${product?.sourceData?.productType === 'Gift Card'
+        ? '4'
+        : '0'};
     }
   `}
 `
@@ -151,13 +164,14 @@ export const Nav = styled.div`
   font-family: sans;
 `
 
-export const ProductGalleryWrapper = styled.div`
-  ${({ theme }) => css`
+export const ProductGalleryWrapper = styled.div<WithProduct>`
+  ${({ product, theme }) => css`
     position: sticky;
     top: 0;
 
     ${theme.mediaQueries.tablet} {
       position: relative;
+      order: ${product?.sourceData?.productType === 'Gift Card' ? '-1' : '0'};
     }
   `}
 `

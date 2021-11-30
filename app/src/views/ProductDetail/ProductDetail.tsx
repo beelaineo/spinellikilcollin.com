@@ -209,7 +209,7 @@ export const ProductDetail = ({ product }: Props) => {
                   screen="desktop"
                 />
               </ProductImagesWrapper>
-              <InfoWrapper>
+              <InfoWrapper product={product}>
                 <ProductDetailHeader
                   currentVariant={currentVariant}
                   product={product}
