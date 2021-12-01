@@ -53,7 +53,7 @@ interface ProductSEOProps {
 const ContactSEO = ({ defaultSeo }: ContactSEOProps) => {
   const { description, image } = defaultSeo
   const ldJson = {
-    '@type': 'contact',
+    '@type': 'ContactPage',
     '@context': 'http://schema.org',
     description: description,
     image: getImageUrl(image),
