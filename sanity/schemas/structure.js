@@ -11,6 +11,48 @@ import { FaPencilAlt } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
 
+const productPages = async () => {
+  return documentStore
+    .listenQuery(
+      `*[_type == "shopifyProduct" && archived != true && !(_id in path("drafts.**"))]
+        | order(title)
+        {
+          _id,
+          _type,
+          title
+        }
+    `,
+    )
+    .pipe(
+      map((products) =>
+        S.list()
+          .title('Products')
+          .items([
+            S.listItem()
+              .title('Product Settings')
+              .icon(AiOutlineSetting)
+              .child(
+                S.editor()
+                  .id('productInfoSettings')
+                  .schemaType('productInfoSettings')
+                  .documentId('productInfoSettings'),
+              ),
+            S.divider(),
+            ...products.map((product) =>
+              S.documentListItem()
+                .schemaType('shopifyProduct')
+                .id(product._id)
+                .title(product.title)
+                .child(() => loadProduct(product)),
+            ),
+          ]),
+      ),
+    )
+}
+
+const loadProduct = async (product) =>
+  S.editor().id(product._id).schemaType(product._type).documentId(product._id)
+
 export default () =>
   S.list()
     .title('Site')
@@ -45,49 +87,7 @@ export default () =>
         .id('products')
         .title('Products')
         .icon(GiDiamondRing)
-        .child(
-          documentStore
-            .listenQuery(
-              `*[_type == "shopifyProduct" && archived != true && !(_id in path("drafts.**"))]
-                | order(title)
-                {
-                  _id,
-                  _type,
-                  title
-                }
-            `,
-            )
-            .pipe(
-              map((products) =>
-                S.list()
-                  .title('Products')
-                  .items([
-                    S.listItem()
-                      .title('Product Settings')
-                      .icon(AiOutlineSetting)
-                      .child(
-                        S.editor()
-                          .id('productInfoSettings')
-                          .schemaType('productInfoSettings')
-                          .documentId('productInfoSettings'),
-                      ),
-                    S.divider(),
-                    ...products.map((product) =>
-                      S.documentListItem()
-                        .schemaType('shopifyProduct')
-                        .id(product._id)
-                        .title(product.title)
-                        .child(
-                          S.editor()
-                            .id(product._id)
-                            .schemaType(product._type)
-                            .documentId(product._id),
-                        ),
-                    ),
-                  ]),
-              ),
-            ),
-        ),
+        .child(() => productPages()),
       S.listItem()
         .id('collections')
         .title('Collections')
