@@ -49,9 +49,50 @@ const productPages = async () => {
       ),
     )
 }
-
 const loadProduct = async (product) =>
   S.editor().id(product._id).schemaType(product._type).documentId(product._id)
+
+const collectionPages = async () => {
+  return documentStore
+    .listenQuery(
+      `*[_type == "shopifyCollection" && archived != true && !(_id in path("drafts.**"))]
+    | order(title)
+    {
+      _id,
+      _type,
+      title
+    }`,
+    )
+    .pipe(
+      map((collections) =>
+        S.list()
+          .title('Collections')
+          .items([
+            S.listItem()
+              .title('Collection Settings')
+              .icon(AiOutlineSetting)
+              .child(
+                S.editor()
+                  .id('productListingSettings')
+                  .schemaType('productListingSettings')
+                  .documentId('productListingSettings'),
+              ),
+            S.divider(),
+            ...collections.map((collection) =>
+              S.documentListItem()
+                .schemaType('shopifyCollection')
+                .id(collection._id)
+                .child(loadCollection(collection)),
+            ),
+          ]),
+      ),
+    )
+}
+const loadCollection = async (collection) =>
+  S.editor()
+    .id(collection._id)
+    .schemaType(collection._type)
+    .documentId(collection._id)
 
 export default () =>
   S.list()
@@ -92,47 +133,7 @@ export default () =>
         .id('collections')
         .title('Collections')
         .icon(TiThSmallOutline)
-        .child(
-          documentStore
-            .listenQuery(
-              `*[_type == "shopifyCollection" && archived != true && !(_id in path("drafts.**"))]
-            | order(title)
-            {
-              _id,
-              _type,
-              title
-            }`,
-            )
-            .pipe(
-              map((collections) =>
-                S.list()
-                  .title('Collections')
-                  .items([
-                    S.listItem()
-                      .title('Collection Settings')
-                      .icon(AiOutlineSetting)
-                      .child(
-                        S.editor()
-                          .id('productListingSettings')
-                          .schemaType('productListingSettings')
-                          .documentId('productListingSettings'),
-                      ),
-                    S.divider(),
-                    ...collections.map((collection) =>
-                      S.documentListItem()
-                        .schemaType('shopifyCollection')
-                        .id(collection._id)
-                        .child(
-                          S.editor()
-                            .id(collection._id)
-                            .schemaType(collection._type)
-                            .documentId(collection._id),
-                        ),
-                    ),
-                  ]),
-              ),
-            ),
-        ),
+        .child(() => collectionPages()),
       // Journal
       S.listItem()
         .title('Journal')
@@ -192,10 +193,10 @@ export default () =>
       //   .child(S.documentTypeList('journalEntry')),
 
       // Page Directories
-      S.listItem()
-        .title('Directory Pages')
-        .icon(ImFilesEmpty)
-        .child(S.documentTypeList('directory')),
+      // S.listItem()
+      //   .title('Directory Pages')
+      //   .icon(ImFilesEmpty)
+      //   .child(S.documentTypeList('directory')),
 
       S.listItem()
         .title('About (Main Page)')
