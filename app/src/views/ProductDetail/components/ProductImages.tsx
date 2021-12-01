@@ -111,7 +111,7 @@ export const ProductImages = ({
       </DesktopWrapper>
     </ProductGalleryWrapper>
   ) : screen === 'mobile' ? (
-    <ProductGalleryWrapper>
+    <ProductGalleryWrapper product={product}>
       <MobileWrapper>
         <MainImage>
           <Image ratio={1} image={mainImage} />
