@@ -89,8 +89,9 @@ const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
 const HomeSEO = ({ defaultSeo, phone }: HomeSEOProps) => {
   const { description } = defaultSeo
   const ldJson = {
-    '@type': 'store',
+    '@type': 'Corporation',
     '@context': 'http://schema.org',
+    name: 'Spinelli Kilcollin',
     description: description,
     telephone: phone ? phone : '',
   }
