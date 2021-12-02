@@ -11,101 +11,51 @@ import { FaPencilAlt } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
 
-const productPages = async () => {
-  return documentStore
-    .listenQuery(
-      `*[_type == "shopifyProduct" && archived != true && !(_id in path("drafts.**"))]
-        | order(title)
-        {
-          _id,
-          _type,
-          title
-        }
-    `,
-    )
-    .pipe(
-      map((products) =>
-        S.list()
-          .title('Products')
-          .items([
-            S.listItem()
-              .title('Product Settings')
-              .icon(AiOutlineSetting)
-              .child(
-                S.editor()
-                  .id('productInfoSettings')
-                  .schemaType('productInfoSettings')
-                  .documentId('productInfoSettings'),
-              ),
-            S.divider(),
-            ...products.map((product) =>
-              S.documentListItem()
-                .schemaType('shopifyProduct')
-                .id(product._id)
-                .title(product.title)
-                .child(() => loadProduct(product)),
-            ),
-          ]),
-      ),
-    )
+const filterProducts = (item) => {
+  console.log(item)
+  return true
 }
-const loadProduct = async (product) =>
-  S.editor().id(product._id).schemaType(product._type).documentId(product._id)
-
-const collectionPages = async () => {
-  return documentStore
-    .listenQuery(
-      `*[_type == "shopifyCollection" && archived != true && !(_id in path("drafts.**"))]
-    | order(title)
-    {
-      _id,
-      _type,
-      title
-    }`,
-    )
-    .pipe(
-      map((collections) =>
-        S.list()
-          .title('Collections')
-          .items([
-            S.listItem()
-              .title('Collection Settings')
-              .icon(AiOutlineSetting)
-              .child(
-                S.editor()
-                  .id('productListingSettings')
-                  .schemaType('productListingSettings')
-                  .documentId('productListingSettings'),
-              ),
-            S.divider(),
-            ...collections.map((collection) =>
-              S.documentListItem()
-                .schemaType('shopifyCollection')
-                .id(collection._id)
-                .child(loadCollection(collection)),
-            ),
-          ]),
-      ),
-    )
-}
-const loadCollection = async (collection) =>
-  S.editor()
-    .id(collection._id)
-    .schemaType(collection._type)
-    .documentId(collection._id)
 
 export default () =>
   S.list()
     .title('Site')
     .items([
       S.listItem()
-        .title('Site Settings')
+        .title('Settings')
+        .id('settings')
         .icon(MdSettings)
         .child(
-          S.editor()
-            .id('config')
-            .schemaType('siteSettings')
-            .documentId('site-settings'),
+          S.list()
+            .title('Settings')
+            .items([
+              S.listItem()
+                .title('Site Settings')
+                .icon(AiOutlineSetting)
+                .child(
+                  S.editor()
+                    .id('config')
+                    .schemaType('siteSettings')
+                    .documentId('site-settings'),
+                ),
+              S.listItem()
+                .title('Product Settings')
+                .icon(AiOutlineSetting)
+                .child(
+                  S.editor()
+                    .id('productInfoSettings')
+                    .schemaType('productInfoSettings')
+                    .documentId('productInfoSettings'),
+                ),
+              S.listItem()
+                .title('Collection Settings')
+                .icon(AiOutlineSetting)
+                .child(
+                  S.editor()
+                    .id('productListingSettings')
+                    .schemaType('productListingSettings')
+                    .documentId('productListingSettings'),
+                ),
+            ]),
         ),
       S.listItem()
         .title('Homepage')
@@ -128,12 +78,28 @@ export default () =>
         .id('products')
         .title('Products')
         .icon(GiDiamondRing)
-        .child(() => productPages()),
+        .child(
+          S.documentList()
+            .title('Products')
+            .id('shopifyProducts')
+            .filter(
+              '_type=="shopifyProduct" && archived!=true && !(_id in path("drafts.**"))',
+            ),
+        ),
+      // Collections
       S.listItem()
         .id('collections')
         .title('Collections')
         .icon(TiThSmallOutline)
-        .child(() => collectionPages()),
+        .child(
+          S.documentList()
+            .title('Collections')
+            .id('shopifyCollections')
+            .filter(
+              '_type=="shopifyCollection" && archived!=true && !(_id in path("drafts.**"))',
+            )
+            .defaultOrdering([{ field: 'title', direction: 'desc' }]),
+        ),
       // Journal
       S.listItem()
         .title('Journal')
@@ -205,7 +171,6 @@ export default () =>
 
       S.listItem().id('pages').title('About Pages').icon(MdInfoOutline).child(
         S.documentList().title('Pages').filter('_type == "page"'),
-
         // S.documentTypeList('page')
       ),
 
