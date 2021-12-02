@@ -146,7 +146,9 @@ const ProductSEO = ({
     '@context': 'http://schema.org/',
     name: defaultSeo.title,
     description: description,
-    brand: { '@type': productType },
+    brand: {
+      name: 'Spinelli Kilcollin',
+    },
     image: imageSrc ? imageSrc : '',
     productID: id,
     sku: sku ? sku : '',
@@ -156,10 +158,6 @@ const ProductSEO = ({
       price: variantPrice,
       itemCondition: 'http://schema.org/NewCondition',
       availability: 'http://schema.org/InStock',
-    },
-    seller: {
-      '@type': 'Organization',
-      name: vendor ? vendor : '',
     },
   }
 
