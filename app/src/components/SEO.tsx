@@ -53,7 +53,7 @@ interface ProductSEOProps {
 const ContactSEO = ({ defaultSeo }: ContactSEOProps) => {
   const { description, image } = defaultSeo
   const ldJson = {
-    '@type': 'contact',
+    '@type': 'ContactPage',
     '@context': 'http://schema.org',
     description: description,
     image: getImageUrl(image),
@@ -71,7 +71,7 @@ const ContactSEO = ({ defaultSeo }: ContactSEOProps) => {
 const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
   const { description, image } = defaultSeo
   const ldJson = {
-    '@type': 'about',
+    '@type': 'aboutPage',
     '@context': 'http://schema.org',
     description: description,
     image: getImageUrl(image),
@@ -89,8 +89,9 @@ const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
 const HomeSEO = ({ defaultSeo, phone }: HomeSEOProps) => {
   const { description } = defaultSeo
   const ldJson = {
-    '@type': 'store',
+    '@type': 'Corporation',
     '@context': 'http://schema.org',
+    name: 'Spinelli Kilcollin',
     description: description,
     telephone: phone ? phone : '',
   }
@@ -145,7 +146,9 @@ const ProductSEO = ({
     '@context': 'http://schema.org/',
     name: defaultSeo.title,
     description: description,
-    brand: { '@type': productType },
+    brand: {
+      name: 'Spinelli Kilcollin',
+    },
     image: imageSrc ? imageSrc : '',
     productID: id,
     sku: sku ? sku : '',
@@ -155,10 +158,6 @@ const ProductSEO = ({
       price: variantPrice,
       itemCondition: 'http://schema.org/NewCondition',
       availability: 'http://schema.org/InStock',
-    },
-    seller: {
-      '@type': 'Organization',
-      name: vendor ? vendor : '',
     },
   }
 
