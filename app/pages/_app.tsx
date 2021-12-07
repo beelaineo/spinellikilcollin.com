@@ -141,7 +141,7 @@ const App = (props: AppProps) => {
           <link
             id="GEPIStyles"
             rel="stylesheet"
-            href="//gepi.global-e.com/includes/css/1000945"
+            href="//gepi.global-e.com/includes/css/10000945"
           />
 
           <link rel="stylesheet" href="/static/fonts/fonts.css" />
@@ -223,7 +223,7 @@ const App = (props: AppProps) => {
             type="text/javascript"
             async
             defer
-            src="https://gepi.global-e.com/includes/js/1000945"
+            src="https://gepi.global-e.com/includes/js/10000945"
           />
           {/* <noscript>
             <img
