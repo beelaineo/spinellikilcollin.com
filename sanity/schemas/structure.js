@@ -1,7 +1,5 @@
 import S from '@sanity/desk-tool/structure-builder'
 import { GiDiamondRing } from 'react-icons/gi'
-import documentStore from 'part:@sanity/base/datastore/document'
-import { map } from 'rxjs/operators'
 import { MdSettings, MdHome, MdInfoOutline, MdLocalPhone } from 'react-icons/md'
 import { AiOutlineTeam, AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
 import { IoDocumentsOutline } from 'react-icons/io'
@@ -10,11 +8,6 @@ import { BsTools, BsBookHalf } from 'react-icons/bs'
 import { FaPencilAlt } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
-
-const filterProducts = (item) => {
-  console.log(item)
-  return true
-}
 
 export default () =>
   S.list()
@@ -79,12 +72,13 @@ export default () =>
         .title('Products')
         .icon(GiDiamondRing)
         .child(
-          S.documentList()
+          S.documentTypeList('shopifyProduct')
             .title('Products')
             .id('shopifyProducts')
             .filter(
-              '_type=="shopifyProduct" && archived!=true && !(_id in path("drafts.**"))',
-            ),
+              '_type == "shopifyProduct" && archived!=true && !(_id in path("drafts.**"))',
+            )
+            .defaultOrdering([{ field: 'title', direction: 'desc' }]),
         ),
       // Collections
       S.listItem()
@@ -92,7 +86,7 @@ export default () =>
         .title('Collections')
         .icon(TiThSmallOutline)
         .child(
-          S.documentList()
+          S.documentTypeList('shopifyCollection')
             .title('Collections')
             .id('shopifyCollections')
             .filter(
