@@ -1,7 +1,5 @@
 import S from '@sanity/desk-tool/structure-builder'
 import { GiDiamondRing } from 'react-icons/gi'
-import documentStore from 'part:@sanity/base/datastore/document'
-import { map } from 'rxjs/operators'
 import { MdSettings, MdHome, MdInfoOutline, MdLocalPhone } from 'react-icons/md'
 import { AiOutlineTeam, AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
 import { IoDocumentsOutline } from 'react-icons/io'
@@ -16,13 +14,41 @@ export default () =>
     .title('Site')
     .items([
       S.listItem()
-        .title('Site Settings')
+        .title('Settings')
+        .id('settings')
         .icon(MdSettings)
         .child(
-          S.editor()
-            .id('config')
-            .schemaType('siteSettings')
-            .documentId('site-settings'),
+          S.list()
+            .title('Settings')
+            .items([
+              S.listItem()
+                .title('Site Settings')
+                .icon(AiOutlineSetting)
+                .child(
+                  S.editor()
+                    .id('config')
+                    .schemaType('siteSettings')
+                    .documentId('site-settings'),
+                ),
+              S.listItem()
+                .title('Product Settings')
+                .icon(AiOutlineSetting)
+                .child(
+                  S.editor()
+                    .id('productInfoSettings')
+                    .schemaType('productInfoSettings')
+                    .documentId('productInfoSettings'),
+                ),
+              S.listItem()
+                .title('Collection Settings')
+                .icon(AiOutlineSetting)
+                .child(
+                  S.editor()
+                    .id('productListingSettings')
+                    .schemaType('productListingSettings')
+                    .documentId('productListingSettings'),
+                ),
+            ]),
         ),
       S.listItem()
         .title('Homepage')
@@ -46,92 +72,27 @@ export default () =>
         .title('Products')
         .icon(GiDiamondRing)
         .child(
-          documentStore
-            .listenQuery(
-              `*[_type == "shopifyProduct" && archived != true && !(_id in path("drafts.**"))]
-                | order(title)
-                {
-                  _id,
-                  _type,
-                  title
-                }
-            `,
+          S.documentTypeList('shopifyProduct')
+            .title('Products')
+            .id('shopifyProducts')
+            .filter(
+              '_type == "shopifyProduct" && archived!=true && !(_id in path("drafts.**"))',
             )
-            .pipe(
-              map((products) =>
-                S.list()
-                  .title('Products')
-                  .items([
-                    S.listItem()
-                      .title('Product Settings')
-                      .icon(AiOutlineSetting)
-                      .child(
-                        S.editor()
-                          .id('productInfoSettings')
-                          .schemaType('productInfoSettings')
-                          .documentId('productInfoSettings'),
-                      ),
-                    S.divider(),
-                    ...products.map((product) =>
-                      S.documentListItem()
-                        .schemaType('shopifyProduct')
-                        .id(product._id)
-                        .title(product.title)
-                        .child(
-                          S.editor()
-                            .id(product._id)
-                            .schemaType(product._type)
-                            .documentId(product._id),
-                        ),
-                    ),
-                  ]),
-              ),
-            ),
+            .defaultOrdering([{ field: 'title', direction: 'desc' }]),
         ),
+      // Collections
       S.listItem()
         .id('collections')
         .title('Collections')
         .icon(TiThSmallOutline)
         .child(
-          documentStore
-            .listenQuery(
-              `*[_type == "shopifyCollection" && archived != true && !(_id in path("drafts.**"))]
-            | order(title)
-            {
-              _id,
-              _type,
-              title
-            }`,
+          S.documentTypeList('shopifyCollection')
+            .title('Collections')
+            .id('shopifyCollections')
+            .filter(
+              '_type=="shopifyCollection" && archived!=true && !(_id in path("drafts.**"))',
             )
-            .pipe(
-              map((collections) =>
-                S.list()
-                  .title('Collections')
-                  .items([
-                    S.listItem()
-                      .title('Collection Settings')
-                      .icon(AiOutlineSetting)
-                      .child(
-                        S.editor()
-                          .id('productListingSettings')
-                          .schemaType('productListingSettings')
-                          .documentId('productListingSettings'),
-                      ),
-                    S.divider(),
-                    ...collections.map((collection) =>
-                      S.documentListItem()
-                        .schemaType('shopifyCollection')
-                        .id(collection._id)
-                        .child(
-                          S.editor()
-                            .id(collection._id)
-                            .schemaType(collection._type)
-                            .documentId(collection._id),
-                        ),
-                    ),
-                  ]),
-              ),
-            ),
+            .defaultOrdering([{ field: 'title', direction: 'desc' }]),
         ),
       // Journal
       S.listItem()
@@ -139,63 +100,24 @@ export default () =>
         .id('journal')
         .icon(FaPencilAlt)
         .child(
-          documentStore
-            .listenQuery(
-              `
-              *[_type == "journalEntry" && !(_id in path("drafts.**"))]
-              | order(coalesce(publishDate, _createdAt) desc)
-              {
-                _id,
-                _type,
-                title
-              }`,
-            )
-            .pipe(
-              map((journalEntries) =>
-                S.list()
-                  .title('Journal')
-                  .items([
-                    S.listItem()
-                      .title('Journal (Main Page)')
-                      .icon(AiOutlineBook),
-                    S.divider(),
-                    ...journalEntries.map((entry) =>
-                      S.documentListItem()
-                        .schemaType('journalEntry')
-                        .id(entry._id)
-                        .icon(FaPencilAlt)
-                        .child(
-                          S.editor()
-                            .id(entry._id)
-                            .schemaType(entry._type)
-                            .documentId(entry._id),
-                        ),
-                    ),
-                  ]),
-              ),
-            ),
+          S.list()
+            .title('Journal')
+            .items([
+              S.listItem()
+                .title('Journal (Main Page)')
+                .icon(AiOutlineBook)
+                .child(
+                  S.editor()
+                    .id('journalPage')
+                    .schemaType('journalPage')
+                    .documentId('journalPage'),
+                ),
+              S.divider(),
+              S.documentTypeListItem('journalEntry')
+                .title('Journal Entries')
+                .icon(FaPencilAlt),
+            ]),
         ),
-      // S.listItem()
-      //   .title('Journal (Main Page)')
-      //   .icon(FaPencilAlt)
-      //   .child(
-      //     S.editor()
-      //       .id('journalPage')
-      //       .schemaType('journalPage')
-      //       .documentId('journalPage'),
-      //   ),
-      //
-      // S.listItem()
-      //   .id('journal')
-      //   .title('Journal')
-      //   .icon(FaPencilAlt)
-      //   .child(S.documentTypeList('journalEntry')),
-
-      // Page Directories
-      S.listItem()
-        .title('Directory Pages')
-        .icon(ImFilesEmpty)
-        .child(S.documentTypeList('directory')),
 
       S.listItem()
         .title('About (Main Page)')
@@ -204,7 +126,6 @@ export default () =>
 
       S.listItem().id('pages').title('About Pages').icon(MdInfoOutline).child(
         S.documentList().title('Pages').filter('_type == "page"'),
-
         // S.documentTypeList('page')
       ),
 
