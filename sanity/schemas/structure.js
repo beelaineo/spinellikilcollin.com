@@ -106,63 +106,24 @@ export default () =>
         .id('journal')
         .icon(FaPencilAlt)
         .child(
-          documentStore
-            .listenQuery(
-              `
-              *[_type == "journalEntry" && !(_id in path("drafts.**"))]
-              | order(coalesce(publishDate, _createdAt) desc)
-              {
-                _id,
-                _type,
-                title
-              }`,
-            )
-            .pipe(
-              map((journalEntries) =>
-                S.list()
-                  .title('Journal')
-                  .items([
-                    S.listItem()
-                      .title('Journal (Main Page)')
-                      .icon(AiOutlineBook),
-                    S.divider(),
-                    ...journalEntries.map((entry) =>
-                      S.documentListItem()
-                        .schemaType('journalEntry')
-                        .id(entry._id)
-                        .icon(FaPencilAlt)
-                        .child(
-                          S.editor()
-                            .id(entry._id)
-                            .schemaType(entry._type)
-                            .documentId(entry._id),
-                        ),
-                    ),
-                  ]),
-              ),
-            ),
+          S.list()
+            .title('Journal')
+            .items([
+              S.listItem()
+                .title('Journal (Main Page)')
+                .icon(AiOutlineBook)
+                .child(
+                  S.editor()
+                    .id('journalPage')
+                    .schemaType('journalPage')
+                    .documentId('journalPage'),
+                ),
+              S.divider(),
+              S.documentTypeListItem('journalEntry')
+                .title('Journal Entries')
+                .icon(FaPencilAlt),
+            ]),
         ),
-      // S.listItem()
-      //   .title('Journal (Main Page)')
-      //   .icon(FaPencilAlt)
-      //   .child(
-      //     S.editor()
-      //       .id('journalPage')
-      //       .schemaType('journalPage')
-      //       .documentId('journalPage'),
-      //   ),
-      //
-      // S.listItem()
-      //   .id('journal')
-      //   .title('Journal')
-      //   .icon(FaPencilAlt)
-      //   .child(S.documentTypeList('journalEntry')),
-
-      // Page Directories
-      // S.listItem()
-      //   .title('Directory Pages')
-      //   .icon(ImFilesEmpty)
-      //   .child(S.documentTypeList('directory')),
 
       S.listItem()
         .title('About (Main Page)')
