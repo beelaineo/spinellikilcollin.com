@@ -780,7 +780,7 @@ export interface ShopifyStorefrontCheckoutEmailUpdateV2Payload {
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Possible error codes that could be returned by CheckoutUserError. */
+/** Possible error codes that can be returned by `CheckoutUserError`. */
 export enum ShopifyStorefrontCheckoutErrorCode {
   /** The input value is blank. */
   Blank = 'BLANK',
@@ -2332,7 +2332,7 @@ export interface ShopifyStorefrontCustomerDefaultAddressUpdatePayload {
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Possible error codes that could be returned by CustomerUserError. */
+/** Possible error codes that can be returned by `CustomerUserError`. */
 export enum ShopifyStorefrontCustomerErrorCode {
   /** The input value is blank. */
   Blank = 'BLANK',
