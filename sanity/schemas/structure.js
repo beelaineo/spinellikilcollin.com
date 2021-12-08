@@ -109,9 +109,19 @@ export default () =>
           S.list()
             .title('Journal')
             .items([
-              S.listItem().title('Journal (Main Page)').icon(AiOutlineBook),
+              S.listItem()
+                .title('Journal (Main Page)')
+                .icon(AiOutlineBook)
+                .child(
+                  S.editor()
+                    .id('journalPage')
+                    .schemaType('journalPage')
+                    .documentId('journalPage'),
+                ),
               S.divider(),
-              S.documentTypeListItem('journalEntry'),
+              S.documentTypeListItem('journalEntry')
+                .title('Journal Entries')
+                .icon(FaPencilAlt),
             ]),
         ),
 
