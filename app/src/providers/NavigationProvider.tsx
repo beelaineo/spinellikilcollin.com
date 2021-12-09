@@ -46,6 +46,7 @@ function navReducer(currentState: NavState, action: Action): NavState {
 interface NavigationContextValue {
   cartOpen: boolean
   menuOpen: boolean
+  colorTheme: 'dark' | 'light' | undefined
   setColorTheme: (colorTheme: 'dark' | 'light') => void
   closeMenu: () => void
   toggleMenu: () => void
@@ -86,7 +87,7 @@ export const NavigationProvider = ({ children }: NavigationProps) => {
     currentSubmenuKey: undefined,
   })
 
-  const { menuOpen } = state
+  const { menuOpen, colorTheme } = state
 
   /* Handlers */
 
@@ -134,6 +135,7 @@ export const NavigationProvider = ({ children }: NavigationProps) => {
     openCart,
     closeAll,
     setColorTheme,
+    colorTheme,
     router,
   }
 

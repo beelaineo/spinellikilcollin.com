@@ -40,11 +40,11 @@ export const Homepage = (props: HomepageProps) => {
   const { setColorTheme } = useNavigation()
   const { isInView } = useInViewport(firstBlockRef)
 
-  console.log('hero in view:', isInView)
-
   useEffect(() => {
-    setColorTheme('light')
-  }, [])
+    header_color == 'light' && isInView
+      ? setColorTheme('light')
+      : setColorTheme('dark')
+  }, [isInView])
 
   return (
     <>
