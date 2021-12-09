@@ -12,7 +12,6 @@ import {
 } from '../../types/generated-shopify'
 import { SelectedProduct, EcommerceObject } from './types'
 import { getProductIdFromStorefrontId } from '../../utils'
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable'
 
 const getVariantSourceData = (
   variant: ShopifyProductVariant | ShopifySourceProductVariant | Variant,
