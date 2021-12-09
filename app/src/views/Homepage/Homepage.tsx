@@ -38,7 +38,7 @@ export const Homepage = (props: HomepageProps) => {
 
   const firstBlockRef = useRef<HTMLDivElement>(null)
   const { setColorTheme } = useNavigation()
-  const { isInView } = useInViewport(firstBlockRef)
+  const { isInView } = useInViewport(firstBlockRef, '-55px 0px')
 
   useEffect(() => {
     header_color == 'light' && isInView
