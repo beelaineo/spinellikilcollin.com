@@ -139,8 +139,6 @@ export const NavigationProvider = ({ children }: NavigationProps) => {
     router,
   }
 
-  console.log('nav provider state:', state)
-
   return (
     <NavigationContext.Provider value={value}>
       {children}
