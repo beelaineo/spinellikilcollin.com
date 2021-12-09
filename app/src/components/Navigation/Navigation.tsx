@@ -43,8 +43,6 @@ export const Navigation = () => {
 
   const openCartHandler = () => openCart()
 
-  console.log('Navigation color theme', colorTheme)
-
   const innerBorder = !/\/collections/.test(router.asPath)
 
   return (

@@ -46,6 +46,12 @@ export const Homepage = (props: HomepageProps) => {
       : setColorTheme('dark')
   }, [isInView])
 
+  useEffect(() => {
+    return () => {
+      setColorTheme('dark')
+    }
+  }, [])
+
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} contentType={id!} path="" />
