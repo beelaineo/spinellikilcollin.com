@@ -12,6 +12,7 @@ import {
 } from '../../types/generated-shopify'
 import { SelectedProduct, EcommerceObject } from './types'
 import { getProductIdFromStorefrontId } from '../../utils'
+import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable'
 
 const getVariantSourceData = (
   variant: ShopifyProductVariant | ShopifySourceProductVariant | Variant,
@@ -66,7 +67,7 @@ export const parseProduct = (
   selectedProduct: SelectedProduct,
   { position, list }: ProductExtras,
 ): EcommerceObject => {
-  const { quantity } = selectedProduct
+  const quantity = selectedProduct.quantity || 1
   const product = selectedProduct.product
     ? getProductSourceData(selectedProduct.product)
     : selectedProduct?.variant?.__typename === 'ProductVariant'
