@@ -23,7 +23,11 @@ const currencyOptions = Object.values(ShopifyStorefrontCurrencyCode)
   .filter((v) => !invalidOptions.includes(v))
   .map((value) => ({ label: value, value, id: value }))
 
-export const CurrencySelector = () => {
+interface CurrencySelectorProps {
+  colorTheme?: 'light' | 'dark'
+}
+
+export const CurrencySelector = ({ colorTheme }: CurrencySelectorProps) => {
   const { loading, currentCurrency, updateCurrency } = useCurrency()
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
@@ -38,7 +42,7 @@ export const CurrencySelector = () => {
   }
 
   return (
-    <CurrencySelectorWrapper>
+    <CurrencySelectorWrapper colorTheme={colorTheme}>
       <Form
         disabled={loading}
         onSubmit={handleSubmit}

@@ -17,6 +17,7 @@ import { definitely } from '../../utils'
 
 interface HeroWrapperProps {
   hero: Hero
+  ref?: React.ForwardedRef<HTMLDivElement>
 }
 
 export const HeroWrapper = styled.div<HeroWrapperProps>`
@@ -148,54 +149,57 @@ const HeroImageWrapper = styled.div`
 
 interface HeroBlockProps {
   hero: Hero
-  children?: ReactNode
 }
 
-export const HeroBlock = ({ hero, children }: HeroBlockProps) => {
-  const {
-    textPosition,
-    textColor,
-    textContainer,
-    heroLink,
-    bodyRaw,
-    image,
-    textPositionMobile,
-    textColorMobile,
-    cloudinaryVideo,
-    cloudinaryVideoMobile,
-    mobileImage,
-    cta: ctas,
-  } = hero
-  const cta = definitely(ctas).length ? definitely(ctas)[0] : null
-  return (
-    <HeroWrapper hero={hero}>
-      <DocumentLink document={heroLink?.document ?? undefined}>
-        {cloudinaryVideo?.videoId ? (
-          <HeroImageWrapper>
-            <CloudinaryVideo video={cloudinaryVideo} />
-            {cloudinaryVideoMobile ? (
-              <CloudinaryVideo video={cloudinaryVideoMobile} />
-            ) : null}
-          </HeroImageWrapper>
-        ) : (
-          <HeroImageWrapper>
-            {image ? <Image image={image} /> : null}
-            {mobileImage ? <Image image={mobileImage} /> : null}
-          </HeroImageWrapper>
-        )}
-        <HeroText
-          textPosition={textPosition}
-          textColor={textColor}
-          textPositionMobile={textPositionMobile}
-          textColorMobile={textColorMobile}
-          textContainer={textContainer}
-        >
-          <div className="text-container">
-            <RichText body={bodyRaw} />
-            {cta ? <CTA cta={cta} /> : null}
-          </div>
-        </HeroText>
-      </DocumentLink>
-    </HeroWrapper>
-  )
-}
+// eslint-disable-next-line react/display-name
+export const HeroBlock = React.forwardRef(
+  ({ hero }: HeroBlockProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+    const {
+      textPosition,
+      textColor,
+      textContainer,
+      heroLink,
+      bodyRaw,
+      image,
+      textPositionMobile,
+      textColorMobile,
+      cloudinaryVideo,
+      cloudinaryVideoMobile,
+      mobileImage,
+      cta: ctas,
+    } = hero
+    const cta = definitely(ctas).length ? definitely(ctas)[0] : null
+
+    return (
+      <HeroWrapper hero={hero} ref={ref}>
+        <DocumentLink document={heroLink?.document ?? undefined}>
+          {cloudinaryVideo?.videoId ? (
+            <HeroImageWrapper>
+              <CloudinaryVideo video={cloudinaryVideo} />
+              {cloudinaryVideoMobile ? (
+                <CloudinaryVideo video={cloudinaryVideoMobile} />
+              ) : null}
+            </HeroImageWrapper>
+          ) : (
+            <HeroImageWrapper>
+              {image ? <Image image={image} /> : null}
+              {mobileImage ? <Image image={mobileImage} /> : null}
+            </HeroImageWrapper>
+          )}
+          <HeroText
+            textPosition={textPosition}
+            textColor={textColor}
+            textPositionMobile={textPositionMobile}
+            textColorMobile={textColorMobile}
+            textContainer={textContainer}
+          >
+            <div className="text-container">
+              <RichText body={bodyRaw} />
+              {cta ? <CTA cta={cta} /> : null}
+            </div>
+          </HeroText>
+        </DocumentLink>
+      </HeroWrapper>
+    )
+  },
+)

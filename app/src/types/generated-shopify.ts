@@ -2679,7 +2679,11 @@ export interface ShopifyStorefrontFulfillmentTrackingInfo {
 export type ShopifyStorefrontHasMetafields = {
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<ShopifyStorefrontMetafield>
-  /** A paginated list of metafields associated with the resource. */
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   *
+   */
   metafields: ShopifyStorefrontMetafieldConnection
 }
 
@@ -3919,7 +3923,11 @@ export interface ShopifyStorefrontProduct
   media: ShopifyStorefrontMediaConnection
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<ShopifyStorefrontMetafield>
-  /** A paginated list of metafields associated with the resource. */
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   *
+   */
   metafields: ShopifyStorefrontMetafieldConnection
   /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
   onlineStoreUrl?: Maybe<Scalars['URL']>
@@ -4247,7 +4255,11 @@ export interface ShopifyStorefrontProductVariant
   image?: Maybe<ShopifyStorefrontImage>
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<ShopifyStorefrontMetafield>
-  /** A paginated list of metafields associated with the resource. */
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   *
+   */
   metafields: ShopifyStorefrontMetafieldConnection
   /**
    * List of prices and compare-at prices in the presentment currencies for this shop.

@@ -34,6 +34,7 @@ export const Navigation = () => {
     toggleMenu,
     openCart,
     router,
+    colorTheme,
   } = useNavigation()
   /* Parsing */
   const { loading, checkout } = useShopify()
@@ -41,6 +42,8 @@ export const Navigation = () => {
   const cartCount = loading ? 0 : lineItems.length || 0
 
   const openCartHandler = () => openCart()
+
+  console.log('Navigation color theme', colorTheme)
 
   const innerBorder = !/\/collections/.test(router.asPath)
 
@@ -57,10 +60,14 @@ export const Navigation = () => {
 
       <Wrapper>
         <Backdrop />
-        <Inner withBorder={innerBorder}>
-          <Hamburger onClick={toggleMenu} open={false} />
+        <Inner withBorder={innerBorder} colorTheme={colorTheme}>
+          <Hamburger
+            onClick={toggleMenu}
+            open={false}
+            colorTheme={colorTheme}
+          />
 
-          <LogoWrapper>
+          <LogoWrapper colorTheme={colorTheme}>
             <Link href="/" as="/">
               <a>
                 <Logotype />
@@ -68,13 +75,17 @@ export const Navigation = () => {
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
-            <CurrencySelector />
-            <SearchButtonWrapper>
+            <CurrencySelector colorTheme={colorTheme} />
+            <SearchButtonWrapper colorTheme={colorTheme}>
               <SearchButton />
             </SearchButtonWrapper>
-            <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
+            <CartButtonWrapper
+              isLoading={loading}
+              onClick={openCartHandler}
+              colorTheme={colorTheme}
+            >
               {cartCount ? (
-                <CartBadge>
+                <CartBadge colorTheme={colorTheme}>
                   <Heading m={0} fontWeight={4} level={5}>
                     {cartCount}
                   </Heading>

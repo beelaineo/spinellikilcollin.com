@@ -38,15 +38,20 @@ export const BackdropFilter = styled.div`
 
 interface WithBorder {
   withBorder?: boolean
+  colorTheme?: 'light' | 'dark'
 }
 
 export const Inner = styled.div<WithBorder>`
-  ${({ theme, withBorder }) => css`
+  ${({ theme, withBorder, colorTheme }) => css`
     position: relative;
     z-index: 10;
     display: grid;
     border-bottom: 1px solid;
-    border-color: ${withBorder ? 'currentColor' : 'transparent'};
+    border-color: ${colorTheme == 'light' && withBorder
+      ? theme.colors.grays[1]
+      : withBorder
+      ? 'currentColor'
+      : 'transparent'};
     grid-template-columns: 1fr 267px 1fr;
     align-items: center;
     padding: 6 0 16px;
@@ -100,11 +105,22 @@ interface WithActive {
   active?: boolean
 }
 
+interface WithColor {
+  theme: DefaultTheme
+  colorTheme?: 'light' | 'dark'
+}
+
 export const LogoWrapper = styled.div`
-  ${({ theme }) => css`
+  ${({ theme, colorTheme }: WithColor) => css`
     margin: 0 auto;
     svg {
       width: 100%;
+      ${colorTheme == 'light'
+        ? `path {
+          fill: ${theme.colors.grays[1]};
+        }
+        `
+        : ''};
     }
     ${theme.mediaQueries.mobile} {
       width: 170px;
@@ -146,9 +162,13 @@ export const HamburgerWrapper = styled.div`
     }
   `}
 `
+interface ColorThemeProps {
+  theme: DefaultTheme
+  colorTheme?: 'light' | 'dark'
+}
 
 export const SearchButtonWrapper = styled.button`
-  ${({ theme }) => css`
+  ${({ theme, colorTheme }: ColorThemeProps) => css`
     position: relative;
     transition: 250ms ease;
     display: flex;
@@ -160,6 +180,7 @@ export const SearchButtonWrapper = styled.button`
     svg {
       display: inline-block;
       width: 100%;
+      ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
     ${theme.mediaQueries.mobile} {
       width: 18px;
@@ -170,9 +191,9 @@ export const SearchButtonWrapper = styled.button`
 `
 
 export const CurrencySelectorWrapper = styled.div`
-  ${({ theme }) => css`
+  ${({ theme, colorTheme }: ColorThemeProps) => css`
     margin-right: 2px;
-
+    ${colorTheme == 'light' ? `select {color: ${theme.colors.grays[3]};}` : ''}
     ${theme.mediaQueries.mobile} {
       width: 24px;
       overflow: hidden;
@@ -214,10 +235,11 @@ interface WithVisible {
 interface LoadingProps {
   theme: DefaultTheme
   isLoading?: boolean
+  colorTheme?: 'light' | 'dark'
 }
 
 export const CartButtonWrapper = styled.button`
-  ${({ theme, isLoading }: LoadingProps) => css`
+  ${({ theme, isLoading, colorTheme }: LoadingProps) => css`
     opacity: ${isLoading ? '0.5' : '1'};
     position: relative;
     transition: 250ms ease;
@@ -229,6 +251,7 @@ export const CartButtonWrapper = styled.button`
     svg {
       display: inline-block;
       width: 100%;
+      ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
     ${theme.mediaQueries.mobile} {
       width: 16px;
@@ -238,7 +261,7 @@ export const CartButtonWrapper = styled.button`
 `
 
 export const CartBadge = styled.div`
-  ${({ theme }) => css`
+  ${({ theme, colorTheme }: ColorThemeProps) => css`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -248,7 +271,8 @@ export const CartBadge = styled.div`
     padding-top: 1px;
     width: 15px;
     height: 15px;
-    background-color: body.2;
+    background-color: ${colorTheme == 'light' ? 'body.8' : 'body.2'};
+    color: ${colorTheme == 'light' ? 'body.2' : 'inherit'};
     border: 1px solid;
     border-radius: 20px;
 

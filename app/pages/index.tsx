@@ -21,6 +21,7 @@ const homepageQueryById = gql`
       seo {
         ...SEOFragment
       }
+      header_color
       content {
         ... on ImageTextBlock {
           __typename
@@ -49,6 +50,7 @@ const homepageQuery = gql`
       seo {
         ...SEOFragment
       }
+      header_color
       content {
         ... on ImageTextBlock {
           __typename

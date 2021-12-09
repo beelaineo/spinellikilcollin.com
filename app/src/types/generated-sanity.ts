@@ -852,6 +852,8 @@ export interface Homepage extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   content?: Maybe<Array<Maybe<CarouselOrHeroOrImageTextBlock>>>
+  /** Text color for the header/nav overlay above first block on homepage. */
+  header_color?: Maybe<Scalars['String']>
   seo?: Maybe<Seo>
 }
 
@@ -864,6 +866,7 @@ export type HomepageFilter = {
   _updatedAt?: Maybe<DatetimeFilter>
   _rev?: Maybe<StringFilter>
   _key?: Maybe<StringFilter>
+  header_color?: Maybe<StringFilter>
   seo?: Maybe<SeoFilter>
 }
 
@@ -874,6 +877,7 @@ export type HomepageSorting = {
   _updatedAt?: Maybe<SortOrder>
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
+  header_color?: Maybe<SortOrder>
   seo?: Maybe<SeoSorting>
 }
 
