@@ -45,6 +45,19 @@ const optionHasVariant = (
   )
 }
 
+const optionHasAvailableVariant = (
+  variants: ShopifySourceProductVariant[],
+  optionName: string,
+  optionValue: ShopifyProductOptionValue,
+): boolean => {
+  const availableVariants = variants.filter((v) => v.availableForSale === true)
+  return availableVariants.some((v) =>
+    definitely(v.selectedOptions).some(
+      (o) => o.name === optionName && o.value === optionValue.value,
+    ),
+  )
+}
+
 export const getValidProductOptions = (
   product: ShopifyProduct,
 ): ShopifyProductOption[] => {
@@ -56,7 +69,7 @@ export const getValidProductOptions = (
       throw new Error('Option name was not supplied')
     }
     const values = definitely(option.values).filter((value) =>
-      optionHasVariant(variants, optionName, value),
+      optionHasAvailableVariant(variants, optionName, value),
     )
     return {
       ...option,
@@ -244,7 +257,7 @@ export const getProductUri = (
 const btoa = (str: string) => Buffer.from(str).toString('base64')
 const atob = (str: string) => Buffer.from(str, 'base64').toString('binary')
 
-type NodeType = 'Product' | 'Collection' | 'Order'
+type NodeType = 'Product' | 'Collection' | 'Order' | 'ProductVariant'
 
 /**
  * getStorefrontId

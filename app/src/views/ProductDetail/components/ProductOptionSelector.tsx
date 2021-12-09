@@ -106,7 +106,6 @@ export const ProductOptionSelector = ({
         : prev
     })
     const remasked = conformToMask(closest.toString(), currencyMask)
-    console.log(remasked)
     selectOption(remasked.conformedValue)
   }
 

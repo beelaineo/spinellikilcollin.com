@@ -9,6 +9,7 @@ import {
   getSelectedOptionValues,
   getProductUri,
   getAdditionalDescriptions,
+  getStorefrontId,
 } from '../../utils'
 import {
   useShopify,
@@ -208,7 +209,7 @@ export const ProductDetail = ({ product }: Props) => {
                   screen="desktop"
                 />
               </ProductImagesWrapper>
-              <InfoWrapper>
+              <InfoWrapper product={product}>
                 <ProductDetailHeader
                   currentVariant={currentVariant}
                   product={product}
