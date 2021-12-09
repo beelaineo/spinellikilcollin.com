@@ -25,7 +25,7 @@ const Grid = styled.div`
 `
 
 export const Homepage = (props: HomepageProps) => {
-  const { seo, content, _id: id } = props.homepage
+  const { seo, content, _id: id, header_color } = props.homepage
   const firstHero = definitely(content).find((b) => b.__typename === 'Hero')
   const defaultSeo = {
     title: seo?.title,
@@ -40,8 +40,7 @@ export const Homepage = (props: HomepageProps) => {
   const { setColorTheme } = useNavigation()
   const { isInView } = useInViewport(firstBlockRef)
 
-  console.log(firstBlockRef)
-  console.log(isInView)
+  console.log('hero in view:', isInView)
 
   useEffect(() => {
     setColorTheme('light')
