@@ -4,6 +4,8 @@ import {
   arrayify,
   reportFBViewContent,
   reportFBAddToCart,
+  reportTTViewContent,
+  reportTTAddToCart,
   isShopifyProduct,
 } from '../../utils'
 import { parseProduct } from './utils'
@@ -102,6 +104,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
         const selectedProduct = s?.product
         if (isShopifyProduct(selectedProduct)) {
           reportFBViewContent(selectedProduct)
+          reportTTViewContent(selectedProduct)
         }
       })
       sendEvent({
@@ -119,6 +122,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
       const selectedProduct = s?.product
       if (isShopifyProduct(selectedProduct)) {
         reportFBAddToCart(selectedProduct)
+        reportTTAddToCart(selectedProduct)
       }
     })
     sendEvent({
