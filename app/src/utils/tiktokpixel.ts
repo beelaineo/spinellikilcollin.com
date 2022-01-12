@@ -3,7 +3,7 @@ import { getIdFromBase64 } from './parsing'
 import { ShopifyProduct } from '../types'
 
 const event = (name, eventData = {}) => {
-  window.ttq('track', name, eventData)
+  window.ttq.track(name, eventData)
 }
 
 const viewContent = (eventData = {}) => {

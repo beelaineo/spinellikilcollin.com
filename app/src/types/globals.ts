@@ -19,10 +19,8 @@ declare global {
       options?: Record<string, unknown>,
       eventData?: Record<string, unknown>,
     ): void
-    ttq(
-      track: string,
-      eventType: string,
-      eventData?: Record<string, unknown>,
-    ): void
+    ttq: {
+      track(name: string, eventData?: Record<string, unknown>): void
+    }
   }
 }
