@@ -12,6 +12,7 @@ import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
+import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
 import { getHeroImage, isValidHero, definitely } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
@@ -20,6 +21,7 @@ import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
 import { config } from '../../../src/config'
+import styled, { css } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
   ProductGridWrapper,
@@ -82,6 +84,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     seo,
     handle,
     collectionBlocks,
+    descriptionRaw,
     reduceColumnCount,
     lightTheme,
     hidden,
@@ -187,6 +190,28 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const validHero = isValidHero(hero)
 
+  const DescriptionWrapper = styled.div`
+    ${({ theme }) => css`
+      padding: 8 11;
+
+      ${theme.mediaQueries.tablet} {
+        padding: 4 8;
+      }
+      ${theme.mediaQueries.mobile} {
+        padding: 4 4;
+      }
+    `}
+  `
+  const TextWrapper = styled.div`
+    position: relative;
+    z-index: 1;
+    max-width: 660px;
+    p {
+      font-weight: 200;
+      font-size: 13px;
+    }
+  `
+
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
@@ -241,6 +266,13 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   <Loading />
                 </Box>
               ) : null}
+
+              <DescriptionWrapper>
+                <TextWrapper>
+                  <RichText body={descriptionRaw} />
+                </TextWrapper>
+              </DescriptionWrapper>
+
               <div ref={bottomRef} />
             </ProductGridWrapper>
           </>
