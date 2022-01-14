@@ -42,6 +42,12 @@ export const collection = {
       of: [{ type: 'collectionBlock' }],
     },
     {
+      name: 'description',
+      title: 'Collection Description',
+      description: 'SEO-friendly text for the collection footer',
+      type: 'richText',
+    },
+    {
       name: 'preferredVariantMatches',
       type: 'array',
       title: 'Preferred Variant',

@@ -44,6 +44,7 @@ const collectionQueryById = gql`
       collectionBlocks {
         ...CollectionBlockFragment
       }
+      descriptionRaw
       preferredVariantMatches
       bambuser {
         _key
