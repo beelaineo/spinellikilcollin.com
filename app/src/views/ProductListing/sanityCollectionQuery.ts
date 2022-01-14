@@ -113,6 +113,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     body,
     ...
   },
+  "descriptionRaw": description,
 }
 `
 
