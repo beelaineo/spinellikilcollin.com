@@ -230,7 +230,10 @@ export const ProductDetail = ({ product }: Props) => {
             <ProductDetails>
               <ProductImagesWrapper>
                 {variantHasAnimation ? (
-                  <CloudinaryAnimation video={variantAnimation} />
+                  <CloudinaryAnimation
+                    video={variantAnimation}
+                    screen="desktop"
+                  />
                 ) : (
                   <ProductImages
                     currentVariant={currentVariant}
@@ -244,12 +247,18 @@ export const ProductDetail = ({ product }: Props) => {
                   currentVariant={currentVariant}
                   product={product}
                 />
-                <ProductImages
-                  currentVariant={currentVariant}
-                  product={product}
-                  screen="mobile"
-                />
-
+                {variantHasAnimation ? (
+                  <CloudinaryAnimation
+                    video={variantAnimation}
+                    screen="mobile"
+                  />
+                ) : (
+                  <ProductImages
+                    currentVariant={currentVariant}
+                    product={product}
+                    screen="mobile"
+                  />
+                )}
                 <ProductInfoWrapper>
                   <ProductVariantSelector
                     variants={variants}

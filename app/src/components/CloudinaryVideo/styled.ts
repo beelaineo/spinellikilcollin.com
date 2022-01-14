@@ -39,8 +39,33 @@ export const AnimationWrapper = styled.div`
   position: sticky;
   top: 0;
   padding-top: 96px;
-  video {
-    max-width: 100%;
-    object-fit: cover;
-  }
+`
+export const DesktopWrapper = styled.div`
+  ${({ theme }) => css`
+    padding-top: ${theme.navHeight};
+    ${theme.mediaQueries.tablet} {
+      display: none;
+    }
+    video {
+      max-width: 100%;
+      object-fit: cover;
+    }
+  `}
+`
+export const MobileWrapper = styled.div`
+  ${({ theme }) => css`
+    display: none;
+    video {
+      max-width: 100%;
+      object-fit: cover;
+    }
+    ${theme.mediaQueries.tablet} {
+      display: block;
+      margin: 5 0 2;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      margin: 5 -7 2;
+    }
+  `}
 `

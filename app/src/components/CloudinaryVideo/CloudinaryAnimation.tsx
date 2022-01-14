@@ -2,7 +2,7 @@ import * as React from 'react'
 // import Hls from 'hls.js'
 import { CloudinaryVideo as CloudinaryVideoType } from '../../types'
 import { AudioButton, PlaybackButton } from './Controls'
-import { AnimationWrapper } from './styled'
+import { AnimationWrapper, DesktopWrapper, MobileWrapper } from './styled'
 import { useViewportSize } from '../../utils'
 
 const { useRef, useEffect, useState } = React
@@ -62,9 +62,13 @@ const NormalVideo = ({
 interface CloudinaryVideoProps {
   video: CloudinaryVideoType
   enableAudio?: boolean
+  screen: 'desktop' | 'mobile'
 }
 
-export const CloudinaryAnimation = ({ video }: CloudinaryVideoProps) => {
+export const CloudinaryAnimation = ({
+  video,
+  screen,
+}: CloudinaryVideoProps) => {
   if (!video?.videoId) return null
   const [muted, setMuted] = useState(true)
   const [playing, setPlaying] = useState<boolean | undefined>(undefined)
@@ -77,9 +81,8 @@ export const CloudinaryAnimation = ({ video }: CloudinaryVideoProps) => {
   const handleOnPlay = () => {
     setPlaying(true)
   }
-
-  return (
-    <AnimationWrapper>
+  return screen === 'desktop' ? (
+    <DesktopWrapper>
       <NormalVideo
         video={video}
         playing={playing}
@@ -89,6 +92,18 @@ export const CloudinaryAnimation = ({ video }: CloudinaryVideoProps) => {
       />
       {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
       {<PlaybackButton playing={playing} onClick={togglePlaying} />}
-    </AnimationWrapper>
-  )
+    </DesktopWrapper>
+  ) : screen === 'mobile' ? (
+    <MobileWrapper>
+      <NormalVideo
+        video={video}
+        playing={playing}
+        onPlay={handleOnPlay}
+        poster={poster}
+        muted={muted}
+      />
+      {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
+      {<PlaybackButton playing={playing} onClick={togglePlaying} />}
+    </MobileWrapper>
+  ) : null
 }
