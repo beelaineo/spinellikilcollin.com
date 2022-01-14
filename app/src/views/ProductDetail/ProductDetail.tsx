@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { ShopifyProduct, ShopifySourceImage } from '../../types'
+import { Maybe, Scalars, ShopifyProduct, ShopifySourceImage } from '../../types'
 import {
   getVariantTitle,
   parseHTML,
@@ -16,6 +16,7 @@ import {
   useAnalytics,
   CurrentProductProvider,
 } from '../../providers'
+import { CloudinaryAnimation } from '../../components/CloudinaryVideo'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
@@ -42,6 +43,8 @@ import {
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
+import { configureScope } from '@sentry/node'
+import { variantFragment } from '../../graphql'
 
 const { useEffect } = React
 
@@ -120,6 +123,29 @@ export const ProductDetail = ({ product }: Props) => {
   const description = parseHTML(product?.sourceData?.descriptionHtml)
   const selectedOptions = getSelectedOptionValues(product, currentVariant)
   const optionDescriptions = getAdditionalDescriptions(selectedOptions)
+
+  const optionsWithAnimation =
+    selectedOptions.filter((option) => option.animation) || []
+
+  interface VariantAnimation {
+    __typename: 'CloudinaryVideo'
+    videoId?: Maybe<Scalars['String']>
+    enableAudio?: Maybe<Scalars['Boolean']>
+    enableControls?: Maybe<Scalars['Boolean']>
+    subtitle?: Maybe<Scalars['String']>
+  }
+
+  let variantHasAnimation = false
+  const variantAnimation: VariantAnimation = {
+    __typename: 'CloudinaryVideo',
+  }
+
+  if (optionsWithAnimation.length > 0) {
+    variantHasAnimation = true
+    variantAnimation.videoId = optionsWithAnimation[0].animation
+  } else {
+    variantHasAnimation = false
+  }
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
@@ -203,11 +229,15 @@ export const ProductDetail = ({ product }: Props) => {
           <Column>
             <ProductDetails>
               <ProductImagesWrapper>
-                <ProductImages
-                  currentVariant={currentVariant}
-                  product={product}
-                  screen="desktop"
-                />
+                {variantHasAnimation ? (
+                  <CloudinaryAnimation video={variantAnimation} />
+                ) : (
+                  <ProductImages
+                    currentVariant={currentVariant}
+                    product={product}
+                    screen="desktop"
+                  />
+                )}
               </ProductImagesWrapper>
               <InfoWrapper product={product}>
                 <ProductDetailHeader

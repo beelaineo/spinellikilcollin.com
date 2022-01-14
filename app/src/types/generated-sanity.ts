@@ -2558,6 +2558,8 @@ export interface ShopifyProductOptionValue {
   value?: Maybe<Scalars['String']>
   descriptionRaw?: Maybe<Scalars['JSON']>
   swatch?: Maybe<Image>
+  /** Cloudinary Video ID (looping render) */
+  animation?: Maybe<Scalars['String']>
 }
 
 export type ShopifyProductOptionValueFilter = {
@@ -2565,6 +2567,7 @@ export type ShopifyProductOptionValueFilter = {
   _type?: Maybe<StringFilter>
   value?: Maybe<StringFilter>
   swatch?: Maybe<ImageFilter>
+  animation?: Maybe<StringFilter>
 }
 
 export type ShopifyProductOptionValueSorting = {
@@ -2572,6 +2575,7 @@ export type ShopifyProductOptionValueSorting = {
   _type?: Maybe<SortOrder>
   value?: Maybe<SortOrder>
   swatch?: Maybe<ImageSorting>
+  animation?: Maybe<SortOrder>
 }
 
 export type ShopifyProductSorting = {

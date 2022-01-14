@@ -58,6 +58,7 @@ const productQueryInner = `
       swatch {
         ...SanityImageFragment
       }
+      animation
     }
   }
   variants {

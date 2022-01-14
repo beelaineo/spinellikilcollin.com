@@ -31,3 +31,16 @@ export const VideoWrapper = styled.div`
     opacity: 1;
   }
 `
+export const AnimationWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  text-align: left;
+  position: sticky;
+  top: 0;
+  padding-top: 96px;
+  video {
+    max-width: 100%;
+    object-fit: cover;
+  }
+`
