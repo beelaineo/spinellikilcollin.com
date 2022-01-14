@@ -24,6 +24,12 @@ export const productOptionValue = {
       name: 'swatch',
       type: 'image',
     },
+    {
+      title: 'Variant Animation',
+      description: 'Cloudinary Video ID (looping render)',
+      name: 'animation',
+      type: 'string',
+    },
   ],
   preview: {
     select: {
