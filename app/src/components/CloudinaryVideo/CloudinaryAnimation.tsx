@@ -62,7 +62,7 @@ const NormalVideo = ({
 interface CloudinaryVideoProps {
   video: CloudinaryVideoType
   enableAudio?: boolean
-  screen: 'desktop' | 'mobile'
+  screen?: 'desktop' | 'mobile'
 }
 
 export const CloudinaryAnimation = ({
@@ -105,5 +105,15 @@ export const CloudinaryAnimation = ({
       {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
       {<PlaybackButton playing={playing} onClick={togglePlaying} />}
     </MobileWrapper>
-  ) : null
+  ) : (
+    <AnimationWrapper>
+      <NormalVideo
+        video={video}
+        playing={playing}
+        onPlay={handleOnPlay}
+        poster={poster}
+        muted={muted}
+      />
+    </AnimationWrapper>
+  )
 }

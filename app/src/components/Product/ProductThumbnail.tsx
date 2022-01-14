@@ -9,6 +9,7 @@ import {
   ShopifySourceProductVariant,
   ShopifySourceImage,
   Maybe,
+  Scalars,
 } from '../../types'
 import { Heading } from '../Text'
 import { Image } from '../Image'
@@ -25,6 +26,7 @@ import {
 import { useInViewport } from '../../hooks'
 import { useAnalytics } from '../../providers'
 import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
+import { CloudinaryAnimation } from '../CloudinaryVideo'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -38,6 +40,11 @@ interface ProductThumbnailProps {
   preferredVariantMatches?: Maybe<string>[] | null
   imageRatio?: number
   collectionId?: string | null
+}
+
+interface VariantAnimation {
+  __typename: 'CloudinaryVideo'
+  videoId?: Maybe<Scalars['String']>
 }
 
 const uniqueImages = (
@@ -97,6 +104,11 @@ export const ProductThumbnail = ({
   const [currentVariant, setCurrentVariant] = useState<
     ShopifySourceProductVariant | undefined
   >(initialVariant)
+
+  const [variantAnimation, setVariantAnimation] = useState<
+    VariantAnimation | undefined
+  >(undefined)
+
   const handleClick = () => {
     // @ts-ignore
     sendProductClick({ product, variant: currentVariant })
@@ -125,10 +137,25 @@ export const ProductThumbnail = ({
   const onSwatchHover =
     (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
       if (!value.value) return
+
+      console.log('value', value)
+      console.log('option', option)
+
+      if (value?.animation) {
+        const variantAnimation: VariantAnimation = {
+          __typename: 'CloudinaryVideo',
+          videoId: value.animation,
+        }
+        setVariantAnimation(variantAnimation)
+      } else {
+        setVariantAnimation(undefined)
+      }
+
       const currentSelection = {
         name: option.name || 'foo',
         currentValue: value.value,
       }
+
       const newVariant = getVariantBySelectedOption(variants, currentSelection)
       if (newVariant) setCurrentVariant(newVariant)
     }
@@ -146,6 +173,8 @@ export const ProductThumbnail = ({
     return matches
   }
 
+  console.log('currentVariant', currentVariant)
+
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
@@ -160,14 +189,18 @@ export const ProductThumbnail = ({
       <Link href="/products/[productSlug]" as={linkAs}>
         <a>
           <ImageWrapper>
-            <Image
-              image={productImage}
-              ratio={imageRatio || 1}
-              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-              preload
-              altText={altText}
-              preloadImages={allImages}
-            />
+            {variantAnimation ? (
+              <CloudinaryAnimation video={variantAnimation} />
+            ) : (
+              <Image
+                image={productImage}
+                ratio={imageRatio || 1}
+                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                preload
+                altText={altText}
+                preloadImages={allImages}
+              />
+            )}
           </ImageWrapper>
 
           <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>

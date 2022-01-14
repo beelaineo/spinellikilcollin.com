@@ -49,9 +49,6 @@ export const useProductVariant = (
   // : []
   if (!variants.length) throw new Error('The supplied product has no variants')
 
-  console.log('variants', variants)
-  console.log('initialVariant', options)
-  console.log('product options', product?.options)
   /**
    * Private Methods
    */
