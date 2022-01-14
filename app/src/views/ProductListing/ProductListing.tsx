@@ -95,6 +95,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   if (!_id) {
     throw new Error('The collection is missing an _id')
   }
+
+  const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
+  const description = descriptionRaw ? descriptionRaw.slice(1) : null
+
   const [fetchComplete, setFetchComplete] = useState(
     definitely(collection.products).length < PAGE_SIZE,
   )
@@ -192,24 +196,44 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const DescriptionWrapper = styled.div`
     ${({ theme }) => css`
+      display: grid;
+      grid-template-columns: 50% 10% 1fr;
+      grid-column-gap: 3;
+
       padding: 8 11;
 
       ${theme.mediaQueries.tablet} {
         padding: 4 8;
       }
+
       ${theme.mediaQueries.mobile} {
         padding: 4 4;
+        display: flex;
+        flex-direction: column;
       }
     `}
   `
   const TextWrapper = styled.div`
-    position: relative;
-    z-index: 1;
-    max-width: 660px;
-    p {
-      font-weight: 200;
-      font-size: 13px;
-    }
+    ${({ theme }) => css`
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      &:first-of-type p {
+        font-size: 16px;
+      }
+      p {
+        font-weight: 200;
+        font-size: 13px;
+      }
+      ${theme.mediaQueries.mobile} {
+        &:first-of-type p {
+          font-size: 13px;
+        }
+        &:last-of-type {
+          display: none;
+        }
+      }
+    `}
   `
 
   return (
@@ -266,12 +290,17 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   <Loading />
                 </Box>
               ) : null}
-
-              <DescriptionWrapper>
-                <TextWrapper>
-                  <RichText body={descriptionRaw} />
-                </TextWrapper>
-              </DescriptionWrapper>
+              {descriptionPrimary ? (
+                <DescriptionWrapper>
+                  <TextWrapper>
+                    <RichText body={descriptionPrimary} />
+                  </TextWrapper>
+                  <div></div>
+                  <TextWrapper>
+                    <RichText body={description} />
+                  </TextWrapper>
+                </DescriptionWrapper>
+              ) : null}
 
               <div ref={bottomRef} />
             </ProductGridWrapper>
