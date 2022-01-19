@@ -124,6 +124,7 @@ export const ProductImagesWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding-right: 9;
+    padding-top: ${theme.navHeight};
 
     ${theme.mediaQueries.desktop} {
       padding-right: 0;
@@ -185,7 +186,6 @@ export const Thumbnails = styled.div`
 
 export const DesktopWrapper = styled.div`
   ${({ theme }) => css`
-    padding-top: ${theme.navHeight};
     ${theme.mediaQueries.tablet} {
       display: none;
     }

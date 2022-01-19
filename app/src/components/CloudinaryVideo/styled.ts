@@ -42,22 +42,28 @@ export const AnimationWrapper = styled.div`
 `
 export const DesktopWrapper = styled.div`
   ${({ theme }) => css`
-    padding-top: ${theme.navHeight};
+    position: sticky;
+    top: 0;
     ${theme.mediaQueries.tablet} {
       display: none;
     }
     video {
       max-width: 100%;
       object-fit: cover;
+      position: absolute;
+      top: 0;
     }
   `}
 `
 export const MobileWrapper = styled.div`
   ${({ theme }) => css`
     display: none;
+    position: relative;
     video {
       max-width: 100%;
       object-fit: cover;
+      position: absolute;
+      top: 0;
     }
     ${theme.mediaQueries.tablet} {
       display: block;

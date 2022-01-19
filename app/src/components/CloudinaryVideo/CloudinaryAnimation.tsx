@@ -1,19 +1,14 @@
 import * as React from 'react'
-// import Hls from 'hls.js'
 import { CloudinaryVideo as CloudinaryVideoType } from '../../types'
 import { AudioButton, PlaybackButton } from './Controls'
 import { AnimationWrapper, DesktopWrapper, MobileWrapper } from './styled'
 import { useViewportSize } from '../../utils'
+import { RatioImageFill } from '../Image/styled'
 
 const { useRef, useEffect, useState } = React
 const BASE_URL = 'https://res.cloudinary.com/spinelli-kilcollin/video/upload'
 
-// const hlsConfig = {
-//   capLevelToPlayerSize: true,
-//   startLevel: 0,
-// }
-
-const fallbackSizes = [720, 1200, 1600]
+const fallbackSizes = [720, 1200, 1600, 1920]
 
 interface VideoElementProps {
   video: CloudinaryVideoType
@@ -21,6 +16,45 @@ interface VideoElementProps {
   poster: string
   playing: boolean | undefined
   onPlay: () => void
+}
+
+interface RatioPaddingProps {
+  ratio: number
+  canvasFill?: boolean
+  backgroundColor?: string
+}
+
+const RatioPadding = ({
+  ratio,
+  canvasFill,
+  backgroundColor: customBGColor,
+}: RatioPaddingProps) => {
+  const [src, setSrc] = React.useState<string | void>(undefined)
+
+  const backgroundColor = customBGColor || 'transparent'
+
+  React.useEffect(() => {
+    if (!canvasFill) return
+    const canvas = window.document.createElement('canvas')
+    canvas.setAttribute('width', '1600')
+    canvas.setAttribute('height', `${1600 * ratio}`)
+    const ctx = canvas.getContext('2d')
+
+    if (!ctx) return
+    ctx.beginPath()
+    ctx.rect(0, 0, 1600, 1600 * ratio)
+    ctx.fillStyle = backgroundColor || 'rgba(220, 220, 220, 0)'
+    ctx.fill()
+    const srcData = canvas.toDataURL('image/png')
+    setSrc(srcData)
+  }, [ratio, canvasFill, backgroundColor])
+
+  const paddingBottom = src ? 0 : `${ratio * 100}%`
+  return (
+    <RatioImageFill style={{ paddingBottom, backgroundColor }} aria-hidden>
+      {src ? <img src={src} /> : null}
+    </RatioImageFill>
+  )
 }
 
 const NormalVideo = ({
@@ -42,7 +76,7 @@ const NormalVideo = ({
   }, [videoRef.current, playing])
 
   const bestSize =
-    fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
+    fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[3]
   const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize}/${video.videoId}.mp4`
 
   return (
@@ -55,6 +89,7 @@ const NormalVideo = ({
       loop
       playsInline
       src={src}
+      style={{ height: '100%' }}
     />
   )
 }
@@ -73,7 +108,12 @@ export const CloudinaryAnimation = ({
   const [muted, setMuted] = useState(true)
   const [playing, setPlaying] = useState<boolean | undefined>(undefined)
   const { enableAudio, videoId } = video
-  const poster = `${BASE_URL}/c_scale,w_1200/${videoId}.jpeg`
+
+  const { width: viewportWidth } = useViewportSize()
+  const bestSize =
+    fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[3]
+
+  const poster = `${BASE_URL}/c_scale,w_${bestSize}/q_100/${videoId}`
 
   const toggleAudio = () => setMuted(!muted)
   const togglePlaying = () => setPlaying(!playing)
@@ -83,6 +123,7 @@ export const CloudinaryAnimation = ({
   }
   return screen === 'desktop' ? (
     <DesktopWrapper>
+      <RatioPadding canvasFill={false} ratio={1} />
       <NormalVideo
         video={video}
         playing={playing}
@@ -95,6 +136,7 @@ export const CloudinaryAnimation = ({
     </DesktopWrapper>
   ) : screen === 'mobile' ? (
     <MobileWrapper>
+      <RatioPadding canvasFill={false} ratio={1} />
       <NormalVideo
         video={video}
         playing={playing}
