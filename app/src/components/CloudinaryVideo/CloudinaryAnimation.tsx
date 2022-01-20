@@ -15,7 +15,9 @@ interface VideoElementProps {
   muted: boolean
   poster: string
   playing: boolean | undefined
+  suspended: boolean | undefined
   onPlay: () => void
+  onSuspend: () => void
 }
 
 interface RatioPaddingProps {
@@ -59,10 +61,12 @@ const RatioPadding = ({
 
 const NormalVideo = ({
   playing,
+  suspended,
   poster,
   muted,
   video,
   onPlay,
+  onSuspend,
 }: VideoElementProps) => {
   const { width: viewportWidth } = useViewportSize()
 
@@ -73,18 +77,18 @@ const NormalVideo = ({
     const paused = videoRef.current.paused
     if (paused && playing === true) videoRef.current.play()
     if (!paused && playing === false) videoRef.current.pause()
-  }, [videoRef.current, playing])
+  }, [videoRef.current, playing, suspended])
 
   const bestSize =
     fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[3]
-  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize}/${video.videoId}.mp4`
+  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},q_100,cs_copy/${video.videoId}`
 
   return (
     <video
       ref={videoRef}
       onPlay={onPlay}
+      onSuspend={onSuspend}
       poster={poster}
-      autoPlay
       muted={muted}
       loop
       playsInline
@@ -107,6 +111,7 @@ export const CloudinaryAnimation = ({
   if (!video?.videoId) return null
   const [muted, setMuted] = useState(true)
   const [playing, setPlaying] = useState<boolean | undefined>(undefined)
+  const [suspended, setSuspended] = useState<boolean | undefined>(undefined)
   const { enableAudio, videoId } = video
 
   const { width: viewportWidth } = useViewportSize()
@@ -120,14 +125,23 @@ export const CloudinaryAnimation = ({
 
   const handleOnPlay = () => {
     setPlaying(true)
+    setSuspended(false)
   }
+
+  const handleOnSuspend = () => {
+    setPlaying(false)
+    setSuspended(true)
+  }
+
   return screen === 'desktop' ? (
     <DesktopWrapper>
       <RatioPadding canvasFill={false} ratio={1} />
       <NormalVideo
         video={video}
         playing={playing}
+        suspended={suspended}
         onPlay={handleOnPlay}
+        onSuspend={handleOnSuspend}
         poster={poster}
         muted={muted}
       />
@@ -140,7 +154,9 @@ export const CloudinaryAnimation = ({
       <NormalVideo
         video={video}
         playing={playing}
+        suspended={suspended}
         onPlay={handleOnPlay}
+        onSuspend={handleOnSuspend}
         poster={poster}
         muted={muted}
       />
@@ -152,7 +168,9 @@ export const CloudinaryAnimation = ({
       <NormalVideo
         video={video}
         playing={playing}
+        suspended={suspended}
         onPlay={handleOnPlay}
+        onSuspend={handleOnSuspend}
         poster={poster}
         muted={muted}
       />

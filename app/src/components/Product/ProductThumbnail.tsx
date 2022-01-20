@@ -165,6 +165,7 @@ export const ProductThumbnail = ({
     value: ShopifyProductOptionValue,
   ): boolean => {
     if (!currentVariant) return false
+
     const matches = optionMatchesVariant(
       option.name || 'foo',
       value,

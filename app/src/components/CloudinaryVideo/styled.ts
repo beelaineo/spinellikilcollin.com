@@ -27,6 +27,10 @@ export const PlaybackButtonWrapper = styled(ButtonWrapper)`
 export const VideoWrapper = styled.div`
   position: relative;
 
+  video::-webkit-media-controls {
+    opacity: 0;
+  }
+
   &:hover ${ButtonWrapper} {
     opacity: 1;
   }
@@ -38,6 +42,9 @@ export const AnimationWrapper = styled.div`
   video {
     max-width: 100%;
     object-fit: cover;
+    &::-webkit-media-controls {
+      opacity: 0;
+    }
   }
 `
 export const DesktopWrapper = styled.div`
@@ -52,6 +59,9 @@ export const DesktopWrapper = styled.div`
       object-fit: cover;
       position: absolute;
       top: 0;
+      &::-webkit-media-controls {
+        opacity: 0;
+      }
     }
   `}
 `
@@ -64,6 +74,9 @@ export const MobileWrapper = styled.div`
       object-fit: cover;
       position: absolute;
       top: 0;
+      &::-webkit-media-controls {
+        opacity: 0;
+      }
     }
     ${theme.mediaQueries.tablet} {
       display: block;
