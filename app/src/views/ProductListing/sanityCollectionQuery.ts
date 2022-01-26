@@ -54,6 +54,13 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       ...,
     },
     "bodyRaw": body,
+    cta[]{
+      ...,
+      link {
+        ...,
+        document->
+      }
+    },
     ...,
   },
   "products": products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] | order(${getSortString(
