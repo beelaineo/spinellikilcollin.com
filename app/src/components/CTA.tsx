@@ -23,6 +23,7 @@ const Wrapper = styled.a`
   display: inline-block;
   text-decoration: none;
   font-size: 5;
+  cursor: pointer;
 `
 
 const ActionButton = styled.button`
