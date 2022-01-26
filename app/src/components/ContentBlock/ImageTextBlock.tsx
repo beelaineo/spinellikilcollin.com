@@ -12,8 +12,6 @@ import {
 } from '../../theme/utils'
 import { VideoWrapper, CloudinaryVideo } from '../CloudinaryVideo'
 
-const RichTextWrapper = (props: any) => <Heading level={3} {...props} />
-
 interface WithLayout {
   layout?: string | null
 }
@@ -65,6 +63,7 @@ const ImagesWrapper = styled.div`
 
 const CtaWrapper = styled.div`
   display: inline-block;
+  padding-top: 3;
   padding-bottom: 1;
   border-bottom: 1px solid;
 `
@@ -91,11 +90,12 @@ const TextWrapper = styled.div<TextWrapperProps>`
     h2,
     h3,
     h4,
-    h5 {
+    h5,
+    p {
       margin: 0;
     }
 
-    ${theme.mediaQueries.tablet} {
+    ${theme.mediaQueries.mobile} {
       padding: 4;
     }
   `}
@@ -137,7 +137,7 @@ export const ImageTextBlock = ({
         {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
         <TextWrapper textPosition={textPosition}>
           <Box color={textColor}>
-            <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
+            <RichText body={content.bodyRaw} />
             {ctaText ? (
               <CtaWrapper>
                 <Heading level={4} my={0} fontStyle="italic">
