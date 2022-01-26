@@ -27,7 +27,6 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     grid-column: span 2;
     overflow: hidden;
     background-color: ${getBackgroundColor(hero.backgroundColor)};
-
     video {
       display: block;
     }
@@ -43,6 +42,7 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
 
 interface HeroTextProps {
   theme: DefaultTheme
+  hero: Hero
   textPosition?: string | null | undefined
   textColor?: string | null
   textPositionMobile?: string | null
@@ -53,6 +53,7 @@ interface HeroTextProps {
 const HeroText = styled.div`
   ${({
     theme,
+    hero,
     textPosition,
     textColor,
     textPositionMobile,
@@ -80,6 +81,19 @@ const HeroText = styled.div`
       > * {
         pointer-events: auto;
       }
+
+      ${!hero.cta
+        ? `
+      p:first-child, p:last-child, h1:first-child, h1:last-child, h2:first-child, h2:last-child, h3:first-child, h3:last-child h4:first-child, h4:last-child, h5:first-child, h5:last-child, h6:first-child, h6:last-child {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        line-height: 1;
+        span {
+          line-height: 1;
+        }
+      }
+    `
+        : ''}
     }
 
     ${theme.mediaQueries.tablet} {
@@ -109,13 +123,11 @@ const HeroText = styled.div`
     ${theme.mediaQueries.mobile} {
       justify-content: ${getFlexJustification(textPositionMobile)};
       align-items: ${getFlexAlignment(textPositionMobile)};
-      text-align: ${getTextAlignment(textPositionMobile)};
+      text-align: ${textPositionMobile
+        ? getTextAlignment(textPositionMobile)
+        : 'center'};
       color: ${textColorMobile ? getColor(textColorMobile) : 'inherit'};
       padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;
-
-      .text-container {
-        ${textContainer == 'full' ? 'padding: ;' : 'padding: inherit'};
-      }
     }
   `}
 `
@@ -192,6 +204,7 @@ export const HeroBlock = React.forwardRef(
             textPositionMobile={textPositionMobile}
             textColorMobile={textColorMobile}
             textContainer={textContainer}
+            hero={hero}
           >
             <div className="text-container">
               <RichText body={bodyRaw} />
