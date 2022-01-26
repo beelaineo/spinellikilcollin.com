@@ -16,7 +16,32 @@ const TextWrapper = styled.div`
   position: relative;
   z-index: 1;
   max-width: 660px;
-  margin: 0 auto;
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  h5:first-child,
+  h6:first-child,
+  p:first-child {
+    margin-top: 0px;
+    line-height: 1;
+    span {
+      line-height: 1;
+    }
+  }
+  h1:last-child,
+  h2:last-child,
+  h3:last-child,
+  h4:last-child,
+  h5:last-child,
+  h6:last-child,
+  p:last-child {
+    margin-bottom: 0px;
+    line-height: 1;
+    span {
+      line-height: 1;
+    }
+  }
 `
 
 type WrapperProps = Pick<
@@ -51,7 +76,7 @@ const Padding = styled.div<WithFormat>`
 `
 
 const Wrapper = styled.div<WrapperProps>`
-  ${({ backgroundColor, textPosition, textColor }) => css`
+  ${({ backgroundColor, textPosition, textColor, theme }) => css`
     position: absolute;
     width: 100%;
     height: 100%;
@@ -63,7 +88,7 @@ const Wrapper = styled.div<WrapperProps>`
     align-items: ${getFlexAlignment(textPosition)};
     justify-content: ${getFlexJustification(textPosition)};
     text-align: ${getTextAlignment(textPosition)};
-    padding: 3 6;
+    padding: 6;
     ${VideoWrapper},
     ${ImageWrapper},
     img,
@@ -75,6 +100,9 @@ const Wrapper = styled.div<WrapperProps>`
       height: 100%;
       top: 0;
       left: 0;
+    }
+    ${theme.mediaQueries.mobile} {
+      padding: 4;
     }
   `}
 `

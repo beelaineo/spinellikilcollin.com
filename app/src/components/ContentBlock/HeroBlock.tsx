@@ -84,15 +84,33 @@ const HeroText = styled.div`
 
       ${!hero.cta
         ? `
-      p:first-child, p:last-child, h1:first-child, h1:last-child, h2:first-child, h2:last-child, h3:first-child, h3:last-child h4:first-child, h4:last-child, h5:first-child, h5:last-child, h6:first-child, h6:last-child {
-        margin-top: 0px;
-        margin-bottom: 0px;
-        line-height: 1;
-        span {
+        h1:first-child,
+        h2:first-child,
+        h3:first-child,
+        h4:first-child,
+        h5:first-child,
+        h6:first-child,
+        p:first-child {
+          margin-top: 0px;
           line-height: 1;
+          span {
+            line-height: 1;
+          }
         }
-      }
-    `
+        h1:last-child,
+        h2:last-child,
+        h3:last-child,
+        h4:last-child,
+        h5:last-child,
+        h6:last-child,
+        p:last-child {
+          margin-bottom: 0px;
+          line-height: 1;
+          span {
+            line-height: 1;
+          }
+        }
+      `
         : ''}
     }
 
