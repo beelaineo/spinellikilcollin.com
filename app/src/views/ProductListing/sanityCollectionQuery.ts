@@ -119,6 +119,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     _key,
     format,
     body,
+    "body_mobileRaw": body_mobile,
     ...
   },
   "descriptionRaw": description,

@@ -231,7 +231,9 @@ export const HeroBlock = React.forwardRef(
             hero={hero}
           >
             <div className="text-container">
-              <RichText body={isMobile ? body_mobileRaw : bodyRaw} />
+              <RichText
+                body={isMobile && body_mobileRaw ? body_mobileRaw : bodyRaw}
+              />
               {cta ? <CTA cta={cta} /> : null}
             </div>
           </HeroText>

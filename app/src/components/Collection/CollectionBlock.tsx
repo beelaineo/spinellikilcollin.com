@@ -11,6 +11,8 @@ import {
   getFlexAlignment,
   getFlexJustification,
 } from '../../theme/utils'
+import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
 
 const TextWrapper = styled.div`
   position: relative;
@@ -118,6 +120,7 @@ export const CollectionBlock = ({
   const {
     body,
     bodyRaw,
+    body_mobileRaw,
     textPosition,
     textColor,
     backgroundImage,
@@ -128,6 +131,11 @@ export const CollectionBlock = ({
     format === 'wide'
       ? '(max-width: 1000px) 120vw, 75vw'
       : '(max-width: 600px) 120vw, (max-width: 780px) 120vw, (max-width: 1000px) 50vw, 40vw'
+
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
+
   return (
     <Wrapper
       backgroundColor={backgroundColor}
@@ -136,7 +144,10 @@ export const CollectionBlock = ({
     >
       {body || bodyRaw ? (
         <TextWrapper>
-          <RichText weight={2} body={body || bodyRaw} />
+          <RichText
+            weight={2}
+            body={isMobile && body_mobileRaw ? body_mobileRaw : body || bodyRaw}
+          />
         </TextWrapper>
       ) : null}
       <Padding format={format} />
