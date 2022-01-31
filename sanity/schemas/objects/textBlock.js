@@ -14,6 +14,12 @@ export const textBlock = {
       description: 'Tip: Use shift+return for a soft-wrapping line',
     },
     {
+      name: 'body_mobile',
+      title: 'Text (Mobile)',
+      description: 'Text substitute shown on mobile devices (optional)',
+      type: 'richText',
+    },
+    {
       name: 'textColor',
       title: 'text color',
       type: 'colorPicker',

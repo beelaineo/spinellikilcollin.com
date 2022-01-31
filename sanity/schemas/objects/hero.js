@@ -52,7 +52,14 @@ export const hero = {
       type: 'richText',
     },
     {
+      name: 'body_mobile',
+      title: 'Text (Mobile)',
+      description: 'Text substitute shown on mobile devices (optional)',
+      type: 'richText',
+    },
+    {
       name: 'cta',
+      title: 'CTA',
       type: 'array',
       of: [{ type: 'cta' }],
       validation: (Rule) => Rule.max(1),
