@@ -15,6 +15,7 @@ import { CloudinaryVideo } from '../CloudinaryVideo'
 import { CTA } from '../CTA'
 import { definitely } from '../../utils'
 import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
 
 interface HeroWrapperProps {
   hero: Hero
@@ -201,7 +202,10 @@ export const HeroBlock = React.forwardRef(
       cta: ctas,
     } = hero
     const cta = definitely(ctas).length ? definitely(ctas)[0] : null
-    const isWide = useMedia({ minWidth: '1000px' })
+    const isMobile = useMedia({
+      maxWidth: `${theme.breakpoints?.md || '650'}px`,
+    })
+
     return (
       <HeroWrapper hero={hero} ref={ref}>
         <DocumentLink document={heroLink?.document ?? undefined}>
@@ -227,7 +231,7 @@ export const HeroBlock = React.forwardRef(
             hero={hero}
           >
             <div className="text-container">
-              <RichText body={isWide ? bodyRaw : body_mobileRaw} />
+              <RichText body={isMobile ? body_mobileRaw : bodyRaw} />
               {cta ? <CTA cta={cta} /> : null}
             </div>
           </HeroText>
