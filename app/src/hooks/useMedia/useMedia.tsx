@@ -17,6 +17,7 @@ export const mockMediaQueryList: MediaQueryList = {
   removeListener: noop,
   addEventListener: noop,
   removeEventListener: noop,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dispatchEvent: (_: Event) => true,
 }
 

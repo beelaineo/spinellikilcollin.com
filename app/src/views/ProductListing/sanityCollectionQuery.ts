@@ -54,6 +54,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       ...,
     },
     "bodyRaw": body,
+    "body_mobileRaw": body_mobile,
     cta[]{
       ...,
       link {
