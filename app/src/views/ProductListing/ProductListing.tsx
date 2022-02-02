@@ -46,6 +46,7 @@ type PaginationArgs = {
   handle: string
   productStart: number
   productEnd: number
+  resultsSize: number
 }
 
 const PAGE_SIZE = 12
@@ -133,6 +134,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     const productEnd = reset ? PAGE_SIZE : productResults.length + PAGE_SIZE
     const sortBy = newSort || sort
 
+    const resultsSize = definitely(productResults).length
+
     const query =
       (sortBy && sortBy !== Sort.Default) || currentFilter
         ? buildFilterQuery(currentFilter || [], sortBy)
@@ -142,6 +145,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       handle,
       productStart,
       productEnd,
+      resultsSize,
       collectionId: _id,
     })
 
@@ -253,6 +257,16 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             filters={filters}
           />
         ) : null}
+        <Box>
+          <Heading
+            level={4}
+            textAlign="center"
+            fontStyle="italic"
+            color="body.7"
+          >
+            Results: {productResults.length}
+          </Heading>
+        </Box>
         {items.length === 0 ? (
           <NoResultsWrapper>
             <Heading level={3} textAlign="center" fontStyle="italic">
