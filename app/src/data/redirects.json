@@ -292,10 +292,6 @@
     "to": "/"
   },
   {
-    "from": "/products/libra",
-    "to": "/products/libra"
-  },
-  {
     "from": "/products/libra-noir",
     "to": "/products/libra?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
   },
