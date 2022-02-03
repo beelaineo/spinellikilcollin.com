@@ -2,6 +2,8 @@ import * as React from 'react'
 import Link from 'next/link'
 import styled from '@xstyled/styled-components'
 import { Cta } from '../types'
+import { Heading } from './Text'
+
 import { useStatefulRef, getPageLinkUrl } from '../utils'
 import { useBambuser, useModal } from '../providers'
 
@@ -17,12 +19,12 @@ const Outer = styled.div`
 `
 
 const Wrapper = styled.a`
-  padding: 3;
-  border: 1px solid;
   color: inherit;
-  display: inline-block;
   text-decoration: none;
-  font-size: 5;
+  padding-top: 3;
+  padding-bottom: 0px;
+  border-bottom: 1px solid;
+  display: inline-block;
   cursor: pointer;
 `
 
@@ -106,7 +108,11 @@ const ActionCTA = ({ cta }: CTAProps) => {
   return (
     <Outer>
       <ActionButton ref={buttonRef} onClick={handleClick}>
-        <Wrapper as="div">{label}</Wrapper>
+        <Wrapper as="div">
+          <Heading level={4} my={0} fontStyle="italic">
+            {label}
+          </Heading>
+        </Wrapper>
       </ActionButton>
     </Outer>
   )
@@ -126,7 +132,11 @@ export const CTA = ({ cta }: CTAProps) => {
   return (
     <Outer>
       <Link as={as} href={href}>
-        <Wrapper>{label}</Wrapper>
+        <Wrapper>
+          <Heading level={4} my={0} fontStyle="italic">
+            {label}
+          </Heading>
+        </Wrapper>
       </Link>
     </Outer>
   )

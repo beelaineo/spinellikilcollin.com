@@ -66,7 +66,7 @@ const ImagesWrapper = styled.div`
 const CtaWrapper = styled.div`
   display: inline-block;
   padding-top: 3;
-  padding-bottom: 1;
+  padding-bottom: 0px;
   border-bottom: 1px solid;
 `
 
