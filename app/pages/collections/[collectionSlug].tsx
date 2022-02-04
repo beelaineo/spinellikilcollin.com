@@ -146,6 +146,8 @@ const Collection = ({ collection }: CollectionPageProps) => {
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
   const { params } = ctx
+  console.log('params', params)
+
   if (!params?.collectionSlug)
     return { props: { products: undefined, collection: undefined } }
   const handle = getParam(params.collectionSlug)

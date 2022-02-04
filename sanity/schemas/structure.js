@@ -2,7 +2,7 @@ import S from '@sanity/desk-tool/structure-builder'
 import { GiDiamondRing } from 'react-icons/gi'
 import { MdSettings, MdHome, MdInfoOutline, MdLocalPhone } from 'react-icons/md'
 import { AiOutlineTeam, AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
-import { IoDocumentsOutline } from 'react-icons/io'
+import { IoFilter } from 'react-icons/io'
 import { ImFilesEmpty } from 'react-icons/im'
 import { BsTools, BsBookHalf } from 'react-icons/bs'
 import { FaPencilAlt } from 'react-icons/fa'
@@ -65,7 +65,16 @@ export default () =>
         .child(
           S.editor().id('menu').schemaType('menu').documentId('menu-settings'),
         ),
-
+      // Filter Settings
+      S.listItem()
+        .title('Filter')
+        .icon(IoFilter)
+        .child(
+          S.editor()
+            .id('filterMenu')
+            .schemaType('filterMenu')
+            .documentId('filter-settings'),
+        ),
       // Products
       S.listItem()
         .id('products')
