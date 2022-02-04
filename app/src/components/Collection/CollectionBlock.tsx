@@ -27,6 +27,14 @@ const TextWrapper = styled.div`
   h6,
   p {
     margin-bottom: 0px;
+    line-height: 1.3em;
+    span {
+      line-height: 1.3em;
+    }
+  }
+
+  h1,
+  h2 {
     line-height: 1.2em;
     span {
       line-height: 1.2em;

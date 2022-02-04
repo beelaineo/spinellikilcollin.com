@@ -95,7 +95,15 @@ const TextWrapper = styled.div<TextWrapperProps>`
     h5,
     h6,
     p {
-      margin: 0;
+      margin-bottom: 0px;
+      line-height: 1.3em;
+      span {
+        line-height: 1.3em;
+      }
+    }
+
+    h1,
+    h2 {
       line-height: 1.2em;
       span {
         line-height: 1.2em;
