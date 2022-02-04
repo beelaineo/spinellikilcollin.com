@@ -19,7 +19,7 @@ export default function resolveProductionUrl(document) {
       return `https://spinellikilcollin.com/about?preview=${readToken}`
       break
     case 'page':
-      return `https://spinellikilcollin.com/about/${document.handle}?preview=${readToken}`
+      return `https://spinellikilcollin.com/about/${document.slug.current}?preview=${readToken}`
       break
     case 'contact':
       return `https://spinellikilcollin.com/about/contact?preview=${readToken}`

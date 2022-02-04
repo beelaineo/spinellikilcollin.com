@@ -33,6 +33,12 @@ export const collectionBlock = {
       type: 'richText',
     },
     {
+      name: 'body_mobile',
+      title: 'Text (Mobile)',
+      description: 'Text substitute shown on mobile devices (optional)',
+      type: 'richText',
+    },
+    {
       name: 'textPosition',
       title: 'Text position',
       type: 'position',

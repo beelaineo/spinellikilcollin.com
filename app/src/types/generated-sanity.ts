@@ -221,6 +221,7 @@ export interface CollectionBlock {
   position?: Maybe<Scalars['Float']>
   format?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
+  body_mobileRaw?: Maybe<Scalars['JSON']>
   textPosition?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
   cloudinaryVideo?: Maybe<CloudinaryVideo>
@@ -790,6 +791,7 @@ export interface Hero {
   _type?: Maybe<Scalars['String']>
   heroLink?: Maybe<InternalLink>
   bodyRaw?: Maybe<Scalars['JSON']>
+  body_mobileRaw?: Maybe<Scalars['JSON']>
   cta?: Maybe<Array<Maybe<Cta>>>
   aspectRatio?: Maybe<Scalars['Float']>
   /** Limit the size of the text container. (Default: Full Width) */
@@ -925,6 +927,7 @@ export interface ImageTextBlock {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
+  body_mobileRaw?: Maybe<Scalars['JSON']>
   ctaText?: Maybe<Scalars['String']>
   link?: Maybe<Array<Maybe<ExternalLinkOrInternalLinkOrPdfLink>>>
   textPosition?: Maybe<Scalars['String']>
@@ -2558,6 +2561,8 @@ export interface ShopifyProductOptionValue {
   value?: Maybe<Scalars['String']>
   descriptionRaw?: Maybe<Scalars['JSON']>
   swatch?: Maybe<Image>
+  /** Cloudinary Video ID (looping render) */
+  animation?: Maybe<Scalars['String']>
 }
 
 export type ShopifyProductOptionValueFilter = {
@@ -2565,6 +2570,7 @@ export type ShopifyProductOptionValueFilter = {
   _type?: Maybe<StringFilter>
   value?: Maybe<StringFilter>
   swatch?: Maybe<ImageFilter>
+  animation?: Maybe<StringFilter>
 }
 
 export type ShopifyProductOptionValueSorting = {
@@ -2572,6 +2578,7 @@ export type ShopifyProductOptionValueSorting = {
   _type?: Maybe<SortOrder>
   value?: Maybe<SortOrder>
   swatch?: Maybe<ImageSorting>
+  animation?: Maybe<SortOrder>
 }
 
 export type ShopifyProductSorting = {
@@ -3427,6 +3434,7 @@ export interface TextBlock {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
+  body_mobileRaw?: Maybe<Scalars['JSON']>
   textColor?: Maybe<Scalars['String']>
   alignment?: Maybe<Scalars['String']>
   layout?: Maybe<Scalars['String']>
