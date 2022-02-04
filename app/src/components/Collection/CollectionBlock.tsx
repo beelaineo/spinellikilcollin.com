@@ -18,6 +18,17 @@ const TextWrapper = styled.div`
   position: relative;
   z-index: 1;
   max-width: 660px;
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    margin-bottom: 0px;
+  }
+
   h1:first-child,
   h2:first-child,
   h3:first-child,
@@ -26,10 +37,6 @@ const TextWrapper = styled.div`
   h6:first-child,
   p:first-child {
     margin-top: 0px;
-    line-height: 1;
-    span {
-      line-height: 1;
-    }
   }
   h1:last-child,
   h2:last-child,
@@ -39,10 +46,6 @@ const TextWrapper = styled.div`
   h6:last-child,
   p:last-child {
     margin-bottom: 0px;
-    line-height: 1;
-    span {
-      line-height: 1;
-    }
   }
 `
 
