@@ -96,6 +96,10 @@ const TextWrapper = styled.div<TextWrapperProps>`
     h6,
     p {
       margin: 0;
+      line-height: 1.2em;
+      span {
+        line-height: 1.2em;
+      }
     }
 
     ${theme.mediaQueries.mobile} {
