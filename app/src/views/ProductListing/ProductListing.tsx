@@ -207,7 +207,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       }
 
       ${theme.mediaQueries.mobile} {
-        padding: 4 4;
+        padding: 4 5;
         display: flex;
         flex-direction: column;
       }
