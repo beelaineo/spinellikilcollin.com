@@ -3,9 +3,25 @@ import { Button } from '../Button'
 
 export const Wrapper = styled.div`
   padding: 0;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+`
+
+export const LegacyWrapper = styled.div`
+  padding: 0;
   background-color: white;
   width: 100%;
   position: relative;
+`
+
+export const SortWrapper = styled.div`
+  padding: 4;
+  width: 100%;
+  position: relative;
+  flex: 0;
+  min-width: 124px;
 `
 
 export const Header = styled.div`
@@ -60,8 +76,26 @@ export const OpenButton = styled(Button)`
     }
   `}
 `
-
 export const FilterSets = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    padding: 6 0;
+    margin: 0 7;
+    flex: 1;
+
+    ${theme.mediaQueries.tablet} {
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 2 0;
+      display: block;
+      border-bottom: none;
+      margin: 0 4;
+    }
+  `}
+`
+
+export const LegacyFilterSets = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -91,8 +125,15 @@ interface WithSpan {
 
 export const HeadingWrapper = styled.div`
   ${({ theme }) => css`
+    padding: 2 4;
+    min-width: 124px;
+    margin: 0 2;
+    text-align: center;
+    border: 0.5px solid ${theme.colors.grays[5]};
+    border-radius: 2em;
+    margin-bottom: 4;
+    cursor: pointer;
     ${theme.mediaQueries.mobile} {
-      display: none;
     }
   `}
 `
@@ -114,8 +155,10 @@ export const ButtonsWrapper = styled.div`
 `
 
 export const PriceRangeFilterWrapper = styled.div`
-  min-height: 30px;
-  grid-column: span 2;
+  margin: 0 2;
+  label {
+    margin-bottom: 0;
+  }
 `
 
 export const Slider = styled.div`

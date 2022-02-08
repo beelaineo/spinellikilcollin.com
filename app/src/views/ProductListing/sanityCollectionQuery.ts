@@ -114,6 +114,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       },
     },
   }[$productStart..$productEnd],
+  "productsCount": count( products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] ),
   preferredVariantMatches,
   collectionBlocks[]{
     _key,

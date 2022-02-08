@@ -2,7 +2,10 @@ import * as React from 'react'
 import { Filter, FilterMatch, FilterSet as FilterSetType } from '../../types'
 import { Heading } from '../Text'
 import { definitely } from '../../utils'
-import { CheckboxElement, CheckboxWrapper } from '../Forms/Fields/Checkbox'
+import {
+  FilterCheckboxElement,
+  FilterCheckboxWrapper,
+} from '../Forms/Fields/FilterCheckbox'
 import { Label } from '../Forms/Fields/styled'
 import { FilterSetState } from './reducer'
 import { HeadingWrapper, FilterSetWrapper } from './styled'
@@ -22,8 +25,8 @@ const FilterCheckbox = ({
 }: FilterCheckboxProps) => {
   const { label } = filter
   return (
-    <CheckboxWrapper>
-      <CheckboxElement
+    <FilterCheckboxWrapper>
+      <FilterCheckboxElement
         id={matchKey}
         name={matchKey}
         type="checkbox"
@@ -33,7 +36,7 @@ const FilterCheckbox = ({
       <Label color="body.9" htmlFor={matchKey}>
         {label}
       </Label>
-    </CheckboxWrapper>
+    </FilterCheckboxWrapper>
   )
 }
 
@@ -43,6 +46,7 @@ interface FilterSetProps {
   toggleMatch: (matchKey: string) => () => void
   resetSet: () => void
   setKey: string
+  onSetChange: () => void
 }
 
 interface State {
@@ -55,6 +59,7 @@ export const FilterSet = ({
   toggleMatch,
   resetSet,
   setKey,
+  onSetChange,
 }: FilterSetProps) => {
   if (!filterSetState) {
     throw new Error('No filterSetState was supplied')
@@ -72,7 +77,7 @@ export const FilterSet = ({
   return (
     <FilterSetWrapper>
       <HeadingWrapper>
-        <Heading textTransform="uppercase" mt={0} mb={3} level={5}>
+        <Heading textTransform="uppercase" mt={0} mb={0} level={5}>
           {heading}
         </Heading>
       </HeadingWrapper>

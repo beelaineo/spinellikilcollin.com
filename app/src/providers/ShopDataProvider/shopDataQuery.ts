@@ -85,6 +85,14 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           ...PriceRangeFilterFragment
         }
       }
+      newDefaultFilter {
+        ... on FilterSet {
+          ...FilterSetFragment
+        }
+        ... on PriceRangeFilter {
+          ...PriceRangeFilterFragment
+        }
+      }
     }
     ProductInfoSettings(id: "productInfoSettings") {
       _id

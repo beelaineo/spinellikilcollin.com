@@ -40,13 +40,13 @@ const FilterMatchPreview = ({ value }) => {
     return <h2>(empty)</h2>
   }
   const titlePrefix =
-    type === 'tag'
+    type === 'By Tag'
       ? 'Product tags include'
-      : type === 'type'
+      : type === 'By Product Type'
       ? 'Product type equals'
-      : type === 'option'
+      : type === 'By Option Name'
       ? 'Product options include'
-      : type === 'title'
+      : type === 'By Product Title'
       ? 'Product title includes'
       : null
   if (!titlePrefix) {
