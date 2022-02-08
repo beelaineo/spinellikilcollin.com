@@ -37,7 +37,7 @@ interface FilterProps {
   filters: FilterType[] | null
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
-  productsCount?: number
+  productsCount: number
 }
 
 const getCurrentFilters = (
@@ -101,7 +101,6 @@ export const Filter = ({
   if (!filters || filterSetStates.length === 0) return null
 
   const handleSubmit = () => {
-    console.log('handleSubmit')
     const filterMatches = getCurrentFilters(filters, filterSetStates)
     applyFilters(filterMatches)
   }

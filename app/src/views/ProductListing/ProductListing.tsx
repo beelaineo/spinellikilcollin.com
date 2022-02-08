@@ -32,7 +32,7 @@ import {
 const { useRef, useEffect, useState } = React
 
 interface ProductListingProps {
-  collection: ShopifyCollection & { productsCount?: number }
+  collection: ShopifyCollection & { productsCount: number }
 }
 
 type Item = ShopifyProduct | CollectionBlockType
@@ -356,8 +356,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     definitely(collection.products).length < PAGE_SIZE,
   )
 
-  const productsCount = collection.productsCount
-  console.log('collection', collection)
+  const [productsCount, setProductsCount] = useState(0)
+
+  useEffect(() => {
+    setProductsCount(collection.productsCount)
+  }, [collection])
 
   const applySort = async (sort: Sort) => {
     fetchMore(true, sort)
@@ -430,7 +433,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       return
     }
     setCurrentFilter(filters)
+    console.log('applyFilters', filters)
   }
+
+  useEffect(() => {
+    setProductsCount(collection.productsCount)
+  }, [applyFilters])
 
   if (!handle) throw new Error('No handle was fetched')
   const firstProduct = definitely(collection.products)[0]
