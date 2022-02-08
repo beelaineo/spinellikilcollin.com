@@ -46,7 +46,6 @@ interface FilterSetProps {
   toggleMatch: (matchKey: string) => () => void
   resetSet: () => void
   setKey: string
-  onSetChange: () => void
 }
 
 interface State {
@@ -59,7 +58,6 @@ export const FilterSet = ({
   toggleMatch,
   resetSet,
   setKey,
-  onSetChange,
 }: FilterSetProps) => {
   if (!filterSetState) {
     throw new Error('No filterSetState was supplied')

@@ -101,6 +101,7 @@ export const Filter = ({
   if (!filters || filterSetStates.length === 0) return null
 
   const handleSubmit = () => {
+    console.log('handleSubmit')
     const filterMatches = getCurrentFilters(filters, filterSetStates)
     applyFilters(filterMatches)
   }
@@ -109,6 +110,11 @@ export const Filter = ({
     resetAll()
     applyFilters(null)
   }
+
+  useEffect(() => {
+    const filterMatches = getCurrentFilters(filters, filterSetStates)
+    applyFilters(filterMatches)
+  }, [filterSetStates])
 
   return (
     <Wrapper>
@@ -136,7 +142,6 @@ export const Filter = ({
                   resetSet={resetSet(filter._key || 'some-key')}
                   toggleMatch={toggle(filter._key || 'some-key')}
                   filterSet={filter}
-                  onSetChange={handleSubmit}
                 />
               </FilterWrapper>
             ) : filter.__typename === 'PriceRangeFilter' ? (

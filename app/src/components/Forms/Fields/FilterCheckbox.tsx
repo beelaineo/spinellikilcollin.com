@@ -21,9 +21,11 @@ export const FilterCheckboxElement = styled.input`
       background-color: body.2;
     }
 
-    &:checked ~ label,
-    &:hover ~ label {
+    &:checked ~ label {
       background-color: body.4;
+    }
+    &:hover ~ label {
+      background-color: body.3;
     }
   `}
 `
