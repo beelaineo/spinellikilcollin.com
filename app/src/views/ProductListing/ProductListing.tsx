@@ -500,16 +500,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         isLightTheme={Boolean(lightTheme)}
       >
         {filters && filters.length ? (
-          <>
-            <Heading level={4} color="body.7">
-              Results: {productsCount}
-            </Heading>
-            <Filter
-              applyFilters={applyFilters}
-              applySort={applySort}
-              filters={filters}
-            />
-          </>
+          <Filter
+            applyFilters={applyFilters}
+            applySort={applySort}
+            filters={filters}
+            productsCount={productsCount}
+          />
         ) : null}
         {items.length === 0 ? (
           <NoResultsWrapper>

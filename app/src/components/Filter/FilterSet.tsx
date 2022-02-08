@@ -68,25 +68,13 @@ export const FilterSet = ({
   const { activeMatchKeys } = filterSetState
   if (!filters || !filters.length) return null
 
-  const resetKey = `${setKey}-disable`
-  const viewAllFilter = {
-    __typename: 'Filter' as const,
-    label: 'View All',
-  }
-  const isDisabled = filterSetState.activeMatchKeys.length === 0
   return (
     <FilterSetWrapper>
-      <HeadingWrapper>
+      <HeadingWrapper isActive={Boolean(activeMatchKeys.length > 0)}>
         <Heading textTransform="uppercase" mt={0} mb={0} level={5}>
-          {heading}
+          {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
       </HeadingWrapper>
-      <FilterCheckbox
-        matchKey={resetKey}
-        onChange={resetSet}
-        filter={viewAllFilter}
-        checked={isDisabled}
-      />
       {definitely(filters).map((filter) => (
         <FilterCheckbox
           key={filter._key || 'some-key'}

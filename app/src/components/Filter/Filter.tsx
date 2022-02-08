@@ -15,15 +15,19 @@ import {
   Inner,
   FilterSets,
   Header,
+  CountWrapper,
   ButtonsWrapper,
   SortWrapper,
+  Reset,
 } from './styled'
 import { definitely } from '../../utils'
 import { useFilterState, FilterSetState } from './reducer'
 import { Button } from '../../components/Button'
+import { Heading } from '../../components/Text'
 import { PlusMinus } from '../../components/PlusMinus'
+import FilterIcon from '../../svg/FilterIcon.svg'
 import { FilterWrapper } from './FilterWrapper'
-import { Sort, SortButton } from './SortButton'
+import { Sort, SortSet } from './SortSet'
 
 const { useEffect, useState } = React
 
@@ -33,6 +37,7 @@ interface FilterProps {
   filters: FilterType[] | null
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
+  productsCount?: number
 }
 
 const getCurrentFilters = (
@@ -84,7 +89,12 @@ const getCurrentFilters = (
   }, [])
 }
 
-export const Filter = ({ filters, applyFilters, applySort }: FilterProps) => {
+export const Filter = ({
+  filters,
+  applyFilters,
+  applySort,
+  productsCount,
+}: FilterProps) => {
   const { filterSetStates, setValues, resetAll, resetSet, toggle } =
     useFilterState(definitely(filters))
 
@@ -102,52 +112,58 @@ export const Filter = ({ filters, applyFilters, applySort }: FilterProps) => {
 
   return (
     <Wrapper>
-      <FilterSets>
-        {filters.map((filter) =>
-          filter.__typename === 'FilterSet' ? (
-            <FilterWrapper
-              key={filter._key || 'some-key'}
-              heading={filter.heading}
-              type={filter.__typename}
-              filter={filter}
-            >
-              <FilterSet
-                setKey={filter._key || 'some-key'}
-                filterSetState={filterSetStates.find(
-                  (s) => s.key === filter._key,
-                )}
-                resetSet={resetSet(filter._key || 'some-key')}
-                toggleMatch={toggle(filter._key || 'some-key')}
-                filterSet={filter}
-                onSetChange={handleSubmit}
-              />
-            </FilterWrapper>
-          ) : filter.__typename === 'PriceRangeFilter' ? (
-            <FilterWrapper
-              heading="Price Range"
-              key={filter._key || 'some-key'}
-              type={filter.__typename}
-              filter={filter}
-            >
-              <PriceRangeFilter
-                setKey={filter._key || 'some-key'}
-                filterSetState={filterSetStates.find(
-                  (s) => s.key === filter._key,
-                )}
-                setValues={setValues(filter._key || 'some-key')}
-                resetSet={resetSet(filter._key || 'some-key')}
-                priceRangeFilter={filter}
-              />
-              <Button level={2} type="button" onClick={handleReset}>
-                Reset
-              </Button>
-            </FilterWrapper>
-          ) : null,
-        )}
-      </FilterSets>
-      <SortWrapper>
-        <SortButton applySort={applySort} />
-      </SortWrapper>
+      <CountWrapper>
+        <Heading level={4} color="body.7">
+          Results: {productsCount}
+        </Heading>
+      </CountWrapper>
+      <Inner open={true}>
+        <FilterIcon />
+        <FilterSets>
+          {filters.map((filter) =>
+            filter.__typename === 'FilterSet' ? (
+              <FilterWrapper
+                key={filter._key || 'some-key'}
+                heading={filter.heading}
+                type={filter.__typename}
+                filter={filter}
+              >
+                <FilterSet
+                  setKey={filter._key || 'some-key'}
+                  filterSetState={filterSetStates.find(
+                    (s) => s.key === filter._key,
+                  )}
+                  resetSet={resetSet(filter._key || 'some-key')}
+                  toggleMatch={toggle(filter._key || 'some-key')}
+                  filterSet={filter}
+                  onSetChange={handleSubmit}
+                />
+              </FilterWrapper>
+            ) : filter.__typename === 'PriceRangeFilter' ? (
+              <FilterWrapper
+                heading="Price:"
+                key={filter._key || 'some-key'}
+                type={filter.__typename}
+                filter={filter}
+              >
+                <PriceRangeFilter
+                  setKey={filter._key || 'some-key'}
+                  filterSetState={filterSetStates.find(
+                    (s) => s.key === filter._key,
+                  )}
+                  setValues={setValues(filter._key || 'some-key')}
+                  resetSet={resetSet(filter._key || 'some-key')}
+                  priceRangeFilter={filter}
+                />
+              </FilterWrapper>
+            ) : null,
+          )}
+          <Reset onClick={handleReset}>Reset</Reset>
+        </FilterSets>
+        <SortWrapper>
+          <SortSet applySort={applySort} />
+        </SortWrapper>
+      </Inner>
     </Wrapper>
   )
 }

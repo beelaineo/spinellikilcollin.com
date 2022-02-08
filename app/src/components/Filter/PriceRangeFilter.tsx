@@ -194,7 +194,7 @@ export function PriceRangeFilter({
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>
           <Span textTransform="uppercase" mr={2} color="body.9">
-            Price Range:
+            Price:
           </Span>
           From {parsePriceString(getClosestStep(currentMinPrice))} to{' '}
           {parsePriceString(getClosestStep(currentMaxPrice))}

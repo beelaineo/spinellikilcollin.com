@@ -6,7 +6,19 @@ export const Wrapper = styled.div`
   width: 100%;
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
+`
+
+export const CountWrapper = styled.div`
+  ${({ theme }) => css`
+    display: block;
+    margin: 0 7;
+    padding: 4 0 0 0;
+    ${theme.mediaQueries.mobile} {
+      margin: 0 4;
+    }
+  `}
 `
 
 export const LegacyWrapper = styled.div`
@@ -17,11 +29,27 @@ export const LegacyWrapper = styled.div`
 `
 
 export const SortWrapper = styled.div`
-  padding: 4;
-  width: 100%;
-  position: relative;
-  flex: 0;
-  min-width: 124px;
+  ${({ theme }) => css`
+    padding: 4;
+    width: 100%;
+    flex: 0;
+    min-width: 124px;
+
+    padding: 2 4;
+    min-width: 124px;
+    height: fit-content;
+    margin: 0 2;
+    text-align: center;
+    border: 0.5px solid ${theme.colors.grays[5]};
+    border-radius: 2em;
+    margin-bottom: 4;
+    cursor: pointer;
+    select {
+      text-transform: uppercase;
+    }
+    ${theme.mediaQueries.mobile} {
+    }
+  `}
 `
 
 export const Header = styled.div`
@@ -50,9 +78,27 @@ interface WithOpen {
   open: boolean
 }
 
-export const Inner = styled.div<WithOpen>`
+export const LegacyInner = styled.div<WithOpen>`
   ${({ open }) => css`
     display: ${open ? 'block' : 'none'};
+  `}
+`
+
+export const Inner = styled.div<WithOpen>`
+  ${({ theme, open }) => css`
+    display: ${open ? 'flex' : 'none'};
+    margin: 0 7;
+    padding: 4 0;
+    svg {
+      width: 32px;
+      margin: 0;
+    }
+    svg path {
+      stroke: ${theme.colors.grays[7]};
+    }
+    ${theme.mediaQueries.mobile} {
+      margin: 0 4;
+    }
   `}
 `
 
@@ -79,8 +125,8 @@ export const OpenButton = styled(Button)`
 export const FilterSets = styled.div`
   ${({ theme }) => css`
     display: flex;
-    padding: 6 0;
-    margin: 0 7;
+    padding: 0;
+    margin: 0 4;
     flex: 1;
 
     ${theme.mediaQueries.tablet} {
@@ -119,12 +165,12 @@ export const LegacyFilterSets = styled.div`
   `}
 `
 
-interface WithSpan {
-  span: number
+interface WithIsActive {
+  isActive?: boolean
 }
 
-export const HeadingWrapper = styled.div`
-  ${({ theme }) => css`
+export const HeadingWrapper = styled.div<WithIsActive>`
+  ${({ theme, isActive }) => css`
     padding: 2 4;
     min-width: 124px;
     margin: 0 2;
@@ -133,6 +179,7 @@ export const HeadingWrapper = styled.div`
     border-radius: 2em;
     margin-bottom: 4;
     cursor: pointer;
+    ${isActive ? 'background-color: ' + theme.colors.grays[4] + ';' : ''}
     ${theme.mediaQueries.mobile} {
     }
   `}
@@ -207,4 +254,21 @@ export const KnobLabel = styled.div`
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
+`
+
+export const Reset = styled.buttonBox`
+  ${({ theme }) => css`
+    font-family: serif;
+    transition: 0.25s;
+    font-size: 5;
+    cursor: pointer;
+    font-weight: 300;
+    height: fit-content;
+    display: block;
+    margin: 0;
+    padding: 2 4;
+    width: auto;
+    border: none;
+    text-decoration: underline;
+  `}
 `

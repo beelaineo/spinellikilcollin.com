@@ -12,7 +12,7 @@ import { FilterSet } from './FilterSet'
 import { PriceRangeFilter } from './PriceRangeFilter'
 import {
   LegacyWrapper,
-  Inner,
+  LegacyInner,
   OpenButton,
   LegacyFilterSets,
   Header,
@@ -126,7 +126,7 @@ export const LegacyFilter = ({
         </OpenButton>
         <SortButton applySort={applySort} />
       </Header>
-      <Inner open={open}>
+      <LegacyInner open={open}>
         <LegacyFilterSets>
           {open
             ? filters.map((filter) =>
@@ -177,7 +177,7 @@ export const LegacyFilter = ({
             Clear Filters
           </Button>
         </ButtonsWrapper>
-      </Inner>
+      </LegacyInner>
     </LegacyWrapper>
   )
 }
