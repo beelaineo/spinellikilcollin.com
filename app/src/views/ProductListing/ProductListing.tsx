@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Box } from '@xstyled/styled-components'
 import {
@@ -349,6 +350,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
+  const router = useRouter()
+  console.log('router params', router.query)
+
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
   const description = descriptionRaw ? descriptionRaw.slice(1) : null
 
@@ -408,10 +412,29 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
     if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
 
+    const URLParams = new URLSearchParams(window.location.search)
+
     if (reset) {
       setProductResults(newProducts)
+      console.log('page: ', Math.ceil(productEnd / PAGE_SIZE))
+      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
+
+      URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
+
+      const newRelativePathQuery =
+        window.location.pathname + '?' + URLParams.toString()
+      history.pushState(null, '', newRelativePathQuery)
+      console.log('window.location.search', window.location.search)
     } else {
       setProductResults([...productResults, ...newProducts])
+      console.log('page: ', Math.ceil(productEnd / PAGE_SIZE))
+      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
+      URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
+
+      const newRelativePathQuery =
+        window.location.pathname + '?' + URLParams.toString()
+      history.pushState(null, '', newRelativePathQuery)
+      console.log('window.location.search', window.location.search)
     }
     if (newSort) {
       setSort(newSort)
