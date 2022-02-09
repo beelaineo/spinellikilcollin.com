@@ -145,7 +145,6 @@ export const LegacyFilter = ({
                       resetSet={resetSet(filter._key || 'some-key')}
                       toggleMatch={toggle(filter._key || 'some-key')}
                       filterSet={filter}
-                      onSetChange={() => false}
                     />
                   </FilterWrapper>
                 ) : filter.__typename === 'PriceRangeFilter' ? (
