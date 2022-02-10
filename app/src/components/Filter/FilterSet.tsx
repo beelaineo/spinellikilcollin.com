@@ -66,12 +66,23 @@ export const FilterSet = ({
   const { activeMatchKeys } = filterSetState
   if (!filters || !filters.length) return null
 
+  console.log(filterSet)
+  console.log(activeMatchKeys)
+
   return (
     <FilterSetWrapper>
       <HeadingWrapper isActive={Boolean(activeMatchKeys.length > 0)}>
         <Heading textTransform="uppercase" mt={0} mb={0} level={5}>
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
+        {Boolean(activeMatchKeys.length > 0)
+          ? definitely(filters).map((filter) => {
+              if (filter._key && activeMatchKeys.includes(filter._key)) {
+                console.log('match!')
+                return <div>{filter.label}</div>
+              }
+            })
+          : ''}
       </HeadingWrapper>
       {definitely(filters).map((filter) => (
         <FilterCheckbox
