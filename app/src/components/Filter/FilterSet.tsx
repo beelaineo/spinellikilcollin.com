@@ -9,6 +9,7 @@ import {
 import { Label } from '../Forms/Fields/styled'
 import { FilterSetState } from './reducer'
 import { HeadingWrapper, FilterSetWrapper } from './styled'
+import { FilterIndicator } from './FilterIndicator'
 
 interface FilterCheckboxProps {
   filter: Filter
@@ -76,10 +77,15 @@ export const FilterSet = ({
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
         {Boolean(activeMatchKeys.length > 0)
-          ? definitely(filters).map((filter) => {
+          ? definitely(filters).map((filter, i) => {
               if (filter._key && activeMatchKeys.includes(filter._key)) {
-                console.log('match!')
-                return <div>{filter.label}</div>
+                return (
+                  <FilterIndicator
+                    type={filterSet.heading}
+                    label={filter.label}
+                    index={i}
+                  />
+                )
               }
             })
           : ''}

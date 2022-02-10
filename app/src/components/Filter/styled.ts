@@ -187,6 +187,12 @@ export const HeadingWrapper = styled.div<WithIsActive>`
 
 export const FilterSetWrapper = styled.div``
 
+export const FilterIndicatorWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+  `}
+`
+
 export const ButtonsWrapper = styled.div`
   ${({ theme }) => css`
     display: grid;
