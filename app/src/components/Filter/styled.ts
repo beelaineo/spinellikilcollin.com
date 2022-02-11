@@ -171,11 +171,11 @@ interface WithIsActive {
 
 export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive }) => css`
-    padding: 2 2 2 3;
+    padding: 2;
     min-width: 124px;
     height: 36px;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     margin: 0 2;
     text-align: center;
     border: 0.5px solid ${theme.colors.grays[5]};
@@ -184,10 +184,11 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     cursor: pointer;
     display: flex;
     line-height: 1;
-    h5 {
-      margin-right: 32px;
-    }
-    ${isActive ? 'background-color: ' + theme.colors.grays[3] + ';' : ''}
+    ${isActive
+      ? 'background-color: ' +
+        theme.colors.grays[3] +
+        '; justify-content: space-between; padding: 2 2 2 3; h5 { margin-right: 32px;}'
+      : ''}
     ${theme.mediaQueries.mobile} {
     }
   `}
