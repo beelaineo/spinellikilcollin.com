@@ -8,7 +8,11 @@ import {
 } from '../Forms/Fields/FilterCheckbox'
 import { Label } from '../Forms/Fields/styled'
 import { FilterSetState } from './reducer'
-import { HeadingWrapper, FilterSetWrapper } from './styled'
+import {
+  HeadingWrapper,
+  FilterSetWrapper,
+  FilterIndicatorsWrapper,
+} from './styled'
 import { FilterIndicator } from './FilterIndicator'
 
 interface FilterCheckboxProps {
@@ -76,19 +80,21 @@ export const FilterSet = ({
         <Heading textTransform="uppercase" mt={0} mb={0} level={5}>
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
-        {Boolean(activeMatchKeys.length > 0)
-          ? definitely(filters).map((filter, i) => {
-              if (filter._key && activeMatchKeys.includes(filter._key)) {
-                return (
-                  <FilterIndicator
-                    type={filterSet.heading}
-                    label={filter.label}
-                    index={i}
-                  />
-                )
-              }
-            })
-          : ''}
+        <FilterIndicatorsWrapper>
+          {Boolean(activeMatchKeys.length > 0)
+            ? definitely(filters).map((filter, i) => {
+                if (filter._key && activeMatchKeys.includes(filter._key)) {
+                  return (
+                    <FilterIndicator
+                      type={filterSet.heading}
+                      label={filter.label}
+                      index={i}
+                    />
+                  )
+                }
+              })
+            : ''}
+        </FilterIndicatorsWrapper>
       </HeadingWrapper>
       {definitely(filters).map((filter) => (
         <FilterCheckbox

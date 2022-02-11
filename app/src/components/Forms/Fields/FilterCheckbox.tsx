@@ -22,10 +22,10 @@ export const FilterCheckboxElement = styled.input`
     }
 
     &:checked ~ label {
-      background-color: body.4;
+      background-color: grays.3;
     }
     &:hover ~ label {
-      background-color: body.3;
+      background-color: grays.3;
     }
   `}
 `

@@ -171,15 +171,23 @@ interface WithIsActive {
 
 export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive }) => css`
-    padding: 2 4;
+    padding: 2 2 2 3;
     min-width: 124px;
+    height: 36px;
+    align-items: center;
+    justify-content: space-between;
     margin: 0 2;
     text-align: center;
     border: 0.5px solid ${theme.colors.grays[5]};
     border-radius: 2em;
     margin-bottom: 4;
     cursor: pointer;
-    ${isActive ? 'background-color: ' + theme.colors.grays[4] + ';' : ''}
+    display: flex;
+    line-height: 1;
+    h5 {
+      margin-right: 32px;
+    }
+    ${isActive ? 'background-color: ' + theme.colors.grays[3] + ';' : ''}
     ${theme.mediaQueries.mobile} {
     }
   `}
@@ -187,9 +195,27 @@ export const HeadingWrapper = styled.div<WithIsActive>`
 
 export const FilterSetWrapper = styled.div``
 
+export const FilterIndicatorsWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    & > div:first-child {
+      margin-left: 0;
+    }
+  `}
+`
+
 export const FilterIndicatorWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
+  `}
+`
+
+export const DiamondWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    & > svg {
+      margin-left: -24px;
+    }
   `}
 `
 
