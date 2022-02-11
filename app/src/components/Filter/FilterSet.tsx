@@ -92,6 +92,8 @@ export const FilterSet = ({
                       type={filterSet.heading}
                       label={filter.label}
                       index={i}
+                      key={filter._key || 'some-key'}
+                      remove={toggleMatch(filter._key || 'some-key')}
                     />
                   )
                 }

@@ -186,18 +186,21 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     cursor: pointer;
     display: flex;
     line-height: 1;
+    h5 {
+      line-height: 1;
+    }
     ${isActive
       ? 'background-color: ' +
         theme.colors.grays[3] +
         '; justify-content: space-between; padding: 2 2 2 3; & > h5 {' +
         'background-color: ' +
         theme.colors.grays[3] +
-        '; z-index:1; } h5 { margin-right: 32px;}'
+        '; min-width: 124px; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
     ${isActive && type == 'Type'
       ? 'padding: 0; h5 { border: 1px solid ' +
         theme.colors.grays[5] +
-        '; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; padding: 0; justify-content: center; display: flex; height: 100%; align-items: center; min-width: 124px; border: 1px solid' +
+        '; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; padding: 0; justify-content: center; display: flex; height: 100%; align-items: center; border: 1px solid' +
         theme.colors.grays[5] +
         'gray; border-radius: 24px;' +
         '}'
@@ -301,6 +304,34 @@ export const KnobLabel = styled.div`
   top: calc(100% + 6px);
   left: 50%;
   transform: translateX(-50%);
+`
+
+export const CloseButton = styled.button`
+  ${({ theme }) => css`
+    position: absolute;
+    z-index: 20;
+    background-color: transparent;
+    width: 12px;
+    height: 12px;
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 50%;
+      width: 100%;
+      height: 1px;
+      background-color: grays.5;
+    }
+
+    &:before {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    &:after {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+  `}
 `
 
 export const Reset = styled.buttonBox`

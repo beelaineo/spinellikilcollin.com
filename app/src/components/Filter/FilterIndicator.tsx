@@ -3,7 +3,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { Filter, FilterMatch, FilterSet as FilterSetType } from '../../types'
 import { Maybe } from '../../types'
 import { Heading } from '../Text'
-import { FilterIndicatorWrapper, DiamondWrapper } from './styled'
+import { FilterIndicatorWrapper, DiamondWrapper, CloseButton } from './styled'
 import { definitely } from '../../utils'
 import { Label } from '../Forms/Fields/styled'
 import { Diamond } from './Diamond'
@@ -12,10 +12,17 @@ interface FilterIndicatorProps {
   type?: Maybe<string>
   label?: Maybe<string>
   index: number
+  key: string
+  remove?: () => void
 }
 
 interface WithValue {
   value?: Maybe<string>
+}
+
+interface FilterValueLabelProps {
+  value?: Maybe<string>
+  index: number
 }
 
 const IndicatorStyle = (value) => {
@@ -69,9 +76,10 @@ const StyleIndicator = styled.div<WithValue>`
   `}
 `
 
-const FilterValueLabel = styled.div<WithValue>`
-  ${({ theme, value }) => css`
+const FilterValueLabel = styled.div<FilterValueLabelProps>`
+  ${({ theme, value, index }) => css`
     height: 100%;
+    z-index: ${10 - index};
     ${IndicatorStyle(value)}
     h5 {
       border: 1px solid #979797;
@@ -81,11 +89,16 @@ const FilterValueLabel = styled.div<WithValue>`
       margin-right: -1px;
       margin-top: -1px;
       padding: 0;
+      padding-left: 40px;
+      padding-right: 16px;
       justify-content: center;
       display: flex;
+      width: min-content;
       height: 100%;
       align-items: center;
       border: 1px solid gray;
+      line-height: 1;
+      background-color: ${theme.colors.grays[3]};
     }
   `}
 `
@@ -103,10 +116,20 @@ const StoneIndicatorPearl = styled.div<WithValue>`
   `}
 `
 
+const CloseButtonWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    padding: 2;
+    z-index: 2;
+    cursor: initial;
+  `}
+`
+
 export const FilterIndicator = ({
   type,
   label,
   index,
+  remove,
 }: FilterIndicatorProps) => {
   if (!type) {
     throw new Error('No filter type was supplied')
@@ -115,9 +138,12 @@ export const FilterIndicator = ({
   switch (type) {
     case 'Type':
       return (
-        <FilterValueLabel>
+        <FilterValueLabel index={index}>
           <Heading textTransform="uppercase" level={5}>
             {label}
+            <CloseButtonWrapper>
+              <CloseButton onClick={remove} />
+            </CloseButtonWrapper>
           </Heading>
         </FilterValueLabel>
       )
