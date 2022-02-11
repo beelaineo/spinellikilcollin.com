@@ -69,13 +69,34 @@ const StyleIndicator = styled.div<WithValue>`
   `}
 `
 
+const FilterValueLabel = styled.div<WithValue>`
+  ${({ theme, value }) => css`
+    height: 100%;
+    ${IndicatorStyle(value)}
+    h5 {
+      border: 1px solid #979797;
+      box-sizing: content-box;
+      border-radius: 2em;
+      margin-left: -33px;
+      margin-right: -1px;
+      margin-top: -1px;
+      padding: 0;
+      justify-content: center;
+      display: flex;
+      height: 100%;
+      align-items: center;
+      border: 1px solid gray;
+    }
+  `}
+`
+
 const StoneIndicatorPearl = styled.div<WithValue>`
   ${({ theme, value }) => css`
       display: block;
       height: 24px;
       width: 24px;
       border: 1px solid ${theme.colors.grays[5]};
-      border-radius: 100%;
+      border-radius: 50%;
       margin-left: -16px; 
       ${IndicatorStyle(value)}
     }
@@ -92,6 +113,14 @@ export const FilterIndicator = ({
   }
 
   switch (type) {
+    case 'Type':
+      return (
+        <FilterValueLabel>
+          <Heading textTransform="uppercase" level={5}>
+            {label}
+          </Heading>
+        </FilterValueLabel>
+      )
     case 'Metal':
       return (
         <FilterIndicatorWrapper>

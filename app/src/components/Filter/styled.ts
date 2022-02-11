@@ -1,5 +1,6 @@
 import styled, { css } from '@xstyled/styled-components'
 import { Button } from '../Button'
+import { Maybe } from '../../types'
 
 export const Wrapper = styled.div`
   padding: 0;
@@ -40,7 +41,7 @@ export const SortWrapper = styled.div`
     height: fit-content;
     margin: 0 2;
     text-align: center;
-    border: 0.5px solid ${theme.colors.grays[5]};
+    border: 1px solid ${theme.colors.grays[5]};
     border-radius: 2em;
     margin-bottom: 4;
     cursor: pointer;
@@ -167,10 +168,11 @@ export const LegacyFilterSets = styled.div`
 
 interface WithIsActive {
   isActive?: boolean
+  type?: Maybe<string>
 }
 
 export const HeadingWrapper = styled.div<WithIsActive>`
-  ${({ theme, isActive }) => css`
+  ${({ theme, isActive, type }) => css`
     padding: 2;
     min-width: 124px;
     height: 36px;
@@ -178,7 +180,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     justify-content: center;
     margin: 0 2;
     text-align: center;
-    border: 0.5px solid ${theme.colors.grays[5]};
+    border: 1px solid ${theme.colors.grays[5]};
     border-radius: 2em;
     margin-bottom: 4;
     cursor: pointer;
@@ -187,7 +189,18 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     ${isActive
       ? 'background-color: ' +
         theme.colors.grays[3] +
-        '; justify-content: space-between; padding: 2 2 2 3; h5 { margin-right: 32px;}'
+        '; justify-content: space-between; padding: 2 2 2 3; & > h5 {' +
+        'background-color: ' +
+        theme.colors.grays[3] +
+        '; z-index:1; } h5 { margin-right: 32px;}'
+      : ''}
+    ${isActive && type == 'Type'
+      ? 'padding: 0; h5 { border: 1px solid ' +
+        theme.colors.grays[5] +
+        '; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; padding: 0; justify-content: center; display: flex; height: 100%; align-items: center; min-width: 124px; border: 1px solid' +
+        theme.colors.grays[5] +
+        'gray; border-radius: 24px;' +
+        '}'
       : ''}
     ${theme.mediaQueries.mobile} {
     }
@@ -199,6 +212,7 @@ export const FilterSetWrapper = styled.div``
 export const FilterIndicatorsWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
+    height: 100%;
     & > div:first-child {
       margin-left: 0;
     }

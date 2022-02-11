@@ -76,7 +76,10 @@ export const FilterSet = ({
 
   return (
     <FilterSetWrapper>
-      <HeadingWrapper isActive={Boolean(activeMatchKeys.length > 0)}>
+      <HeadingWrapper
+        isActive={Boolean(activeMatchKeys.length > 0)}
+        type={heading}
+      >
         <Heading textTransform="uppercase" mt={0} mb={0} level={5}>
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
