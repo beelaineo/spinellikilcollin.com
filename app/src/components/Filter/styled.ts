@@ -195,10 +195,10 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         '; justify-content: space-between; padding: 2 2 2 3; & > h5 {' +
         'background-color: ' +
         theme.colors.grays[3] +
-        '; min-width: 124px; z-index:11; } h5 { margin-right: 32px;}'
+        '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
     ${isActive && type == 'Type'
-      ? 'padding: 0; h5 { border: 1px solid ' +
+      ? 'padding: 0; & > h5 { min-width: 124px; } h5 { border: 1px solid ' +
         theme.colors.grays[5] +
         '; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; padding: 0; justify-content: center; display: flex; height: 100%; align-items: center; border: 1px solid' +
         theme.colors.grays[5] +
