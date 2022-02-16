@@ -1578,6 +1578,7 @@ export interface ProductListingSettings extends Document {
    */
   helpText?: Maybe<Scalars['String']>
   defaultFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
+  newDefaultFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
 }
 
 export type ProductListingSettingsFilter = {

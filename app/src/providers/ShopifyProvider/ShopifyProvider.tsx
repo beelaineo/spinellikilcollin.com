@@ -22,10 +22,17 @@ export const ShopifyContext = React.createContext<
 
 export const ShopifyConsumer = ShopifyContext.Consumer
 
+const storeCheckout = (checkout) => {
+  const storage = globalThis?.sessionStorage
+  if (!storage) return
+  storage.setItem('checkout', checkout)
+}
+
 export const useShopify = () => {
   const ctx = React.useContext(ShopifyContext)
   if (!ctx)
     throw new Error('`useShopify` must be used within a ShopifyProvider')
+  storeCheckout(JSON.stringify(ctx.checkout))
   return ctx
 }
 
