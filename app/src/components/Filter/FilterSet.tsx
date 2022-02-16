@@ -12,8 +12,10 @@ import {
   HeadingWrapper,
   FilterSetWrapper,
   FilterIndicatorsWrapper,
+  FiltersWrapper,
 } from './styled'
 import { FilterIndicator } from './FilterIndicator'
+const { useEffect, useState } = React
 
 interface FilterCheckboxProps {
   filter: Filter
@@ -74,13 +76,20 @@ export const FilterSet = ({
   console.log(filterSet)
   console.log(activeMatchKeys)
 
+  const [mouseEnter, setMouseEnter] = useState(false)
+  const handleMouseEnter = () => setMouseEnter(true)
+  const handleMouseLeave = () => setMouseEnter(false)
+
   return (
-    <FilterSetWrapper>
+    <FilterSetWrapper
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <HeadingWrapper
         isActive={Boolean(activeMatchKeys.length > 0)}
         type={heading}
       >
-        <Heading textTransform="uppercase" mt={0} mb={0} level={5}>
+        <Heading textTransform="uppercase" level={5}>
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
         <FilterIndicatorsWrapper>
@@ -101,15 +110,17 @@ export const FilterSet = ({
             : ''}
         </FilterIndicatorsWrapper>
       </HeadingWrapper>
-      {definitely(filters).map((filter) => (
-        <FilterCheckbox
-          key={filter._key || 'some-key'}
-          matchKey={filter._key || 'some-key'}
-          onChange={toggleMatch(filter._key || 'some-key')}
-          filter={filter}
-          checked={activeMatchKeys.includes(filter._key || 'foo')}
-        />
-      ))}
+      <FiltersWrapper isHovered={mouseEnter}>
+        {definitely(filters).map((filter) => (
+          <FilterCheckbox
+            key={filter._key || 'some-key'}
+            matchKey={filter._key || 'some-key'}
+            onChange={toggleMatch(filter._key || 'some-key')}
+            filter={filter}
+            checked={activeMatchKeys.includes(filter._key || 'foo')}
+          />
+        ))}
+      </FiltersWrapper>
     </FilterSetWrapper>
   )
 }

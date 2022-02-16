@@ -175,7 +175,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive, type }) => css`
     padding: 2;
     min-width: 124px;
-    height: 36px;
+    min-height: 38px;
     align-items: center;
     justify-content: center;
     margin: 0 2;
@@ -200,11 +200,23 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     ${isActive && type == 'Type'
       ? 'padding: 0; & > h5 { min-width: 124px; } h5 { border: 1px solid ' +
         theme.colors.grays[5] +
-        '; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; padding: 0; justify-content: center; display: flex; height: 100%; align-items: center; border: 1px solid' +
+        '; min-height: 38px; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
         theme.colors.grays[5] +
-        'gray; border-radius: 24px;' +
+        'gray; border-radius: 2em;' +
         '}'
       : ''}
+    ${theme.mediaQueries.mobile} {
+    }
+  `}
+`
+
+interface WithIsHovered {
+  isHovered?: boolean
+}
+
+export const FiltersWrapper = styled.div<WithIsHovered>`
+  ${({ theme, isHovered }) => css`
+    display: ${isHovered ? 'block' : 'none'};
     ${theme.mediaQueries.mobile} {
     }
   `}
@@ -253,8 +265,20 @@ export const ButtonsWrapper = styled.div`
 
 export const PriceRangeFilterWrapper = styled.div`
   margin: 0 2;
+  & > div:first-child {
+    min-width: 178px;
+    text-align: left;
+    justify-content: flex-start;
+  }
   label {
+    padding: 0 2;
     margin-bottom: 0;
+    line-height: 1;
+    font-style: italic;
+    span {
+      line-height: 1;
+      font-style: normal;
+    }
   }
 `
 

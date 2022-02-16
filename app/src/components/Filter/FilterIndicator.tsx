@@ -88,12 +88,14 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
       margin-left: -33px;
       margin-right: -1px;
       margin-top: -1px;
+      margin-bottom: -1px;
       padding: 0;
       padding-left: 40px;
       padding-right: 16px;
       justify-content: center;
       display: flex;
       width: min-content;
+      min-height: 38px;
       height: 100%;
       align-items: center;
       border: 1px solid gray;
