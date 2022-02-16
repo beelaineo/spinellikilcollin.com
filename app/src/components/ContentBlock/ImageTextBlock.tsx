@@ -11,8 +11,8 @@ import {
   getTextAlignment,
 } from '../../theme/utils'
 import { VideoWrapper, CloudinaryVideo } from '../CloudinaryVideo'
-
-const RichTextWrapper = (props: any) => <Heading level={3} {...props} />
+import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
 
 interface WithLayout {
   layout?: string | null
@@ -65,7 +65,8 @@ const ImagesWrapper = styled.div`
 
 const CtaWrapper = styled.div`
   display: inline-block;
-  padding-bottom: 1;
+  padding-top: 3;
+  padding-bottom: 0px;
   border-bottom: 1px solid;
 `
 
@@ -91,11 +92,25 @@ const TextWrapper = styled.div<TextWrapperProps>`
     h2,
     h3,
     h4,
-    h5 {
-      margin: 0;
+    h5,
+    h6,
+    p {
+      margin-bottom: 0px;
+      line-height: 1.3em;
+      span {
+        line-height: 1.3em;
+      }
     }
 
-    ${theme.mediaQueries.tablet} {
+    h1,
+    h2 {
+      line-height: 1.2em;
+      span {
+        line-height: 1.2em;
+      }
+    }
+
+    ${theme.mediaQueries.mobile} {
       padding: 4;
     }
   `}
@@ -123,6 +138,10 @@ export const ImageTextBlock = ({
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 
   const ratio = layout === 'fullWidth' ? 0.48 : 1
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
+
   return (
     <Wrapper layout={layout}>
       <PageLink link={link} linkParams={linkParams}>
@@ -137,7 +156,13 @@ export const ImageTextBlock = ({
         {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
         <TextWrapper textPosition={textPosition}>
           <Box color={textColor}>
-            <RichText body={content.bodyRaw} blockWrapper={RichTextWrapper} />
+            <RichText
+              body={
+                isMobile && content.body_mobileRaw
+                  ? content.body_mobileRaw
+                  : content.bodyRaw
+              }
+            />
             {ctaText ? (
               <CtaWrapper>
                 <Heading level={4} my={0} fontStyle="italic">

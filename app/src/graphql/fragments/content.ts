@@ -226,6 +226,7 @@ export const imageTextBlockFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     ctaText
     textPosition
     textColor
@@ -264,6 +265,7 @@ export const textBlockFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     alignment
     textColor
     layout
@@ -424,6 +426,7 @@ export const collectionBlockFragment = gql`
     position
     format
     bodyRaw
+    body_mobileRaw
     textPosition
     textColor
     cloudinaryVideo {
@@ -539,6 +542,7 @@ export const heroFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     textColor
     textColorMobile
     textContainer

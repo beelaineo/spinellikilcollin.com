@@ -12,6 +12,7 @@ import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
+import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
 import { getHeroImage, isValidHero, definitely } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
@@ -20,6 +21,7 @@ import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
 import { config } from '../../../src/config'
+import styled, { css } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
   ProductGridWrapper,
@@ -82,6 +84,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     seo,
     handle,
     collectionBlocks,
+    descriptionRaw,
     reduceColumnCount,
     lightTheme,
     hidden,
@@ -92,6 +95,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   if (!_id) {
     throw new Error('The collection is missing an _id')
   }
+
+  const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
+  const description = descriptionRaw ? descriptionRaw.slice(1) : null
+
   const [fetchComplete, setFetchComplete] = useState(
     definitely(collection.products).length < PAGE_SIZE,
   )
@@ -187,6 +194,48 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const validHero = isValidHero(hero)
 
+  const DescriptionWrapper = styled.div`
+    ${({ theme }) => css`
+      display: grid;
+      grid-template-columns: 50% 10% 1fr;
+      grid-column-gap: 3;
+
+      padding: 8 11;
+
+      ${theme.mediaQueries.tablet} {
+        padding: 4 8;
+      }
+
+      ${theme.mediaQueries.mobile} {
+        padding: 4 5;
+        display: flex;
+        flex-direction: column;
+      }
+    `}
+  `
+  const TextWrapper = styled.div`
+    ${({ theme }) => css`
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      &:first-of-type p {
+        font-size: 16px;
+      }
+      p {
+        font-weight: 200;
+        font-size: 13px;
+      }
+      ${theme.mediaQueries.mobile} {
+        &:first-of-type p {
+          font-size: 13px;
+        }
+        &:last-of-type {
+          display: none;
+        }
+      }
+    `}
+  `
+
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
@@ -241,6 +290,18 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   <Loading />
                 </Box>
               ) : null}
+              {descriptionPrimary ? (
+                <DescriptionWrapper>
+                  <TextWrapper>
+                    <RichText body={descriptionPrimary} />
+                  </TextWrapper>
+                  <div></div>
+                  <TextWrapper>
+                    <RichText body={description} />
+                  </TextWrapper>
+                </DescriptionWrapper>
+              ) : null}
+
               <div ref={bottomRef} />
             </ProductGridWrapper>
           </>

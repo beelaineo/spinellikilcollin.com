@@ -96,6 +96,7 @@ export const variantWithProductFragment = gql`
     image {
       ...ImageFragment
     }
+    availableForSale
     requiresShipping
     selectedOptions {
       __typename

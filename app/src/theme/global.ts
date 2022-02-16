@@ -78,6 +78,10 @@ export const GlobalStyles = createGlobalStyle`
         font-size: ${theme.mobileFontSizes[6]};
       }
     }
+
+    button {
+      color: ${theme.colors.body[8]};
+    }
   `}
 
 
@@ -91,19 +95,19 @@ export const GlobalStyles = createGlobalStyle`
 		line-height: normal;
 		padding: 0;
 		border-radius: 0;
-
+    
   }
 
 	img {
 		max-width: 100%;
 	}
 
-	button {
-		cursor: pointer;
+  button {
+    cursor: pointer;
     border: none;
     font-family: inherit;
     background-color: transparent;
-	}
+  }
 
   a {
     color: inherit;

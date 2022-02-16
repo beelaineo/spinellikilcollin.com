@@ -54,6 +54,14 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       ...,
     },
     "bodyRaw": body,
+    "body_mobileRaw": body_mobile,
+    cta[]{
+      ...,
+      link {
+        ...,
+        document->
+      }
+    },
     ...,
   },
   "products": products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] | order(${getSortString(
@@ -90,7 +98,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       priceRange,
       publishedAt,
       variants {
-        edges[]{
+        "edges": edges[][node.availableForSale == true] {
           cursor,
           node {
             __typename,
@@ -99,7 +107,8 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
             image,
             title,
             selectedOptions,
-            priceV2
+            priceV2,
+            availableForSale
           },
         },
       },
@@ -110,8 +119,10 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     _key,
     format,
     body,
+    "body_mobileRaw": body_mobile,
     ...
   },
+  "descriptionRaw": description,
 }
 `
 
@@ -155,7 +166,7 @@ export const moreProductsQuery = `
       priceRange,
       publishedAt,
       variants {
-        edges[]{
+        "edges": edges[][node.availableForSale == true] {
           cursor,
           node {
             _type,
@@ -163,7 +174,8 @@ export const moreProductsQuery = `
             image,
             title,
             selectedOptions,
-            priceV2
+            priceV2,
+            availableForSale
           },
         },
       },
@@ -215,7 +227,7 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
     priceRange,
     publishedAt,
     variants {
-      edges[]{
+      "edges": edges[][node.availableForSale == true] {
         cursor,
         node {
           _type,
@@ -223,7 +235,8 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
           image,
           title,
           selectedOptions,
-          priceV2
+          priceV2,
+          availableForSale
         },
       },
     },

@@ -62,6 +62,7 @@ export const ProductVariantSelector = (props: Props) => {
                 variants={variants}
                 currentVariant={currentVariant}
                 option={option}
+                isInput={Boolean(productType === 'Gift Card')}
               />
               {productType === 'Ring' && option.name === 'Size' ? (
                 <RingSizerButton product={product} variant={currentVariant} />

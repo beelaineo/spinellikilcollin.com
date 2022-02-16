@@ -7,14 +7,17 @@ const { useReducer, useEffect } = React
 
 interface NavState {
   menuOpen: boolean
+  colorTheme?: 'dark' | 'light'
   currentSubmenuKey: string | void
 }
 
 const OPEN_MENU = 'OPEN_MENU'
 const CLOSE_MENU = 'CLOSE_MENU'
+const SET_THEME = 'SET_THEME'
 
 interface Action {
-  type: typeof OPEN_MENU | typeof CLOSE_MENU
+  type: typeof OPEN_MENU | typeof CLOSE_MENU | typeof SET_THEME
+  payload?: 'dark' | 'light'
 }
 
 function navReducer(currentState: NavState, action: Action): NavState {
@@ -30,6 +33,11 @@ function navReducer(currentState: NavState, action: Action): NavState {
         ...currentState,
         menuOpen: false,
       }
+    case SET_THEME:
+      return {
+        ...currentState,
+        colorTheme: action.payload,
+      }
     default:
       throw new Error(`"${action.type}" is not a valid action type`)
   }
@@ -38,6 +46,8 @@ function navReducer(currentState: NavState, action: Action): NavState {
 interface NavigationContextValue {
   cartOpen: boolean
   menuOpen: boolean
+  colorTheme: 'dark' | 'light' | undefined
+  setColorTheme: (colorTheme: 'dark' | 'light') => void
   closeMenu: () => void
   toggleMenu: () => void
   openCart: () => void
@@ -73,16 +83,19 @@ export const NavigationProvider = ({ children }: NavigationProps) => {
   /* State */
   const [state, dispatch] = useReducer(navReducer, {
     menuOpen: false,
+    colorTheme: 'dark',
     currentSubmenuKey: undefined,
   })
 
-  const { menuOpen } = state
+  const { menuOpen, colorTheme } = state
 
   /* Handlers */
 
   const openMenu = () => dispatch({ type: OPEN_MENU })
   const closeMenu = () => dispatch({ type: CLOSE_MENU })
   const toggleMenu = () => (menuOpen ? closeMenu() : openMenu())
+  const setColorTheme = (colorTheme: 'dark' | 'light') =>
+    dispatch({ type: SET_THEME, payload: colorTheme })
 
   /* Effects */
 
@@ -121,6 +134,8 @@ export const NavigationProvider = ({ children }: NavigationProps) => {
     toggleMenu,
     openCart,
     closeAll,
+    setColorTheme,
+    colorTheme,
     router,
   }
 

@@ -74,4 +74,14 @@ export const journal = {
       media: thumbnail,
     }),
   },
+  orderings: [
+    {
+      title: 'Publish Date',
+      name: 'publishDateDesc',
+      by: [
+        { field: 'publishDate', direction: 'desc' },
+        { field: '_createdAt', direction: 'desc' },
+      ],
+    },
+  ],
 }

@@ -20,7 +20,7 @@ export const ProductDetailHeader = ({
   const { compareAtPriceV2, priceV2 } = currentVariant?.sourceData ?? {}
   return (
     <>
-      <TitleWrapper>
+      <TitleWrapper product={product}>
         <Heading level={3} weight={2} mb={{ xs: 1, md: 2 }}>
           {variantTitle || product.title}
         </Heading>
