@@ -5,7 +5,9 @@ import { Maybe } from '../../types'
 export const Wrapper = styled.div`
   padding: 0;
   width: 100%;
-  position: relative;
+  position: sticky;
+  top: 72px;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
