@@ -141,7 +141,7 @@ const App = (props: AppProps) => {
           <link
             id="GEPIStyles"
             rel="stylesheet"
-            href="//gepi.global-e.com/includes/css/10000945"
+            href="https://gepi.global-e.com/includes/css/10000945"
           />
 
           <link rel="stylesheet" href="/static/fonts/fonts.css" />
