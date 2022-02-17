@@ -7,7 +7,6 @@ export * from './postmark'
 export * from './sanity'
 export * from './globals'
 export * from './bambuser'
-export * from './global-e'
 
 export interface CollectionBlock extends BaseCollectionBlock {
   body?: any

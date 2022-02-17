@@ -83,6 +83,35 @@ export const ShopifyProvider = ({
         quantity: li.quantity,
       })),
     )
+    console.log('goToCheckout function called')
+    const isOperatedByCallback = function (isOperated) {
+      console.log('GEM IsOperatedByGlobalE callback:', isOperated)
+    }
+
+    globalThis?.GEM_Components.IsOperatedByGlobalEMethod(isOperatedByCallback)
+
+    const getCheckoutToken = () => {
+      const storage = globalThis?.sessionStorage
+      if (!storage) return
+      const checkout = storage.getItem('checkout')
+      if (checkout) return JSON.parse(checkout).id
+    }
+
+    const urlParams = {
+      CartToken: getCheckoutToken(),
+    }
+
+    const getCheckoutCallback = function (url) {
+      console.log('GEM getCheckout callback: ', url)
+    }
+
+    console.log('GEM getCheckout urlParams', urlParams)
+
+    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+      urlParams,
+      getCheckoutCallback,
+    )
+
     const { protocol, pathname, search } = new URL(checkout.webUrl)
     const redirect: string = `${protocol}//${domain}${pathname}${search}`
     window.location.href = redirect
