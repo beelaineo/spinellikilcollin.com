@@ -135,6 +135,10 @@ export function PriceRangeFilter({
     maxPrice / initialMaxPrice,
   )
 
+  const [mouseEnter, setMouseEnter] = useState(false)
+  const handleMouseEnter = () => setMouseEnter(true)
+  const handleMouseLeave = () => setMouseEnter(false)
+
   const steps = useMemo(
     () => getSteps(initialMinPrice, initialMaxPrice),
     [initialMinPrice, initialMaxPrice],
@@ -190,7 +194,10 @@ export function PriceRangeFilter({
   const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
 
   return (
-    <PriceRangeFilterWrapper>
+    <PriceRangeFilterWrapper
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>
           <Span textTransform="uppercase" mr={2} color="body.9">
@@ -200,7 +207,7 @@ export function PriceRangeFilter({
           {parsePriceString(getClosestStep(currentMaxPrice))}
         </Label>
       </HeadingWrapper>
-      <Slider ref={setContainer}>
+      <Slider ref={setContainer} isHovered={mouseEnter}>
         <Knob
           amount={currentMinPrice}
           position={currentMinPrice}

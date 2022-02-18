@@ -284,21 +284,24 @@ export const PriceRangeFilterWrapper = styled.div`
   }
 `
 
-export const Slider = styled.div`
-  position: relative;
-  padding: 3 0;
-  max-width: 300px;
-  margin-top: 2;
-  margin-bottom: 6;
-  &:after {
-    content: '';
-    width: 100%;
-    height: 1px;
-    background-color: body.6;
-    position: absolute;
-    left: 0;
-    top: 50%;
-  }
+export const Slider = styled.div<WithIsHovered>`
+  ${({ theme, isHovered }) => css`
+    display: ${isHovered ? 'block' : 'none'};
+    position: relative;
+    padding: 3 0;
+    max-width: 300px;
+    margin-top: 2;
+    margin-bottom: 6;
+    &:after {
+      content: '';
+      width: 100%;
+      height: 1px;
+      background-color: body.6;
+      position: absolute;
+      left: 0;
+      top: 50%;
+    }
+  `}
 `
 
 interface WithPosition {

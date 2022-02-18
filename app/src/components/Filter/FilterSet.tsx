@@ -73,9 +73,6 @@ export const FilterSet = ({
   const { activeMatchKeys } = filterSetState
   if (!filters || !filters.length) return null
 
-  console.log(filterSet)
-  console.log(activeMatchKeys)
-
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
