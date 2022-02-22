@@ -33,7 +33,7 @@ export const LegacyWrapper = styled.div`
 
 export const SortWrapper = styled.div`
   ${({ theme }) => css`
-    padding: 4;
+    padding: 9px 4;
     width: 100%;
     flex: 0;
     min-width: 124px;
@@ -42,13 +42,17 @@ export const SortWrapper = styled.div`
     min-width: 124px;
     height: fit-content;
     margin: 0 2;
+    margin-bottom: 3;
     text-align: center;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 2em;
+    background-color: body.2;
+    line-height: 1;
     margin-bottom: 4;
     cursor: pointer;
     select {
       text-transform: uppercase;
+      line-height: 1;
     }
     ${theme.mediaQueries.mobile} {
     }
@@ -175,26 +179,26 @@ interface WithIsActive {
 
 export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive, type }) => css`
-    padding: 2;
+    padding: 9px 4;
     min-width: 124px;
-    min-height: 38px;
-    align-items: center;
-    justify-content: center;
     margin: 0 2;
-    text-align: center;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 2em;
-    margin-bottom: 4;
+    background-color: body.2;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3;
     cursor: pointer;
     display: flex;
     line-height: 1;
     h5 {
       line-height: 1;
+      margin: 0;
     }
     ${isActive
       ? 'background-color: ' +
         theme.colors.grays[3] +
-        '; justify-content: space-between; padding: 2 2 2 3; & > h5 {' +
+        '; justify-content: space-between; & > h5 {' +
         'background-color: ' +
         theme.colors.grays[3] +
         '; z-index:11; } h5 { margin-right: 32px;}'
@@ -202,7 +206,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     ${isActive && type == 'Type'
       ? 'padding: 0; & > h5 { min-width: 124px; } h5 { border: 1px solid ' +
         theme.colors.grays[5] +
-        '; min-height: 38px; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
+        '; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
         theme.colors.grays[5] +
         'gray; border-radius: 2em;' +
         '}'
@@ -273,8 +277,8 @@ export const PriceRangeFilterWrapper = styled.div`
     justify-content: flex-start;
   }
   label {
-    padding: 0 2;
-    margin-bottom: 0;
+    background-color: body.2;
+    margin: 0 2;
     line-height: 1;
     font-style: italic;
     span {

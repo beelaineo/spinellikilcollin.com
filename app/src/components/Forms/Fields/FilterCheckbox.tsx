@@ -12,13 +12,14 @@ export const FilterCheckboxElement = styled.input`
     position: absolute;
 
     & ~ label {
-      padding: 2 4;
+      padding: 9px 4;
       min-width: 124px;
       margin: 0 2;
       text-align: center;
-      border: 0.5px solid ${theme.colors.grays[5]};
+      border: 1px solid ${theme.colors.grays[5]};
       border-radius: 2em;
       background-color: body.2;
+      line-height: 1;
     }
 
     &:checked ~ label {
