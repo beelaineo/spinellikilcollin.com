@@ -3,14 +3,79 @@ import { Button } from '../Button'
 import { Maybe } from '../../types'
 
 export const Wrapper = styled.div`
-  padding: 4 0;
-  width: 100%;
-  position: sticky;
-  top: 98px;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  ${({ theme }) => css`
+    padding: 4 0;
+    width: 100%;
+    position: sticky;
+    top: 98px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    ${theme.mediaQueries.mobile} {
+      top: 34px;
+      padding: 2 0;
+    }
+  `}
+`
+
+export const MobileToggleWrapper = styled.div`
+  ${({ theme }) => css`
+    padding: 4;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    & > svg {
+      width: 21px;
+      cursor: pointer;
+    }
+    h4,
+    h5 {
+      margin-left: 3;
+      cursor: pointer;
+      border-bottom: 1px solid ${theme.colors.grays[5]};
+    }
+  `}
+`
+
+export const MobileHeader = styled.div`
+  ${({ theme }) => css`
+    padding: 4 2;
+    width: 100%;
+    position: sticky;
+    top: 0px;
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  `}
+`
+
+export const MobileControls = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    h4 {
+      line-height: 1;
+      margin: 0;
+      cursor: pointer;
+    }
+    & > span {
+      margin: 0 3;
+    }
+  `}
+`
+
+export const ControlTab = styled.div`
+  display: inline-block;
 `
 
 export const CountWrapper = styled.div`
@@ -110,6 +175,7 @@ export const Inner = styled.div<WithOpen>`
     }
     ${theme.mediaQueries.mobile} {
       margin: 0 4;
+      flex-direction: column;
     }
   `}
 `
@@ -361,8 +427,8 @@ export const CloseButton = styled.button`
     position: absolute;
     z-index: 20;
     background-color: transparent;
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
 
     &:before,
     &:after {

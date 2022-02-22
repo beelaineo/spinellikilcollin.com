@@ -12,6 +12,10 @@ import { FilterSet } from './FilterSet'
 import { PriceRangeFilter } from './PriceRangeFilter'
 import {
   Wrapper,
+  MobileToggleWrapper,
+  MobileHeader,
+  MobileControls,
+  ControlTab,
   Inner,
   FilterSets,
   Header,
@@ -29,6 +33,8 @@ import FilterIcon from '../../svg/FilterIcon.svg'
 import { FilterWrapper } from './FilterWrapper'
 import { Backdrop } from '../Navigation/Backdrop'
 import { Sort, SortSet } from './SortSet'
+import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
 
 const { useEffect, useState } = React
 
@@ -39,6 +45,7 @@ interface FilterProps {
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
   productsCount: number
+  open?: boolean
 }
 
 const getCurrentFilters = (
@@ -95,7 +102,16 @@ export const Filter = ({
   applyFilters,
   applySort,
   productsCount,
+  open: parentOpen,
 }: FilterProps) => {
+  const [open, setOpen] = useState(false)
+
+  const toggleOpen = () => setOpen(!open)
+
+  useEffect(() => {
+    setOpen(parentOpen ?? false)
+  }, [parentOpen])
+
   const { filterSetStates, setValues, resetAll, resetSet, toggle } =
     useFilterState(definitely(filters))
 
@@ -109,7 +125,12 @@ export const Filter = ({
   const handleReset = () => {
     resetAll()
     applyFilters(null)
+    setOpen(false)
   }
+
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
 
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
@@ -119,8 +140,38 @@ export const Filter = ({
   return (
     <Wrapper>
       <Backdrop />
-      <Inner open={true}>
-        <FilterIcon />
+      {isMobile === true && open === false ? (
+        <MobileToggleWrapper onClick={toggleOpen}>
+          <FilterIcon />
+          <Heading level={4} color="body.7">
+            Filter + Sort
+          </Heading>
+        </MobileToggleWrapper>
+      ) : (
+        ''
+      )}
+      <Inner open={Boolean(isMobile === false || (isMobile === true && open))}>
+        {isMobile === false ? <FilterIcon /> : ''}
+        {isMobile === true ? (
+          <MobileHeader>
+            <MobileControls>
+              <ControlTab>
+                <Heading level={4} color="body.7">
+                  Filter
+                </Heading>
+              </ControlTab>{' '}
+              <span>|</span>{' '}
+              <ControlTab>
+                <Heading level={4} color="body.7">
+                  Sort
+                </Heading>
+              </ControlTab>
+            </MobileControls>
+            <div onClick={toggleOpen}>X</div>
+          </MobileHeader>
+        ) : (
+          ''
+        )}
         <FilterSets>
           {filters.map((filter) =>
             filter.__typename === 'FilterSet' ? (
@@ -165,11 +216,15 @@ export const Filter = ({
           <SortSet applySort={applySort} />
         </SortWrapper>
       </Inner>
-      <CountWrapper>
-        <Heading level={5} color="body.7">
-          Results: {productsCount}
-        </Heading>
-      </CountWrapper>
+      {isMobile === false ? (
+        <CountWrapper>
+          <Heading level={5} color="body.7">
+            Results: {productsCount}
+          </Heading>
+        </CountWrapper>
+      ) : (
+        ''
+      )}
     </Wrapper>
   )
 }

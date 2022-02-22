@@ -94,8 +94,8 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
       margin-top: -1px;
       margin-bottom: -1px;
       padding: 9px 4;
-      padding-left: 40px;
-      padding-right: 16px;
+      padding-left: 39px;
+      padding-right: 13px;
       justify-content: center;
       display: flex;
       width: min-content;
@@ -126,7 +126,7 @@ const StoneIndicatorPearl = styled.div<WithValue>`
 const CloseButtonWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
-    padding: 2;
+    padding: 1;
     z-index: 2;
     cursor: initial;
   `}
