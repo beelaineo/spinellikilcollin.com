@@ -235,10 +235,20 @@ export const FiltersWrapper = styled.div<WithIsHovered>`
 
 export const FilterSetWrapper = styled.div``
 
-export const FilterIndicatorsWrapper = styled.div`
-  ${({ theme }) => css`
+interface WithType {
+  setType?: Maybe<string>
+  isActive?: boolean
+}
+
+export const FilterIndicatorsWrapper = styled.div<WithType>`
+  ${({ theme, setType, isActive }) => css`
     display: flex;
     height: 100%;
+    margin-right: ${isActive && setType === 'Type'
+      ? '0'
+      : isActive && setType !== 'Type'
+      ? '-13px'
+      : '0px'};
     & > div:first-child {
       margin-left: 0;
     }

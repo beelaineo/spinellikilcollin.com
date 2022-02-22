@@ -89,7 +89,10 @@ export const FilterSet = ({
         <Heading textTransform="uppercase" level={5}>
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
-        <FilterIndicatorsWrapper>
+        <FilterIndicatorsWrapper
+          isActive={Boolean(activeMatchKeys.length > 0)}
+          setType={filterSet.heading}
+        >
           {Boolean(activeMatchKeys.length > 0)
             ? definitely(filters).map((filter, i) => {
                 if (filter._key && activeMatchKeys.includes(filter._key)) {
