@@ -22,7 +22,9 @@ export const Diamond = ({ value }: DiamondIconProps) => {
         id="Filter"
         stroke="none"
         strokeWidth="1"
-        fill={value === 'Gemstones' ? '#C7E4C6' : 'none'}
+        fill={
+          value === 'Diamonds' ? '#ffffff' : 'Gemstones' ? '#C7E4C6' : 'none'
+        }
         fillRule="evenodd"
         strokeDasharray={value === 'All-Metal' ? '2' : '0'}
       >

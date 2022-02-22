@@ -141,7 +141,7 @@ export const FilterIndicator = ({
     case 'Type':
       return (
         <FilterValueLabel index={index}>
-          <Heading textTransform="uppercase" level={5}>
+          <Heading level={5}>
             {label}
             <CloseButtonWrapper>
               <CloseButton onClick={remove} />

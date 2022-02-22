@@ -17,7 +17,10 @@ export const CountWrapper = styled.div`
   ${({ theme }) => css`
     display: block;
     margin: 0 7;
-    padding: 4 0 0 0;
+    padding: 0 0 0 0;
+    position: absolute;
+    top: 60px;
+    z-index: -1;
     ${theme.mediaQueries.mobile} {
       margin: 0 4;
     }
@@ -49,6 +52,7 @@ export const SortWrapper = styled.div`
     background-color: body.2;
     line-height: 1;
     margin-bottom: 4;
+    margin-right: 0;
     cursor: pointer;
     select {
       text-transform: uppercase;
@@ -97,8 +101,8 @@ export const Inner = styled.div<WithOpen>`
     margin: 0 7;
     padding: 4 0;
     svg {
-      width: 32px;
-      margin: 0;
+      width: 24px;
+      margin: 2 0 0 0;
     }
     svg path {
       stroke: ${theme.colors.grays[7]};

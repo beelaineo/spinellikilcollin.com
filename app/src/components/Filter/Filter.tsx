@@ -117,11 +117,6 @@ export const Filter = ({
 
   return (
     <Wrapper>
-      <CountWrapper>
-        <Heading level={4} color="body.7">
-          Results: {productsCount}
-        </Heading>
-      </CountWrapper>
       <Inner open={true}>
         <FilterIcon />
         <FilterSets>
@@ -168,6 +163,11 @@ export const Filter = ({
           <SortSet applySort={applySort} />
         </SortWrapper>
       </Inner>
+      <CountWrapper>
+        <Heading level={5} color="body.7">
+          Results: {productsCount}
+        </Heading>
+      </CountWrapper>
     </Wrapper>
   )
 }
