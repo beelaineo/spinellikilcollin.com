@@ -53,11 +53,13 @@ const IndicatorStyle = (value) => {
 const MetalIndicator = styled.div<WithValue>`
   ${({ theme, value }) => css`
     display: block;
-    height: 24px;
-    width: 24px;
+    height: 21px;
+    width: 21px;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 100%;
-    margin-left: -16px; 
+    margin-left: -13px; 
+    margin-top: -6px;
+    margin-bottom: -6px;
     ${IndicatorStyle(value)}
     }
   `}
@@ -66,11 +68,13 @@ const MetalIndicator = styled.div<WithValue>`
 const StyleIndicator = styled.div<WithValue>`
   ${({ theme, value }) => css`
     display: block;
-    height: 24px;
-    width: 24px;
+    height: 21px;
+    width: 21px;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 100%;
-    margin-left: -16px; 
+    margin-left: -13px;
+    margin-top: -6px;
+    margin-bottom: -6px;
     ${IndicatorStyle(value)}
     }
   `}
@@ -89,13 +93,12 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
       margin-right: -1px;
       margin-top: -1px;
       margin-bottom: -1px;
-      padding: 0;
+      padding: 9px 4;
       padding-left: 40px;
       padding-right: 16px;
       justify-content: center;
       display: flex;
       width: min-content;
-      min-height: 38px;
       height: 100%;
       align-items: center;
       border: 1px solid gray;
@@ -108,11 +111,13 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
 const StoneIndicatorPearl = styled.div<WithValue>`
   ${({ theme, value }) => css`
       display: block;
-      height: 24px;
-      width: 24px;
+      height: 21px;
+      width: 21px;
       border: 1px solid ${theme.colors.grays[5]};
       border-radius: 50%;
-      margin-left: -16px; 
+      margin-left: -13px; 
+      margin-top: -6px;
+      margin-bottom: -6px;
       ${IndicatorStyle(value)}
     }
   `}

@@ -101,11 +101,11 @@ export const Inner = styled.div<WithOpen>`
     margin: 0 7;
     padding: 0;
     z-index: 1;
-    svg {
+    & > svg {
       width: 24px;
       margin: 2 0 0 0;
     }
-    svg path {
+    & > svg path {
       stroke: ${theme.colors.grays[7]};
     }
     ${theme.mediaQueries.mobile} {
@@ -209,9 +209,9 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
     ${isActive && type == 'Type'
-      ? 'padding: 0; & > h5 { min-width: 124px; } h5 { border: 1px solid ' +
+      ? 'padding: 0; & > h5 { min-width: 124px; padding: 9px 0; } h5 { border: 1px solid ' +
         theme.colors.grays[5] +
-        '; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
+        '; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 9px 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
         theme.colors.grays[5] +
         'gray; border-radius: 2em;' +
         '}'
@@ -255,7 +255,9 @@ export const DiamondWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     & > svg {
-      margin-left: -24px;
+      margin-left: -17px;
+      margin-top: -6px;
+      margin-bottom: -6px;
     }
   `}
 `

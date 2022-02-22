@@ -11,8 +11,8 @@ export const Diamond = ({ value }: DiamondIconProps) => {
 
   return (
     <svg
-      width="30px"
-      height="24px"
+      width="26.25px"
+      height="21px"
       viewBox="0 0 30 24"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,11 @@ export const Diamond = ({ value }: DiamondIconProps) => {
         stroke="none"
         strokeWidth="1"
         fill={
-          value === 'Diamonds' ? '#ffffff' : 'Gemstones' ? '#C7E4C6' : 'none'
+          value === 'Diamonds'
+            ? '#ffffff'
+            : value === 'Gemstones'
+            ? '#C7E4C6'
+            : 'none'
         }
         fillRule="evenodd"
         strokeDasharray={value === 'All-Metal' ? '2' : '0'}
