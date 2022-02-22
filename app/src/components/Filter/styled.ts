@@ -3,10 +3,10 @@ import { Button } from '../Button'
 import { Maybe } from '../../types'
 
 export const Wrapper = styled.div`
-  padding: 0;
+  padding: 4 0;
   width: 100%;
   position: sticky;
-  top: 72px;
+  top: 98px;
   z-index: 3;
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@ export const CountWrapper = styled.div`
     padding: 0 0 0 0;
     position: absolute;
     top: 60px;
-    z-index: -1;
+    z-index: 0;
     ${theme.mediaQueries.mobile} {
       margin: 0 4;
     }
@@ -99,7 +99,8 @@ export const Inner = styled.div<WithOpen>`
   ${({ theme, open }) => css`
     display: ${open ? 'flex' : 'none'};
     margin: 0 7;
-    padding: 4 0;
+    padding: 0;
+    z-index: 1;
     svg {
       width: 24px;
       margin: 2 0 0 0;

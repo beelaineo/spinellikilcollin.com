@@ -27,6 +27,7 @@ import { Heading } from '../../components/Text'
 import { PlusMinus } from '../../components/PlusMinus'
 import FilterIcon from '../../svg/FilterIcon.svg'
 import { FilterWrapper } from './FilterWrapper'
+import { Backdrop } from '../Navigation/Backdrop'
 import { Sort, SortSet } from './SortSet'
 
 const { useEffect, useState } = React
@@ -117,6 +118,7 @@ export const Filter = ({
 
   return (
     <Wrapper>
+      <Backdrop />
       <Inner open={true}>
         <FilterIcon />
         <FilterSets>
