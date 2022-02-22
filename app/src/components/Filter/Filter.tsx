@@ -16,6 +16,8 @@ import {
   MobileHeader,
   MobileControls,
   ControlTab,
+  MobileCloseButtonWrapper,
+  CloseButton,
   Inner,
   FilterSets,
   Header,
@@ -105,6 +107,7 @@ export const Filter = ({
   open: parentOpen,
 }: FilterProps) => {
   const [open, setOpen] = useState(false)
+  const [mobileDisplay, setMobileDisplay] = useState('filter')
 
   const toggleOpen = () => setOpen(!open)
 
@@ -155,24 +158,40 @@ export const Filter = ({
         {isMobile === true ? (
           <MobileHeader>
             <MobileControls>
-              <ControlTab>
-                <Heading level={4} color="body.7">
+              <ControlTab onClick={() => setMobileDisplay('filter')}>
+                <Heading
+                  level={4}
+                  color="body.7"
+                  textDecoration={
+                    mobileDisplay == 'filter' ? 'underline' : 'none'
+                  }
+                >
                   Filter
                 </Heading>
               </ControlTab>{' '}
               <span>|</span>{' '}
-              <ControlTab>
-                <Heading level={4} color="body.7">
+              <ControlTab onClick={() => setMobileDisplay('sort')}>
+                <Heading
+                  level={4}
+                  color="body.7"
+                  textDecoration={
+                    mobileDisplay == 'sort' ? 'underline' : 'none'
+                  }
+                >
                   Sort
                 </Heading>
               </ControlTab>
             </MobileControls>
-            <div onClick={toggleOpen}>X</div>
+            <MobileCloseButtonWrapper onClick={toggleOpen}>
+              <CloseButton />
+            </MobileCloseButtonWrapper>
           </MobileHeader>
         ) : (
           ''
         )}
-        <FilterSets>
+        <FilterSets
+          hide={Boolean(isMobile === true && mobileDisplay === 'sort')}
+        >
           {filters.map((filter) =>
             filter.__typename === 'FilterSet' ? (
               <FilterWrapper
@@ -210,9 +229,20 @@ export const Filter = ({
               </FilterWrapper>
             ) : null,
           )}
+          {isMobile === true ? (
+            <CountWrapper>
+              <Heading level={5} color="body.7">
+                Results: {productsCount}
+              </Heading>
+            </CountWrapper>
+          ) : (
+            ''
+          )}
           <Reset onClick={handleReset}>Reset</Reset>
         </FilterSets>
-        <SortWrapper>
+        <SortWrapper
+          hide={Boolean(isMobile === true && mobileDisplay === 'filter')}
+        >
           <SortSet applySort={applySort} />
         </SortWrapper>
       </Inner>

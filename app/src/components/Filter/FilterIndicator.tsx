@@ -129,6 +129,10 @@ const CloseButtonWrapper = styled.div`
     padding: 1;
     z-index: 2;
     cursor: initial;
+    button {
+      width: 8px;
+      height: 8px;
+    }
   `}
 `
 

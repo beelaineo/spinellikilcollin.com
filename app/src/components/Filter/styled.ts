@@ -54,6 +54,7 @@ export const MobileHeader = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid ${theme.colors.grays[5]};
   `}
 `
 
@@ -75,7 +76,25 @@ export const MobileControls = styled.div`
 `
 
 export const ControlTab = styled.div`
-  display: inline-block;
+  ${({ theme }) => css`
+    display: block;
+    h4,
+    h5 {
+      text-underline-position: under;
+    }
+  `}
+`
+
+export const MobileCloseButtonWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    padding: 3;
+    z-index: 2;
+    cursor: pointer;
+    button {
+      width: 16px;
+    }
+  `}
 `
 
 export const CountWrapper = styled.div`
@@ -87,7 +106,8 @@ export const CountWrapper = styled.div`
     top: 60px;
     z-index: 0;
     ${theme.mediaQueries.mobile} {
-      margin: 0 4;
+      margin: 0;
+      position: static;
     }
   `}
 `
@@ -99,13 +119,13 @@ export const LegacyWrapper = styled.div`
   position: relative;
 `
 
-export const SortWrapper = styled.div`
-  ${({ theme }) => css`
+export const SortWrapper = styled.div<WithHide>`
+  ${({ theme, hide }) => css`
     padding: 9px 4;
     width: 100%;
     flex: 0;
     min-width: 124px;
-
+    display: ${hide ? 'none' : 'block'};
     padding: 2 4;
     min-width: 124px;
     height: fit-content;
@@ -200,9 +220,12 @@ export const OpenButton = styled(Button)`
     }
   `}
 `
-export const FilterSets = styled.div`
-  ${({ theme }) => css`
-    display: flex;
+interface WithHide {
+  hide: boolean
+}
+export const FilterSets = styled.div<WithHide>`
+  ${({ theme, hide }) => css`
+    display: ${hide ? 'none' : 'flex'};
     padding: 0;
     margin: 0 4;
     flex: 1;
@@ -212,9 +235,9 @@ export const FilterSets = styled.div`
 
     ${theme.mediaQueries.mobile} {
       padding: 2 0;
-      display: block;
+      display: ${hide ? 'none' : 'block'};
       border-bottom: none;
-      margin: 0 4;
+      margin: 0;
     }
   `}
 `
@@ -427,8 +450,6 @@ export const CloseButton = styled.button`
     position: absolute;
     z-index: 20;
     background-color: transparent;
-    width: 8px;
-    height: 8px;
 
     &:before,
     &:after {
