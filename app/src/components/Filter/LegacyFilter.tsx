@@ -8,8 +8,8 @@ import {
   PRICE_RANGE_FILTER,
   FILTER_MATCH_GROUP,
 } from '../../types'
-import { FilterSet } from './FilterSet'
-import { PriceRangeFilter } from './PriceRangeFilter'
+import { LegacyFilterSet } from './LegacyFilterSet'
+import { LegacyPriceRangeFilter } from './LegacyPriceRangeFilter'
 import {
   LegacyWrapper,
   LegacyInner,
@@ -29,7 +29,7 @@ const { useEffect, useState } = React
 
 type FilterType = FilterSetType | PriceRangeFilterType
 
-interface FilterProps {
+interface LegacyFilterProps {
   filters: FilterType[] | null
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
@@ -90,7 +90,7 @@ export const LegacyFilter = ({
   applyFilters,
   applySort,
   open: parentOpen,
-}: FilterProps) => {
+}: LegacyFilterProps) => {
   const [open, setOpen] = useState(false)
   const { filterSetStates, setValues, resetAll, resetSet, toggle } =
     useFilterState(definitely(filters))
@@ -137,7 +137,7 @@ export const LegacyFilter = ({
                     type={filter.__typename}
                     filter={filter}
                   >
-                    <FilterSet
+                    <LegacyFilterSet
                       setKey={filter._key || 'some-key'}
                       filterSetState={filterSetStates.find(
                         (s) => s.key === filter._key,
@@ -154,7 +154,7 @@ export const LegacyFilter = ({
                     type={filter.__typename}
                     filter={filter}
                   >
-                    <PriceRangeFilter
+                    <LegacyPriceRangeFilter
                       setKey={filter._key || 'some-key'}
                       filterSetState={filterSetStates.find(
                         (s) => s.key === filter._key,
