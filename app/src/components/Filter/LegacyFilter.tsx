@@ -22,7 +22,7 @@ import { definitely } from '../../utils'
 import { useFilterState, FilterSetState } from './reducer'
 import { Button } from '../../components/Button'
 import { PlusMinus } from '../../components/PlusMinus'
-import { FilterWrapper } from './FilterWrapper'
+import { LegacyFilterWrapper } from './LegacyFilterWrapper'
 import { Sort, SortButton } from './SortButton'
 
 const { useEffect, useState } = React
@@ -131,7 +131,7 @@ export const LegacyFilter = ({
           {open
             ? filters.map((filter) =>
                 filter.__typename === 'FilterSet' ? (
-                  <FilterWrapper
+                  <LegacyFilterWrapper
                     key={filter._key || 'some-key'}
                     heading={filter.heading}
                     type={filter.__typename}
@@ -146,9 +146,9 @@ export const LegacyFilter = ({
                       toggleMatch={toggle(filter._key || 'some-key')}
                       filterSet={filter}
                     />
-                  </FilterWrapper>
+                  </LegacyFilterWrapper>
                 ) : filter.__typename === 'PriceRangeFilter' ? (
-                  <FilterWrapper
+                  <LegacyFilterWrapper
                     heading="Price Range"
                     key={filter._key || 'some-key'}
                     type={filter.__typename}
@@ -163,7 +163,7 @@ export const LegacyFilter = ({
                       resetSet={resetSet(filter._key || 'some-key')}
                       priceRangeFilter={filter}
                     />
-                  </FilterWrapper>
+                  </LegacyFilterWrapper>
                 ) : null,
               )
             : null}

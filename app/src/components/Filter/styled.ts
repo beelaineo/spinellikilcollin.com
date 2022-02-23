@@ -13,8 +13,8 @@ export const Wrapper = styled.div`
     flex-direction: column;
     justify-content: space-between;
     ${theme.mediaQueries.mobile} {
-      top: 34px;
-      padding: 2 0;
+      top: 72px;
+      padding: 0;
     }
   `}
 `
@@ -54,6 +54,7 @@ export const MobileHeader = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    border-top: 1px solid ${theme.colors.grays[5]};
     border-bottom: 1px solid ${theme.colors.grays[5]};
   `}
 `
@@ -94,6 +95,14 @@ export const MobileCloseButtonWrapper = styled.div`
     button {
       width: 16px;
     }
+  `}
+`
+export const MobileFooter = styled.div`
+  ${({ theme }) => css`
+    margin: 0 2;
+    position: static;
+    flex: 100%;
+    display: flex;
   `}
 `
 
@@ -144,6 +153,7 @@ export const SortWrapper = styled.div<WithHide>`
       line-height: 1;
     }
     ${theme.mediaQueries.mobile} {
+      margin: 5 0 4 0;
     }
   `}
 `
@@ -196,6 +206,7 @@ export const Inner = styled.div<WithOpen>`
     ${theme.mediaQueries.mobile} {
       margin: 0 4;
       flex-direction: column;
+      border-bottom: 1px solid ${theme.colors.grays[5]};
     }
   `}
 `
@@ -234,10 +245,16 @@ export const FilterSets = styled.div<WithHide>`
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 2 0;
-      display: ${hide ? 'none' : 'block'};
+      gap: 0 2;
+      padding: 5 0 2 0;
+      display: ${hide ? 'none' : 'flex'};
+      flex-direction: row;
+      flex-wrap: wrap;
       border-bottom: none;
       margin: 0;
+      & > div {
+        padding: 1 0;
+      }
     }
   `}
 `
@@ -306,6 +323,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         '}'
       : ''}
     ${theme.mediaQueries.mobile} {
+      margin: 0;
     }
   `}
 `
@@ -376,22 +394,39 @@ export const ButtonsWrapper = styled.div`
 `
 
 export const PriceRangeFilterWrapper = styled.div`
-  margin: 0 2;
-  & > div:first-child {
-    min-width: 178px;
-    text-align: left;
-    justify-content: flex-start;
-  }
-  label {
-    background-color: body.2;
+  ${({ theme }) => css`
     margin: 0 2;
-    line-height: 1;
-    font-style: italic;
-    span {
-      line-height: 1;
-      font-style: normal;
+    & > div:first-child {
+      min-width: 178px;
+      text-align: left;
+      justify-content: flex-start;
     }
-  }
+    label {
+      background-color: body.2;
+      margin: 0 2;
+      line-height: 1;
+      font-style: italic;
+      span {
+        line-height: 1;
+        font-style: normal;
+      }
+    }
+    ${theme.mediaQueries.mobile} {
+      margin: 0;
+      & > div:first-child {
+        min-width: unset;
+      }
+      label {
+        margin: 0;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        span {
+          margin: 0;
+        }
+      }
+    }
+  `}
 `
 
 export const Slider = styled.div<WithIsHovered>`
@@ -477,7 +512,7 @@ export const Reset = styled.buttonBox`
     transition: 0.25s;
     font-size: 5;
     cursor: pointer;
-    font-weight: 300;
+    font-weight: 200;
     height: fit-content;
     display: block;
     margin: 0;
@@ -485,5 +520,6 @@ export const Reset = styled.buttonBox`
     width: auto;
     border: none;
     text-decoration: underline;
+    text-underline-position: under;
   `}
 `

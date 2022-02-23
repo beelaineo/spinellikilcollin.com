@@ -5,6 +5,8 @@ import { PriceRangeFilterWrapper } from './styled'
 import { Span } from '../Text'
 import { HeadingWrapper, Slider, KnobHandle, KnobDot } from './styled'
 import { Label } from '../Forms/Fields/styled'
+import { theme } from '../../theme'
+import { useMedia } from '../../hooks'
 
 const { useMemo, useEffect, useState } = React
 
@@ -193,6 +195,22 @@ export function PriceRangeFilter({
   const updateMinPosition = (pos: number) => setCurrentMinPrice(pos)
   const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
 
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
+
+  const echoPriceString = () => {
+    if (isMobile === true) {
+      return `${parsePriceString(
+        getClosestStep(currentMinPrice),
+      )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
+    } else {
+      return `From ${parsePriceString(
+        getClosestStep(currentMinPrice),
+      )} to ${parsePriceString(getClosestStep(currentMaxPrice))}`
+    }
+  }
+
   return (
     <PriceRangeFilterWrapper
       onMouseEnter={handleMouseEnter}
@@ -203,8 +221,7 @@ export function PriceRangeFilter({
           <Span textTransform="uppercase" mr={2} color="body.9">
             Price:
           </Span>
-          From {parsePriceString(getClosestStep(currentMinPrice))} to{' '}
-          {parsePriceString(getClosestStep(currentMaxPrice))}
+          {echoPriceString()}
         </Label>
       </HeadingWrapper>
       <Slider ref={setContainer} isHovered={mouseEnter}>

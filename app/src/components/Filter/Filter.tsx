@@ -22,6 +22,7 @@ import {
   FilterSets,
   Header,
   CountWrapper,
+  MobileFooter,
   ButtonsWrapper,
   SortWrapper,
   Reset,
@@ -230,15 +231,15 @@ export const Filter = ({
             ) : null,
           )}
           {isMobile === true ? (
-            <CountWrapper>
+            <MobileFooter>
               <Heading level={5} color="body.7">
                 Results: {productsCount}
               </Heading>
-            </CountWrapper>
+              <Reset onClick={handleReset}>Reset</Reset>
+            </MobileFooter>
           ) : (
-            ''
+            <Reset onClick={handleReset}>Reset</Reset>
           )}
-          <Reset onClick={handleReset}>Reset</Reset>
         </FilterSets>
         <SortWrapper
           hide={Boolean(isMobile === true && mobileDisplay === 'filter')}

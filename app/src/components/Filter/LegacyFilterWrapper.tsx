@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import { FilterSetWrapper } from './styled'
+import { OpenButton, FilterSetWrapper } from './styled'
 import { PriceRangeFilter, FilterSet } from '../../types'
 
 const { useState } = React
@@ -20,13 +20,11 @@ const Wrapper = styled.div<WithType>`
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
     ${theme.mediaQueries.tablet} {
+      grid-row: span 1;
     }
     ${theme.mediaQueries.mobile} {
-      flex: 48%;
-      flex-grow: 0;
-      &:nth-last-child(2) {
-        min-width: unset;
-      }
+      border-color: body.0;
+      border-bottom: 1px solid;
     }
 
     &:last-of-type {
@@ -45,10 +43,42 @@ const Wrapper = styled.div<WithType>`
   `}
 `
 
-const Inner = styled.div<WithOpen>`
+const UpDown = styled.div<WithOpen>`
+  ${({ open }) => css`
+    width: 10px;
+    height: 10px;
+    border-color: currentColor;
+    border-top: 1px solid;
+    border-right: 1px solid;
+    transform: rotate(${open ? '-45deg' : '135deg'});
+    transform-origin: 50% 50%;
+    margin-right: 5px;
+  `}
+`
+
+const ButtonWrapper = styled.div`
   ${({ theme }) => css`
+    display: none;
+
     ${theme.mediaQueries.mobile} {
-      padding: 0;
+      justify-content: space-between;
+      align-items: center;
+      display: flex;
+      padding: 0 0;
+    }
+  `}
+`
+
+const Inner = styled.div<WithOpen>`
+  ${({ theme, open }) => css`
+    ${theme.mediaQueries.mobile} {
+      display: ${open ? 'block' : 'none'};
+      padding-bottom: 4;
+
+      ${FilterSetWrapper} {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
     }
   `}
 `
@@ -60,12 +90,15 @@ interface FilterWrapperProps {
   filter: FilterSet | PriceRangeFilter
 }
 
-export const FilterWrapper = ({
+export const LegacyFilterWrapper = ({
   type,
   heading,
   children,
   filter,
 }: FilterWrapperProps) => {
+  const [open, setOpen] = useState(false)
+  const toggleOpen = () => setOpen(!open)
+
   const rowSpan =
     filter.__typename === 'FilterSet'
       ? filter && filter?.filters?.length
@@ -75,7 +108,13 @@ export const FilterWrapper = ({
 
   return (
     <Wrapper rowSpan={rowSpan} type={type}>
-      <Inner open={true}>{children}</Inner>
+      <ButtonWrapper>
+        <OpenButton textTransform="upperCase" level={4} onClick={toggleOpen}>
+          {heading}
+          <UpDown open={open} />
+        </OpenButton>
+      </ButtonWrapper>
+      <Inner open={open}>{children}</Inner>
     </Wrapper>
   )
 }
