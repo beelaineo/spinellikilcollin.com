@@ -12,10 +12,11 @@ interface WithOpen {
 interface WithType {
   type?: string
   rowSpan?: number
+  active: boolean
 }
 
 const Wrapper = styled.div<WithType>`
-  ${({ theme, rowSpan, type }) => css`
+  ${({ theme, rowSpan, type, active }) => css`
     grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
@@ -27,6 +28,14 @@ const Wrapper = styled.div<WithType>`
       &:nth-last-child(2) {
         min-width: unset;
       }
+
+      ${active
+        ? css`
+            flex: 100%;
+            order: -1;
+            margin-bottom: 4;
+          `
+        : ''};
     }
 
     &:last-of-type {
@@ -58,6 +67,8 @@ interface FilterWrapperProps {
   children: React.ReactNode
   type: string
   filter: FilterSet | PriceRangeFilter
+  onClick: () => void
+  active: boolean
 }
 
 export const FilterWrapper = ({
@@ -65,6 +76,8 @@ export const FilterWrapper = ({
   heading,
   children,
   filter,
+  onClick,
+  active,
 }: FilterWrapperProps) => {
   const rowSpan =
     filter.__typename === 'FilterSet'
@@ -74,7 +87,7 @@ export const FilterWrapper = ({
       : undefined
 
   return (
-    <Wrapper rowSpan={rowSpan} type={type}>
+    <Wrapper rowSpan={rowSpan} type={type} onClick={onClick} active={active}>
       <Inner open={true}>{children}</Inner>
     </Wrapper>
   )

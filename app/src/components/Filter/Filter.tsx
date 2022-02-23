@@ -7,6 +7,7 @@ import {
   FilterMatchGroup,
   PRICE_RANGE_FILTER,
   FILTER_MATCH_GROUP,
+  Maybe,
 } from '../../types'
 import { FilterSet } from './FilterSet'
 import { PriceRangeFilter } from './PriceRangeFilter'
@@ -109,6 +110,7 @@ export const Filter = ({
 }: FilterProps) => {
   const [open, setOpen] = useState(false)
   const [mobileDisplay, setMobileDisplay] = useState('filter')
+  const [activeKey, setActiveKey] = useState('')
 
   const toggleOpen = () => setOpen(!open)
 
@@ -135,6 +137,10 @@ export const Filter = ({
   const isMobile = useMedia({
     maxWidth: `${theme.breakpoints?.md || '650'}px`,
   })
+
+  const handleFilterClick = (key?: Maybe<string>) => {
+    activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
+  }
 
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
@@ -200,6 +206,8 @@ export const Filter = ({
                 heading={filter.heading}
                 type={filter.__typename}
                 filter={filter}
+                onClick={() => handleFilterClick(filter._key)}
+                active={Boolean(activeKey === filter._key)}
               >
                 <FilterSet
                   setKey={filter._key || 'some-key'}
@@ -209,6 +217,7 @@ export const Filter = ({
                   resetSet={resetSet(filter._key || 'some-key')}
                   toggleMatch={toggle(filter._key || 'some-key')}
                   filterSet={filter}
+                  active={Boolean(activeKey === filter._key)}
                 />
               </FilterWrapper>
             ) : filter.__typename === 'PriceRangeFilter' ? (
@@ -217,6 +226,8 @@ export const Filter = ({
                 key={filter._key || 'some-key'}
                 type={filter.__typename}
                 filter={filter}
+                onClick={() => handleFilterClick(filter._key)}
+                active={Boolean(activeKey === filter._key)}
               >
                 <PriceRangeFilter
                   setKey={filter._key || 'some-key'}
@@ -226,6 +237,7 @@ export const Filter = ({
                   setValues={setValues(filter._key || 'some-key')}
                   resetSet={resetSet(filter._key || 'some-key')}
                   priceRangeFilter={filter}
+                  active={Boolean(activeKey === filter._key)}
                 />
               </FilterWrapper>
             ) : null,

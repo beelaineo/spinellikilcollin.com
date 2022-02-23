@@ -28,6 +28,11 @@ export const FilterCheckboxElement = styled.input`
     &:hover ~ label {
       background-color: grays.3;
     }
+    ${theme.mediaQueries.mobile} {
+      & ~ label {
+        margin: 0;
+      }
+    }
   `}
 `
 

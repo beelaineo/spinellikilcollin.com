@@ -98,6 +98,7 @@ interface PriceRangeFilterProps {
   setValues: (matchKey: string, values: PriceRangeFilterValues) => void
   resetSet: () => void
   setKey: string
+  active: boolean
 }
 
 const getStep = (
@@ -122,6 +123,7 @@ export function PriceRangeFilter({
   priceRangeFilter,
   filterSetState,
   setValues,
+  active,
 }: PriceRangeFilterProps) {
   const { _key } = priceRangeFilter
   if (!filterSetState) return null
@@ -224,7 +226,12 @@ export function PriceRangeFilter({
           {echoPriceString()}
         </Label>
       </HeadingWrapper>
-      <Slider ref={setContainer} isHovered={mouseEnter}>
+      <Slider
+        ref={setContainer}
+        isHovered={
+          Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
+        }
+      >
         <Knob
           amount={currentMinPrice}
           position={currentMinPrice}

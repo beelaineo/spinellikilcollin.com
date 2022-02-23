@@ -15,6 +15,8 @@ import {
   FiltersWrapper,
 } from './styled'
 import { FilterIndicator } from './FilterIndicator'
+import { theme } from '../../theme'
+import { useMedia } from '../../hooks'
 const { useEffect, useState } = React
 
 interface FilterCheckboxProps {
@@ -53,6 +55,7 @@ interface FilterSetProps {
   toggleMatch: (matchKey: string) => () => void
   resetSet: () => void
   setKey: string
+  active: boolean
 }
 
 interface State {
@@ -65,6 +68,7 @@ export const FilterSet = ({
   toggleMatch,
   resetSet,
   setKey,
+  active,
 }: FilterSetProps) => {
   if (!filterSetState) {
     throw new Error('No filterSetState was supplied')
@@ -77,6 +81,10 @@ export const FilterSet = ({
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
 
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
+
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
@@ -85,7 +93,6 @@ export const FilterSet = ({
       <HeadingWrapper
         isActive={Boolean(activeMatchKeys.length > 0)}
         type={heading}
-        onClick={handleMouseEnter}
       >
         <Heading textTransform="uppercase" level={5}>
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
@@ -111,7 +118,11 @@ export const FilterSet = ({
             : ''}
         </FilterIndicatorsWrapper>
       </HeadingWrapper>
-      <FiltersWrapper isHovered={mouseEnter}>
+      <FiltersWrapper
+        isHovered={
+          Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
+        }
+      >
         {definitely(filters).map((filter) => (
           <FilterCheckbox
             key={filter._key || 'some-key'}
