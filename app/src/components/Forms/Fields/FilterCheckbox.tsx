@@ -25,8 +25,10 @@ export const FilterCheckboxElement = styled.input`
     &:checked ~ label {
       background-color: grays.3;
     }
-    &:hover ~ label {
-      background-color: grays.3;
+    ${theme.mediaQueries.aboveMobile} {
+      &:hover ~ label {
+        background-color: grays.3;
+      }
     }
     ${theme.mediaQueries.mobile} {
       & ~ label {
