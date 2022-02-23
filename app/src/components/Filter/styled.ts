@@ -196,6 +196,7 @@ export const Inner = styled.div<WithOpen>`
     margin: 0 7;
     padding: 0;
     z-index: 1;
+    max-height: 48px;
     & > svg {
       width: 24px;
       margin: 2 0 0 0;
@@ -207,6 +208,7 @@ export const Inner = styled.div<WithOpen>`
       margin: 0 4;
       flex-direction: column;
       border-bottom: 1px solid ${theme.colors.grays[5]};
+      max-height: unset;
     }
   `}
 `
@@ -335,7 +337,9 @@ interface WithIsHovered {
 export const FiltersWrapper = styled.div<WithIsHovered>`
   ${({ theme, isHovered }) => css`
     display: ${isHovered ? 'block' : 'none'};
+    position: relative;
     ${theme.mediaQueries.mobile} {
+      position: relative;
     }
   `}
 `
