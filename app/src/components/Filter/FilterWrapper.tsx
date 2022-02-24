@@ -31,7 +31,7 @@ const Wrapper = styled.div<WithType>`
 
       ${active
         ? css`
-            margin-right: 50%;
+            flex: 100%;
             order: -1;
             margin-bottom: 4;
           `

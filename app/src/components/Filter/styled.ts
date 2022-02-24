@@ -340,11 +340,38 @@ export const FiltersWrapper = styled.div<WithIsHovered>`
     position: relative;
     ${theme.mediaQueries.mobile} {
       position: relative;
+      display: ${isHovered ? 'flex' : 'none'};
+      flex-wrap: wrap;
+      flex-direction: row;
+      gap: 0 2;
+      & > div {
+        display: block;
+      }
     }
   `}
 `
 
-export const FilterSetWrapper = styled.div``
+interface WithActive {
+  active?: boolean
+}
+
+export const FilterSetWrapper = styled.div<WithActive>`
+  ${({ theme, active }) => css`
+    ${theme.mediaQueries.mobile} {
+      display: ${active ? 'flex' : 'block'};
+      flex-direction: column;
+      ${active
+        ? css`
+            & > div:first-child {
+              margin-right: 50%;
+              flex: 100%;
+              min-width: unset;
+            }
+          `
+        : ''}
+    }
+  `}
+`
 
 interface WithType {
   setType?: Maybe<string>

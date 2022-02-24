@@ -89,6 +89,7 @@ export const FilterSet = ({
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      active={active}
     >
       <HeadingWrapper
         isActive={Boolean(activeMatchKeys.length > 0)}
