@@ -108,7 +108,8 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
             title,
             selectedOptions,
             priceV2,
-            availableForSale
+            availableForSale,
+            currentlyNotInStock
           },
         },
       },
@@ -176,7 +177,8 @@ export const moreProductsQuery = `
             title,
             selectedOptions,
             priceV2,
-            availableForSale
+            availableForSale,
+            currentlyNotInStock
           },
         },
       },
@@ -237,7 +239,8 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
           title,
           selectedOptions,
           priceV2,
-          availableForSale
+          availableForSale,
+          currentlyNotInStock
         },
       },
     },

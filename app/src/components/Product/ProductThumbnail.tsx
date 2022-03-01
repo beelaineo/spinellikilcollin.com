@@ -13,7 +13,7 @@ import {
 import { Heading } from '../Text'
 import { Image } from '../Image'
 import { TagBadges } from './TagBadges'
-import { ProductSwatches } from './ProductSwatches'
+import { ProductSwatches, IsDisplayingSwatches } from './ProductSwatches'
 import { Price } from '../Price'
 import {
   getProductUri,
@@ -25,6 +25,8 @@ import {
 import { useInViewport } from '../../hooks'
 import { useAnalytics } from '../../providers'
 import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
+import { variantFragment } from '../../graphql'
+import styled, { css } from '@xstyled/styled-components'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -40,6 +42,24 @@ interface ProductThumbnailProps {
   collectionId?: string | null
 }
 
+interface WithCurrentlyInStock {
+  currentlyInStock?: boolean
+}
+
+const TitleHeading = styled(Heading)<WithCurrentlyInStock>`
+  ${({ currentlyInStock }) => css``}
+`
+
+const InStockDot = styled('span')`
+  display: inline-block;
+  background-color: #00d009;
+  width: 12px;
+  height: 12px;
+  border-radius: 100%;
+  position: absolute;
+  margin-top: 6px;
+  margin-left: -20px;
+`
 const uniqueImages = (
   variants: ShopifySourceProductVariant[],
 ): ShopifySourceImage[] =>
@@ -146,6 +166,30 @@ export const ProductThumbnail = ({
     return matches
   }
 
+  const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
+    if (!product?.sourceData) return false
+    console.log('isProductCurrentlyInStock product', product)
+
+    const stockedVariants = product.sourceData?.variants?.edges?.filter(
+      (variant) => {
+        console.log('isProductCurrentlyInStock variant', variant)
+        return (
+          variant?.node?.availableForSale === true &&
+          variant?.node?.currentlyNotInStock === false
+        )
+      },
+    )
+
+    const isInStock =
+      stockedVariants && stockedVariants.length > 0 ? true : false
+    console.log(
+      isInStock
+        ? product.title + ' is in stock'
+        : product.title + ' is not in stock',
+    )
+    return isInStock
+  }
+
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
@@ -177,20 +221,51 @@ export const ProductThumbnail = ({
                 {minVariantPrice &&
                 maxVariantPrice &&
                 minVariantPrice.amount !== maxVariantPrice.amount ? (
-                  <Heading my={0} level={headingLevel || 3}>
+                  <TitleHeading
+                    my={0}
+                    level={headingLevel || 3}
+                    currentlyInStock={isProductCurrentlyInStock(product)}
+                  >
+                    {isProductCurrentlyInStock(product) &&
+                    !IsDisplayingSwatches(product) ? (
+                      <InStockDot />
+                    ) : (
+                      ''
+                    )}
                     {product.title} | <Price price={minVariantPrice} /> -{' '}
                     <Price price={maxVariantPrice} />
-                  </Heading>
+                  </TitleHeading>
                 ) : maxVariantPrice ? (
-                  <Heading level={headingLevel || 3} my={0}>
+                  <TitleHeading
+                    level={headingLevel || 3}
+                    my={0}
+                    currentlyInStock={isProductCurrentlyInStock(product)}
+                  >
+                    {isProductCurrentlyInStock(product) &&
+                    !IsDisplayingSwatches(product) ? (
+                      <InStockDot />
+                    ) : (
+                      ''
+                    )}
                     {product.title} | <Price price={maxVariantPrice} />
-                  </Heading>
+                  </TitleHeading>
                 ) : null}
               </>
             ) : (
-              <Heading textAlign="center" my={0} level={headingLevel || 3}>
+              <TitleHeading
+                textAlign="center"
+                my={0}
+                level={headingLevel || 3}
+                currentlyInStock={isProductCurrentlyInStock(product)}
+              >
+                {isProductCurrentlyInStock(product) &&
+                !IsDisplayingSwatches(product) ? (
+                  <InStockDot />
+                ) : (
+                  ''
+                )}
                 {product.title}
-              </Heading>
+              </TitleHeading>
             )}
             {displaySwatches ? (
               <div onClick={stopPropagation}>
