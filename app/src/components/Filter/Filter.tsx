@@ -68,6 +68,13 @@ const getCurrentFilters = (
         .map((fsf) => definitely(fsf.matches))
         .flat()
 
+      const filterSetMatches = filterSetFilters.filter((fsf) =>
+        activeMatchKeys.includes(fsf._key || 'some-key'),
+      )
+
+      console.log('filterSetFilters', filterSetFilters)
+      console.log('filterSetMatches', filterSetMatches)
+
       const matchGroup: FilterMatchGroup = {
         filterType: FILTER_MATCH_GROUP,
         matches: filterMatches,

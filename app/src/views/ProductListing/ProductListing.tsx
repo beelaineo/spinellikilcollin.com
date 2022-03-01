@@ -350,6 +350,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
+  console.log('filters', filters)
+
   const router = useRouter()
   console.log('router params', router.query)
 
@@ -455,8 +457,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     if (!filters?.length) {
       return
     }
-    setCurrentFilter(filters)
     console.log('applyFilters', filters)
+    setCurrentFilter(filters)
   }
 
   if (!handle) throw new Error('No handle was fetched')
