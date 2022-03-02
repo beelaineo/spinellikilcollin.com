@@ -53,12 +53,13 @@ const TitleHeading = styled(Heading)<WithCurrentlyInStock>`
 const InStockDot = styled('span')`
   display: inline-block;
   background-color: #00d009;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 100%;
   position: absolute;
   margin-top: 6px;
-  margin-left: -20px;
+  margin-left: -18px;
+  border: 1px solid #f5f3f3;
 `
 const uniqueImages = (
   variants: ShopifySourceProductVariant[],
@@ -166,19 +167,19 @@ export const ProductThumbnail = ({
     return matches
   }
 
+  const stockedVariants = product.sourceData?.variants?.edges?.filter(
+    (variant) => {
+      return (
+        variant?.node?.availableForSale === true &&
+        variant?.node?.currentlyNotInStock === false
+      )
+    },
+  )
+
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
     if (!product?.sourceData) return false
-    console.log('isProductCurrentlyInStock product', product)
 
-    const stockedVariants = product.sourceData?.variants?.edges?.filter(
-      (variant) => {
-        console.log('isProductCurrentlyInStock variant', variant)
-        return (
-          variant?.node?.availableForSale === true &&
-          variant?.node?.currentlyNotInStock === false
-        )
-      },
-    )
+    console.log('stockedVariants', stockedVariants)
 
     const isInStock =
       stockedVariants && stockedVariants.length > 0 ? true : false
@@ -198,6 +199,8 @@ export const ProductThumbnail = ({
     variant: currentVariant,
     currentPath: asPath,
   })
+
+  console.log('product', product)
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
@@ -273,6 +276,7 @@ export const ProductThumbnail = ({
                   onSwatchHover={onSwatchHover}
                   isSwatchActive={isSwatchActive}
                   product={product}
+                  stockedVariants={stockedVariants}
                 />
               </div>
             ) : (

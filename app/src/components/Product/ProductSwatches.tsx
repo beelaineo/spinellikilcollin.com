@@ -6,6 +6,7 @@ import {
   ShopifyProductOptionValue,
   ShopifyProductVariant,
   ShopifySourceProductVariant,
+  ShopifySourceProductVariantEdge,
   Maybe,
 } from '../../types'
 import {
@@ -15,10 +16,24 @@ import {
   optionMatchesVariant,
 } from '../../utils'
 import { SwatchesWrapper, SwatchWrapper } from './styled'
+import styled, { css } from '@xstyled/styled-components'
+
+const InStockDot = styled('span')`
+  display: inline-block;
+  background-color: #00d009;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  position: absolute;
+  top: 1px;
+  right: -2px;
+  border: 1px solid #f5f3f3;
+`
 
 interface OptionSwatchesProps {
   option: ShopifyProductOption
   variants?: Maybe<Maybe<ShopifyProductVariant>[]>
+  stockedOptions?: string[]
   onSwatchHover?: (
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
@@ -36,12 +51,18 @@ interface OptionSwatchesProps {
 export const OptionSwatches = ({
   option,
   variants,
+  stockedOptions,
   onSwatchClick,
   isSwatchActive,
   onSwatchHover,
 }: OptionSwatchesProps) => {
   console.log('option:', option)
   console.log('Option Swatch variants:', variants)
+
+  const isSwatchCurrentlyInStock = (value, stockedOptions): boolean => {
+    return stockedOptions.includes(value._key) ? true : false
+  }
+
   return (
     <SwatchesWrapper>
       {definitely(option.values).map((value) => (
@@ -61,6 +82,11 @@ export const OptionSwatches = ({
             ratio={1}
             sizes="40px"
           />
+          {isSwatchCurrentlyInStock(value, stockedOptions) ? (
+            <InStockDot />
+          ) : (
+            ''
+          )}
         </SwatchWrapper>
       ))}
     </SwatchesWrapper>
@@ -69,6 +95,7 @@ export const OptionSwatches = ({
 
 interface ProductSwatchesProps {
   product: ShopifyProduct
+  stockedVariants?: Maybe<ShopifySourceProductVariantEdge>[]
   onSwatchHover?: (
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
@@ -93,17 +120,35 @@ export const IsDisplayingSwatches = (product: ShopifyProduct) => {
 
 export const ProductSwatches = ({
   product,
+  stockedVariants,
   onSwatchClick,
   onSwatchHover,
   isSwatchActive,
 }: ProductSwatchesProps) => {
+  const slugify = (text?: Maybe<string>) => {
+    if (!text) return ''
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
+  }
+  const stockedColorOptions = stockedVariants
+    ?.map((variant) => {
+      return variant?.node?.selectedOptions?.find(
+        (option) => option?.name === 'Color',
+      )
+    })
+    .map((option) => slugify(option?.value))
+
+  console.log('stockedColorOptions:', stockedColorOptions)
   const swatchOptions = getSwatchOptions(product).filter(
     // @ts-ignore: Object is possibly 'null' or 'undefined'.
     (option) => option.values.length > 0,
   )
-
-  console.log('ProductSwatch product:', product)
-  console.log('ProductSwatch swatchOptions:', swatchOptions)
 
   return (
     <div>
@@ -111,6 +156,7 @@ export const ProductSwatches = ({
         <OptionSwatches
           option={option}
           variants={product.variants}
+          stockedOptions={stockedColorOptions}
           key={option._key || 'some-key'}
           onSwatchClick={onSwatchClick}
           onSwatchHover={onSwatchHover}
