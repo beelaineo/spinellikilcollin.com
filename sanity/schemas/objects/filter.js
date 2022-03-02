@@ -34,6 +34,32 @@ export const filterByPriceRange = {
   },
 }
 
+export const filterByInventory = {
+  name: 'inventoryFilter',
+  title: 'Inventory Filter',
+  type: 'object',
+  fields: [
+    {
+      name: 'label',
+      title: 'Currently In Stock Label',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+  ],
+
+  preview: {
+    select: {
+      label: 'label',
+    },
+    prepare: ({ label }) => {
+      return {
+        title: 'Inventory Filter',
+        subtitle: `${label}`,
+      }
+    },
+  },
+}
+
 const FilterMatchPreview = ({ value }) => {
   const { match, type } = value
   if (!type || !match) {
@@ -203,5 +229,9 @@ export const productFilter = {
   name: 'productFilter',
   type: 'array',
   title: 'Product Listing Filter',
-  of: [{ type: 'filterSet' }, { type: 'priceRangeFilter' }],
+  of: [
+    { type: 'filterSet' },
+    { type: 'priceRangeFilter' },
+    { type: 'inventoryFilter' },
+  ],
 }
