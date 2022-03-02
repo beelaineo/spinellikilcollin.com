@@ -1,6 +1,7 @@
 import {
   FilterMatch,
   PRICE_RANGE_FILTER,
+  INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
   FilterConfiguration,
   Document,
@@ -44,10 +45,14 @@ export const buildFilters = (filters: FilterConfiguration): string => {
           Math.ceil(maxPrice),
           ')',
         ].join('')
+      } else if (filterGroup.filterType === INVENTORY_FILTER) {
+        const rule =
+          '(count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
+        const { applyFilter } = filterGroup
+        return applyFilter ? rule : '(count(sourceData.variants.edges[]) > 0)'
       }
-      throw new Error('This kind of filter cannot be parsed')
+      throw new Error(`This kind of filter cannot be parsed`)
     })
-
     .join(' && ')
 }
 

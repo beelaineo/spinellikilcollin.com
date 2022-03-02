@@ -2,6 +2,7 @@ import * as React from 'react'
 import {
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
+  InventoryFilter as InventoryFilterType,
   FilterConfiguration,
   PriceRangeFilterConfiguration,
   FilterMatchGroup,
@@ -27,7 +28,7 @@ import { Sort, SortButton } from './SortButton'
 
 const { useEffect, useState } = React
 
-type FilterType = FilterSetType | PriceRangeFilterType
+type FilterType = FilterSetType | PriceRangeFilterType | InventoryFilterType
 
 interface LegacyFilterProps {
   filters: FilterType[] | null

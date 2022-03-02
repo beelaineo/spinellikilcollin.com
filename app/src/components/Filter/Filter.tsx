@@ -2,15 +2,19 @@ import * as React from 'react'
 import {
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
+  InventoryFilter as InventoryFilterType,
   FilterConfiguration,
   PriceRangeFilterConfiguration,
+  InventoryFilterConfiguration,
   FilterMatchGroup,
   PRICE_RANGE_FILTER,
+  INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
   Maybe,
 } from '../../types'
 import { FilterSet } from './FilterSet'
 import { PriceRangeFilter } from './PriceRangeFilter'
+import { InventoryFilter } from './InventoryFilter'
 import {
   Wrapper,
   MobileToggleWrapper,
@@ -42,7 +46,7 @@ import { theme } from '../../theme'
 
 const { useEffect, useState } = React
 
-type FilterType = FilterSetType | PriceRangeFilterType
+type FilterType = FilterSetType | PriceRangeFilterType | InventoryFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
@@ -56,6 +60,8 @@ const getCurrentFilters = (
   filters: FilterType[],
   filterSetStates: FilterSetState[],
 ): FilterConfiguration => {
+  console.log('getCurrentFilters filters', filters)
+
   return filterSetStates.reduce<FilterConfiguration>((acc, setState) => {
     const filter = filters.find((filter) => filter._key === setState.key)
     if (!filter) return acc
@@ -103,6 +109,23 @@ const getCurrentFilters = (
         maxPrice,
       }
       return [...acc, priceRangeFilter]
+    } else if (filter.__typename === 'InventoryFilter') {
+      console.log('inventoryFilter filterSetStates', filterSetStates)
+
+      const filterSetState = filterSetStates.find(
+        (fss) => fss.key === filter._key,
+      )
+
+      const label = filterSetState?.values?.label
+      const applyFilter = filterSetState?.values?.applyFilter
+
+      const inventoryFilter: InventoryFilterConfiguration = {
+        filterType: INVENTORY_FILTER,
+        key: filter._key || 'some-key',
+        applyFilter,
+        label,
+      }
+      return [...acc, inventoryFilter]
     }
     return acc
   }, [])
@@ -127,6 +150,8 @@ export const Filter = ({
 
   const { filterSetStates, setValues, resetAll, resetSet, toggle } =
     useFilterState(definitely(filters))
+
+  console.log('filterSetStates', filterSetStates)
 
   if (!filters || filterSetStates.length === 0) return null
 
@@ -244,6 +269,26 @@ export const Filter = ({
                   setValues={setValues(filter._key || 'some-key')}
                   resetSet={resetSet(filter._key || 'some-key')}
                   priceRangeFilter={filter}
+                  active={Boolean(activeKey === filter._key)}
+                />
+              </FilterWrapper>
+            ) : filter.__typename === 'InventoryFilter' ? (
+              <FilterWrapper
+                heading="Ready to Ship"
+                key={filter._key || 'some-key'}
+                type={filter.__typename}
+                filter={filter}
+                onClick={() => handleFilterClick(filter._key)}
+                active={Boolean(activeKey === filter._key)}
+              >
+                <InventoryFilter
+                  setKey={filter._key || 'some-key'}
+                  filterSetState={filterSetStates.find(
+                    (s) => s.key === filter._key,
+                  )}
+                  setValues={setValues(filter._key || 'some-key')}
+                  resetSet={resetSet(filter._key || 'some-key')}
+                  inventoryFilter={filter}
                   active={Boolean(activeKey === filter._key)}
                 />
               </FilterWrapper>

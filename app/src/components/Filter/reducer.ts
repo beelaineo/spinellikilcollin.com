@@ -2,6 +2,7 @@ import { useReducer } from 'react'
 import {
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
+  InventoryFilter as InventoryFilterType,
 } from '../../types'
 import { unique } from '../../utils'
 
@@ -158,7 +159,7 @@ const reducer = (state: State, action: Action): State => {
   return state
 }
 
-type Filters = Array<FilterSetType | PriceRangeFilterType>
+type Filters = Array<FilterSetType | PriceRangeFilterType | InventoryFilterType>
 
 interface UseFilterReducer {
   filterSetStates: FilterSetState[]
@@ -183,12 +184,20 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
             }
+          : filter.__typename === 'InventoryFilter'
+          ? {
+              label: filter?.label || 'Ready to Ship',
+            }
           : {},
       values:
         filter.__typename === 'PriceRangeFilter'
           ? {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
+            }
+          : filter.__typename === 'InventoryFilter'
+          ? {
+              label: filter?.label || 'Ready to Ship',
             }
           : {},
     })),

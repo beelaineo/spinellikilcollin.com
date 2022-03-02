@@ -173,6 +173,14 @@ export const priceRangeFilterFragment = gql`
   }
 `
 
+export const inventoryFilterFragment = gql`
+  fragment InventoryFilterFragment on InventoryFilter {
+    __typename
+    _key
+    label
+  }
+`
+
 export const ctaFragment = gql`
   fragment CTAFragment on Cta {
     __typename
