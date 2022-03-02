@@ -711,7 +711,10 @@ export type FilterSetFilter = {
   searchOnly?: Maybe<BooleanFilter>
 }
 
-export type FilterSetOrPriceRangeFilter = FilterSet | PriceRangeFilter
+export type FilterSetOrInventoryFilterOrPriceRangeFilter =
+  | FilterSet
+  | InventoryFilter
+  | PriceRangeFilter
 
 export type FilterSetSorting = {
   _key?: Maybe<SortOrder>
@@ -1018,6 +1021,25 @@ export type IntFilter = {
   lt?: Maybe<Scalars['Int']>
   /** Checks if the value is lesser than or equal to the given input. */
   lte?: Maybe<Scalars['Int']>
+}
+
+export interface InventoryFilter {
+  __typename: 'InventoryFilter'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  label?: Maybe<Scalars['String']>
+}
+
+export type InventoryFilterFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+}
+
+export type InventoryFilterSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
 }
 
 export interface JournalEntry extends Document {
@@ -1577,8 +1599,12 @@ export interface ProductListingSettings extends Document {
    * Collection within their own documents.
    */
   helpText?: Maybe<Scalars['String']>
-  defaultFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
-  newDefaultFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
+  defaultFilter?: Maybe<
+    Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
+  >
+  newDefaultFilter?: Maybe<
+    Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
+  >
 }
 
 export type ProductListingSettingsFilter = {
@@ -2397,7 +2423,9 @@ export interface ShopifyCollection extends Document {
   collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
   descriptionRaw?: Maybe<Scalars['JSON']>
   preferredVariantMatches?: Maybe<Array<Maybe<Scalars['String']>>>
-  customFilter?: Maybe<Array<Maybe<FilterSetOrPriceRangeFilter>>>
+  customFilter?: Maybe<
+    Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
+  >
   bambuser?: Maybe<BambuserSettings>
   seo?: Maybe<Seo>
 }

@@ -2645,8 +2645,8 @@ export interface ShopifyStorefrontDomain {
 
 /** Represents a video hosted outside of Shopify. */
 export interface ShopifyStorefrontExternalVideo
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'ExternalVideo'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
@@ -3007,8 +3007,8 @@ export enum ShopifyStorefrontMediaHost {
 
 /** Represents a Shopify hosted image. */
 export interface ShopifyStorefrontMediaImage
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'MediaImage'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
@@ -3088,8 +3088,8 @@ export enum ShopifyStorefrontMetafieldValueType {
 
 /** Represents a Shopify hosted 3D model. */
 export interface ShopifyStorefrontModel3d
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'Model3d'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
@@ -4007,8 +4007,8 @@ export type ShopifyStorefrontPricingValue =
  * customization of another product or an extended warranty).
  */
 export interface ShopifyStorefrontProduct
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontHasMetafields {
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'Product'
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']
@@ -4120,16 +4120,16 @@ export type ShopifyStorefrontProductDescriptionArgs = {
  * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductImagesArgs = {
+  maxWidth?: Maybe<Scalars['Int']>
+  maxHeight?: Maybe<Scalars['Int']>
+  crop?: Maybe<ShopifyStorefrontCropRegion>
+  scale?: Maybe<Scalars['Int']>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontProductImageSortKeys>
-  maxWidth?: Maybe<Scalars['Int']>
-  maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<ShopifyStorefrontCropRegion>
-  scale?: Maybe<Scalars['Int']>
 }
 
 /**
@@ -4365,8 +4365,8 @@ export enum ShopifyStorefrontProductSortKeys {
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
 export interface ShopifyStorefrontProductVariant
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontHasMetafields {
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'ProductVariant'
   /**
    * Indicates if the product variant is in stock.
@@ -5152,8 +5152,8 @@ export interface ShopifyStorefrontUserError
 
 /** Represents a Shopify hosted video. */
 export interface ShopifyStorefrontVideo
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'Video'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
