@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
-  InventoryFilter as InventoryFilterType,
+  InventoryFilter as InventoryFilterTypeSource,
   FilterConfiguration,
   PriceRangeFilterConfiguration,
   InventoryFilterConfiguration,
@@ -45,6 +45,10 @@ import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
 
 const { useEffect, useState } = React
+
+interface InventoryFilterType extends InventoryFilterTypeSource {
+  applyFilter?: boolean
+}
 
 type FilterType = FilterSetType | PriceRangeFilterType | InventoryFilterType
 

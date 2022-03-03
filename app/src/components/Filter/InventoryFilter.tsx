@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { InventoryFilter as InventoryFilterType } from '../../types'
+import { InventoryFilter as InventoryFilterTypeSource } from '../../types'
 import { FilterSetState } from './reducer'
 import { Span } from '../Text'
 import { PriceRangeFilterWrapper, HeadingWrapper } from './styled'
@@ -13,6 +13,10 @@ const { useEffect, useState } = React
 interface InventoryFilterValues {
   label: string
   applyFilter: boolean
+}
+
+interface InventoryFilterType extends InventoryFilterTypeSource {
+  applyFilter?: boolean
 }
 
 interface InventoryFilterProps {
@@ -62,6 +66,7 @@ export function InventoryFilter({
   inventoryFilter,
   filterSetState,
   setValues,
+  resetSet,
   active,
 }: InventoryFilterProps) {
   const { _key } = inventoryFilter
@@ -76,12 +81,18 @@ export function InventoryFilter({
     setApplyFilter(!applyFilter)
   }
 
+  console.log('INVENTORY FILTER filterSetState', filterSetState)
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setValues('', { applyFilter: applyFilter, label: label })
     }, 300)
     return () => clearTimeout(timeout)
   }, [applyFilter])
+
+  useEffect(() => {
+    setApplyFilter(filterSetState.values.applyFilter)
+  }, [filterSetState])
 
   if (!label) {
     throw new Error('The inventory filter was not configured with a label')

@@ -2,9 +2,10 @@ import { useReducer } from 'react'
 import {
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
-  InventoryFilter as InventoryFilterType,
+  InventoryFilter as InventoryFilterTypeSource,
 } from '../../types'
 import { unique } from '../../utils'
+import { InventoryFilter } from './InventoryFilter'
 
 export type FilterValues = Record<string, any>
 
@@ -13,6 +14,10 @@ export interface FilterSetState<FilterValueType = FilterValues> {
   activeMatchKeys: string[]
   values: FilterValueType
   initialValues: FilterValueType
+}
+
+interface InventoryFilterType extends InventoryFilterTypeSource {
+  applyFilter?: boolean
 }
 
 interface State {
@@ -187,6 +192,7 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
           : filter.__typename === 'InventoryFilter'
           ? {
               label: filter?.label || 'Ready to Ship',
+              applyFilter: false,
             }
           : {},
       values:
@@ -198,6 +204,7 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
           : filter.__typename === 'InventoryFilter'
           ? {
               label: filter?.label || 'Ready to Ship',
+              applyFilter: filter?.applyFilter || false,
             }
           : {},
     })),
