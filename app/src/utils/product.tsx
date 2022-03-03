@@ -63,6 +63,7 @@ export const getValidProductOptions = (
 ): ShopifyProductOption[] => {
   const options = definitely(product.options)
   const [variants] = unwindEdges(product?.sourceData?.variants)
+
   return options.map((option) => {
     const optionName = option?.name
     if (!optionName) {

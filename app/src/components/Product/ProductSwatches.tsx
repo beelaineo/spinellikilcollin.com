@@ -57,7 +57,6 @@ export const OptionSwatches = ({
   onSwatchHover,
 }: OptionSwatchesProps) => {
   const isSwatchCurrentlyInStock = (value, stockedOptions): boolean => {
-    if (!stockedOptions) return false
     return stockedOptions.includes(value._key) ? true : false
   }
 

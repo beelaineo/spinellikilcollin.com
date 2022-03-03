@@ -179,8 +179,6 @@ export const ProductThumbnail = ({
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
     if (!product?.sourceData) return false
 
-    console.log('ProductThumbnail stockedVariants', stockedVariants)
-
     const isInStock =
       stockedVariants && stockedVariants.length > 0 ? true : false
     return isInStock

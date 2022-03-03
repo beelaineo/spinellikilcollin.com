@@ -97,8 +97,6 @@ export function InventoryFilter({
     setApplyFilter(!applyFilter)
   }
 
-  console.log('INVENTORY FILTER filterSetState', filterSetState)
-
   useEffect(() => {
     const timeout = setTimeout(() => {
       setValues('', { applyFilter: applyFilter, label: label })

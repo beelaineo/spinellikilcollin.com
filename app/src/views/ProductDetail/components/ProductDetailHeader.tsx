@@ -27,18 +27,23 @@ export const ProductDetailHeader = ({
   currentVariant,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(product, currentVariant)
-  const { inquiryOnly } = product
+  const { inquiryOnly, variants } = product
   const { compareAtPriceV2, priceV2, currentlyNotInStock } =
     currentVariant?.sourceData ?? {}
+
+  const variantsInStock =
+    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
 
   return (
     <>
       <TitleWrapper product={product}>
-        {currentlyNotInStock !== true ? (
+        {variantsInStock?.length > 0 ? (
           <>
-            <Heading level={4} weight={2} mb={{ xs: 1, md: 2 }} as={'em'}>
+            <Heading level={4} weight={1} as={'em'}>
               <InStockDot />
-              Ready to ship
+              {currentlyNotInStock !== true
+                ? 'Ready to ship'
+                : 'Ready to ship in select sizes'}
             </Heading>
           </>
         ) : null}

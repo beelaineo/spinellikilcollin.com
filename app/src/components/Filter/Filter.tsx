@@ -64,8 +64,6 @@ const getCurrentFilters = (
   filters: FilterType[],
   filterSetStates: FilterSetState[],
 ): FilterConfiguration => {
-  console.log('getCurrentFilters filters', filters)
-
   return filterSetStates.reduce<FilterConfiguration>((acc, setState) => {
     const filter = filters.find((filter) => filter._key === setState.key)
     if (!filter) return acc
@@ -81,9 +79,6 @@ const getCurrentFilters = (
       const filterSetMatches = filterSetFilters.filter((fsf) =>
         activeMatchKeys.includes(fsf._key || 'some-key'),
       )
-
-      console.log('filterSetFilters', filterSetFilters)
-      console.log('filterSetMatches', filterSetMatches)
 
       const matchGroup: FilterMatchGroup = {
         filterType: FILTER_MATCH_GROUP,
@@ -114,8 +109,6 @@ const getCurrentFilters = (
       }
       return [...acc, priceRangeFilter]
     } else if (filter.__typename === 'InventoryFilter') {
-      console.log('inventoryFilter filterSetStates', filterSetStates)
-
       const filterSetState = filterSetStates.find(
         (fss) => fss.key === filter._key,
       )
@@ -154,8 +147,6 @@ export const Filter = ({
 
   const { filterSetStates, setValues, resetAll, resetSet, toggle } =
     useFilterState(definitely(filters))
-
-  console.log('filterSetStates', filterSetStates)
 
   if (!filters || filterSetStates.length === 0) return null
 
