@@ -6,6 +6,8 @@ import {
   ShopifyProductVariant,
   ShopifyProductOptionValue,
   Maybe,
+  ShopifySourceProductVariant,
+  ShopifySourceSelectedOption,
 } from '../../../types'
 import { Heading } from '../../../components/Text'
 import { Form, Field } from '../../../components/Forms'
@@ -65,6 +67,7 @@ const SelectWrapper = styled.div<SelectWrapperProps>`
 export const ProductOptionSelector = ({
   option,
   product,
+  variants,
   changeValueForOption,
   currentVariant,
   isInput,
@@ -95,22 +98,71 @@ export const ProductOptionSelector = ({
     selectOption(value)
   }
 
-  const stockedVariants = product.sourceData?.variants?.edges?.filter(
-    (variant) => {
+  const stockedVariants = product.sourceData?.variants?.edges
+    ?.filter((variant) => {
       return (
         variant?.node?.availableForSale === true &&
         variant?.node?.currentlyNotInStock === false
       )
-    },
-  )
+    })
+    .map((variant) => variant?.node)
 
   const stockedColorOptions = stockedVariants
     ?.map((variant) => {
-      return variant?.node?.selectedOptions?.find(
+      return variant?.selectedOptions?.find(
         (option) => option?.name === 'Color',
       )
     })
     .map((option) => slugify(option?.value))
+
+  const currentSelectedColor =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Color',
+    )
+
+  const getVariantOptions = (variantOptions) => {
+    console.log('variantOptions', variantOptions)
+    const arr: Record<string, unknown>[] = []
+    variantOptions.forEach((v) => {
+      const key = slugify(v.name)
+      const value: string = v.value
+      const obj: Record<string, unknown> = { [key]: value }
+      arr.push(obj)
+    })
+    return Object.assign({}, ...arr)
+  }
+
+  const currentVariantStockedOptions = stockedVariants?.map((variant) =>
+    getVariantOptions(variant?.selectedOptions),
+  )
+
+  const formatLabel = (value: string, option: ShopifyProductOption) => {
+    console.log('stockedVariants', stockedVariants)
+    console.log('option', option)
+    console.log('currentVariantStockedOptions', currentVariantStockedOptions)
+    console.log('currentSelectedColor', currentSelectedColor?.value)
+
+    console.log('value', value)
+
+    let i = 0
+    currentVariantStockedOptions?.forEach((v) => {
+      if (currentSelectedColor) {
+        if (
+          Object.values(v).includes(value) &&
+          Object.values(v).includes(currentSelectedColor?.value)
+        ) {
+          i++
+        }
+      } else {
+        if (Object.values(v).includes(value)) {
+          i++
+        }
+      }
+    })
+
+    const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+    return optionLabel
+  }
 
   const options = definitely(
     definitely(option.values).map(({ value }) =>
@@ -118,7 +170,7 @@ export const ProductOptionSelector = ({
         ? {
             value: value,
             id: value,
-            label: value,
+            label: formatLabel(value, option),
           }
         : null,
     ),
