@@ -36,6 +36,7 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
   ${({ theme, isApplied }) => css`
     cursor: pointer;
     & > div:first-child {
+      padding-right: 5;
       min-width: 100px;
       text-align: center;
       justify-content: center;
@@ -46,6 +47,21 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
     }
     &:hover > div:first-child {
       background-color: grays.3;
+    }
+    ${theme.mediaQueries.mobile} {
+      label {
+        margin: 0;
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        span {
+          margin: 0;
+          display: inline-block;
+          position: absolute;
+          left: 0px;
+          top: 2px;
+        }
+      }
     }
   `}
 `
