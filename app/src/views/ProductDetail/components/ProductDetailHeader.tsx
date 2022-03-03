@@ -4,6 +4,7 @@ import { TitleWrapper } from '../styled'
 import { Heading, Span } from '../../../components/Text'
 import { Price } from '../../../components/Price'
 import { getVariantTitle } from '../../../utils'
+import styled, { css } from '@xstyled/styled-components'
 
 interface ProductDetailHeaderProps {
   product: ShopifyProduct
@@ -11,16 +12,36 @@ interface ProductDetailHeaderProps {
   mobile?: string
 }
 
+const InStockDot = styled('span')`
+  display: inline-block;
+  background-color: #00d009;
+  width: 10px;
+  height: 10px;
+  margin-right: 6px;
+  border-radius: 100%;
+  border: 1px solid #f5f3f3;
+`
+
 export const ProductDetailHeader = ({
   product,
   currentVariant,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(product, currentVariant)
   const { inquiryOnly } = product
-  const { compareAtPriceV2, priceV2 } = currentVariant?.sourceData ?? {}
+  const { compareAtPriceV2, priceV2, currentlyNotInStock } =
+    currentVariant?.sourceData ?? {}
+
   return (
     <>
       <TitleWrapper product={product}>
+        {currentlyNotInStock !== true ? (
+          <>
+            <Heading level={4} weight={2} mb={{ xs: 1, md: 2 }} as={'em'}>
+              <InStockDot />
+              Ready to ship
+            </Heading>
+          </>
+        ) : null}
         <Heading level={3} weight={2} mb={{ xs: 1, md: 2 }}>
           {variantTitle || product.title}
         </Heading>

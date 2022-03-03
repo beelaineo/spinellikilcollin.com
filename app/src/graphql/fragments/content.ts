@@ -39,6 +39,7 @@ export const shopifySourceProductVariantFragment = gql`
     _key
     _type
     availableForSale
+    currentlyNotInStock
     id
     sku
     title

@@ -56,10 +56,8 @@ export const OptionSwatches = ({
   isSwatchActive,
   onSwatchHover,
 }: OptionSwatchesProps) => {
-  console.log('option:', option)
-  console.log('Option Swatch variants:', variants)
-
   const isSwatchCurrentlyInStock = (value, stockedOptions): boolean => {
+    if (!stockedOptions) return false
     return stockedOptions.includes(value._key) ? true : false
   }
 
@@ -144,7 +142,7 @@ export const ProductSwatches = ({
     })
     .map((option) => slugify(option?.value))
 
-  console.log('stockedColorOptions:', stockedColorOptions)
+  console.log('ProductSwatches stockedColorOptions:', stockedColorOptions)
   const swatchOptions = getSwatchOptions(product).filter(
     // @ts-ignore: Object is possibly 'null' or 'undefined'.
     (option) => option.values.length > 0,

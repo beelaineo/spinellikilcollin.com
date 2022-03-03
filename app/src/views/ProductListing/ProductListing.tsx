@@ -350,8 +350,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
-  console.log('filters', filters)
-
   const router = useRouter()
   console.log('router params', router.query)
 

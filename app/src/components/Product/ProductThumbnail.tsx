@@ -179,15 +179,10 @@ export const ProductThumbnail = ({
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
     if (!product?.sourceData) return false
 
-    console.log('stockedVariants', stockedVariants)
+    console.log('ProductThumbnail stockedVariants', stockedVariants)
 
     const isInStock =
       stockedVariants && stockedVariants.length > 0 ? true : false
-    console.log(
-      isInStock
-        ? product.title + ' is in stock'
-        : product.title + ' is not in stock',
-    )
     return isInStock
   }
 
@@ -199,8 +194,6 @@ export const ProductThumbnail = ({
     variant: currentVariant,
     currentPath: asPath,
   })
-
-  console.log('product', product)
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
