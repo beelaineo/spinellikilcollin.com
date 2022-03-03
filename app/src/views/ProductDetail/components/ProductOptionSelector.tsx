@@ -121,7 +121,6 @@ export const ProductOptionSelector = ({
     )
 
   const getVariantOptions = (variantOptions) => {
-    console.log('variantOptions', variantOptions)
     const arr: Record<string, unknown>[] = []
     variantOptions.forEach((v) => {
       const key = slugify(v.name)
@@ -137,13 +136,6 @@ export const ProductOptionSelector = ({
   )
 
   const formatLabel = (value: string, option: ShopifyProductOption) => {
-    console.log('stockedVariants', stockedVariants)
-    console.log('option', option)
-    console.log('currentVariantStockedOptions', currentVariantStockedOptions)
-    console.log('currentSelectedColor', currentSelectedColor?.value)
-
-    console.log('value', value)
-
     let i = 0
     currentVariantStockedOptions?.forEach((v) => {
       if (currentSelectedColor) {

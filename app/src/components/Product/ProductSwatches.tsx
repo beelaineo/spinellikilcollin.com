@@ -141,7 +141,6 @@ export const ProductSwatches = ({
     })
     .map((option) => slugify(option?.value))
 
-  console.log('ProductSwatches stockedColorOptions:', stockedColorOptions)
   const swatchOptions = getSwatchOptions(product).filter(
     // @ts-ignore: Object is possibly 'null' or 'undefined'.
     (option) => option.values.length > 0,

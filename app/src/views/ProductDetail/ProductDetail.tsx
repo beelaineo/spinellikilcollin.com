@@ -187,8 +187,6 @@ export const ProductDetail = ({ product }: Props) => {
     ? basePath.concat('?v=').concat(currentVariant.shopifyVariantID)
     : basePath
 
-  console.log('ProductDetail product', product)
-
   return (
     <>
       <SEO
