@@ -79,6 +79,11 @@ const InStockDot = styled('span')`
   border: 1px solid #f5f3f3;
 `
 
+const URLParams =
+  typeof window !== 'undefined'
+    ? new URLSearchParams(window.location.search)
+    : null
+
 export function InventoryFilter({
   inventoryFilter,
   filterSetState,
@@ -96,6 +101,9 @@ export function InventoryFilter({
 
   const toggleFilter = () => {
     setApplyFilter(!applyFilter)
+    router.query.instock = (!applyFilter).toString()
+    URLParams?.set('instock', (!applyFilter).toString())
+    console.log('URLParams', URLParams)
   }
 
   const router = useRouter()
