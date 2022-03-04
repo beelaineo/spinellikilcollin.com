@@ -18,6 +18,12 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
       return `title match "${match}"`
     case 'option':
       return `"${match}" in sourceData.options[].value`
+    case 'metal':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+    case 'style':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+    case 'stone':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
@@ -27,6 +33,7 @@ export const buildFilters = (filters: FilterConfiguration): string => {
   return filters
     .map((filterGroup) => {
       if (filterGroup.filterType === FILTER_MATCH_GROUP) {
+        console.log('filterGroup', filterGroup)
         return filterGroup.matches
           .map(parseFilterMatch)
           .filter(Boolean)

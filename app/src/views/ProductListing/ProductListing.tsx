@@ -534,7 +534,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             productsCount={productsCount}
           />
         ) : null}
-        {items.length === 0 ? (
+        {items.length === 0 && !loading ? (
           <NoResultsWrapper>
             <Heading level={3} textAlign="center" fontStyle="italic">
               No products found

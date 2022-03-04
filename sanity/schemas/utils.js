@@ -19,7 +19,7 @@ export const getTypeText = (doc) => {
   return 'Page'
 }
 
-const client = sanityClient.withConfig({ apiVersion: '2021-10-14' })
+const client = sanityClient.withConfig({ apiVersion: '2021-10-21' })
 
 export const getReferencedDocument = async (ref) => client.getDocument(ref)
 
