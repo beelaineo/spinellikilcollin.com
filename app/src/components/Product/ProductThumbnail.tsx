@@ -92,7 +92,6 @@ export const ProductThumbnail = ({
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
-  console.log('ProductThumbnail variants', variants)
 
   const mappedSelections = !product.initialVariantSelections
     ? false

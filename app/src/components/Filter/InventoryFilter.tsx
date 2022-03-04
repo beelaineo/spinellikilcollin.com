@@ -7,6 +7,7 @@ import { Label } from '../Forms/Fields/styled'
 import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
 import styled, { css } from '@xstyled/styled-components'
+import { useRouter } from 'next/router'
 
 const { useEffect, useState } = React
 
@@ -97,6 +98,9 @@ export function InventoryFilter({
     setApplyFilter(!applyFilter)
   }
 
+  const router = useRouter()
+  console.log('router', router)
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       setValues('', { applyFilter: applyFilter, label: label })
@@ -107,6 +111,12 @@ export function InventoryFilter({
   useEffect(() => {
     setApplyFilter(filterSetState.values.applyFilter)
   }, [filterSetState])
+
+  useEffect(() => {
+    router.query.instock === 'true'
+      ? setApplyFilter(true)
+      : setApplyFilter(false)
+  }, [router.isReady])
 
   if (!label) {
     throw new Error('The inventory filter was not configured with a label')
