@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@reach/auto-id": "^0.16.0",
-    "@sane-shopify/sanity-plugin": "^0.22.2",
+    "@sane-shopify/sanity-plugin": "^0.23.0",
     "@sanity/base": "^2.24.0",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/components": "^2.14.0",
@@ -39,6 +39,7 @@
     "@sanity/vision": "^2.24.0",
     "@types/eslint": "^7.28.0",
     "@types/prettier": "^2.3.2",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.24.0",
     "prettier": "^2.3.2",
     "prop-types": "^15.7",
@@ -47,7 +48,8 @@
     "react-icons": "^4.3.1",
     "rxjs": "^7.4.0",
     "sanity-plugin-media": "^1.4.1",
-    "styled-components": "^5.3.1"
+    "styled-components": "^5.3.1",
+    "tsc-watch": "^4.4.0"
   },
   "devDependencies": {
     "@good-idea/unwind-edges": "^1.5.3",
