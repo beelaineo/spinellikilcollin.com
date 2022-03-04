@@ -74,6 +74,14 @@ const FilterMatchPreview = ({ value }) => {
       ? 'Product options include'
       : type === 'By Product Title'
       ? 'Product title includes'
+      : type === 'By Product Subcategory'
+      ? 'Product subcategory equals'
+      : type === 'By Variant Metal'
+      ? 'Product variant metals include'
+      : type === 'By Variant Style'
+      ? 'Product variant style equals'
+      : type === 'By Variant Stone'
+      ? 'Product variant stones include'
       : null
   if (!titlePrefix) {
     throw new Error(`Could not generate title prefix for type "${type}"`)
@@ -106,6 +114,10 @@ export const filterMatch = {
       options: {
         layout: 'radio',
         list: [
+          { title: 'By Product Subcategory', value: 'subcategory' },
+          { title: 'By Variant Metal', value: 'metal' },
+          { title: 'By Variant Style', value: 'style' },
+          { title: 'By Variant Stone', value: 'stone' },
           { title: 'By Tag', value: 'tag' },
           { title: 'By Product Type', value: 'type' },
           { title: 'By Product Title', value: 'title' },
