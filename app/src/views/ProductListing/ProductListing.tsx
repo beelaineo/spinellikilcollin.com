@@ -419,22 +419,22 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       console.log('page: ', Math.ceil(productEnd / PAGE_SIZE))
       router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
 
-      URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
+      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
 
-      const newRelativePathQuery =
-        window.location.pathname + '?' + URLParams.toString()
-      history.pushState(null, '', newRelativePathQuery)
-      console.log('window.location.search', window.location.search)
+      // const newRelativePathQuery =
+      //   window.location.pathname + '?' + URLParams.toString()
+      // history.pushState(null, '', newRelativePathQuery)
+      // console.log('window.location.search', window.location.search)
     } else {
       setProductResults([...productResults, ...newProducts])
       console.log('page: ', Math.ceil(productEnd / PAGE_SIZE))
       router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
-      URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
+      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
 
-      const newRelativePathQuery =
-        window.location.pathname + '?' + URLParams.toString()
-      history.pushState(null, '', newRelativePathQuery)
-      console.log('window.location.search', window.location.search)
+      // const newRelativePathQuery =
+      //   window.location.pathname + '?' + URLParams.toString()
+      // history.pushState(null, '', newRelativePathQuery)
+      // console.log('window.location.search', window.location.search)
     }
     if (newSort) {
       setSort(newSort)
