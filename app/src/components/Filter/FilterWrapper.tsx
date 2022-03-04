@@ -29,7 +29,7 @@ const Wrapper = styled.div<WithType>`
         min-width: unset;
       }
 
-      ${active
+      ${active && type !== 'InventoryFilter'
         ? css`
             flex: 100%;
             order: -1;

@@ -12,6 +12,15 @@ interface ProductDetailHeaderProps {
   mobile?: string
 }
 
+const StockedLabel = styled('div')`
+  ${({ theme }) => css`
+    display: block;
+    ${theme.mediaQueries.tablet} {
+      display: none;
+    }
+  `}
+`
+
 const InStockDot = styled('span')`
   display: inline-block;
   background-color: #00d009;
@@ -38,14 +47,14 @@ export const ProductDetailHeader = ({
     <>
       <TitleWrapper product={product}>
         {variantsInStock?.length > 0 ? (
-          <>
+          <StockedLabel>
             <Heading level={4} weight={1} as={'em'}>
               <InStockDot />
               {currentlyNotInStock !== true
                 ? 'Ready to ship'
                 : 'Ready to ship in select sizes'}
             </Heading>
-          </>
+          </StockedLabel>
         ) : null}
         <Heading level={3} weight={2} mb={{ xs: 1, md: 2 }}>
           {variantTitle || product.title}
