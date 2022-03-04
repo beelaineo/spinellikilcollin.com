@@ -149,6 +149,10 @@ const FilterPreview = ({ value }) => {
   const typeMatches = matches.filter((m) => m.type === 'type')
   const titleMatches = matches.filter((m) => m.type === 'title')
   const optionMatches = matches.filter((m) => m.type === 'option')
+  const subcategoryMatches = matches.filter((m) => m.type === 'subcategory')
+  const metalMatches = matches.filter((m) => m.type === 'metal')
+  const styleMatches = matches.filter((m) => m.type === 'style')
+  const stoneMatches = matches.filter((m) => m.type === 'stone')
   const subtitles = [
     titleMatches.length
       ? `Matches title: ${titleMatches.map(({ match }) => match).join(', ')}`
@@ -161,6 +165,20 @@ const FilterPreview = ({ value }) => {
       : null,
     typeMatches.length
       ? `Matches type: ${typeMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    subcategoryMatches.length
+      ? `Matches subcategory: ${subcategoryMatches
+          .map(({ match }) => match)
+          .join(', ')}`
+      : null,
+    metalMatches.length
+      ? `Matches metal: ${metalMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    styleMatches.length
+      ? `Matches style: ${styleMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    stoneMatches.length
+      ? `Matches stone: ${stoneMatches.map(({ match }) => match).join(', ')}`
       : null,
   ].filter(Boolean)
   return (
