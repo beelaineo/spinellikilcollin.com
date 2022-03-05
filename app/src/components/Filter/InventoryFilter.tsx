@@ -41,13 +41,13 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
       min-width: 100px;
       text-align: center;
       justify-content: center;
-      background-color: ${isApplied ? theme.colors.grays[3] : 'transparent'};
+      background-color: ${isApplied ? theme.colors.grays[4] : 'transparent'};
       label {
         background-color: transparent;
       }
     }
     &:hover > div:first-child {
-      background-color: grays.3;
+      background-color: grays.4;
     }
     ${theme.mediaQueries.mobile} {
       label {

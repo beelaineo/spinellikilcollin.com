@@ -12,7 +12,7 @@ export const FilterCheckboxElement = styled.input`
     position: absolute;
 
     & ~ label {
-      padding: 9px 4;
+      padding: 2 4;
       min-width: 124px;
       margin: 0 2;
       text-align: center;
@@ -23,11 +23,11 @@ export const FilterCheckboxElement = styled.input`
     }
 
     &:checked ~ label {
-      background-color: grays.3;
+      background-color: grays.4;
     }
     ${theme.mediaQueries.aboveMobile} {
       &:hover ~ label {
-        background-color: grays.3;
+        background-color: grays.4;
       }
     }
     ${theme.mediaQueries.mobile} {

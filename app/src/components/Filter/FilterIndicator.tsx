@@ -93,7 +93,7 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
       margin-right: -1px;
       margin-top: -1px;
       margin-bottom: -1px;
-      padding: 9px 4;
+      padding: 2 4;
       padding-left: 39px;
       padding-right: 13px;
       justify-content: center;
@@ -103,7 +103,7 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
       align-items: center;
       border: 1px solid gray;
       line-height: 1;
-      background-color: ${theme.colors.grays[3]};
+      background-color: ${theme.colors.grays[4]};
     }
   `}
 `

@@ -130,7 +130,7 @@ export const LegacyWrapper = styled.div`
 
 export const SortWrapper = styled.div<WithHide>`
   ${({ theme, hide }) => css`
-    padding: 9px 4;
+    padding: 2 4;
     width: 100%;
     flex: 0;
     min-width: 124px;
@@ -202,7 +202,7 @@ export const Inner = styled.div<WithOpen>`
       margin: 2 0 0 0;
     }
     & > svg path {
-      stroke: ${theme.colors.grays[7]};
+      stroke: ${theme.colors.grays[6]};
     }
     ${theme.mediaQueries.mobile} {
       margin: 0 4;
@@ -292,7 +292,7 @@ interface WithIsActive {
 
 export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive, type }) => css`
-    padding: 9px 4;
+    padding: 2 4;
     min-width: 124px;
     margin: 0 2;
     border: 1px solid ${theme.colors.grays[5]};
@@ -310,17 +310,17 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     }
     ${isActive
       ? 'background-color: ' +
-        theme.colors.grays[3] +
+        theme.colors.grays[4] +
         '; justify-content: space-between; & > h5 {' +
         'background-color: ' +
-        theme.colors.grays[3] +
+        theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
     ${isActive && type == 'Type'
-      ? 'padding: 0; & > h5 { min-width: 124px; padding: 9px 0; } h5 { border: 1px solid ' +
-        theme.colors.grays[5] +
-        '; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 9px 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
-        theme.colors.grays[5] +
+      ? 'padding: 0; & > h5 { min-width: 124px; padding: 2 0; } h5 { border: 1px solid ' +
+        theme.colors.grays[4] +
+        '; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
+        theme.colors.grays[4] +
         'gray; border-radius: 2em;' +
         '}'
       : ''}
