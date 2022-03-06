@@ -4,17 +4,21 @@ import { Maybe } from '../../types'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding: 4 0;
+    padding: 5 0 2 0;
     width: 100%;
     position: sticky;
-    top: 98px;
+    top: 74px;
     z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    ${theme.mediaQueries.tablet} {
+      top: 62px;
+      padding: 3 5;
+    }
     ${theme.mediaQueries.mobile} {
-      top: 72px;
-      padding: 0;
+      top: 48px;
+      padding: 3 0;
     }
   `}
 `
@@ -36,16 +40,17 @@ export const MobileToggleWrapper = styled.div`
     }
     h4,
     h5 {
-      margin-left: 3;
+      margin: 0;
+      line-height: 1;
       cursor: pointer;
-      border-bottom: 1px solid ${theme.colors.grays[5]};
+      text-underline-position: under;
     }
   `}
 `
 
 export const MobileHeader = styled.div`
   ${({ theme }) => css`
-    padding: 4 2;
+    padding: 3 0;
     width: 100%;
     position: sticky;
     top: 0px;
@@ -69,9 +74,6 @@ export const MobileControls = styled.div`
       line-height: 1;
       margin: 0;
       cursor: pointer;
-    }
-    & > span {
-      margin: 0 3;
     }
   `}
 `
@@ -106,6 +108,21 @@ export const MobileFooter = styled.div`
   `}
 `
 
+export const DesktopFooter = styled.div`
+  ${({ theme }) => css`
+    margin: 0;
+    position: static;
+    flex: 100%;
+    display: flex;
+    @media screen and (max-width: 1200px) {
+      position: absolute;
+      top: 64px;
+      left: 48px;
+      margin-left: -3;
+    }
+  `}
+`
+
 export const CountWrapper = styled.div`
   ${({ theme }) => css`
     display: block;
@@ -114,10 +131,18 @@ export const CountWrapper = styled.div`
     position: absolute;
     top: 60px;
     z-index: 0;
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       margin: 0;
       position: static;
     }
+  `}
+`
+
+export const MobileControlsDivider = styled.span`
+  ${({ theme }) => css`
+    display: inline-block;
+    width: 24px;
+    text-align: center;
   `}
 `
 
@@ -134,6 +159,7 @@ export const SortWrapper = styled.div<WithHide>`
     width: 100%;
     flex: 0;
     display: flex;
+    max-height: 27px;
     justify-content: center;
     align-items: center;
     min-width: 124px;
@@ -150,9 +176,9 @@ export const SortWrapper = styled.div<WithHide>`
     select {
       text-transform: uppercase;
       line-height: 1;
-      display: inline-block;
+      display: block;
     }
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       margin: 5 0 4 0;
     }
   `}
@@ -167,7 +193,7 @@ export const Header = styled.div`
       text-align-last: right;
     }
 
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       padding: 0 4;
       margin-bottom: 50px;
       select {
@@ -204,7 +230,7 @@ export const Inner = styled.div<WithOpen>`
     & > svg path {
       stroke: ${theme.colors.grays[6]};
     }
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       margin: 0 4;
       flex-direction: column;
       border-bottom: 1px solid ${theme.colors.grays[5]};
@@ -225,7 +251,7 @@ export const OpenButton = styled(Button)`
       margin-left: 4;
     }
 
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       display: flex;
       width: 100%;
       justify-content: space-between;
@@ -246,12 +272,13 @@ export const FilterSets = styled.div<WithHide>`
     ${theme.mediaQueries.tablet} {
     }
 
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       gap: 0 2;
       padding: 5 0 2 0;
       display: ${hide ? 'none' : 'flex'};
       flex-direction: row;
       flex-wrap: wrap;
+      justify-content: space-evenly;
       border-bottom: none;
       margin: 0;
       & > div {
@@ -323,7 +350,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         '; border-radius: 2em;' +
         '}'
       : ''}
-    ${theme.mediaQueries.mobile} {
+      @media screen and (max-width: 960px) {
       margin: 0;
     }
   `}
@@ -337,7 +364,8 @@ export const FiltersWrapper = styled.div<WithIsHovered>`
   ${({ theme, isHovered }) => css`
     display: ${isHovered ? 'block' : 'none'};
     position: relative;
-    ${theme.mediaQueries.mobile} {
+    z-index: 2;
+    @media screen and (max-width: 960px) {
       position: relative;
       display: ${isHovered ? 'flex' : 'none'};
       flex-wrap: wrap;
@@ -356,7 +384,7 @@ interface WithActive {
 
 export const FilterSetWrapper = styled.div<WithActive>`
   ${({ theme, active }) => css`
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       display: ${active ? 'flex' : 'block'};
       flex-direction: column;
       ${active
@@ -416,7 +444,7 @@ export const ButtonsWrapper = styled.div`
     padding: 4 0;
     grid-template-columns: 160px 160px;
     grid-gap: 4;
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       margin: 0 4;
       grid-template-columns: 1fr;
     }
@@ -441,7 +469,7 @@ export const PriceRangeFilterWrapper = styled.div`
         font-style: normal;
       }
     }
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       margin: 0;
       & > div:first-child {
         min-width: unset;

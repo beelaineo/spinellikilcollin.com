@@ -82,7 +82,7 @@ export const FilterSet = ({
   const handleMouseLeave = () => setMouseEnter(false)
 
   const isMobile = useMedia({
-    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+    maxWidth: `960px`,
   })
 
   return (

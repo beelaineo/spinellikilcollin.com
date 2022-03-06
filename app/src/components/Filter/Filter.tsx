@@ -27,7 +27,9 @@ import {
   FilterSets,
   Header,
   CountWrapper,
+  MobileControlsDivider,
   MobileFooter,
+  DesktopFooter,
   ButtonsWrapper,
   SortWrapper,
   Reset,
@@ -161,7 +163,7 @@ export const Filter = ({
   }
 
   const isMobile = useMedia({
-    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+    maxWidth: `960px`,
   })
 
   const handleFilterClick = (key?: Maybe<string>) => {
@@ -178,8 +180,8 @@ export const Filter = ({
       <Backdrop />
       {isMobile === true && open === false ? (
         <MobileToggleWrapper onClick={toggleOpen}>
-          <Heading level={4} color="body.7">
-            Filter + Sort
+          <Heading level={4} color="body.7" textDecoration="underline">
+            Filter<MobileControlsDivider>+</MobileControlsDivider>Sort
           </Heading>
         </MobileToggleWrapper>
       ) : (
@@ -207,7 +209,7 @@ export const Filter = ({
                   Filter
                 </Heading>
               </ControlTab>{' '}
-              <span>|</span>{' '}
+              <MobileControlsDivider>|</MobileControlsDivider>{' '}
               <ControlTab onClick={() => setMobileDisplay('sort')}>
                 <Heading
                   level={4}
@@ -301,12 +303,12 @@ export const Filter = ({
               <Reset onClick={handleReset}>Reset</Reset>
             </MobileFooter>
           ) : (
-            <>
+            <DesktopFooter>
               <Heading level={5} color="body.7" ml={2}>
                 Results: {productsCount}
               </Heading>
               <Reset onClick={handleReset}>Reset</Reset>
-            </>
+            </DesktopFooter>
           )}
         </FilterSets>
         <SortWrapper

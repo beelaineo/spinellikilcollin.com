@@ -39,10 +39,12 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
     cursor: pointer;
     & > div:first-child {
       padding-right: 5;
-      min-width: 100px;
-      text-align: center;
-      justify-content: center;
-      background-color: ${isApplied ? theme.colors.grays[4] : 'transparent'};
+      min-width: 130px !important;
+      text-align: center !important;
+      justify-content: center !important;
+      background-color: ${isApplied
+        ? theme.colors.grays[4]
+        : theme.colors.grays[2]};
       label {
         background-color: transparent;
       }
@@ -50,7 +52,7 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
     &:hover > div:first-child {
       background-color: grays.4;
     }
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       label {
         margin: 0;
         display: flex;
@@ -136,7 +138,7 @@ export function InventoryFilter({
   }
 
   const isMobile = useMedia({
-    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+    maxWidth: `960px`,
   })
 
   return (
