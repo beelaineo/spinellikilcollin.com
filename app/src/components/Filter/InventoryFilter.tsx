@@ -57,7 +57,7 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
         margin: 0;
         display: flex;
         width: 100%;
-        justify-content: center;
+        justify-content: center !important;
         span {
           margin: 0;
           display: inline-block;

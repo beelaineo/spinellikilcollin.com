@@ -58,6 +58,7 @@ interface FilterProps {
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
   productsCount: number
+  resetFilters: number
   open?: boolean
 }
 
@@ -133,6 +134,7 @@ export const Filter = ({
   filters,
   applyFilters,
   applySort,
+  resetFilters,
   productsCount,
   open: parentOpen,
 }: FilterProps) => {
@@ -161,6 +163,10 @@ export const Filter = ({
     applyFilters(null)
     setOpen(false)
   }
+
+  useEffect(() => {
+    handleReset()
+  }, [resetFilters])
 
   const isMobile = useMedia({
     maxWidth: `960px`,

@@ -321,6 +321,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const { productListingSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [loading, setLoading] = useState(false)
+  const [resetFilters, doResetFilters] = useState(0)
   const [currentFilter, setCurrentFilter] =
     useState<FilterConfiguration | null>(null)
   const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
@@ -532,6 +533,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             applySort={applySort}
             filters={filters}
             productsCount={productsCount}
+            resetFilters={resetFilters}
           />
         ) : null}
         {items.length === 0 && !loading ? (
@@ -539,8 +541,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             <Heading level={3} textAlign="center" fontStyle="italic">
               No products found
             </Heading>
-            <Button textTransform="initial" level={3}>
-              Try using fewer filters
+            <Button
+              textTransform="initial"
+              onClick={() => doResetFilters((prev) => prev + 1)}
+              level={3}
+            >
+              Click here to reset and try using fewer filters.
             </Button>
           </NoResultsWrapper>
         ) : (
