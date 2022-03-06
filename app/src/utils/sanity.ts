@@ -18,6 +18,8 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
       return `title match "${match}"`
     case 'option':
       return `"${match}" in sourceData.options[].value`
+    case 'subcategory':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
     case 'metal':
       return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
     case 'style':

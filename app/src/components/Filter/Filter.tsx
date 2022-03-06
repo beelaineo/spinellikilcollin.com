@@ -37,7 +37,6 @@ import { useFilterState, FilterSetState } from './reducer'
 import { Button } from '../../components/Button'
 import { Heading } from '../../components/Text'
 import { PlusMinus } from '../../components/PlusMinus'
-import FilterIcon from '../../svg/FilterIcon.svg'
 import { FilterWrapper } from './FilterWrapper'
 import { Backdrop } from '../Navigation/Backdrop'
 import { Sort, SortSet } from './SortSet'
@@ -179,7 +178,6 @@ export const Filter = ({
       <Backdrop />
       {isMobile === true && open === false ? (
         <MobileToggleWrapper onClick={toggleOpen}>
-          <FilterIcon />
           <Heading level={4} color="body.7">
             Filter + Sort
           </Heading>
@@ -188,7 +186,13 @@ export const Filter = ({
         ''
       )}
       <Inner open={Boolean(isMobile === false || (isMobile === true && open))}>
-        {isMobile === false ? <FilterIcon /> : ''}
+        {isMobile === false ? (
+          <Heading level={5} color="body.7" mr={2}>
+            Filter by:
+          </Heading>
+        ) : (
+          ''
+        )}
         {isMobile === true ? (
           <MobileHeader>
             <MobileControls>
@@ -297,7 +301,12 @@ export const Filter = ({
               <Reset onClick={handleReset}>Reset</Reset>
             </MobileFooter>
           ) : (
-            <Reset onClick={handleReset}>Reset</Reset>
+            <>
+              <Heading level={5} color="body.7" ml={2}>
+                Results: {productsCount}
+              </Heading>
+              <Reset onClick={handleReset}>Reset</Reset>
+            </>
           )}
         </FilterSets>
         <SortWrapper
@@ -306,15 +315,6 @@ export const Filter = ({
           <SortSet applySort={applySort} />
         </SortWrapper>
       </Inner>
-      {isMobile === false ? (
-        <CountWrapper>
-          <Heading level={5} color="body.7">
-            Results: {productsCount}
-          </Heading>
-        </CountWrapper>
-      ) : (
-        ''
-      )}
     </Wrapper>
   )
 }

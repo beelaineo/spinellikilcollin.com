@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
     width: 100%;
     position: sticky;
     top: 98px;
-    z-index: 3;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -133,24 +133,24 @@ export const SortWrapper = styled.div<WithHide>`
     padding: 2 4;
     width: 100%;
     flex: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     min-width: 124px;
+    max-width: unset;
     display: ${hide ? 'none' : 'block'};
-    padding: 2 4;
-    min-width: 124px;
-    height: fit-content;
     margin: 0 2;
-    margin-bottom: 3;
     text-align: center;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 2em;
     background-color: body.2;
     line-height: 1;
-    margin-bottom: 4;
     margin-right: 0;
     cursor: pointer;
     select {
       text-transform: uppercase;
       line-height: 1;
+      display: inline-block;
     }
     ${theme.mediaQueries.mobile} {
       margin: 5 0 4 0;
@@ -240,7 +240,7 @@ export const FilterSets = styled.div<WithHide>`
   ${({ theme, hide }) => css`
     display: ${hide ? 'none' : 'flex'};
     padding: 0;
-    margin: 0 4;
+    margin: 0;
     flex: 1;
 
     ${theme.mediaQueries.tablet} {
@@ -293,14 +293,13 @@ interface WithIsActive {
 export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive, type }) => css`
     padding: 2 4;
-    min-width: 124px;
-    margin: 0 2;
-    border: 1px solid ${theme.colors.grays[5]};
+    min-width: 105px;
+    margin: 0 5px;
+    border: 1px solid ${theme.colors.grays[6]};
     border-radius: 2em;
     background-color: body.2;
     align-items: center;
     justify-content: center;
-    margin-bottom: 3;
     cursor: pointer;
     display: flex;
     line-height: 1;
@@ -311,17 +310,17 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     ${isActive
       ? 'background-color: ' +
         theme.colors.grays[4] +
-        '; justify-content: space-between; & > h5 {' +
+        '; justify-content: space-between; margin-bottom: 3; & > h5 {' +
         'background-color: ' +
         theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
     ${isActive && type == 'Type'
-      ? 'padding: 0; & > h5 { min-width: 124px; padding: 2 0; } h5 { border: 1px solid ' +
-        theme.colors.grays[4] +
+      ? 'padding: 0; & > h5 { min-width: 105px; padding: 2 0; } h5 { border: 1px solid ' +
+        theme.colors.grays[6] +
         '; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
-        theme.colors.grays[4] +
-        'gray; border-radius: 2em;' +
+        theme.colors.grays[6] +
+        '; border-radius: 2em;' +
         '}'
       : ''}
     ${theme.mediaQueries.mobile} {
@@ -426,9 +425,9 @@ export const ButtonsWrapper = styled.div`
 
 export const PriceRangeFilterWrapper = styled.div`
   ${({ theme }) => css`
-    margin: 0 2;
+    margin: 0;
     & > div:first-child {
-      min-width: 178px;
+      min-width: 156px;
       text-align: left;
       justify-content: flex-start;
     }

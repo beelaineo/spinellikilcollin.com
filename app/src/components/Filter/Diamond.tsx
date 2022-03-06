@@ -11,8 +11,8 @@ export const Diamond = ({ value }: DiamondIconProps) => {
 
   return (
     <svg
-      width="26.25px"
-      height="21px"
+      width="21.25px"
+      height="17px"
       viewBox="0 0 30 24"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"

@@ -202,15 +202,9 @@ export function PriceRangeFilter({
   })
 
   const echoPriceString = () => {
-    if (isMobile === true) {
-      return `${parsePriceString(
-        getClosestStep(currentMinPrice),
-      )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
-    } else {
-      return `From ${parsePriceString(
-        getClosestStep(currentMinPrice),
-      )} to ${parsePriceString(getClosestStep(currentMaxPrice))}`
-    }
+    return `${parsePriceString(
+      getClosestStep(currentMinPrice),
+    )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
   }
 
   return (

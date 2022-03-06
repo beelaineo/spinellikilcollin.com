@@ -35,6 +35,7 @@ interface WithIsApplied {
 
 const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
   ${({ theme, isApplied }) => css`
+    margin: 0;
     cursor: pointer;
     & > div:first-child {
       padding-right: 5;

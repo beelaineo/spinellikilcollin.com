@@ -14,8 +14,12 @@ export enum Sort {
 const SelectField = styled(SelectElement)`
   color: body.8;
   border: none;
-  min-width: initial;
+  min-width: unset;
+  max-width: unset;
   height: auto;
+  background-image: none;
+  padding: 0;
+  text-align: center;
 `
 
 const sortOptions = Object.values(Sort).map((value) => ({

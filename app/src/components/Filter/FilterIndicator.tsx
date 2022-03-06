@@ -42,7 +42,7 @@ const IndicatorStyle = (value) => {
     case 'Delicate':
       return 'background-color: transparent; border: 1px solid #818181;'
     case 'Bold':
-      return 'background-color: transparent; border: 4px solid #818181;'
+      return 'background-color: transparent; border: 3px solid #818181;'
     case 'Pearls':
       return 'background-image: linear-gradient(90deg, #FBE5E3 0%, #D3ECE5 100%);'
     default:
@@ -53,13 +53,13 @@ const IndicatorStyle = (value) => {
 const MetalIndicator = styled.div<WithValue>`
   ${({ theme, value }) => css`
     display: block;
-    height: 21px;
-    width: 21px;
+    height: 17px;
+    width: 17px;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 100%;
-    margin-left: -13px; 
-    margin-top: -6px;
-    margin-bottom: -6px;
+    margin-left: -11px; 
+    margin-top: -3px;
+    margin-bottom: -3px;
     ${IndicatorStyle(value)}
     }
   `}
@@ -68,13 +68,13 @@ const MetalIndicator = styled.div<WithValue>`
 const StyleIndicator = styled.div<WithValue>`
   ${({ theme, value }) => css`
     display: block;
-    height: 21px;
-    width: 21px;
+    height: 17px;
+    width: 17px;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 100%;
-    margin-left: -13px;
-    margin-top: -6px;
-    margin-bottom: -6px;
+    margin-left: -11px;
+    margin-top: -3px;
+    margin-bottom: -3px;
     ${IndicatorStyle(value)}
     }
   `}
@@ -111,11 +111,11 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
 const StoneIndicatorPearl = styled.div<WithValue>`
   ${({ theme, value }) => css`
       display: block;
-      height: 21px;
-      width: 21px;
+      height: 17px;
+      width: 17px;
       border: 1px solid ${theme.colors.grays[5]};
       border-radius: 50%;
-      margin-left: -13px; 
+      margin-left: -11px; 
       margin-top: -6px;
       margin-bottom: -6px;
       ${IndicatorStyle(value)}

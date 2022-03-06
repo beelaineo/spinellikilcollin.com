@@ -13,7 +13,7 @@ export const FilterCheckboxElement = styled.input`
 
     & ~ label {
       padding: 2 4;
-      min-width: 124px;
+      min-width: 105px;
       margin: 0 2;
       text-align: center;
       border: 1px solid ${theme.colors.grays[5]};
