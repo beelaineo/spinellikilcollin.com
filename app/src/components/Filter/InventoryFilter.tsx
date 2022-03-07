@@ -1,5 +1,8 @@
 import * as React from 'react'
-import { InventoryFilter as InventoryFilterTypeSource } from '../../types'
+import {
+  InventoryFilter as InventoryFilterTypeSource,
+  Maybe,
+} from '../../types'
 import { FilterSetState } from './reducer'
 import { Span } from '../Text'
 import { PriceRangeFilterWrapper, HeadingWrapper } from './styled'
@@ -27,6 +30,7 @@ interface InventoryFilterProps {
   resetSet: () => void
   setKey: string
   active: boolean
+  initiallyActive: boolean
 }
 
 interface WithIsApplied {
@@ -82,17 +86,13 @@ const InStockDot = styled('span')`
   margin-left: 6px;
 `
 
-const URLParams =
-  typeof window !== 'undefined'
-    ? new URLSearchParams(window.location.search)
-    : null
-
 export function InventoryFilter({
   inventoryFilter,
   filterSetState,
   setValues,
   resetSet,
   active,
+  initiallyActive,
 }: InventoryFilterProps) {
   const { _key } = inventoryFilter
   if (!filterSetState) return null
@@ -104,10 +104,14 @@ export function InventoryFilter({
 
   const toggleFilter = () => {
     setApplyFilter(!applyFilter)
-    router.query.instock = (!applyFilter).toString()
-    URLParams?.set('instock', (!applyFilter).toString())
     // console.log('URLParams', URLParams)
   }
+  console.log('filterSetState', filterSetState)
+  console.log('is Initially Active?', initiallyActive)
+
+  useEffect(() => {
+    filterSetState.initialValues.applyFilter = initiallyActive
+  }, [initiallyActive])
 
   const router = useRouter()
   // console.log('router', router)
@@ -123,11 +127,11 @@ export function InventoryFilter({
     setApplyFilter(filterSetState.values.applyFilter)
   }, [filterSetState])
 
-  useEffect(() => {
-    router.query.instock === 'true'
-      ? setApplyFilter(true)
-      : setApplyFilter(false)
-  }, [router.isReady])
+  // useEffect(() => {
+  //   router.query.instock === 'true'
+  //     ? setApplyFilter(true)
+  //     : setApplyFilter(false)
+  // }, [router.isReady])
 
   if (!label) {
     throw new Error('The inventory filter was not configured with a label')

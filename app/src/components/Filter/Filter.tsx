@@ -51,6 +51,8 @@ interface InventoryFilterType extends InventoryFilterTypeSource {
   applyFilter?: boolean
 }
 
+type FilterValues = Record<string, any>
+
 type FilterType = FilterSetType | PriceRangeFilterType | InventoryFilterType
 
 interface FilterProps {
@@ -58,6 +60,7 @@ interface FilterProps {
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
   productsCount: number
+  inStockFilter: boolean
   currentFilter: FilterConfiguration | null
   resetFilters: number
   hideFilter?: Maybe<boolean>
@@ -136,6 +139,7 @@ export const Filter = ({
   filters,
   applyFilters,
   applySort,
+  inStockFilter,
   resetFilters,
   hideFilter,
   productsCount,
@@ -184,6 +188,7 @@ export const Filter = ({
 
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
+    console.log('filterMatches', filterMatches)
     applyFilters(filterMatches)
   }, [filterSetStates])
 
@@ -306,6 +311,7 @@ export const Filter = ({
                     resetSet={resetSet(filter._key || 'some-key')}
                     inventoryFilter={filter}
                     active={Boolean(activeKey === filter._key)}
+                    initiallyActive={inStockFilter}
                   />
                 </FilterWrapper>
               ) : null,

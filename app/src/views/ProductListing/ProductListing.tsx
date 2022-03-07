@@ -34,7 +34,7 @@ const { useRef, useEffect, useState } = React
 
 interface ProductListingProps {
   collection: ShopifyCollection & { productsCount?: number }
-  inStock?: boolean
+  inStockFilter: boolean
 }
 
 type Item = ShopifyProduct | CollectionBlockType
@@ -313,7 +313,10 @@ function isCollectionResult(
 //   )
 // }
 
-export const ProductListing = ({ collection }: ProductListingProps) => {
+export const ProductListing = ({
+  collection,
+  inStockFilter,
+}: ProductListingProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
   const [productResults, setProductResults] = useState<ShopifyProduct[]>([
     ...definitely(collection.products).slice(0, PAGE_SIZE),
@@ -343,6 +346,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     hideFilter,
     overrideDefaultFilter,
   } = collection
+
   const defaultFilter = productListingSettings?.newDefaultFilter
   const defaultFilters = definitely(defaultFilter).filter(
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
@@ -480,6 +484,20 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     }
   }, [loading])
 
+  // useEffect(() => {
+  //   if (inStockFilter) {
+  //     console.log('FILTERS', filters)
+  //     console.log('CURRENT FILTERS', currentFilter)
+  //     currentFilter?.map((f) => {
+  //       if (f.filterType === 'INVENTORY_FILTER') {
+  //         f.applyFilter = true
+  //       }
+  //     })
+  //     console.log('CURRENT FILTERS MAPPED', currentFilter)
+  //     setInitialFilterValues(currentFilter)
+  //   }
+  // }, [])
+
   const applyFilters = async (filters: null | FilterConfiguration) => {
     if (!filters?.length) {
       return
@@ -563,6 +581,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             productsCount={productsCount}
             resetFilters={resetFilters}
             hideFilter={hideFilter}
+            inStockFilter={inStockFilter}
           />
         ) : null}
         {items.length === 0 && !loading ? (

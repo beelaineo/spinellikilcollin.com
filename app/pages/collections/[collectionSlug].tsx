@@ -98,6 +98,8 @@ const Collection = ({ collection }: CollectionPageProps) => {
     typeof window !== 'undefined'
       ? new URLSearchParams(window.location.search)
       : null
+  console.log('params', params)
+  const inStock = params?.get('instock') === 'true' ? true : false
   const token = params?.get('preview')
   const preview = Boolean(params?.get('preview'))
 
@@ -124,15 +126,24 @@ const Collection = ({ collection }: CollectionPageProps) => {
           <ProductListing
             key={collection._id || 'some-key'}
             collection={collection}
+            inStockFilter={inStock}
           />
         )
-      return <ProductListing key={data._id || 'some-key'} collection={data} />
+      return (
+        <ProductListing
+          key={data._id || 'some-key'}
+          collection={data}
+          inStockFilter={inStock}
+        />
+      )
     } else {
       if (!collection) return <NotFound />
+      console.log('inStock', inStock)
       return (
         <ProductListing
           key={collection._id || 'some-key'}
           collection={collection}
+          inStockFilter={inStock}
         />
       )
     }
