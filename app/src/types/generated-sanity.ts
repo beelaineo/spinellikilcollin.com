@@ -2423,6 +2423,10 @@ export interface ShopifyCollection extends Document {
   collectionBlocks?: Maybe<Array<Maybe<CollectionBlock>>>
   descriptionRaw?: Maybe<Scalars['JSON']>
   preferredVariantMatches?: Maybe<Array<Maybe<Scalars['String']>>>
+  /** Toggle this to ON to remove all filters from the collection view. */
+  hideFilter?: Maybe<Scalars['Boolean']>
+  /** Toggle this to ON to only display the custom filters you add below. */
+  overrideDefaultFilter?: Maybe<Scalars['Boolean']>
   customFilter?: Maybe<
     Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
   >
@@ -2448,6 +2452,8 @@ export type ShopifyCollectionFilter = {
   reduceColumnCount?: Maybe<BooleanFilter>
   lightTheme?: Maybe<BooleanFilter>
   hero?: Maybe<HeroFilter>
+  hideFilter?: Maybe<BooleanFilter>
+  overrideDefaultFilter?: Maybe<BooleanFilter>
   bambuser?: Maybe<BambuserSettingsFilter>
   seo?: Maybe<SeoFilter>
 }
@@ -2468,6 +2474,8 @@ export type ShopifyCollectionSorting = {
   reduceColumnCount?: Maybe<SortOrder>
   lightTheme?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
+  hideFilter?: Maybe<SortOrder>
+  overrideDefaultFilter?: Maybe<SortOrder>
   bambuser?: Maybe<BambuserSettingsSorting>
   seo?: Maybe<SeoSorting>
 }
