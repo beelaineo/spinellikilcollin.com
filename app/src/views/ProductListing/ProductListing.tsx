@@ -349,6 +349,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
   )
   const filters = [...customFilters, ...defaultFilters]
+
+  filters.map((filter) => {
+    if (filter._type === 'inventoryFilter')
+      filters.push(filters.splice(filters.indexOf(filter), 1)[0])
+  })
+
   console.log('prepended filters', filters)
 
   if (!handle) {
