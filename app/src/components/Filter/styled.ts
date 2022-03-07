@@ -162,7 +162,7 @@ export const SortWrapper = styled.div<WithHide>`
     max-height: 27px;
     justify-content: center;
     align-items: center;
-    min-width: 124px;
+    min-width: 105px;
     max-width: unset;
     display: ${hide ? 'none' : 'block'};
     margin: 0 2;
