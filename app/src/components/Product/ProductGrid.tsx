@@ -99,7 +99,7 @@ import * as React from 'react'
 interface ProductGridProps {
   items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
-  currentFilter: FilterConfiguration | null
+  currentFilter?: FilterConfiguration | null
   reduceColumnCount?: boolean | null
   collectionId?: string | null
 }
