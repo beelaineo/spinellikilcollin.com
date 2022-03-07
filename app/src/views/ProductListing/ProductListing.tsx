@@ -364,12 +364,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
-  console.log('collection', collection)
-  console.log('customFilter', customFilter)
-  console.log('currentFilter', currentFilter)
+  // console.log('collection', collection)
+  // console.log('customFilter', customFilter)
+  // console.log('currentFilter', currentFilter)
 
   const router = useRouter()
-  console.log('router params', router.query)
+  // console.log('router params', router.query)
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
   const description = descriptionRaw ? descriptionRaw.slice(1) : null
@@ -429,6 +429,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       : definitely(results)
 
     if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
+    console.log('newProducts', newProducts)
+
+    //@ts-ignore
+    setProductsCount(newProducts[0].queryCount)
 
     const URLParams = new URLSearchParams(window.location.search)
 

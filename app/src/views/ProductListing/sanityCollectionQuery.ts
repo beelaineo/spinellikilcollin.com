@@ -246,6 +246,14 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
       },
     },
   },
+  "queryCount": count( *[
+    _type == "shopifyProduct" &&
+      defined(shopifyId) &&
+      hidden != true &&
+      (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
+      references($collectionId) 
+    ${filterString ? `&& ${filterString}` : ''}
+  ] ),
 }[$productStart...$productEnd]
 `
 
