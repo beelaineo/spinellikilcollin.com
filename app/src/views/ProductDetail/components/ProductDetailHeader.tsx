@@ -51,8 +51,8 @@ export const ProductDetailHeader = ({
             <Heading level={4} weight={1} as={'em'}>
               <InStockDot />
               {currentlyNotInStock !== true
-                ? 'Ready to ship'
-                : 'Ready to ship in select sizes'}
+                ? 'Ready to Ship'
+                : 'Ready to Ship in Select Sizes'}
             </Heading>
           </StockedLabel>
         ) : null}
