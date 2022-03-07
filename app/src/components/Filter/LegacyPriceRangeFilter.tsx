@@ -92,13 +92,12 @@ interface PriceRangeFilterValues {
   maxPrice: number
 }
 
-interface PriceRangeFilterProps {
+interface LegacyPriceRangeFilterProps {
   priceRangeFilter: PriceRangeFilterType
   filterSetState?: FilterSetState
   setValues: (matchKey: string, values: PriceRangeFilterValues) => void
   resetSet: () => void
   setKey: string
-  active: boolean
 }
 
 const getStep = (
@@ -119,12 +118,11 @@ const getSteps = (minPrice: number, maxPrice: number): number[] => {
   return steps
 }
 
-export function PriceRangeFilter({
+export function LegacyPriceRangeFilter({
   priceRangeFilter,
   filterSetState,
   setValues,
-  active,
-}: PriceRangeFilterProps) {
+}: LegacyPriceRangeFilterProps) {
   const { _key } = priceRangeFilter
   if (!filterSetState) return null
   const { minPrice: initialMinPrice, maxPrice: initialMaxPrice } =
@@ -198,13 +196,19 @@ export function PriceRangeFilter({
   const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
 
   const isMobile = useMedia({
-    maxWidth: `960px`,
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
   })
 
   const echoPriceString = () => {
-    return `${parsePriceString(
-      getClosestStep(currentMinPrice),
-    )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
+    if (isMobile === true) {
+      return `${parsePriceString(
+        getClosestStep(currentMinPrice),
+      )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
+    } else {
+      return `From ${parsePriceString(
+        getClosestStep(currentMinPrice),
+      )} to ${parsePriceString(getClosestStep(currentMaxPrice))}`
+    }
   }
 
   return (
@@ -220,12 +224,7 @@ export function PriceRangeFilter({
           {echoPriceString()}
         </Label>
       </HeadingWrapper>
-      <Slider
-        ref={setContainer}
-        isHovered={
-          Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
-        }
-      >
+      <Slider ref={setContainer} isHovered={mouseEnter}>
         <Knob
           amount={currentMinPrice}
           position={currentMinPrice}

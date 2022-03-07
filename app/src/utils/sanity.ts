@@ -1,6 +1,7 @@
 import {
   FilterMatch,
   PRICE_RANGE_FILTER,
+  INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
   FilterConfiguration,
   Document,
@@ -17,6 +18,14 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
       return `title match "${match}"`
     case 'option':
       return `"${match}" in sourceData.options[].value`
+    case 'subcategory':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+    case 'metal':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+    case 'style':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+    case 'stone':
+      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
@@ -44,10 +53,14 @@ export const buildFilters = (filters: FilterConfiguration): string => {
           Math.ceil(maxPrice),
           ')',
         ].join('')
+      } else if (filterGroup.filterType === INVENTORY_FILTER) {
+        const rule =
+          '(count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
+        const { applyFilter } = filterGroup
+        return applyFilter ? rule : '(count(sourceData.variants.edges[]) > 0)'
       }
-      throw new Error('This kind of filter cannot be parsed')
+      throw new Error(`This kind of filter cannot be parsed`)
     })
-
     .join(' && ')
 }
 

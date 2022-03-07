@@ -19,6 +19,7 @@ import {
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
+import { Heading } from '../../components/Text'
 import {
   ProductVariantSelector,
   BuyButton,
@@ -42,8 +43,32 @@ import {
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
+import styled, { css } from '@xstyled/styled-components'
 
 const { useEffect } = React
+
+const InStockDot = styled('span')`
+  ${({ theme }) => css`
+    display: inline-block;
+    background-color: #00d009;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    border-radius: 100%;
+    border: 1px solid #f5f3f3;
+  `}
+`
+
+const StockedLabelMobile = styled('div')`
+  ${({ theme }) => css`
+    display: none;
+    margin-bottom: 4;
+    font-size: ${theme.fontSizes[5]}px;
+    ${theme.mediaQueries.tablet} {
+      display: block;
+    }
+  `}
+`
 
 interface Props {
   product: ShopifyProduct
@@ -115,6 +140,10 @@ export const ProductDetail = ({ product }: Props) => {
   const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)
+
+  const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
+  const variantsInStock =
+    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
 
   /* get product image variants from Shopify */
   const description = parseHTML(product?.sourceData?.descriptionHtml)
@@ -221,6 +250,16 @@ export const ProductDetail = ({ product }: Props) => {
                 />
 
                 <ProductInfoWrapper>
+                  {variantsInStock?.length > 0 ? (
+                    <StockedLabelMobile>
+                      <Heading level={4} weight={1} as={'em'}>
+                        <InStockDot />
+                        {currentlyNotInStock !== true
+                          ? 'Ready to Ship'
+                          : 'Ready to Ship in Select Sizes'}
+                      </Heading>
+                    </StockedLabelMobile>
+                  ) : null}
                   <ProductVariantSelector
                     variants={variants}
                     currentVariant={currentVariant}

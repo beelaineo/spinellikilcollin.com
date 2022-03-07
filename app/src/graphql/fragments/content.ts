@@ -39,6 +39,7 @@ export const shopifySourceProductVariantFragment = gql`
     _key
     _type
     availableForSale
+    currentlyNotInStock
     id
     sku
     title
@@ -170,6 +171,14 @@ export const priceRangeFilterFragment = gql`
     _key
     minPrice
     maxPrice
+  }
+`
+
+export const inventoryFilterFragment = gql`
+  fragment InventoryFilterFragment on InventoryFilter {
+    __typename
+    _key
+    label
   }
 `
 

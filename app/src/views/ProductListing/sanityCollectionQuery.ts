@@ -7,8 +7,8 @@ const getSortString = (sort?: Sort): string => {
   if (sort === Sort.PriceDesc) return 'maxVariantPrice desc'
   // if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
   // if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
-  if (sort === Sort.AlphaAsc) return 'title asc'
-  if (sort === Sort.AlphaDesc) return 'title desc'
+  // if (sort === Sort.AlphaAsc) return 'title asc'
+  // if (sort === Sort.AlphaDesc) return 'title desc'
   return 'default'
 }
 
@@ -27,6 +27,9 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   shopifyId,
   reduceColumnCount,
   lightTheme,
+  customFilter,
+  hideFilter,
+  overrideDefaultFilter,
 	seo{
   	"image": select(
   		defined(image.asset) => {
@@ -108,12 +111,14 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
             title,
             selectedOptions,
             priceV2,
-            availableForSale
+            availableForSale,
+            currentlyNotInStock
           },
         },
       },
     },
   }[$productStart..$productEnd],
+  "productsCount": count( products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] ),
   preferredVariantMatches,
   collectionBlocks[]{
     _key,
@@ -175,7 +180,8 @@ export const moreProductsQuery = `
             title,
             selectedOptions,
             priceV2,
-            availableForSale
+            availableForSale,
+            currentlyNotInStock
           },
         },
       },
@@ -236,11 +242,20 @@ const filterQuery = (filterString: string = '', sort?: Sort) => `
           title,
           selectedOptions,
           priceV2,
-          availableForSale
+          availableForSale,
+          currentlyNotInStock
         },
       },
     },
   },
+  "queryCount": count( *[
+    _type == "shopifyProduct" &&
+      defined(shopifyId) &&
+      hidden != true &&
+      (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
+      references($collectionId) 
+    ${filterString ? `&& ${filterString}` : ''}
+  ] ),
 }[$productStart...$productEnd]
 `
 

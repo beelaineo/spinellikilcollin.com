@@ -2,8 +2,10 @@ import { useReducer } from 'react'
 import {
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
+  InventoryFilter as InventoryFilterTypeSource,
 } from '../../types'
 import { unique } from '../../utils'
+import { InventoryFilter } from './InventoryFilter'
 
 export type FilterValues = Record<string, any>
 
@@ -12,6 +14,10 @@ export interface FilterSetState<FilterValueType = FilterValues> {
   activeMatchKeys: string[]
   values: FilterValueType
   initialValues: FilterValueType
+}
+
+interface InventoryFilterType extends InventoryFilterTypeSource {
+  applyFilter?: boolean
 }
 
 interface State {
@@ -158,7 +164,7 @@ const reducer = (state: State, action: Action): State => {
   return state
 }
 
-type Filters = Array<FilterSetType | PriceRangeFilterType>
+type Filters = Array<FilterSetType | PriceRangeFilterType | InventoryFilterType>
 
 interface UseFilterReducer {
   filterSetStates: FilterSetState[]
@@ -183,12 +189,22 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
             }
+          : filter.__typename === 'InventoryFilter'
+          ? {
+              label: filter?.label || 'Ready to Ship',
+              applyFilter: false,
+            }
           : {},
       values:
         filter.__typename === 'PriceRangeFilter'
           ? {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
+            }
+          : filter.__typename === 'InventoryFilter'
+          ? {
+              label: filter?.label || 'Ready to Ship',
+              applyFilter: filter?.applyFilter || false,
             }
           : {},
     })),

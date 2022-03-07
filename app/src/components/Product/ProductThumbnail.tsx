@@ -8,23 +8,27 @@ import {
   ShopifyProductOptionValue,
   ShopifySourceProductVariant,
   ShopifySourceImage,
+  FilterConfiguration,
   Maybe,
 } from '../../types'
 import { Heading } from '../Text'
 import { Image } from '../Image'
 import { TagBadges } from './TagBadges'
-import { ProductSwatches } from './ProductSwatches'
+import { ProductSwatches, IsDisplayingSwatches } from './ProductSwatches'
 import { Price } from '../Price'
 import {
   getProductUri,
   getVariantBySelectedOption,
   optionMatchesVariant,
   getBestVariantByMatch,
+  getBestVariantByFilterMatch,
   definitely,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
 import { useAnalytics } from '../../providers'
 import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
+import { variantFragment } from '../../graphql'
+import styled, { css } from '@xstyled/styled-components'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -36,10 +40,33 @@ interface ProductThumbnailProps {
   preload?: boolean
   headingLevel?: number
   preferredVariantMatches?: Maybe<string>[] | null
+  currentFilter?: FilterConfiguration | null
   imageRatio?: number
   collectionId?: string | null
 }
 
+interface WithCurrentlyInStock {
+  currentlyInStock?: boolean
+}
+
+const TitleHeading = styled(Heading)<WithCurrentlyInStock>`
+  ${({ currentlyInStock }) => css``}
+`
+
+const InStockDot = styled('span')`
+  display: inline-block;
+  background-color: #00d009;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  position: absolute;
+  margin-top: 6px;
+  margin-left: -18px;
+  border: 1px solid #f5f3f3;
+  @media screen and (max-width: 960px) {
+    margin-top: 4px;
+  }
+`
 const uniqueImages = (
   variants: ShopifySourceProductVariant[],
 ): ShopifySourceImage[] =>
@@ -59,6 +86,7 @@ export const ProductThumbnail = ({
   displaySwatches,
   headingLevel,
   preferredVariantMatches,
+  currentFilter,
   imageRatio,
   collectionId,
 }: ProductThumbnailProps) => {
@@ -71,6 +99,7 @@ export const ProductThumbnail = ({
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
+  const variantsFull = product?.sourceData?.variants
 
   const mappedSelections = !product.initialVariantSelections
     ? false
@@ -146,6 +175,88 @@ export const ProductThumbnail = ({
     return matches
   }
 
+  // console.log('currentFilter on productthumbnail', currentFilter)
+
+  useEffect(() => {
+    if (!currentFilter) return
+
+    // {
+    //   "filterType": "PRICE_RANGE_FILTER",
+    //   "key": "dda7b169dd63",
+    //   "minPrice": 0,
+    //   "maxPrice": 20000
+    // }
+    // {
+    //   "filterType": "FILTER_MATCH_GROUP",
+    //   "matches": [
+    //       {
+    //           "__typename": "FilterMatch",
+    //           "_key": "2c29d6a35976",
+    //           "type": "stone",
+    //           "match": "d"
+    //       }
+    //   ]
+    // }
+    //   {
+    //     "filterType": "INVENTORY_FILTER",
+    //     "key": "1db172bb87b8",
+    //     "applyFilter": true,
+    //     "label": "Ready to Ship"
+    // }
+
+    interface FilterProps {
+      name: string
+      value: string | boolean
+    }
+
+    const filters = currentFilter
+      .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
+      .map((filter, i) => {
+        const { filterType } = filter
+        if (filterType === 'FILTER_MATCH_GROUP') {
+          const { matches } = filter
+          const newMatches = matches.map((matchGroup) => {
+            const { type, match } = matchGroup
+            return {
+              name: type,
+              value: match,
+            }
+          })
+          return newMatches
+        } else if (filterType === 'INVENTORY_FILTER') {
+          const newFilter = {
+            name: 'inventory',
+            value: filter.applyFilter,
+          }
+          return newFilter
+        }
+      })
+      .flat()
+      .reverse()
+    // console.log('new filters', filters)
+    // console.log('variants', variantsFull)
+    //@ts-ignore
+    const filteredVariant = getBestVariantByFilterMatch(variants, filters)
+    setCurrentVariant(filteredVariant)
+  }, [currentFilter])
+
+  const stockedVariants = product.sourceData?.variants?.edges?.filter(
+    (variant) => {
+      return (
+        variant?.node?.availableForSale === true &&
+        variant?.node?.currentlyNotInStock === false
+      )
+    },
+  )
+
+  const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
+    if (!product?.sourceData) return false
+
+    const isInStock =
+      stockedVariants && stockedVariants.length > 0 ? true : false
+    return isInStock
+  }
+
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
@@ -177,20 +288,51 @@ export const ProductThumbnail = ({
                 {minVariantPrice &&
                 maxVariantPrice &&
                 minVariantPrice.amount !== maxVariantPrice.amount ? (
-                  <Heading my={0} level={headingLevel || 3}>
+                  <TitleHeading
+                    my={0}
+                    level={headingLevel || 3}
+                    currentlyInStock={isProductCurrentlyInStock(product)}
+                  >
+                    {isProductCurrentlyInStock(product) &&
+                    !IsDisplayingSwatches(product) ? (
+                      <InStockDot />
+                    ) : (
+                      ''
+                    )}
                     {product.title} | <Price price={minVariantPrice} /> -{' '}
                     <Price price={maxVariantPrice} />
-                  </Heading>
+                  </TitleHeading>
                 ) : maxVariantPrice ? (
-                  <Heading level={headingLevel || 3} my={0}>
+                  <TitleHeading
+                    level={headingLevel || 3}
+                    my={0}
+                    currentlyInStock={isProductCurrentlyInStock(product)}
+                  >
+                    {isProductCurrentlyInStock(product) &&
+                    !IsDisplayingSwatches(product) ? (
+                      <InStockDot />
+                    ) : (
+                      ''
+                    )}
                     {product.title} | <Price price={maxVariantPrice} />
-                  </Heading>
+                  </TitleHeading>
                 ) : null}
               </>
             ) : (
-              <Heading textAlign="center" my={0} level={headingLevel || 3}>
+              <TitleHeading
+                textAlign="center"
+                my={0}
+                level={headingLevel || 3}
+                currentlyInStock={isProductCurrentlyInStock(product)}
+              >
+                {isProductCurrentlyInStock(product) &&
+                !IsDisplayingSwatches(product) ? (
+                  <InStockDot />
+                ) : (
+                  ''
+                )}
                 {product.title}
-              </Heading>
+              </TitleHeading>
             )}
             {displaySwatches ? (
               <div onClick={stopPropagation}>
@@ -198,6 +340,7 @@ export const ProductThumbnail = ({
                   onSwatchHover={onSwatchHover}
                   isSwatchActive={isSwatchActive}
                   product={product}
+                  stockedVariants={stockedVariants}
                 />
               </div>
             ) : (

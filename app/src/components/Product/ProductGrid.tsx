@@ -6,6 +6,7 @@ import {
   ShopifyProduct,
   ShopifyCollection,
   CollectionBlock as CollectionBlockType,
+  FilterConfiguration,
 } from '../../types'
 import { CollectionThumbnail, CollectionBlock } from '../Collection'
 import { definitely } from '../../utils'
@@ -98,12 +99,14 @@ import * as React from 'react'
 interface ProductGridProps {
   items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
+  currentFilter?: FilterConfiguration | null
   reduceColumnCount?: boolean | null
   collectionId?: string | null
 }
 
 export const ProductGrid = ({
   preferredVariantMatches,
+  currentFilter,
   items,
   reduceColumnCount,
   collectionId,
@@ -131,6 +134,7 @@ export const ProductGrid = ({
                   displayPrice
                   imageRatio={1}
                   preferredVariantMatches={preferredVariantMatches}
+                  currentFilter={currentFilter}
                   collectionId={collectionId}
                 />
               </ProductGridItem>
