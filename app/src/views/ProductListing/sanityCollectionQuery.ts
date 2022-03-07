@@ -28,6 +28,8 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   reduceColumnCount,
   lightTheme,
   customFilter,
+  hideFilter,
+  overrideDefaultFilter,
 	seo{
   	"image": select(
   		defined(image.asset) => {

@@ -339,6 +339,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     reduceColumnCount,
     lightTheme,
     hidden,
+    hideFilter,
+    overrideDefaultFilter,
   } = collection
   const defaultFilter = productListingSettings?.newDefaultFilter
   const defaultFilters = definitely(defaultFilter).filter(
@@ -348,7 +350,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const customFilters = definitely(customFilter).filter(
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
   )
-  const filters = [...customFilters, ...defaultFilters]
+  const filters = overrideDefaultFilter
+    ? [...customFilters]
+    : [...customFilters, ...defaultFilters]
 
   filters.map((filter) => {
     if (filter._type === 'inventoryFilter')
@@ -553,7 +557,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         withHero={Boolean(hero && validHero)}
         isLightTheme={Boolean(lightTheme)}
       >
-        {filters && filters.length ? (
+        {filters && filters.length && !hideFilter ? (
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}

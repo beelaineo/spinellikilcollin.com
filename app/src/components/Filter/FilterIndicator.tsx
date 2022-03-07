@@ -158,6 +158,17 @@ export const FilterIndicator = ({
           </Heading>
         </FilterValueLabel>
       )
+    case 'Bands':
+      return (
+        <FilterValueLabel index={index} onClick={remove}>
+          <Heading level={5}>
+            {label}
+            <CloseButtonWrapper>
+              <CloseButton />
+            </CloseButtonWrapper>
+          </Heading>
+        </FilterValueLabel>
+      )
     case 'Metal':
       return (
         <FilterIndicatorWrapper>

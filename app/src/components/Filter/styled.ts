@@ -342,7 +342,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
-    ${isActive && type == 'Type'
+    ${isActive && (type == 'Type' || type == 'Bands')
       ? 'padding: 0; & > h5 { min-width: 105px; padding: 2 0; } h5 { border: 1px solid ' +
         theme.colors.grays[6] +
         '; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
@@ -409,9 +409,9 @@ export const FilterIndicatorsWrapper = styled.div<WithType>`
   ${({ theme, setType, isActive }) => css`
     display: flex;
     height: 100%;
-    margin-right: ${isActive && setType === 'Type'
+    margin-right: ${isActive && (setType == 'Type' || setType == 'Bands')
       ? '0'
-      : isActive && setType !== 'Type'
+      : isActive && setType != 'Type' && setType != 'Bands'
       ? '-13px'
       : '0px'};
     & > div:first-child {
