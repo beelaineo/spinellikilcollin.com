@@ -101,7 +101,7 @@ export const MobileCloseButtonWrapper = styled.div`
 `
 export const MobileFooter = styled.div`
   ${({ theme }) => css`
-    margin: 0 2;
+    margin: 0 5px;
     position: static;
     flex: 100%;
     display: flex;
@@ -165,7 +165,7 @@ export const SortWrapper = styled.div<WithHide>`
     min-width: 105px;
     max-width: unset;
     display: ${hide ? 'none' : 'block'};
-    margin: 0 2;
+    margin: 0 5px;
     text-align: center;
     border: 1px solid ${theme.colors.grays[5]};
     border-radius: 2em;
@@ -461,7 +461,7 @@ export const PriceRangeFilterWrapper = styled.div`
     }
     label {
       background-color: body.2;
-      margin: 0 2;
+      margin: 0 5px;
       line-height: 1;
       font-style: italic;
       span {
@@ -503,6 +503,9 @@ export const Slider = styled.div<WithIsHovered>`
       position: absolute;
       left: 0;
       top: 50%;
+    }
+    @media screen and (max-width: 960px) {
+      max-width: 100%;
     }
   `}
 `

@@ -14,7 +14,7 @@ export const FilterCheckboxElement = styled.input`
     & ~ label {
       padding: 2 4;
       min-width: 105px;
-      margin: 0 2;
+      margin: 0 5px;
       text-align: center;
       border: 1px solid ${theme.colors.grays[5]};
       border-radius: 2em;
@@ -25,26 +25,27 @@ export const FilterCheckboxElement = styled.input`
     &:checked ~ label {
       background-color: grays.4;
     }
-    ${theme.mediaQueries.aboveMobile} {
+    @media screen and (min-width: 961px) {
       &:hover ~ label {
         background-color: grays.4;
       }
     }
-    ${theme.mediaQueries.mobile} {
+    @media screen and (max-width: 960px) {
       & ~ label {
         margin: 0;
+        width: 100%;
       }
     }
   `}
 `
 
 export const FilterCheckboxWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 25px 1fr;
   align-items: center;
   margin: 7px 0 0;
   cursor: pointer;
   align-items: start;
+  flex: 49%;
+  flex-grow: 0;
 
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     display: flex;
