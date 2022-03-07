@@ -188,7 +188,7 @@ export const Filter = ({
 
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
-    console.log('filterMatches', filterMatches)
+    // console.log('filterMatches', filterMatches)
     applyFilters(filterMatches)
   }, [filterSetStates])
 

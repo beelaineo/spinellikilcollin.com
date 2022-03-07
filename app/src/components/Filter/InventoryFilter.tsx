@@ -106,8 +106,8 @@ export function InventoryFilter({
     setApplyFilter(!applyFilter)
     // console.log('URLParams', URLParams)
   }
-  console.log('filterSetState', filterSetState)
-  console.log('is Initially Active?', initiallyActive)
+  // console.log('filterSetState', filterSetState)
+  // console.log('is Initially Active?', initiallyActive)
 
   useEffect(() => {
     filterSetState.initialValues.applyFilter = initiallyActive
