@@ -600,7 +600,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                     fontStyle="italic"
                     color="body.7"
                   >
-                    {productStart !== 0
+                    {productStart > 1
                       ? 'Loading more products...'
                       : 'Loading products...'}
                   </Heading>

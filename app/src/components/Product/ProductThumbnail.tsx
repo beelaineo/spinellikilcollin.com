@@ -63,6 +63,9 @@ const InStockDot = styled('span')`
   margin-top: 6px;
   margin-left: -18px;
   border: 1px solid #f5f3f3;
+  @media screen and (max-width: 960px) {
+    margin-top: 4px;
+  }
 `
 const uniqueImages = (
   variants: ShopifySourceProductVariant[],

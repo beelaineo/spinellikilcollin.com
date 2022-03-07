@@ -38,7 +38,6 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
     margin: 0;
     cursor: pointer;
     & > div:first-child {
-      padding-right: 5;
       min-width: 130px !important;
       text-align: center !important;
       justify-content: center !important;
@@ -64,7 +63,7 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
           margin: 0;
           display: inline-block;
           position: absolute;
-          left: 0px;
+          right: -6px;
           top: 2px;
         }
       }
@@ -81,7 +80,6 @@ const InStockDot = styled('span')`
   position: absolute;
   margin-top: 1px;
   margin-left: 6px;
-  border: 1px solid #f5f3f3;
 `
 
 const URLParams =
