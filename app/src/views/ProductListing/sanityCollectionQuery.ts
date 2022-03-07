@@ -5,7 +5,7 @@ import { buildFilters } from '../../utils/sanity'
 const getSortString = (sort?: Sort): string => {
   if (sort === Sort.PriceAsc) return 'minVariantPrice asc'
   if (sort === Sort.PriceDesc) return 'maxVariantPrice desc'
-  if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
+  // if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
   // if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
   // if (sort === Sort.AlphaAsc) return 'title asc'
   // if (sort === Sort.AlphaDesc) return 'title desc'
