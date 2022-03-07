@@ -34,6 +34,7 @@ const { useRef, useEffect, useState } = React
 
 interface ProductListingProps {
   collection: ShopifyCollection & { productsCount?: number }
+  inStock?: boolean
 }
 
 type Item = ShopifyProduct | CollectionBlockType
@@ -432,7 +433,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       : definitely(results)
 
     if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
-    console.log('newProducts', newProducts)
 
     //@ts-ignore
     if (newProducts[0]?.queryCount) setProductsCount(newProducts[0].queryCount)
@@ -441,7 +441,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
     if (reset) {
       setProductResults(newProducts)
-      console.log('page: ', Math.ceil(productEnd / PAGE_SIZE))
       router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
 
       // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
@@ -452,7 +451,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       // console.log('window.location.search', window.location.search)
     } else {
       setProductResults([...productResults, ...newProducts])
-      console.log('page: ', Math.ceil(productEnd / PAGE_SIZE))
       router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
       // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
 
@@ -486,7 +484,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     if (!filters?.length) {
       return
     }
-    console.log('applyFilters', filters)
     setCurrentFilter(filters)
   }
 
@@ -557,7 +554,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         withHero={Boolean(hero && validHero)}
         isLightTheme={Boolean(lightTheme)}
       >
-        {filters && filters.length && !hideFilter ? (
+        {filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}
@@ -565,6 +562,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             currentFilter={currentFilter}
             productsCount={productsCount}
             resetFilters={resetFilters}
+            hideFilter={hideFilter}
           />
         ) : null}
         {items.length === 0 && !loading ? (

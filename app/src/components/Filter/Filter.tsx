@@ -60,6 +60,7 @@ interface FilterProps {
   productsCount: number
   currentFilter: FilterConfiguration | null
   resetFilters: number
+  hideFilter?: Maybe<boolean>
   open?: boolean
 }
 
@@ -136,6 +137,7 @@ export const Filter = ({
   applyFilters,
   applySort,
   resetFilters,
+  hideFilter,
   productsCount,
   open: parentOpen,
 }: FilterProps) => {
@@ -185,148 +187,154 @@ export const Filter = ({
     applyFilters(filterMatches)
   }, [filterSetStates])
 
-  return (
-    <Wrapper>
-      <Backdrop />
-      {isMobile === true && open === false ? (
-        <MobileToggleWrapper onClick={toggleOpen}>
-          <Heading level={4} color="body.7" textDecoration="underline">
-            Filter<MobileControlsDivider>+</MobileControlsDivider>Sort
-          </Heading>
-        </MobileToggleWrapper>
-      ) : (
-        ''
-      )}
-      <Inner open={Boolean(isMobile === false || (isMobile === true && open))}>
-        {isMobile === false ? (
-          <Heading level={5} color="body.7" mr={2}>
-            Filter by:
-          </Heading>
+  if (hideFilter !== true) {
+    return (
+      <Wrapper>
+        <Backdrop />
+        {isMobile === true && open === false ? (
+          <MobileToggleWrapper onClick={toggleOpen}>
+            <Heading level={4} color="body.7" textDecoration="underline">
+              Filter<MobileControlsDivider>+</MobileControlsDivider>Sort
+            </Heading>
+          </MobileToggleWrapper>
         ) : (
           ''
         )}
-        {isMobile === true ? (
-          <MobileHeader>
-            <MobileControls>
-              <ControlTab onClick={() => setMobileDisplay('filter')}>
-                <Heading
-                  level={4}
-                  color="body.7"
-                  textDecoration={
-                    mobileDisplay == 'filter' ? 'underline' : 'none'
-                  }
-                >
-                  Filter
-                </Heading>
-              </ControlTab>{' '}
-              <MobileControlsDivider>|</MobileControlsDivider>{' '}
-              <ControlTab onClick={() => setMobileDisplay('sort')}>
-                <Heading
-                  level={4}
-                  color="body.7"
-                  textDecoration={
-                    mobileDisplay == 'sort' ? 'underline' : 'none'
-                  }
-                >
-                  Sort
-                </Heading>
-              </ControlTab>
-            </MobileControls>
-            <MobileCloseButtonWrapper onClick={toggleOpen}>
-              <CloseButton />
-            </MobileCloseButtonWrapper>
-          </MobileHeader>
-        ) : (
-          ''
-        )}
-        <FilterSets
-          hide={Boolean(isMobile === true && mobileDisplay === 'sort')}
+        <Inner
+          open={Boolean(isMobile === false || (isMobile === true && open))}
         >
-          {filters.map((filter) =>
-            filter.__typename === 'FilterSet' ? (
-              <FilterWrapper
-                key={filter._key || 'some-key'}
-                heading={filter.heading}
-                type={filter.__typename}
-                filter={filter}
-                onClick={() => handleFilterClick(filter._key)}
-                active={Boolean(activeKey === filter._key)}
-              >
-                <FilterSet
-                  setKey={filter._key || 'some-key'}
-                  filterSetState={filterSetStates.find(
-                    (s) => s.key === filter._key,
-                  )}
-                  resetSet={resetSet(filter._key || 'some-key')}
-                  toggleMatch={toggle(filter._key || 'some-key')}
-                  filterSet={filter}
-                  active={Boolean(activeKey === filter._key)}
-                />
-              </FilterWrapper>
-            ) : filter.__typename === 'PriceRangeFilter' ? (
-              <FilterWrapper
-                heading="Price:"
-                key={filter._key || 'some-key'}
-                type={filter.__typename}
-                filter={filter}
-                onClick={() => handleFilterClick(filter._key)}
-                active={Boolean(activeKey === filter._key)}
-              >
-                <PriceRangeFilter
-                  setKey={filter._key || 'some-key'}
-                  filterSetState={filterSetStates.find(
-                    (s) => s.key === filter._key,
-                  )}
-                  setValues={setValues(filter._key || 'some-key')}
-                  resetSet={resetSet(filter._key || 'some-key')}
-                  priceRangeFilter={filter}
-                  active={Boolean(activeKey === filter._key)}
-                />
-              </FilterWrapper>
-            ) : filter.__typename === 'InventoryFilter' ? (
-              <FilterWrapper
-                heading="Ready to Ship"
-                key={filter._key || 'some-key'}
-                type={filter.__typename}
-                filter={filter}
-                onClick={() => handleFilterClick(filter._key)}
-                active={Boolean(activeKey === filter._key)}
-              >
-                <InventoryFilter
-                  setKey={filter._key || 'some-key'}
-                  filterSetState={filterSetStates.find(
-                    (s) => s.key === filter._key,
-                  )}
-                  setValues={setValues(filter._key || 'some-key')}
-                  resetSet={resetSet(filter._key || 'some-key')}
-                  inventoryFilter={filter}
-                  active={Boolean(activeKey === filter._key)}
-                />
-              </FilterWrapper>
-            ) : null,
+          {isMobile === false ? (
+            <Heading level={5} color="body.7" mr={2}>
+              Filter by:
+            </Heading>
+          ) : (
+            ''
           )}
           {isMobile === true ? (
-            <MobileFooter>
-              <Heading level={5} color="body.7">
-                Results: {productsCount}
-              </Heading>
-              <Reset onClick={handleReset}>Reset</Reset>
-            </MobileFooter>
+            <MobileHeader>
+              <MobileControls>
+                <ControlTab onClick={() => setMobileDisplay('filter')}>
+                  <Heading
+                    level={4}
+                    color="body.7"
+                    textDecoration={
+                      mobileDisplay == 'filter' ? 'underline' : 'none'
+                    }
+                  >
+                    Filter
+                  </Heading>
+                </ControlTab>{' '}
+                <MobileControlsDivider>|</MobileControlsDivider>{' '}
+                <ControlTab onClick={() => setMobileDisplay('sort')}>
+                  <Heading
+                    level={4}
+                    color="body.7"
+                    textDecoration={
+                      mobileDisplay == 'sort' ? 'underline' : 'none'
+                    }
+                  >
+                    Sort
+                  </Heading>
+                </ControlTab>
+              </MobileControls>
+              <MobileCloseButtonWrapper onClick={toggleOpen}>
+                <CloseButton />
+              </MobileCloseButtonWrapper>
+            </MobileHeader>
           ) : (
-            <DesktopFooter>
-              <Heading level={5} color="body.7" ml={2}>
-                Results: {productsCount}
-              </Heading>
-              <Reset onClick={handleReset}>Reset</Reset>
-            </DesktopFooter>
+            ''
           )}
-        </FilterSets>
-        <SortWrapper
-          hide={Boolean(isMobile === true && mobileDisplay === 'filter')}
-        >
-          <SortSet applySort={applySort} />
-        </SortWrapper>
-      </Inner>
-    </Wrapper>
-  )
+          <FilterSets
+            hide={Boolean(isMobile === true && mobileDisplay === 'sort')}
+          >
+            {filters.map((filter) =>
+              filter.__typename === 'FilterSet' ? (
+                <FilterWrapper
+                  key={filter._key || 'some-key'}
+                  heading={filter.heading}
+                  type={filter.__typename}
+                  filter={filter}
+                  onClick={() => handleFilterClick(filter._key)}
+                  active={Boolean(activeKey === filter._key)}
+                >
+                  <FilterSet
+                    setKey={filter._key || 'some-key'}
+                    filterSetState={filterSetStates.find(
+                      (s) => s.key === filter._key,
+                    )}
+                    resetSet={resetSet(filter._key || 'some-key')}
+                    toggleMatch={toggle(filter._key || 'some-key')}
+                    filterSet={filter}
+                    active={Boolean(activeKey === filter._key)}
+                  />
+                </FilterWrapper>
+              ) : filter.__typename === 'PriceRangeFilter' ? (
+                <FilterWrapper
+                  heading="Price:"
+                  key={filter._key || 'some-key'}
+                  type={filter.__typename}
+                  filter={filter}
+                  onClick={() => handleFilterClick(filter._key)}
+                  active={Boolean(activeKey === filter._key)}
+                >
+                  <PriceRangeFilter
+                    setKey={filter._key || 'some-key'}
+                    filterSetState={filterSetStates.find(
+                      (s) => s.key === filter._key,
+                    )}
+                    setValues={setValues(filter._key || 'some-key')}
+                    resetSet={resetSet(filter._key || 'some-key')}
+                    priceRangeFilter={filter}
+                    active={Boolean(activeKey === filter._key)}
+                  />
+                </FilterWrapper>
+              ) : filter.__typename === 'InventoryFilter' ? (
+                <FilterWrapper
+                  heading="Ready to Ship"
+                  key={filter._key || 'some-key'}
+                  type={filter.__typename}
+                  filter={filter}
+                  onClick={() => handleFilterClick(filter._key)}
+                  active={Boolean(activeKey === filter._key)}
+                >
+                  <InventoryFilter
+                    setKey={filter._key || 'some-key'}
+                    filterSetState={filterSetStates.find(
+                      (s) => s.key === filter._key,
+                    )}
+                    setValues={setValues(filter._key || 'some-key')}
+                    resetSet={resetSet(filter._key || 'some-key')}
+                    inventoryFilter={filter}
+                    active={Boolean(activeKey === filter._key)}
+                  />
+                </FilterWrapper>
+              ) : null,
+            )}
+            {isMobile === true ? (
+              <MobileFooter>
+                <Heading level={5} color="body.7">
+                  Results: {productsCount}
+                </Heading>
+                <Reset onClick={handleReset}>Reset</Reset>
+              </MobileFooter>
+            ) : (
+              <DesktopFooter>
+                <Heading level={5} color="body.7" ml={2}>
+                  Results: {productsCount}
+                </Heading>
+                <Reset onClick={handleReset}>Reset</Reset>
+              </DesktopFooter>
+            )}
+          </FilterSets>
+          <SortWrapper
+            hide={Boolean(isMobile === true && mobileDisplay === 'filter')}
+          >
+            <SortSet applySort={applySort} />
+          </SortWrapper>
+        </Inner>
+      </Wrapper>
+    )
+  } else {
+    return null
+  }
 }
