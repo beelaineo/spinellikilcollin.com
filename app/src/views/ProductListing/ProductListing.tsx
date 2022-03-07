@@ -328,10 +328,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     ShopifyCollection[] | ShopifyProduct[],
     PaginationArgs
   >()
-  const defaultFilter = productListingSettings?.newDefaultFilter
-  const filters = definitely(defaultFilter).filter(
-    (f) => !Boolean('searchOnly' in f && f.searchOnly),
-  )
   const {
     _id,
     preferredVariantMatches,
@@ -344,6 +340,17 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     lightTheme,
     hidden,
   } = collection
+  const defaultFilter = productListingSettings?.newDefaultFilter
+  const defaultFilters = definitely(defaultFilter).filter(
+    (f) => !Boolean('searchOnly' in f && f.searchOnly),
+  )
+  const customFilter = collection?.customFilter
+  const customFilters = definitely(customFilter).filter(
+    (f) => !Boolean('searchOnly' in f && f.searchOnly),
+  )
+  const filters = [...customFilters, ...defaultFilters]
+  console.log('prepended filters', filters)
+
   if (!handle) {
     throw new Error('The collection is missing a handle')
   }
@@ -351,6 +358,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
+  console.log('collection', collection)
+  console.log('customFilter', customFilter)
   console.log('currentFilter', currentFilter)
 
   const router = useRouter()

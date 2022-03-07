@@ -27,6 +27,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   shopifyId,
   reduceColumnCount,
   lightTheme,
+  customFilter,
 	seo{
   	"image": select(
   		defined(image.asset) => {

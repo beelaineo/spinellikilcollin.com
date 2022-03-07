@@ -38,6 +38,7 @@ const collectionQueryById = gql`
       hidden
       reduceColumnCount
       lightTheme
+      customFilter
       hero {
         ...HeroFragment
       }
