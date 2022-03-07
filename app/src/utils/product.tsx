@@ -171,7 +171,7 @@ export const getBestVariantByFilterMatch = (
           let keywords: string[] = []
           switch (value) {
             case 's':
-              keywords = ['Silver', 'silver', 'SG']
+              keywords = ['Silver', 'silver', 'SG', 'Gris']
               break
             case 'yg':
               keywords = [
@@ -181,6 +181,8 @@ export const getBestVariantByFilterMatch = (
                 'MX',
                 'Nexus Gold',
                 'Vela Gold',
+                'Akoya Gold',
+                'Vega Gold',
               ]
               break
             case 'rg':
@@ -190,7 +192,7 @@ export const getBestVariantByFilterMatch = (
               keywords = ['White Gold', 'white gold', 'WG', 'Blanc']
               break
             case 'bg':
-              keywords = ['Black Gold', 'black gold', 'BG']
+              keywords = ['Black Gold', 'black gold', 'BG', 'Vega Gold']
               break
             case 'p':
               keywords = ['Platinum', 'platinum']
