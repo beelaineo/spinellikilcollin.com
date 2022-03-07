@@ -355,8 +355,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       filters.push(filters.splice(filters.indexOf(filter), 1)[0])
   })
 
-  console.log('prepended filters', filters)
-
   if (!handle) {
     throw new Error('The collection is missing a handle')
   }
@@ -379,6 +377,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   )
 
   const [productsCount, setProductsCount] = useState(0)
+  const [productStart, setProductStart] = useState(0)
 
   useEffect(() => {
     if (collection.productsCount) setProductsCount(collection.productsCount)
@@ -472,6 +471,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     }, 300)
     return () => clearTimeout(timeout)
   }, [isInView, fetchMoreState.loading, fetchComplete])
+
+  useEffect(() => {
+    if (loading === false) {
+      setProductStart(productStart + 1)
+    }
+  }, [loading])
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
     if (!filters?.length) {
@@ -573,7 +578,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           </NoResultsWrapper>
         ) : (
           <>
-            {loading ? (
+            {loading && productStart > 1 ? (
               <LoadingWrapper>
                 <Loading />
               </LoadingWrapper>
@@ -595,7 +600,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                     fontStyle="italic"
                     color="body.7"
                   >
-                    Loading more products...
+                    {productStart !== 0
+                      ? 'Loading more products...'
+                      : 'Loading products...'}
                   </Heading>
                   <Loading />
                 </Box>

@@ -49,8 +49,10 @@ const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
         background-color: transparent;
       }
     }
-    &:hover > div:first-child {
-      background-color: grays.4;
+    @media screen and (min-width: 961px) {
+      &:hover > div:first-child {
+        background-color: grays.4;
+      }
     }
     @media screen and (max-width: 960px) {
       label {

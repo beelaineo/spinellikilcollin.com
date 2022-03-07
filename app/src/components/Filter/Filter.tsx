@@ -143,7 +143,10 @@ export const Filter = ({
   const [mobileDisplay, setMobileDisplay] = useState('filter')
   const [activeKey, setActiveKey] = useState('')
 
-  const toggleOpen = () => setOpen(!open)
+  const toggleOpen = () => {
+    setOpen(!open)
+    setActiveKey('')
+  }
 
   useEffect(() => {
     setOpen(parentOpen ?? false)
@@ -162,7 +165,7 @@ export const Filter = ({
   const handleReset = () => {
     resetAll()
     applyFilters(null)
-    setOpen(false)
+    setActiveKey('')
   }
 
   useEffect(() => {
