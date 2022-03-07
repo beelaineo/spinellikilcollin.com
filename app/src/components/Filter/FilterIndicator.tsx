@@ -149,11 +149,11 @@ export const FilterIndicator = ({
   switch (type) {
     case 'Type':
       return (
-        <FilterValueLabel index={index}>
+        <FilterValueLabel index={index} onClick={remove}>
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
-              <CloseButton onClick={remove} />
+              <CloseButton />
             </CloseButtonWrapper>
           </Heading>
         </FilterValueLabel>

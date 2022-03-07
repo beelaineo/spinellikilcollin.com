@@ -431,7 +431,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     console.log('newProducts', newProducts)
 
     //@ts-ignore
-    setProductsCount(newProducts[0].queryCount)
+    if (newProducts[0]?.queryCount) setProductsCount(newProducts[0].queryCount)
 
     const URLParams = new URLSearchParams(window.location.search)
 

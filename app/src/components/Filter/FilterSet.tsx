@@ -24,6 +24,7 @@ interface FilterCheckboxProps {
   onChange: () => void
   checked: boolean
   matchKey: string
+  hidden: boolean
 }
 
 const FilterCheckbox = ({
@@ -31,22 +32,27 @@ const FilterCheckbox = ({
   filter,
   onChange,
   checked,
+  hidden,
 }: FilterCheckboxProps) => {
   const { label } = filter
-  return (
-    <FilterCheckboxWrapper>
-      <FilterCheckboxElement
-        id={matchKey}
-        name={matchKey}
-        type="checkbox"
-        checked={checked}
-        onChange={onChange}
-      />
-      <Label color="body.9" htmlFor={matchKey}>
-        {label}
-      </Label>
-    </FilterCheckboxWrapper>
-  )
+  if (hidden === false) {
+    return (
+      <FilterCheckboxWrapper>
+        <FilterCheckboxElement
+          id={matchKey}
+          name={matchKey}
+          type="checkbox"
+          checked={checked}
+          onChange={onChange}
+        />
+        <Label color="body.9" htmlFor={matchKey}>
+          {label}
+        </Label>
+      </FilterCheckboxWrapper>
+    )
+  } else {
+    return null
+  }
 }
 
 interface FilterSetProps {
@@ -124,15 +130,25 @@ export const FilterSet = ({
           Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
         }
       >
-        {definitely(filters).map((filter) => (
-          <FilterCheckbox
-            key={filter._key || 'some-key'}
-            matchKey={filter._key || 'some-key'}
-            onChange={toggleMatch(filter._key || 'some-key')}
-            filter={filter}
-            checked={activeMatchKeys.includes(filter._key || 'foo')}
-          />
-        ))}
+        {definitely(filters).map((filter) => {
+          console.log('filterset heading', filterSet.heading)
+          console.log('filters', filters)
+          return (
+            <FilterCheckbox
+              key={filter._key || 'some-key'}
+              matchKey={filter._key || 'some-key'}
+              onChange={toggleMatch(filter._key || 'some-key')}
+              filter={filter}
+              checked={activeMatchKeys.includes(filter._key || 'foo')}
+              hidden={Boolean(
+                (filterSet.heading === 'Type' ||
+                  filterSet.heading === 'Bands') &&
+                  filter._key &&
+                  activeMatchKeys.includes(filter._key),
+              )}
+            />
+          )
+        })}
       </FiltersWrapper>
     </FilterSetWrapper>
   )
