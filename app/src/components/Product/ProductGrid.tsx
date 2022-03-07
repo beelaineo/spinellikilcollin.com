@@ -111,7 +111,6 @@ export const ProductGrid = ({
   reduceColumnCount,
   collectionId,
 }: ProductGridProps) => {
-  console.log('currentFilter on ProductGrid', currentFilter)
   return (
     <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
       {definitely(items).map((item) => {

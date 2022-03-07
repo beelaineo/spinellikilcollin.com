@@ -131,8 +131,6 @@ export const FilterSet = ({
         }
       >
         {definitely(filters).map((filter) => {
-          console.log('filterset heading', filterSet.heading)
-          console.log('filters', filters)
           return (
             <FilterCheckbox
               key={filter._key || 'some-key'}

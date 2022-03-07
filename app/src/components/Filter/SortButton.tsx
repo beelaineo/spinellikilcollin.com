@@ -3,11 +3,11 @@ import styled from '@xstyled/styled-components'
 import { SelectElement } from '../Forms/Fields/styled'
 
 export enum Sort {
-  PriceAsc = 'Price, low to high',
-  PriceDesc = 'Price, high to low',
+  PriceAsc = '$-$$$',
+  PriceDesc = '$$$-$',
   // DateAsc = 'Newest',
   // DateDesc = 'Oldest first',
-  Default = 'Default',
+  Default = 'Featured',
   // AlphaAsc = 'A - Z',
   // AlphaDesc = 'Z - A',
 }
