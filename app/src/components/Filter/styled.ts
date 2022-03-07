@@ -278,7 +278,7 @@ export const FilterSets = styled.div<WithHide>`
       display: ${hide ? 'none' : 'flex'};
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: space-evenly;
+      justify-content: flex-start;
       border-bottom: none;
       margin: 0;
       & > div {
