@@ -58,6 +58,7 @@ interface FilterProps {
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
   productsCount: number
+  currentFilter: FilterConfiguration | null
   resetFilters: number
   open?: boolean
 }

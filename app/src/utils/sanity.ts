@@ -35,7 +35,6 @@ export const buildFilters = (filters: FilterConfiguration): string => {
   return filters
     .map((filterGroup) => {
       if (filterGroup.filterType === FILTER_MATCH_GROUP) {
-        console.log('filterGroup', filterGroup)
         return filterGroup.matches
           .map(parseFilterMatch)
           .filter(Boolean)

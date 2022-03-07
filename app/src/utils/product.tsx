@@ -153,6 +153,128 @@ export const getBestVariantByMatch = (
   return bestVariant || variants[0]
 }
 
+interface FilterProps {
+  name: string
+  value: string | boolean
+}
+
+export const getBestVariantByFilterMatch = (
+  variants: ShopifySourceProductVariant[],
+  filters: FilterProps[],
+): ShopifySourceProductVariant => {
+  const bestColorVariant = variants.find((v) => {
+    const colorMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'metal':
+          let keywords: string[] = []
+          switch (value) {
+            case 's':
+              keywords = ['Silver', 'silver', 'SG']
+              break
+            case 'yg':
+              keywords = [
+                'Yellow Gold',
+                'yellow gold',
+                'YG',
+                'MX',
+                'Nexus Gold',
+                'Vela Gold',
+              ]
+              break
+            case 'rg':
+              keywords = ['Rose Gold', 'rose gold', 'RG', 'Rose']
+              break
+            case 'wg':
+              keywords = ['White Gold', 'white gold', 'WG', 'Blanc']
+              break
+            case 'bg':
+              keywords = ['Black Gold', 'black gold', 'BG']
+              break
+            case 'p':
+              keywords = ['Platinum', 'platinum']
+              break
+            default:
+              break
+          }
+          match = v?.selectedOptions?.some((o) =>
+            keywords.some((word) => {
+              if (o?.value?.includes(word)) {
+                return true
+              }
+            }),
+          )
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return colorMatches
+  })
+
+  const inStockVariants = variants.filter((v) => {
+    const stockMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'inventory':
+          if (value === true) match = !v?.currentlyNotInStock
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return stockMatches
+  })
+
+  const bestInStockColorVariant = inStockVariants.find((v) => {
+    const matchingPair = bestColorVariant?.selectedOptions?.filter(
+      (o1) =>
+        !v.selectedOptions?.some((o2) => {
+          // console.log('matchingPair', o1, o2)
+          if (o2?.name === 'Color') {
+            return Boolean(o1?.value === o2?.value)
+          } else {
+            return false
+          }
+        }),
+    )
+    const variantMatchesColor = Boolean(
+      matchingPair && matchingPair?.length > 0,
+    )
+    return variantMatchesColor
+  })
+
+  const bestInStockVariant = variants.find((v) => {
+    const stockMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'inventory':
+          if (value === true) match = !v?.currentlyNotInStock
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return stockMatches
+  })
+
+  // console.log('bestInStockColorVariant:', bestInStockColorVariant)
+  // console.log('bestInStockVariant:', bestInStockVariant)
+  // console.log('bestColorVariant:', bestColorVariant)
+  return (
+    bestInStockColorVariant ||
+    bestInStockVariant ||
+    bestColorVariant ||
+    variants[0]
+  )
+}
+
 export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
   if (!price || !price.amount || price.currencyCode === 'NONE') return false
   return true

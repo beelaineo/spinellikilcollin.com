@@ -8,6 +8,7 @@ import {
   ShopifyProductOptionValue,
   ShopifySourceProductVariant,
   ShopifySourceImage,
+  FilterConfiguration,
   Maybe,
 } from '../../types'
 import { Heading } from '../Text'
@@ -20,6 +21,7 @@ import {
   getVariantBySelectedOption,
   optionMatchesVariant,
   getBestVariantByMatch,
+  getBestVariantByFilterMatch,
   definitely,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
@@ -38,6 +40,7 @@ interface ProductThumbnailProps {
   preload?: boolean
   headingLevel?: number
   preferredVariantMatches?: Maybe<string>[] | null
+  currentFilter?: FilterConfiguration | null
   imageRatio?: number
   collectionId?: string | null
 }
@@ -80,6 +83,7 @@ export const ProductThumbnail = ({
   displaySwatches,
   headingLevel,
   preferredVariantMatches,
+  currentFilter,
   imageRatio,
   collectionId,
 }: ProductThumbnailProps) => {
@@ -92,6 +96,7 @@ export const ProductThumbnail = ({
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
+  const variantsFull = product?.sourceData?.variants
 
   const mappedSelections = !product.initialVariantSelections
     ? false
@@ -166,6 +171,71 @@ export const ProductThumbnail = ({
     )
     return matches
   }
+
+  // console.log('currentFilter on productthumbnail', currentFilter)
+
+  useEffect(() => {
+    if (!currentFilter) return
+
+    // {
+    //   "filterType": "PRICE_RANGE_FILTER",
+    //   "key": "dda7b169dd63",
+    //   "minPrice": 0,
+    //   "maxPrice": 20000
+    // }
+    // {
+    //   "filterType": "FILTER_MATCH_GROUP",
+    //   "matches": [
+    //       {
+    //           "__typename": "FilterMatch",
+    //           "_key": "2c29d6a35976",
+    //           "type": "stone",
+    //           "match": "d"
+    //       }
+    //   ]
+    // }
+    //   {
+    //     "filterType": "INVENTORY_FILTER",
+    //     "key": "1db172bb87b8",
+    //     "applyFilter": true,
+    //     "label": "Ready to Ship"
+    // }
+
+    interface FilterProps {
+      name: string
+      value: string | boolean
+    }
+
+    const filters = currentFilter
+      .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
+      .map((filter, i) => {
+        const { filterType } = filter
+        if (filterType === 'FILTER_MATCH_GROUP') {
+          const { matches } = filter
+          const newMatches = matches.map((matchGroup) => {
+            const { type, match } = matchGroup
+            return {
+              name: type,
+              value: match,
+            }
+          })
+          return newMatches
+        } else if (filterType === 'INVENTORY_FILTER') {
+          const newFilter = {
+            name: 'inventory',
+            value: filter.applyFilter,
+          }
+          return newFilter
+        }
+      })
+      .flat()
+      .reverse()
+    // console.log('new filters', filters)
+    // console.log('variants', variantsFull)
+    //@ts-ignore
+    const filteredVariant = getBestVariantByFilterMatch(variants, filters)
+    setCurrentVariant(filteredVariant)
+  }, [currentFilter])
 
   const stockedVariants = product.sourceData?.variants?.edges?.filter(
     (variant) => {

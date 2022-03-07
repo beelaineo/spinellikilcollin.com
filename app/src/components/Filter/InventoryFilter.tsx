@@ -106,11 +106,11 @@ export function InventoryFilter({
     setApplyFilter(!applyFilter)
     router.query.instock = (!applyFilter).toString()
     URLParams?.set('instock', (!applyFilter).toString())
-    console.log('URLParams', URLParams)
+    // console.log('URLParams', URLParams)
   }
 
   const router = useRouter()
-  console.log('router', router)
+  // console.log('router', router)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
