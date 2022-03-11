@@ -308,7 +308,7 @@ export const ProductThumbnail = ({
                 {product.title} |{' '}
                 <PriceWrapper>
                   <Price price={currentVariant?.priceV2} />
-                  <Span ml={1} color="body.6" textDecoration="line-through">
+                  <Span ml={2} color="body.6" textDecoration="line-through">
                     <Price price={currentVariant?.compareAtPriceV2} />
                   </Span>
                 </PriceWrapper>
