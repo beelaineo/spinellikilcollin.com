@@ -11,7 +11,7 @@ import {
   FilterConfiguration,
   Maybe,
 } from '../../types'
-import { Heading } from '../Text'
+import { Heading, Span } from '../Text'
 import { Image } from '../Image'
 import { TagBadges } from './TagBadges'
 import { ProductSwatches, IsDisplayingSwatches } from './ProductSwatches'
@@ -67,6 +67,17 @@ const InStockDot = styled('span')`
     margin-top: 4px;
   }
 `
+const PriceWrapper = styled('span')`
+  ${({ theme }) => css`
+    display: inline-block;
+    width: 38px;
+    text-align: left;
+    ${theme.mediaQueries.mobile} {
+      width: 24px;
+    }
+  `}
+`
+
 const uniqueImages = (
   variants: ShopifySourceProductVariant[],
 ): ShopifySourceImage[] =>
@@ -142,9 +153,6 @@ export const ProductThumbnail = ({
     : productImages.length
     ? productImages[0]
     : undefined
-
-  const { minVariantPrice, maxVariantPrice } =
-    product?.sourceData?.priceRange || {}
 
   const stopPropagation = (e: any) => {
     e.stopPropagation()
@@ -257,6 +265,8 @@ export const ProductThumbnail = ({
     return isInStock
   }
 
+  console.log('currentVariant', currentVariant)
+
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
@@ -284,40 +294,25 @@ export const ProductThumbnail = ({
           <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>
             {displayTags ? <TagBadges product={product} /> : <div />}
             {displayPrice && inquiryOnly != true ? (
-              <>
-                {minVariantPrice &&
-                maxVariantPrice &&
-                minVariantPrice.amount !== maxVariantPrice.amount ? (
-                  <TitleHeading
-                    my={0}
-                    level={headingLevel || 3}
-                    currentlyInStock={isProductCurrentlyInStock(product)}
-                  >
-                    {isProductCurrentlyInStock(product) &&
-                    !IsDisplayingSwatches(product) ? (
-                      <InStockDot />
-                    ) : (
-                      ''
-                    )}
-                    {product.title} | <Price price={minVariantPrice} /> -{' '}
-                    <Price price={maxVariantPrice} />
-                  </TitleHeading>
-                ) : maxVariantPrice ? (
-                  <TitleHeading
-                    level={headingLevel || 3}
-                    my={0}
-                    currentlyInStock={isProductCurrentlyInStock(product)}
-                  >
-                    {isProductCurrentlyInStock(product) &&
-                    !IsDisplayingSwatches(product) ? (
-                      <InStockDot />
-                    ) : (
-                      ''
-                    )}
-                    {product.title} | <Price price={maxVariantPrice} />
-                  </TitleHeading>
-                ) : null}
-              </>
+              <TitleHeading
+                level={headingLevel || 3}
+                my={0}
+                currentlyInStock={isProductCurrentlyInStock(product)}
+              >
+                {isProductCurrentlyInStock(product) &&
+                !IsDisplayingSwatches(product) ? (
+                  <InStockDot />
+                ) : (
+                  ''
+                )}
+                {product.title} |{' '}
+                <PriceWrapper>
+                  <Price price={currentVariant?.priceV2} />
+                  <Span ml={2} color="body.6" textDecoration="line-through">
+                    <Price price={currentVariant?.compareAtPriceV2} />
+                  </Span>
+                </PriceWrapper>
+              </TitleHeading>
             ) : (
               <TitleHeading
                 textAlign="center"
