@@ -6,6 +6,7 @@ import {
   FilterConfiguration,
   Document,
 } from '../types'
+import { Sort } from '../components/Filter'
 import { definitely } from './index'
 
 const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
@@ -19,45 +20,88 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
     case 'option':
       return `"${match}" in sourceData.options[].value`
     case 'subcategory':
-      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value`
     case 'metal':
-      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "metal"].node.value`
     case 'style':
-      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "style"].node.value`
     case 'stone':
-      return `"${match}" in variants[].sourceData.metafields.edges[].node.value && "${type}" in variants[].sourceData.metafields.edges[].node.key`
+      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "stone"].node.value`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
 }
 
-export const buildFilters = (filters: FilterConfiguration): string => {
+const parseFilterMatchDefaultSort = ({
+  type,
+  match,
+}: FilterMatch): string | null => {
+  switch (type) {
+    case 'type':
+      return `@->sourceData.productType == "${match}"`
+    case 'tag':
+      return `"${match}" in @->sourceData.tags`
+    case 'title':
+      return `@->title match "${match}"`
+    case 'option':
+      return `"${match}" in @->sourceData.options[].value`
+    case 'subcategory':
+      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value`
+    case 'metal':
+      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "metal"].node.value`
+    case 'style':
+      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "style"].node.value`
+    case 'stone':
+      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "stone"].node.value`
+    default:
+      throw new Error(`"${type}" is not a valid filter type`)
+  }
+}
+
+export const buildFilters = (
+  filters: FilterConfiguration,
+  sort?: Sort,
+): string => {
   return filters
     .map((filterGroup) => {
       if (filterGroup.filterType === FILTER_MATCH_GROUP) {
-        return filterGroup.matches
-          .map(parseFilterMatch)
-          .filter(Boolean)
-          .join(' || ')
-          .replace(/(.*)/, '($1)')
+        if (sort == Sort.Default) {
+          return filterGroup.matches
+            .map(parseFilterMatchDefaultSort)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        } else {
+          return filterGroup.matches
+            .map(parseFilterMatch)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        }
       } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
         const { minPrice, maxPrice } = filterGroup
         return [
           '(',
-          'maxVariantPrice',
+          sort == Sort.Default ? '@->maxVariantPrice' : 'maxVariantPrice',
           ' >= ',
           Math.floor(minPrice),
           ' && ',
-          'minVariantPrice',
+          sort == Sort.Default ? '@->minVariantPrice' : 'minVariantPrice',
           ' <= ',
           Math.ceil(maxPrice),
           ')',
         ].join('')
       } else if (filterGroup.filterType === INVENTORY_FILTER) {
         const rule =
-          '(count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
+          sort == Sort.Default
+            ? '(count(@->sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
+            : '(count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
         const { applyFilter } = filterGroup
-        return applyFilter ? rule : '(count(sourceData.variants.edges[]) > 0)'
+        return applyFilter
+          ? rule
+          : sort == Sort.Default
+          ? '(count(@->sourceData.variants.edges[]) > 0)'
+          : '(count(sourceData.variants.edges[]) > 0)'
       }
       throw new Error(`This kind of filter cannot be parsed`)
     })
