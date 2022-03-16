@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { TitleWrapper } from '../styled'
 import { Heading, Span } from '../../../components/Text'
 import { Price } from '../../../components/Price'
@@ -12,9 +12,15 @@ interface ProductDetailHeaderProps {
   mobile?: string
 }
 
-const StockedLabel = styled('div')`
-  ${({ theme }) => css`
+interface WithHide {
+  hide: boolean
+}
+
+const StockedLabel = styled('div')<WithHide>`
+  ${({ theme, hide }) => css`
     display: block;
+    opacity: ${hide ? 0 : 1};
+    transition: 250ms ease;
     ${theme.mediaQueries.tablet} {
       display: none;
     }
@@ -40,14 +46,62 @@ export const ProductDetailHeader = ({
   const { compareAtPriceV2, priceV2, currentlyNotInStock } =
     currentVariant?.sourceData ?? {}
 
+  const slugify = (text?: Maybe<string>) => {
+    if (!text) return ''
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
+  }
+
   const variantsInStock =
     variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+
+  const stockedVariants = product.sourceData?.variants?.edges?.filter(
+    (variant) => {
+      return (
+        variant?.node?.availableForSale === true &&
+        variant?.node?.currentlyNotInStock === false
+      )
+    },
+  )
+
+  const stockedColorOptions = stockedVariants
+    ?.map((variant) => {
+      return variant?.node?.selectedOptions?.find(
+        (option) => option?.name === 'Color',
+      )
+    })
+    .map((option) => slugify(option?.value))
+
+  console.log(stockedColorOptions)
+  console.log(currentVariant)
+
+  const isSwatchCurrentlyInStock = (
+    currentVariant,
+    stockedOptions,
+  ): boolean => {
+    const color = slugify(
+      currentVariant.sourceData.selectedOptions.find(
+        (option) => option.name === 'Color',
+      ).value || '',
+    )
+    return stockedOptions.includes(color) ? true : false
+  }
 
   return (
     <>
       <TitleWrapper product={product}>
         {variantsInStock?.length > 0 ? (
-          <StockedLabel>
+          <StockedLabel
+            hide={
+              !isSwatchCurrentlyInStock(currentVariant, stockedColorOptions)
+            }
+          >
             <Heading level={4} weight={1} as={'em'}>
               <InStockDot />
               {currentlyNotInStock !== true
