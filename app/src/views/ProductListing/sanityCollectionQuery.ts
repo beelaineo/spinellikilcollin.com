@@ -172,12 +172,12 @@ ${
       products[defined(@->shopifyId) &&
       @->hidden != true &&
       (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
-      ${filterString ? `&& ${filterString}` : ''}]
-      [$productStart...$productEnd]->{${productInner}},
-      "queryCount": count(products[defined(@->shopifyId) &&
+      ${
+        filterString ? `&& ${filterString}` : ''
+      }][$productStart...$productEnd]->{${productInner} "queryCount": count( ^.products[defined(@->shopifyId) &&
         @->hidden != true &&
         (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
-        ${filterString ? `&& ${filterString}` : ''}]),
+        ${filterString ? `&& ${filterString}` : ''}]) }
     }[0]
     `
     : `*[
@@ -189,6 +189,14 @@ ${
       ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort)}) {
       ${productInner}
+      "queryCount": count(*[
+        _type == "shopifyProduct" &&
+          defined(shopifyId) &&
+          hidden != true &&
+          (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
+          references($collectionId) 
+        ${filterString ? `&& ${filterString}` : ''}
+      ]),
     }[$productStart...$productEnd]
   `
 }`
