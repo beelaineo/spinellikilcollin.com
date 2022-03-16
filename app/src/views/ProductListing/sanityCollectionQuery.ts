@@ -173,15 +173,14 @@ ${
       @->hidden != true &&
       (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
       ${filterString ? `&& ${filterString}` : ''}]
-      [$productStart...$productEnd]->,
+      [$productStart...$productEnd]->{${productInner}},
       "queryCount": count(products[defined(@->shopifyId) &&
         @->hidden != true &&
         (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
         ${filterString ? `&& ${filterString}` : ''}]),
     }[0]
     `
-    : `
-    *[
+    : `*[
       _type == "shopifyProduct" &&
         defined(shopifyId) &&
         hidden != true &&
@@ -189,22 +188,82 @@ ${
         references($collectionId) 
       ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort)}) {
-        ${productInner}
-      },
-      "queryCount": count( *[
-        _type == "shopifyProduct" &&
-          defined(shopifyId) &&
-          hidden != true &&
-          (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
-          references($collectionId) 
-        ${filterString ? `&& ${filterString}` : ''}
-      ] ),
+      ${productInner}
     }[$productStart...$productEnd]
   `
-}
-`
+}`
 
 export const buildFilterQuery = (filters: FilterConfiguration, sort?: Sort) => {
   const filterString = buildFilters(filters, sort)
   return filterQuery(filterString, sort)
 }
+
+const dummyQuery = `
+*[
+  _type == "shopifyProduct" &&
+    defined(shopifyId) &&
+    hidden != true &&
+    (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
+    references($collectionId) 
+  && (maxVariantPrice >= 0 && minVariantPrice <= 19000) && (count(sourceData.variants.edges[]) > 0)
+] | order(maxVariantPrice desc)
+  
+_id,
+_type,
+handle,
+hidden,
+hideFromCollections,
+"showInCollection": showInCollection->handle,
+minVariantPrice,
+maxVariantPrice,
+initialVariantSelections[]{
+...
+},
+shopifyId,
+inquiryOnly,
+title,
+options[]{
+_key,
+_type,
+values[defined(swatch)],
+...
+},
+sourceData {
+_type,
+handle,
+id,
+images,
+tags,
+title,
+tags,
+priceRange,
+publishedAt,
+variants {
+  "edges": edges[][node.availableForSale == true] {
+    cursor,
+    node {
+      __typename,
+      _type,
+      id,
+      image,
+      title,
+      selectedOptions,
+      priceV2,
+      compareAtPriceV2,
+      availableForSale,
+      currentlyNotInStock
+    },
+  },
+},
+},
+
+  "queryCount": count( *[
+    _type == "shopifyProduct" &&
+      defined(shopifyId) &&
+      hidden != true &&
+      (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
+      references($collectionId) 
+    && (maxVariantPrice >= 0 && minVariantPrice <= 19000) && (count(sourceData.variants.edges[]) > 0)
+  ] ),
+}[$productStart...$productEnd]
+`
