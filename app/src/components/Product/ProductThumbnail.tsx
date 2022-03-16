@@ -265,8 +265,6 @@ export const ProductThumbnail = ({
     return isInStock
   }
 
-  console.log('currentVariant', currentVariant)
-
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
