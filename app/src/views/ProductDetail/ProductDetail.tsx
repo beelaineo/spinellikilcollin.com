@@ -182,11 +182,12 @@ export const ProductDetail = ({ product }: Props) => {
   const isSwatchCurrentlyInStock = (
     currentVariant,
     stockedOptions,
+    stockedVariants,
   ): boolean => {
     if (
-      currentVariant.sourceData.selectedOptions.find(
+      currentVariant.sourceData?.selectedOptions?.find(
         (option) => option.name === 'Color',
-      ) > 0
+      ) !== undefined
     ) {
       const color = slugify(
         currentVariant.sourceData.selectedOptions.find(
@@ -194,10 +195,8 @@ export const ProductDetail = ({ product }: Props) => {
         ).value,
       )
       return stockedOptions.includes(color)
-    } else if (currentVariant.sourceData?.selectedOptions?.length == 1) {
-      return Boolean(variantsInStock?.length > 0)
     } else {
-      return false
+      return Boolean(stockedVariants?.length > 0)
     }
   }
 
@@ -312,6 +311,7 @@ export const ProductDetail = ({ product }: Props) => {
                         !isSwatchCurrentlyInStock(
                           currentVariant,
                           stockedColorOptions,
+                          stockedVariants,
                         )
                       }
                     >

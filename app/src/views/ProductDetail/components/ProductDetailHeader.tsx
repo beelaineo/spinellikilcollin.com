@@ -72,7 +72,6 @@ export const ProductDetailHeader = ({
       )
     },
   )
-  console.log(currentVariant.sourceData?.selectedOptions)
 
   const keys = ['Size', 'Quantity', 'Length', 'Title']
 
@@ -87,11 +86,12 @@ export const ProductDetailHeader = ({
   const isSwatchCurrentlyInStock = (
     currentVariant,
     stockedOptions,
+    stockedVariants,
   ): boolean => {
     if (
-      currentVariant.sourceData.selectedOptions.find(
+      currentVariant.sourceData?.selectedOptions?.find(
         (option) => option.name === 'Color',
-      ) > 0
+      ) !== undefined
     ) {
       const color = slugify(
         currentVariant.sourceData.selectedOptions.find(
@@ -99,10 +99,8 @@ export const ProductDetailHeader = ({
         ).value,
       )
       return stockedOptions.includes(color)
-    } else if (currentVariant.sourceData?.selectedOptions?.length == 1) {
-      return Boolean(variantsInStock?.length > 0)
     } else {
-      return false
+      return Boolean(stockedVariants?.length > 0)
     }
   }
 
@@ -112,7 +110,11 @@ export const ProductDetailHeader = ({
         {variantsInStock?.length > 0 ? (
           <StockedLabel
             hide={
-              !isSwatchCurrentlyInStock(currentVariant, stockedColorOptions)
+              !isSwatchCurrentlyInStock(
+                currentVariant,
+                stockedColorOptions,
+                variantsInStock,
+              )
             }
           >
             <Heading level={5} weight={1} as={'em'}>
