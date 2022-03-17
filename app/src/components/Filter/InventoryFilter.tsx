@@ -83,7 +83,7 @@ const InStockDot = styled('span')`
   border-radius: 100%;
   position: absolute;
   margin-top: 1px;
-  margin-left: 6px;
+  margin-left: 10px;
 `
 
 export function InventoryFilter({
