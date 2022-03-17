@@ -98,7 +98,7 @@ const Collection = ({ collection }: CollectionPageProps) => {
     typeof window !== 'undefined'
       ? new URLSearchParams(window.location.search)
       : null
-  console.log('params', params)
+  // console.log('params', params)
   const inStock = params?.get('instock') === 'true' ? true : false
   const token = params?.get('preview')
   const preview = Boolean(params?.get('preview'))
@@ -138,7 +138,7 @@ const Collection = ({ collection }: CollectionPageProps) => {
       )
     } else {
       if (!collection) return <NotFound />
-      console.log('inStock', inStock)
+      // console.log('inStock', inStock)
       return (
         <ProductListing
           key={collection._id || 'some-key'}

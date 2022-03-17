@@ -188,7 +188,7 @@ export const Filter = ({
 
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
-    console.log('filterMatches', filterMatches)
+    // console.log('filterMatches', filterMatches)
     applyFilters(filterMatches)
   }, [filterSetStates])
 
@@ -318,16 +318,24 @@ export const Filter = ({
             )}
             {isMobile === true ? (
               <MobileFooter>
-                <Heading level={5} color="body.7">
-                  Results: {productsCount}
-                </Heading>
+                {productsCount > 0 ? (
+                  <Heading level={5} color="body.7">
+                    Results: {productsCount}
+                  </Heading>
+                ) : (
+                  ''
+                )}
                 <Reset onClick={handleReset}>Reset</Reset>
               </MobileFooter>
             ) : (
               <DesktopFooter>
-                <Heading level={5} color="body.7" ml={2}>
-                  Results: {productsCount}
-                </Heading>
+                {productsCount > 0 ? (
+                  <Heading level={5} color="body.7" ml={2}>
+                    Results: {productsCount}
+                  </Heading>
+                ) : (
+                  ''
+                )}
                 <Reset onClick={handleReset}>Reset</Reset>
               </DesktopFooter>
             )}

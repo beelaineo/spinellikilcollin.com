@@ -83,7 +83,7 @@ const InStockDot = styled('span')`
   border-radius: 100%;
   position: absolute;
   margin-top: 1px;
-  margin-left: 6px;
+  margin-left: 10px;
 `
 
 export function InventoryFilter({
@@ -106,8 +106,8 @@ export function InventoryFilter({
     setApplyFilter(!applyFilter)
     // console.log('URLParams', URLParams)
   }
-  console.log('filterSetState', filterSetState)
-  console.log('is Initially Active?', initiallyActive)
+  // console.log('filterSetState', filterSetState)
+  // console.log('is Initially Active?', initiallyActive)
 
   useEffect(() => {
     filterSetState.initialValues.applyFilter = initiallyActive

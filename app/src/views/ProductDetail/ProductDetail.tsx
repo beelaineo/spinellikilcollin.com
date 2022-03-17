@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { ShopifyProduct, ShopifySourceImage } from '../../types'
+import { Maybe, ShopifyProduct, ShopifySourceImage } from '../../types'
 import {
   getVariantTitle,
   parseHTML,
@@ -58,11 +58,16 @@ const InStockDot = styled('span')`
     border: 1px solid #f5f3f3;
   `}
 `
+interface WithHide {
+  hide: boolean
+}
 
-const StockedLabelMobile = styled('div')`
-  ${({ theme }) => css`
+const StockedLabelMobile = styled('div')<WithHide>`
+  ${({ theme, hide }) => css`
     display: none;
     margin-bottom: 4;
+    opacity: ${hide ? 0 : 1};
+    transition: 250ms ease;
     font-size: ${theme.fontSizes[5]}px;
     ${theme.mediaQueries.tablet} {
       display: block;
@@ -144,6 +149,56 @@ export const ProductDetail = ({ product }: Props) => {
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
     variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+
+  const slugify = (text?: Maybe<string>) => {
+    if (!text) return ''
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
+  }
+
+  const stockedVariants = product.sourceData?.variants?.edges?.filter(
+    (variant) => {
+      return (
+        variant?.node?.availableForSale === true &&
+        variant?.node?.currentlyNotInStock === false
+      )
+    },
+  )
+
+  const stockedColorOptions = stockedVariants
+    ?.map((variant) => {
+      return variant?.node?.selectedOptions?.find(
+        (option) => option?.name === 'Color',
+      )
+    })
+    .map((option) => slugify(option?.value))
+
+  const isSwatchCurrentlyInStock = (
+    currentVariant,
+    stockedOptions,
+    stockedVariants,
+  ): boolean => {
+    if (
+      currentVariant.sourceData?.selectedOptions?.find(
+        (option) => option.name === 'Color',
+      ) !== undefined
+    ) {
+      const color = slugify(
+        currentVariant.sourceData.selectedOptions.find(
+          (option) => option.name === 'Color',
+        ).value,
+      )
+      return stockedOptions.includes(color)
+    } else {
+      return Boolean(stockedVariants?.length > 0)
+    }
+  }
 
   /* get product image variants from Shopify */
   const description = parseHTML(product?.sourceData?.descriptionHtml)
@@ -251,7 +306,15 @@ export const ProductDetail = ({ product }: Props) => {
 
                 <ProductInfoWrapper>
                   {variantsInStock?.length > 0 ? (
-                    <StockedLabelMobile>
+                    <StockedLabelMobile
+                      hide={
+                        !isSwatchCurrentlyInStock(
+                          currentVariant,
+                          stockedColorOptions,
+                          stockedVariants,
+                        )
+                      }
+                    >
                       <Heading level={4} weight={1} as={'em'}>
                         <InStockDot />
                         {currentlyNotInStock !== true

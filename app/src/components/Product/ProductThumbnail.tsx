@@ -265,8 +265,6 @@ export const ProductThumbnail = ({
     return isInStock
   }
 
-  console.log('currentVariant', currentVariant)
-
   const altText = [product?.title, currentVariant?.title]
     .filter(Boolean)
     .join(' - ')
@@ -275,6 +273,8 @@ export const ProductThumbnail = ({
     variant: currentVariant,
     currentPath: asPath,
   })
+
+  console.log('product', product)
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
@@ -307,7 +307,12 @@ export const ProductThumbnail = ({
                 )}
                 {product.title} |{' '}
                 <PriceWrapper>
-                  <Price price={currentVariant?.priceV2} />
+                  <Price
+                    price={
+                      currentVariant?.priceV2 ||
+                      product?.sourceData?.priceRange?.minVariantPrice
+                    }
+                  />
                   <Span ml={2} color="body.6" textDecoration="line-through">
                     <Price price={currentVariant?.compareAtPriceV2} />
                   </Span>
