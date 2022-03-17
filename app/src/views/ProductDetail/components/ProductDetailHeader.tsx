@@ -72,6 +72,9 @@ export const ProductDetailHeader = ({
       )
     },
   )
+  console.log(currentVariant.sourceData?.selectedOptions)
+
+  const keys = ['Size', 'Quantity', 'Length', 'Title']
 
   const stockedColorOptions = stockedVariants
     ?.map((variant) => {
@@ -85,12 +88,22 @@ export const ProductDetailHeader = ({
     currentVariant,
     stockedOptions,
   ): boolean => {
-    const color = slugify(
+    if (
       currentVariant.sourceData.selectedOptions.find(
         (option) => option.name === 'Color',
-      ).value || '',
-    )
-    return stockedOptions.includes(color) ? true : false
+      ) > 0
+    ) {
+      const color = slugify(
+        currentVariant.sourceData.selectedOptions.find(
+          (option) => option.name === 'Color',
+        ).value,
+      )
+      return stockedOptions.includes(color)
+    } else if (currentVariant.sourceData?.selectedOptions?.length == 1) {
+      return Boolean(variantsInStock?.length > 0)
+    } else {
+      return false
+    }
   }
 
   return (
