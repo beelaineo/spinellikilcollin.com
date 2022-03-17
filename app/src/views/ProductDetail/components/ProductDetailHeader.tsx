@@ -81,9 +81,6 @@ export const ProductDetailHeader = ({
     })
     .map((option) => slugify(option?.value))
 
-  console.log(stockedColorOptions)
-  console.log(currentVariant)
-
   const isSwatchCurrentlyInStock = (
     currentVariant,
     stockedOptions,
