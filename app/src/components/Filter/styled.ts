@@ -577,10 +577,13 @@ export const Reset = styled.buttonBox`
     height: fit-content;
     display: block;
     margin: 0;
-    padding: 2 4;
+    padding: 2;
     width: auto;
     border: none;
     text-decoration: underline;
     text-underline-position: under;
+    @media screen and (max-width: 960px) {
+      padding-left: 0;
+    }
   `}
 `
