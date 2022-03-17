@@ -1,6 +1,12 @@
 import S from '@sanity/desk-tool/structure-builder'
 import { GiDiamondRing } from 'react-icons/gi'
-import { MdSettings, MdHome, MdInfoOutline, MdLocalPhone } from 'react-icons/md'
+import {
+  MdSettings,
+  MdHome,
+  MdInfoOutline,
+  MdLocalPhone,
+  MdCake,
+} from 'react-icons/md'
 import { AiOutlineTeam, AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
 import { IoDocumentsOutline } from 'react-icons/io'
 import { ImFilesEmpty } from 'react-icons/im'
@@ -165,6 +171,16 @@ export default () =>
                     .id('customize')
                     .schemaType('customize')
                     .documentId('customize'),
+                ),
+
+              S.listItem()
+                .title('Birthdays')
+                .icon(MdCake)
+                .child(
+                  S.editor()
+                    .id('birthdays')
+                    .schemaType('birthdays')
+                    .documentId('birthdays'),
                 ),
             ]),
           S.listItem()
