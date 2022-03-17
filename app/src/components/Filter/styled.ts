@@ -455,13 +455,13 @@ export const PriceRangeFilterWrapper = styled.div`
   ${({ theme }) => css`
     margin: 0;
     & > div:first-child {
-      min-width: 156px;
+      min-width: 145px;
       text-align: left;
       justify-content: flex-start;
     }
     label {
       background-color: body.2;
-      margin: 0 5px;
+      margin: 0;
       line-height: 1;
       font-style: italic;
       span {
