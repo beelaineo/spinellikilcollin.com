@@ -21,6 +21,9 @@ const StockedLabel = styled('div')<WithHide>`
     display: block;
     opacity: ${hide ? 0 : 1};
     transition: 250ms ease;
+    em {
+      font-size: 13px;
+    }
     ${theme.mediaQueries.tablet} {
       display: none;
     }
@@ -102,7 +105,7 @@ export const ProductDetailHeader = ({
               !isSwatchCurrentlyInStock(currentVariant, stockedColorOptions)
             }
           >
-            <Heading level={4} weight={1} as={'em'}>
+            <Heading level={5} weight={1} as={'em'}>
               <InStockDot />
               {currentlyNotInStock !== true
                 ? 'Ready to Ship'
