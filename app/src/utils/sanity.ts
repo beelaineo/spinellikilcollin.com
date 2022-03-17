@@ -20,13 +20,13 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
     case 'option':
       return `"${match}" in sourceData.options[].value`
     case 'subcategory':
-      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value`
+      return `variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
     case 'metal':
-      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "metal"].node.value`
+      return `variants[].sourceData.metafields.edges[node.key == "metal"].node.value match "*${match}*"`
     case 'style':
-      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "style"].node.value`
+      return `variants[].sourceData.metafields.edges[node.key == "style"].node.value match "*${match}*"`
     case 'stone':
-      return `"${match}" in variants[].sourceData.metafields.edges[node.key == "stone"].node.value`
+      return `variants[].sourceData.metafields.edges[node.key == "stone"].node.value match "*${match}*"`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
@@ -46,13 +46,13 @@ const parseFilterMatchDefaultSort = ({
     case 'option':
       return `"${match}" in @->sourceData.options[].value`
     case 'subcategory':
-      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value`
+      return `@->variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
     case 'metal':
-      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "metal"].node.value`
+      return `@->variants[].sourceData.metafields.edges[node.key == "metal"].node.value match "*${match}*"`
     case 'style':
-      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "style"].node.value`
+      return `@->variants[].sourceData.metafields.edges[node.key == "style"].node.value match "*${match}*"`
     case 'stone':
-      return `"${match}" in @->variants[].sourceData.metafields.edges[node.key == "stone"].node.value`
+      return `@->variants[].sourceData.metafields.edges[node.key == "stone"].node.value match "*${match}*"`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
