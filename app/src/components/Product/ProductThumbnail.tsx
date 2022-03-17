@@ -274,6 +274,8 @@ export const ProductThumbnail = ({
     currentPath: asPath,
   })
 
+  console.log('product', product)
+
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>
@@ -305,7 +307,12 @@ export const ProductThumbnail = ({
                 )}
                 {product.title} |{' '}
                 <PriceWrapper>
-                  <Price price={currentVariant?.priceV2} />
+                  <Price
+                    price={
+                      currentVariant?.priceV2 ||
+                      product?.sourceData?.priceRange?.minVariantPrice
+                    }
+                  />
                   <Span ml={2} color="body.6" textDecoration="line-through">
                     <Price price={currentVariant?.compareAtPriceV2} />
                   </Span>
