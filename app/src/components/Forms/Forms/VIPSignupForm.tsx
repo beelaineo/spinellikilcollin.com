@@ -104,12 +104,7 @@ export const VIPSignupForm = ({ onContinue }: VIPSignupFormProps) => {
             label="Date of birth"
             placeholder="Date of birth"
           />
-          <Field
-            name="phone"
-            type="tel"
-            placeholder="Phone"
-            label="Phone (optional)"
-          />
+          <Field name="phone" type="tel" placeholder="Phone" label="Phone" />
           <Field name="special_date_1_" label="Special Date 1" placeholder="" />
           <Field name="special_date_2_" label="Special Date 2" placeholder="" />
           <Button type="submit">Submit</Button>
