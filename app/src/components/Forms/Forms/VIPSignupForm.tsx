@@ -12,6 +12,8 @@ import {
 
 const FieldsWrapper = styled(BaseFieldsWrapper)`
   ${({ theme }) => css`
+    margin-top: 0px;
+
     .field--name {
       grid-column: 1 / 3;
     }
