@@ -100,6 +100,7 @@ interface ProductGridProps {
   items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
   currentFilter?: FilterConfiguration | null
+  hideFilter?: boolean | null
   reduceColumnCount?: boolean | null
   collectionId?: string | null
 }
@@ -107,6 +108,7 @@ interface ProductGridProps {
 export const ProductGrid = ({
   preferredVariantMatches,
   currentFilter,
+  hideFilter,
   items,
   reduceColumnCount,
   collectionId,
@@ -135,6 +137,7 @@ export const ProductGrid = ({
                   imageRatio={1}
                   preferredVariantMatches={preferredVariantMatches}
                   currentFilter={currentFilter}
+                  hideFilter={hideFilter}
                   collectionId={collectionId}
                 />
               </ProductGridItem>
