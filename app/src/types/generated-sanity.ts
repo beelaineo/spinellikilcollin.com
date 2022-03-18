@@ -132,6 +132,51 @@ export type BambuserSettingsSorting = {
   liveSettings?: Maybe<BambuserLiveSettingsSorting>
 }
 
+export interface Birthdays extends Document {
+  __typename: 'Birthdays'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  subtitle?: Maybe<Scalars['String']>
+  bodyRaw?: Maybe<Scalars['JSON']>
+  seo?: Maybe<Seo>
+}
+
+export type BirthdaysFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  subtitle?: Maybe<StringFilter>
+  seo?: Maybe<SeoFilter>
+}
+
+export type BirthdaysSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  subtitle?: Maybe<SortOrder>
+  seo?: Maybe<SeoSorting>
+}
+
 export interface Block {
   __typename: 'Block'
   _key?: Maybe<Scalars['String']>
@@ -1753,6 +1798,7 @@ export interface RootQuery {
   Magazine?: Maybe<Magazine>
   Contact?: Maybe<Contact>
   Customize?: Maybe<Customize>
+  Birthdays?: Maybe<Birthdays>
   ShopifyProduct?: Maybe<ShopifyProduct>
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
@@ -1772,6 +1818,7 @@ export interface RootQuery {
   allMagazine: Array<Magazine>
   allContact: Array<Contact>
   allCustomize: Array<Customize>
+  allBirthdays: Array<Birthdays>
   allShopifyProduct: Array<ShopifyProduct>
   allShopifyCollection: Array<ShopifyCollection>
   allSanityImageAsset: Array<SanityImageAsset>
@@ -1839,6 +1886,10 @@ export type RootQueryContactArgs = {
 }
 
 export type RootQueryCustomizeArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryBirthdaysArgs = {
   id: Scalars['ID']
 }
 
@@ -1959,6 +2010,13 @@ export type RootQueryAllContactArgs = {
 export type RootQueryAllCustomizeArgs = {
   where?: Maybe<CustomizeFilter>
   sort?: Maybe<Array<CustomizeSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllBirthdaysArgs = {
+  where?: Maybe<BirthdaysFilter>
+  sort?: Maybe<Array<BirthdaysSorting>>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
 }

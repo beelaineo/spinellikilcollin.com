@@ -15,6 +15,7 @@ export const form = {
         list: [
           { title: 'Customization Inquiry', value: 'customizationInquiry' },
           { title: 'Ring Sizer', value: 'ringSizer' },
+          { title: 'VIP Signup Form', value: 'vipSignup' },
         ],
       },
     },

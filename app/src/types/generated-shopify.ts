@@ -214,9 +214,8 @@ export enum ShopifyStorefrontArticleSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -334,9 +333,8 @@ export enum ShopifyStorefrontBlogSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -1179,9 +1177,8 @@ export enum ShopifyStorefrontCollectionSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -3836,9 +3833,8 @@ export enum ShopifyStorefrontOrderSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -3911,9 +3907,8 @@ export enum ShopifyStorefrontPageSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4240,9 +4235,8 @@ export enum ShopifyStorefrontProductCollectionSortKeys {
   /** Sort by the `collection-default` value. */
   CollectionDefault = 'COLLECTION_DEFAULT',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4274,9 +4268,8 @@ export enum ShopifyStorefrontProductImageSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4288,9 +4281,8 @@ export enum ShopifyStorefrontProductMediaSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4356,9 +4348,8 @@ export enum ShopifyStorefrontProductSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4539,9 +4530,8 @@ export enum ShopifyStorefrontProductVariantSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
