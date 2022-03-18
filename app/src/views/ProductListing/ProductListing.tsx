@@ -610,6 +610,7 @@ export const ProductListing = ({
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}
                 currentFilter={currentFilter}
+                hideFilter={hideFilter}
                 items={items}
                 collectionId={_id}
               />

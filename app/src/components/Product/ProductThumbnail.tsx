@@ -41,6 +41,7 @@ interface ProductThumbnailProps {
   headingLevel?: number
   preferredVariantMatches?: Maybe<string>[] | null
   currentFilter?: FilterConfiguration | null
+  hideFilter?: boolean | null
   imageRatio?: number
   collectionId?: string | null
 }
@@ -98,6 +99,7 @@ export const ProductThumbnail = ({
   headingLevel,
   preferredVariantMatches,
   currentFilter,
+  hideFilter,
   imageRatio,
   collectionId,
 }: ProductThumbnailProps) => {
@@ -187,7 +189,7 @@ export const ProductThumbnail = ({
 
   useEffect(() => {
     if (!currentFilter) return
-
+    if (hideFilter) return
     // {
     //   "filterType": "PRICE_RANGE_FILTER",
     //   "key": "dda7b169dd63",
@@ -273,8 +275,6 @@ export const ProductThumbnail = ({
     variant: currentVariant,
     currentPath: asPath,
   })
-
-  console.log('product', product)
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
