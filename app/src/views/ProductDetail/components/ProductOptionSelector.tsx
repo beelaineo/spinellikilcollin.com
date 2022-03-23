@@ -1,9 +1,13 @@
 import React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import {
+  ShopifyProduct,
   ShopifyProductOption,
   ShopifyProductVariant,
   ShopifyProductOptionValue,
+  Maybe,
+  ShopifySourceProductVariant,
+  ShopifySourceSelectedOption,
 } from '../../../types'
 import { Heading } from '../../../components/Text'
 import { Form, Field } from '../../../components/Forms'
@@ -19,6 +23,7 @@ import {
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
+  product: ShopifyProduct
   currentVariant: ShopifyProductVariant
   option: ShopifyProductOption
   changeValueForOption: (optionId: string) => (value: string) => void
@@ -61,6 +66,8 @@ const SelectWrapper = styled.div<SelectWrapperProps>`
 
 export const ProductOptionSelector = ({
   option,
+  product,
+  variants,
   changeValueForOption,
   currentVariant,
   isInput,
@@ -74,9 +81,79 @@ export const ProductOptionSelector = ({
 
   const selectOption = changeValueForOption(option.name)
 
+  const slugify = (text?: Maybe<string>) => {
+    if (!text) return ''
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
+  }
+
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
     selectOption(value)
+  }
+
+  const stockedVariants = product.sourceData?.variants?.edges
+    ?.filter((variant) => {
+      return (
+        variant?.node?.availableForSale === true &&
+        variant?.node?.currentlyNotInStock === false
+      )
+    })
+    .map((variant) => variant?.node)
+
+  const stockedColorOptions = stockedVariants
+    ?.map((variant) => {
+      return variant?.selectedOptions?.find(
+        (option) => option?.name === 'Color',
+      )
+    })
+    .map((option) => slugify(option?.value))
+
+  const currentSelectedColor =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Color',
+    )
+
+  const getVariantOptions = (variantOptions) => {
+    const arr: Record<string, unknown>[] = []
+    variantOptions.forEach((v) => {
+      const key = slugify(v.name)
+      const value: string = v.value
+      const obj: Record<string, unknown> = { [key]: value }
+      arr.push(obj)
+    })
+    return Object.assign({}, ...arr)
+  }
+
+  const currentVariantStockedOptions = stockedVariants?.map((variant) =>
+    getVariantOptions(variant?.selectedOptions),
+  )
+
+  const formatLabel = (value: string, option: ShopifyProductOption) => {
+    let i = 0
+    currentVariantStockedOptions?.forEach((v) => {
+      if (currentSelectedColor) {
+        if (
+          Object.values(v).includes(value) &&
+          Object.values(v).includes(currentSelectedColor?.value)
+        ) {
+          i++
+        }
+      } else {
+        if (Object.values(v).includes(value)) {
+          i++
+        }
+      }
+    })
+
+    const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+    return optionLabel
   }
 
   const options = definitely(
@@ -85,7 +162,7 @@ export const ProductOptionSelector = ({
         ? {
             value: value,
             id: value,
-            label: value,
+            label: formatLabel(value, option),
           }
         : null,
     ),
@@ -138,6 +215,7 @@ export const ProductOptionSelector = ({
               onSwatchClick={handleSwatchClick}
               isSwatchActive={isSwatchActive}
               option={option}
+              stockedOptions={stockedColorOptions}
             />
           </SwatchesWrapper>
         ) : (

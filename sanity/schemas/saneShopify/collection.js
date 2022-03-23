@@ -55,6 +55,20 @@ export const collection = {
       description:
         'Add values here to auto-select a preferred variant option when viewing this collection. The first variant that has an option containing one of these values will be used. E.g., "BG" or "Black Gold"',
     },
+    {
+      title: 'Hide Filters',
+      name: 'hideFilter',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to remove all filters from the collection view.',
+    },
+    {
+      title: 'Override Default Filters',
+      name: 'overrideDefaultFilter',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to only display the custom filters you add below.',
+    },
     { name: 'customFilter', type: 'productFilter' },
     { name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations' },
     {

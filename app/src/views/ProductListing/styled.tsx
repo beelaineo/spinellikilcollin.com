@@ -47,6 +47,10 @@ export const LoadingWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 960px) {
+    top: unset;
+    padding-top: 5;
+  }
 `
 
 export const NoResultsWrapper = styled.div`

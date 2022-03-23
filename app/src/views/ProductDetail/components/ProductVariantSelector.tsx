@@ -4,7 +4,7 @@ import { Box } from '@xstyled/styled-components'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
 import { RingSizerButton } from './RingSizerButton'
-import { getValidProductOptions } from '../../../utils'
+import { getValidProductOptions, optionMatchesVariant } from '../../../utils'
 
 const OptionWrapper = styled.div`
   justify-content: space-between;
@@ -46,6 +46,7 @@ export const ProductVariantSelector = (props: Props) => {
   const { inquiryOnly } = product
 
   const options = getValidProductOptions(product)
+
   if (options.length < 1) return null
 
   return (
@@ -60,6 +61,7 @@ export const ProductVariantSelector = (props: Props) => {
               <ProductOptionSelector
                 changeValueForOption={changeValueForOption}
                 variants={variants}
+                product={product}
                 currentVariant={currentVariant}
                 option={option}
                 isInput={Boolean(productType === 'Gift Card')}

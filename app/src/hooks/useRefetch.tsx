@@ -43,7 +43,6 @@ export const useRefetch = <DataType, Response>(
       refetchQueryParams,
       headers,
     )
-    console.log('refetch result:', result)
     const newData = parseResponse ? parseResponse(result) : result
     //@ts-ignore
     setData(newData)
@@ -60,7 +59,6 @@ export const useRefetch = <DataType, Response>(
 
   useEffect(() => {
     if (!enabled) return
-    console.log('initial refetch of draft/preview data')
     refetch()
     // need to add a conditional to return if there's no draft document
     console.log('listening for revisions on sanity document')

@@ -214,9 +214,8 @@ export enum ShopifyStorefrontArticleSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -334,9 +333,8 @@ export enum ShopifyStorefrontBlogSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -1179,9 +1177,8 @@ export enum ShopifyStorefrontCollectionSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -2645,8 +2642,8 @@ export interface ShopifyStorefrontDomain {
 
 /** Represents a video hosted outside of Shopify. */
 export interface ShopifyStorefrontExternalVideo
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'ExternalVideo'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
@@ -3007,8 +3004,8 @@ export enum ShopifyStorefrontMediaHost {
 
 /** Represents a Shopify hosted image. */
 export interface ShopifyStorefrontMediaImage
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'MediaImage'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
@@ -3088,8 +3085,8 @@ export enum ShopifyStorefrontMetafieldValueType {
 
 /** Represents a Shopify hosted 3D model. */
 export interface ShopifyStorefrontModel3d
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'Model3d'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
@@ -3836,9 +3833,8 @@ export enum ShopifyStorefrontOrderSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -3911,9 +3907,8 @@ export enum ShopifyStorefrontPageSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4007,8 +4002,8 @@ export type ShopifyStorefrontPricingValue =
  * customization of another product or an extended warranty).
  */
 export interface ShopifyStorefrontProduct
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontHasMetafields {
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'Product'
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']
@@ -4120,16 +4115,16 @@ export type ShopifyStorefrontProductDescriptionArgs = {
  * customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductImagesArgs = {
+  maxWidth?: Maybe<Scalars['Int']>
+  maxHeight?: Maybe<Scalars['Int']>
+  crop?: Maybe<ShopifyStorefrontCropRegion>
+  scale?: Maybe<Scalars['Int']>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontProductImageSortKeys>
-  maxWidth?: Maybe<Scalars['Int']>
-  maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<ShopifyStorefrontCropRegion>
-  scale?: Maybe<Scalars['Int']>
 }
 
 /**
@@ -4240,9 +4235,8 @@ export enum ShopifyStorefrontProductCollectionSortKeys {
   /** Sort by the `collection-default` value. */
   CollectionDefault = 'COLLECTION_DEFAULT',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4274,9 +4268,8 @@ export enum ShopifyStorefrontProductImageSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4288,9 +4281,8 @@ export enum ShopifyStorefrontProductMediaSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4356,17 +4348,16 @@ export enum ShopifyStorefrontProductSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
 export interface ShopifyStorefrontProductVariant
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontHasMetafields {
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'ProductVariant'
   /**
    * Indicates if the product variant is in stock.
@@ -4539,9 +4530,8 @@ export enum ShopifyStorefrontProductVariantSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -5152,8 +5142,8 @@ export interface ShopifyStorefrontUserError
 
 /** Represents a Shopify hosted video. */
 export interface ShopifyStorefrontVideo
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'Video'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>

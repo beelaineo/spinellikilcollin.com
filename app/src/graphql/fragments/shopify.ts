@@ -97,6 +97,7 @@ export const variantWithProductFragment = gql`
       ...ImageFragment
     }
     availableForSale
+    currentlyNotInStock
     requiresShipping
     selectedOptions {
       __typename
@@ -113,6 +114,7 @@ export const variantFragment = gql`
   fragment VariantFragment on ProductVariant {
     __typename
     availableForSale
+    currentlyNotInStock
     id
     sku
     title

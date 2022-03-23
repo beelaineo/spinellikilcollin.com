@@ -3,10 +3,9 @@ import styled from '@xstyled/styled-components'
 import { SelectElement } from '../Forms/Fields/styled'
 
 export enum Sort {
+  // DateAsc = 'Newest',
   PriceAsc = '$-$$$',
   PriceDesc = '$$$-$',
-  // DateAsc = 'Newest',
-  // DateDesc = 'Oldest first',
   Default = 'Featured',
   // AlphaAsc = 'A - Z',
   // AlphaDesc = 'Z - A',
@@ -15,8 +14,12 @@ export enum Sort {
 const SelectField = styled(SelectElement)`
   color: body.8;
   border: none;
-  min-width: initial;
+  min-width: unset;
+  max-width: unset;
   height: auto;
+  background-image: none;
+  padding: 0;
+  text-align: center;
 `
 
 const sortOptions = Object.values(Sort).map((value) => ({
@@ -35,7 +38,7 @@ const getSortValue = (value: string): Sort => {
   return sort
 }
 
-export const SortButton = ({ applySort }: SortButtonProps) => {
+export const SortSet = ({ applySort }: SortButtonProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
     const sortValue = getSortValue(value)

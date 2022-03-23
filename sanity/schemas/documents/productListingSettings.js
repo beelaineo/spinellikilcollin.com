@@ -18,6 +18,12 @@ export const productListingSettings = {
       type: 'productFilter',
       fieldset: 'filters',
     },
+    {
+      name: 'newDefaultFilter',
+      title: 'New Filters (beta)',
+      type: 'productFilter',
+      fieldset: 'filters',
+    },
   ],
   preview: {
     select: {},

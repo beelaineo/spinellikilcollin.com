@@ -11,6 +11,7 @@ interface SelectedOption {
 export interface Variant {
   id: string
   availableForSale: boolean
+  currentlyNotInStock: boolean
   image?: ShopifyImage
   priceV2: MoneyV2
   product?: Product

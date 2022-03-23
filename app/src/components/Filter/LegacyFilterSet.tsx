@@ -24,7 +24,6 @@ interface FilterCheckboxProps {
   onChange: () => void
   checked: boolean
   matchKey: string
-  hidden: boolean
 }
 
 const FilterCheckbox = ({
@@ -32,50 +31,43 @@ const FilterCheckbox = ({
   filter,
   onChange,
   checked,
-  hidden,
 }: FilterCheckboxProps) => {
   const { label } = filter
-  if (hidden === false) {
-    return (
-      <FilterCheckboxWrapper>
-        <FilterCheckboxElement
-          id={matchKey}
-          name={matchKey}
-          type="checkbox"
-          checked={checked}
-          onChange={onChange}
-        />
-        <Label color="body.9" htmlFor={matchKey}>
-          {label}
-        </Label>
-      </FilterCheckboxWrapper>
-    )
-  } else {
-    return null
-  }
+  return (
+    <FilterCheckboxWrapper>
+      <FilterCheckboxElement
+        id={matchKey}
+        name={matchKey}
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+      />
+      <Label color="body.9" htmlFor={matchKey}>
+        {label}
+      </Label>
+    </FilterCheckboxWrapper>
+  )
 }
 
-interface FilterSetProps {
+interface LegacyFilterSetProps {
   filterSet: FilterSetType
   filterSetState?: FilterSetState
   toggleMatch: (matchKey: string) => () => void
   resetSet: () => void
   setKey: string
-  active: boolean
 }
 
 interface State {
   matches: FilterMatch[] | null
 }
 
-export const FilterSet = ({
+export const LegacyFilterSet = ({
   filterSet,
   filterSetState,
   toggleMatch,
   resetSet,
   setKey,
-  active,
-}: FilterSetProps) => {
+}: LegacyFilterSetProps) => {
   if (!filterSetState) {
     throw new Error('No filterSetState was supplied')
   }
@@ -88,14 +80,13 @@ export const FilterSet = ({
   const handleMouseLeave = () => setMouseEnter(false)
 
   const isMobile = useMedia({
-    maxWidth: `960px`,
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
   })
 
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      active={active}
     >
       <HeadingWrapper
         isActive={Boolean(activeMatchKeys.length > 0)}
@@ -125,28 +116,16 @@ export const FilterSet = ({
             : ''}
         </FilterIndicatorsWrapper>
       </HeadingWrapper>
-      <FiltersWrapper
-        isHovered={
-          Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
-        }
-      >
-        {definitely(filters).map((filter) => {
-          return (
-            <FilterCheckbox
-              key={filter._key || 'some-key'}
-              matchKey={filter._key || 'some-key'}
-              onChange={toggleMatch(filter._key || 'some-key')}
-              filter={filter}
-              checked={activeMatchKeys.includes(filter._key || 'foo')}
-              hidden={Boolean(
-                (filterSet.heading === 'Type' ||
-                  filterSet.heading === 'Bands') &&
-                  filter._key &&
-                  activeMatchKeys.includes(filter._key),
-              )}
-            />
-          )
-        })}
+      <FiltersWrapper>
+        {definitely(filters).map((filter) => (
+          <FilterCheckbox
+            key={filter._key || 'some-key'}
+            matchKey={filter._key || 'some-key'}
+            onChange={toggleMatch(filter._key || 'some-key')}
+            filter={filter}
+            checked={activeMatchKeys.includes(filter._key || 'foo')}
+          />
+        ))}
       </FiltersWrapper>
     </FilterSetWrapper>
   )
