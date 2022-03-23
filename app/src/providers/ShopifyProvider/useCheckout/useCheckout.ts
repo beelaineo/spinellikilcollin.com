@@ -38,6 +38,7 @@ import {
 } from './reducer'
 import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
 import { ShopifyStorefrontCheckout } from '../../../types/generated-shopify'
+import { unwindEdges } from '@good-idea/unwind-edges'
 
 const { useReducer, useEffect } = React
 
@@ -319,6 +320,37 @@ export const useCheckout = ({
   useEffect(() => {
     fetchCheckout()
   }, []) // fetch the checkout on load
+
+  useEffect(() => {
+    const [lineItems] = unwindEdges(state.checkout?.lineItems)
+
+    const productsList = lineItems.map((li) => ({
+      Name: li.title,
+      CartItemId: li.id,
+      OrderedQuantity: li.quantity,
+      OriginalListPrice: li.variant?.compareAtPriceV2?.amount,
+      OriginalSalePrice: li.variant?.priceV2?.amount,
+    }))
+
+    const cartData = { productsList: productsList }
+    console.log('cartData:', cartData)
+    const storage = globalThis?.sessionStorage
+    storage
+      ? storage.setItem('GEM_ExternalCart', JSON.stringify(cartData))
+      : null
+    globalThis?.GEM_Components.ExternalMethodsComponent.UpdateCart(cartData)
+  }, [state])
+
+  //   {
+  //     "productsList": [{
+  //             "Name": "Men's Camp Flannel Jacket",
+  //             "CartItemId": "39680964788321",
+  //             "OrderedQuantity": 1,
+  //             "OriginalListPrice": 70,
+  //             "OriginalSalePrice": 70
+  //         }
+  //     ]
+  // }
 
   const value = {
     ...state,

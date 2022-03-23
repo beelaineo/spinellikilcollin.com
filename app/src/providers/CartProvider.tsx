@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-const { useReducer } = React
+const { useReducer, useEffect } = React
 
 interface CartProviderContextValue {
   open: boolean
@@ -78,6 +78,10 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const { message, open } = state
   const openCart = (message?: string) => dispatch({ type: OPEN_CART, message })
   const closeCart = () => dispatch({ type: CLOSE_CART })
+
+  useEffect(() => {
+    console.log('CartProvider useEffect called:', state)
+  }, [state])
 
   const value = {
     open,
