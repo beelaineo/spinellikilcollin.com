@@ -83,7 +83,6 @@ export const ShopifyProvider = ({
         quantity: li.quantity,
       })),
     )
-    console.log('goToCheckout function called')
     const isOperatedByCallback = function (isOperated) {
       console.log('GEM IsOperatedByGlobalE callback:', isOperated)
     }

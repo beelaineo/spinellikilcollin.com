@@ -333,24 +333,12 @@ export const useCheckout = ({
     }))
 
     const cartData = { productsList: productsList }
-    console.log('cartData:', cartData)
     const storage = globalThis?.sessionStorage
     storage
       ? storage.setItem('GEM_ExternalCart', JSON.stringify(cartData))
       : null
     globalThis?.GEM_Components.ExternalMethodsComponent.UpdateCart(cartData)
   }, [state])
-
-  //   {
-  //     "productsList": [{
-  //             "Name": "Men's Camp Flannel Jacket",
-  //             "CartItemId": "39680964788321",
-  //             "OrderedQuantity": 1,
-  //             "OriginalListPrice": 70,
-  //             "OriginalSalePrice": 70
-  //         }
-  //     ]
-  // }
 
   const value = {
     ...state,
