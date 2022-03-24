@@ -53,7 +53,6 @@ export const Footer = () => {
   const mailerSubtitle = shopData?.siteSettings?.mailerSubtitle ?? ''
   const footerMenu = shopData?.menu?.footerMenuItems ?? []
   const router = useRouter()
-  console.log('Footer router:', router.asPath)
   return (
     <FooterWrapper>
       <Breadcrumbs />

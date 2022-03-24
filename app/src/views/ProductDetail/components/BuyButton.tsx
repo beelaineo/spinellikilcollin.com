@@ -39,6 +39,14 @@ const BuyButtonEl = styled(Button)<WithSticky>`
   `}
 `
 
+const ButtonSpacer = styled.div`
+  ${({ theme }) => css`
+    display: block;
+    height: 42px;
+    width: 100%;
+  `}
+`
+
 export const BuyButton = ({
   product,
   currentVariant,
@@ -108,13 +116,16 @@ export const BuyButton = ({
     return <Placeholder>Out of stock</Placeholder>
   }
   return (
-    <BuyButtonEl
-      disabled={loading || Boolean(!currentVariant)}
-      onClick={handleClick}
-      ref={buttonRef}
-      sticky={isSticky}
-    >
-      {buttonLabel}
-    </BuyButtonEl>
+    <>
+      <BuyButtonEl
+        disabled={loading || Boolean(!currentVariant)}
+        onClick={handleClick}
+        ref={buttonRef}
+        sticky={isSticky}
+      >
+        {buttonLabel}
+      </BuyButtonEl>
+      {isSticky ? <ButtonSpacer /> : null}
+    </>
   )
 }
