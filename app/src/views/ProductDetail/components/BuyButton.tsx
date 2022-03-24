@@ -29,7 +29,7 @@ const BuyButtonEl = styled(Button)<WithSticky>`
       position: ${sticky ? 'fixed' : 'inherit'};
       top: ${sticky ? '90px' : 'inherit'};
       z-index: 4;
-      width: ${sticky ? 'calc(100% - 248px)' : 'inherit'};
+      width: ${sticky ? 'calc(100% - 250px)' : 'inherit'};
       transition: width 0s;
     }
     ${theme.mediaQueries.mobile} {
@@ -73,13 +73,13 @@ export const BuyButton = ({
   useEffect(() => {
     const DOMRect = buttonRef?.current?.getBoundingClientRect()
     setInitialOffsetTop(DOMRect?.y || 600)
-    console.log('initialOffsetTop', initialOffsetTop)
+    // console.log('initialOffsetTop', initialOffsetTop)
     setHeaderHeight(isMobile ? 75 : 90)
   }, [buttonRef.current])
 
   useEffect(() => {
-    console.log('winScroll', winScroll)
-    console.log('initialOffsetTop', initialOffsetTop)
+    // console.log('winScroll', winScroll)
+    // console.log('initialOffsetTop', initialOffsetTop)
     if (initialOffsetTop > 0 && winScroll >= initialOffsetTop - headerHeight) {
       setIsSticky(true)
     } else {
