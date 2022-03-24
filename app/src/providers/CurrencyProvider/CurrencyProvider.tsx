@@ -80,12 +80,14 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     const amount = getPrice(price, quantity)
     const lang =
       typeof navigator !== 'undefined' ? navigator.language ?? 'en-US' : 'en-US'
-    return new Intl.NumberFormat(lang, {
+    const formattedPrice = new Intl.NumberFormat(lang, {
       style: 'currency',
       currency: currentCurrency,
-    })
-      .format(amount)
-      .replace(/\.00$/, '')
+    }).format(amount)
+
+    return formattedPrice.slice(-2) == '00'
+      ? formattedPrice.replace(/\.00$/, '')
+      : formattedPrice
   }
 
   const value = {
