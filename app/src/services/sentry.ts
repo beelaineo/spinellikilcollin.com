@@ -25,7 +25,7 @@ global.__rootdir__ = rootdir
 
 const debug = Debug('dev:sentry')
 
-const ENV = process.env.NODE_ENV
+const ENV = process.env.NODE_ENV as 'production' | 'development' | 'staging'
 const FORCE = Boolean(process.env.FORCE_SENTRY)
 
 const { SENTRY_DSN } = config
