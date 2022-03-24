@@ -27,13 +27,13 @@ const BuyButtonEl = styled(Button)<WithSticky>`
   ${({ theme, sticky }) => css`
     ${theme.mediaQueries.tablet} {
       position: ${sticky ? 'fixed' : 'inherit'};
-      top: ${sticky ? '90px' : 'inherit'};
+      top: ${sticky ? '92px' : 'inherit'};
       z-index: 4;
       width: ${sticky ? 'calc(100% - 250px)' : 'inherit'};
       transition: width 0s;
     }
     ${theme.mediaQueries.mobile} {
-      top: ${sticky ? '75px' : 'inherit'};
+      top: ${sticky ? '85px' : 'inherit'};
       width: ${sticky ? 'calc(100% - 88px)' : 'inherit'};
     }
   `}
@@ -64,6 +64,7 @@ export const BuyButton = ({
   const [headerHeight, setHeaderHeight] = useState(90)
   const [isSticky, setIsSticky] = useState(false)
   const buttonRef = useRef<HTMLDivElement>(null)
+  const spacerRef = useRef<HTMLDivElement>(null)
 
   const isMobile = useMedia({
     maxWidth: `${theme.breakpoints?.sm || '480'}px`,
@@ -82,8 +83,18 @@ export const BuyButton = ({
     const DOMRect = buttonRef?.current?.getBoundingClientRect()
     setInitialOffsetTop(DOMRect?.y || 600)
     // console.log('initialOffsetTop', initialOffsetTop)
-    setHeaderHeight(isMobile ? 75 : 90)
+    setHeaderHeight(isMobile ? 85 : 92)
   }, [buttonRef.current])
+
+  useEffect(() => {
+    const handleResize = () => {
+      const ref = spacerRef || buttonRef
+      const DOMRect = ref?.current?.getBoundingClientRect()
+      setInitialOffsetTop(DOMRect?.y || 600)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   useEffect(() => {
     // console.log('winScroll', winScroll)
@@ -125,7 +136,7 @@ export const BuyButton = ({
       >
         {buttonLabel}
       </BuyButtonEl>
-      {isSticky ? <ButtonSpacer /> : null}
+      {isSticky ? <ButtonSpacer ref={spacerRef} /> : null}
     </>
   )
 }
