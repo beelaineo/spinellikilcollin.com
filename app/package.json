@@ -93,7 +93,7 @@
 		"lint-staged": "^11.0.1",
 		"mailchimp-api-v3": "^1.15.0",
 		"ndjson": "^2.0.0",
-		"next": "^11.0.1",
+		"next": "^12.1.0",
 		"node-html-parser": "^5.1.0",
 		"postmark": "^2.7.6",
 		"public-ip": "^4.0.4",
