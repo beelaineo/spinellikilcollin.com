@@ -1,5 +1,5 @@
 import { getLocationSearchHash } from './links'
-import { getIdFromBase64 } from './parsing'
+import { getIdFromBase64 } from './shopify'
 import { ShopifyProduct } from '../types'
 
 const event = (name, eventData = {}) => {

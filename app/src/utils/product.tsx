@@ -9,7 +9,7 @@ import {
   ShopifyMoneyV2,
   Image,
 } from '../types'
-import { definitely } from '../utils'
+import { definitely } from './data'
 
 export interface SelectedProductOption {
   name: string

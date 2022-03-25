@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { definitely } from '../utils'
 import atob from 'atob'
+import { definitely } from './data'
 import {
   ShopifyProduct,
   ShopifyProductVariant,
