@@ -39,6 +39,36 @@ export const Checkout = () => {
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
 
+  lineItems.map((li) => {
+    if (
+      li.variant?.selectedOptions?.some((o) => o.name === 'Quantity') &&
+      li.variant?.selectedOptions?.some((o) => o.name === 'Color')
+    ) {
+      li.title += ` (${
+        li.variant?.selectedOptions?.find((o) => o.name === 'Quantity')?.value
+      })`
+    } else if (li.variant?.selectedOptions?.some((o) => o.name === 'Color')) {
+      if (
+        li.variant?.selectedOptions
+          ?.find((o) => o.name === 'Color')
+          ?.value.includes(li.title)
+      ) {
+        //@ts-ignore
+        li.title = li.variant?.selectedOptions?.find(
+          (o) => o.name === 'Color',
+        )?.value
+      } else {
+        li.title = li.title
+      }
+    } else if (
+      li.variant?.selectedOptions?.some((o) => o.name === 'Quantity')
+    ) {
+      li.title = ` (${
+        li.variant?.selectedOptions?.find((o) => o.name === 'Quantity')?.value
+      })`
+    }
+  })
+
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
     const { notes, giftWrap } = values
