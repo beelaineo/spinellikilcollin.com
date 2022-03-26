@@ -202,6 +202,7 @@ const App = (props: AppProps) => {
       <Script
         id="bambuser-script-loader"
         src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js"
+        strategy="beforeInteractive"
       />
     </Providers>
   )
