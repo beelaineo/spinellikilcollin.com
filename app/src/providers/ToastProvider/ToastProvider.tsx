@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { ToastRoot } from '../../components/Toast'
 import { useToastReducer } from './reducer'
 
 type ToastContextValue = ReturnType<typeof useToastReducer>
