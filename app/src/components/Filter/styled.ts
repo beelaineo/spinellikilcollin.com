@@ -146,13 +146,6 @@ export const MobileControlsDivider = styled.span`
   `}
 `
 
-export const LegacyWrapper = styled.div`
-  padding: 0;
-  background-color: white;
-  width: 100%;
-  position: relative;
-`
-
 export const SortWrapper = styled.div<WithHide>`
   ${({ theme, hide }) => css`
     padding: 2 4;
@@ -209,12 +202,6 @@ export const Header = styled.div`
 interface WithOpen {
   open: boolean
 }
-
-export const LegacyInner = styled.div<WithOpen>`
-  ${({ open }) => css`
-    display: ${open ? 'block' : 'none'};
-  `}
-`
 
 export const Inner = styled.div<WithOpen>`
   ${({ theme, open }) => css`
@@ -284,30 +271,6 @@ export const FilterSets = styled.div<WithHide>`
       & > div {
         padding: 1 0;
       }
-    }
-  `}
-`
-
-export const LegacyFilterSets = styled.div`
-  ${({ theme }) => css`
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-column-gap: 5;
-    grid-row-gap: 5;
-    padding: 6 0;
-    border-top: 1px solid;
-    border-bottom: 1px solid;
-    margin: 0 7;
-
-    ${theme.mediaQueries.tablet} {
-      grid-template-columns: repeat(4, 1fr);
-    }
-
-    ${theme.mediaQueries.mobile} {
-      padding: 2 0;
-      display: block;
-      border-bottom: none;
-      margin: 0 4;
     }
   `}
 `
