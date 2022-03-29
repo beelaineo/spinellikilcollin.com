@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
-import { FieldProps } from './Field'
+import { FieldProps } from './types'
 import { Label } from './styled'
 
 export const FilterCheckboxElement = styled.input`

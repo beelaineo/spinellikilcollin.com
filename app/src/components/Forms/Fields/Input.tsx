@@ -1,13 +1,8 @@
 import * as React from 'react'
 import { Field as FormikField } from 'formik'
 import MaskedInput from 'react-text-mask'
-import { FieldProps } from './Field'
+import { FieldProps, InputProps } from './types'
 import { InputWrapper, Input as InputElement } from './styled'
-
-export interface InputProps extends FieldProps {
-  type?: string
-  renderBeforeInput?: () => React.ReactNode
-}
 
 export const Input = (props: InputProps) => {
   const {

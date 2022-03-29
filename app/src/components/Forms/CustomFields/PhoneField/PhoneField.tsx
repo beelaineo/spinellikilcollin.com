@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { useFormikContext } from 'formik'
-import { FieldProps, HiddenField } from '../../Fields'
-import { Field } from '../../Fields'
+import { HiddenField } from '../../Fields/HiddenField'
+import { FieldProps } from '../../Fields/types'
 import { Input } from '../../Fields/Input'
 import { CountryCodeSelector } from './CountryCodeSelector'
 import {
   getCountryOptions,
-  CountryPhoneOption,
   placeholderFromPhoneFormat,
   maskFromPhoneFormat,
   createValidator,
 } from './utils'
+import { CountryPhoneOption } from './types'
 
 type PhoneFieldProps = Omit<FieldProps, 'type' | 'placeholder'>
 

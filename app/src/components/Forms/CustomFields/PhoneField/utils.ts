@@ -1,5 +1,6 @@
 import { FieldValidator } from 'formik'
-import { Mask, Option } from '../../Fields'
+import { Mask } from '../../Fields/types'
+import { CountryPhoneOption } from './types'
 
 export const maskFromPhoneFormat = (format?: string): undefined | Mask =>
   format && format !== '#N/A'
@@ -22,15 +23,6 @@ export const createValidator = (
     const trimmed = value.replace(/\D/g, '')
     if (trimmed.length !== charLength) return `Must be ${charLength} digits`
     return undefined
-  }
-}
-
-export interface CountryPhoneOption extends Option {
-  value: string
-  meta: {
-    phoneFormat: string
-    flagEmoji: string
-    dialingCode: string
   }
 }
 

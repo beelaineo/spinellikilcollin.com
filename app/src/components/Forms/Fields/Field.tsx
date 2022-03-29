@@ -16,41 +16,12 @@ import { Label, FieldWrapper } from './styled'
 import { PhoneField } from '../CustomFields/PhoneField'
 import { countryOptions } from '../CustomFields/countryOptions'
 
+import { Option, FieldProps, Mask } from './types'
 /**
  * Base Field
  */
-
-export interface Option {
-  value: string | number
-  id: string
-  label: string
-  disabled?: boolean
-}
-
 export type WithFormik<T> = T & {
   formik: FormikFieldProps
-}
-
-export type Mask = Array<string | RegExp>
-
-export interface FieldProps {
-  label?: string | React.ReactNode
-  name: string
-  helpText?: string
-  children?: React.ReactNode
-  disabled?: boolean
-  placeholder?: string
-  min?: number
-  max?: number
-  required?: boolean
-  type?: string
-  color?: string
-  options?: Option[]
-  validate?: FieldValidator
-  mask?: Mask
-  /* eslint-disable-next-line */
-  onChange?: (e: React.ChangeEvent<any>) => void
-  readOnly?: boolean
 }
 
 export const Field = (fieldProps: FieldProps) => {
