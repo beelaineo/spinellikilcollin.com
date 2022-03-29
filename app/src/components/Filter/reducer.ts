@@ -5,16 +5,7 @@ import {
   InventoryFilter as InventoryFilterTypeSource,
 } from '../../types'
 import { unique } from '../../utils'
-import { InventoryFilter } from './InventoryFilter'
-
-export type FilterValues = Record<string, any>
-
-export interface FilterSetState<FilterValueType = FilterValues> {
-  key: string
-  activeMatchKeys: string[]
-  values: FilterValueType
-  initialValues: FilterValueType
-}
+import { FilterSetState, FilterValues } from './types'
 
 interface InventoryFilterType extends InventoryFilterTypeSource {
   applyFilter?: boolean
