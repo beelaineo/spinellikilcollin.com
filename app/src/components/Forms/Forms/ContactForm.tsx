@@ -2,7 +2,9 @@ import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { Heading } from '../../Text'
 import { Button } from '../../Button'
-import { Form, StateField, Field } from '../'
+import { Form } from '../Form'
+import { StateField } from '../CustomFields'
+import { Field } from '../Fields/Field'
 import { submitToHubspot } from '../../../services'
 import {
   MainWrapper,
