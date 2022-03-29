@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FieldProps } from '../Fields'
+import { FieldProps } from '../Fields/types'
 import { Field } from '../Fields'
 import { countryOptions } from './countryOptions'
 
