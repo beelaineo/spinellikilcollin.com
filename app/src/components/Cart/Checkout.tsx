@@ -14,10 +14,15 @@ import {
   CartInner,
   CartHeading,
   SubtotalWrapper,
+  OptionsWrapper,
 } from './styled'
 import { CheckoutProduct } from './CheckoutProduct'
+import { BooleanCheckbox } from './BooleanCheckbox'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
+import { StringValueNode } from 'graphql'
+
+const { useState } = React
 
 /**
  * Main Checkout view
@@ -25,6 +30,7 @@ import { Price } from '../Price'
 
 interface FormValues {
   notes?: string
+  notesBool?: boolean
   giftWrap?: boolean
 }
 
@@ -38,6 +44,13 @@ export const Checkout = () => {
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
+
+  const [notesVisible, setNotesVisible] = useState(false)
+
+  const handleNotesToggle = (e) => {
+    setNotesVisible(e.target.checked)
+    console.log('notesVisible:', notesVisible)
+  }
 
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
@@ -94,7 +107,6 @@ export const Checkout = () => {
                 </Heading>
                 <div>
                   <Heading level={4} textTransform="uppercase" weight={2}>
-                    {/* @ts-ignore */}
                     <Price price={checkout.paymentDueV2} />
                   </Heading>
                   {lineItems?.some(
@@ -107,16 +119,29 @@ export const Checkout = () => {
               </SubtotalWrapper>
             ) : null}
             <Form<FormValues> onSubmit={handleSubmit} initialValues={{}}>
-              <Heading level={5} textAlign="center">
-                Please leave special instructions below
-              </Heading>
-              <Field type="textarea" name="notes" />
-              <Checkbox label="Gift Wrap" name="giftWrap" />
+              <OptionsWrapper>
+                <div></div>
+                <div>
+                  <BooleanCheckbox
+                    onChange={handleNotesToggle}
+                    label="Special Instructions"
+                    name="notesBool"
+                  />
+                  <Checkbox label="Gift Wrap" name="giftWrap" />
+                </div>
+              </OptionsWrapper>
+              {notesVisible ? (
+                <Field
+                  type="textarea"
+                  name="notes"
+                  placeholder="Please leave special instructions here"
+                />
+              ) : null}
               <Button
                 type="submit"
                 mt={4}
                 mb={0}
-                width="100%"
+                w="100%"
                 level={1}
                 disabled={loading}
               >

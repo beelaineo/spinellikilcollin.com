@@ -11,8 +11,11 @@ import { Price } from '../../components/Price'
 import {
   CheckoutProductWrapper,
   CheckoutItemDetails,
+  CheckoutProductCloseButton as CloseButton,
+  CheckoutProductCloseButtonWrapper as CloseButtonWrapper,
   QuantityInput,
   QuantityWrapper,
+  QuantityAdjustButton,
 } from './styled'
 
 const { useEffect, useState } = React
@@ -42,6 +45,18 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
       sendRemoveFromCart({ product: lineItem, variant, quantity })
     }
   }, [lineItem.quantity])
+
+  const handleQuantityIncrement = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    setQuantityValue(lineItem.quantity + 1)
+  }
+
+  const handleQuantityDecrement = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    setQuantityValue(lineItem.quantity - 1)
+  }
 
   useEffect(() => {
     if (quantityValue === lineItem.quantity) return
@@ -124,6 +139,31 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     return displayTitle
   }
 
+  // Write a const function here that returns an array of Options to display in cart. Example: "Size: 8" or "Length: 18"
+  const displayOptions = (variant) => {
+    const options: Record<string, unknown>[] = []
+    if (variant?.selectedOptions?.some((o) => o.name === 'Size')) {
+      options.push({
+        name: 'Size',
+        value: variant?.selectedOptions?.find((o) => o.name === 'Size')?.value,
+      })
+    }
+    if (variant?.selectedOptions?.some((o) => o.name === 'Length')) {
+      options.push({
+        name: 'Length',
+        value: variant?.selectedOptions?.find((o) => o.name === 'Length')
+          ?.value,
+      })
+    }
+    if (variant?.selectedOptions?.some((o) => o.name === 'Chain')) {
+      options.push({
+        name: 'Chain',
+        value: variant?.selectedOptions?.find((o) => o.name === 'Chain')?.value,
+      })
+    }
+    return options
+  }
+
   useEffect(() => {
     if (!variant) {
       remove()
@@ -150,44 +190,49 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
         <div>
           <Link href="/products/[productSlug]" as={linkAs}>
             <a>
-              <Heading level={5} weight={2} textTransform="uppercase">
+              <Heading
+                level={5}
+                weight={2}
+                mb={0}
+                mt={0}
+                textTransform="uppercase"
+              >
                 {displayTitle(title, variant)}
               </Heading>
             </a>
           </Link>
-          <Heading level={5} weight={2} mb={0} textTransform="uppercase">
-            <Price
-              // @ts-ignore
-              price={variant.priceV2}
-            />
+          <Heading level={5} weight={2} mb={0} mt={0} textTransform="uppercase">
+            <Price price={variant.priceV2} />
           </Heading>
+          {displayOptions(variant).map((o, i) => {
+            return (
+              <Heading level={5} weight={2} mb={0} mt={0} key={i}>
+                {`${o.name}: ${o.value}`}
+              </Heading>
+            )
+          })}
         </div>
-        <Box my={3}>
+        <Box my={0}>
           <QuantityWrapper>
             <Heading weight={2} my={0} level={5}>
               Quantity:
             </Heading>
+            <QuantityAdjustButton onClick={handleQuantityDecrement}>
+              -
+            </QuantityAdjustButton>
             <QuantityInput
               type="number"
               value={quantityValue}
               onChange={handleQuantityChange}
             />
+            <QuantityAdjustButton onClick={handleQuantityIncrement}>
+              +
+            </QuantityAdjustButton>
           </QuantityWrapper>
-          <Heading level={5} weight={2} textTransform="uppercase">
-            Total:{' '}
-            <Price
-              // @ts-ignore
-              price={variant.priceV2}
-              quantity={quantity}
-            />
-          </Heading>
         </Box>
-
-        <div>
-          <Button level={4} onClick={remove}>
-            Remove <TrashIcon />
-          </Button>
-        </div>
+        <CloseButtonWrapper>
+          <CloseButton onClick={remove} />
+        </CloseButtonWrapper>
       </CheckoutItemDetails>
     </CheckoutProductWrapper>
   )

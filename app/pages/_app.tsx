@@ -100,6 +100,7 @@ const App = (props: AppProps) => {
         {/* Affirm */}
         <Script
           id="affirm-script"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
             _affirm_config = {
