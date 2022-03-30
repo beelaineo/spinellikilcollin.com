@@ -107,7 +107,7 @@ export const Checkout = () => {
                 </Heading>
                 <div>
                   <Heading level={4} textTransform="uppercase" weight={2}>
-                    <Price price={checkout.paymentDueV2} />
+                    <Price price={checkout.paymentDueV2} style={'full'} />
                   </Heading>
                   {lineItems?.some(
                     (item) =>

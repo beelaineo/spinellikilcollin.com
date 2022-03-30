@@ -176,6 +176,9 @@ export const CheckoutProductCloseButtonWrapper = styled.div`
     button {
       width: 20px;
     }
+    ${theme.mediaQueries.tablet} {
+      margin-right: 8px;
+    }
   `}
 `
 
