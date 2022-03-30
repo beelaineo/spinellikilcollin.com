@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
-import { FilterSetState } from './reducer'
+import { FilterSetState } from './types'
 import { PriceRangeFilterWrapper } from './styled'
 import { Span } from '../Text'
 import { HeadingWrapper, Slider, KnobHandle, KnobDot } from './styled'

@@ -1,3 +1,2 @@
-export { Sort } from './SortButton'
+export { Sort } from '../../constants'
 export * from './Filter'
-export * from './LegacyFilter'

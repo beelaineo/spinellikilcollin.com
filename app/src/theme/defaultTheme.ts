@@ -25,7 +25,7 @@ export const defaultTheme: DefaultTheme = {
   radii: {
     round: '9px',
   },
-  navHeight: '96px',
+  navHeight: '97px',
   mobileNavHeight: '69px',
   /*   Spacing - applies to:
    *   margin, margin-top, margin-right, margin-bottom, margin-left, padding,

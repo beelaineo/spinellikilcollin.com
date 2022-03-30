@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
-import { CountryPhoneOption } from './utils'
+import { CountryPhoneOption } from './types'
 
 interface HiddenSelectProps {
   options: CountryPhoneOption[]

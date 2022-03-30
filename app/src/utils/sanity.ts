@@ -6,8 +6,8 @@ import {
   FilterConfiguration,
   Document,
 } from '../types'
-import { Sort } from '../components/Filter'
-import { definitely } from './index'
+import { Sort } from '../constants'
+import { definitely } from './data'
 
 const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
   switch (type) {

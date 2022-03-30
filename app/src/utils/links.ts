@@ -12,7 +12,7 @@ import {
   Contact,
 } from '../types'
 
-import { getIdFromBase64 } from './index'
+import { getIdFromBase64 } from './shopify'
 
 export type Document =
   | ShopifyProduct

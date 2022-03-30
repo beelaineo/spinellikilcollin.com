@@ -35,7 +35,8 @@ import {
   Reset,
 } from './styled'
 import { definitely } from '../../utils'
-import { useFilterState, FilterSetState } from './reducer'
+import { useFilterState } from './reducer'
+import { FilterSetState } from './types'
 import { Button } from '../../components/Button'
 import { Heading } from '../../components/Text'
 import { PlusMinus } from '../../components/PlusMinus'

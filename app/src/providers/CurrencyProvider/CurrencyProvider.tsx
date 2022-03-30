@@ -16,7 +16,11 @@ interface CurrencyContextValue {
   loading: boolean
   updateCurrency: (currency: string) => Promise<void>
   getPrice: (price: Money, quantity?: number) => number
-  getFormattedPrice: (price: Money, quantity?: number) => string
+  getFormattedPrice: (
+    price: Money,
+    quantity?: number,
+    style?: 'full' | 'pretty',
+  ) => string
 }
 
 const CurrencyContext = React.createContext<CurrencyContextValue | undefined>(
@@ -76,16 +80,26 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     return roundTo(parseFloat(price.amount) * exchangeRate * quantity, 2)
   }
 
-  const getFormattedPrice = (price: Money, quantity = 1) => {
+  const getFormattedPrice = (
+    price: Money,
+    quantity = 1,
+    style?: 'full' | 'pretty',
+  ) => {
     const amount = getPrice(price, quantity)
     const lang =
       typeof navigator !== 'undefined' ? navigator.language ?? 'en-US' : 'en-US'
-    return new Intl.NumberFormat(lang, {
+    const formattedPrice = new Intl.NumberFormat(lang, {
       style: 'currency',
       currency: currentCurrency,
-    })
-      .format(amount)
-      .replace(/\.00$/, '')
+    }).format(amount)
+
+    if (style === 'full') {
+      return formattedPrice
+    } else {
+      return formattedPrice.slice(-2) == '00'
+        ? formattedPrice.replace(/\.00$/, '')
+        : formattedPrice
+    }
   }
 
   const value = {

@@ -1,5 +1,5 @@
 import styled, { css } from '@xstyled/styled-components'
-import { ToastType, ToastDivState } from './Toast'
+import { ToastType, ToastDivState } from './types'
 import { CloseButton } from '../Modal/styled'
 
 interface ToastWrapperProps {
