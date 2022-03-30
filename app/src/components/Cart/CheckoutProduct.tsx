@@ -57,6 +57,73 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     await updateLineItem({ id: lineItem.id, quantity: 0 })
   }
 
+  const displayTitle = (title, variant) => {
+    let displayTitle = title
+
+    const getFirstWord = (text: string) => {
+      const index = text.indexOf(' ')
+      if (index > -1) {
+        return text.substring(0, index).trim()
+      } else {
+        return text
+      }
+    }
+
+    if (
+      variant?.selectedOptions?.some((o) => o.name === 'Quantity') &&
+      variant?.selectedOptions?.some((o) => o.name === 'Color')
+    ) {
+      if (
+        variant?.selectedOptions
+          ?.find((o) => o.name === 'Color')
+          ?.value.includes(getFirstWord(title))
+      ) {
+        displayTitle = variant?.selectedOptions?.find(
+          (o) => o.name === 'Color',
+        )?.value
+      } else if (
+        variant?.selectedOptions
+          ?.find((o) => o.name === 'Style')
+          ?.value.includes(getFirstWord(title))
+      ) {
+        displayTitle = variant?.selectedOptions?.find(
+          (o) => o.name === 'Style',
+        )?.value
+      }
+      displayTitle += ` (${
+        variant?.selectedOptions?.find((o) => o.name === 'Quantity')?.value
+      })`
+    } else if (
+      variant?.selectedOptions?.some((o) => o.name === 'Color') ||
+      variant?.selectedOptions?.some((o) => o.name === 'Style')
+    ) {
+      if (
+        variant?.selectedOptions
+          ?.find((o) => o.name === 'Color')
+          ?.value.includes(getFirstWord(title))
+      ) {
+        displayTitle = variant?.selectedOptions?.find(
+          (o) => o.name === 'Color',
+        )?.value
+      } else if (
+        variant?.selectedOptions
+          ?.find((o) => o.name === 'Style')
+          ?.value.includes(getFirstWord(title))
+      ) {
+        displayTitle = variant?.selectedOptions?.find(
+          (o) => o.name === 'Style',
+        )?.value
+      } else {
+        displayTitle = title
+      }
+    } else if (variant?.selectedOptions?.some((o) => o.name === 'Quantity')) {
+      displayTitle = ` (${
+        variant?.selectedOptions?.find((o) => o.name === 'Quantity')?.value
+      })`
+    }
+    return displayTitle
+  }
+
   useEffect(() => {
     if (!variant) {
       remove()
@@ -84,7 +151,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
           <Link href="/products/[productSlug]" as={linkAs}>
             <a>
               <Heading level={5} weight={2} textTransform="uppercase">
-                {title}
+                {displayTitle(title, variant)}
               </Heading>
             </a>
           </Link>
