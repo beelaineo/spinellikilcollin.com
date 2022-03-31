@@ -176,7 +176,7 @@ export const RingSizerForm = ({
             type="countrySelector"
             required
           />
-          <Field name="phone" type="tel" label="Phone Number (optional)" />
+          <Field name="phone" type="tel" label="Phone Number" required />
           <Field name="product" type="hidden" />
           <Field name="variant" type="hidden" />
           <Button mt={2} type="submit">

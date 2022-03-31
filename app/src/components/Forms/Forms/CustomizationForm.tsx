@@ -120,7 +120,8 @@ export const CustomizationForm = ({
             name="phone"
             type="tel"
             placeholder="Phone"
-            label="Phone (optional)"
+            label="Phone"
+            required
           />
           <Field required name="location" label="Your Location" />
           <Field
