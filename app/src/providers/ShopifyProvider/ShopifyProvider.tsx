@@ -9,8 +9,10 @@ import {
 import { useAnalytics } from '../AnalyticsProvider'
 import { QueryFunction } from './types'
 import { config } from '../../config'
+import { useRouter } from 'next/router'
 
 const { SHOPIFY_CHECKOUT_DOMAIN: domain } = config
+const { useState } = React
 
 export interface ShopifyContextValue extends UseCheckoutValues {
   goToCheckout: () => void
@@ -62,6 +64,10 @@ export const ShopifyProvider = ({
     ...defaultConfig,
     ...userConfig,
   }
+  const router = useRouter()
+
+  const [isOperated, setIsOperated] = useState(false)
+  const [checkoutUrl, setCheckoutUrl] = useState('')
 
   const useCheckoutValues = useCheckout({
     queries,
@@ -84,11 +90,9 @@ export const ShopifyProvider = ({
       })),
     )
     const isOperatedByCallback = function (isOperated) {
-      console.log('GEM IsOperatedByGlobalE callback:', isOperated)
+      console.log('IsOperatedByGlobalE:', isOperated)
+      setIsOperated(isOperated)
     }
-
-    const isOperated =
-      globalThis?.GEM_Components.IsOperatedByGlobalEMethod(isOperatedByCallback)
 
     const getCheckoutToken = () => {
       const storage = globalThis?.sessionStorage
@@ -101,29 +105,27 @@ export const ShopifyProvider = ({
       CartToken: getCheckoutToken(),
     }
 
-    const getCheckoutCallback = function (url) {
-      console.log('GEM getCheckout callback: ', url)
+    const getCheckoutUrlCallback = function (url) {
+      console.log('GEM getCheckoutUrl: ', url)
+      setCheckoutUrl(url)
     }
 
-    console.log('GEM getCheckout urlParams', urlParams)
-    console.log(
-      'GEM isOperatedBy',
-      globalThis?.GEM_Components.ExternalMethodsComponent.IsOperatedByGlobalE(
-        isOperatedByCallback,
-      ),
+    globalThis?.GEM_Components.ExternalMethodsComponent.IsOperatedByGlobalE(
+      isOperatedByCallback,
     )
-
-    console.log(
-      'GEM getCheckoutURL',
-      globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
-        urlParams,
-        getCheckoutCallback,
-      ),
+    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+      urlParams,
+      getCheckoutUrlCallback,
     )
 
     const { protocol, pathname, search } = new URL(checkout.webUrl)
     const redirect: string = `${protocol}//${domain}${pathname}${search}`
-    window.location.href = redirect
+
+    if (isOperated) {
+      router.push(checkoutUrl || '/intl-checkout')
+    } else {
+      window.location.href = redirect
+    }
   }
 
   const value = {
