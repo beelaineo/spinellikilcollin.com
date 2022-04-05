@@ -2,6 +2,8 @@ import * as React from 'react'
 import styled, { Box, css } from '@xstyled/styled-components'
 import { TextBlock as TextBlockType, RichImage } from '../../types'
 import { RichText } from '../RichText'
+import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
 
 interface WrapperProps {
   backgroundImage?: RichImage | null
@@ -109,6 +111,9 @@ interface TextBlockProps {
 export const TextBlock = ({ content }: TextBlockProps) => {
   const { alignment, backgroundImage, layout } = content
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
   return (
     <Wrapper layout={layout} backgroundImage={backgroundImage}>
       <TextWrapper
@@ -117,7 +122,13 @@ export const TextBlock = ({ content }: TextBlockProps) => {
         backgroundImage={backgroundImage}
       >
         <Box color={textColor}>
-          <RichText body={content.bodyRaw} />
+          <RichText
+            body={
+              isMobile && content.body_mobileRaw
+                ? content.body_mobileRaw
+                : content.bodyRaw
+            }
+          />
         </Box>
       </TextWrapper>
     </Wrapper>

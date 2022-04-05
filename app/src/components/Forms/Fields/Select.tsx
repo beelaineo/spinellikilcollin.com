@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Field as FormikField } from 'formik'
 import { SelectElement } from '../Fields/styled'
-import { Option, FieldProps } from './Field'
+import { Option, FieldProps } from './types'
 
 interface SelectProps extends FieldProps {
   options?: Option[]

@@ -2,7 +2,8 @@ import * as React from 'react'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Heading } from '../../Text'
 import { Button } from '../../Button'
-import { Form, Field } from '../index'
+import { Form } from '../Form'
+import { Field } from '../Fields/Field'
 import { submitToHubspot } from '../../../services'
 import Checkmark from '../../../svg/Checkmark.svg'
 import {
@@ -119,7 +120,8 @@ export const CustomizationForm = ({
             name="phone"
             type="tel"
             placeholder="Phone"
-            label="Phone (optional)"
+            label="Phone"
+            required
           />
           <Field required name="location" label="Your Location" />
           <Field

@@ -39,6 +39,7 @@ export const shopifySourceProductVariantFragment = gql`
     _key
     _type
     availableForSale
+    currentlyNotInStock
     id
     sku
     title
@@ -173,6 +174,14 @@ export const priceRangeFilterFragment = gql`
   }
 `
 
+export const inventoryFilterFragment = gql`
+  fragment InventoryFilterFragment on InventoryFilter {
+    __typename
+    _key
+    label
+  }
+`
+
 export const ctaFragment = gql`
   fragment CTAFragment on Cta {
     __typename
@@ -226,6 +235,7 @@ export const imageTextBlockFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     ctaText
     textPosition
     textColor
@@ -264,6 +274,7 @@ export const textBlockFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     alignment
     textColor
     layout
@@ -424,6 +435,7 @@ export const collectionBlockFragment = gql`
     position
     format
     bodyRaw
+    body_mobileRaw
     textPosition
     textColor
     cloudinaryVideo {
@@ -540,6 +552,7 @@ export const heroFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     textColor
     textColorMobile
     textContainer

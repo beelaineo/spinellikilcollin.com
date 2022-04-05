@@ -91,7 +91,13 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                 })
                 if (!v) return acc
                 const picked = {
-                  ...pick(v, ['id', 'title', 'selectedOptions']),
+                  ...pick(v, [
+                    'id',
+                    'title',
+                    'selectedOptions',
+                    'priceV2',
+                    'compareAtPriceV2',
+                  ]),
                   image: pick(v.image, [
                     'id',
                     '__typename',

@@ -11,7 +11,7 @@ export const sanityClient = createSanityClient({
   token: SANITY_READ_TOKEN, // or leave blank to be anonymous user
   useCdn: true, // `false` if you want to ensure fresh data
   useProjectHostname: true,
-  apiVersion: '2021-03-15',
+  apiVersion: '2021-10-21',
 })
 
 export const sanityClientForPreview = createSanityClient({
@@ -20,7 +20,7 @@ export const sanityClientForPreview = createSanityClient({
   token: SANITY_READ_TOKEN,
   useCdn: false,
   useProjectHostname: true,
-  apiVersion: '2021-10-13',
+  apiVersion: '2021-10-21',
   withCredentials: true,
 })
 

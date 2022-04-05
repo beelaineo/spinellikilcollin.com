@@ -12,20 +12,10 @@ import { Kind } from './Kind'
 import { Notes } from './Notes'
 import { Name } from './Name'
 import { ThankYou } from './ThankYou'
+import { FormValues } from './types'
 
 interface QuizProps {
   customize: CustomizeType
-}
-
-export interface FormValues {
-  kind: string[]
-  styles: string[]
-  full_name: string
-  email: string
-  phone: string
-  notes: string
-  phoneCountryCode: string
-  dialingCode: string
 }
 
 const initialValues: FormValues = {

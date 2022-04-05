@@ -87,6 +87,10 @@ export const AffirmWrapper = styled.div`
 
 export const TitleWrapper = styled.div<WithProduct>`
   ${({ product, theme }) => css`
+    & > em {
+      display: block;
+      margin-bottom: 3;
+    }
     ${theme.mediaQueries.tablet} {
       text-align: center;
       grid-row: 1;
@@ -96,6 +100,9 @@ export const TitleWrapper = styled.div<WithProduct>`
       margin-bottom: ${product?.sourceData?.productType === 'Gift Card'
         ? '4'
         : '0'};
+      & > em {
+        margin-bottom: 2;
+      }
     }
   `}
 `

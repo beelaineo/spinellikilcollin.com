@@ -12,6 +12,8 @@ import {
   MagazineSignupArgs,
   quizSubmission,
   QuizSubmissionArgs,
+  vipSignup,
+  VIPSignupArgs,
 } from './emails'
 import { config } from '../../config'
 
@@ -37,6 +39,7 @@ const { POSTMARK_KEY } = config
 
 interface PostmarkService {
   sendMagazineSignup: (args: MagazineSignupArgs) => Promise<PostmarkResponse>
+  sendVIPSignup: (args: VIPSignupArgs) => Promise<PostmarkResponse>
   sendRequestRingSizer: (
     args: RequestRingSizerArgs,
   ) => Promise<PostmarkResponse>
@@ -101,6 +104,11 @@ export const postmark: PostmarkService = {
 
   sendMagazineSignup: async (args: MagazineSignupArgs) => {
     const message = magazineSignup(args)
+    return send(message)
+  },
+
+  sendVIPSignup: async (args: VIPSignupArgs) => {
+    const message = vipSignup(args)
     return send(message)
   },
 

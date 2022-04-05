@@ -12,26 +12,28 @@
 		"prepare": "husky install"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^12.1.4",
-		"@commitlint/config-conventional": "^12.1.4",
-		"@types/eslint": "^7.28.0",
+		"@commitlint/cli": "^16.2.3",
+		"@commitlint/config-conventional": "^16.2.1",
+		"@types/eslint": "^8.4.1",
 		"@types/eslint-plugin-prettier": "^3.1.0",
-		"@types/prettier": "^2.3.2",
+		"@types/prettier": "^2.4.4",
 		"@types/tsc-watch": "^4.2.0",
-		"@typescript-eslint/eslint-plugin": "^4.28.3",
-		"@typescript-eslint/parser": "^4.28.3",
-		"dotenv": "^10.0.0",
-		"eslint": "^7.30.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-plugin-prettier": "^3.4.0",
-		"eslint-plugin-react": "^7.24.0",
-		"husky": "^7.0.1",
+		"@typescript-eslint/eslint-plugin": "^5.16.0",
+		"@typescript-eslint/parser": "^5.16.0",
+		"dotenv": "^16.0.0",
+		"eslint": "^8.11.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-import": "^2.25.4",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-react": "^7.29.4",
+		"eslint-watch": "^8.0.0",
+		"husky": "^7.0.4",
 		"lerna": "^4.0.0",
-		"lint-staged": "^11.0.1",
-		"npm-check-updates": "^11.8.2",
-		"prettier": "^2.3.2",
-		"tsc-watch": "^4.4.0",
-		"vercel": "^23.0.1",
+		"lint-staged": "^12.3.7",
+		"npm-check-updates": "^12.5.4",
+		"prettier": "^2.6.1",
+		"tsc-watch": "^4.6.2",
+		"vercel": "^24.0.1",
 		"yarnhook": "^0.5.1"
 	},
 	"workspaces": [
@@ -47,7 +49,7 @@
 		]
 	},
 	"dependencies": {
-		"react-icons": "^4.2.0"
+		"react-icons": "^4.3.1"
 	},
 	"resolutions": {
 		"graphql": "^14.6.0"

@@ -13,6 +13,7 @@ import {
   ctaFragment,
   filterSetFragment,
   priceRangeFilterFragment,
+  inventoryFilterFragment,
   seoFragment,
 } from '../../graphql/fragments'
 import { request } from '../../graphql'
@@ -84,6 +85,20 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         ... on PriceRangeFilter {
           ...PriceRangeFilterFragment
         }
+        ... on InventoryFilter {
+          ...InventoryFilterFragment
+        }
+      }
+      newDefaultFilter {
+        ... on FilterSet {
+          ...FilterSetFragment
+        }
+        ... on PriceRangeFilter {
+          ...PriceRangeFilterFragment
+        }
+        ... on InventoryFilter {
+          ...InventoryFilterFragment
+        }
       }
     }
     ProductInfoSettings(id: "productInfoSettings") {
@@ -138,6 +153,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   ${ctaFragment}
   ${filterSetFragment}
   ${priceRangeFilterFragment}
+  ${inventoryFilterFragment}
 `
 
 export interface ShopDataResponse {

@@ -1,10 +1,12 @@
 import * as React from 'react'
 import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
-import { FilterSetState } from './reducer'
+import { FilterSetState } from './types'
 import { PriceRangeFilterWrapper } from './styled'
 import { Span } from '../Text'
 import { HeadingWrapper, Slider, KnobHandle, KnobDot } from './styled'
 import { Label } from '../Forms/Fields/styled'
+import { theme } from '../../theme'
+import { useMedia } from '../../hooks'
 
 const { useMemo, useEffect, useState } = React
 
@@ -96,6 +98,7 @@ interface PriceRangeFilterProps {
   setValues: (matchKey: string, values: PriceRangeFilterValues) => void
   resetSet: () => void
   setKey: string
+  active: boolean
 }
 
 const getStep = (
@@ -120,6 +123,7 @@ export function PriceRangeFilter({
   priceRangeFilter,
   filterSetState,
   setValues,
+  active,
 }: PriceRangeFilterProps) {
   const { _key } = priceRangeFilter
   if (!filterSetState) return null
@@ -134,6 +138,10 @@ export function PriceRangeFilter({
   const [currentMaxPrice, setCurrentMaxPrice] = useState(
     maxPrice / initialMaxPrice,
   )
+
+  const [mouseEnter, setMouseEnter] = useState(false)
+  const handleMouseEnter = () => setMouseEnter(true)
+  const handleMouseLeave = () => setMouseEnter(false)
 
   const steps = useMemo(
     () => getSteps(initialMinPrice, initialMaxPrice),
@@ -189,18 +197,35 @@ export function PriceRangeFilter({
   const updateMinPosition = (pos: number) => setCurrentMinPrice(pos)
   const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
 
+  const isMobile = useMedia({
+    maxWidth: `960px`,
+  })
+
+  const echoPriceString = () => {
+    return `${parsePriceString(
+      getClosestStep(currentMinPrice),
+    )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
+  }
+
   return (
-    <PriceRangeFilterWrapper>
+    <PriceRangeFilterWrapper
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>
           <Span textTransform="uppercase" mr={2} color="body.9">
-            Price Range:
+            Price:
           </Span>
-          From {parsePriceString(getClosestStep(currentMinPrice))} to{' '}
-          {parsePriceString(getClosestStep(currentMaxPrice))}
+          {echoPriceString()}
         </Label>
       </HeadingWrapper>
-      <Slider ref={setContainer}>
+      <Slider
+        ref={setContainer}
+        isHovered={
+          Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
+        }
+      >
         <Knob
           amount={currentMinPrice}
           position={currentMinPrice}

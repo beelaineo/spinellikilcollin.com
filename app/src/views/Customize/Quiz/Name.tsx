@@ -5,7 +5,7 @@ import { useTabs } from '../../../components/Tabs'
 import { Field } from '../../../components/Forms'
 import { Heading } from '../../../components/Text'
 import { ContactFields, QuizTabWrapper, NextButton } from './styled'
-import { FormValues } from './Quiz'
+import { FormValues } from './types'
 
 export const Name = () => {
   const { goToTab } = useTabs()

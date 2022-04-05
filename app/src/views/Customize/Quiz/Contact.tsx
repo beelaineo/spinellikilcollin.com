@@ -4,7 +4,7 @@ import { useTabs } from '../../../components/Tabs'
 import { Field } from '../../../components/Forms'
 import { Heading } from '../../../components/Text'
 import { QuizTabWrapper, ContactFields, NextButton } from './styled'
-import { FormValues } from './Quiz'
+import { FormValues } from './types'
 
 const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}/
 

@@ -2,7 +2,7 @@ import useSWR, { responseInterface as ResponseInterface } from 'swr'
 import { DocumentNode } from 'graphql'
 import { print } from 'graphql/language/printer'
 import { request as gqlRequest } from 'graphql-request'
-import { useError } from '../providers'
+import { useError } from '../providers/ErrorProvider'
 import { config } from '../config'
 
 const { SANITY_GRAPHQL_URL } = config

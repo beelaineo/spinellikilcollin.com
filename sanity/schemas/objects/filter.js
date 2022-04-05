@@ -34,20 +34,54 @@ export const filterByPriceRange = {
   },
 }
 
+export const filterByInventory = {
+  name: 'inventoryFilter',
+  title: 'Inventory Filter',
+  type: 'object',
+  fields: [
+    {
+      name: 'label',
+      title: 'Currently In Stock Label',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    },
+  ],
+
+  preview: {
+    select: {
+      label: 'label',
+    },
+    prepare: ({ label }) => {
+      return {
+        title: 'Inventory Filter',
+        subtitle: `${label}`,
+      }
+    },
+  },
+}
+
 const FilterMatchPreview = ({ value }) => {
   const { match, type } = value
   if (!type || !match) {
     return <h2>(empty)</h2>
   }
   const titlePrefix =
-    type === 'tag'
+    type === 'By Tag'
       ? 'Product tags include'
-      : type === 'type'
+      : type === 'By Product Type'
       ? 'Product type equals'
-      : type === 'option'
+      : type === 'By Option Name'
       ? 'Product options include'
-      : type === 'title'
+      : type === 'By Product Title'
       ? 'Product title includes'
+      : type === 'By Product Subcategory'
+      ? 'Product subcategory equals'
+      : type === 'By Variant Metal'
+      ? 'Product variant metals include'
+      : type === 'By Variant Style'
+      ? 'Product variant style equals'
+      : type === 'By Variant Stone'
+      ? 'Product variant stones include'
       : null
   if (!titlePrefix) {
     throw new Error(`Could not generate title prefix for type "${type}"`)
@@ -80,6 +114,10 @@ export const filterMatch = {
       options: {
         layout: 'radio',
         list: [
+          { title: 'By Product Subcategory', value: 'subcategory' },
+          { title: 'By Variant Metal', value: 'metal' },
+          { title: 'By Variant Style', value: 'style' },
+          { title: 'By Variant Stone', value: 'stone' },
           { title: 'By Tag', value: 'tag' },
           { title: 'By Product Type', value: 'type' },
           { title: 'By Product Title', value: 'title' },
@@ -111,6 +149,10 @@ const FilterPreview = ({ value }) => {
   const typeMatches = matches.filter((m) => m.type === 'type')
   const titleMatches = matches.filter((m) => m.type === 'title')
   const optionMatches = matches.filter((m) => m.type === 'option')
+  const subcategoryMatches = matches.filter((m) => m.type === 'subcategory')
+  const metalMatches = matches.filter((m) => m.type === 'metal')
+  const styleMatches = matches.filter((m) => m.type === 'style')
+  const stoneMatches = matches.filter((m) => m.type === 'stone')
   const subtitles = [
     titleMatches.length
       ? `Matches title: ${titleMatches.map(({ match }) => match).join(', ')}`
@@ -123,6 +165,20 @@ const FilterPreview = ({ value }) => {
       : null,
     typeMatches.length
       ? `Matches type: ${typeMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    subcategoryMatches.length
+      ? `Matches subcategory: ${subcategoryMatches
+          .map(({ match }) => match)
+          .join(', ')}`
+      : null,
+    metalMatches.length
+      ? `Matches metal: ${metalMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    styleMatches.length
+      ? `Matches style: ${styleMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    stoneMatches.length
+      ? `Matches stone: ${stoneMatches.map(({ match }) => match).join(', ')}`
       : null,
   ].filter(Boolean)
   return (
@@ -203,5 +259,9 @@ export const productFilter = {
   name: 'productFilter',
   type: 'array',
   title: 'Product Listing Filter',
-  of: [{ type: 'filterSet' }, { type: 'priceRangeFilter' }],
+  of: [
+    { type: 'filterSet' },
+    { type: 'priceRangeFilter' },
+    { type: 'inventoryFilter' },
+  ],
 }

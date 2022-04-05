@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Box } from '@xstyled/styled-components'
 import {
@@ -32,7 +33,8 @@ import {
 const { useRef, useEffect, useState } = React
 
 interface ProductListingProps {
-  collection: ShopifyCollection
+  collection: ShopifyCollection & { productsCount?: number }
+  inStockFilter: boolean
 }
 
 type Item = ShopifyProduct | CollectionBlockType
@@ -57,7 +59,10 @@ function isCollectionResult(
   return 'products' in r[0]
 }
 
-export const ProductListing = ({ collection }: ProductListingProps) => {
+export const ProductListing = ({
+  collection,
+  inStockFilter,
+}: ProductListingProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
   const [productResults, setProductResults] = useState<ShopifyProduct[]>([
     ...definitely(collection.products).slice(0, PAGE_SIZE),
@@ -65,18 +70,14 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const { isInView } = useInViewport(bottomRef, '500px 0px')
   const { productListingSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
-  const [filterOpen, setFilterOpen] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [resetFilters, doResetFilters] = useState(0)
   const [currentFilter, setCurrentFilter] =
     useState<FilterConfiguration | null>(null)
   const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
     ShopifyCollection[] | ShopifyProduct[],
     PaginationArgs
   >()
-  const defaultFilter = productListingSettings?.defaultFilter
-  const filters = definitely(defaultFilter).filter(
-    (f) => !Boolean('searchOnly' in f && f.searchOnly),
-  )
   const {
     _id,
     preferredVariantMatches,
@@ -88,13 +89,40 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     reduceColumnCount,
     lightTheme,
     hidden,
+    hideFilter,
+    overrideDefaultFilter,
   } = collection
+
+  const defaultFilter = productListingSettings?.newDefaultFilter
+  const defaultFilters = definitely(defaultFilter).filter(
+    (f) => !Boolean('searchOnly' in f && f.searchOnly),
+  )
+  const customFilter = collection?.customFilter
+  const customFilters = definitely(customFilter).filter(
+    (f) => !Boolean('searchOnly' in f && f.searchOnly),
+  )
+  const filters = overrideDefaultFilter
+    ? [...customFilters]
+    : [...customFilters, ...defaultFilters]
+
+  filters.map((filter) => {
+    if (filter._type === 'inventoryFilter')
+      filters.push(filters.splice(filters.indexOf(filter), 1)[0])
+  })
+
   if (!handle) {
     throw new Error('The collection is missing a handle')
   }
   if (!_id) {
     throw new Error('The collection is missing an _id')
   }
+
+  // console.log('collection', collection)
+  // console.log('customFilter', customFilter)
+  // console.log('currentFilter', currentFilter)
+
+  const router = useRouter()
+  // console.log('router params', router.query)
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
   const description = descriptionRaw ? descriptionRaw.slice(1) : null
@@ -103,7 +131,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     definitely(collection.products).length < PAGE_SIZE,
   )
 
-  const openFilter = () => setFilterOpen(true)
+  const [productsCount, setProductsCount] = useState(0)
+  const [productStart, setProductStart] = useState(0)
+
+  useEffect(() => {
+    if (collection.productsCount) setProductsCount(collection.productsCount)
+  }, [collection])
 
   const applySort = async (sort: Sort) => {
     fetchMore(true, sort)
@@ -151,10 +184,30 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
     if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
 
+    //@ts-ignore
+    if (newProducts[0]?.queryCount) setProductsCount(newProducts[0].queryCount)
+
+    const URLParams = new URLSearchParams(window.location.search)
+
     if (reset) {
       setProductResults(newProducts)
+      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
+
+      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
+
+      // const newRelativePathQuery =
+      //   window.location.pathname + '?' + URLParams.toString()
+      // history.pushState(null, '', newRelativePathQuery)
+      // console.log('window.location.search', window.location.search)
     } else {
       setProductResults([...productResults, ...newProducts])
+      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
+      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
+
+      // const newRelativePathQuery =
+      //   window.location.pathname + '?' + URLParams.toString()
+      // history.pushState(null, '', newRelativePathQuery)
+      // console.log('window.location.search', window.location.search)
     }
     if (newSort) {
       setSort(newSort)
@@ -170,6 +223,26 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     }, 300)
     return () => clearTimeout(timeout)
   }, [isInView, fetchMoreState.loading, fetchComplete])
+
+  useEffect(() => {
+    if (loading === false) {
+      setProductStart(productStart + 1)
+    }
+  }, [loading])
+
+  // useEffect(() => {
+  //   if (inStockFilter) {
+  //     console.log('FILTERS', filters)
+  //     console.log('CURRENT FILTERS', currentFilter)
+  //     currentFilter?.map((f) => {
+  //       if (f.filterType === 'INVENTORY_FILTER') {
+  //         f.applyFilter = true
+  //       }
+  //     })
+  //     console.log('CURRENT FILTERS MAPPED', currentFilter)
+  //     setInitialFilterValues(currentFilter)
+  //   }
+  // }, [])
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
     if (!filters?.length) {
@@ -207,7 +280,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       }
 
       ${theme.mediaQueries.mobile} {
-        padding: 4 4;
+        padding: 4 5;
         display: flex;
         flex-direction: column;
       }
@@ -249,22 +322,30 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}
-            open={filterOpen}
             filters={filters}
+            currentFilter={currentFilter}
+            productsCount={productsCount}
+            resetFilters={resetFilters}
+            hideFilter={hideFilter}
+            inStockFilter={inStockFilter}
           />
         ) : null}
-        {items.length === 0 ? (
+        {items.length === 0 && !loading ? (
           <NoResultsWrapper>
             <Heading level={3} textAlign="center" fontStyle="italic">
               No products found
             </Heading>
-            <Button textTransform="initial" onClick={openFilter} level={3}>
-              Try using fewer filters
+            <Button
+              textTransform="initial"
+              onClick={() => doResetFilters((prev) => prev + 1)}
+              level={3}
+            >
+              Click here to reset and try using fewer filters.
             </Button>
           </NoResultsWrapper>
         ) : (
           <>
-            {loading ? (
+            {loading && productStart > 1 ? (
               <LoadingWrapper>
                 <Loading />
               </LoadingWrapper>
@@ -274,6 +355,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
               <ProductGrid
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}
+                currentFilter={currentFilter}
+                hideFilter={hideFilter}
                 items={items}
                 collectionId={_id}
               />
@@ -285,7 +368,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                     fontStyle="italic"
                     color="body.7"
                   >
-                    Loading more products...
+                    {productStart > 1
+                      ? 'Loading more products...'
+                      : 'Loading products...'}
                   </Heading>
                   <Loading />
                 </Box>

@@ -1,7 +1,8 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { Heading } from '../../Text'
-import { Form, Field } from '../../Forms'
+import { Form } from '../Form'
+import { Field } from '../Fields/Field'
 import { FieldWrapper } from '../../Forms/Fields/styled'
 import { StateField } from '../CustomFields'
 import { Button } from '../../Button'
@@ -175,7 +176,7 @@ export const RingSizerForm = ({
             type="countrySelector"
             required
           />
-          <Field name="phone" type="tel" label="Phone Number (optional)" />
+          <Field name="phone" type="tel" label="Phone Number" required />
           <Field name="product" type="hidden" />
           <Field name="variant" type="hidden" />
           <Button mt={2} type="submit">

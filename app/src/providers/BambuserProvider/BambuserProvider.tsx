@@ -35,6 +35,10 @@ export const BambuserProvider = ({ children }: BambuserProps) => {
   const { goToCheckout, checkout, addLineItem, updateLineItem } = useShopify()
 
   const handleMessage = (e: MessageEvent<BambuserEvent>) => {
+    // @ts-ignore
+    if (e.data === 'IS_NEED_PIXEL_INJECT') return false
+    // @ts-ignore
+    if (e.data == '') return false
     const event = typeof e.data === 'string' ? JSON.parse(e.data) ?? {} : e.data
     if (event.eventName === EventNames.CHECKOUT) {
       goToCheckout()

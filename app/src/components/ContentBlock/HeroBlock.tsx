@@ -14,6 +14,8 @@ import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 import { CTA } from '../CTA'
 import { definitely } from '../../utils'
+import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
 
 interface HeroWrapperProps {
   hero: Hero
@@ -27,7 +29,6 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     grid-column: span 2;
     overflow: hidden;
     background-color: ${getBackgroundColor(hero.backgroundColor)};
-
     video {
       display: block;
     }
@@ -43,6 +44,7 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
 
 interface HeroTextProps {
   theme: DefaultTheme
+  hero: Hero
   textPosition?: string | null | undefined
   textColor?: string | null
   textPositionMobile?: string | null
@@ -53,6 +55,7 @@ interface HeroTextProps {
 const HeroText = styled.div`
   ${({
     theme,
+    hero,
     textPosition,
     textColor,
     textPositionMobile,
@@ -80,6 +83,51 @@ const HeroText = styled.div`
       > * {
         pointer-events: auto;
       }
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        margin-bottom: 0px;
+        line-height: 1.3em;
+        span {
+          line-height: 1.3em;
+        }
+      }
+
+      h1,
+      h2 {
+        line-height: 1.2em;
+        span {
+          line-height: 1.2em;
+        }
+      }
+
+      ${!hero.cta
+        ? `
+        h1:first-child,
+        h2:first-child,
+        h3:first-child,
+        h4:first-child,
+        h5:first-child,
+        h6:first-child,
+        p:first-child {
+          margin-top: 0px;
+        }
+        h1:last-child,
+        h2:last-child,
+        h3:last-child,
+        h4:last-child,
+        h5:last-child,
+        h6:last-child,
+        p:last-child {
+          margin-bottom: 0px;
+        }
+      `
+        : ''}
     }
 
     ${theme.mediaQueries.tablet} {
@@ -109,13 +157,11 @@ const HeroText = styled.div`
     ${theme.mediaQueries.mobile} {
       justify-content: ${getFlexJustification(textPositionMobile)};
       align-items: ${getFlexAlignment(textPositionMobile)};
-      text-align: ${getTextAlignment(textPositionMobile)};
+      text-align: ${textPositionMobile
+        ? getTextAlignment(textPositionMobile)
+        : 'center'};
       color: ${textColorMobile ? getColor(textColorMobile) : 'inherit'};
       padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;
-
-      .text-container {
-        ${textContainer == 'full' ? 'padding: ;' : 'padding: inherit'};
-      }
     }
   `}
 `
@@ -160,6 +206,7 @@ export const HeroBlock = React.forwardRef(
       textContainer,
       heroLink,
       bodyRaw,
+      body_mobileRaw,
       image,
       textPositionMobile,
       textColorMobile,
@@ -169,6 +216,9 @@ export const HeroBlock = React.forwardRef(
       cta: ctas,
     } = hero
     const cta = definitely(ctas).length ? definitely(ctas)[0] : null
+    const isMobile = useMedia({
+      maxWidth: `${theme.breakpoints?.md || '650'}px`,
+    })
 
     return (
       <HeroWrapper hero={hero} ref={ref}>
@@ -192,9 +242,12 @@ export const HeroBlock = React.forwardRef(
             textPositionMobile={textPositionMobile}
             textColorMobile={textColorMobile}
             textContainer={textContainer}
+            hero={hero}
           >
             <div className="text-container">
-              <RichText body={bodyRaw} />
+              <RichText
+                body={isMobile && body_mobileRaw ? body_mobileRaw : bodyRaw}
+              />
               {cta ? <CTA cta={cta} /> : null}
             </div>
           </HeroText>
