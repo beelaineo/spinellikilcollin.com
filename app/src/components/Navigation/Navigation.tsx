@@ -73,6 +73,7 @@ export const Navigation = () => {
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
+            <span data-ge-shippingswitcher-flag />
             <CurrencySelector colorTheme={colorTheme} />
             <SearchButtonWrapper colorTheme={colorTheme}>
               <SearchButton />

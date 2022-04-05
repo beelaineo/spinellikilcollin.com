@@ -87,7 +87,8 @@ export const ShopifyProvider = ({
       console.log('GEM IsOperatedByGlobalE callback:', isOperated)
     }
 
-    globalThis?.GEM_Components.IsOperatedByGlobalEMethod(isOperatedByCallback)
+    const isOperated =
+      globalThis?.GEM_Components.IsOperatedByGlobalEMethod(isOperatedByCallback)
 
     const getCheckoutToken = () => {
       const storage = globalThis?.sessionStorage
@@ -105,10 +106,19 @@ export const ShopifyProvider = ({
     }
 
     console.log('GEM getCheckout urlParams', urlParams)
+    console.log(
+      'GEM isOperatedBy',
+      globalThis?.GEM_Components.ExternalMethodsComponent.IsOperatedByGlobalE(
+        isOperatedByCallback,
+      ),
+    )
 
-    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
-      urlParams,
-      getCheckoutCallback,
+    console.log(
+      'GEM getCheckoutURL',
+      globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+        urlParams,
+        getCheckoutCallback,
+      ),
     )
 
     const { protocol, pathname, search } = new URL(checkout.webUrl)
