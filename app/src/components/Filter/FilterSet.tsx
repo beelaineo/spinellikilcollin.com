@@ -7,7 +7,7 @@ import {
   FilterCheckboxWrapper,
 } from '../Forms/Fields/FilterCheckbox'
 import { Label } from '../Forms/Fields/styled'
-import { FilterSetState } from './reducer'
+import { FilterSetState } from './types'
 import {
   HeadingWrapper,
   FilterSetWrapper,

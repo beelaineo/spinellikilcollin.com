@@ -2,15 +2,14 @@ import * as React from 'react'
 import { Field as FormikField } from 'formik'
 import MaskedInput, { conformToMask } from 'react-text-mask'
 import createNumberMask from 'text-mask-addons/dist/createNumberMask'
-import { FieldProps } from './Field'
+import { FieldProps, Option } from './types'
 import { Span } from '../../Text'
-import { FieldWrapper } from './styled'
 import {
+  FieldWrapper,
   InputWrapper,
   Input as InputElement,
   InputRange as InputRangeElement,
 } from './styled'
-import { Option } from '.'
 
 export interface ProductPriceInputProps extends FieldProps {
   type?: string

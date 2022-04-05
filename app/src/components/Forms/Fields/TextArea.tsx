@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Field as FormikField } from 'formik'
-import { FieldProps } from './Field'
+import { FieldProps } from './types'
 import { InputWrapper, TextAreaElement } from './styled'
 
 export interface TextAreaProps extends FieldProps {

@@ -3,7 +3,7 @@ import {
   InventoryFilter as InventoryFilterTypeSource,
   Maybe,
 } from '../../types'
-import { FilterSetState } from './reducer'
+import { FilterSetState } from './types'
 import { Span } from '../Text'
 import { PriceRangeFilterWrapper, HeadingWrapper } from './styled'
 import { Label } from '../Forms/Fields/styled'

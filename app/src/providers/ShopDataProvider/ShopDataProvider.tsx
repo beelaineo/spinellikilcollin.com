@@ -28,6 +28,8 @@ const ShopDataContext = React.createContext<ShopDataContextValue | undefined>(
 
 export const ShopDataConsumer = ShopDataContext.Consumer
 
+export const foo = 'bar'
+
 export const useShopData = () => {
   const ctx = useContext(ShopDataContext)
   if (!ctx)

@@ -46,26 +46,16 @@ export default class MyDocument extends Document {
 
     return (
       <Html>
-        <Head />
-        <body>
-          {/*
-
-              TODO: GTM temporarily disabled
-          <noscript
-            dangerouslySetInnerHTML={{
-              __html: `
-           <iframe
-              src={${tagInfo.iframeSrc}}
-              height="0"
-              width="0"
-              style={{ display: 'none', visibility: 'hidden' }}
-            ></iframe>
-        
-            `,
-            }}
+        <Head>
+          <link
+            id="GEPIStyles"
+            rel="stylesheet"
+            href="https://gepi.global-e.com/includes/css/10000945"
           />
-          */}
-
+          <link rel="stylesheet" href="/static/fonts/fonts.css" />
+          <link rel="icon" href="/static/favicon.png" />
+        </Head>
+        <body>
           <Main />
           <NextScript />
         </body>

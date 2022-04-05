@@ -6,6 +6,7 @@ import { Breadcrumbs } from './Breadcrumbs'
 import { PageLink } from '../../components/PageLink'
 import { Heading } from '../../components/Text'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useRouter } from 'next/router'
 import { NewsletterSignup } from './NewsletterSignup'
 import {
   Socials,
@@ -51,6 +52,7 @@ export const Footer = () => {
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''
   const mailerSubtitle = shopData?.siteSettings?.mailerSubtitle ?? ''
   const footerMenu = shopData?.menu?.footerMenuItems ?? []
+  const router = useRouter()
   return (
     <FooterWrapper>
       <Breadcrumbs />
@@ -70,7 +72,20 @@ export const Footer = () => {
             mailerTitle={mailerTitle}
             mailerSubtitle={mailerSubtitle}
           />
-          <HomepageLink isMobile={false}>
+          {router.asPath !== '/' ? (
+            <HomepageLink isMobile={false}>
+              <Heading m={0} level={4}>
+                <Link href="/">
+                  <a>
+                    → <em>Return</em> to the Homepage
+                  </a>
+                </Link>
+              </Heading>
+            </HomepageLink>
+          ) : null}
+        </FooterRight>
+        {router.asPath !== '/' ? (
+          <HomepageLink isMobile={true}>
             <Heading m={0} level={4}>
               <Link href="/">
                 <a>
@@ -79,16 +94,7 @@ export const Footer = () => {
               </Link>
             </Heading>
           </HomepageLink>
-        </FooterRight>
-        <HomepageLink isMobile={true}>
-          <Heading m={0} level={4}>
-            <Link href="/">
-              <a>
-                → <em>Return</em> to the Homepage
-              </a>
-            </Link>
-          </Heading>
-        </HomepageLink>
+        ) : null}
       </FooterInner>
       <FooterInnerLower>
         <Socials>
