@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AdvancedVideo } from '@cloudinary/react'
+import { AdvancedVideo, lazyload } from '@cloudinary/react'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import {
@@ -100,6 +100,7 @@ export const CloudinaryAnimation = ({
         loop
         playsInline
         muted
+        plugins={[lazyload({ rootMargin: '800px', threshold: 0.1 })]}
       />
     </DesktopWrapper>
   ) : screen === 'mobile' ? (
@@ -112,6 +113,7 @@ export const CloudinaryAnimation = ({
         loop
         playsInline
         muted
+        plugins={[lazyload({ rootMargin: '400px', threshold: 0.1 })]}
       />
     </MobileWrapper>
   ) : (
@@ -123,6 +125,7 @@ export const CloudinaryAnimation = ({
         loop
         playsInline
         muted
+        plugins={[lazyload({ rootMargin: '800px', threshold: 0.1 })]}
       />
     </AnimationWrapper>
   )
