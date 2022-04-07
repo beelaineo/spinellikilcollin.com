@@ -1,24 +1,27 @@
 import * as React from 'react'
-import { CloudinaryVideo as CloudinaryVideoType } from '../../types'
+import { AdvancedVideo } from '@cloudinary/react'
+import { Cloudinary } from '@cloudinary/url-gen'
+import { scale } from '@cloudinary/url-gen/actions/resize'
+import {
+  CloudinaryVideo as CloudinaryVideoType,
+  ShopifySourceImage,
+} from '../../types'
 import { AudioButton, PlaybackButton } from './Controls'
 import { AnimationWrapper, DesktopWrapper, MobileWrapper } from './styled'
 import { useViewportSize } from '../../utils'
 import { RatioImageFill } from '../Image/styled'
+import { FaCommentsDollar } from 'react-icons/fa'
 
 const { useRef, useEffect, useState } = React
 const BASE_URL = 'https://res.cloudinary.com/spinelli-kilcollin/video/upload'
 
-const fallbackSizes = [720, 1200, 1600, 1920]
+const cld = new Cloudinary({
+  cloud: {
+    cloudName: 'spinelli-kilcollin',
+  },
+})
 
-interface VideoElementProps {
-  video: CloudinaryVideoType
-  muted: boolean
-  poster: string
-  playing: boolean | undefined
-  suspended: boolean | undefined
-  onPlay: () => void
-  onSuspend: () => void
-}
+const fallbackSizes = [720, 1200, 1600, 1920]
 
 interface RatioPaddingProps {
   ratio: number
@@ -59,120 +62,67 @@ const RatioPadding = ({
   )
 }
 
-const NormalVideo = ({
-  playing,
-  suspended,
-  poster,
-  muted,
-  video,
-  onPlay,
-  onSuspend,
-}: VideoElementProps) => {
-  const { width: viewportWidth } = useViewportSize()
-
-  const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    if (!videoRef.current) return
-    const paused = videoRef.current.paused
-    if (paused && playing === true) videoRef.current.play()
-    if (!paused && playing === false) videoRef.current.pause()
-  }, [videoRef.current, playing, suspended])
-
-  const bestSize =
-    fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[3]
-  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},q_100,cs_copy/${video.videoId}`
-
-  return (
-    <video
-      ref={videoRef}
-      onPlay={onPlay}
-      onSuspend={onSuspend}
-      poster={poster}
-      muted={muted}
-      loop
-      playsInline
-      src={src}
-      style={{ height: '100%' }}
-    />
-  )
-}
-
 interface CloudinaryVideoProps {
   video: CloudinaryVideoType
-  enableAudio?: boolean
+  image?: ShopifySourceImage
   screen?: 'desktop' | 'mobile'
 }
 
 export const CloudinaryAnimation = ({
   video,
+  image,
   screen,
 }: CloudinaryVideoProps) => {
   if (!video?.videoId) return null
-  const [muted, setMuted] = useState(true)
-  const [playing, setPlaying] = useState<boolean | undefined>(undefined)
-  const [suspended, setSuspended] = useState<boolean | undefined>(undefined)
-  const { enableAudio, videoId } = video
+
+  const { videoId } = video
 
   const { width: viewportWidth } = useViewportSize()
   const bestSize =
     fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[3]
 
-  const poster = `${BASE_URL}/c_scale,w_${bestSize}/q_100/${videoId}`
+  const cldVid = cld.video(videoId).resize(scale().width(bestSize))
 
-  const toggleAudio = () => setMuted(!muted)
-  const togglePlaying = () => setPlaying(!playing)
-
-  const handleOnPlay = () => {
-    setPlaying(true)
-    setSuspended(false)
-  }
-
-  const handleOnSuspend = () => {
-    setPlaying(false)
-    setSuspended(true)
-  }
+  const poster =
+    viewportWidth > 1200
+      ? (image?.w1600 as string)
+      : viewportWidth > 1000
+      ? (image?.w1200 as string)
+      : (image?.w800 as string)
 
   return screen === 'desktop' ? (
     <DesktopWrapper>
       <RatioPadding canvasFill={false} ratio={1} />
-      <NormalVideo
-        video={video}
-        playing={playing}
-        suspended={suspended}
-        onPlay={handleOnPlay}
-        onSuspend={handleOnSuspend}
+      <AdvancedVideo
+        cldVid={cldVid}
         poster={poster}
-        muted={muted}
+        autoPlay
+        loop
+        playsInline
+        muted
       />
-      {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
-      {<PlaybackButton playing={playing} onClick={togglePlaying} />}
     </DesktopWrapper>
   ) : screen === 'mobile' ? (
     <MobileWrapper>
       <RatioPadding canvasFill={false} ratio={1} />
-      <NormalVideo
-        video={video}
-        playing={playing}
-        suspended={suspended}
-        onPlay={handleOnPlay}
-        onSuspend={handleOnSuspend}
+      <AdvancedVideo
+        cldVid={cldVid}
         poster={poster}
-        muted={muted}
+        autoPlay
+        loop
+        playsInline
+        muted
       />
-      {enableAudio ? <AudioButton muted={muted} onClick={toggleAudio} /> : null}
-      {<PlaybackButton playing={playing} onClick={togglePlaying} />}
     </MobileWrapper>
   ) : (
     <AnimationWrapper>
-      <NormalVideo
-        video={video}
-        playing={playing}
-        suspended={suspended}
-        onPlay={handleOnPlay}
-        onSuspend={handleOnSuspend}
+      <AdvancedVideo
+        cldVid={cldVid}
         poster={poster}
-        muted={muted}
+        autoPlay
+        loop
+        playsInline
+        muted
       />
     </AnimationWrapper>
   )

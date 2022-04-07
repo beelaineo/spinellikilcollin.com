@@ -55,7 +55,18 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
   `}
 `
 
-export const ImageWrapper = styled.div`
+interface WithHidden {
+  hidden?: boolean
+}
+
+export const ImageWrapper = styled.div<WithHidden>`
+  ${({ theme, hidden }) => css`
+    position: relative;
+    opacity: ${hidden ? 0 : 1};
+  `}
+`
+
+export const VideoWrapper = styled.div`
   position: relative;
 `
 

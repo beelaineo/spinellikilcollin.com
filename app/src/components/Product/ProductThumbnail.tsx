@@ -27,7 +27,7 @@ import {
 } from '../../utils'
 import { useInViewport } from '../../hooks'
 import { useAnalytics } from '../../providers'
-import { ImageWrapper, ProductInfo, ProductThumb } from './styled'
+import { ImageWrapper, VideoWrapper, ProductInfo, ProductThumb } from './styled'
 import { CloudinaryAnimation } from '../CloudinaryVideo'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
@@ -151,6 +151,37 @@ export const ProductThumbnail = ({
     VariantAnimation | undefined
   >(undefined)
 
+  useEffect(() => {
+    console.log(product)
+    console.log(
+      'initialVariant',
+      initialVariant?.selectedOptions?.filter((o) => o?.name === 'Color')[0]
+        ?.value,
+    )
+    const initialSwatchValue = initialVariant?.selectedOptions?.filter(
+      (o) => o?.name === 'Color',
+    )[0]?.value
+
+    const colorOption = product.options?.filter(
+      (option) => option?.name == 'Color',
+    )
+    const initialColorOption = colorOption?.[0]?.values?.filter(
+      (o) => o?.value == initialSwatchValue,
+    )[0]
+
+    console.log('initialColorOption', initialColorOption)
+
+    if (initialColorOption?.animation) {
+      const variantAnimation: VariantAnimation = {
+        __typename: 'CloudinaryVideo',
+        videoId: initialColorOption?.animation,
+      }
+      setVariantAnimation(variantAnimation)
+    } else {
+      setVariantAnimation(undefined)
+    }
+  }, [])
+
   const handleClick = () => {
     // @ts-ignore
     sendProductClick({ product, variant: currentVariant })
@@ -176,9 +207,6 @@ export const ProductThumbnail = ({
   const onSwatchHover =
     (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
       if (!value.value) return
-
-      console.log('value', value)
-      console.log('option', option)
 
       if (value?.animation) {
         const variantAnimation: VariantAnimation = {
@@ -304,25 +332,30 @@ export const ProductThumbnail = ({
     currentPath: asPath,
   })
 
+  console.log('variantAnimation', variantAnimation)
+
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>
         <a>
-          <ImageWrapper>
-            {variantAnimation ? (
-              <CloudinaryAnimation video={variantAnimation} />
-            ) : (
-              <Image
+          {variantAnimation ? (
+            <VideoWrapper>
+              <CloudinaryAnimation
+                video={variantAnimation}
                 image={productImage}
-                ratio={imageRatio || 1}
-                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                preload
-                altText={altText}
-                preloadImages={allImages}
               />
-            )}
+            </VideoWrapper>
+          ) : null}
+          <ImageWrapper hidden={Boolean(variantAnimation)}>
+            <Image
+              image={productImage}
+              ratio={imageRatio || 1}
+              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+              preload
+              altText={altText}
+              preloadImages={allImages}
+            />
           </ImageWrapper>
-
           <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>
             {displayTags ? <TagBadges product={product} /> : <div />}
             {displayPrice && inquiryOnly != true ? (

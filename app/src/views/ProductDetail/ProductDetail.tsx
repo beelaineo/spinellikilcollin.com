@@ -231,6 +231,16 @@ export const ProductDetail = ({ product }: Props) => {
     variantHasAnimation = false
   }
 
+  const productImages = product.sourceData?.images
+    ? unwindEdges(product.sourceData.images)[0]
+    : []
+
+  const posterImage = currentVariant?.sourceData?.image
+    ? currentVariant.sourceData.image
+    : productImages.length
+    ? productImages[0]
+    : undefined
+
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
     if (!product.sourceData) {
@@ -316,6 +326,7 @@ export const ProductDetail = ({ product }: Props) => {
                 {variantHasAnimation ? (
                   <CloudinaryAnimation
                     video={variantAnimation}
+                    image={posterImage}
                     screen="desktop"
                   />
                 ) : (
@@ -334,6 +345,7 @@ export const ProductDetail = ({ product }: Props) => {
                 {variantHasAnimation ? (
                   <CloudinaryAnimation
                     video={variantAnimation}
+                    image={posterImage}
                     screen="mobile"
                   />
                 ) : (
