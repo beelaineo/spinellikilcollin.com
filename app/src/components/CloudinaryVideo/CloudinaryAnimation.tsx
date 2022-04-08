@@ -66,12 +66,14 @@ interface CloudinaryVideoProps {
   video: CloudinaryVideoType
   image?: ShopifySourceImage
   screen?: 'desktop' | 'mobile'
+  setPlaying: (playing: boolean) => void
 }
 
 export const CloudinaryAnimation = ({
   video,
   image,
   screen,
+  setPlaying,
 }: CloudinaryVideoProps) => {
   if (!video?.videoId) return null
 
@@ -82,6 +84,11 @@ export const CloudinaryAnimation = ({
     fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[3]
 
   const cldVid = cld.video(videoId).resize(scale().width(bestSize))
+
+  const handlePlay = () => {
+    setPlaying(true)
+    console.log('play')
+  }
 
   const poster =
     viewportWidth > 1200
@@ -95,12 +102,11 @@ export const CloudinaryAnimation = ({
       <RatioPadding canvasFill={false} ratio={1} />
       <AdvancedVideo
         cldVid={cldVid}
-        poster={poster}
         autoPlay
         loop
         playsInline
         muted
-        plugins={[lazyload({ rootMargin: '800px', threshold: 0.1 })]}
+        onPlay={handlePlay}
       />
     </DesktopWrapper>
   ) : screen === 'mobile' ? (
@@ -108,24 +114,22 @@ export const CloudinaryAnimation = ({
       <RatioPadding canvasFill={false} ratio={1} />
       <AdvancedVideo
         cldVid={cldVid}
-        poster={poster}
         autoPlay
         loop
         playsInline
         muted
-        plugins={[lazyload({ rootMargin: '400px', threshold: 0.1 })]}
+        onPlay={handlePlay}
       />
     </MobileWrapper>
   ) : (
     <AnimationWrapper>
       <AdvancedVideo
         cldVid={cldVid}
-        poster={poster}
         autoPlay
         loop
         playsInline
         muted
-        plugins={[lazyload({ rootMargin: '800px', threshold: 0.1 })]}
+        onPlay={handlePlay}
       />
     </AnimationWrapper>
   )

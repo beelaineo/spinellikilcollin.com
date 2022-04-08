@@ -119,7 +119,6 @@ export const ProductThumbnail = ({
     ? unwindEdges(product.sourceData.images)[0]
     : []
   const [variants] = unwindEdges(product?.sourceData?.variants)
-  const variantsFull = product?.sourceData?.variants
 
   const mappedSelections = !product.initialVariantSelections
     ? false
@@ -151,13 +150,9 @@ export const ProductThumbnail = ({
     VariantAnimation | undefined
   >(undefined)
 
+  const [playing, setPlaying] = useState(false)
+
   useEffect(() => {
-    console.log(product)
-    console.log(
-      'initialVariant',
-      initialVariant?.selectedOptions?.filter((o) => o?.name === 'Color')[0]
-        ?.value,
-    )
     const initialSwatchValue = initialVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Color',
     )[0]?.value
@@ -181,6 +176,39 @@ export const ProductThumbnail = ({
       setVariantAnimation(undefined)
     }
   }, [])
+
+  useEffect(() => {
+    console.log('currentVariant', currentVariant)
+    const currentSwatchValue = currentVariant?.selectedOptions?.filter(
+      (o) => o?.name === 'Color',
+    )[0]?.value
+
+    const colorOption = product.options?.filter(
+      (option) => option?.name == 'Color',
+    )
+    const currentColorOption = colorOption?.[0]?.values?.filter(
+      (o) => o?.value == currentSwatchValue,
+    )[0]
+
+    if (currentColorOption?.animation) {
+      const variantAnimation: VariantAnimation = {
+        __typename: 'CloudinaryVideo',
+        videoId: currentColorOption?.animation,
+      }
+      setVariantAnimation(variantAnimation)
+    } else {
+      setVariantAnimation(undefined)
+    }
+    // if (value?.animation) {
+    //   const variantAnimation: VariantAnimation = {
+    //     __typename: 'CloudinaryVideo',
+    //     videoId: value.animation,
+    //   }
+    //   setVariantAnimation(variantAnimation)
+    // } else {
+    //   setVariantAnimation(undefined)
+    // }
+  }, [currentVariant])
 
   const handleClick = () => {
     // @ts-ignore
@@ -207,16 +235,6 @@ export const ProductThumbnail = ({
   const onSwatchHover =
     (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
       if (!value.value) return
-
-      if (value?.animation) {
-        const variantAnimation: VariantAnimation = {
-          __typename: 'CloudinaryVideo',
-          videoId: value.animation,
-        }
-        setVariantAnimation(variantAnimation)
-      } else {
-        setVariantAnimation(undefined)
-      }
 
       const currentSelection = {
         name: option.name || 'foo',
@@ -299,8 +317,7 @@ export const ProductThumbnail = ({
       })
       .flat()
       .reverse()
-    // console.log('new filters', filters)
-    // console.log('variants', variantsFull)
+
     //@ts-ignore
     const filteredVariant = getBestVariantByFilterMatch(variants, filters)
     setCurrentVariant(filteredVariant)
@@ -333,20 +350,22 @@ export const ProductThumbnail = ({
   })
 
   console.log('variantAnimation', variantAnimation)
+  console.log('playing thumbnail', playing)
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>
         <a>
           {variantAnimation ? (
-            <VideoWrapper>
+            <VideoWrapper hide={!playing}>
               <CloudinaryAnimation
                 video={variantAnimation}
                 image={productImage}
+                setPlaying={setPlaying}
               />
             </VideoWrapper>
           ) : null}
-          <ImageWrapper hidden={Boolean(variantAnimation)}>
+          <ImageWrapper hide={Boolean(variantAnimation)}>
             <Image
               image={productImage}
               ratio={imageRatio || 1}

@@ -48,7 +48,7 @@ import { configureScope } from '@sentry/node'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 
-const { useEffect } = React
+const { useEffect, useState } = React
 
 const InStockDot = styled('span')`
   ${({ theme }) => css`
@@ -231,6 +231,8 @@ export const ProductDetail = ({ product }: Props) => {
     variantHasAnimation = false
   }
 
+  const [playing, setPlaying] = useState(false)
+
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
@@ -327,6 +329,7 @@ export const ProductDetail = ({ product }: Props) => {
                   <CloudinaryAnimation
                     video={variantAnimation}
                     image={posterImage}
+                    setPlaying={setPlaying}
                     screen="desktop"
                   />
                 ) : (
@@ -346,6 +349,7 @@ export const ProductDetail = ({ product }: Props) => {
                   <CloudinaryAnimation
                     video={variantAnimation}
                     image={posterImage}
+                    setPlaying={setPlaying}
                     screen="mobile"
                   />
                 ) : (

@@ -41,6 +41,8 @@ export const AnimationWrapper = styled.div`
   max-width: 100%;
   video {
     max-width: 100%;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
     &::-webkit-media-controls {
       opacity: 0;
