@@ -107,6 +107,7 @@ export const CloudinaryAnimation = ({
         playsInline
         muted
         onPlay={handlePlay}
+        plugins={[lazyload()]}
       />
     </DesktopWrapper>
   ) : screen === 'mobile' ? (
@@ -119,6 +120,7 @@ export const CloudinaryAnimation = ({
         playsInline
         muted
         onPlay={handlePlay}
+        plugins={[lazyload()]}
       />
     </MobileWrapper>
   ) : (
@@ -130,6 +132,7 @@ export const CloudinaryAnimation = ({
         playsInline
         muted
         onPlay={handlePlay}
+        plugins={[lazyload()]}
       />
     </AnimationWrapper>
   )

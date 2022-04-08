@@ -73,6 +73,9 @@ export const VideoWrapper = styled.div<WithHide>`
     bottom: 0;
     right: 0;
     left: 0;
+    video {
+      transform: translate(0, 0);
+    }
   `}
 `
 
