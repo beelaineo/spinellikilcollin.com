@@ -74,8 +74,7 @@ export const ShopifyProvider = ({
 
   const goToCheckout = () => {
     const { checkout } = useCheckoutValues
-    const [isOperated, setIsOperated] = useState(false)
-    const [checkoutUrl, setCheckoutUrl] = useState('')
+
     if (!checkout) {
       throw new Error('No checkout has been initiated')
     }
@@ -91,11 +90,11 @@ export const ShopifyProvider = ({
 
     const isOperatedByCallback = function (isOperated) {
       console.log('IsOperatedByGlobalE:', isOperated)
-      setIsOperated(isOperated)
+      return isOperated
     }
     const getCheckoutUrlCallback = function (url) {
       console.log('GEM getCheckoutUrl: ', url)
-      setCheckoutUrl(url)
+      return url
     }
     const getCheckoutToken = () => {
       const storage = globalThis?.sessionStorage
@@ -108,18 +107,21 @@ export const ShopifyProvider = ({
       CartToken: getCheckoutToken(),
     }
 
-    globalThis?.GEM_Components.ExternalMethodsComponent.IsOperatedByGlobalE(
-      isOperatedByCallback,
-    )
-    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
-      urlParams,
-      getCheckoutUrlCallback,
-    )
+    const isOperatedByGE =
+      globalThis?.GEM_Components.ExternalMethodsComponent.IsOperatedByGlobalE(
+        isOperatedByCallback,
+      )
+
+    const checkoutUrl =
+      globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+        urlParams,
+        getCheckoutUrlCallback,
+      )
 
     const { protocol, pathname, search } = new URL(checkout.webUrl)
     const redirect: string = `${protocol}//${domain}${pathname}${search}`
 
-    if (isOperated == true) {
+    if (isOperatedByGE == true) {
       console.log('is operated')
       router.push(checkoutUrl || '/intl-checkout')
     } else {
