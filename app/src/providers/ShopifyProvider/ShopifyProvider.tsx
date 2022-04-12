@@ -12,7 +12,7 @@ import { config } from '../../config'
 import { useRouter } from 'next/router'
 
 const { SHOPIFY_CHECKOUT_DOMAIN: domain } = config
-const { useState } = React
+const { useState, useEffect } = React
 
 export interface ShopifyContextValue extends UseCheckoutValues {
   goToCheckout: () => void
@@ -66,9 +66,6 @@ export const ShopifyProvider = ({
   }
   const router = useRouter()
 
-  const [isOperated, setIsOperated] = useState(false)
-  const [checkoutUrl, setCheckoutUrl] = useState('')
-
   const useCheckoutValues = useCheckout({
     queries,
     query,
@@ -77,6 +74,8 @@ export const ShopifyProvider = ({
 
   const goToCheckout = () => {
     const { checkout } = useCheckoutValues
+    const [isOperated, setIsOperated] = useState(false)
+    const [checkoutUrl, setCheckoutUrl] = useState('')
     if (!checkout) {
       throw new Error('No checkout has been initiated')
     }
@@ -89,11 +88,15 @@ export const ShopifyProvider = ({
         quantity: li.quantity,
       })),
     )
+
     const isOperatedByCallback = function (isOperated) {
       console.log('IsOperatedByGlobalE:', isOperated)
       setIsOperated(isOperated)
     }
-
+    const getCheckoutUrlCallback = function (url) {
+      console.log('GEM getCheckoutUrl: ', url)
+      setCheckoutUrl(url)
+    }
     const getCheckoutToken = () => {
       const storage = globalThis?.sessionStorage
       if (!storage) return
@@ -103,11 +106,6 @@ export const ShopifyProvider = ({
 
     const urlParams = {
       CartToken: getCheckoutToken(),
-    }
-
-    const getCheckoutUrlCallback = function (url) {
-      console.log('GEM getCheckoutUrl: ', url)
-      setCheckoutUrl(url)
     }
 
     globalThis?.GEM_Components.ExternalMethodsComponent.IsOperatedByGlobalE(
@@ -121,9 +119,11 @@ export const ShopifyProvider = ({
     const { protocol, pathname, search } = new URL(checkout.webUrl)
     const redirect: string = `${protocol}//${domain}${pathname}${search}`
 
-    if (isOperated) {
+    if (isOperated == true) {
+      console.log('is operated')
       router.push(checkoutUrl || '/intl-checkout')
     } else {
+      console.log('is not operated')
       window.location.href = redirect
     }
   }
