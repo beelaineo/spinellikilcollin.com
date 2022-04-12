@@ -90,7 +90,17 @@ export const ShopifyProvider = ({
 
     const isOperatedByCallback = function (isOperated) {
       console.log('IsOperatedByGlobalE:', isOperated)
-      return isOperated
+
+      const { protocol, pathname, search } = new URL(checkout.webUrl)
+      const redirect: string = `${protocol}//${domain}${pathname}${search}`
+
+      if (isOperated == true) {
+        console.log('is operated')
+        router.push('/intl-checkout')
+      } else {
+        console.log('is not operated')
+        window.location.href = redirect
+      }
     }
     const getCheckoutUrlCallback = function (url) {
       console.log('GEM getCheckoutUrl: ', url)
@@ -111,23 +121,6 @@ export const ShopifyProvider = ({
       globalThis?.GEM_Components.ExternalMethodsComponent.IsOperatedByGlobalE(
         isOperatedByCallback,
       )
-
-    const checkoutUrl =
-      globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
-        urlParams,
-        getCheckoutUrlCallback,
-      )
-
-    const { protocol, pathname, search } = new URL(checkout.webUrl)
-    const redirect: string = `${protocol}//${domain}${pathname}${search}`
-
-    if (isOperatedByGE == true) {
-      console.log('is operated')
-      router.push(checkoutUrl || '/intl-checkout')
-    } else {
-      console.log('is not operated')
-      window.location.href = redirect
-    }
   }
 
   const value = {
