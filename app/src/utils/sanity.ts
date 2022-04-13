@@ -19,6 +19,8 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
       return `title match "${match}"`
     case 'option':
       return `"${match}" in sourceData.options[].value`
+    case 'size':
+      return `"${match}" in sourceData.options[name == "Size"].values[]`
     case 'subcategory':
       return `variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
     case 'metal':
@@ -45,6 +47,8 @@ const parseFilterMatchDefaultSort = ({
       return `@->title match "${match}"`
     case 'option':
       return `"${match}" in @->sourceData.options[].value`
+    case 'size':
+      return `"${match}" in @->sourceData.options[name == "Size"].values[]`
     case 'subcategory':
       return `@->variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
     case 'metal':
