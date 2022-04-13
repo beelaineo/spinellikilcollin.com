@@ -188,6 +188,20 @@ ${
 }`
 
 export const buildFilterQuery = (filters: FilterConfiguration, sort?: Sort) => {
-  const filterString = buildFilters(filters, sort)
-  return filterQuery(filterString, sort)
+  console.log('filters', filters)
+
+  const sizeFilters = filters
+    .filter((f) => f.filterType == 'FILTER_MATCH_GROUP')
+    //@ts-ignore
+    .filter((f) => f.matches[0].type == 'size')
+
+  console.log('sizeFilters', sizeFilters)
+  if (sizeFilters.length > 0) {
+    // make a new sort order based on a socring system that checks for stocked sizes
+    const filterString = buildFilters(filters, sort)
+    return filterQuery(filterString, sort)
+  } else {
+    const filterString = buildFilters(filters, sort)
+    return filterQuery(filterString, sort)
+  }
 }
