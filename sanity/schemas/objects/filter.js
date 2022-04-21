@@ -117,7 +117,11 @@ export const filterMatch = {
         layout: 'radio',
         list: [
           { title: 'By Product Subcategory', value: 'subcategory' },
-          { title: 'By Variant Size', value: 'size' },
+          {
+            title:
+              'By Variant Size (note: does not exclude non-matches, only resorts query results)',
+            value: 'size',
+          },
           { title: 'By Variant Metal', value: 'metal' },
           { title: 'By Variant Style', value: 'style' },
           { title: 'By Variant Stone', value: 'stone' },
