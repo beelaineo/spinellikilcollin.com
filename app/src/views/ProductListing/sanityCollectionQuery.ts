@@ -118,7 +118,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     },
     ...,
   },
-  "products": products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] | order(${getSortString(
+  "products": products[!(@->_id in path("drafts.**")) && @->hidden!=true && (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))]-> | order(${getSortString(
     sort,
   )}) {
     ${productInner}
@@ -145,9 +145,9 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[]->[hidden != true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] {
+  "products": products[@->hidden != true && (!(@->_id in path("drafts.**")) && @->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))][$productStart..$productEnd]-> {
     ${productInner}
-  }[$productStart..$productEnd],
+  },
 }
 `
 
@@ -168,7 +168,7 @@ ${
     ] 
     {
       products[@->hidden != true &&
-      (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
+      (@->hideFromCollections != true || (!(@->_id in path("drafts.**")) && @->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
       ${
         filterString ? `&& ${filterString}` : ''
       }][$productStart...$productEnd]->{${productInner}}
@@ -178,6 +178,7 @@ ${
       _type == "shopifyProduct" &&
         defined(shopifyId) &&
         hidden != true &&
+        !(_id in path("drafts.**")) &&
         (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
         references($collectionId) 
       ${filterString ? `&& ${filterString}` : ''}
@@ -188,20 +189,6 @@ ${
 }`
 
 export const buildFilterQuery = (filters: FilterConfiguration, sort?: Sort) => {
-  console.log('filters', filters)
-
-  const sizeFilters = filters
-    .filter((f) => f.filterType == 'FILTER_MATCH_GROUP')
-    //@ts-ignore
-    .filter((f) => f.matches[0].type == 'size')
-
-  console.log('sizeFilters', sizeFilters)
-  if (sizeFilters.length > 0) {
-    // make a new sort order based on a socring system that checks for stocked sizes
-    const filterString = buildFilters(filters, sort)
-    return filterQuery(filterString, sort)
-  } else {
-    const filterString = buildFilters(filters, sort)
-    return filterQuery(filterString, sort)
-  }
+  const filterString = buildFilters(filters, sort)
+  return filterQuery(filterString, sort)
 }
