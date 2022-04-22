@@ -283,7 +283,7 @@ interface WithIsActive {
 export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive, type }) => css`
     padding: 2 4;
-    min-width: 105px;
+    min-width: ${type === 'Size' ? '220px' : '105px'};
     margin: 0 5px;
     border: 1px solid ${theme.colors.grays[6]};
     border-radius: 2em;
@@ -305,7 +305,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
-    ${isActive && (type == 'Type' || type == 'Bands')
+    ${isActive && (type == 'Type' || type == 'Bands' || type == 'Size')
       ? 'padding: 0; & > h5 { min-width: 105px; padding: 2 0; } h5 { border: 1px solid ' +
         theme.colors.grays[6] +
         '; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
@@ -314,20 +314,42 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         '}'
       : ''}
       @media screen and (max-width: 960px) {
+      width: 100%;
       margin: 0;
     }
   `}
 `
 
-interface WithIsHovered {
+interface WithIsHoveredType {
   isHovered?: boolean
+  type?: Maybe<string>
 }
 
-export const FiltersWrapper = styled.div<WithIsHovered>`
-  ${({ theme, isHovered }) => css`
+export const FiltersWrapper = styled.div<WithIsHoveredType>`
+  ${({ theme, isHovered, type }) => css`
     display: ${isHovered ? 'block' : 'none'};
     position: relative;
     z-index: 2;
+    ${type == 'Size'
+      ? css`
+          display: ${isHovered ? 'flex' : 'none'};
+          max-width: 330px;
+          flex-wrap: wrap;
+          & > div {
+            flex: 0;
+            label {
+              min-height: 36px;
+              min-width: 36px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 100%;
+              width: auto;
+              padding: 2;
+            }
+          }
+        `
+      : ''}
     @media screen and (max-width: 960px) {
       position: relative;
       display: ${isHovered ? 'flex' : 'none'};
@@ -337,6 +359,13 @@ export const FiltersWrapper = styled.div<WithIsHovered>`
       & > div {
         display: block;
       }
+      ${type == 'Size'
+        ? css`
+            gap: 2 3;
+            max-width: 100%;
+            justify-content: flex-start;
+          `
+        : ''}
     }
   `}
 `
@@ -372,9 +401,10 @@ export const FilterIndicatorsWrapper = styled.div<WithType>`
   ${({ theme, setType, isActive }) => css`
     display: flex;
     height: 100%;
-    margin-right: ${isActive && (setType == 'Type' || setType == 'Bands')
+    margin-right: ${isActive &&
+    (setType == 'Type' || setType == 'Bands' || setType == 'Size')
       ? '0'
-      : isActive && setType != 'Type' && setType != 'Bands'
+      : isActive && setType != 'Type' && setType != 'Bands' && setType != 'Size'
       ? '-13px'
       : '0px'};
     & > div:first-child {
@@ -450,7 +480,7 @@ export const PriceRangeFilterWrapper = styled.div`
   `}
 `
 
-export const Slider = styled.div<WithIsHovered>`
+export const Slider = styled.div<WithIsHoveredType>`
   ${({ theme, isHovered }) => css`
     display: ${isHovered ? 'block' : 'none'};
     position: relative;

@@ -90,7 +90,6 @@ export const FilterSet = ({
   const isMobile = useMedia({
     maxWidth: `960px`,
   })
-
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
@@ -129,6 +128,7 @@ export const FilterSet = ({
         isHovered={
           Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
         }
+        type={filterSet.heading}
       >
         {definitely(filters).map((filter) => {
           return (
