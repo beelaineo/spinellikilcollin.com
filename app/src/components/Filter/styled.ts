@@ -365,6 +365,9 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
       }
       ${type == 'Size'
         ? css`
+            display: ${isHovered ? 'grid' : 'none'};
+            grid-template-columns: repeat(auto-fit, 36px);
+            margin: 0 auto;
             gap: 2 3;
             max-width: 100%;
             justify-content: flex-start;
@@ -413,6 +416,11 @@ export const FilterIndicatorsWrapper = styled.div<WithType>`
       : '0px'};
     & > div:first-child {
       margin-left: 0;
+      h5 {
+        padding-left: ${isActive && (setType == 'Bands' || setType == 'Size')
+          ? '16px'
+          : '39px'};
+      }
     }
   `}
 `

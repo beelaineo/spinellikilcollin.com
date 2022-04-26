@@ -95,7 +95,7 @@ const FilterValueLabel = styled.div<FilterValueLabelProps>`
       margin-top: -1px;
       margin-bottom: -1px;
       padding: 2 4;
-      padding-left: ${index == 1 && type == 'Size' ? `16px` : `39px`};
+      padding-left: 39px;
       padding-right: 13px;
       justify-content: center;
       display: flex;
