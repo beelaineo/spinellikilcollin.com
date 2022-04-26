@@ -334,6 +334,7 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
     display: ${isHovered ? 'block' : 'none'};
     position: relative;
     z-index: 2;
+    padding-top: 1;
     ${type == 'Size'
       ? css`
           display: ${isHovered ? 'flex' : 'none'};
@@ -342,14 +343,14 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
           & > div {
             flex: 0;
             label {
-              min-height: 36px;
-              min-width: 36px;
+              min-height: 28px;
+              min-width: 28px;
               display: flex;
               justify-content: center;
               align-items: center;
               border-radius: 100%;
               width: auto;
-              padding: 2;
+              padding: 0;
             }
           }
         `
@@ -371,6 +372,10 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
             gap: 2 3;
             max-width: 100%;
             justify-content: flex-start;
+            & > div label {
+              min-width: 36px;
+              min-height: 36px;
+            }
           `
         : ''}
     }
