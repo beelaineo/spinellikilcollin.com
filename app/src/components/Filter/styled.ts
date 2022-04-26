@@ -283,7 +283,7 @@ interface WithIsActive {
 export const HeadingWrapper = styled.div<WithIsActive>`
   ${({ theme, isActive, type }) => css`
     padding: 2 4;
-    min-width: ${type === 'Size' ? '220px' : '105px'};
+    min-width: 105px;
     margin: 0 5px;
     border: 1px solid ${theme.colors.grays[6]};
     border-radius: 2em;
@@ -316,6 +316,9 @@ export const HeadingWrapper = styled.div<WithIsActive>`
       @media screen and (max-width: 960px) {
       width: 100%;
       margin: 0;
+    }
+    @media screen and (min-width: 961px) {
+      min-width: ${type === 'Size' ? '220px' : '105px'};
     }
   `}
 `
