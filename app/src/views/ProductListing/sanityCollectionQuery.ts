@@ -11,7 +11,7 @@ const getSortString = (sort?: Sort, filterSort?: string[]): string => {
     const countMatches: string[] = []
 
     filterSort.map((s) => {
-      const string = `count(@->sourceData.variants.edges[node.currentlyNotInStock == false && node.selectedOptions[1].value == '${s}'])`
+      const string = `count(@->sourceData.variants.edges[node.currentlyNotInStock == false && node.selectedOptions[1].value == '${s}'])*2 + count(@->sourceData.variants.edges[node.currentlyNotInStock == true && node.selectedOptions[1].value == '${s}'])`
       countMatches.push(string)
     })
 
