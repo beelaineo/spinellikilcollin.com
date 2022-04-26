@@ -4,8 +4,8 @@ import { SelectElement } from '../Forms/Fields/styled'
 
 export enum Sort {
   // DateAsc = 'Newest',
-  PriceAsc = '$-$$$',
-  PriceDesc = '$$$-$',
+  PriceAsc = 'Low to High',
+  PriceDesc = 'High to Low',
   Default = 'Featured',
   // AlphaAsc = 'A - Z',
   // AlphaDesc = 'Z - A',
