@@ -4,7 +4,7 @@ import { Maybe } from '../../types'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`
-    padding: 5 0 2 0;
+    padding: 5 0;
     width: 100%;
     position: sticky;
     top: 74px;
@@ -155,7 +155,7 @@ export const SortWrapper = styled.div<WithHide>`
     max-height: 27px;
     justify-content: center;
     align-items: center;
-    min-width: 105px;
+    min-width: 124px;
     max-width: unset;
     display: ${hide ? 'none' : 'block'};
     margin: 0 5px;
@@ -255,6 +255,7 @@ export const FilterSets = styled.div<WithHide>`
     padding: 0;
     margin: 0;
     flex: 1;
+    height: 28px;
 
     ${theme.mediaQueries.tablet} {
     }
@@ -300,15 +301,15 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     ${isActive
       ? 'background-color: ' +
         theme.colors.grays[4] +
-        '; justify-content: space-between; margin-bottom: 3; & > h5 {' +
+        '; justify-content: space-between; & > h5 {' +
         'background-color: ' +
         theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
     ${isActive && (type == 'Type' || type == 'Bands' || type == 'Size')
-      ? 'padding: 0; & > h5 { min-width: 105px; padding: 2 0; } h5 { border: 1px solid ' +
+      ? 'padding: 0; & > h5 { min-width: 72px; padding: 2 0; } h5 { border: 1px solid ' +
         theme.colors.grays[6] +
-        '; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
+        '; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 18px; justify-content: flex-start; display: flex; align-items: center; border: 1px solid' +
         theme.colors.grays[6] +
         '; border-radius: 2em;' +
         '}'

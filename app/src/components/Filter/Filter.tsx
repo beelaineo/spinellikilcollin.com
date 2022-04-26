@@ -210,7 +210,7 @@ export const Filter = ({
           open={Boolean(isMobile === false || (isMobile === true && open))}
         >
           {isMobile === false ? (
-            <Heading level={5} color="body.7" mr={2}>
+            <Heading level={5} color="body.7" mr={2} lineHeight={1}>
               Filter by:
             </Heading>
           ) : (

@@ -140,7 +140,8 @@ export const FilterSet = ({
               checked={activeMatchKeys.includes(filter._key || 'foo')}
               hidden={Boolean(
                 (filterSet.heading === 'Type' ||
-                  filterSet.heading === 'Bands') &&
+                  filterSet.heading === 'Bands' ||
+                  filterSet.heading === 'Size') &&
                   filter._key &&
                   activeMatchKeys.includes(filter._key),
               )}
