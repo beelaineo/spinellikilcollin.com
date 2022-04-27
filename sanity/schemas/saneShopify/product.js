@@ -58,6 +58,14 @@ export const product = {
     {
       title: 'Show in Collection',
       name: 'showInCollection',
+      type: 'reference',
+      description: 'Always show product in specified collection.',
+      weak: true,
+      to: [{ type: 'shopifyCollection' }],
+    },
+    {
+      title: 'Show in Collections',
+      name: 'showInCollections',
       type: 'array',
       of: [
         {
