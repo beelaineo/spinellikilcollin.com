@@ -30,7 +30,6 @@ const parsePriceString = (price: number): string => {
 
 interface KnobProps {
   position: number
-  amount: number
   upperLimit: number
   lowerLimit: number
   updatePosition: (pos: number) => void
@@ -203,8 +202,10 @@ export function PriceRangeFilter({
   }
   const setContainer = (el: HTMLDivElement) => setContainerState(el)
 
-  const updateMinPosition = (pos: number) => setCurrentMinPrice(pos)
-  const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
+  const updateMinPosition = (pos: number) =>
+    setCurrentMinPrice(pos >= 1 ? 0 : pos)
+  const updateMaxPosition = (pos: number) =>
+    setCurrentMaxPrice(pos <= 0 ? 1 : pos)
 
   const isMobile = useMedia({
     maxWidth: `960px`,
@@ -237,7 +238,6 @@ export function PriceRangeFilter({
         }
       >
         <Knob
-          amount={currentMinPrice}
           position={currentMinPrice}
           upperLimit={currentMaxPrice}
           lowerLimit={0}
@@ -245,7 +245,6 @@ export function PriceRangeFilter({
           container={container}
         />
         <Knob
-          amount={currentMaxPrice}
           position={currentMaxPrice}
           upperLimit={1}
           lowerLimit={currentMinPrice}
