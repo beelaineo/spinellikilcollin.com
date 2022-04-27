@@ -122,6 +122,7 @@ const getSteps = (minPrice: number, maxPrice: number): number[] => {
 export function PriceRangeFilter({
   priceRangeFilter,
   filterSetState,
+  resetSet,
   setValues,
   active,
 }: PriceRangeFilterProps) {
@@ -139,6 +140,7 @@ export function PriceRangeFilter({
     maxPrice / initialMaxPrice,
   )
 
+  const [applyFilter, setApplyFilter] = useState(false)
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
@@ -171,6 +173,7 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
+    setApplyFilter(currentMinPrice == 0 && currentMaxPrice == 1 ? false : true)
     const timeout = setTimeout(() => {
       setValues('', {
         minPrice: getClosestStep(currentMinPrice),
@@ -211,6 +214,7 @@ export function PriceRangeFilter({
     <PriceRangeFilterWrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      isApplied={applyFilter}
     >
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>

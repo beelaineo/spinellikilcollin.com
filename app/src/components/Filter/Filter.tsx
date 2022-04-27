@@ -288,8 +288,8 @@ export const Filter = ({
                     filterSetState={filterSetStates.find(
                       (s) => s.key === filter._key,
                     )}
-                    setValues={setValues(filter._key || 'some-key')}
                     resetSet={resetSet(filter._key || 'some-key')}
+                    setValues={setValues(filter._key || 'some-key')}
                     priceRangeFilter={filter}
                     active={Boolean(activeKey === filter._key)}
                   />

@@ -461,16 +461,22 @@ export const ButtonsWrapper = styled.div`
   `}
 `
 
-export const PriceRangeFilterWrapper = styled.div`
-  ${({ theme }) => css`
+interface WithIsApplied {
+  isApplied: boolean
+}
+
+export const PriceRangeFilterWrapper = styled.div<WithIsApplied>`
+  ${({ theme, isApplied }) => css`
     margin: 0;
     & > div:first-child {
       min-width: 145px;
       text-align: left;
       justify-content: flex-start;
+      background-color: ${isApplied
+        ? theme.colors.grays[4]
+        : theme.colors.grays[2]};
     }
     label {
-      background-color: body.2;
       margin: 0;
       line-height: 1;
       font-style: italic;
