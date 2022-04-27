@@ -2589,6 +2589,7 @@ export interface ShopifyProduct extends Document {
   hideFromCollections?: Maybe<Scalars['Boolean']>
   /** Always show product in specified collection. */
   showInCollection?: Maybe<ShopifyCollection>
+  showInCollections?: Maybe<Array<Maybe<ShopifyCollection>>>
   initialVariantSelections?: Maybe<Array<Maybe<InitialVariantSelection>>>
   /** Toggle this to ON to hide this product from search results. The product will still be viewable at its URL */
   hideFromSearch?: Maybe<Scalars['Boolean']>
