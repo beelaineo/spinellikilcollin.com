@@ -115,6 +115,7 @@ const getSteps = (minPrice: number, maxPrice: number): number[] => {
     ...getStep(minPrice, 1000, 100),
     ...getStep(1000, Math.min(maxPrice, 9999), 500),
     ...getStep(10000, maxPrice, 1000),
+    maxPrice,
   ].reduce<number[]>((acc, i) => (acc.includes(i) ? acc : [...acc, i]), [])
   return steps
 }
@@ -173,7 +174,12 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
-    setApplyFilter(currentMinPrice == 0 && currentMaxPrice == 1 ? false : true)
+    setApplyFilter(
+      getClosestStep(currentMinPrice) == initialMinPrice &&
+        getClosestStep(currentMaxPrice) == initialMaxPrice
+        ? false
+        : true,
+    )
     const timeout = setTimeout(() => {
       setValues('', {
         minPrice: getClosestStep(currentMinPrice),
