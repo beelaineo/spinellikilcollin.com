@@ -18,7 +18,7 @@ const productInner = `
   handle,
   hidden,
   hideFromCollections,
-  "showInCollection": showInCollection->handle,
+  showInCollections,
   minVariantPrice,
   maxVariantPrice,
   initialVariantSelections[]{
@@ -118,7 +118,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     },
     ...,
   },
-  "products": products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] | order(${getSortString(
+  "products": products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && count(showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))] | order(${getSortString(
     sort,
   )}) {
     ${productInner}
@@ -145,7 +145,8 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[]->[hidden != true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] {
+  "products": products[@->hidden != true &&
+    (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))] {
     ${productInner}
   }[$productStart..$productEnd],
 }
@@ -168,7 +169,7 @@ ${
     ] 
     {
       products[@->hidden != true &&
-      (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
+        (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))
       ${
         filterString ? `&& ${filterString}` : ''
       }][$productStart...$productEnd]->{${productInner}}
@@ -178,7 +179,7 @@ ${
       _type == "shopifyProduct" &&
         defined(shopifyId) &&
         hidden != true &&
-        (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
+        (hideFromCollections != true || (hideFromCollections == true && count(showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0)) &&
         references($collectionId) 
       ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort)}) {
