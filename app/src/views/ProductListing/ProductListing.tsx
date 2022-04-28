@@ -120,7 +120,6 @@ export const ProductListing = ({
   // console.log('collection', collection)
   // console.log('customFilter', customFilter)
   // console.log('currentFilter', currentFilter)
-
   const router = useRouter()
   // console.log('router params', router.query)
 
@@ -143,7 +142,6 @@ export const ProductListing = ({
   }
 
   useEffect(() => {
-    if (!currentFilter) return
     fetchMore(true)
   }, [currentFilter])
 
@@ -245,9 +243,6 @@ export const ProductListing = ({
   // }, [])
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
-    if (!filters?.length) {
-      return
-    }
     setCurrentFilter(filters)
   }
 

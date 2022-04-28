@@ -210,7 +210,7 @@ export const Filter = ({
           open={Boolean(isMobile === false || (isMobile === true && open))}
         >
           {isMobile === false ? (
-            <Heading level={5} color="body.7" mr={2}>
+            <Heading level={5} color="body.7" mr={2} lineHeight={1}>
               Filter by:
             </Heading>
           ) : (
@@ -288,8 +288,8 @@ export const Filter = ({
                     filterSetState={filterSetStates.find(
                       (s) => s.key === filter._key,
                     )}
-                    setValues={setValues(filter._key || 'some-key')}
                     resetSet={resetSet(filter._key || 'some-key')}
+                    setValues={setValues(filter._key || 'some-key')}
                     priceRangeFilter={filter}
                     active={Boolean(activeKey === filter._key)}
                   />
