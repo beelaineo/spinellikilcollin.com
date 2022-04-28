@@ -90,7 +90,6 @@ export const FilterSet = ({
   const isMobile = useMedia({
     maxWidth: `960px`,
   })
-
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
@@ -129,6 +128,7 @@ export const FilterSet = ({
         isHovered={
           Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
         }
+        type={filterSet.heading}
       >
         {definitely(filters).map((filter) => {
           return (
@@ -140,7 +140,8 @@ export const FilterSet = ({
               checked={activeMatchKeys.includes(filter._key || 'foo')}
               hidden={Boolean(
                 (filterSet.heading === 'Type' ||
-                  filterSet.heading === 'Bands') &&
+                  filterSet.heading === 'Bands' ||
+                  filterSet.heading === 'Size') &&
                   filter._key &&
                   activeMatchKeys.includes(filter._key),
               )}

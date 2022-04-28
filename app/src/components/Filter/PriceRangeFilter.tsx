@@ -30,7 +30,6 @@ const parsePriceString = (price: number): string => {
 
 interface KnobProps {
   position: number
-  amount: number
   upperLimit: number
   lowerLimit: number
   updatePosition: (pos: number) => void
@@ -115,6 +114,7 @@ const getSteps = (minPrice: number, maxPrice: number): number[] => {
     ...getStep(minPrice, 1000, 100),
     ...getStep(1000, Math.min(maxPrice, 9999), 500),
     ...getStep(10000, maxPrice, 1000),
+    maxPrice,
   ].reduce<number[]>((acc, i) => (acc.includes(i) ? acc : [...acc, i]), [])
   return steps
 }
@@ -122,6 +122,7 @@ const getSteps = (minPrice: number, maxPrice: number): number[] => {
 export function PriceRangeFilter({
   priceRangeFilter,
   filterSetState,
+  resetSet,
   setValues,
   active,
 }: PriceRangeFilterProps) {
@@ -139,6 +140,7 @@ export function PriceRangeFilter({
     maxPrice / initialMaxPrice,
   )
 
+  const [applyFilter, setApplyFilter] = useState(false)
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
@@ -171,6 +173,12 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
+    setApplyFilter(
+      getClosestStep(currentMinPrice) == initialMinPrice &&
+        getClosestStep(currentMaxPrice) == initialMaxPrice
+        ? false
+        : true,
+    )
     const timeout = setTimeout(() => {
       setValues('', {
         minPrice: getClosestStep(currentMinPrice),
@@ -194,8 +202,10 @@ export function PriceRangeFilter({
   }
   const setContainer = (el: HTMLDivElement) => setContainerState(el)
 
-  const updateMinPosition = (pos: number) => setCurrentMinPrice(pos)
-  const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
+  const updateMinPosition = (pos: number) =>
+    setCurrentMinPrice(pos >= 1 ? 0 : pos)
+  const updateMaxPosition = (pos: number) =>
+    setCurrentMaxPrice(pos <= 0 ? 1 : pos)
 
   const isMobile = useMedia({
     maxWidth: `960px`,
@@ -211,6 +221,7 @@ export function PriceRangeFilter({
     <PriceRangeFilterWrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      isApplied={applyFilter}
     >
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>
@@ -227,7 +238,6 @@ export function PriceRangeFilter({
         }
       >
         <Knob
-          amount={currentMinPrice}
           position={currentMinPrice}
           upperLimit={currentMaxPrice}
           lowerLimit={0}
@@ -235,7 +245,6 @@ export function PriceRangeFilter({
           container={container}
         />
         <Knob
-          amount={currentMaxPrice}
           position={currentMaxPrice}
           upperLimit={1}
           lowerLimit={currentMinPrice}
