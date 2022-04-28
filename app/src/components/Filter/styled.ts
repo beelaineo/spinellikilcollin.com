@@ -368,10 +368,12 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
         ? css`
             display: ${isHovered ? 'grid' : 'none'};
             grid-template-columns: repeat(auto-fit, 36px);
-            margin: 0 auto;
+            position: static;
+            flex-wrap: unset;
             gap: 2 3;
             max-width: 100%;
-            justify-content: flex-start;
+            width: 100%;
+            justify-content: center;
             & > div label {
               min-width: 36px;
               min-height: 36px;
