@@ -82,7 +82,8 @@ const FilterMatchPreview = ({ value }) => {
       ? 'Product variant style equals'
       : type === 'By Variant Stone'
       ? 'Product variant stones include'
-      : type === 'By Variant Size'
+      : type ===
+        'By Variant Size (note: does not exclude non-matches, only reorders query results)'
       ? 'Variant sizes include'
       : null
   if (!titlePrefix) {
@@ -119,7 +120,7 @@ export const filterMatch = {
           { title: 'By Product Subcategory', value: 'subcategory' },
           {
             title:
-              'By Variant Size (note: does not exclude non-matches, only resorts query results)',
+              'By Variant Size (note: does not exclude non-matches, only reorders query results)',
             value: 'size',
           },
           { title: 'By Variant Metal', value: 'metal' },
@@ -189,7 +190,7 @@ const FilterPreview = ({ value }) => {
       ? `Matches stone: ${stoneMatches.map(({ match }) => match).join(', ')}`
       : null,
     sizeMatches.length
-      ? `Matches style: ${sizeMatches.map(({ match }) => match).join(', ')}`
+      ? `Matches size: ${sizeMatches.map(({ match }) => match).join(', ')}`
       : null,
   ].filter(Boolean)
   return (
