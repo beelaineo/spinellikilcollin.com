@@ -165,7 +165,11 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[@->hidden != true && (!(@->_id in path("drafts.**")) && @->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))][$productStart..$productEnd]-> {
+  "products": products[@->hidden != true &&
+    (!(@->_id in path("drafts.**")) &&
+    @->hideFromCollections != true || (@->hideFromCollections == true &&
+      count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
+      handle == $handle][0]._id]) > 0))][$productStart..$productEnd]-> {
     ${productInner}
   },
 }
@@ -194,8 +198,8 @@ ${
         products[@->hidden != true &&
         !(@->_id in path("drafts.**")) &&
         (@->hideFromCollections != true || (@->hideFromCollections == true &&
-        @->showInCollection._ref == *[_type == "shopifyCollection" &&
-        handle == $handle][0]._id))
+        count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
+        handle == $handle][0]._id]) > 0))
         ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort, filterSort)})
     [$productStart..$productEnd]->

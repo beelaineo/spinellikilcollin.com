@@ -1,6 +1,7 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
+import { useRouter } from 'next/router'
 import { ShopifyCollection } from '../../src/types'
 import { sanityQuery } from '../../src/services/sanity'
 import { NotFound, ProductListing } from '../../src/views'
@@ -8,6 +9,7 @@ import {
   richImageFragment,
   shopifySourceCollectionFragment,
   shopifyProductFragment,
+  customFilterFragment,
   heroFragment,
   collectionBlockFragment,
   seoFragment,
@@ -38,7 +40,9 @@ const collectionQueryById = gql`
       hidden
       reduceColumnCount
       lightTheme
-      customFilter
+      customFilter {
+        ...CustomFilterFragment
+      }
       hero {
         ...HeroFragment
       }
@@ -66,6 +70,7 @@ const collectionQueryById = gql`
   }
   ${shopifySourceCollectionFragment}
   ${shopifyProductFragment}
+  ${customFilterFragment}
   ${heroFragment}
   ${collectionBlockFragment}
   ${richImageFragment}
@@ -94,14 +99,13 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 }
 
 const Collection = ({ collection }: CollectionPageProps) => {
-  const params =
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search)
-      : null
-  // console.log('params', params)
-  const inStock = params?.get('instock') === 'true' ? true : false
-  const token = params?.get('preview')
-  const preview = Boolean(params?.get('preview'))
+  const { query } = useRouter()
+  console.log('router query', query)
+  console.log('collectionSlug query', query)
+  const page = query?.page
+  const inStock = query?.instock === 'true' ? true : false
+  const token = query?.preview
+  const preview = Boolean(query?.preview)
 
   try {
     if (preview === true) {
