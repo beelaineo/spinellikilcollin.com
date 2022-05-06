@@ -1629,6 +1629,9 @@ export interface ProductListingSettings extends Document {
   _key?: Maybe<Scalars['String']>
   /** Use these fields to define a default set of filters to be used on collection pages and in search results. You can add specific filter configuration to each Collection within their own documents. */
   helpText?: Maybe<Scalars['String']>
+  defaultFilter?: Maybe<
+    Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
+  >
   newDefaultFilter?: Maybe<
     Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
   >
@@ -2566,6 +2569,8 @@ export interface ShopifyProduct extends Document {
   hidden?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL */
   hideFromCollections?: Maybe<Scalars['Boolean']>
+  /** Always show product in specified collection. */
+  showInCollection?: Maybe<ShopifyCollection>
   showInCollections?: Maybe<Array<Maybe<ShopifyCollection>>>
   initialVariantSelections?: Maybe<Array<Maybe<InitialVariantSelection>>>
   /** Toggle this to ON to hide this product from search results. The product will still be viewable at its URL */
@@ -2597,6 +2602,7 @@ export type ShopifyProductFilter = {
   sourceData?: Maybe<ShopifySourceProductFilter>
   hidden?: Maybe<BooleanFilter>
   hideFromCollections?: Maybe<BooleanFilter>
+  showInCollection?: Maybe<ShopifyCollectionFilter>
   hideFromSearch?: Maybe<BooleanFilter>
   inquiryOnly?: Maybe<BooleanFilter>
   related?: Maybe<CarouselFilter>
