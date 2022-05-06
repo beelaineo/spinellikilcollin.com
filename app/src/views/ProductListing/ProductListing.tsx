@@ -74,6 +74,7 @@ export const ProductListing = ({
   ])
   const { isInView } = useInViewport(bottomRef, '500px 0px')
   const { productListingSettings } = useShopData()
+  console.log('productListingSettings', productListingSettings)
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [loading, setLoading] = useState(false)
   const [resetFilters, doResetFilters] = useState(0)

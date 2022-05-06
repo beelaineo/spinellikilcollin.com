@@ -13,14 +13,8 @@ export const productListingSettings = {
         'Use these fields to define a default set of filters to be used on collection pages and in search results. You can add specific filter configuration to each Collection within their own documents.',
     },
     {
-      name: 'defaultFilter',
-      title: 'Default Filters',
-      type: 'productFilter',
-      fieldset: 'filters',
-    },
-    {
       name: 'newDefaultFilter',
-      title: 'New Filters (beta)',
+      title: 'Default Filters',
       type: 'productFilter',
       fieldset: 'filters',
     },
