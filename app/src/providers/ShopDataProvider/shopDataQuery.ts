@@ -78,17 +78,6 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
     ProductListingSettings(id: "productListingSettings") {
       _id
       _type
-      defaultFilter {
-        ... on FilterSet {
-          ...FilterSetFragment
-        }
-        ... on PriceRangeFilter {
-          ...PriceRangeFilterFragment
-        }
-        ... on InventoryFilter {
-          ...InventoryFilterFragment
-        }
-      }
       newDefaultFilter {
         ... on FilterSet {
           ...FilterSetFragment
