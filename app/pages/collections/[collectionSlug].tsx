@@ -101,10 +101,12 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 }
 
 const Collection = ({ collection }: CollectionPageProps) => {
+  const router = useRouter()
   const { query } = useRouter()
-  console.log('router query', query)
   console.log('collectionSlug query', query)
-  const page = query?.page
+  console.log('collectionSlug router', router)
+  const page = parseInt(query?.page as string) || 1
+  console.log('collectionSlug page', page)
   const inStock = query?.instock === 'true' ? true : false
   const token = query?.preview
   const preview = Boolean(query?.preview)
@@ -133,6 +135,7 @@ const Collection = ({ collection }: CollectionPageProps) => {
             key={collection._id || 'some-key'}
             collection={collection}
             inStockFilter={inStock}
+            page={page}
           />
         )
       return (
@@ -140,6 +143,7 @@ const Collection = ({ collection }: CollectionPageProps) => {
           key={data._id || 'some-key'}
           collection={data}
           inStockFilter={inStock}
+          page={page}
         />
       )
     } else {
@@ -150,6 +154,7 @@ const Collection = ({ collection }: CollectionPageProps) => {
           key={collection._id || 'some-key'}
           collection={collection}
           inStockFilter={inStock}
+          page={page}
         />
       )
     }
@@ -171,7 +176,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     sanityQuery<ShopifyCollection[]>(createSanityCollectionQuery(), {
       handle,
       productStart: 0,
-      productEnd: 13,
+      productEnd: 11,
       sort: null,
     }),
 

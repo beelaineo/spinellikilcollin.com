@@ -2,7 +2,6 @@ import * as React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Box } from '@xstyled/styled-components'
 import {
   ShopifyCollection,
   ShopifyProduct,
@@ -22,19 +21,21 @@ import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
 import { config } from '../../../src/config'
-import styled, { css } from '@xstyled/styled-components'
+import styled, { css, Box } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
   ProductGridWrapper,
   Wrapper,
   NoResultsWrapper,
 } from './styled'
+import { CountryCodeSelector } from '../../components/Forms/CustomFields/PhoneField/CountryCodeSelector'
 
 const { useRef, useEffect, useState } = React
 
 interface ProductListingProps {
   collection: ShopifyCollection & { productsCount?: number }
   inStockFilter: boolean
+  page?: number
 }
 
 type Item = ShopifyProduct | CollectionBlockType
@@ -62,8 +63,12 @@ function isCollectionResult(
 export const ProductListing = ({
   collection,
   inStockFilter,
+  page,
 }: ProductListingProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
+  const initialPage = page || 1
+  console.log('initialPage', initialPage)
+  console.log(collection.products)
   const [productResults, setProductResults] = useState<ShopifyProduct[]>([
     ...definitely(collection.products).slice(0, PAGE_SIZE),
   ])
@@ -131,7 +136,13 @@ export const ProductListing = ({
   )
 
   const [productsCount, setProductsCount] = useState(0)
-  const [productStart, setProductStart] = useState(0)
+  const [productStart, setProductStart] = useState(
+    (initialPage - 1) * PAGE_SIZE,
+  )
+
+  useEffect(() => {
+    setProductStart(PAGE_SIZE * (initialPage - 1))
+  }, [])
 
   useEffect(() => {
     if (collection.productsCount) setProductsCount(collection.productsCount)
@@ -143,7 +154,10 @@ export const ProductListing = ({
 
   useEffect(() => {
     fetchMore(true)
+    console.log('fetchMore: productStart', productStart)
   }, [currentFilter])
+
+  console.log('productStart', productStart)
 
   // If there are collection blocks, insert them in the array
   // of products by position
