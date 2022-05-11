@@ -75,11 +75,29 @@ const ActionCTA = ({ cta }: CTAProps) => {
 
   useEffect(() => {
     if (!buttonRef.current) return
-    const timeout = setTimeout(() => {
-      buttonRef.current.dispatchEvent(new MouseEvent('click'))
-    }, 1000)
-    return () => clearTimeout(timeout)
+    const storage = globalThis?.localStorage
+    const seen = storage.getItem(`seenBambuser-${cta._key}`)
+    if (seen != 'true' || seen == undefined) {
+      const timeout = setTimeout(() => {
+        buttonRef.current.dispatchEvent(new MouseEvent('click'))
+        storage.setItem(`seenBambuser-${cta._key}`, 'true')
+      }, 1000)
+      return () => clearTimeout(timeout)
+    } else {
+      return
+    }
   }, [isLive])
+
+  function logBambuserViews() {
+    const storage = globalThis?.localStorage
+    if (!storage) return
+    const prevPath = storage.getItem('currentPath')
+    //@ts-ignore
+    storage.setItem('prevPath', prevPath)
+    // Set the current path value by looking at the browser's location object.
+    storage.setItem('currentPath', globalThis.location.pathname)
+    return
+  }
 
   const { openCustomizationModal, openRingSizerModal } = useModal()
   if (!action) return null
