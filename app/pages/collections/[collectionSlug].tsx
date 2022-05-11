@@ -101,16 +101,10 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 }
 
 const Collection = ({ collection }: CollectionPageProps) => {
-  const router = useRouter()
   const { query } = useRouter()
-  console.log('collectionSlug query', query)
-  console.log('collectionSlug router', router)
-  const page = parseInt(query?.page as string) || 1
-  console.log('collectionSlug page', page)
-  const inStock = query?.instock === 'true' ? true : false
   const token = query?.preview
   const preview = Boolean(query?.preview)
-
+  console.log('collectionSlug collection', collection)
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
@@ -134,27 +128,15 @@ const Collection = ({ collection }: CollectionPageProps) => {
           <ProductListing
             key={collection._id || 'some-key'}
             collection={collection}
-            inStockFilter={inStock}
-            page={page}
           />
         )
-      return (
-        <ProductListing
-          key={data._id || 'some-key'}
-          collection={data}
-          inStockFilter={inStock}
-          page={page}
-        />
-      )
+      return <ProductListing key={data._id || 'some-key'} collection={data} />
     } else {
       if (!collection) return <NotFound />
-      // console.log('inStock', inStock)
       return (
         <ProductListing
           key={collection._id || 'some-key'}
           collection={collection}
-          inStockFilter={inStock}
-          page={page}
         />
       )
     }

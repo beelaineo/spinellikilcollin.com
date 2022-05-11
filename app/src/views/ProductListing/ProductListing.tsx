@@ -34,8 +34,6 @@ const { useRef, useEffect, useState } = React
 
 interface ProductListingProps {
   collection: ShopifyCollection & { productsCount?: number }
-  inStockFilter: boolean
-  page?: number
 }
 
 type Item = ShopifyProduct | CollectionBlockType
@@ -60,21 +58,13 @@ function isCollectionResult(
   return 'products' in r[0]
 }
 
-export const ProductListing = ({
-  collection,
-  inStockFilter,
-  page,
-}: ProductListingProps) => {
+export const ProductListing = ({ collection }: ProductListingProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
-  const initialPage = page || 1
-  console.log('initialPage', initialPage)
-  console.log(collection.products)
   const [productResults, setProductResults] = useState<ShopifyProduct[]>([
     ...definitely(collection.products).slice(0, PAGE_SIZE),
   ])
   const { isInView } = useInViewport(bottomRef, '500px 0px')
   const { productListingSettings } = useShopData()
-  console.log('productListingSettings', productListingSettings)
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [loading, setLoading] = useState(false)
   const [resetFilters, doResetFilters] = useState(0)
@@ -127,6 +117,7 @@ export const ProductListing = ({
   // console.log('customFilter', customFilter)
   // console.log('currentFilter', currentFilter)
   const router = useRouter()
+  const { query } = useRouter()
   // console.log('router params', router.query)
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
@@ -137,17 +128,29 @@ export const ProductListing = ({
   )
 
   const [productsCount, setProductsCount] = useState(0)
-  const [productStart, setProductStart] = useState(
-    (initialPage - 1) * PAGE_SIZE,
-  )
+  const [productStart, setProductStart] = useState(0)
+
+  const [initialPage, setInitialPage] = useState(1)
+  const [inStockFilter, setInStockFilter] = useState(false)
 
   useEffect(() => {
-    setProductStart(PAGE_SIZE * (initialPage - 1))
+    const page = parseInt(query?.page as string) || 1
+    const inStock = query?.instock === 'true' ? true : false
+    const initialPage = page || 1
+    setInitialPage(initialPage)
+    setProductStart((initialPage - 1) * PAGE_SIZE)
+    setInStockFilter(inStock)
+    console.log('productListing.inStockFilter', inStockFilter)
+    console.log('productListing.productStart', productStart)
+    console.log('productListing.initialPage', initialPage)
+    fetchMore(true)
+    console.log('ProductListing rendered')
   }, [])
 
-  useEffect(() => {
-    if (collection.productsCount) setProductsCount(collection.productsCount)
-  }, [collection])
+  // useEffect(() => {
+  //   if (collection.productsCount) setProductsCount(collection.productsCount)
+  //   console.log('triggered: collection useEffect')
+  // }, [collection])
 
   const applySort = async (sort: Sort) => {
     fetchMore(true, sort)
@@ -155,10 +158,11 @@ export const ProductListing = ({
 
   useEffect(() => {
     fetchMore(true)
-    console.log('fetchMore: productStart', productStart)
+    console.log('triggered: currentFilter useEffect')
   }, [currentFilter])
 
-  console.log('productStart', productStart)
+  console.log('ProductListing.productStart', productStart)
+  console.log('ProductListing re-rendered:')
 
   // If there are collection blocks, insert them in the array
   // of products by position
@@ -175,9 +179,23 @@ export const ProductListing = ({
       setLoading(true)
       setFetchComplete(false)
     }
-    const productStart = reset ? 0 : productResults.length
-    const productEnd = reset ? PAGE_SIZE : productResults.length + PAGE_SIZE
+
+    const productStart =
+      reset && initialPage == 1
+        ? 0
+        : reset
+        ? initialPage
+        : productResults.length
+    const productEnd =
+      reset && initialPage == 1
+        ? PAGE_SIZE
+        : reset
+        ? PAGE_SIZE * (initialPage - 1)
+        : productResults.length + PAGE_SIZE
     const sortBy = newSort || sort
+
+    console.log('fetchMore productStart', productStart)
+    console.log('fetchMore productEnd', productEnd)
 
     const query =
       (sortBy && sortBy !== Sort.Default) || currentFilter
@@ -229,6 +247,9 @@ export const ProductListing = ({
   }
 
   useEffect(() => {
+    console.log(
+      'triggered: isInView, fetchMoreState.loading, fetchComplete useEffect',
+    )
     if (fetchComplete || !isInView || fetchMoreState.loading) return
     // set a short timeout so it doesn't fetch twice
     const timeout = setTimeout(() => {
@@ -237,14 +258,16 @@ export const ProductListing = ({
     return () => clearTimeout(timeout)
   }, [isInView, fetchMoreState.loading, fetchComplete])
 
-  useEffect(() => {
-    if (loading === false) {
-      setProductStart(productStart + 1)
-    }
-  }, [loading])
+  // Confused what this was for???
+  // useEffect(() => {
+  //   console.log('triggered: loading useEffect')
+  //   if (loading === false) {
+  //     setProductStart(productStart + 1)
+  //   }
+  // }, [loading])
 
   // useEffect(() => {
-  //   if (inStockFilter) {
+  //   if (inStock) {
   //     console.log('FILTERS', filters)
   //     console.log('CURRENT FILTERS', currentFilter)
   //     currentFilter?.map((f) => {
