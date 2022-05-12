@@ -72,6 +72,11 @@ export const ShopifyProvider = ({
     config: config.checkout ? config.checkout : undefined,
   })
 
+  useEffect(() => {
+    const { checkout } = useCheckoutValues
+    checkout ? storeCheckout(JSON.stringify(checkout)) : null
+  }, [])
+
   const goToCheckout = () => {
     const { checkout } = useCheckoutValues
 
