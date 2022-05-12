@@ -1,16 +1,17 @@
 import { Checkout, UserError } from '../types'
 
-import { CheckoutState } from './useCheckout'
-
-export const STARTED_REQUEST = 'STARTED_REQUEST'
-export const FETCHED_CHECKOUT = 'FETCHED_CHECKOUT'
-export const CREATED_CHECKOUT = 'CREATED_CHECKOUT'
-export const APPLIED_DISCOUNT = 'APPLIED_DISCOUNT'
-export const REMOVED_DISCOUNT = 'REMOVED_DISCOUNT'
-export const ADDED_LINE_ITEMS = 'ADDED_LINE_ITEMS'
-export const UPDATED_LINE_ITEMS = 'UPDATED_LINE_ITEMS'
-export const RECEIVED_ERRORS = 'RECEIVED_ERRORS'
-export const CART_CLEARED = 'RECEIVED_ERRORS'
+import {
+  CheckoutState,
+  STARTED_REQUEST,
+  FETCHED_CHECKOUT,
+  CREATED_CHECKOUT,
+  APPLIED_DISCOUNT,
+  REMOVED_DISCOUNT,
+  ADDED_LINE_ITEMS,
+  UPDATED_LINE_ITEMS,
+  RECEIVED_ERRORS,
+  CART_CLEARED,
+} from './types'
 
 interface StartedAction {
   type: typeof STARTED_REQUEST

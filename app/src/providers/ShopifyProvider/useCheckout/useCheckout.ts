@@ -6,6 +6,7 @@ import {
   CheckoutLineItemInput,
   CheckoutLineItemUpdateInput,
 } from '../types'
+
 import {
   defaultQueries,
   CheckoutCreateInput,
@@ -24,8 +25,9 @@ import {
   CheckoutLineItemsUpdateInput,
   CheckoutLineItemsUpdateResponse,
 } from './queries'
+import { reducer } from './reducer'
 import {
-  reducer,
+  CheckoutState,
   STARTED_REQUEST,
   FETCHED_CHECKOUT,
   CREATED_CHECKOUT,
@@ -35,7 +37,7 @@ import {
   UPDATED_LINE_ITEMS,
   CART_CLEARED,
   // RECEIVED_ERRORS,
-} from './reducer'
+} from './types'
 import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
 import { ShopifyStorefrontCheckout } from '../../../types/generated-shopify'
 import { unwindEdges } from '@good-idea/unwind-edges'
@@ -97,17 +99,6 @@ const initialState = {
   loading: true,
   checkoutUserErrors: [],
   checkout: undefined,
-}
-
-/**
- * State
- */
-
-export interface CheckoutState {
-  loading: boolean
-  ready: boolean
-  checkoutUserErrors: UserError[]
-  checkout: Checkout | void
 }
 
 /**
@@ -337,7 +328,9 @@ export const useCheckout = ({
     storage
       ? storage.setItem('GEM_ExternalCart', JSON.stringify(cartData))
       : null
-    globalThis?.GEM_Components.ExternalMethodsComponent.UpdateCart(cartData)
+    globalThis?.GEM_Components
+      ? globalThis?.GEM_Components.ExternalMethodsComponent.UpdateCart(cartData)
+      : null
   }, [state])
 
   const value = {
