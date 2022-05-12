@@ -145,7 +145,7 @@ const App = (props: AppProps) => {
         <Script
           id="globaleScript"
           src="https://gepi.global-e.com/includes/js/10000945"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
         />
         <Head>
           <meta
