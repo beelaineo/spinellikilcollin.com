@@ -5,8 +5,12 @@ import { Field } from '../../../components/Forms'
 import { Heading } from '../../../components/Text'
 import { QuizTabWrapper, ContactFields, NextButton } from './styled'
 import { FormValues } from './types'
+import { Condition } from '../../../utils/catalogs'
+import { ShopifyStorefrontCollectionSortKeys } from '../../../types/generated-shopify'
 
-const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}/
+const { useState, useEffect } = React
+
+const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]/
 
 const validateEmail = (value: string) => {
   if (!emailRegex.test(value)) return 'Enter a valid email address'
@@ -17,9 +21,18 @@ export const Contact = () => {
   const { goToTab } = useTabs()
   const { values, errors } = useFormikContext<FormValues>()
   const advance = () => goToTab('notes')
-  const advanceDisabled =
-    Boolean(values.email.length > 0 && errors.email !== undefined) &&
-    Boolean(values.phone.length > 0 && errors.phone !== undefined)
+  const [advanceDisabled, setAdvanceDisabled] = React.useState(true)
+
+  useEffect(() => {
+    Boolean(
+      values.email.length > 0 &&
+        errors.email == undefined &&
+        values.phone.length > 0 &&
+        errors.phone == undefined,
+    )
+      ? setAdvanceDisabled(false)
+      : setAdvanceDisabled(true)
+  }, [values, errors])
 
   return (
     <QuizTabWrapper>
