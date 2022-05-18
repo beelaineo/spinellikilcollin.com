@@ -92,35 +92,36 @@ export const ShopifyProvider = ({
         quantity: li.quantity,
       })),
     )
+    const { protocol, pathname, search } = new URL(checkout.webUrl)
 
-    const isOperatedByCallback = function (isOperated) {
-      console.log('IsOperatedByGlobalE:', isOperated)
+    const getCheckoutUrlCallback = function (url) {
+      console.log('GEM getCheckoutUrl: ', url)
+      return url
+    }
+    const regex = /[^/]+$/g
+    const cartToken = pathname.match(regex)?.[0]
 
-      const { protocol, pathname, search } = new URL(checkout.webUrl)
-      const redirect: string = `${protocol}//${domain}${pathname}${search}`
+    const urlParams = {
+      CartToken: cartToken,
+    }
 
-      const getCheckoutUrlCallback = function (url) {
-        console.log('GEM getCheckoutUrl: ', url)
-      }
-      const regex = /[^/]+$/g
-      const cartToken = pathname.match(regex)?.[0]
-
-      const urlParams = {
-        CartToken: cartToken,
-      }
-      console.log(cartToken)
-
+    const checkoutUrl =
       globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
         urlParams,
         getCheckoutUrlCallback,
       )
 
+    const isOperatedByCallback = function (isOperated) {
+      console.log('IsOperatedByGlobalE:', isOperated)
+
+      const redirect: string = `${protocol}//${domain}${pathname}${search}`
+
       if (isOperated == true) {
-        console.log('is operated')
-        router.push('/intl-checkout')
+        // console.log('is operated')
+        router.push(checkoutUrl)
       } else {
-        console.log('is not operated')
-        // window.location.href = redirect
+        // console.log('is not operated')
+        window.location.href = redirect
       }
     }
 
