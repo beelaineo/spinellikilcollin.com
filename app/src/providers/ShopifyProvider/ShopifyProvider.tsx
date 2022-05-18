@@ -72,6 +72,8 @@ export const ShopifyProvider = ({
     config: config.checkout ? config.checkout : undefined,
   })
 
+  const [checkoutUrl, setCheckoutUrl] = useState('/intl-checkout')
+
   useEffect(() => {
     const { checkout } = useCheckoutValues
     checkout ? storeCheckout(JSON.stringify(checkout)) : null
@@ -96,7 +98,7 @@ export const ShopifyProvider = ({
 
     const getCheckoutUrlCallback = function (url) {
       console.log('GEM getCheckoutUrl: ', url)
-      return url
+      setCheckoutUrl(url)
     }
     const regex = /[^/]+$/g
     const cartToken = pathname.match(regex)?.[0]
@@ -105,11 +107,10 @@ export const ShopifyProvider = ({
       CartToken: cartToken,
     }
 
-    const checkoutUrl =
-      globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
-        urlParams,
-        getCheckoutUrlCallback,
-      )
+    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+      urlParams,
+      getCheckoutUrlCallback,
+    )
 
     const isOperatedByCallback = function (isOperated) {
       console.log('IsOperatedByGlobalE:', isOperated)
