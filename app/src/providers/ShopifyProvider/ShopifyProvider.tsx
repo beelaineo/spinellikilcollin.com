@@ -99,27 +99,29 @@ export const ShopifyProvider = ({
       const { protocol, pathname, search } = new URL(checkout.webUrl)
       const redirect: string = `${protocol}//${domain}${pathname}${search}`
 
+      const getCheckoutUrlCallback = function (url) {
+        console.log('GEM getCheckoutUrl: ', url)
+      }
+      const regex = /[^/]+$/g
+      const cartToken = pathname.match(regex)?.[0]
+
+      const urlParams = {
+        CartToken: cartToken,
+      }
+      console.log(cartToken)
+
+      globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+        urlParams,
+        getCheckoutUrlCallback,
+      )
+
       if (isOperated == true) {
         console.log('is operated')
         router.push('/intl-checkout')
       } else {
         console.log('is not operated')
-        window.location.href = redirect
+        // window.location.href = redirect
       }
-    }
-    const getCheckoutUrlCallback = function (url) {
-      console.log('GEM getCheckoutUrl: ', url)
-      return url
-    }
-    const getCheckoutToken = () => {
-      const storage = globalThis?.sessionStorage
-      if (!storage) return
-      const checkout = storage.getItem('checkout')
-      if (checkout) return JSON.parse(checkout).id
-    }
-
-    const urlParams = {
-      CartToken: getCheckoutToken(),
     }
 
     const isOperatedByGE =
