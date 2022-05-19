@@ -76,6 +76,28 @@ export const ShopifyProvider = ({
 
   useEffect(() => {
     const { checkout } = useCheckoutValues
+    console.log('checkout', checkout)
+    const { protocol, pathname, search } = new URL(checkout?.webUrl)
+
+    const regex = /[^/]+$/g
+    const cartToken = pathname.match(regex)?.[0]
+
+    const urlParams = {
+      CartToken: cartToken,
+    }
+
+    const getCheckoutUrlCallback = function (url) {
+      console.log('GEM getCheckoutUrl: ', url)
+      setCheckoutUrl(url)
+    }
+
+    console.log('urlParams: ', urlParams)
+
+    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+      urlParams,
+      getCheckoutUrlCallback,
+    )
+
     checkout ? storeCheckout(JSON.stringify(checkout)) : null
   }, [])
 
@@ -95,22 +117,6 @@ export const ShopifyProvider = ({
       })),
     )
     const { protocol, pathname, search } = new URL(checkout.webUrl)
-
-    const getCheckoutUrlCallback = function (url) {
-      console.log('GEM getCheckoutUrl: ', url)
-      setCheckoutUrl(url)
-    }
-    const regex = /[^/]+$/g
-    const cartToken = pathname.match(regex)?.[0]
-
-    const urlParams = {
-      CartToken: cartToken,
-    }
-
-    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
-      urlParams,
-      getCheckoutUrlCallback,
-    )
 
     const isOperatedByCallback = function (isOperated) {
       console.log('IsOperatedByGlobalE:', isOperated)
