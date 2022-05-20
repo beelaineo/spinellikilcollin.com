@@ -77,6 +77,10 @@ export const ShopifyProvider = ({
   useEffect(() => {
     const { checkout } = useCheckoutValues
     console.log('checkout', checkout)
+
+    if (!checkout) {
+      return
+    }
     const { protocol, pathname, search } = new URL(checkout?.webUrl)
 
     const regex = /[^/]+$/g
@@ -99,7 +103,7 @@ export const ShopifyProvider = ({
     )
 
     checkout ? storeCheckout(JSON.stringify(checkout)) : null
-  }, [])
+  }, [useCheckoutValues])
 
   const goToCheckout = () => {
     const { checkout } = useCheckoutValues
