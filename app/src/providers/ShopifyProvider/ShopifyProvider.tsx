@@ -75,35 +75,34 @@ export const ShopifyProvider = ({
   const [checkoutUrl, setCheckoutUrl] = useState('/intl-checkout')
 
   useEffect(() => {
+    console.log('render provider')
     const { checkout } = useCheckoutValues
     console.log('checkout', checkout)
 
-    if (!checkout) {
-      return
+    if (checkout) {
+      const { protocol, pathname, search } = new URL(checkout.webUrl)
+
+      const regex = /[^/]+$/g
+      const cartToken = pathname.match(regex)?.[0]
+
+      const urlParams = {
+        CartToken: cartToken,
+      }
+
+      const getCheckoutUrlCallback = function (url) {
+        console.log('GEM getCheckoutUrl: ', url)
+        setCheckoutUrl(url)
+      }
+
+      console.log('urlParams: ', urlParams)
+
+      globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
+        urlParams,
+        getCheckoutUrlCallback,
+      )
     }
-    const { protocol, pathname, search } = new URL(checkout?.webUrl)
-
-    const regex = /[^/]+$/g
-    const cartToken = pathname.match(regex)?.[0]
-
-    const urlParams = {
-      CartToken: cartToken,
-    }
-
-    const getCheckoutUrlCallback = function (url) {
-      console.log('GEM getCheckoutUrl: ', url)
-      setCheckoutUrl(url)
-    }
-
-    console.log('urlParams: ', urlParams)
-
-    globalThis?.GEM_Components.ExternalMethodsComponent.GetCheckoutUrl(
-      urlParams,
-      getCheckoutUrlCallback,
-    )
-
     checkout ? storeCheckout(JSON.stringify(checkout)) : null
-  }, [useCheckoutValues])
+  })
 
   const goToCheckout = () => {
     const { checkout } = useCheckoutValues
