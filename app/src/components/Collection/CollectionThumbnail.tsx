@@ -15,7 +15,7 @@ export const CollectionThumbnail = ({
   const to = `/collections/${collection.handle}`
   return (
     <Link href="/collections/[collectionSlug]" as={to}>
-      <a aria-label="Link to collection">
+      <a aria-label={'Link to ' + collection.title + ' collection'}>
         <ImageWrapper>
           <Image image={collection?.sourceData?.image} ratio={1} />
         </ImageWrapper>
