@@ -81,7 +81,12 @@ interface HamburgerProps {
 
 export const Hamburger = ({ open, onClick, colorTheme }: HamburgerProps) => {
   return (
-    <HamburgerWrapper open={open} onClick={onClick} colorTheme={colorTheme}>
+    <HamburgerWrapper
+      open={open}
+      onClick={onClick}
+      colorTheme={colorTheme}
+      aria-label="open navigation menu"
+    >
       <span />
       <span />
       <span />

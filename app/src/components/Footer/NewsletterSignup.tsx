@@ -62,7 +62,7 @@ export const NewsletterSignup = ({
             onChange={handleChange}
             placeholder="email address"
           />
-          <button type="submit">
+          <button type="submit" aria-label="subscribe to newsletter">
             <RightArrow />
           </button>
         </InputWrapper>
