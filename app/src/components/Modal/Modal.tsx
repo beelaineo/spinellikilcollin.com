@@ -15,7 +15,7 @@ export const Modal: React.FC<ModalProps> = ({ children, closeModal }) => {
   return ReactDOM.createPortal(
     <Wrapper>
       <ModalWrapper>
-        <CloseButton onClick={closeModal} />
+        <CloseButton onClick={closeModal} aria-label="Close modal" />
         {children}
       </ModalWrapper>
       <Background open onClick={closeModal} />

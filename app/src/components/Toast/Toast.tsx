@@ -71,7 +71,13 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
       <Heading my={0} level={5}>
         {message}
       </Heading>
-      {dismissable ? <CloseButton type="button" onClick={clearToast} /> : null}
+      {dismissable ? (
+        <CloseButton
+          type="button"
+          onClick={clearToast}
+          aria-label="Clear Toast message"
+        />
+      ) : null}
     </ToastWrapper>
   )
 }

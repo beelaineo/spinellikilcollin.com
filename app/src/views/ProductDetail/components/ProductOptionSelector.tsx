@@ -232,6 +232,7 @@ export const ProductOptionSelector = ({
                 name={option.name}
                 onChange={handleSelectChange}
                 options={options}
+                aria-label={option.name}
               />
             )}
           </Form>

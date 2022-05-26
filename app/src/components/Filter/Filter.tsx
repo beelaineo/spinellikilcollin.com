@@ -244,7 +244,7 @@ export const Filter = ({
                 </ControlTab>
               </MobileControls>
               <MobileCloseButtonWrapper onClick={toggleOpen}>
-                <CloseButton />
+                <CloseButton aria-label="Close filter" />
               </MobileCloseButtonWrapper>
             </MobileHeader>
           ) : (

@@ -154,7 +154,7 @@ export const FilterIndicator = ({
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
-              <CloseButton />
+              <CloseButton aria-label="Remove filter" />
             </CloseButtonWrapper>
           </Heading>
         </FilterValueLabel>
@@ -165,7 +165,7 @@ export const FilterIndicator = ({
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
-              <CloseButton />
+              <CloseButton aria-label="Remove filter" />
             </CloseButtonWrapper>
           </Heading>
         </FilterValueLabel>
@@ -176,7 +176,7 @@ export const FilterIndicator = ({
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
-              <CloseButton />
+              <CloseButton aria-label="Remove filter" />
             </CloseButtonWrapper>
           </Heading>
         </FilterValueLabel>

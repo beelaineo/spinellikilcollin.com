@@ -85,7 +85,7 @@ export const Hamburger = ({ open, onClick, colorTheme }: HamburgerProps) => {
       open={open}
       onClick={onClick}
       colorTheme={colorTheme}
-      aria-label="open navigation menu"
+      aria-label={open ? 'Close' : 'Open'}
     >
       <span />
       <span />
