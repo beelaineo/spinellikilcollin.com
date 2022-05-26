@@ -65,7 +65,7 @@ export const SearchPane = () => {
   const preferredVariantMatches = [searchTerm]
   return (
     <Outer>
-      <Wrapper aria-hidden={!open} visible={open}>
+      <Wrapper visible={open}>
         <CloseButton>
           <Hamburger open={true} onClick={close} />
         </CloseButton>

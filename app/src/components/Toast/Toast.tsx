@@ -67,12 +67,7 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   const styles = getStyles(divState, elHeight)
 
   return (
-    <ToastWrapper
-      style={styles}
-      ref={wrapperRef}
-      toastType={toast.type}
-      aria-hidden={divState === ToastDivState.Displayed}
-    >
+    <ToastWrapper style={styles} ref={wrapperRef} toastType={toast.type}>
       <Heading my={0} level={5}>
         {message}
       </Heading>
