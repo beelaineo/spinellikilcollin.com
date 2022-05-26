@@ -30,7 +30,10 @@ interface AudioButtonProps {
 
 export const AudioButton = ({ muted, onClick }: AudioButtonProps) => {
   return (
-    <AudioButtonWrapper onClick={onClick}>
+    <AudioButtonWrapper
+      onClick={onClick}
+      aria-label={muted ? 'Unmute video' : 'Mute video'}
+    >
       {muted ? <BsVolumeMute /> : <BsVolumeUp />}
     </AudioButtonWrapper>
   )

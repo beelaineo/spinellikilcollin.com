@@ -25,7 +25,7 @@ export const HiddenSelect = ({ options, name }: HiddenSelectProps) => {
     <Outer>
       <FormikField name={name}>
         {({ field }) => (
-          <SelectElement tabIndex={-1} {...field}>
+          <SelectElement tabIndex={-1} {...field} aria-label={name}>
             {options.map(({ id, value, label, disabled }) => (
               <option key={id} value={value} disabled={disabled}>
                 {label}
