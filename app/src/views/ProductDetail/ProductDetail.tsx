@@ -28,6 +28,7 @@ import {
   ProductDetailFooter,
   ProductRelated,
   RingSizerButton,
+  SizeConverterButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useModal } from '../../providers/ModalProvider'
@@ -368,11 +369,18 @@ export const ProductDetail = ({ product }: Props) => {
                         )
                       : null}
                     {productType === 'Ring' ? (
-                      <RingSizerButton
-                        product={product}
-                        variant={currentVariant}
-                        mobile
-                      />
+                      <>
+                        <RingSizerButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        />
+                        <SizeConverterButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        />
+                      </>
                     ) : null}
                   </ProductAccordionsWrapper>
                 </ProductInfoWrapper>
