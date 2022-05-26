@@ -64,7 +64,7 @@ export const Navigation = () => {
 
           <LogoWrapper colorTheme={colorTheme}>
             <Link href="/" as="/">
-              <a>
+              <a aria-label="Link to homepage">
                 <Logotype />
               </a>
             </Link>

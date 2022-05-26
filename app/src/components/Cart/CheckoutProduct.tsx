@@ -182,14 +182,14 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   return (
     <CheckoutProductWrapper>
       <Link href="/products/[productSlug]" as={linkAs}>
-        <a>
+        <a aria-label="Link to product page">
           <Image image={variant.image} />
         </a>
       </Link>
       <CheckoutItemDetails>
         <div>
           <Link href="/products/[productSlug]" as={linkAs}>
-            <a>
+            <a aria-label="Link to product page">
               <Heading
                 level={5}
                 weight={2}

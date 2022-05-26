@@ -48,7 +48,7 @@ export const CarouselBlock = ({ content }: CarouselBlockProps) => {
       {collection ? (
         <Heading level={4}>
           <Link href="/collections/[collectionSlug]" as={linkAs}>
-            <a>{title}</a>
+            <a aria-label="Link to collection">{title}</a>
           </Link>
         </Heading>
       ) : (

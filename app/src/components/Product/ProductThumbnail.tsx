@@ -279,7 +279,7 @@ export const ProductThumbnail = ({
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>
-        <a>
+        <a aria-label="Link to product page">
           <ImageWrapper>
             <Image
               image={productImage}
