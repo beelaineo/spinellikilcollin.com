@@ -67,7 +67,11 @@ export const SearchPane = () => {
     <Outer>
       <Wrapper visible={open}>
         <CloseButton>
-          <Hamburger open={true} onClick={close} />
+          <Hamburger
+            open={true}
+            onClick={close}
+            aria-label="Close search pane"
+          />
         </CloseButton>
         <SearchHeader>
           <Column maxWidth="medium">
