@@ -81,7 +81,7 @@ export const Checkout = () => {
           <Heading
             fontStyle="italic"
             textAlign="center"
-            color="body.6"
+            color="body.7"
             my={6}
             level={4}
           >
