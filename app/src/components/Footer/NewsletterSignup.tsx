@@ -48,7 +48,7 @@ export const NewsletterSignup = ({
       <Heading mb={3} level={5}>
         {mailerSubtitle}
       </Heading>
-      <MailerForm id="newsletter-signup" onSubmit={handleSubmit}>
+      <MailerForm onSubmit={handleSubmit}>
         <SuccessWrapper visible={success}>
           <Heading my={0} color="body.6" textAlign="left" level={5}>
             Thank you! You have been subscribed.
