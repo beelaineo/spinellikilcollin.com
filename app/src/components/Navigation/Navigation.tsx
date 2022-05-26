@@ -71,13 +71,14 @@ export const Navigation = () => {
           </LogoWrapper>
           <ToolsWrapper>
             <CurrencySelector colorTheme={colorTheme} />
-            <SearchButtonWrapper colorTheme={colorTheme}>
+            <SearchButtonWrapper colorTheme={colorTheme} aria-label="search">
               <SearchButton />
             </SearchButtonWrapper>
             <CartButtonWrapper
               isLoading={loading}
               onClick={openCartHandler}
               colorTheme={colorTheme}
+              aria-label="open cart"
             >
               {cartCount ? (
                 <CartBadge colorTheme={colorTheme}>

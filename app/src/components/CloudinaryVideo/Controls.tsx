@@ -14,7 +14,10 @@ interface PlaybackButtonProps {
 
 export const PlaybackButton = ({ playing, onClick }: PlaybackButtonProps) => {
   return (
-    <PlaybackButtonWrapper onClick={onClick}>
+    <PlaybackButtonWrapper
+      onClick={onClick}
+      aria-label={playing ? 'pause video' : 'play video'}
+    >
       {playing ? <BsPauseFill /> : <BsPlayFill />}
     </PlaybackButtonWrapper>
   )
