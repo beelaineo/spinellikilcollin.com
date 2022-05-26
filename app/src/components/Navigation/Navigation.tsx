@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react'
 import Link from 'next/link'
 import { NextRouter } from 'next/router'
@@ -47,11 +48,7 @@ export const Navigation = () => {
 
   return (
     <>
-      <NavInnerBackground
-        onClick={closeAll}
-        aria-hidden={!cartOpen && !menuOpen}
-        open={menuOpen || cartOpen}
-      />
+      <NavInnerBackground onClick={closeAll} open={menuOpen || cartOpen} />
       <SideNavigation open={menuOpen}>
         <NavigationInner closeMenu={closeMenu} />
       </SideNavigation>
