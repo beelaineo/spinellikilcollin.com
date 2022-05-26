@@ -164,6 +164,7 @@ export const RingToolsWrapper = styled.div`
     display: flex;
     flex-direction: row;
     column-gap: 4;
+    margin: 0 0 4 0;
 
     ${theme.mediaQueries.tablet} {
     }
