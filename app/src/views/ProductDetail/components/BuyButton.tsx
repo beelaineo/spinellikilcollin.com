@@ -132,7 +132,7 @@ export const BuyButton = ({
         disabled={loading || Boolean(!currentVariant)}
         onClick={handleClick}
         ref={buttonRef}
-        sticky={isSticky}
+        sticky={false}
       >
         {buttonLabel}
       </BuyButtonEl>
