@@ -3,8 +3,6 @@ import styled from '@xstyled/styled-components'
 import { Box } from '@xstyled/styled-components'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
-import { RingSizerButton } from './RingSizerButton'
-import { SizeConverterButton } from './SizeConverterButton'
 import { getValidProductOptions, optionMatchesVariant } from '../../../utils'
 
 const OptionWrapper = styled.div`
@@ -67,15 +65,6 @@ export const ProductVariantSelector = (props: Props) => {
                 option={option}
                 isInput={Boolean(productType === 'Gift Card')}
               />
-              {productType === 'Ring' && option.name === 'Size' ? (
-                <>
-                  <RingSizerButton product={product} variant={currentVariant} />
-                  <SizeConverterButton
-                    product={product}
-                    variant={currentVariant}
-                  />
-                </>
-              ) : null}
             </OptionWrapper>
           ) : null,
         )}
