@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Modal } from '../Modal'
-import { RingSizerForm } from '../Forms'
+import { SizeConverterForm } from '../Forms'
 import { ShopifyProduct, ShopifyProductVariant } from '../../types'
 
 interface SizeConverterModalProps {
@@ -14,9 +14,13 @@ export const SizeConverterModal = ({
   variant,
   closeModal,
 }: SizeConverterModalProps) => {
+  const initialSize = variant?.sourceData?.selectedOptions?.filter(
+    (o) => o?.name == 'Size',
+  )[0]?.value
+
   return (
     <Modal closeModal={closeModal}>
-      <h2>Size Converter</h2>
+      <SizeConverterForm initialSize={initialSize} />
     </Modal>
   )
 }
