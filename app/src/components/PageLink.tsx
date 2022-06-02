@@ -32,7 +32,6 @@ export const PageLink = ({
   label,
   linkParams,
 }: LinkProps) => {
-  console.log('PageLink linkParams', linkParams)
   if (!link) return <>{children}</>
   if (link.__typename === 'ExternalLink') {
     if (!link.url) return <>{children}</>
