@@ -85,8 +85,10 @@ export const ShopifyProvider = ({
       const regex = /[^/]+$/g
       const cartToken = pathname.match(regex)?.[0]
 
+      const checkoutId = checkout.id
+
       const urlParams = {
-        CartToken: cartToken,
+        CartToken: checkoutId,
       }
 
       const getCheckoutUrlCallback = function (url) {
