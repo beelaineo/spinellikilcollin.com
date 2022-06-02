@@ -3,6 +3,7 @@ import {
   ContactFormModal,
   CustomizationModal,
   RingSizerModal,
+  SizeConverterModal,
 } from '../../components/Modals'
 import { useLockScroll } from '../../components/LockScroll'
 import { ModalName, useModalReducer } from './reducer'
@@ -33,6 +34,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     state,
     closeModal,
     openRingSizerModal,
+    openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
   } = useModalReducer()
@@ -60,6 +62,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
   const value = {
     closeModal,
     openRingSizerModal,
+    openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
   }
@@ -76,6 +79,12 @@ export const ModalProvider = ({ children }: ModalProps) => {
         />
       ) : currentModal === ModalName.RING_SIZER ? (
         <RingSizerModal
+          product={currentProduct}
+          variant={currentVariant}
+          closeModal={closeModal}
+        />
+      ) : currentModal === ModalName.SIZE_CONVERTER ? (
+        <SizeConverterModal
           product={currentProduct}
           variant={currentVariant}
           closeModal={closeModal}

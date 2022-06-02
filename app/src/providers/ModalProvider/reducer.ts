@@ -7,6 +7,7 @@ const OPEN = 'OPEN'
 
 export enum ModalName {
   RING_SIZER = 'RING_SIZER',
+  SIZE_CONVERTER = 'SIZE_CONVERTER',
   CUSTOMIZATION = 'CUSTOMIZATION',
   CONTACT = 'CONTACT',
 }
@@ -82,6 +83,14 @@ export const useModalReducer = () => {
       currentVariant: args?.currentVariant,
     })
 
+  const openSizeConverterModal = (args?: OpenModalArgs) =>
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.SIZE_CONVERTER,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+    })
+
   const openCustomizationModal = (args?: OpenModalArgs) => {
     dispatch({
       type: OPEN,
@@ -113,6 +122,7 @@ export const useModalReducer = () => {
     state,
     closeModal,
     openRingSizerModal,
+    openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
   }

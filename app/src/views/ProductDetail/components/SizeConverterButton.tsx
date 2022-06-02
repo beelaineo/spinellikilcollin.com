@@ -1,12 +1,12 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { useModal } from '../../../providers/ModalProvider'
-import RingSizerIcon from '../../../svg/RingSizer.svg'
+import InternationalIcon from '../../../svg/International.svg'
 import { Heading } from '../../../components/Text'
 
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 
-interface RingSizerButtonProps {
+interface SizeConverterButtonProps {
   mobile?: boolean
   product: ShopifyProduct
   variant: ShopifyProductVariant
@@ -35,19 +35,19 @@ const Wrapper = styled.button<WithMobile>`
   `}
 `
 
-export const RingSizerButton = ({
+export const SizeConverterButton = ({
   mobile,
   product,
   variant,
-}: RingSizerButtonProps) => {
-  const { openRingSizerModal } = useModal()
+}: SizeConverterButtonProps) => {
+  const { openSizeConverterModal } = useModal()
   const handleClick = () =>
-    openRingSizerModal({ currentProduct: product, currentVariant: variant })
+    openSizeConverterModal({ currentProduct: product, currentVariant: variant })
   return (
     <Wrapper mobile={mobile} onClick={handleClick}>
-      <RingSizerIcon />
+      <InternationalIcon />
       <Heading m={0} level={5} textDecoration="underline">
-        Request a sizer
+        International Sizing
       </Heading>
     </Wrapper>
   )
