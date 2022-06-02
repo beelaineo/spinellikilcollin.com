@@ -28,6 +28,7 @@ import {
   ProductDetailFooter,
   ProductRelated,
   RingSizerButton,
+  SizeConverterButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useModal } from '../../providers/ModalProvider'
@@ -40,6 +41,7 @@ import {
   ProductImagesWrapper,
   ProductAccordionsWrapper,
   InfoWrapper,
+  RingToolsWrapper,
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
@@ -329,6 +331,18 @@ export const ProductDetail = ({ product }: Props) => {
                     changeValueForOption={changeValueForOption}
                     product={product}
                   />
+                  {productType === 'Ring' ? (
+                    <RingToolsWrapper>
+                      <RingSizerButton
+                        product={product}
+                        variant={currentVariant}
+                      />
+                      {/* <SizeConverterButton
+                        product={product}
+                        variant={currentVariant}
+                      /> */}
+                    </RingToolsWrapper>
+                  ) : null}
                   <BuyButton
                     product={product}
                     addLineItem={addLineItem}
@@ -368,11 +382,18 @@ export const ProductDetail = ({ product }: Props) => {
                         )
                       : null}
                     {productType === 'Ring' ? (
-                      <RingSizerButton
-                        product={product}
-                        variant={currentVariant}
-                        mobile
-                      />
+                      <RingToolsWrapper>
+                        <RingSizerButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        />
+                        {/* <SizeConverterButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        /> */}
+                      </RingToolsWrapper>
                     ) : null}
                   </ProductAccordionsWrapper>
                 </ProductInfoWrapper>

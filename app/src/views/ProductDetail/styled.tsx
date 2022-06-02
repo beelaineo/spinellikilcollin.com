@@ -159,6 +159,21 @@ export const ProductAccordionsWrapper = styled.div`
   `}
 `
 
+export const RingToolsWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    column-gap: 4;
+    margin: 0 0 4 0;
+
+    ${theme.mediaQueries.tablet} {
+    }
+
+    ${theme.mediaQueries.mobile} {
+    }
+  `}
+`
+
 export const MobileProductHeaderWrapper = styled.div`
   text-align: center;
   padding-top: 7;

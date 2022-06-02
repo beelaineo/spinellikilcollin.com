@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="28px" viewBox="0 0 42 42" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group Copy</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-Copy" transform="translate(1.000000, 1.000000)" stroke="#000000">
+            <circle id="Oval" cx="20" cy="20" r="19.5"></circle>
+            <line x1="0.134228188" y1="20" x2="39.8657718" y2="20" id="Line" stroke-linecap="square"></line>
+            <line x1="20" y1="0.134228188" x2="20" y2="39.8657718" id="Line-2" stroke-linecap="square"></line>
+            <path d="M20,0 C11.8222222,7.92792793 7.82419753,14.5945946 8.00592593,20 C7.82419753,25.4054054 11.8222222,32.0720721 20,40" id="Path"></path>
+            <path d="M20.9944778,14 C18.233018,19.8725563 17,23.7508656 17,29.9266519 C17,36.1024381 18.2361942,40.0435064 21,46" id="Path-Copy-2" transform="translate(19.000000, 30.000000) scale(1, -1) rotate(-90.000000) translate(-19.000000, -30.000000) "></path>
+            <path d="M20.9944778,-6 C18.233018,-0.127443738 17,3.75086562 17,9.92665187 C17,16.1024381 18.2361942,20.0435064 21,26" id="Path-Copy-3" transform="translate(19.000000, 10.000000) rotate(-90.000000) translate(-19.000000, -10.000000) "></path>
+            <path d="M32,0 C23.8222222,7.92792793 19.8241975,14.5945946 20.0059259,20 C19.8241975,25.4054054 23.8222222,32.0720721 32,40" id="Path-Copy" transform="translate(26.000000, 20.000000) scale(-1, 1) translate(-26.000000, -20.000000) "></path>
+        </g>
+    </g>
+</svg>

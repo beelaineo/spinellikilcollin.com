@@ -15,6 +15,8 @@ import { Select } from './Select'
 import { Label, FieldWrapper } from './styled'
 import { PhoneField } from '../CustomFields/PhoneField'
 import { countryOptions } from '../CustomFields/countryOptions'
+import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
+import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
 
 import { Option, FieldProps, Mask } from './types'
 /**
@@ -46,6 +48,22 @@ export const Field = (fieldProps: FieldProps) => {
         return <Select {...fieldProps} />
       case 'countrySelector':
         return <Select options={countryOptions} {...fieldProps} />
+      case 'sizeLocaleSelector':
+        return (
+          <Select
+            options={sizeConversionOptions}
+            {...fieldProps}
+            placeholderSelected={true}
+          />
+        )
+      case 'sizeLocaleCountrySelector':
+        return (
+          <Select
+            options={sizeCountryOptions}
+            {...fieldProps}
+            placeholderSelected={true}
+          />
+        )
       case 'textarea':
         return <TextArea {...fieldProps} />
       case 'tel':
