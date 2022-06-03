@@ -16,6 +16,7 @@ const query = gql`
         _key
         label
         contact
+        type
       }
       seo {
         ...SEOFragment

@@ -15,6 +15,15 @@ export const contactLine = {
       type: 'string',
       validation: (Rule) => Rule.required(),
     },
+    {
+      name: 'type',
+      title: 'Line type',
+      type: 'string',
+      options: {
+        list: ['Order', 'Wholesale', 'Press', 'Engagement', 'Telephone'],
+      },
+      validation: (Rule) => Rule.required(),
+    },
   ],
   preview: {
     select: {
