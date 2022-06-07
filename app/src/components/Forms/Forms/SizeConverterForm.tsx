@@ -1,4 +1,5 @@
 import * as React from 'react'
+import * as Yup from 'yup'
 import styled, { css } from '@xstyled/styled-components'
 import { Heading } from '../../Text'
 import { Form } from '../Form'
@@ -14,17 +15,36 @@ import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { string } from 'zod'
 import { configureScope } from '@sentry/node'
 
-const { useState } = React
+const { useState, useEffect } = React
 
 interface ConversionRule {
   mm: number
-  in: number
-  'us-can': string
-  'uk-aus-sa': string
+  inches: number
+  us: number
+  can: number
+  uk: string
+  aus: string
+  sa: string
   fr: number
-  'in-cn-jp-sa-etc': number
-  label: string
-  value: string
+  in: number
+  cn: number
+  jp: number
+  arg: number
+  bo: number
+  br: number
+  cl: number
+  col: number
+  ecua: number
+  guy: number
+  para: number
+  per: number
+  surm: number
+  uru: number
+  vz: number
+  tr: number
+  il: number
+  label: number
+  value: number
   id: string
 }
 
@@ -77,9 +97,11 @@ interface SizeConverterFormProps {
 }
 
 type FormValues = {
-  countryA?: CountryOption
-  countryB?: CountryOption
   size?: ConversionRule
+  countryA?: CountryOption['value']
+  countryB?: CountryOption['value']
+  sizeA?: ConversionRule
+  sizeB?: ConversionRule
 }
 
 export const SizeConverterForm = ({ initialSize }: SizeConverterFormProps) => {
@@ -103,33 +125,22 @@ export const SizeConverterForm = ({ initialSize }: SizeConverterFormProps) => {
   const size = stringifySize(initialSizeParsed)
 
   const initialRule = sizeConversionOptions.find(
-    (option) => option['us-can'] === size,
+    (option) => stringifySize(option['us']) === size,
   )
 
-  const [currentSize, setCurrentSize] = useState(initialRule)
-  const [countryA, setCountryA] = useState<CountryOption | undefined>(
-    initialRule ? sizeCountryOptions[0] : undefined,
-  )
-  const [countryB, setCountryB] = useState<CountryOption | undefined>(undefined)
-  console.log('currentSize', currentSize)
+  const ValidationSchema = Yup.object().shape({
+    countryA: Yup.string().required('Required'),
+    countryB: Yup.string().required('Required'),
+    sizeA: Yup.string().required('Required'),
+    sizeB: Yup.string().required('Required'),
+  })
 
   const initialValues: FormValues = {
-    countryA: initialRule ? sizeCountryOptions[0] : undefined,
-    countryB: undefined,
     size: initialRule,
-  }
-
-  const handleLocaleChange = (e: any) => {
-    const { value, name } = e.target
-    const countryOption = sizeCountryOptions.find((o) => o.value == value)
-    name == 'countryA' ? setCountryA(countryOption) : setCountryB(countryOption)
-  }
-
-  const handleSizeChange = (e: any) => {
-    const { value, name } = e.target
-    console.log('size field value', value)
-    console.log('size field name', name)
-    const sizeOption = sizeConversionOptions.find((o) => o.value == value)
+    countryA: initialRule ? sizeCountryOptions[0].value : undefined,
+    countryB: undefined,
+    sizeA: initialRule,
+    sizeB: undefined,
   }
 
   return (
@@ -143,38 +154,36 @@ export const SizeConverterForm = ({ initialSize }: SizeConverterFormProps) => {
       <Form
         id="size-converter-form"
         initialValues={initialValues}
+        validationSchema={ValidationSchema}
         onSubmit={() => {
           console.log(`converter form submit`)
         }}
       >
         <FieldsWrapper>
+          <Field name="size" type="hidden" options={sizeConversionOptions} />
           <ConvertSizeLocaleField
             name="countryA"
             label="Country"
             placeholder="Country"
             options={sizeCountryOptions}
-            onChange={handleLocaleChange}
           />
           <ConvertSizeField
-            name="size"
+            name="sizeA"
             label="Size"
             placeholder="Size"
             sizeOptions={sizeConversionOptions}
-            locale={countryA}
           />
           <ConvertSizeLocaleField
             name="countryB"
             label="Country"
             placeholder="Country"
             options={sizeCountryOptions}
-            onChange={handleLocaleChange}
           />
           <ConvertSizeField
-            name="size"
+            name="sizeB"
             label="Size"
             placeholder="Size"
             sizeOptions={sizeConversionOptions}
-            locale={countryB}
           />
         </FieldsWrapper>
       </Form>

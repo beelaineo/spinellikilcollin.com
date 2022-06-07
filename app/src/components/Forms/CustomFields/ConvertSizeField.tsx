@@ -1,8 +1,11 @@
 import * as React from 'react'
-import { useFormikContext } from 'formik'
+import { useField, useFormikContext } from 'formik'
 import { FieldProps } from '../Fields/types'
 import { Field } from '../Fields'
 import { optional } from 'zod'
+import { useEffect, useState } from 'react'
+import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
+import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 
 interface CountryOption {
   id: string
@@ -12,50 +15,116 @@ interface CountryOption {
 
 interface ConversionRule {
   mm: number
-  in: number
-  'us-can': string
-  'uk-aus-sa': string
+  inches: number
+  us: number
+  can: number
+  uk: string
+  aus: string
+  sa: string
   fr: number
-  'in-cn-jp-sa-etc': number
+  in: number
+  cn: number
+  jp: number
+  arg: number
+  bo: number
+  br: number
+  cl: number
+  col: number
+  ecua: number
+  guy: number
+  para: number
+  per: number
+  surm: number
+  uru: number
+  vz: number
+  tr: number
+  il: number
+  label: number
+  value: number
   id: string
-  label: string
-  value: string
 }
 
 interface ConvertSizeFieldProps extends Omit<FieldProps, 'type'> {
-  locale?: CountryOption
   sizeOptions: ConversionRule[]
 }
 
 interface Values {
-  countryA?: CountryOption
-  countryB?: CountryOption
   size?: ConversionRule
+  countryA?: CountryOption['value']
+  countryB?: CountryOption['value']
+  sizeA?: string | number
+  sizeB?: string | number
 }
 
 export const ConvertSizeField = (props: ConvertSizeFieldProps) => {
-  const { values } = useFormikContext<Values>()
-  console.log('field values', values)
-  console.log('locale', props.locale)
-  console.log('reformat size options based on locale')
+  const { values, touched, setFieldValue } = useFormikContext<Values>()
+  const [field, meta] = useField(props)
 
-  const localizeOptions = (
-    options: ConversionRule[],
-    locale?: CountryOption,
-  ) => {
+  const localizeOptions = (options: ConversionRule[], locale?: string) => {
     if (!locale) return options
-    console.log('locale', locale)
-    console.log('options', options)
+    const selectedCountry = sizeCountryOptions.find((o) => o.value == locale)
+    if (!selectedCountry) return options
     return options.map((option) => {
       return {
         ...option,
-        value: option[locale.id],
-        label: option[locale.id],
+        value: option[selectedCountry.id],
+        label: option[selectedCountry.id],
       }
     })
   }
 
-  const localizedOptions = localizeOptions(props.sizeOptions, props.locale)
+  const [localizedOptions, setLocalizedOptions] = useState<ConversionRule[]>(
+    localizeOptions(
+      props.sizeOptions,
+      props.name == 'sizeA' ? values.countryA : values.countryB,
+    ),
+  )
+
+  console.log('field', field)
+  console.log('meta', meta)
+  console.log('field values', values)
+  console.log('reformat size options based on locale')
+
+  // useEffect(() => {
+  //   // set the value always match size value across fields
+  //   if (props.name == 'sizeA') {
+  //     setFieldValue('sizeB', values.sizeA)
+  //   } else if (props.name == 'sizeB') {
+  //     setFieldValue('sizeA', values.sizeB)
+  //   }
+  // }, [values.sizeA, values.sizeB])
+
+  useEffect(() => {
+    if (props.name == 'sizeB') return
+    setLocalizedOptions(localizeOptions(props.sizeOptions, values.countryA))
+  }, [values.countryA])
+
+  useEffect(() => {
+    if (props.name == 'sizeA') return
+    setLocalizedOptions(localizeOptions(props.sizeOptions, values.countryB))
+  }, [values.countryB])
+
+  useEffect(() => {
+    const countryA = sizeCountryOptions.find((o) => o.value == values.countryA)
+    const countryB = sizeCountryOptions.find((o) => o.value == values.countryB)
+    console.log('countryA option', countryA)
+    console.log('countryB option', countryB)
+    if (!countryA || !countryB) return
+    const sizeOption = sizeConversionOptions.find(
+      (o) => o[countryA.id] == values.sizeA,
+    )
+    console.log('sizeA changed, current sizeOption:', sizeOption)
+  }, [values.sizeA])
+
+  useEffect(() => {
+    const countryA = sizeCountryOptions.find((o) => o.value == values.countryA)
+    const countryB = sizeCountryOptions.find((o) => o.value == values.countryB)
+    if (!countryA || !countryB) return
+    const sizeOption = sizeConversionOptions.find(
+      (o) => o[countryB.id] == values.sizeB,
+    )
+    console.log('sizeB changed, current sizeOption:', sizeOption)
+  }, [values.sizeB])
 
   console.log('localizedOptions', localizedOptions)
 

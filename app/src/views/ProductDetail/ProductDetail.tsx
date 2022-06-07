@@ -337,10 +337,10 @@ export const ProductDetail = ({ product }: Props) => {
                         product={product}
                         variant={currentVariant}
                       />
-                      {/* <SizeConverterButton
+                      <SizeConverterButton
                         product={product}
                         variant={currentVariant}
-                      /> */}
+                      />
                     </RingToolsWrapper>
                   ) : null}
                   <BuyButton
@@ -388,11 +388,11 @@ export const ProductDetail = ({ product }: Props) => {
                           variant={currentVariant}
                           mobile
                         />
-                        {/* <SizeConverterButton
+                        <SizeConverterButton
                           product={product}
                           variant={currentVariant}
                           mobile
-                        /> */}
+                        />
                       </RingToolsWrapper>
                     ) : null}
                   </ProductAccordionsWrapper>
