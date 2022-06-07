@@ -47,6 +47,7 @@ export const ContactView = ({ contact }: ContactProps) => {
     description: seo?.description,
     image: seo?.image,
   }
+  console.log('Contact body', contact)
   const handleModalClick = (formtype: string) => () =>
     openContactModal({ formtype })
 
@@ -64,36 +65,75 @@ export const ContactView = ({ contact }: ContactProps) => {
         </Heading>
         <Wrapper>
           <ContactLines>
-            <ContactLineWrapper>
-              <Heading level={4}>For order inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Order')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>For wholesale inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Wholesale')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>For press inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Press')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>Engagement Inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Engagement')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>Call Us</Heading>
-              <Heading level={3}>
-                <a href="tel:213.341.8244">213.341.8244</a>
-              </Heading>
-            </ContactLineWrapper>
+            {contact.contactLines?.map((line) => {
+              if (!line) return null
+              const { _key, label, contact } = line
+              switch (line.type) {
+                case 'Order':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Order')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Wholesale':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Wholesale')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Press':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Press')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Engagement':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Engagement')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Telephone':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Heading level={3}>
+                        <a href={'tel:' + contact}>{contact}</a>
+                      </Heading>
+                    </ContactLineWrapper>
+                  )
+                default:
+                  return null
+              }
+            })}
           </ContactLines>
 
           <ChatWrapper>
