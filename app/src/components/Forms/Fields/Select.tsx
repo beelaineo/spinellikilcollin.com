@@ -27,6 +27,7 @@ export const Select = (props: SelectProps) => {
             {...field}
             value={field.value}
             id={field.name}
+            aria-label={field.name}
             required={required}
             placeholder={placeholder}
             disabled={disabled}

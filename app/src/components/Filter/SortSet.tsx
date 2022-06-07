@@ -51,6 +51,7 @@ export const SortSet = ({ applySort }: SortButtonProps) => {
       color="body.8"
       defaultValue="label"
       onChange={handleChange}
+      aria-label="Sort"
     >
       <option disabled hidden value="label">
         Sort

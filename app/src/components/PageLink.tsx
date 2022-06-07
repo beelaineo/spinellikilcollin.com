@@ -53,6 +53,7 @@ export const PageLink = ({
         onClick={onClick}
         href={link.pdf.asset.url + '?dl='}
         download={link.title}
+        aria-label={'Download ' + link.title + ' as PDF'}
       >
         {children}
       </a>
@@ -79,7 +80,11 @@ export const PageLink = ({
 
   return (
     <NextLink as={as} href={href}>
-      <a onClick={onClick} style={linkStyles}>
+      <a
+        onClick={onClick}
+        style={linkStyles}
+        aria-label={'Link to ' + document.title}
+      >
         {inner()}
       </a>
     </NextLink>

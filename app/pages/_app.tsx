@@ -142,9 +142,10 @@ const App = (props: AppProps) => {
           }}
         />
         <Head>
+          <html lang="en" />
           <meta
             name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
+            content="width=device-width, initial-scale=1, maximum-scale=2"
           />
           <meta
             name="facebook-domain-verification"

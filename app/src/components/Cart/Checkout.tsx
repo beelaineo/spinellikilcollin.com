@@ -73,7 +73,7 @@ export const Checkout = () => {
         </CloseButtonWrapper>
 
         <Heading my={0} level={3} color="dark" textAlign="center">
-          {title}
+          <span role="status">{title}</span>
         </Heading>
       </CartHeading>
       {lineItems.length === 0 ? (
@@ -81,7 +81,7 @@ export const Checkout = () => {
           <Heading
             fontStyle="italic"
             textAlign="center"
-            color="body.6"
+            color="body.7"
             my={6}
             level={4}
           >
