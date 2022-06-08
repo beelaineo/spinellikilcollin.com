@@ -63,6 +63,7 @@ export const Checkout = () => {
 
     if (fullNote) await addNote(fullNote)
     goToCheckout()
+    closeCart()
   }
 
   return (
