@@ -129,7 +129,7 @@ export const JournalEntryLink = ({
         <ImageContainer featured={featured}>
           <ImagePadding featured={featured} />
           <Link href={href} as={as}>
-            <a>
+            <a aria-label={'Link to journal entry ' + title}>
               <Image image={thumbnail} />
             </a>
           </Link>
@@ -139,7 +139,7 @@ export const JournalEntryLink = ({
         {title}
       </Heading>
       <Link href={href} as={as}>
-        <a>
+        <a aria-label={'Link to read more of ' + title}>
           <Heading level={5} fontStyle="italic" textDecoration="underline">
             Read More
           </Heading>

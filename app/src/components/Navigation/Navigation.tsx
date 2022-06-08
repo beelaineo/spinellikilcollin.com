@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react'
 import Link from 'next/link'
 import { NextRouter } from 'next/router'
@@ -47,11 +48,7 @@ export const Navigation = () => {
 
   return (
     <>
-      <NavInnerBackground
-        onClick={closeAll}
-        aria-hidden={!cartOpen && !menuOpen}
-        open={menuOpen || cartOpen}
-      />
+      <NavInnerBackground onClick={closeAll} open={menuOpen || cartOpen} />
       <SideNavigation open={menuOpen}>
         <NavigationInner closeMenu={closeMenu} />
       </SideNavigation>
@@ -67,7 +64,7 @@ export const Navigation = () => {
 
           <LogoWrapper colorTheme={colorTheme}>
             <Link href="/" as="/">
-              <a>
+              <a aria-label="Link to homepage">
                 <Logotype />
               </a>
             </Link>
@@ -75,13 +72,14 @@ export const Navigation = () => {
           <ToolsWrapper>
             <span data-ge-shippingswitcher-flag />
             <CurrencySelector colorTheme={colorTheme} />
-            <SearchButtonWrapper colorTheme={colorTheme}>
+            <SearchButtonWrapper colorTheme={colorTheme} aria-label="search">
               <SearchButton />
             </SearchButtonWrapper>
             <CartButtonWrapper
               isLoading={loading}
               onClick={openCartHandler}
               colorTheme={colorTheme}
+              aria-label="open cart"
             >
               {cartCount ? (
                 <CartBadge colorTheme={colorTheme}>

@@ -65,9 +65,13 @@ export const SearchPane = () => {
   const preferredVariantMatches = [searchTerm]
   return (
     <Outer>
-      <Wrapper aria-hidden={!open} visible={open}>
+      <Wrapper visible={open}>
         <CloseButton>
-          <Hamburger open={true} onClick={close} />
+          <Hamburger
+            open={true}
+            onClick={close}
+            aria-label="Close search pane"
+          />
         </CloseButton>
         <SearchHeader>
           <Column maxWidth="medium">
