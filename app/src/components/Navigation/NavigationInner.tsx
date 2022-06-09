@@ -6,6 +6,7 @@ import { PageLink } from '../PageLink'
 import { SubMenu } from './SubMenu'
 import { Hamburger } from '../Hamburger'
 import { SearchInput } from './SearchInput'
+import { useNavigation } from '../../providers/NavigationProvider'
 
 interface NavigationInnerProps {
   closeMenu: () => void
@@ -14,10 +15,11 @@ interface NavigationInnerProps {
 export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
   const { menu } = useShopData()
   if (!menu) return null
+  const { menuOpen } = useNavigation()
   const menuItems = menu?.menuItems || []
   return (
     <>
-      <NavInner>
+      <NavInner hidden={!menuOpen}>
         <HamburgerWrapper>
           <Hamburger onClick={closeMenu} open={true} />
         </HamburgerWrapper>

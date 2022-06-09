@@ -68,7 +68,7 @@ export const Checkout = () => {
   return (
     <CartSidebar open={cartOpen}>
       <CartHeading>
-        <CloseButtonWrapper>
+        <CloseButtonWrapper hidden={!cartOpen}>
           <Hamburger open={true} onClick={closeCart} />
         </CloseButtonWrapper>
 
@@ -87,19 +87,19 @@ export const Checkout = () => {
           >
             Your cart is empty
           </Heading>
-          <Button level={2} mx="auto" onClick={closeCart}>
+          <Button level={2} mx="auto" onClick={closeCart} hidden={!cartOpen}>
             Continue Shopping
           </Button>
         </CartInner>
       ) : (
         <>
-          <CartInner isLoading={loading}>
+          <CartInner isLoading={loading} hidden={!cartOpen}>
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
           </CartInner>
 
-          <CartBottom>
+          <CartBottom hidden={!cartOpen}>
             {checkout && checkout?.paymentDueV2?.amount ? (
               <SubtotalWrapper>
                 <Heading level={4} weight={2}>
