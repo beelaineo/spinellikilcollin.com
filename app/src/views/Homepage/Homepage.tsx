@@ -55,7 +55,7 @@ export const Homepage = (props: HomepageProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} contentType={id!} path="" />
-      <Grid>
+      <Grid role="main">
         {definitely(content).map((c, i) => {
           return (
             <ContentBlock

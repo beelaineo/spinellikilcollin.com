@@ -107,7 +107,7 @@ export const SearchPane = () => {
                     preferredVariantMatches={preferredVariantMatches}
                     items={searchResults}
                   />
-                  <Button mt={6} onClick={close} level={2}>
+                  <Button mt={6} onClick={close} level={2} hidden={!open}>
                     Close Search
                   </Button>
                 </>

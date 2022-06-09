@@ -20,6 +20,11 @@ const HamburgerWrapper = styled.button`
     &:hover {
       opacity: 0.5;
     }
+    &:focus {
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
+    }
 
     span {
       position: absolute;

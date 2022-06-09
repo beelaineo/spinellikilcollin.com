@@ -21,6 +21,7 @@ import {
   LogoWrapper,
   NavInnerBackground,
   ToolsWrapper,
+  SkipToMainContentButton,
 } from './styled'
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
@@ -46,8 +47,18 @@ export const Navigation = () => {
 
   const innerBorder = !/\/collections/.test(router.asPath)
 
+  const skipToMainContent = () => {
+    const content = document.querySelector(
+      '[role="main"], main',
+    ) as HTMLElement | null
+    if (content != null) content.focus()
+  }
+
   return (
     <>
+      <SkipToMainContentButton onClick={skipToMainContent}>
+        Skip to Main Content
+      </SkipToMainContentButton>
       <NavInnerBackground onClick={closeAll} open={menuOpen || cartOpen} />
       <SideNavigation open={menuOpen}>
         <NavigationInner closeMenu={closeMenu} />

@@ -20,9 +20,11 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
   return (
     <>
       <NavInner hidden={!menuOpen}>
-        <HamburgerWrapper>
-          <Hamburger onClick={closeMenu} open={true} />
-        </HamburgerWrapper>
+        {menuOpen ? (
+          <HamburgerWrapper>
+            <Hamburger onClick={closeMenu} open={true} />
+          </HamburgerWrapper>
+        ) : null}
 
         <SearchInput />
         <div>

@@ -68,9 +68,11 @@ export const Checkout = () => {
   return (
     <CartSidebar open={cartOpen}>
       <CartHeading>
-        <CloseButtonWrapper hidden={!cartOpen}>
-          <Hamburger open={true} onClick={closeCart} />
-        </CloseButtonWrapper>
+        {cartOpen ? (
+          <CloseButtonWrapper>
+            <Hamburger open={true} onClick={closeCart} />
+          </CloseButtonWrapper>
+        ) : null}
 
         <Heading my={0} level={3} color="dark" textAlign="center">
           <span role="status">{title}</span>
