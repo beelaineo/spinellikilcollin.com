@@ -22,7 +22,7 @@ import { Affirm } from '../Affirm'
 import { Price } from '../Price'
 import { StringValueNode } from 'graphql'
 
-const { useState } = React
+const { useState, useRef, useEffect } = React
 
 /**
  * Main Checkout view
@@ -52,6 +52,16 @@ export const Checkout = () => {
     console.log('notesVisible:', notesVisible)
   }
 
+  const sideCart = useRef<any>(null)
+
+  useEffect(() => {
+    if (cartOpen) {
+      setTimeout(() => {
+        sideCart.current.children[0].children[0].children[0].focus()
+      }, 100)
+    }
+  }, [cartOpen])
+
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
     const { notes, giftWrap } = values
@@ -66,7 +76,7 @@ export const Checkout = () => {
   }
 
   return (
-    <CartSidebar open={cartOpen}>
+    <CartSidebar open={cartOpen} ref={sideCart}>
       <CartHeading>
         {cartOpen ? (
           <CloseButtonWrapper>

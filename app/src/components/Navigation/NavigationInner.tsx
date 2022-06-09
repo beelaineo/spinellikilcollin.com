@@ -18,49 +18,47 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
   const { menuOpen } = useNavigation()
   const menuItems = menu?.menuItems || []
   return (
-    <>
-      <NavInner hidden={!menuOpen}>
-        {menuOpen ? (
-          <HamburgerWrapper>
-            <Hamburger onClick={closeMenu} open={true} />
-          </HamburgerWrapper>
-        ) : null}
+    <NavInner hidden={!menuOpen}>
+      {menuOpen ? (
+        <HamburgerWrapper>
+          <Hamburger onClick={closeMenu} open={true} />
+        </HamburgerWrapper>
+      ) : null}
 
-        <SearchInput />
-        <div>
-          {menuItems.map((menuItem) => {
-            if (!menuItem) return null
-            switch (menuItem.__typename) {
-              case 'SubMenu':
-                return (
-                  <NavItemWrapper key={menuItem._key || 'some-key'}>
-                    <SubMenu closeMenu={closeMenu} subMenu={menuItem} />
-                  </NavItemWrapper>
-                )
-              case 'MenuLink':
-                return (
-                  <NavItemWrapper key={menuItem._key || 'some-key'}>
-                    <PageLink
-                      onClick={closeMenu}
-                      link={menuItem.link}
-                      render={(inferredLabel) => (
-                        <Heading m={0} level={4}>
-                          {menuItem.label
-                            ? menuItem.label.toUpperCase()
-                            : inferredLabel
-                            ? inferredLabel.toUpperCase()
-                            : ''}
-                        </Heading>
-                      )}
-                    />
-                  </NavItemWrapper>
-                )
-              default:
-                return null
-            }
-          })}
-        </div>
-      </NavInner>
-    </>
+      <SearchInput />
+      <div>
+        {menuItems.map((menuItem) => {
+          if (!menuItem) return null
+          switch (menuItem.__typename) {
+            case 'SubMenu':
+              return (
+                <NavItemWrapper key={menuItem._key || 'some-key'}>
+                  <SubMenu closeMenu={closeMenu} subMenu={menuItem} />
+                </NavItemWrapper>
+              )
+            case 'MenuLink':
+              return (
+                <NavItemWrapper key={menuItem._key || 'some-key'}>
+                  <PageLink
+                    onClick={closeMenu}
+                    link={menuItem.link}
+                    render={(inferredLabel) => (
+                      <Heading m={0} level={4}>
+                        {menuItem.label
+                          ? menuItem.label.toUpperCase()
+                          : inferredLabel
+                          ? inferredLabel.toUpperCase()
+                          : ''}
+                      </Heading>
+                    )}
+                  />
+                </NavItemWrapper>
+              )
+            default:
+              return null
+          }
+        })}
+      </div>
+    </NavInner>
   )
 }

@@ -322,7 +322,7 @@ interface SideNavigation {
   open?: boolean
 }
 
-export const SideNavigation = styled.div`
+export const SideNavigation = styled.aside`
   ${({ open }: SideNavigation) => css`
     transform: ${open ? 'translateX(0px)' : 'translateX(-520px)'};
     z-index: cart;
