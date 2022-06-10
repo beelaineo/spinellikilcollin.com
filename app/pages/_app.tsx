@@ -19,7 +19,7 @@ interface AppProps {
   router: NextRouter
 }
 
-const Main = styled.main`
+const Main = styled.div`
   background-color: background;
   transition: background-color 0.3s;
 `

@@ -56,9 +56,7 @@ export const Checkout = () => {
 
   useEffect(() => {
     if (cartOpen) {
-      setTimeout(() => {
-        sideCart.current.children[0].children[0].children[0].focus()
-      }, 100)
+      sideCart.current.focus()
     }
   }, [cartOpen])
 
@@ -76,7 +74,7 @@ export const Checkout = () => {
   }
 
   return (
-    <CartSidebar open={cartOpen} ref={sideCart}>
+    <CartSidebar open={cartOpen} ref={sideCart} tabIndex={-1}>
       <CartHeading>
         {cartOpen ? (
           <CloseButtonWrapper>

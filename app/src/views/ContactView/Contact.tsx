@@ -59,7 +59,7 @@ export const ContactView = ({ contact }: ContactProps) => {
         path="about/contact"
         contentType={_id!}
       />
-      <PageWrapper>
+      <PageWrapper tabIndex={-1}>
         <Heading level={1} textAlign="center">
           {title || 'Contact'}
         </Heading>

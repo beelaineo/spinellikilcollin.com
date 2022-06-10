@@ -285,7 +285,7 @@ export const ProductDetail = ({ product }: Props) => {
         hidden={hidden}
       />
       <CurrentProductProvider product={product} currentVariant={currentVariant}>
-        <ProductPageWrapper>
+        <ProductPageWrapper tabIndex={-1}>
           <Column>
             <ProductDetails>
               <ProductImagesWrapper>

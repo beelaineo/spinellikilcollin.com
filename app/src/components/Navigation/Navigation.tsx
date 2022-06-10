@@ -52,18 +52,13 @@ export const Navigation = () => {
 
   useEffect(() => {
     if (menuOpen) {
-      setTimeout(() => {
-        sideNav.current.children[0].children[0].children[0].focus()
-      }, 100)
+      sideNav.current.focus()
     }
   }, [menuOpen])
 
   const skipToMainContent = () => {
-    const content = document.querySelector(
-      '[role="main"]',
-    ) as HTMLElement | null
+    const content = document.querySelector('main') as HTMLElement | null
     if (content != null) content.focus()
-    if (content != null) console.log('content:', content)
   }
 
   return (
@@ -72,7 +67,7 @@ export const Navigation = () => {
         Skip to Main Content
       </SkipToMainContentButton>
       <NavInnerBackground onClick={closeAll} open={menuOpen || cartOpen} />
-      <SideNavigation open={menuOpen} ref={sideNav}>
+      <SideNavigation open={menuOpen} ref={sideNav} tabIndex={-1}>
         <NavigationInner closeMenu={closeMenu} />
       </SideNavigation>
 

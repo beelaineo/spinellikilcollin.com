@@ -26,7 +26,7 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
       ) : null}
 
       <SearchInput />
-      <div>
+      <nav>
         {menuItems.map((menuItem) => {
           if (!menuItem) return null
           switch (menuItem.__typename) {
@@ -58,7 +58,7 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
               return null
           }
         })}
-      </div>
+      </nav>
     </NavInner>
   )
 }

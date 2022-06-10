@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
   background-color: body.2;
 `
 
-export const ProductPageWrapper = styled.div`
+export const ProductPageWrapper = styled.main`
   ${({ theme }) => css`
     padding: 0;
 

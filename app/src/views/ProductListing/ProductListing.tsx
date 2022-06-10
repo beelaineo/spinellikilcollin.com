@@ -312,6 +312,7 @@ export const ProductListing = ({
         handle={handle}
         withHero={Boolean(hero && validHero)}
         isLightTheme={Boolean(lightTheme)}
+        tabIndex={-1}
       >
         {filters && filters.length ? (
           <Filter

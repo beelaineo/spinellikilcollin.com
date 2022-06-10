@@ -105,7 +105,7 @@ export const FooterInnerLower = styled.div`
   `}
 `
 
-export const FooterLinks = styled.div`
+export const FooterLinks = styled.nav`
   ${({ theme }) => css`
     display: grid;
     grid-column-gap: 5;

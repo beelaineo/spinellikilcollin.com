@@ -6,7 +6,7 @@ interface WrapperProps {
   isLightTheme: boolean
 }
 
-export const Wrapper = styled.div<WrapperProps>`
+export const Wrapper = styled.main<WrapperProps>`
   ${({ handle, theme, withHero, isLightTheme }) => css`
     position: relative;
     padding-top: ${withHero ? 0 : theme.navHeight};
