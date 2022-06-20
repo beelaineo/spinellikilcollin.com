@@ -26,7 +26,8 @@ export const FilterCheckboxElement = styled.input`
       background-color: grays.4;
     }
     @media screen and (min-width: 961px) {
-      &:hover ~ label {
+      &:hover ~ label,
+      &:focus ~ label {
         background-color: grays.4;
       }
     }
