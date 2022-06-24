@@ -21,10 +21,12 @@ import {
   LogoWrapper,
   NavInnerBackground,
   ToolsWrapper,
+  SkipToMainContentButton,
 } from './styled'
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
+const { useEffect, useRef, useCallback } = React
 
 export const Navigation = () => {
   const {
@@ -46,10 +48,26 @@ export const Navigation = () => {
 
   const innerBorder = !/\/collections/.test(router.asPath)
 
+  const sideNav = useRef<any>(null)
+
+  useEffect(() => {
+    if (menuOpen) {
+      sideNav.current.focus()
+    }
+  }, [menuOpen])
+
+  const skipToMainContent = () => {
+    const content = document.querySelector('main') as HTMLElement | null
+    if (content != null) content.focus()
+  }
+
   return (
     <>
+      <SkipToMainContentButton onClick={skipToMainContent}>
+        Skip to Main Content
+      </SkipToMainContentButton>
       <NavInnerBackground onClick={closeAll} open={menuOpen || cartOpen} />
-      <SideNavigation open={menuOpen}>
+      <SideNavigation open={menuOpen} ref={sideNav} tabIndex={-1}>
         <NavigationInner closeMenu={closeMenu} />
       </SideNavigation>
 

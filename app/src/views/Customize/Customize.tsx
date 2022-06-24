@@ -63,7 +63,7 @@ export const Customize = ({ customize }: CustomizeProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="customize" />
       {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
-      <PageWrapper>
+      <PageWrapper tabIndex={-1}>
         <Heading textAlign="center" level={1}>
           {title}
         </Heading>

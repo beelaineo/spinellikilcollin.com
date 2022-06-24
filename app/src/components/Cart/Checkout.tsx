@@ -22,7 +22,7 @@ import { Affirm } from '../Affirm'
 import { Price } from '../Price'
 import { StringValueNode } from 'graphql'
 
-const { useState } = React
+const { useState, useRef, useEffect } = React
 
 /**
  * Main Checkout view
@@ -52,6 +52,14 @@ export const Checkout = () => {
     console.log('notesVisible:', notesVisible)
   }
 
+  const sideCart = useRef<any>(null)
+
+  useEffect(() => {
+    if (cartOpen) {
+      sideCart.current.focus()
+    }
+  }, [cartOpen])
+
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
     const { notes, giftWrap } = values
@@ -66,11 +74,13 @@ export const Checkout = () => {
   }
 
   return (
-    <CartSidebar open={cartOpen}>
+    <CartSidebar open={cartOpen} ref={sideCart} tabIndex={-1}>
       <CartHeading>
-        <CloseButtonWrapper>
-          <Hamburger open={true} onClick={closeCart} />
-        </CloseButtonWrapper>
+        {cartOpen ? (
+          <CloseButtonWrapper>
+            <Hamburger open={true} onClick={closeCart} />
+          </CloseButtonWrapper>
+        ) : null}
 
         <Heading my={0} level={3} color="dark" textAlign="center">
           <span role="status">{title}</span>
@@ -87,19 +97,19 @@ export const Checkout = () => {
           >
             Your cart is empty
           </Heading>
-          <Button level={2} mx="auto" onClick={closeCart}>
+          <Button level={2} mx="auto" onClick={closeCart} hidden={!cartOpen}>
             Continue Shopping
           </Button>
         </CartInner>
       ) : (
         <>
-          <CartInner isLoading={loading}>
+          <CartInner isLoading={loading} hidden={!cartOpen}>
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
           </CartInner>
 
-          <CartBottom>
+          <CartBottom hidden={!cartOpen}>
             {checkout && checkout?.paymentDueV2?.amount ? (
               <SubtotalWrapper>
                 <Heading level={4} weight={2}>

@@ -41,6 +41,22 @@ interface WithBorder {
   colorTheme?: 'light' | 'dark'
 }
 
+export const SkipToMainContentButton = styled.button`
+  ${({ theme }) => css`
+    z-index: 999;
+    position: fixed;
+    top: 4;
+    left: -500;
+    &:focus {
+      top: 4;
+      left: 4;
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
+    }
+  `}
+`
+
 export const Inner = styled.div<WithBorder>`
   ${({ theme, withBorder, colorTheme }) => css`
     position: relative;
@@ -121,6 +137,11 @@ export const LogoWrapper = styled.div`
         }
         `
         : ''};
+    }
+    a:focus {
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
     }
     ${theme.mediaQueries.mobile} {
       width: 170px;
@@ -301,7 +322,7 @@ interface SideNavigation {
   open?: boolean
 }
 
-export const SideNavigation = styled.div`
+export const SideNavigation = styled.aside`
   ${({ open }: SideNavigation) => css`
     transform: ${open ? 'translateX(0px)' : 'translateX(-520px)'};
     z-index: cart;
