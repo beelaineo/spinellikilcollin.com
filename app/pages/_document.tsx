@@ -48,7 +48,6 @@ export default class MyDocument extends Document {
       <Html>
         <Head>
           <link rel="stylesheet" href="/static/fonts/fonts.css" />
-          <link rel="icon" href="/static/favicon.png" />
         </Head>
         <body>
           <Main />
