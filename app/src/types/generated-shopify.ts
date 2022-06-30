@@ -1330,7 +1330,7 @@ export interface ShopifyStorefrontCountry {
 
 /**
  * The code designating a country/region, which generally follows ISO 3166-1 alpha-2 guidelines.
- * If a territory doesn't have a country code value in the `CountryCode` enum, it might be considered a subdivision
+ * If a territory doesn't have a country code value in the `CountryCode` enum, then it might be considered a subdivision
  * of another country. For example, the territories associated with Spain are represented by the country code `ES`,
  * and the territories associated with the United States of America are represented by the country code `US`.
  */
@@ -4176,7 +4176,7 @@ export interface ShopifyStorefrontPayment extends ShopifyStorefrontNode {
   idempotencyKey?: Maybe<Scalars['String']>
   /** The URL where the customer needs to be redirected so they can complete the 3D Secure payment flow. */
   nextActionUrl?: Maybe<Scalars['URL']>
-  /** Whether or not the payment is still processing asynchronously. */
+  /** Whether the payment is still processing asynchronously. */
   ready: Scalars['Boolean']
   /** A flag to indicate if the payment is to be done in test mode for gateways that support it. */
   test: Scalars['Boolean']
@@ -5382,7 +5382,7 @@ export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
  */
 export interface ShopifyStorefrontStoreAvailability {
   __typename: 'StoreAvailability'
-  /** Whether or not this product variant is in-stock at this location. */
+  /** Whether the product variant is in-stock at this location. */
   available: Scalars['Boolean']
   /** The location where this product variant is stocked at. */
   location: ShopifyStorefrontLocation

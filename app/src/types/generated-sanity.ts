@@ -1787,6 +1787,7 @@ export interface RootQuery {
   Contact?: Maybe<Contact>
   Customize?: Maybe<Customize>
   Birthdays?: Maybe<Birthdays>
+  Stone?: Maybe<Stone>
   ShopifyProduct?: Maybe<ShopifyProduct>
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
@@ -1807,6 +1808,7 @@ export interface RootQuery {
   allContact: Array<Contact>
   allCustomize: Array<Customize>
   allBirthdays: Array<Birthdays>
+  allStone: Array<Stone>
   allShopifyProduct: Array<ShopifyProduct>
   allShopifyCollection: Array<ShopifyCollection>
   allSanityImageAsset: Array<SanityImageAsset>
@@ -1878,6 +1880,10 @@ export type RootQueryCustomizeArgs = {
 }
 
 export type RootQueryBirthdaysArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryStoneArgs = {
   id: Scalars['ID']
 }
 
@@ -2005,6 +2011,13 @@ export type RootQueryAllCustomizeArgs = {
 export type RootQueryAllBirthdaysArgs = {
   where?: Maybe<BirthdaysFilter>
   sort?: Maybe<Array<BirthdaysSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllStoneArgs = {
+  where?: Maybe<StoneFilter>
+  sort?: Maybe<Array<StoneSorting>>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
 }
@@ -2644,6 +2657,8 @@ export interface ShopifyProductOptionValue {
   swatch?: Maybe<Image>
   /** Cloudinary Video ID (looping render) */
   animation?: Maybe<Scalars['String']>
+  /** If Karat swatch, link to associated stone. */
+  stone?: Maybe<Stone>
 }
 
 export type ShopifyProductOptionValueFilter = {
@@ -2652,6 +2667,7 @@ export type ShopifyProductOptionValueFilter = {
   value?: Maybe<StringFilter>
   swatch?: Maybe<ImageFilter>
   animation?: Maybe<StringFilter>
+  stone?: Maybe<StoneFilter>
 }
 
 export type ShopifyProductOptionValueSorting = {
@@ -3364,6 +3380,62 @@ export interface Span {
   _type?: Maybe<Scalars['String']>
   marks?: Maybe<Array<Maybe<Scalars['String']>>>
   text?: Maybe<Scalars['String']>
+}
+
+export interface Stone extends Document {
+  __typename: 'Stone'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  gia_number?: Maybe<Scalars['String']>
+  gia_link?: Maybe<Scalars['String']>
+  carat?: Maybe<Scalars['String']>
+  cut?: Maybe<Scalars['String']>
+  color?: Maybe<Scalars['String']>
+  precision?: Maybe<Scalars['String']>
+  clarity?: Maybe<Scalars['String']>
+}
+
+export type StoneFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  gia_number?: Maybe<StringFilter>
+  gia_link?: Maybe<StringFilter>
+  carat?: Maybe<StringFilter>
+  cut?: Maybe<StringFilter>
+  color?: Maybe<StringFilter>
+  precision?: Maybe<StringFilter>
+  clarity?: Maybe<StringFilter>
+}
+
+export type StoneSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  gia_number?: Maybe<SortOrder>
+  gia_link?: Maybe<SortOrder>
+  carat?: Maybe<SortOrder>
+  cut?: Maybe<SortOrder>
+  color?: Maybe<SortOrder>
+  precision?: Maybe<SortOrder>
+  clarity?: Maybe<SortOrder>
 }
 
 export type StringFilter = {
