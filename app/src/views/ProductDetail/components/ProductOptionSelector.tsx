@@ -102,7 +102,8 @@ export const ProductOptionSelector = ({
     ?.filter((variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     })
     .map((variant) => variant?.node)

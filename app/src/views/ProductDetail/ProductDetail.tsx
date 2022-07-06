@@ -150,7 +150,13 @@ export const ProductDetail = ({ product }: Props) => {
 
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
-    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+    variants?.filter(
+      (v) =>
+        v?.sourceData?.currentlyNotInStock === false &&
+        !v?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat'),
+    ) || []
+
+  console.log('variantsInStock', variantsInStock)
 
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -168,7 +174,8 @@ export const ProductDetail = ({ product }: Props) => {
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
   )
@@ -180,6 +187,9 @@ export const ProductDetail = ({ product }: Props) => {
       )
     })
     .map((option) => slugify(option?.value))
+
+  console.log('variantsInStock', variantsInStock)
+  console.log('stockedVariants', stockedVariants)
 
   const isSwatchCurrentlyInStock = (
     currentVariant,
