@@ -143,10 +143,21 @@ export const ProductSwatches = ({
     })
     .map((option) => slugify(option?.value))
 
+  const stockedCaratOptions = product?.variants
+    ?.map((variant) => {
+      return variant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Carat',
+      )
+    })
+    .map((option) => slugify(option?.value))
+
   const swatchOptions = getSwatchOptions(product).filter(
     // @ts-ignore: Object is possibly 'null' or 'undefined'.
     (option) => option.values.length > 0,
   )
+
+  console.log('swatchOptions', swatchOptions)
+  console.log('stockedCaratOptions', stockedCaratOptions)
 
   return (
     <div>
