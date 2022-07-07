@@ -4,6 +4,7 @@ import {
   CustomizationModal,
   RingSizerModal,
   SizeConverterModal,
+  DiamondModal,
 } from '../../components/Modals'
 import { useLockScroll } from '../../components/LockScroll'
 import { ModalName, useModalReducer } from './reducer'
@@ -37,6 +38,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
   } = useModalReducer()
   const { lockScroll, unlockScroll } = useLockScroll()
 
@@ -65,6 +67,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
   }
   const { formtype, currentModal, currentProduct, currentVariant } = state
 
@@ -85,6 +88,12 @@ export const ModalProvider = ({ children }: ModalProps) => {
         />
       ) : currentModal === ModalName.SIZE_CONVERTER ? (
         <SizeConverterModal
+          product={currentProduct}
+          variant={currentVariant}
+          closeModal={closeModal}
+        />
+      ) : currentModal === ModalName.DIAMOND ? (
+        <DiamondModal
           product={currentProduct}
           variant={currentVariant}
           closeModal={closeModal}

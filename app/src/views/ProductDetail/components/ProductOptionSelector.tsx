@@ -20,6 +20,7 @@ import {
   isValidSwatchOption,
   definitely,
 } from '../../../utils'
+import { useModal } from '../../../providers/ModalProvider'
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
@@ -51,6 +52,12 @@ const Wrapper = styled.div``
 
 const SwatchesWrapper = styled.div`
   display: flex;
+`
+
+const DiamondInfoSpan = styled.span`
+  display: inline-block;
+  padding-left: 5;
+  text-decoration: underline;
 `
 
 const SelectWrapper = styled.div<SelectWrapperProps>`
@@ -200,6 +207,8 @@ export const ProductOptionSelector = ({
     return optionMatchesVariant(option.name || 'foo', value, currentVariant)
   }
 
+  const { openDiamondModal } = useModal()
+
   const handleSubmit = (values: any) => {
     //
   }
@@ -208,6 +217,11 @@ export const ProductOptionSelector = ({
     <Wrapper>
       <Heading level={5} mb={2}>
         {isInput ? null : option.name}
+        {option.name === 'Carat' ? (
+          <DiamondInfoSpan onClick={() => openDiamondModal()}>
+            Diamond Info
+          </DiamondInfoSpan>
+        ) : null}
       </Heading>
       <SelectWrapper isInput={isInput}>
         {isValidSwatchOption(option) ? (

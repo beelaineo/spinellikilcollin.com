@@ -10,6 +10,7 @@ export enum ModalName {
   SIZE_CONVERTER = 'SIZE_CONVERTER',
   CUSTOMIZATION = 'CUSTOMIZATION',
   CONTACT = 'CONTACT',
+  DIAMOND = 'DIAMOND',
 }
 
 interface State {
@@ -100,6 +101,15 @@ export const useModalReducer = () => {
     })
   }
 
+  const openDiamondModal = (args?: OpenModalArgs) => {
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.DIAMOND,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+    })
+  }
+
   const openContactModal = ({
     formtype,
     currentProduct,
@@ -125,5 +135,6 @@ export const useModalReducer = () => {
     openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
   }
 }
