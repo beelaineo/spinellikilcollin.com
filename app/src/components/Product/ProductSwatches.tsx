@@ -18,6 +18,12 @@ import {
 import { SwatchesWrapper, SwatchWrapper } from './styled'
 import styled, { css } from '@xstyled/styled-components'
 
+const OptionSwatchesWrapper = styled('div')`
+  display: flex;
+  justify-content: center;
+  gap: 5;
+`
+
 const InStockDot = styled('span')`
   display: inline-block;
   background-color: #00d009;
@@ -160,7 +166,7 @@ export const ProductSwatches = ({
   console.log('stockedCaratOptions', stockedCaratOptions)
 
   return (
-    <div>
+    <OptionSwatchesWrapper>
       {swatchOptions.map((option) => (
         <OptionSwatches
           option={option}
@@ -172,6 +178,6 @@ export const ProductSwatches = ({
           isSwatchActive={isSwatchActive}
         />
       ))}
-    </div>
+    </OptionSwatchesWrapper>
   )
 }
