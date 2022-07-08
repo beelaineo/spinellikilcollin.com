@@ -81,7 +81,22 @@ export const hero = {
         direction: 'horizontal',
       },
     },
-
+    {
+      name: 'layout',
+      title: 'Layout Mode',
+      description:
+        'Change the layout and alignment mode of the hero elements (Default: Full Width)',
+      type: 'string',
+      fieldset: 'display',
+      initialValue: 'full',
+      options: {
+        list: [
+          { title: 'Full Width: Text over Image', value: 'full' },
+          { title: 'Flex: Text / Image', value: 'flex-left' },
+          { title: 'Flex: Image / Text', value: 'flex-right' },
+        ],
+      },
+    },
     {
       name: 'textContainer',
       title: 'Text Container Size',
