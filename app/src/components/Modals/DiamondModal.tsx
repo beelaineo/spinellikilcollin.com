@@ -14,6 +14,8 @@ export const DiamondModal = ({
   product,
   variant,
 }: DiamondModalProps) => {
+  console.log('DiamondModal variant', variant)
+  console.log('DiamondModal product', product)
   return (
     <Modal closeModal={closeModal}>
       <h2>Diamond Certification</h2>

@@ -285,6 +285,21 @@ export const textBlockFragment = gql`
   ${richImageFragment}
 `
 
+export const stoneFragment = gql`
+  fragment StoneFragment on Stone {
+    _id
+    _type
+    _key
+    gia_number
+    gia_link
+    carat
+    cut
+    color
+    precision
+    clarity
+  }
+`
+
 export const shopifySourceProductFragment = gql`
   fragment ShopifySourceProductFragment on ShopifySourceProduct {
     __typename
@@ -474,6 +489,9 @@ export const shopifyProductThumbnailFragment = gql`
         swatch {
           ...SanityImageFragment
         }
+        stone {
+          ...StoneFragment
+        }
       }
     }
     sourceData {
@@ -484,6 +502,7 @@ export const shopifyProductThumbnailFragment = gql`
   ${sanityImageFragment}
   ${shopifySourceImageFragment}
   ${shopifySourceProductFragment}
+  ${stoneFragment}
 `
 
 export const richPageLinkFragment = gql`

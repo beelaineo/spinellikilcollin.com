@@ -58,6 +58,7 @@ const DiamondInfoSpan = styled.span`
   display: inline-block;
   padding-left: 5;
   text-decoration: underline;
+  cursor: pointer;
 `
 
 const SelectWrapper = styled.div<SelectWrapperProps>`
@@ -212,13 +213,19 @@ export const ProductOptionSelector = ({
   const handleSubmit = (values: any) => {
     //
   }
-
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
         {isInput ? null : option.name}
         {option.name === 'Carat' ? (
-          <DiamondInfoSpan onClick={() => openDiamondModal()}>
+          <DiamondInfoSpan
+            onClick={() =>
+              openDiamondModal({
+                currentProduct: product,
+                currentVariant: currentVariant || undefined,
+              })
+            }
+          >
             Diamond Info
           </DiamondInfoSpan>
         ) : null}
