@@ -162,9 +162,6 @@ export const ProductSwatches = ({
     (option) => option.values.length > 0,
   )
 
-  console.log('swatchOptions', swatchOptions)
-  console.log('stockedCaratOptions', stockedCaratOptions)
-
   return (
     <OptionSwatchesWrapper>
       {swatchOptions.map((option) => (

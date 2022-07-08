@@ -69,7 +69,13 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openContactModal,
     openDiamondModal,
   }
-  const { formtype, currentModal, currentProduct, currentVariant } = state
+  const {
+    formtype,
+    currentModal,
+    currentProduct,
+    currentVariant,
+    currentDiamond,
+  } = state
 
   return (
     <ModalContext.Provider value={value}>
@@ -96,6 +102,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
         <DiamondModal
           product={currentProduct}
           variant={currentVariant}
+          diamond={currentDiamond}
           closeModal={closeModal}
         />
       ) : currentModal === ModalName.CONTACT ? (

@@ -129,6 +129,11 @@ export const ProductOptionSelector = ({
       (option) => option?.name === 'Color',
     )
 
+  const currentSelectedDiamond =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Carat',
+    )
+
   const getVariantOptions = (variantOptions) => {
     const arr: Record<string, unknown>[] = []
     variantOptions.forEach((v) => {
@@ -223,6 +228,7 @@ export const ProductOptionSelector = ({
               openDiamondModal({
                 currentProduct: product,
                 currentVariant: currentVariant || undefined,
+                currentDiamond: currentSelectedDiamond || undefined,
               })
             }
           >

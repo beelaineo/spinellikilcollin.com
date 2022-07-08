@@ -156,8 +156,6 @@ export const ProductDetail = ({ product }: Props) => {
         !v?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat'),
     ) || []
 
-  console.log('variantsInStock', variantsInStock)
-
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
     return text
@@ -187,9 +185,6 @@ export const ProductDetail = ({ product }: Props) => {
       )
     })
     .map((option) => slugify(option?.value))
-
-  console.log('variantsInStock', variantsInStock)
-  console.log('stockedVariants', stockedVariants)
 
   const isSwatchCurrentlyInStock = (
     currentVariant,
