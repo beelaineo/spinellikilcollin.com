@@ -738,6 +738,12 @@ export type FilterMatchSorting = {
   match?: Maybe<SortOrder>
 }
 
+export type FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter =
+  | Filter
+  | FilterSet
+  | InventoryFilter
+  | PriceRangeFilter
+
 export interface FilterSet {
   __typename: 'FilterSet'
   _key?: Maybe<Scalars['String']>
@@ -754,11 +760,6 @@ export type FilterSetFilter = {
   heading?: Maybe<StringFilter>
   searchOnly?: Maybe<BooleanFilter>
 }
-
-export type FilterSetOrInventoryFilterOrPriceRangeFilter =
-  | FilterSet
-  | InventoryFilter
-  | PriceRangeFilter
 
 export type FilterSetSorting = {
   _key?: Maybe<SortOrder>
@@ -841,6 +842,8 @@ export interface Hero {
   body_mobileRaw?: Maybe<Scalars['JSON']>
   cta?: Maybe<Array<Maybe<Cta>>>
   aspectRatio?: Maybe<Scalars['Float']>
+  /** Change the layout and alignment mode of the hero elements (Default: Full Width) */
+  layout?: Maybe<Scalars['String']>
   /** Limit the size of the text container. (Default: Full Width) */
   textContainer?: Maybe<Scalars['String']>
   textPosition?: Maybe<Scalars['String']>
@@ -860,6 +863,7 @@ export type HeroFilter = {
   _type?: Maybe<StringFilter>
   heroLink?: Maybe<InternalLinkFilter>
   aspectRatio?: Maybe<FloatFilter>
+  layout?: Maybe<StringFilter>
   textContainer?: Maybe<StringFilter>
   textPosition?: Maybe<StringFilter>
   textPositionMobile?: Maybe<StringFilter>
@@ -878,6 +882,7 @@ export type HeroSorting = {
   _type?: Maybe<SortOrder>
   heroLink?: Maybe<InternalLinkSorting>
   aspectRatio?: Maybe<SortOrder>
+  layout?: Maybe<SortOrder>
   textContainer?: Maybe<SortOrder>
   textPosition?: Maybe<SortOrder>
   textPositionMobile?: Maybe<SortOrder>
@@ -1633,10 +1638,10 @@ export interface ProductListingSettings extends Document {
   /** Use these fields to define a default set of filters to be used on collection pages and in search results. You can add specific filter configuration to each Collection within their own documents. */
   helpText?: Maybe<Scalars['String']>
   defaultFilter?: Maybe<
-    Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
+    Array<Maybe<FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter>>
   >
   newDefaultFilter?: Maybe<
-    Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
+    Array<Maybe<FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter>>
   >
 }
 
@@ -2481,10 +2486,12 @@ export interface ShopifyCollection extends Document {
   preferredVariantMatches?: Maybe<Array<Maybe<Scalars['String']>>>
   /** Toggle this to ON to remove all filters from the collection view. */
   hideFilter?: Maybe<Scalars['Boolean']>
+  /** Toggle this to ON to hide filter label, reset button, and sort tools. */
+  minimalDisplay?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to only display the custom filters you add below. */
   overrideDefaultFilter?: Maybe<Scalars['Boolean']>
   customFilter?: Maybe<
-    Array<Maybe<FilterSetOrInventoryFilterOrPriceRangeFilter>>
+    Array<Maybe<FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter>>
   >
   bambuser?: Maybe<BambuserSettings>
   seo?: Maybe<Seo>
@@ -2509,6 +2516,7 @@ export type ShopifyCollectionFilter = {
   lightTheme?: Maybe<BooleanFilter>
   hero?: Maybe<HeroFilter>
   hideFilter?: Maybe<BooleanFilter>
+  minimalDisplay?: Maybe<BooleanFilter>
   overrideDefaultFilter?: Maybe<BooleanFilter>
   bambuser?: Maybe<BambuserSettingsFilter>
   seo?: Maybe<SeoFilter>
@@ -2531,6 +2539,7 @@ export type ShopifyCollectionSorting = {
   lightTheme?: Maybe<SortOrder>
   hero?: Maybe<HeroSorting>
   hideFilter?: Maybe<SortOrder>
+  minimalDisplay?: Maybe<SortOrder>
   overrideDefaultFilter?: Maybe<SortOrder>
   bambuser?: Maybe<BambuserSettingsSorting>
   seo?: Maybe<SeoSorting>
