@@ -101,6 +101,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   customFilter,
   hideFilter,
   overrideDefaultFilter,
+  minimalDisplay,
 	seo{
   	"image": select(
   		defined(image.asset) => {

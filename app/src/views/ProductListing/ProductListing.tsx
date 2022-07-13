@@ -91,6 +91,7 @@ export const ProductListing = ({
     hidden,
     hideFilter,
     overrideDefaultFilter,
+    minimalDisplay,
   } = collection
 
   const defaultFilter = productListingSettings?.newDefaultFilter
@@ -324,6 +325,7 @@ export const ProductListing = ({
             resetFilters={resetFilters}
             hideFilter={hideFilter}
             inStockFilter={inStockFilter}
+            minimalDisplay={minimalDisplay}
           />
         ) : null}
         {items.length === 0 && !loading ? (

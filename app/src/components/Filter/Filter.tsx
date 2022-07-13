@@ -73,6 +73,7 @@ interface FilterProps {
   currentFilter: FilterConfiguration | null
   resetFilters: number
   hideFilter?: Maybe<boolean>
+  minimalDisplay?: Maybe<boolean>
   open?: boolean
 }
 
@@ -161,6 +162,7 @@ export const Filter = ({
   inStockFilter,
   resetFilters,
   hideFilter,
+  minimalDisplay,
   productsCount,
   open: parentOpen,
 }: FilterProps) => {
@@ -215,7 +217,7 @@ export const Filter = ({
     return (
       <Wrapper>
         <Backdrop />
-        {isMobile === true && open === false ? (
+        {isMobile === true && open === false && minimalDisplay === false ? (
           <MobileToggleWrapper onClick={toggleOpen}>
             <Heading level={4} color="body.7" textDecoration="underline">
               Filter<MobileControlsDivider>+</MobileControlsDivider>Sort
@@ -225,16 +227,20 @@ export const Filter = ({
           ''
         )}
         <Inner
-          open={Boolean(isMobile === false || (isMobile === true && open))}
+          open={Boolean(
+            isMobile === false ||
+              (isMobile === true && minimalDisplay) ||
+              (isMobile === true && open),
+          )}
         >
-          {isMobile === false ? (
+          {isMobile === false && !minimalDisplay ? (
             <Heading level={5} color="body.7" mr={2} lineHeight={1}>
               Filter by:
             </Heading>
           ) : (
             ''
           )}
-          {isMobile === true ? (
+          {isMobile === true && !minimalDisplay ? (
             <MobileHeader>
               <MobileControls>
                 <ControlTab onClick={() => setMobileDisplay('filter')}>
@@ -355,32 +361,39 @@ export const Filter = ({
                 </FilterWrapper>
               ) : null,
             )}
-            {isMobile === true ? (
-              <MobileFooter>
-                {productsCount > 0 ? (
-                  <Heading level={5} color="body.7">
-                    Results: {productsCount}
-                  </Heading>
-                ) : (
-                  ''
-                )}
-                <Reset onClick={handleReset}>Reset</Reset>
-              </MobileFooter>
+            {minimalDisplay === false ? (
+              isMobile === true ? (
+                <MobileFooter>
+                  {productsCount > 0 ? (
+                    <Heading level={5} color="body.7">
+                      Results: {productsCount}
+                    </Heading>
+                  ) : (
+                    ''
+                  )}
+                  <Reset onClick={handleReset}>Reset</Reset>
+                </MobileFooter>
+              ) : (
+                <DesktopFooter>
+                  {productsCount > 0 ? (
+                    <Heading level={5} color="body.7" ml={2}>
+                      Results: {productsCount}
+                    </Heading>
+                  ) : (
+                    ''
+                  )}
+                  <Reset onClick={handleReset}>Reset</Reset>
+                </DesktopFooter>
+              )
             ) : (
-              <DesktopFooter>
-                {productsCount > 0 ? (
-                  <Heading level={5} color="body.7" ml={2}>
-                    Results: {productsCount}
-                  </Heading>
-                ) : (
-                  ''
-                )}
-                <Reset onClick={handleReset}>Reset</Reset>
-              </DesktopFooter>
+              ''
             )}
           </FilterSets>
           <SortWrapper
-            hide={Boolean(isMobile === true && mobileDisplay === 'filter')}
+            hide={Boolean(
+              (isMobile === true && mobileDisplay === 'filter') ||
+                minimalDisplay,
+            )}
           >
             <SortSet applySort={applySort} />
           </SortWrapper>
