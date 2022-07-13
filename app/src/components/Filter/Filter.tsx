@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  Filter as FilterSingleType,
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
   InventoryFilter as InventoryFilterTypeSource,
@@ -7,12 +8,15 @@ import {
   PriceRangeFilterConfiguration,
   InventoryFilterConfiguration,
   FilterMatchGroup,
+  FILTER_SINGLE,
   PRICE_RANGE_FILTER,
   INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
   Maybe,
+  FilterSingleConfiguration,
 } from '../../types'
 import { FilterSet } from './FilterSet'
+import { FilterSingle } from './FilterSingle'
 import { PriceRangeFilter } from './PriceRangeFilter'
 import { InventoryFilter } from './InventoryFilter'
 import {
@@ -54,7 +58,11 @@ interface InventoryFilterType extends InventoryFilterTypeSource {
 
 type FilterValues = Record<string, any>
 
-type FilterType = FilterSetType | PriceRangeFilterType | InventoryFilterType
+type FilterType =
+  | FilterSingleType
+  | FilterSetType
+  | PriceRangeFilterType
+  | InventoryFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
@@ -131,6 +139,21 @@ const getCurrentFilters = (
         label,
       }
       return [...acc, inventoryFilter]
+    } else if (filter.__typename === 'Filter') {
+      console.log('FilterSingle')
+      console.log('filter:', filter)
+      console.log('setState:', setState)
+      console.log('acc:', acc)
+      const activeMatchKeys = setState.activeMatchKeys
+      if (activeMatchKeys.length === 0) return acc
+      const filterMatches = definitely(filter.matches)
+      const filterSingle: FilterSingleConfiguration = {
+        filterType: FILTER_SINGLE,
+        matches: filterMatches,
+        key: filter._key || 'some-key',
+      }
+      console.log('return filterSingle', filterSingle)
+      return [...acc, filterSingle]
     }
     return acc
   }, [])
@@ -271,6 +294,26 @@ export const Filter = ({
                     resetSet={resetSet(filter._key || 'some-key')}
                     toggleMatch={toggle(filter._key || 'some-key')}
                     filterSet={filter}
+                    active={Boolean(activeKey === filter._key)}
+                  />
+                </FilterWrapper>
+              ) : filter.__typename === 'Filter' ? (
+                <FilterWrapper
+                  heading={filter.label}
+                  key={filter._key || 'some-key'}
+                  type={filter.__typename}
+                  filter={filter}
+                  onClick={() => handleFilterClick(filter._key)}
+                  active={Boolean(activeKey === filter._key)}
+                >
+                  <FilterSingle
+                    setKey={filter._key || 'some-key'}
+                    filterSetState={filterSetStates.find(
+                      (s) => s.key === filter._key,
+                    )}
+                    resetSet={resetSet(filter._key || 'some-key')}
+                    toggleMatch={toggle(filter._key || 'some-key')}
+                    filterSingle={filter}
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>

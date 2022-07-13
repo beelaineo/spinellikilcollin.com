@@ -1,5 +1,6 @@
 import { useReducer } from 'react'
 import {
+  Filter as FilterSingleType,
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
   InventoryFilter as InventoryFilterTypeSource,
@@ -155,7 +156,9 @@ const reducer = (state: State, action: Action): State => {
   return state
 }
 
-type Filters = Array<FilterSetType | PriceRangeFilterType | InventoryFilterType>
+type Filters = Array<
+  FilterSingleType | FilterSetType | PriceRangeFilterType | InventoryFilterType
+>
 
 interface UseFilterReducer {
   filterSetStates: FilterSetState[]

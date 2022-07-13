@@ -223,7 +223,10 @@ export const ProductThumbnail = ({
       .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
       .map((filter, i) => {
         const { filterType } = filter
-        if (filterType === 'FILTER_MATCH_GROUP') {
+        if (
+          filterType === 'FILTER_MATCH_GROUP' ||
+          filterType === 'FILTER_SINGLE'
+        ) {
           const { matches } = filter
           const newMatches = matches.map((matchGroup) => {
             const { type, match } = matchGroup

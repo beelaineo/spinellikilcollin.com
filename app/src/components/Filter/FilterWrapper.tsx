@@ -1,7 +1,12 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { FilterSetWrapper } from './styled'
-import { PriceRangeFilter, FilterSet, InventoryFilter } from '../../types'
+import {
+  Filter,
+  PriceRangeFilter,
+  FilterSet,
+  InventoryFilter,
+} from '../../types'
 
 const { useState } = React
 
@@ -66,7 +71,7 @@ interface FilterWrapperProps {
   heading?: string | null | void
   children: React.ReactNode
   type: string
-  filter: FilterSet | PriceRangeFilter | InventoryFilter
+  filter: Filter | FilterSet | PriceRangeFilter | InventoryFilter
   onClick: () => void
   active: boolean
 }
