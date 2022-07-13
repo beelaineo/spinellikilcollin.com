@@ -140,10 +140,6 @@ const getCurrentFilters = (
       }
       return [...acc, inventoryFilter]
     } else if (filter.__typename === 'Filter') {
-      console.log('FilterSingle')
-      console.log('filter:', filter)
-      console.log('setState:', setState)
-      console.log('acc:', acc)
       const activeMatchKeys = setState.activeMatchKeys
       if (activeMatchKeys.length === 0) return acc
       const filterMatches = definitely(filter.matches)
@@ -152,7 +148,6 @@ const getCurrentFilters = (
         matches: filterMatches,
         key: filter._key || 'some-key',
       }
-      console.log('return filterSingle', filterSingle)
       return [...acc, filterSingle]
     }
     return acc
