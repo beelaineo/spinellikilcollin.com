@@ -30,6 +30,7 @@
     "@sane-shopify/sanity-plugin": "^0.23.0",
     "@sanity/base": "^2.24.0",
     "@sanity/block-content-to-react": "^3.0.0",
+    "@sanity/color-input": "^2.30.1",
     "@sanity/components": "^2.14.0",
     "@sanity/core": "^2.24.0",
     "@sanity/default-layout": "^2.24.0",
