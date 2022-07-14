@@ -24,7 +24,7 @@ interface HeroWrapperProps {
 
 export const HeroWrapper = styled.div<HeroWrapperProps>`
   ${({ theme, hero }) => css`
-    display: ${hero.layout === 'flex-left' || 'flex-right' ? 'flex' : 'block'};
+    display: ${hero.layout?.includes('flex') ? 'flex' : 'block'};
     position: relative;
     z-index: 0;
     grid-column: span 2;
@@ -38,6 +38,7 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
       background-color: ${getBackgroundColor(
         hero.mobileBackgroundColor || hero.backgroundColor,
       )};
+      flex-direction: column;
       overflow: hidden;
     }
   `}
@@ -163,6 +164,8 @@ const HeroText = styled.div`
         : 'center'};
       color: ${textColorMobile ? getColor(textColorMobile) : 'inherit'};
       padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;
+      width: 100%;
+      min-height: ${hero.layout?.includes('flex') ? '40vw' : 'auto'};
     }
   `}
 `
@@ -202,6 +205,9 @@ const HeroImageWrapper = styled.div<HeroImageWrapperProps>`
     }
 
     ${theme.mediaQueries.mobile} {
+      order: 0;
+      width: 100%;
+
       & > *:nth-of-type(1) {
         display: none;
       }
