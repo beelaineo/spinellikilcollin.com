@@ -232,6 +232,7 @@ export const Filter = ({
               (isMobile === true && minimalDisplay) ||
               (isMobile === true && open),
           )}
+          minimalDisplay={minimalDisplay}
         >
           {isMobile === false && !minimalDisplay ? (
             <Heading level={5} color="body.7" mr={2} lineHeight={1}>
@@ -286,6 +287,7 @@ export const Filter = ({
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
                   active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
                 >
                   <FilterSet
                     setKey={filter._key || 'some-key'}
@@ -306,6 +308,7 @@ export const Filter = ({
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
                   active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
                 >
                   <FilterSingle
                     setKey={filter._key || 'some-key'}
@@ -326,6 +329,7 @@ export const Filter = ({
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
                   active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
                 >
                   <PriceRangeFilter
                     setKey={filter._key || 'some-key'}
@@ -346,6 +350,7 @@ export const Filter = ({
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
                   active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
                 >
                   <InventoryFilter
                     setKey={filter._key || 'some-key'}

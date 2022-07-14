@@ -6,6 +6,7 @@ import {
   PriceRangeFilter,
   FilterSet,
   InventoryFilter,
+  Maybe,
 } from '../../types'
 
 const { useState } = React
@@ -18,17 +19,18 @@ interface WithType {
   type?: string
   rowSpan?: number
   active: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
 const Wrapper = styled.div<WithType>`
-  ${({ theme, rowSpan, type, active }) => css`
+  ${({ theme, rowSpan, type, active, minimalDisplay }) => css`
     grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
     ${theme.mediaQueries.tablet} {
     }
     @media screen and (max-width: 960px) {
-      flex: 49%;
+      flex: ${minimalDisplay ? 'auto' : '49%'};
       flex-grow: 0;
       &:nth-last-child(2) {
         min-width: unset;
@@ -74,6 +76,7 @@ interface FilterWrapperProps {
   filter: Filter | FilterSet | PriceRangeFilter | InventoryFilter
   onClick: () => void
   active: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
 export const FilterWrapper = ({
@@ -83,6 +86,7 @@ export const FilterWrapper = ({
   filter,
   onClick,
   active,
+  minimalDisplay,
 }: FilterWrapperProps) => {
   const rowSpan =
     filter.__typename === 'FilterSet'
@@ -92,7 +96,13 @@ export const FilterWrapper = ({
       : undefined
 
   return (
-    <Wrapper rowSpan={rowSpan} type={type} onClick={onClick} active={active}>
+    <Wrapper
+      rowSpan={rowSpan}
+      type={type}
+      onClick={onClick}
+      active={active}
+      minimalDisplay={minimalDisplay}
+    >
       <Inner open={true}>{children}</Inner>
     </Wrapper>
   )

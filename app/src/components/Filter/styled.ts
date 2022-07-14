@@ -199,12 +199,13 @@ export const Header = styled.div`
   `}
 `
 
-interface WithOpen {
+interface WithOpenMinimalDisplay {
   open: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
-export const Inner = styled.div<WithOpen>`
-  ${({ theme, open }) => css`
+export const Inner = styled.div<WithOpenMinimalDisplay>`
+  ${({ theme, open, minimalDisplay }) => css`
     display: ${open ? 'flex' : 'none'};
     margin: 0 7;
     padding: 0;
@@ -220,12 +221,13 @@ export const Inner = styled.div<WithOpen>`
     @media screen and (max-width: 960px) {
       margin: 0 4;
       flex-direction: column;
-      border-bottom: 1px solid ${theme.colors.grays[5]};
+      border-bottom: ${minimalDisplay
+        ? `none`
+        : '1px solid ' + theme.colors.grays[5]};
       max-height: unset;
     }
   `}
 `
-
 export const OpenButton = styled(Button)`
   ${({ theme }) => css`
     text-transform: initial;
