@@ -18,7 +18,7 @@
     "test": "sanity check",
     "deploy": "yarn deploy:graphql && yarn deploy:cms",
     "deploy:cms": "yarn sanity deploy",
-    "deploy:graphql": "yarn sanity graphql deploy --generation gen2 --playground && yarn workspace spinellikilcollin-app generate-types",
+    "deploy:graphql": "sanity graphql deploy --generation gen2 --playground && yarn workspace spinellikilcollin-app generate-types",
     "sync:export": "sanity dataset export production",
     "sync:reset": "sanity dataset delete staging && yarn sanity dataset create staging",
     "sync:import": "sanity dataset import production.tar.gz staging --replace",

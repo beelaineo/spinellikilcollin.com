@@ -298,6 +298,37 @@ export type CollectionBlockSorting = {
   backgroundColor?: Maybe<SortOrder>
 }
 
+export interface Color {
+  __typename: 'Color'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  hex?: Maybe<Scalars['String']>
+  alpha?: Maybe<Scalars['Float']>
+  hsl?: Maybe<HslaColor>
+  hsv?: Maybe<HsvaColor>
+  rgb?: Maybe<RgbaColor>
+}
+
+export type ColorFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  hex?: Maybe<StringFilter>
+  alpha?: Maybe<FloatFilter>
+  hsl?: Maybe<HslaColorFilter>
+  hsv?: Maybe<HsvaColorFilter>
+  rgb?: Maybe<RgbaColorFilter>
+}
+
+export type ColorSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  hex?: Maybe<SortOrder>
+  alpha?: Maybe<SortOrder>
+  hsl?: Maybe<HslaColorSorting>
+  hsv?: Maybe<HsvaColorSorting>
+  rgb?: Maybe<RgbaColorSorting>
+}
+
 export interface Contact extends Document {
   __typename: 'Contact'
   /** Document ID */
@@ -849,9 +880,13 @@ export interface Hero {
   textPosition?: Maybe<Scalars['String']>
   textPositionMobile?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
+  textColorCustom?: Maybe<Color>
   textColorMobile?: Maybe<Scalars['String']>
+  textColorMobileCustom?: Maybe<Color>
   backgroundColor?: Maybe<Scalars['String']>
+  backgroundColorCustom?: Maybe<Color>
   mobileBackgroundColor?: Maybe<Scalars['String']>
+  mobileBackgroundColorCustom?: Maybe<Color>
   cloudinaryVideo?: Maybe<CloudinaryVideo>
   cloudinaryVideoMobile?: Maybe<CloudinaryVideo>
   image?: Maybe<RichImage>
@@ -868,9 +903,13 @@ export type HeroFilter = {
   textPosition?: Maybe<StringFilter>
   textPositionMobile?: Maybe<StringFilter>
   textColor?: Maybe<StringFilter>
+  textColorCustom?: Maybe<ColorFilter>
   textColorMobile?: Maybe<StringFilter>
+  textColorMobileCustom?: Maybe<ColorFilter>
   backgroundColor?: Maybe<StringFilter>
+  backgroundColorCustom?: Maybe<ColorFilter>
   mobileBackgroundColor?: Maybe<StringFilter>
+  mobileBackgroundColorCustom?: Maybe<ColorFilter>
   cloudinaryVideo?: Maybe<CloudinaryVideoFilter>
   cloudinaryVideoMobile?: Maybe<CloudinaryVideoFilter>
   image?: Maybe<RichImageFilter>
@@ -887,9 +926,13 @@ export type HeroSorting = {
   textPosition?: Maybe<SortOrder>
   textPositionMobile?: Maybe<SortOrder>
   textColor?: Maybe<SortOrder>
+  textColorCustom?: Maybe<ColorSorting>
   textColorMobile?: Maybe<SortOrder>
+  textColorMobileCustom?: Maybe<ColorSorting>
   backgroundColor?: Maybe<SortOrder>
+  backgroundColorCustom?: Maybe<ColorSorting>
   mobileBackgroundColor?: Maybe<SortOrder>
+  mobileBackgroundColorCustom?: Maybe<ColorSorting>
   cloudinaryVideo?: Maybe<CloudinaryVideoSorting>
   cloudinaryVideoMobile?: Maybe<CloudinaryVideoSorting>
   image?: Maybe<RichImageSorting>
@@ -937,6 +980,62 @@ export type HomepageSorting = {
   _key?: Maybe<SortOrder>
   header_color?: Maybe<SortOrder>
   seo?: Maybe<SeoSorting>
+}
+
+export interface HslaColor {
+  __typename: 'HslaColor'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  h?: Maybe<Scalars['Float']>
+  s?: Maybe<Scalars['Float']>
+  l?: Maybe<Scalars['Float']>
+  a?: Maybe<Scalars['Float']>
+}
+
+export type HslaColorFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  h?: Maybe<FloatFilter>
+  s?: Maybe<FloatFilter>
+  l?: Maybe<FloatFilter>
+  a?: Maybe<FloatFilter>
+}
+
+export type HslaColorSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  h?: Maybe<SortOrder>
+  s?: Maybe<SortOrder>
+  l?: Maybe<SortOrder>
+  a?: Maybe<SortOrder>
+}
+
+export interface HsvaColor {
+  __typename: 'HsvaColor'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  h?: Maybe<Scalars['Float']>
+  s?: Maybe<Scalars['Float']>
+  v?: Maybe<Scalars['Float']>
+  a?: Maybe<Scalars['Float']>
+}
+
+export type HsvaColorFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  h?: Maybe<FloatFilter>
+  s?: Maybe<FloatFilter>
+  v?: Maybe<FloatFilter>
+  a?: Maybe<FloatFilter>
+}
+
+export type HsvaColorSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  h?: Maybe<SortOrder>
+  s?: Maybe<SortOrder>
+  v?: Maybe<SortOrder>
+  a?: Maybe<SortOrder>
 }
 
 export type IdFilter = {
@@ -1712,6 +1811,34 @@ export type QuizProductTypeSorting = {
   _type?: Maybe<SortOrder>
   title?: Maybe<SortOrder>
   image?: Maybe<RichImageSorting>
+}
+
+export interface RgbaColor {
+  __typename: 'RgbaColor'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  r?: Maybe<Scalars['Float']>
+  g?: Maybe<Scalars['Float']>
+  b?: Maybe<Scalars['Float']>
+  a?: Maybe<Scalars['Float']>
+}
+
+export type RgbaColorFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  r?: Maybe<FloatFilter>
+  g?: Maybe<FloatFilter>
+  b?: Maybe<FloatFilter>
+  a?: Maybe<FloatFilter>
+}
+
+export type RgbaColorSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  r?: Maybe<SortOrder>
+  g?: Maybe<SortOrder>
+  b?: Maybe<SortOrder>
+  a?: Maybe<SortOrder>
 }
 
 export interface RichImage {
