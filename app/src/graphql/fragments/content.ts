@@ -572,13 +572,18 @@ export const heroFragment = gql`
     bodyRaw
     body_mobileRaw
     textColor
+    textColorCustom
     textColorMobile
+    textColorMobileCustom
     textContainer
     textPosition
     textPositionMobile
     backgroundColor
+    backgroundColorCustom
     mobileBackgroundColor
+    mobileBackgroundColorCustom
     aspectRatio
+    layout
     cta {
       ...CTAFragment
     }

@@ -24,6 +24,7 @@ interface HeroWrapperProps {
 
 export const HeroWrapper = styled.div<HeroWrapperProps>`
   ${({ theme, hero }) => css`
+    display: ${hero.layout === 'flex-left' || 'flex-right' ? 'flex' : 'block'};
     position: relative;
     z-index: 0;
     grid-column: span 2;
@@ -63,10 +64,10 @@ const HeroText = styled.div`
     textContainer,
   }: HeroTextProps) => css`
     pointer-events: none;
-    position: absolute;
+    position: ${hero.layout?.includes('flex') ? 'static' : 'absolute'};
     top: 0;
     left: 0;
-    width: 100%;
+    width: ${hero.layout?.includes('flex') ? '50%' : '100%'};
     height: 100%;
     padding: calc(${theme.navHeight} + ${theme.space[6]}px) 6 6;
     display: flex;
@@ -166,9 +167,15 @@ const HeroText = styled.div`
   `}
 `
 
-const HeroImageWrapper = styled.div`
-  ${({ theme }) => css`
-    width: 100%;
+interface HeroImageWrapperProps {
+  hero: Hero
+  ref?: React.ForwardedRef<HTMLDivElement>
+}
+
+const HeroImageWrapper = styled.div<HeroImageWrapperProps>`
+  ${({ theme, hero }) => css`
+    width: ${hero.layout?.includes('flex') ? '50%' : '100%'};
+    order: ${hero.layout === 'flex-left' ? '1' : '0'};
 
     video {
       top: 0;
@@ -177,6 +184,18 @@ const HeroImageWrapper = styled.div`
       height: 100%;
       object-fit: cover;
     }
+
+    ${hero.layout?.includes('flex')
+      ? `& > div {
+      height: 100%;
+      & > picture {
+        height: 100%;
+        & > img {
+          height: 100%;
+        }
+      }
+    }`
+      : ''}
 
     & > *:nth-of-type(2) {
       display: none;
@@ -224,14 +243,14 @@ export const HeroBlock = React.forwardRef(
       <HeroWrapper hero={hero} ref={ref}>
         <DocumentLink document={heroLink?.document ?? undefined}>
           {cloudinaryVideo?.videoId ? (
-            <HeroImageWrapper>
+            <HeroImageWrapper hero={hero}>
               <CloudinaryVideo video={cloudinaryVideo} />
               {cloudinaryVideoMobile ? (
                 <CloudinaryVideo video={cloudinaryVideoMobile} />
               ) : null}
             </HeroImageWrapper>
           ) : (
-            <HeroImageWrapper>
+            <HeroImageWrapper hero={hero}>
               {image ? <Image image={image} /> : null}
               {mobileImage ? <Image image={mobileImage} /> : null}
             </HeroImageWrapper>
