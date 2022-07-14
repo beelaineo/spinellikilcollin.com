@@ -29,15 +29,26 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     z-index: 0;
     grid-column: span 2;
     overflow: hidden;
-    background-color: ${getBackgroundColor(hero.backgroundColor)};
+    background-color: ${hero.backgroundColor === 'custom'
+      ? hero.backgroundColorCustom?.hex
+      : hero.backgroundColor
+      ? getColor(hero.backgroundColor)
+      : 'inherit'};
     video {
       display: block;
     }
 
     ${theme.mediaQueries.mobile} {
-      background-color: ${getBackgroundColor(
-        hero.mobileBackgroundColor || hero.backgroundColor,
-      )};
+      background-color: ${hero.mobileBackgroundColor === 'custom' &&
+      hero.mobileBackgroundColorCustom
+        ? hero.mobileBackgroundColorCustom?.hex
+        : hero.mobileBackgroundColor
+        ? hero.mobileBackgroundColor
+        : hero.backgroundColor === 'custom' && hero.backgroundColorCustom
+        ? hero.backgroundColorCustom?.hex
+        : hero.backgroundColor
+        ? getColor(hero.backgroundColor)
+        : 'inherit'};
       flex-direction: column;
       overflow: hidden;
     }
@@ -77,7 +88,11 @@ const HeroText = styled.div`
       : 'center'};
     align-items: ${textPosition ? getFlexAlignment(textPosition) : 'center'};
     text-align: ${textPosition ? getTextAlignment(textPosition) : 'center'};
-    color: ${textColor ? getColor(textColor) : 'inherit'};
+    color: ${textColor === 'custom' && hero.textColorCustom
+      ? hero.textColorCustom?.hex
+      : textColor
+      ? getColor(textColor)
+      : 'inherit'};
 
     .text-container {
       ${textContainer == 'full' ? 'max-width: 720px;' : 'max-width: 400px'};
@@ -166,6 +181,16 @@ const HeroText = styled.div`
       padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;
       width: 100%;
       min-height: ${hero.layout?.includes('flex') ? '40vw' : 'auto'};
+
+      color: ${textColorMobile === 'custom' && hero.textColorMobileCustom
+        ? hero.textColorMobileCustom?.hex
+        : hero.textColorMobile
+        ? hero.textColorMobile
+        : hero.textColor === 'custom' && hero.textColorCustom
+        ? hero.textColorCustom?.hex
+        : hero.textColor
+        ? getColor(hero.textColor)
+        : 'inherit'};
     }
   `}
 `
