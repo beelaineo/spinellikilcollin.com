@@ -2,8 +2,12 @@ import styled, { css } from '@xstyled/styled-components'
 import { Button } from '../Button'
 import { Maybe } from '../../types'
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
+interface WithMinimalDisplay {
+  minimalDisplay?: Maybe<boolean>
+}
+
+export const Wrapper = styled.div<WithMinimalDisplay>`
+  ${({ theme, minimalDisplay }) => css`
     padding: 5 0;
     width: 100%;
     position: sticky;
@@ -14,11 +18,11 @@ export const Wrapper = styled.div`
     justify-content: space-between;
     ${theme.mediaQueries.tablet} {
       top: 62px;
-      padding: 3 5;
+      padding: ${minimalDisplay ? '5 0' : '3 5'};
     }
     ${theme.mediaQueries.mobile} {
       top: 48px;
-      padding: 3 0;
+      padding: ${minimalDisplay ? '4 0' : '3 0'};
     }
   `}
 `
@@ -218,13 +222,29 @@ export const Inner = styled.div<WithOpenMinimalDisplay>`
     & > svg path {
       stroke: ${theme.colors.grays[6]};
     }
+    ${theme.mediaQueries.tablet} {
+    }
     @media screen and (max-width: 960px) {
-      margin: 0 4;
+      margin: 0 ${minimalDisplay ? '6' : '4'};
       flex-direction: column;
       border-bottom: ${minimalDisplay
         ? `none`
         : '1px solid ' + theme.colors.grays[5]};
       max-height: unset;
+      ${minimalDisplay
+        ? css`
+            & > div:first-child {
+              padding: 0;
+              & > div {
+                padding-top: 0;
+                padding-bottom: 0;
+              }
+            }
+          `
+        : ''};
+    }
+    ${theme.mediaQueries.mobile} {
+      margin: 0 ${minimalDisplay ? '4' : 'inherit'};
     }
   `}
 `

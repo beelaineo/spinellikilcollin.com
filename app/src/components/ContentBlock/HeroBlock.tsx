@@ -8,7 +8,7 @@ import {
   getTextAlignment,
 } from '../../theme/utils'
 import { Image } from '../Image'
-import { Hero } from '../../types'
+import { Hero, Maybe } from '../../types'
 import { RichText } from '../RichText'
 import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
@@ -20,11 +20,13 @@ import { theme } from '../../theme'
 interface HeroWrapperProps {
   hero: Hero
   ref?: React.ForwardedRef<HTMLDivElement>
+  minimalDisplay?: Maybe<boolean>
 }
 
 export const HeroWrapper = styled.div<HeroWrapperProps>`
-  ${({ theme, hero }) => css`
+  ${({ theme, hero, minimalDisplay }) => css`
     display: ${hero.layout?.includes('flex') ? 'flex' : 'block'};
+    margin-bottom: ${minimalDisplay ? '-76px' : 'inherit'};
     position: relative;
     z-index: 0;
     grid-column: span 2;
@@ -36,6 +38,10 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
       : 'inherit'};
     video {
       display: block;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      margin-bottom: ${minimalDisplay ? '-76px' : 'inherit'};
     }
 
     ${theme.mediaQueries.mobile} {
@@ -51,6 +57,9 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
         : 'inherit'};
       flex-direction: column;
       overflow: hidden;
+      margin-bottom: ${minimalDisplay ? '-63px' : 'inherit'};
+      padding-bottom: ${minimalDisplay ? '63px' : 'inherit'};
+      margin-bottom: -63px;
     }
   `}
 `
@@ -245,11 +254,15 @@ const HeroImageWrapper = styled.div<HeroImageWrapperProps>`
 
 interface HeroBlockProps {
   hero: Hero
+  minimalDisplay?: Maybe<boolean>
 }
 
 // eslint-disable-next-line react/display-name
 export const HeroBlock = React.forwardRef(
-  ({ hero }: HeroBlockProps, ref: React.ForwardedRef<HTMLDivElement>) => {
+  (
+    { hero, minimalDisplay }: HeroBlockProps,
+    ref: React.ForwardedRef<HTMLDivElement>,
+  ) => {
     const {
       textPosition,
       textColor,
@@ -271,7 +284,7 @@ export const HeroBlock = React.forwardRef(
     })
 
     return (
-      <HeroWrapper hero={hero} ref={ref}>
+      <HeroWrapper hero={hero} ref={ref} minimalDisplay={minimalDisplay}>
         <DocumentLink document={heroLink?.document ?? undefined}>
           {cloudinaryVideo?.videoId ? (
             <HeroImageWrapper hero={hero}>

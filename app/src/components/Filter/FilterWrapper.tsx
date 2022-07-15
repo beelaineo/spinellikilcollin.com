@@ -27,6 +27,14 @@ const Wrapper = styled.div<WithType>`
     grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
+    ${minimalDisplay
+      ? css`
+          &:nth-child(1) > div > div > div {
+            margin-left: 0px;
+          }
+        `
+      : ''};
+
     ${theme.mediaQueries.tablet} {
     }
     @media screen and (max-width: 960px) {
@@ -36,11 +44,19 @@ const Wrapper = styled.div<WithType>`
         min-width: unset;
       }
 
+      ${minimalDisplay
+        ? css`
+            &:nth-child(1) > div > div > div {
+              margin-left: 0px;
+            }
+          `
+        : ''};
+
       ${active && type !== 'InventoryFilter'
         ? css`
-            flex: 100%;
-            order: -1;
-            margin-bottom: 4;
+            flex: ${minimalDisplay ? 'auto' : '100%'};
+            order: ${minimalDisplay ? 'unset' : '-1'};
+            margin-bottom: ${minimalDisplay ? 'auto' : '49%'};
           `
         : ''};
     }

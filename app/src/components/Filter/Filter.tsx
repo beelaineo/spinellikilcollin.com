@@ -215,8 +215,8 @@ export const Filter = ({
 
   if (hideFilter !== true) {
     return (
-      <Wrapper>
-        <Backdrop />
+      <Wrapper minimalDisplay={minimalDisplay}>
+        {!minimalDisplay ? <Backdrop /> : null}
         {isMobile === true && open === false && minimalDisplay === false ? (
           <MobileToggleWrapper onClick={toggleOpen}>
             <Heading level={4} color="body.7" textDecoration="underline">

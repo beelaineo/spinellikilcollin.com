@@ -308,7 +308,9 @@ export const ProductListing = ({
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
-      {hero && validHero ? <HeroBlock hero={hero} /> : null}
+      {hero && validHero ? (
+        <HeroBlock hero={hero} minimalDisplay={minimalDisplay} />
+      ) : null}
       <Wrapper
         handle={handle}
         withHero={Boolean(hero && validHero)}
