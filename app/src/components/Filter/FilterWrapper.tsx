@@ -38,7 +38,7 @@ const Wrapper = styled.div<WithType>`
     ${theme.mediaQueries.tablet} {
     }
     @media screen and (max-width: 960px) {
-      flex: ${minimalDisplay ? 'auto' : '49%'};
+      flex: ${minimalDisplay ? '0' : '49%'};
       flex-grow: 0;
       &:nth-last-child(2) {
         min-width: unset;
@@ -54,7 +54,7 @@ const Wrapper = styled.div<WithType>`
 
       ${active && type !== 'InventoryFilter'
         ? css`
-            flex: ${minimalDisplay ? 'auto' : '100%'};
+            flex: ${minimalDisplay ? '0' : '100%'};
             order: ${minimalDisplay ? 'unset' : '-1'};
             margin-bottom: ${minimalDisplay ? 'auto' : '49%'};
           `

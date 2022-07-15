@@ -235,6 +235,7 @@ export const Inner = styled.div<WithOpenMinimalDisplay>`
         ? css`
             & > div:first-child {
               padding: 0;
+              gap: 2;
               & > div {
                 padding-top: 0;
                 padding-bottom: 0;
