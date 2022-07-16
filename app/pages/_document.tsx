@@ -38,16 +38,15 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html>
-        {/* Bambuser */}
         <Head />
         <body>
+          <Main />
+          <NextScript />
           <Script
             id="bambuser-script-loader"
             src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js"
             strategy="beforeInteractive"
           />
-          <Main />
-          <NextScript />
         </body>
       </Html>
     )

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import Head from 'next/head'
+import Script from 'next/script'
 import { CurrentProductProvider, useShopData } from '../providers'
 import {
   ShopifySourceImage,
@@ -59,12 +60,11 @@ const ContactSEO = ({ defaultSeo }: ContactSEOProps) => {
     image: getImageUrl(image),
   }
   return (
-    <Head>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
-      />
-    </Head>
+    <Script
+      id="contact-ldjson"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+    />
   )
 }
 
@@ -77,12 +77,11 @@ const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
     image: getImageUrl(image),
   }
   return (
-    <Head>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
-      />
-    </Head>
+    <Script
+      id="about-ldjson"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+    />
   )
 }
 
@@ -96,12 +95,11 @@ const HomeSEO = ({ defaultSeo, phone }: HomeSEOProps) => {
     telephone: phone ? phone : '',
   }
   return (
-    <Head>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
-      />
-    </Head>
+    <Script
+      id="home-ldjson"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+    />
   )
 }
 
@@ -162,19 +160,22 @@ const ProductSEO = ({
   }
 
   return (
-    <Head>
-      <meta property="og:availability" content={availability} />
-      <meta property="og:description" content={description || undefined} />
-      <meta property="og:id" content={id || undefined} />
-      <meta property="product:price:amount" content={formattedPrice} />
-      <meta property="product:price:currency" content="USD" />
-      <meta property="og:price:amount" content={formattedPrice} />
-      <meta property="og:price:currency" content="USD" />
-      <script
+    <>
+      <Head>
+        <meta property="og:availability" content={availability} />
+        <meta property="og:description" content={description || undefined} />
+        <meta property="og:id" content={id || undefined} />
+        <meta property="product:price:amount" content={formattedPrice} />
+        <meta property="product:price:currency" content="USD" />
+        <meta property="og:price:amount" content={formattedPrice} />
+        <meta property="og:price:currency" content="USD" />
+      </Head>
+      <Script
+        id="product-ldjson"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
       />
-    </Head>
+    </>
   )
 }
 
