@@ -206,7 +206,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
 }
 
 const handler: NextApiHandler = (req, res) =>
-  new Promise((resolve, reject) => {
+  new Promise<void>((resolve, reject) => {
     try {
       const partialUpdateObjects = bindCallback((objects, done) => {
         algoliaIndex

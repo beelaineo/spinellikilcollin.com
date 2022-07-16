@@ -11,6 +11,8 @@ import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { config } from '../src/config'
 
+import '../public/static/fonts/fonts.css'
+
 const { useEffect } = React
 
 interface AppProps {
@@ -218,12 +220,6 @@ const App = (props: AppProps) => {
         src="//js.hs-scripts.com/7668999.js"
         async
         defer
-      />
-      {/* Bambuser */}
-      <Script
-        id="bambuser-script-loader"
-        src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js"
-        strategy="beforeInteractive"
       />
     </Providers>
   )

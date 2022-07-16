@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from 'graphql-tag'
 import {
   sanityImageFragment,
   sanityFileAssetFragment,
@@ -564,6 +564,32 @@ export const carouselFragment = gql`
   ${richPageLinkFragment}
 `
 
+export const colorFragment = gql`
+  fragment ColorFragment on Color {
+    _key
+    hex
+    alpha
+    hsl {
+      h
+      s
+      l
+      a
+    }
+    hsv {
+      h
+      s
+      v
+      a
+    }
+    rgb {
+      r
+      g
+      b
+      a
+    }
+  }
+`
+
 export const heroFragment = gql`
   fragment HeroFragment on Hero {
     __typename
@@ -572,16 +598,24 @@ export const heroFragment = gql`
     bodyRaw
     body_mobileRaw
     textColor
-    textColorCustom
+    textColorCustom {
+      ...ColorFragment
+    }
     textColorMobile
-    textColorMobileCustom
+    textColorMobileCustom {
+      ...ColorFragment
+    }
     textContainer
     textPosition
     textPositionMobile
     backgroundColor
-    backgroundColorCustom
+    backgroundColorCustom {
+      ...ColorFragment
+    }
     mobileBackgroundColor
-    mobileBackgroundColorCustom
+    mobileBackgroundColorCustom {
+      ...ColorFragment
+    }
     aspectRatio
     layout
     cta {
@@ -607,4 +641,5 @@ export const heroFragment = gql`
   ${richImageFragment}
   ${internalLinkFragment}
   ${ctaFragment}
+  ${colorFragment}
 `

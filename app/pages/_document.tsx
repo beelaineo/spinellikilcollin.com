@@ -6,6 +6,7 @@ import Document, {
   Main,
   NextScript,
 } from 'next/document'
+import Script from 'next/script'
 import { ServerStyleSheet } from 'styled-components'
 
 export default class MyDocument extends Document {
@@ -35,21 +36,16 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    // const ENV = config.STOREFRONT_ENV
-    //
-    // const tagInfo =
-    //   ENV === 'production'
-    //     ? gtm.prod
-    //     : ENV === 'staging'
-    //     ? gtm.staging
-    //     : gtm.dev
-
     return (
       <Html>
-        <Head>
-          <link rel="stylesheet" href="/static/fonts/fonts.css" />
-        </Head>
+        {/* Bambuser */}
+        <Head />
         <body>
+          <Script
+            id="bambuser-script-loader"
+            src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js"
+            strategy="beforeInteractive"
+          />
           <Main />
           <NextScript />
         </body>

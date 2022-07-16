@@ -2,7 +2,6 @@ import * as React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Box } from '@xstyled/styled-components'
 import {
   ShopifyCollection,
   ShopifyProduct,
@@ -22,7 +21,7 @@ import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
 import { config } from '../../../src/config'
-import styled, { css } from '@xstyled/styled-components'
+import styled, { css, Box } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
   ProductGridWrapper,

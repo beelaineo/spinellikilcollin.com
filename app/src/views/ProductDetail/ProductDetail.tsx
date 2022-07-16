@@ -10,6 +10,7 @@ import {
   getProductUri,
   getAdditionalDescriptions,
   getStorefrontId,
+  useProductVariant,
 } from '../../utils'
 import {
   useShopify,
@@ -32,7 +33,6 @@ import {
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useModal } from '../../providers/ModalProvider'
-import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
   AffirmWrapper,
