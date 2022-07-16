@@ -56,29 +56,26 @@ export default class MyDocument extends Document {
     return (
       <Html>
         <Head>
+          <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link
             rel="apple-touch-icon"
             sizes="76x76"
-            href="/static/apple-touch-icon.png"
+            href="/apple-touch-icon.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="32x32"
-            href="/static/favicon-32x32.png"
+            href="/favicon-32x32.png"
           />
           <link
             rel="icon"
             type="image/png"
             sizes="16x16"
-            href="/static/favicon-16x16.png"
+            href="/favicon-16x16.png"
           />
-          <link rel="manifest" href="/static/site.webmanifest" />
-          <link
-            rel="mask-icon"
-            href="/static/safari-pinned-tab.svg"
-            color="#8e8e8e"
-          />
+          <link rel="manifest" href="/site.webmanifest" />
+          <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#8e8e8e" />
           <meta name="msapplication-TileColor" content="#f5f3f4" />
           <meta name="theme-color" content="#ffffff"></meta>
           <meta
@@ -115,15 +112,6 @@ export default class MyDocument extends Document {
               `,
             }}
           />
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-          <Script
-            id="bambuser-script-loader"
-            src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js"
-            strategy="beforeInteractive"
-          />
           {/* Google Tag Manager */}
           <Script
             id="google-tag-manager"
@@ -134,13 +122,7 @@ export default class MyDocument extends Document {
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
               })(window,document,'script','dataLayer','GTM-TRLD2RW');`,
             }}
-          />
-          {/* Hubspot */}
-          <Script
-            id="hs-script-loader"
-            src="//js.hs-scripts.com/7668999.js"
-            async
-            defer
+            strategy="afterInteractive"
           />
           {/* Affirm */}
           <Script
@@ -154,6 +136,23 @@ export default class MyDocument extends Document {
               (function(l,g,m,e,a,f,b){var d,c=l[m]||{},h=document.createElement(f),n=document.getElementsByTagName(f)[0],k=function(a,b,c){return function(){a[b]._.push([c,arguments])}};c[e]=k(c,e,"set");d=c[e];c[a]={};c[a]._=[];d._=[];c[a][b]=k(c,a,b);a=0;for(b="set add save post open empty reset on off trigger ready setProduct".split(" ");a<b.length;a++)d[b[a]]=k(c,e,b[a]);a=0;for(b=["get","token","url","items"];a<b.length;a++)d[b[a]]=function(){};h.async=!0;h.src=g[f];n.parentNode.insertBefore(h,n);delete g[f];d(g);l[m]=c})(window,_affirm_config,"affirm","checkout","ui","script","off");
             `,
             }}
+          />
+        </Head>
+        <body>
+          <Main />
+          <NextScript />
+          <Script
+            id="bambuser-script-loader"
+            src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js"
+            strategy="beforeInteractive"
+          />
+          {/* Hubspot */}
+          <Script
+            id="hs-script-loader"
+            src="//js.hs-scripts.com/7668999.js"
+            async
+            defer
+            strategy="beforeInteractive"
           />
           {/* Global Site Code Pixel - Facebook Pixel */}
           <Script
@@ -172,6 +171,7 @@ export default class MyDocument extends Document {
                 fbq('track', 'PageView');
               }`,
             }}
+            strategy="beforeInteractive"
           />
           {/* Global Site Code Pixel - TikTok */}
           <Script
@@ -185,6 +185,7 @@ export default class MyDocument extends Document {
                 ttq.page();
               }`,
             }}
+            strategy="beforeInteractive"
           />
         </body>
       </Html>

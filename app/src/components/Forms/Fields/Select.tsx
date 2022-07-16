@@ -26,6 +26,7 @@ export const Select = (props: SelectProps) => {
           <SelectElement
             {...field}
             value={field.value}
+            defaultValue={'default'}
             id={field.name}
             aria-label={field.name}
             required={required}
@@ -34,7 +35,7 @@ export const Select = (props: SelectProps) => {
             onChange={onChange || field.onChange}
           >
             {placeholder && placeholderSelected ? (
-              <option key="__placeholder" value="" disabled selected>
+              <option key="__placeholder" value="default" disabled>
                 {placeholder}
               </option>
             ) : placeholder ? (
