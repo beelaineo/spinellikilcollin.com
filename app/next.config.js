@@ -41,6 +41,10 @@ const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
 
 module.exports = withSourceMaps({
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
   // webpack5: false,
   publicRuntimeConfig: {
     EXCHANGE_RATE_API_KEY,
