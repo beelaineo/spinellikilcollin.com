@@ -225,6 +225,11 @@ export type CarouselOrEmbedBlockOrImageTextBlockOrTextBlock =
 
 export type CarouselOrHeroOrImageTextBlock = Carousel | Hero | ImageTextBlock
 
+export type CarouselOrImageTextBlockOrTextBlock =
+  | Carousel
+  | ImageTextBlock
+  | TextBlock
+
 export type CarouselSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
@@ -2621,7 +2626,7 @@ export interface ShopifyCollection extends Document {
     Array<Maybe<FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter>>
   >
   bambuser?: Maybe<BambuserSettings>
-  footer?: Maybe<Array<Maybe<CarouselOrEmbedBlockOrImageTextBlockOrTextBlock>>>
+  footer?: Maybe<Array<Maybe<CarouselOrImageTextBlockOrTextBlock>>>
   seo?: Maybe<Seo>
 }
 

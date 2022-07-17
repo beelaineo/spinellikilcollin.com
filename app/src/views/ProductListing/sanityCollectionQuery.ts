@@ -152,6 +152,9 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     "body_mobileRaw": body_mobile,
     ...
   },
+  footer[]{
+    ...
+  },
   "descriptionRaw": description,
 }
 `

@@ -86,7 +86,6 @@ export const collection = {
         { type: 'carousel' },
         { type: 'imageTextBlock' },
         { type: 'textBlock' },
-        { type: 'embedBlock' },
       ],
     },
     {

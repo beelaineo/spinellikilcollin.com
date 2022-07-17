@@ -85,6 +85,7 @@ export const ProductListing = ({
     handle,
     collectionBlocks,
     descriptionRaw,
+    footer,
     reduceColumnCount,
     lightTheme,
     hidden,
