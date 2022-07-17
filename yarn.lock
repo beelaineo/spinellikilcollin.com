@@ -7119,6 +7119,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-transition-group@npm:^4.4.5":
+  version: 4.4.5
+  resolution: "@types/react-transition-group@npm:4.4.5"
+  dependencies:
+    "@types/react": "*"
+  checksum: 265f1c74061556708ffe8d15559e35c60d6c11478c9950d3735575d2c116ca69f461d85effa06d73a613eb8b73c84fd32682feb57cf7c5f9e4284021dbca25b0
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*, @types/react@npm:^18.0.15":
   version: 18.0.15
   resolution: "@types/react@npm:18.0.15"
@@ -24085,7 +24094,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-transition-group@npm:^4.3.0":
+"react-transition-group@npm:^4.3.0, react-transition-group@npm:^4.4.2":
   version: 4.4.2
   resolution: "react-transition-group@npm:4.4.2"
   dependencies:
@@ -25990,6 +25999,7 @@ __metadata:
     "@types/react-router": ^5.1.18
     "@types/react-router-dom": ^5.3.3
     "@types/react-text-mask": ^5.4.11
+    "@types/react-transition-group": ^4.4.5
     "@types/request": ^2.48.8
     "@types/source-map-support": ^0.5.4
     "@types/styled-components": ^5.1.25
@@ -26038,6 +26048,7 @@ __metadata:
     react-router: ^5.3.3
     react-router-dom: ^5.3.3
     react-text-mask: ^5.4.3
+    react-transition-group: ^4.4.2
     request: ^2.88.2
     rxjs: ^7.5.6
     rxjs-stream: ^3.3.0

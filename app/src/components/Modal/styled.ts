@@ -33,6 +33,10 @@ export const DiamondWrapper = styled.div`
     grid-column-gap: 24px;
     padding-right: 184px;
 
+    @media screen and (max-width: 1200px) {
+      padding-right: 5vw;
+    }
+
     ${theme.mediaQueries.tablet} {
       grid-template-columns: 1fr;
       padding: 0 0;
@@ -53,6 +57,21 @@ export const Background = styled.button<WithOpen>`
     margin: 0;
     transition: 0.2s;
     opacity: ${open ? 1 : 0};
+    pointer-events: ${open ? 'initial' : 'none'};
+  `}
+`
+
+export const DiamondBackground = styled.button<WithOpen>`
+  ${({ open }) => css`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
     pointer-events: ${open ? 'initial' : 'none'};
   `}
 `
@@ -93,6 +112,7 @@ export const DiamondModalWrapper = styled.div`
     border-radius: 13 13 0 0;
     justify-self: center;
     color: ${theme.colors.grays[7]};
+    top: 300px;
 
     button:before,
     button:after {
@@ -100,6 +120,32 @@ export const DiamondModalWrapper = styled.div`
     }
 
     cursor: initial;
+
+    &.drawer-enter {
+      top: 300px;
+    }
+
+    &.drawer-enter-active {
+      transition: all 250ms cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      top: 0px;
+    }
+
+    &.drawer-enter-done {
+      top: 0px;
+    }
+
+    &.drawer-exit {
+      top: 0px;
+    }
+
+    &.drawer-exit-active {
+      top: 300px;
+      transition: all 250ms cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+
+    &.drawer-exit-done {
+      top: 300px;
+    }
 
     ${theme.mediaQueries.tablet} {
       width: calc(100vw - ${theme.space[4]}px);
