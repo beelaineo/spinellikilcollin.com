@@ -79,6 +79,17 @@ export const collection = {
     { name: 'customFilter', type: 'productFilter' },
     { name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations' },
     {
+      name: 'footer',
+      title: 'Footer Blocks',
+      type: 'array',
+      of: [
+        { type: 'carousel' },
+        { type: 'imageTextBlock' },
+        { type: 'textBlock' },
+        { type: 'embedBlock' },
+      ],
+    },
+    {
       name: 'seo',
       type: 'seo',
       description:

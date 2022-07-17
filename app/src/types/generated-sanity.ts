@@ -2621,6 +2621,7 @@ export interface ShopifyCollection extends Document {
     Array<Maybe<FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter>>
   >
   bambuser?: Maybe<BambuserSettings>
+  footer?: Maybe<Array<Maybe<CarouselOrEmbedBlockOrImageTextBlockOrTextBlock>>>
   seo?: Maybe<Seo>
 }
 
