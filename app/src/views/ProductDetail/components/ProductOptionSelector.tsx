@@ -21,6 +21,7 @@ import {
   definitely,
 } from '../../../utils'
 import { useModal } from '../../../providers/ModalProvider'
+import Link from 'next/link'
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
@@ -48,7 +49,13 @@ const currencyMask = createNumberMask({
   allowLeadingZeroes: false,
 })
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  a {
+    text-decoration: underline;
+    display: inline-block;
+    padding-left: 4;
+  }
+`
 
 const SwatchesWrapper = styled.div`
   display: flex;
@@ -223,17 +230,22 @@ export const ProductOptionSelector = ({
       <Heading level={5} mb={2}>
         {isInput ? null : option.name}
         {option.name === 'Carat' ? (
-          <DiamondInfoSpan
-            onClick={() =>
-              openDiamondModal({
-                currentProduct: product,
-                currentVariant: currentVariant || undefined,
-                currentDiamond: currentSelectedDiamond || undefined,
-              })
-            }
-          >
-            Diamond Info
-          </DiamondInfoSpan>
+          <>
+            <DiamondInfoSpan
+              onClick={() =>
+                openDiamondModal({
+                  currentProduct: product,
+                  currentVariant: currentVariant || undefined,
+                  currentDiamond: currentSelectedDiamond || undefined,
+                })
+              }
+            >
+              Diamond Info
+            </DiamondInfoSpan>
+            <Link href={'/about/appointments'}>
+              <a target={'_blank'}>Appointments</a>
+            </Link>
+          </>
         ) : null}
       </Heading>
       <SelectWrapper isInput={isInput}>
