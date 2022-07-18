@@ -213,7 +213,7 @@ export const Inner = styled.div<WithOpenMinimalDisplay>`
     display: ${open ? 'flex' : 'none'};
     margin: 0 7;
     padding: 0;
-    z-index: 1;
+    z-index: ${minimalDisplay ? '11' : '1'};
     max-height: 48px;
     & > svg {
       width: 24px;

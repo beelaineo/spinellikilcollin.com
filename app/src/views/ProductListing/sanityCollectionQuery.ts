@@ -153,7 +153,13 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     ...
   },
   footer[]{
-    ...
+    ...,
+    "bodyRaw": body,
+    "body_mobileRaw": body_mobile,
+    link[] {
+      ...,
+      document->
+    }
   },
   "descriptionRaw": description,
 }

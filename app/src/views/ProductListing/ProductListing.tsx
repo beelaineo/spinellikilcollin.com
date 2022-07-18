@@ -10,6 +10,7 @@ import {
 } from '../../types'
 import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
+import { ImageTextBlock } from '../../components/ContentBlock/ImageTextBlock'
 import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { RichText } from '../../components/RichText'
@@ -27,6 +28,7 @@ import {
   ProductGridWrapper,
   Wrapper,
   NoResultsWrapper,
+  FooterGrid,
 } from './styled'
 
 const { useRef, useEffect, useState } = React
@@ -93,7 +95,6 @@ export const ProductListing = ({
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
-
   const defaultFilter = productListingSettings?.newDefaultFilter
   const defaultFilters = definitely(defaultFilter).filter(
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
@@ -304,7 +305,6 @@ export const ProductListing = ({
       }
     `}
   `
-
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
@@ -374,6 +374,22 @@ export const ProductListing = ({
                   </Heading>
                   <Loading />
                 </Box>
+              ) : null}
+              {footer && footer.length > 0 ? (
+                <FooterGrid>
+                  {definitely(footer).map((block) => {
+                    switch (block.__typename) {
+                      // case 'Carousel':
+                      //   return <Carousel key={} />
+                      case 'ImageTextBlock':
+                        return (
+                          <ImageTextBlock key={block._key} content={block} />
+                        )
+                      // case 'TextBlock':
+                      //   return <TextBlock key={} />
+                    }
+                  })}
+                </FooterGrid>
               ) : null}
               {descriptionPrimary ? (
                 <DescriptionWrapper>

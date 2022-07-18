@@ -50,12 +50,15 @@ const collectionQueryById = gql`
       }
       footer {
         ... on Carousel {
+          __typename
           ...CarouselFragment
         }
         ... on ImageTextBlock {
+          __typename
           ...ImageTextBlockFragment
         }
         ... on TextBlock {
+          __typename
           ...TextBlockFragment
         }
       }
