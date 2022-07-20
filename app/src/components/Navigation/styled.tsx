@@ -392,3 +392,15 @@ export const NavItemWrapper = styled.div`
     border-top: 1px solid black;
   }
 `
+
+export const InStockDot = styled('span')`
+  ${({ theme }) => css`
+    display: inline-block;
+    background-color: #00d009;
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+    border-radius: 100%;
+    border: 1px solid #f5f3f3;
+  `}
+`

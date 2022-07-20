@@ -1,6 +1,11 @@
 import * as React from 'react'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { NavInner, HamburgerWrapper, NavItemWrapper } from './styled'
+import {
+  NavInner,
+  HamburgerWrapper,
+  NavItemWrapper,
+  InStockDot,
+} from './styled'
 import { Heading } from '../Text'
 import { PageLink } from '../PageLink'
 import { SubMenu } from './SubMenu'
@@ -49,6 +54,11 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
                           : inferredLabel
                           ? inferredLabel.toUpperCase()
                           : ''}
+                        {menuItem.link?.document?.__typename ==
+                          'ShopifyCollection' &&
+                        menuItem.link?.document?.handle === 'in-stock' ? (
+                          <InStockDot />
+                        ) : null}
                       </Heading>
                     )}
                   />
