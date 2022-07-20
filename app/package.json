@@ -123,6 +123,7 @@
 		"zod": "^3.17.3"
 	},
 	"resolutions": {
-		"graphql": "^15.5.1"
+		"graphql": "^15.5.1",
+		"styled-components": "^5"
 	}
 }
