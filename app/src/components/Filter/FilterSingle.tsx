@@ -67,6 +67,12 @@ const FilterSingleWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
         }
       }
     }
+    ${theme.mediaQueries.mobile} {
+      & > div:first-child {
+        min-width: 110px !important;
+        padding: 2;
+      }
+    }
   `}
 `
 

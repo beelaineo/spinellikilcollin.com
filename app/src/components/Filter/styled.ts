@@ -245,7 +245,7 @@ export const Inner = styled.div<WithOpenMinimalDisplay>`
         : ''};
     }
     ${theme.mediaQueries.mobile} {
-      margin: 0 ${minimalDisplay ? '4' : 'inherit'};
+      margin: 0 ${minimalDisplay ? '2' : 'inherit'};
     }
   `}
 `
@@ -567,12 +567,14 @@ export const KnobHandle = styled.div<WithPosition>`
 `
 
 export const KnobDot = styled.div`
-  width: 15px;
-  height: 15px;
-  background-color: body.0;
-  border: 1px solid;
-  border-color: body.6;
-  border-radius: 16px;
+  ${({ theme }) => css`
+    width: 15px;
+    height: 15px;
+    background-color: body.0;
+    border: 1px solid;
+    border-color: body.6;
+    border-radius: 16px;
+  `}
 `
 
 export const KnobLabel = styled.div`
