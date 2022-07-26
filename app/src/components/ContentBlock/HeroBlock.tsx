@@ -67,6 +67,7 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
 interface HeroTextProps {
   theme: DefaultTheme
   hero: Hero
+  minimalDisplay?: Maybe<boolean>
   textPosition?: string | null | undefined
   textColor?: string | null
   textPositionMobile?: string | null
@@ -78,6 +79,7 @@ const HeroText = styled.div`
   ${({
     theme,
     hero,
+    minimalDisplay,
     textPosition,
     textColor,
     textPositionMobile,
@@ -91,6 +93,9 @@ const HeroText = styled.div`
     width: ${hero.layout?.includes('flex') ? '50%' : '100%'};
     height: 100%;
     padding: calc(${theme.navHeight} + ${theme.space[6]}px) 6 6;
+    ${minimalDisplay
+      ? `padding: calc(${theme.navHeight} + ${theme.space[4]}px) 6 ${theme.navHeight} 6;`
+      : null}
     display: flex;
     justify-content: ${textPosition
       ? getFlexJustification(textPosition)
@@ -104,7 +109,15 @@ const HeroText = styled.div`
       : 'inherit'};
 
     .text-container {
-      ${textContainer == 'full' ? 'max-width: 720px;' : 'max-width: 400px'};
+      ${textContainer == 'full'
+        ? 'max-width: 720px;'
+        : textContainer == 'half-left' || textContainer == 'half-right'
+        ? 'max-width: 60%;'
+        : 'max-width: 400px'};
+
+      ${textContainer == 'half-top' || textContainer == 'half-bottom'
+        ? 'max-height: 60%;'
+        : null}
 
       > * {
         pointer-events: auto;
@@ -157,6 +170,10 @@ const HeroText = styled.div`
     }
 
     ${theme.mediaQueries.tablet} {
+      ${minimalDisplay
+        ? `padding: calc(${theme.navHeight} + ${theme.space[2]}px) 4 10 6;`
+        : null}
+
       ${textContainer == 'full'
         ? `h1 {
               font-size: ${theme.mobileFontSizes[1]};
@@ -305,6 +322,7 @@ export const HeroBlock = React.forwardRef(
             textPositionMobile={textPositionMobile}
             textColorMobile={textColorMobile}
             textContainer={textContainer}
+            minimalDisplay={minimalDisplay}
             hero={hero}
           >
             <div className="text-container">
