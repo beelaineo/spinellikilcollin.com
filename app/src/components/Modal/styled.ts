@@ -102,10 +102,10 @@ export const ModalWrapper = styled.div`
 export const DiamondModalWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
-    padding: 4 5 5;
+    padding: 4 5 4;
     width: 360px;
     max-height: calc(100% - (${theme.space[4]}px * 2));
-    overflow: scroll;
+    overflow: hidden;
     z-index: 2;
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
     background-color: body.0;
@@ -149,6 +149,7 @@ export const DiamondModalWrapper = styled.div`
 
     ${theme.mediaQueries.tablet} {
       width: calc(100vw - ${theme.space[4]}px);
+      padding: 4 5 5;
     }
 
     ${theme.mediaQueries.mobile} {
