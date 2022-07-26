@@ -63,7 +63,7 @@ const CaratLabelWrapper = styled('div')`
   align-items: center;
 `
 
-const DiamondOutlineWrapper = styled('div')`
+const DiamondOutlineWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,7 +78,6 @@ const DiamondOutlineWrapper = styled('div')`
     path {
       stroke-width: 1;
     }
-  }
   }
 `
 
@@ -152,7 +151,7 @@ export const DiamondModal = ({
         ) : null}
         {stone?.stone?.gia_link ? (
           <Link href={stone.stone.gia_link}>
-            <a>
+            <a target="_blank">
               <Heading level={5} my={0} fontStyle="italic">
                 View on GIA →
               </Heading>
