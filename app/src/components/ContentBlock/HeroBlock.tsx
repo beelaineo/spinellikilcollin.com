@@ -93,31 +93,39 @@ const HeroText = styled.div`
     width: ${hero.layout?.includes('flex') ? '50%' : '100%'};
     height: 100%;
     padding: calc(${theme.navHeight} + ${theme.space[6]}px) 6 6;
-    ${minimalDisplay
-      ? `padding: calc(${theme.navHeight} + ${theme.space[4]}px) 6 ${theme.navHeight} 6;`
-      : null}
+    ${
+      minimalDisplay
+        ? `padding: calc(${theme.navHeight} + ${theme.space[4]}px) 6 ${theme.navHeight} 6;`
+        : null
+    }
     display: flex;
-    justify-content: ${textPosition
-      ? getFlexJustification(textPosition)
-      : 'center'};
+    justify-content: ${
+      textPosition ? getFlexJustification(textPosition) : 'center'
+    };
     align-items: ${textPosition ? getFlexAlignment(textPosition) : 'center'};
     text-align: ${textPosition ? getTextAlignment(textPosition) : 'center'};
-    color: ${textColor === 'custom' && hero.textColorCustom
-      ? hero.textColorCustom?.hex
-      : textColor
-      ? getColor(textColor)
-      : 'inherit'};
+    color: ${
+      textColor === 'custom' && hero.textColorCustom
+        ? hero.textColorCustom?.hex
+        : textColor
+        ? getColor(textColor)
+        : 'inherit'
+    };
 
     .text-container {
-      ${textContainer == 'full'
-        ? 'max-width: 720px;'
-        : textContainer == 'half-left' || textContainer == 'half-right'
-        ? 'max-width: 60%;'
-        : 'max-width: 400px'};
+      ${
+        textContainer == 'full'
+          ? 'max-width: 720px;'
+          : textContainer == 'half-left' || textContainer == 'half-right'
+          ? 'max-width: 60%;'
+          : 'max-width: 400px'
+      };
 
-      ${textContainer == 'half-top' || textContainer == 'half-bottom'
-        ? 'max-height: 60%;'
-        : null}
+      ${
+        textContainer == 'half-top' || textContainer == 'half-bottom'
+          ? 'max-height: 60%;'
+          : null
+      }
 
       > * {
         pointer-events: auto;
@@ -145,8 +153,9 @@ const HeroText = styled.div`
         }
       }
 
-      ${!hero.cta
-        ? `
+      ${
+        !hero.cta
+          ? `
         h1:first-child,
         h2:first-child,
         h3:first-child,
@@ -166,16 +175,20 @@ const HeroText = styled.div`
           margin-bottom: 0px;
         }
       `
-        : ''}
+          : ''
+      }
     }
 
     ${theme.mediaQueries.tablet} {
-      ${minimalDisplay
-        ? `padding: calc(${theme.navHeight} + ${theme.space[2]}px) 4 10 6;`
-        : null}
+      ${
+        minimalDisplay
+          ? `padding: calc(${theme.navHeight} + ${theme.space[2]}px) 4 10 6;`
+          : null
+      }
 
-      ${textContainer == 'full'
-        ? `h1 {
+      ${
+        textContainer == 'full'
+          ? `h1 {
               font-size: ${theme.mobileFontSizes[1]};
             }
             h2 {
@@ -194,29 +207,37 @@ const HeroText = styled.div`
             h6 {
               font-size: ${theme.mobileFontSizes[6]};
             }`
-        : ''}
+          : ''
+      }
     }
 
     ${theme.mediaQueries.mobile} {
       justify-content: ${getFlexJustification(textPositionMobile)};
       align-items: ${getFlexAlignment(textPositionMobile)};
-      text-align: ${textPositionMobile
-        ? getTextAlignment(textPositionMobile)
-        : 'center'};
+      text-align: ${
+        textPositionMobile ? getTextAlignment(textPositionMobile) : 'center'
+      };
       color: ${textColorMobile ? getColor(textColorMobile) : 'inherit'};
-      padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;
+      padding: ${
+        minimalDisplay
+          ? `4;`
+          : `calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;`
+      }
+      
       width: 100%;
       min-height: ${hero.layout?.includes('flex') ? '40vw' : 'auto'};
 
-      color: ${textColorMobile === 'custom' && hero.textColorMobileCustom
-        ? hero.textColorMobileCustom?.hex
-        : hero.textColorMobile
-        ? hero.textColorMobile
-        : hero.textColor === 'custom' && hero.textColorCustom
-        ? hero.textColorCustom?.hex
-        : hero.textColor
-        ? getColor(hero.textColor)
-        : 'inherit'};
+      color: ${
+        textColorMobile === 'custom' && hero.textColorMobileCustom
+          ? hero.textColorMobileCustom?.hex
+          : hero.textColorMobile
+          ? hero.textColorMobile
+          : hero.textColor === 'custom' && hero.textColorCustom
+          ? hero.textColorCustom?.hex
+          : hero.textColor
+          ? getColor(hero.textColor)
+          : 'inherit'
+      };
     }
   `}
 `
