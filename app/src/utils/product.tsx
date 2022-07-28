@@ -143,6 +143,26 @@ export const getVariantBySelectedOption = (
     )
   })
 
+/**
+ * Get the first variant that matches the selected options
+ */
+export const getVariantBySelectedOptions = (
+  variants: ShopifySourceProductVariant[],
+  currentOptions: any[],
+): ShopifySourceProductVariant | void =>
+  variants.find((variant) => {
+    console.log(currentOptions)
+    if (!currentOptions) return
+    const { selectedOptions } = variant
+    return currentOptions.every((currentOption) =>
+      selectedOptions?.find(
+        (o) =>
+          o?.name === currentOption.name &&
+          o?.value === currentOption.currentValue,
+      ),
+    )
+  })
+
 export const getBestVariantByMatch = (
   variants: ShopifySourceProductVariant[],
   matches: string[],

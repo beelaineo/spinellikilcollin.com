@@ -18,7 +18,7 @@ import { ProductSwatches, IsDisplayingSwatches } from './ProductSwatches'
 import { Price } from '../Price'
 import {
   getProductUri,
-  getVariantBySelectedOption,
+  getVariantBySelectedOptions,
   optionMatchesVariant,
   getBestVariantByMatch,
   getBestVariantByFilterMatch,
@@ -164,11 +164,24 @@ export const ProductThumbnail = ({
   const onSwatchHover =
     (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
       if (!value.value) return
-      const currentSelection = {
-        name: option.name || 'foo',
-        currentValue: value.value,
-      }
-      const newVariant = getVariantBySelectedOption(variants, currentSelection)
+      if (!currentVariant?.selectedOptions) return
+      const currentOptions = currentVariant.selectedOptions
+        .filter((v) => v?.name === 'Color' || v?.name === 'Carat')
+        .map((v) => {
+          if (v?.name === option.name) {
+            return {
+              name: option.name || 'foo',
+              currentValue: value.value,
+            }
+          } else {
+            return {
+              name: v?.name || 'foo',
+              currentValue: v?.value,
+            }
+          }
+        })
+      const newVariant = getVariantBySelectedOptions(variants, currentOptions)
+      console.log('newVariant', newVariant)
       if (newVariant) setCurrentVariant(newVariant)
     }
 

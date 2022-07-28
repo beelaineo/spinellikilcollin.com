@@ -9,12 +9,7 @@ import {
   ShopifySourceProductVariantEdge,
   Maybe,
 } from '../../types'
-import {
-  getSwatchOptions,
-  definitely,
-  getVariantBySelectedOption,
-  optionMatchesVariant,
-} from '../../utils'
+import { getSwatchOptions, definitely } from '../../utils'
 import { SwatchesWrapper, SwatchWrapper } from './styled'
 import styled, { css } from '@xstyled/styled-components'
 
