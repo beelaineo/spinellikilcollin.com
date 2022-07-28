@@ -78,9 +78,11 @@ export const FooterGrid = styled.div`
       z-index: 1;
     }
 
+    & > div h1,
+    & > div h2,
+    & > div h3,
     & > div h4 {
-      margin-top: 4 !important;
-      font-style: normal !important;
+      pointer-events: none;
     }
 
     ${theme.mediaQueries.mobile} {

@@ -179,20 +179,26 @@ export const Filter = ({
     setOpen(parentOpen ?? false)
   }, [parentOpen])
 
-  const { filterSetStates, setValues, resetAll, resetSet, toggle } =
-    useFilterState(definitely(filters))
+  const {
+    filterSetStates,
+    setValues,
+    resetAll,
+    resetSet,
+    toggle,
+    toggleSingle,
+  } = useFilterState(definitely(filters))
 
   if (!filters || filterSetStates.length === 0) return null
-
-  const handleSubmit = () => {
-    const filterMatches = getCurrentFilters(filters, filterSetStates)
-    applyFilters(filterMatches)
-  }
 
   const handleReset = () => {
     resetAll()
     applyFilters(null)
     setActiveKey('')
+  }
+
+  const limitedToggle = (matchKey: string) => {
+    resetAll()
+    toggle(matchKey || 'some-key')
   }
 
   useEffect(() => {
@@ -316,7 +322,14 @@ export const Filter = ({
                       (s) => s.key === filter._key,
                     )}
                     resetSet={resetSet(filter._key || 'some-key')}
-                    toggleMatch={toggle(filter._key || 'some-key')}
+                    toggleMatch={
+                      Boolean(
+                        minimalDisplay == true &&
+                          !filters.some((f) => f.__typename !== 'Filter'),
+                      )
+                        ? toggleSingle(filter._key || 'some-key')
+                        : toggle(filter._key || 'some-key')
+                    }
                     filterSingle={filter}
                     active={Boolean(activeKey === filter._key)}
                   />
