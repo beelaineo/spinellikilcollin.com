@@ -1,15 +1,35 @@
 import { Sort } from '../../components/Filter'
-import { ShopifyProduct, FilterConfiguration } from '../../types'
+import {
+  ShopifyProduct,
+  FilterConfiguration,
+  FilterMatchGroup,
+} from '../../types'
 import { buildFilters } from '../../utils/sanity'
 
-const getSortString = (sort?: Sort): string => {
-  if (sort === Sort.PriceAsc) return 'minVariantPrice asc'
-  if (sort === Sort.PriceDesc) return 'maxVariantPrice desc'
-  // if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
-  // if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
-  // if (sort === Sort.AlphaAsc) return 'title asc'
-  // if (sort === Sort.AlphaDesc) return 'title desc'
-  return 'default'
+const getSortString = (sort?: Sort, filterSort?: string[]): string => {
+  if (filterSort && filterSort.length > 0) {
+    const countMatches: string[] = []
+
+    filterSort.map((s) => {
+      const string = `count(@->sourceData.variants.edges[node.currentlyNotInStock == false && node.selectedOptions[1].value == '${s}'])*2 + count(@->sourceData.variants.edges[node.currentlyNotInStock == true && node.selectedOptions[1].value == '${s}'])`
+      countMatches.push(string)
+    })
+
+    let sortString = countMatches.join(' + ')
+    sortString = '(' + sortString + ') desc'
+
+    if (sort === Sort.PriceAsc) return sortString + ', @->minVariantPrice asc'
+    if (sort === Sort.PriceDesc) return sortString + ', @->maxVariantPrice desc'
+    return sortString
+  } else {
+    if (sort === Sort.PriceAsc) return 'minVariantPrice asc'
+    if (sort === Sort.PriceDesc) return 'maxVariantPrice desc'
+    // if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
+    // if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
+    // if (sort === Sort.AlphaAsc) return 'title asc'
+    // if (sort === Sort.AlphaDesc) return 'title desc'
+    return 'default'
+  }
 }
 
 const productInner = `
@@ -18,7 +38,7 @@ const productInner = `
   handle,
   hidden,
   hideFromCollections,
-  "showInCollection": showInCollection->handle,
+  showInCollections,
   minVariantPrice,
   maxVariantPrice,
   initialVariantSelections[]{
@@ -81,6 +101,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   customFilter,
   hideFilter,
   overrideDefaultFilter,
+  minimalDisplay,
 	seo{
   	"image": select(
   		defined(image.asset) => {
@@ -118,7 +139,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     },
     ...,
   },
-  "products": products[]->[hidden!=true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] | order(${getSortString(
+  "products": products[!(@->_id in path("drafts.**")) && @->hidden!=true && (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))]-> | order(${getSortString(
     sort,
   )}) {
     ${productInner}
@@ -130,6 +151,15 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     body,
     "body_mobileRaw": body_mobile,
     ...
+  },
+  footer[]{
+    ...,
+    "bodyRaw": body,
+    "body_mobileRaw": body_mobile,
+    link[] {
+      ...,
+      document->
+    }
   },
   "descriptionRaw": description,
 }
@@ -145,9 +175,9 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[]->[hidden != true && (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))] {
+  "products": products[@->hidden != true && (!(@->_id in path("drafts.**")) && @->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))][$productStart..$productEnd]-> {
     ${productInner}
-  }[$productStart..$productEnd],
+  },
 }
 `
 
@@ -158,9 +188,33 @@ export type FilterResponse = ShopifyProduct[]
  * is defined
  */
 
-const filterQuery = (filterString: string = '', sort?: Sort) => `
+const filterQuery = (
+  filterString: string = '',
+  sort?: Sort,
+  filterSort?: string[],
+) => `
 ${
-  sort == Sort.Default
+  filterSort && filterSort.length > 0
+    ? `
+    *[
+      _type == "shopifyCollection"
+      && defined(shopifyId)
+      && handle == $handle
+    ] {
+        products[@->hidden != true &&
+        !(@->_id in path("drafts.**")) &&
+        (@->hideFromCollections != true || (@->hideFromCollections == true &&
+        @->showInCollection._ref == *[_type == "shopifyCollection" &&
+        handle == $handle][0]._id))
+        ${filterString ? `&& ${filterString}` : ''}
+    ] | order(${getSortString(sort, filterSort)})
+    [$productStart..$productEnd]->
+      {
+        ${productInner}
+      }
+    }
+  `
+    : sort == Sort.Default
     ? `
     *[
       _type == "shopifyCollection" &&
@@ -168,7 +222,8 @@ ${
     ] 
     {
       products[@->hidden != true &&
-      (@->hideFromCollections != true || (@->hideFromCollections == true && @->showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id))
+        !(@->_id in path("drafts.**")) &&
+      (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))
       ${
         filterString ? `&& ${filterString}` : ''
       }][$productStart...$productEnd]->{${productInner}}
@@ -178,7 +233,8 @@ ${
       _type == "shopifyProduct" &&
         defined(shopifyId) &&
         hidden != true &&
-        (hideFromCollections != true || (hideFromCollections == true && showInCollection._ref == *[_type == "shopifyCollection" && handle == $handle][0]._id)) &&
+        !(_id in path("drafts.**")) &&
+        (hideFromCollections != true || (hideFromCollections == true && count(showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0)) &&
         references($collectionId) 
       ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort)}) {
@@ -188,6 +244,6 @@ ${
 }`
 
 export const buildFilterQuery = (filters: FilterConfiguration, sort?: Sort) => {
-  const filterString = buildFilters(filters, sort)
-  return filterQuery(filterString, sort)
+  const { filterString, filterSort } = buildFilters(filters, sort)
+  return filterQuery(filterString, sort, filterSort)
 }

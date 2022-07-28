@@ -48,14 +48,15 @@ export const CurrencySelector = ({ colorTheme }: CurrencySelectorProps) => {
         onSubmit={handleSubmit}
         initialValues={initialValues}
       >
-        <SelectField name="currency" color="body.8" onChange={handleChange}>
+        <SelectField
+          name="currency"
+          color="body.8"
+          onChange={handleChange}
+          aria-label="Select Currency"
+          value={currentCurrency}
+        >
           {currencyOptions.map(({ id, value, label }) => (
-            <option
-              key={id}
-              id={id}
-              selected={value === currentCurrency}
-              value={value}
-            >
+            <option key={id} id={id} value={value}>
               {label}
             </option>
           ))}

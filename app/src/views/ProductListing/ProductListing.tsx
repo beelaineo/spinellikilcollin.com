@@ -2,7 +2,6 @@ import * as React from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Box } from '@xstyled/styled-components'
 import {
   ShopifyCollection,
   ShopifyProduct,
@@ -11,6 +10,7 @@ import {
 } from '../../types'
 import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
+import { ImageTextBlock } from '../../components/ContentBlock/ImageTextBlock'
 import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { RichText } from '../../components/RichText'
@@ -22,12 +22,13 @@ import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
 import { config } from '../../../src/config'
-import styled, { css } from '@xstyled/styled-components'
+import styled, { css, Box } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
   ProductGridWrapper,
   Wrapper,
   NoResultsWrapper,
+  FooterGrid,
 } from './styled'
 
 const { useRef, useEffect, useState } = React
@@ -86,13 +87,14 @@ export const ProductListing = ({
     handle,
     collectionBlocks,
     descriptionRaw,
+    footer,
     reduceColumnCount,
     lightTheme,
     hidden,
     hideFilter,
     overrideDefaultFilter,
+    minimalDisplay,
   } = collection
-
   const defaultFilter = productListingSettings?.newDefaultFilter
   const defaultFilters = definitely(defaultFilter).filter(
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
@@ -120,7 +122,6 @@ export const ProductListing = ({
   // console.log('collection', collection)
   // console.log('customFilter', customFilter)
   // console.log('currentFilter', currentFilter)
-
   const router = useRouter()
   // console.log('router params', router.query)
 
@@ -143,7 +144,6 @@ export const ProductListing = ({
   }
 
   useEffect(() => {
-    if (!currentFilter) return
     fetchMore(true)
   }, [currentFilter])
 
@@ -245,9 +245,6 @@ export const ProductListing = ({
   // }, [])
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
-    if (!filters?.length) {
-      return
-    }
     setCurrentFilter(filters)
   }
 
@@ -308,15 +305,17 @@ export const ProductListing = ({
       }
     `}
   `
-
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
-      {hero && validHero ? <HeroBlock hero={hero} /> : null}
+      {hero && validHero ? (
+        <HeroBlock hero={hero} minimalDisplay={minimalDisplay} />
+      ) : null}
       <Wrapper
         handle={handle}
         withHero={Boolean(hero && validHero)}
         isLightTheme={Boolean(lightTheme)}
+        tabIndex={-1}
       >
         {filters && filters.length ? (
           <Filter
@@ -328,6 +327,7 @@ export const ProductListing = ({
             resetFilters={resetFilters}
             hideFilter={hideFilter}
             inStockFilter={inStockFilter}
+            minimalDisplay={minimalDisplay}
           />
         ) : null}
         {items.length === 0 && !loading ? (
@@ -374,6 +374,22 @@ export const ProductListing = ({
                   </Heading>
                   <Loading />
                 </Box>
+              ) : null}
+              {footer && footer.length > 0 ? (
+                <FooterGrid>
+                  {definitely(footer).map((block) => {
+                    switch (block.__typename) {
+                      // case 'Carousel':
+                      //   return <Carousel key={} />
+                      case 'ImageTextBlock':
+                        return (
+                          <ImageTextBlock key={block._key} content={block} />
+                        )
+                      // case 'TextBlock':
+                      //   return <TextBlock key={} />
+                    }
+                  })}
+                </FooterGrid>
               ) : null}
               {descriptionPrimary ? (
                 <DescriptionWrapper>

@@ -18,7 +18,7 @@ export const Wrapper = styled.div`
   background-color: body.2;
 `
 
-export const ProductPageWrapper = styled.div`
+export const ProductPageWrapper = styled.main`
   ${({ theme }) => css`
     padding: 0;
 
@@ -156,6 +156,21 @@ export const ProductAccordionsWrapper = styled.div`
     }
     ${theme.mediaQueries.tablet} {
       margin-top: 4;
+    }
+  `}
+`
+
+export const RingToolsWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    column-gap: 4;
+    margin: 0 0 4 0;
+
+    ${theme.mediaQueries.tablet} {
+    }
+
+    ${theme.mediaQueries.mobile} {
     }
   `}
 `

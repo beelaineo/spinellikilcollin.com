@@ -14,6 +14,7 @@ import {
   shopifySourceProductFragment,
   shopifySourceImageFragment,
   seoFragment,
+  stoneFragment,
   request,
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
@@ -59,6 +60,9 @@ const productQueryInner = `
         ...SanityImageFragment
       }
       animation
+      stone {
+        ...StoneFragment
+      }
     }
   }
   variants {
@@ -103,6 +107,7 @@ const productQueryById = gql`
   ${carouselFragment}
   ${imageTextBlockFragment}
   ${seoFragment}
+  ${stoneFragment}
 `
 
 const productQueryByHandle = gql`

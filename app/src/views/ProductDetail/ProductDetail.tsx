@@ -10,6 +10,7 @@ import {
   getProductUri,
   getAdditionalDescriptions,
   getStorefrontId,
+  useProductVariant,
 } from '../../utils'
 import {
   useShopify,
@@ -29,10 +30,10 @@ import {
   ProductDetailFooter,
   ProductRelated,
   RingSizerButton,
+  SizeConverterButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useModal } from '../../providers/ModalProvider'
-import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
   AffirmWrapper,
@@ -41,6 +42,7 @@ import {
   ProductImagesWrapper,
   ProductAccordionsWrapper,
   InfoWrapper,
+  RingToolsWrapper,
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
@@ -151,7 +153,11 @@ export const ProductDetail = ({ product }: Props) => {
 
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
-    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+    variants?.filter(
+      (v) =>
+        v?.sourceData?.currentlyNotInStock === false &&
+        !v?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat'),
+    ) || []
 
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -169,7 +175,8 @@ export const ProductDetail = ({ product }: Props) => {
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
   )
@@ -321,7 +328,7 @@ export const ProductDetail = ({ product }: Props) => {
         hidden={hidden}
       />
       <CurrentProductProvider product={product} currentVariant={currentVariant}>
-        <ProductPageWrapper>
+        <ProductPageWrapper tabIndex={-1}>
           <Column>
             <ProductDetails>
               <ProductImagesWrapper>
@@ -384,6 +391,18 @@ export const ProductDetail = ({ product }: Props) => {
                     changeValueForOption={changeValueForOption}
                     product={product}
                   />
+                  {productType === 'Ring' ? (
+                    <RingToolsWrapper>
+                      <RingSizerButton
+                        product={product}
+                        variant={currentVariant}
+                      />
+                      {/* <SizeConverterButton
+                        product={product}
+                        variant={currentVariant}
+                      /> */}
+                    </RingToolsWrapper>
+                  ) : null}
                   <BuyButton
                     product={product}
                     addLineItem={addLineItem}
@@ -423,11 +442,18 @@ export const ProductDetail = ({ product }: Props) => {
                         )
                       : null}
                     {productType === 'Ring' ? (
-                      <RingSizerButton
-                        product={product}
-                        variant={currentVariant}
-                        mobile
-                      />
+                      <RingToolsWrapper>
+                        <RingSizerButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        />
+                        {/* <SizeConverterButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        /> */}
+                      </RingToolsWrapper>
                     ) : null}
                   </ProductAccordionsWrapper>
                 </ProductInfoWrapper>

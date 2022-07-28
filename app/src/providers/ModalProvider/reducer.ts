@@ -1,20 +1,27 @@
 import { useRouter } from 'next/router'
 import { useEffect, useReducer } from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../../types'
+import {
+  ShopifyProduct,
+  ShopifyProductVariant,
+  ShopifySourceSelectedOption,
+} from '../../types'
 
 const CLOSE = 'CLOSE'
 const OPEN = 'OPEN'
 
 export enum ModalName {
   RING_SIZER = 'RING_SIZER',
+  SIZE_CONVERTER = 'SIZE_CONVERTER',
   CUSTOMIZATION = 'CUSTOMIZATION',
   CONTACT = 'CONTACT',
+  DIAMOND = 'DIAMOND',
 }
 
 interface State {
   currentModal: ModalName | null
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
   formtype?: string
 }
 
@@ -28,6 +35,7 @@ interface OpenFormAction {
   formtype?: string
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
 }
 
 type Action = CloseAction | OpenFormAction
@@ -39,6 +47,7 @@ const reducer = (state: State, action: Action): State => {
         currentModal: action.currentModal,
         currentProduct: action.currentProduct,
         currentVariant: action.currentVariant,
+        currentDiamond: action.currentDiamond,
         formtype: action.formtype,
       }
     }
@@ -61,6 +70,7 @@ const initialState = {
 export interface OpenModalArgs {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
   formtype?: string
 }
 
@@ -82,12 +92,30 @@ export const useModalReducer = () => {
       currentVariant: args?.currentVariant,
     })
 
+  const openSizeConverterModal = (args?: OpenModalArgs) =>
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.SIZE_CONVERTER,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+    })
+
   const openCustomizationModal = (args?: OpenModalArgs) => {
     dispatch({
       type: OPEN,
       currentModal: ModalName.CUSTOMIZATION,
       currentProduct: args?.currentProduct,
       currentVariant: args?.currentVariant,
+    })
+  }
+
+  const openDiamondModal = (args?: OpenModalArgs) => {
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.DIAMOND,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+      currentDiamond: args?.currentDiamond,
     })
   }
 
@@ -113,7 +141,9 @@ export const useModalReducer = () => {
     state,
     closeModal,
     openRingSizerModal,
+    openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
   }
 }

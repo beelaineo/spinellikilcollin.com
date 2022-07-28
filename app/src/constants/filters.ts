@@ -1,6 +1,6 @@
 export enum Sort {
-  PriceAsc = '$-$$$',
-  PriceDesc = '$$$-$',
+  PriceAsc = 'Low to High',
+  PriceDesc = 'High to Low',
   // DateAsc = 'Newest',
   // DateDesc = 'Oldest first',
   Default = 'Featured',

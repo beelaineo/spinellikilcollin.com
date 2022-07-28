@@ -2,23 +2,27 @@ import styled, { css } from '@xstyled/styled-components'
 import { Button } from '../Button'
 import { Maybe } from '../../types'
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
-    padding: 5 0 2 0;
+interface WithMinimalDisplay {
+  minimalDisplay?: Maybe<boolean>
+}
+
+export const Wrapper = styled.div<WithMinimalDisplay>`
+  ${({ theme, minimalDisplay }) => css`
+    padding: 5 0;
     width: 100%;
     position: sticky;
     top: 74px;
-    z-index: 1;
+    z-index: 11;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     ${theme.mediaQueries.tablet} {
       top: 62px;
-      padding: 3 5;
+      padding: ${minimalDisplay ? '5 0' : '3 5'};
     }
     ${theme.mediaQueries.mobile} {
       top: 48px;
-      padding: 3 0;
+      padding: ${minimalDisplay ? '4 0' : '3 0'};
     }
   `}
 `
@@ -155,7 +159,7 @@ export const SortWrapper = styled.div<WithHide>`
     max-height: 27px;
     justify-content: center;
     align-items: center;
-    min-width: 105px;
+    min-width: 124px;
     max-width: unset;
     display: ${hide ? 'none' : 'block'};
     margin: 0 5px;
@@ -199,16 +203,17 @@ export const Header = styled.div`
   `}
 `
 
-interface WithOpen {
+interface WithOpenMinimalDisplay {
   open: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
-export const Inner = styled.div<WithOpen>`
-  ${({ theme, open }) => css`
+export const Inner = styled.div<WithOpenMinimalDisplay>`
+  ${({ theme, open, minimalDisplay }) => css`
     display: ${open ? 'flex' : 'none'};
     margin: 0 7;
     padding: 0;
-    z-index: 1;
+    z-index: ${minimalDisplay ? '11' : '1'};
     max-height: 48px;
     & > svg {
       width: 24px;
@@ -217,15 +222,34 @@ export const Inner = styled.div<WithOpen>`
     & > svg path {
       stroke: ${theme.colors.grays[6]};
     }
+    ${theme.mediaQueries.tablet} {
+    }
     @media screen and (max-width: 960px) {
-      margin: 0 4;
+      margin: 0 ${minimalDisplay ? '6' : '4'};
       flex-direction: column;
-      border-bottom: 1px solid ${theme.colors.grays[5]};
+      border-bottom: ${minimalDisplay
+        ? `none`
+        : '1px solid ' + theme.colors.grays[5]};
       max-height: unset;
+      ${minimalDisplay
+        ? css`
+            & > div:first-child {
+              padding: 0;
+              gap: 2;
+              & > div {
+                padding-top: 0;
+                padding-bottom: 0;
+              }
+            }
+          `
+        : ''};
+    }
+    ${theme.mediaQueries.mobile} {
+      margin: 0 ${minimalDisplay ? '2' : 'inherit'};
+      align-items: ${minimalDisplay ? 'center' : 'inherit'};
     }
   `}
 `
-
 export const OpenButton = styled(Button)`
   ${({ theme }) => css`
     text-transform: initial;
@@ -255,6 +279,7 @@ export const FilterSets = styled.div<WithHide>`
     padding: 0;
     margin: 0;
     flex: 1;
+    height: 28px;
 
     ${theme.mediaQueries.tablet} {
     }
@@ -300,34 +325,60 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     ${isActive
       ? 'background-color: ' +
         theme.colors.grays[4] +
-        '; justify-content: space-between; margin-bottom: 3; & > h5 {' +
+        '; justify-content: space-between; & > h5 {' +
         'background-color: ' +
         theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
-    ${isActive && (type == 'Type' || type == 'Bands')
-      ? 'padding: 0; & > h5 { min-width: 105px; padding: 2 0; } h5 { border: 1px solid ' +
+    ${isActive && (type == 'Type' || type == 'Bands' || type == 'Size')
+      ? 'padding: 0; & > h5 { min-width: 72px; padding: 2 0; } h5 { border: 1px solid ' +
         theme.colors.grays[6] +
-        '; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 0; justify-content: center; display: flex; align-items: center; border: 1px solid' +
+        '; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 18px; justify-content: flex-start; display: flex; align-items: center; border: 1px solid' +
         theme.colors.grays[6] +
         '; border-radius: 2em;' +
         '}'
       : ''}
       @media screen and (max-width: 960px) {
+      width: 100%;
       margin: 0;
+    }
+    @media screen and (min-width: 961px) {
+      min-width: ${type === 'Size' ? '220px' : '105px'};
     }
   `}
 `
 
-interface WithIsHovered {
+interface WithIsHoveredType {
   isHovered?: boolean
+  type?: Maybe<string>
 }
 
-export const FiltersWrapper = styled.div<WithIsHovered>`
-  ${({ theme, isHovered }) => css`
+export const FiltersWrapper = styled.div<WithIsHoveredType>`
+  ${({ theme, isHovered, type }) => css`
     display: ${isHovered ? 'block' : 'none'};
     position: relative;
     z-index: 2;
+    padding-top: 1;
+    ${type == 'Size'
+      ? css`
+          display: ${isHovered ? 'flex' : 'none'};
+          max-width: 330px;
+          flex-wrap: wrap;
+          & > div {
+            flex: 0;
+            label {
+              min-height: 28px;
+              min-width: 28px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border-radius: 100%;
+              width: auto;
+              padding: 0;
+            }
+          }
+        `
+      : ''}
     @media screen and (max-width: 960px) {
       position: relative;
       display: ${isHovered ? 'flex' : 'none'};
@@ -337,6 +388,22 @@ export const FiltersWrapper = styled.div<WithIsHovered>`
       & > div {
         display: block;
       }
+      ${type == 'Size'
+        ? css`
+            display: ${isHovered ? 'grid' : 'none'};
+            grid-template-columns: repeat(auto-fit, 36px);
+            position: static;
+            flex-wrap: unset;
+            gap: 2 3;
+            max-width: 100%;
+            width: 100%;
+            justify-content: center;
+            & > div label {
+              min-width: 36px;
+              min-height: 36px;
+            }
+          `
+        : ''}
     }
   `}
 `
@@ -372,13 +439,19 @@ export const FilterIndicatorsWrapper = styled.div<WithType>`
   ${({ theme, setType, isActive }) => css`
     display: flex;
     height: 100%;
-    margin-right: ${isActive && (setType == 'Type' || setType == 'Bands')
+    margin-right: ${isActive &&
+    (setType == 'Type' || setType == 'Bands' || setType == 'Size')
       ? '0'
-      : isActive && setType != 'Type' && setType != 'Bands'
+      : isActive && setType != 'Type' && setType != 'Bands' && setType != 'Size'
       ? '-13px'
       : '0px'};
     & > div:first-child {
       margin-left: 0;
+      h5 {
+        padding-left: ${isActive && (setType == 'Bands' || setType == 'Size')
+          ? '16px'
+          : '39px'};
+      }
     }
   `}
 `
@@ -414,16 +487,22 @@ export const ButtonsWrapper = styled.div`
   `}
 `
 
-export const PriceRangeFilterWrapper = styled.div`
-  ${({ theme }) => css`
+interface WithIsApplied {
+  isApplied: boolean
+}
+
+export const PriceRangeFilterWrapper = styled.div<WithIsApplied>`
+  ${({ theme, isApplied }) => css`
     margin: 0;
     & > div:first-child {
       min-width: 145px;
       text-align: left;
       justify-content: flex-start;
+      background-color: ${isApplied
+        ? theme.colors.grays[4]
+        : theme.colors.grays[2]};
     }
     label {
-      background-color: body.2;
       margin: 0;
       line-height: 1;
       font-style: italic;
@@ -450,7 +529,7 @@ export const PriceRangeFilterWrapper = styled.div`
   `}
 `
 
-export const Slider = styled.div<WithIsHovered>`
+export const Slider = styled.div<WithIsHoveredType>`
   ${({ theme, isHovered }) => css`
     display: ${isHovered ? 'block' : 'none'};
     position: relative;
@@ -489,12 +568,14 @@ export const KnobHandle = styled.div<WithPosition>`
 `
 
 export const KnobDot = styled.div`
-  width: 15px;
-  height: 15px;
-  background-color: body.0;
-  border: 1px solid;
-  border-color: body.6;
-  border-radius: 16px;
+  ${({ theme }) => css`
+    width: 15px;
+    height: 15px;
+    background-color: body.0;
+    border: 1px solid;
+    border-color: body.6;
+    border-radius: 16px;
+  `}
 `
 
 export const KnobLabel = styled.div`

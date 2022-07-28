@@ -3,8 +3,10 @@ import {
   PRICE_RANGE_FILTER,
   INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
+  FILTER_SINGLE,
   FilterConfiguration,
   Document,
+  FilterMatchGroup,
 } from '../types'
 import { Sort } from '../constants'
 import { definitely } from './data'
@@ -19,6 +21,8 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
       return `title match "${match}"`
     case 'option':
       return `"${match}" in sourceData.options[].value`
+    case 'size':
+      return `"${match}" in sourceData.options[name == "Size"].values[]`
     case 'subcategory':
       return `variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
     case 'metal':
@@ -45,6 +49,8 @@ const parseFilterMatchDefaultSort = ({
       return `@->title match "${match}"`
     case 'option':
       return `"${match}" in @->sourceData.options[].value`
+    case 'size':
+      return `"${match}" in @->sourceData.options[name == "Size"].values[]`
     case 'subcategory':
       return `@->variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
     case 'metal':
@@ -58,14 +64,46 @@ const parseFilterMatchDefaultSort = ({
   }
 }
 
+interface filterProps {
+  filterString: string
+  filterSort?: string[]
+}
+
 export const buildFilters = (
   filters: FilterConfiguration,
   sort?: Sort,
-): string => {
-  return filters
+): filterProps => {
+  // console.log('filters', filters)
+  // console.log('sort', sort)
+
+  const filterSort: string[] = []
+
+  const filterString = filters
     .map((filterGroup) => {
       if (filterGroup.filterType === FILTER_MATCH_GROUP) {
-        if (sort == Sort.Default) {
+        if (filterGroup.matches.some((f) => f.type === 'size')) {
+          // console.log('size', filterGroup.matches)
+          filterGroup.matches.map((m) => filterSort.push(m.match || ''))
+          return null
+        } else if (sort == Sort.Default) {
+          return filterGroup.matches
+            .map(parseFilterMatchDefaultSort)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        } else {
+          return filterGroup.matches
+            .map(parseFilterMatch)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        }
+      } else if (filterGroup.filterType === FILTER_SINGLE) {
+        if (filterGroup.matches.some((f) => f.type === 'size')) {
+          // console.log('size', filterGroup.matches)
+          filterGroup.matches.map((m) => filterSort.push(m.match || ''))
+          return null
+        } else if (sort == Sort.Default) {
           return filterGroup.matches
             .map(parseFilterMatchDefaultSort)
             .filter(Boolean)
@@ -82,30 +120,37 @@ export const buildFilters = (
         const { minPrice, maxPrice } = filterGroup
         return [
           '(',
-          sort == Sort.Default ? '@->maxVariantPrice' : 'maxVariantPrice',
+          sort == Sort.Default || (filterSort && filterSort.length > 0)
+            ? '@->maxVariantPrice'
+            : 'maxVariantPrice',
           ' >= ',
           Math.floor(minPrice),
           ' && ',
-          sort == Sort.Default ? '@->minVariantPrice' : 'minVariantPrice',
+          sort == Sort.Default || (filterSort && filterSort.length > 0)
+            ? '@->minVariantPrice'
+            : 'minVariantPrice',
           ' <= ',
           Math.ceil(maxPrice),
           ')',
         ].join('')
       } else if (filterGroup.filterType === INVENTORY_FILTER) {
         const rule =
-          sort == Sort.Default
+          sort == Sort.Default || (filterSort && filterSort.length > 0)
             ? '(count(@->sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
             : '(count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
         const { applyFilter } = filterGroup
         return applyFilter
           ? rule
-          : sort == Sort.Default
+          : sort == Sort.Default || (filterSort && filterSort.length > 0)
           ? '(count(@->sourceData.variants.edges[]) > 0)'
           : '(count(sourceData.variants.edges[]) > 0)'
       }
       throw new Error(`This kind of filter cannot be parsed`)
     })
+    .filter((s) => s)
     .join(' && ')
+
+  return { filterString, filterSort }
 }
 
 const toArray = <T>(i: T | T[]): T[] => (Array.isArray(i) ? i : [i])

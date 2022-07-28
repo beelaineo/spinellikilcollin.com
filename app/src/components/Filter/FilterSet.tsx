@@ -44,6 +44,7 @@ const FilterCheckbox = ({
           type="checkbox"
           checked={checked}
           onChange={onChange}
+          tabIndex={0}
         />
         <Label color="body.9" htmlFor={matchKey}>
           {label}
@@ -87,15 +88,29 @@ export const FilterSet = ({
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
 
+  const handleBlur = (e) => {
+    const currentTarget = e.currentTarget
+
+    // Give browser time to focus the next element
+    requestAnimationFrame(() => {
+      // Check if the new focused element is a child of the original container
+      if (!currentTarget.contains(document.activeElement)) {
+        setMouseEnter(false)
+      }
+    })
+  }
+
   const isMobile = useMedia({
     maxWidth: `960px`,
   })
-
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
+      onFocus={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onBlur={handleBlur}
       active={active}
+      tabIndex={0}
     >
       <HeadingWrapper
         isActive={Boolean(activeMatchKeys.length > 0)}
@@ -129,6 +144,7 @@ export const FilterSet = ({
         isHovered={
           Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
         }
+        type={filterSet.heading}
       >
         {definitely(filters).map((filter) => {
           return (
@@ -140,7 +156,8 @@ export const FilterSet = ({
               checked={activeMatchKeys.includes(filter._key || 'foo')}
               hidden={Boolean(
                 (filterSet.heading === 'Type' ||
-                  filterSet.heading === 'Bands') &&
+                  filterSet.heading === 'Bands' ||
+                  filterSet.heading === 'Size') &&
                   filter._key &&
                   activeMatchKeys.includes(filter._key),
               )}

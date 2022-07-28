@@ -82,6 +82,8 @@ const FilterMatchPreview = ({ value }) => {
       ? 'Product variant style equals'
       : type === 'By Variant Stone'
       ? 'Product variant stones include'
+      : type === 'By Variant Size'
+      ? 'Variant sizes include'
       : null
   if (!titlePrefix) {
     throw new Error(`Could not generate title prefix for type "${type}"`)
@@ -115,6 +117,11 @@ export const filterMatch = {
         layout: 'radio',
         list: [
           { title: 'By Product Subcategory', value: 'subcategory' },
+          {
+            title:
+              'By Variant Size (note: does not exclude non-matches, only resorts query results)',
+            value: 'size',
+          },
           { title: 'By Variant Metal', value: 'metal' },
           { title: 'By Variant Style', value: 'style' },
           { title: 'By Variant Stone', value: 'stone' },
@@ -153,6 +160,7 @@ const FilterPreview = ({ value }) => {
   const metalMatches = matches.filter((m) => m.type === 'metal')
   const styleMatches = matches.filter((m) => m.type === 'style')
   const stoneMatches = matches.filter((m) => m.type === 'stone')
+  const sizeMatches = matches.filter((m) => m.type === 'size')
   const subtitles = [
     titleMatches.length
       ? `Matches title: ${titleMatches.map(({ match }) => match).join(', ')}`
@@ -179,6 +187,9 @@ const FilterPreview = ({ value }) => {
       : null,
     stoneMatches.length
       ? `Matches stone: ${stoneMatches.map(({ match }) => match).join(', ')}`
+      : null,
+    sizeMatches.length
+      ? `Matches style: ${sizeMatches.map(({ match }) => match).join(', ')}`
       : null,
   ].filter(Boolean)
   return (
@@ -260,6 +271,7 @@ export const productFilter = {
   type: 'array',
   title: 'Product Listing Filter',
   of: [
+    { type: 'filter' },
     { type: 'filterSet' },
     { type: 'priceRangeFilter' },
     { type: 'inventoryFilter' },

@@ -53,7 +53,12 @@ export const LoopButton: React.FC<LoopButtonProps> = ({
   onClick,
 }) => {
   return (
-    <LoopButtonContainer type="button" direction={direction} onClick={onClick}>
+    <LoopButtonContainer
+      type="button"
+      direction={direction}
+      onClick={onClick}
+      aria-label={direction + ' slide'}
+    >
       {direction === 'previous' ? <LeftArrowLong /> : <RightArrowLong />}
     </LoopButtonContainer>
   )

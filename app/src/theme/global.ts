@@ -35,6 +35,12 @@ export const GlobalStyles = createGlobalStyle`
   h6 { font-size: 6; }
 
   ${({ theme }) => css`
+    *:focus {
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
+    }
+
     ${theme.mediaQueries.tablet} {
       h1 {
         font-size: ${theme.tabletFontSizes[1]};

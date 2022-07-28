@@ -22,6 +22,7 @@ interface WithValue {
 
 interface FilterValueLabelProps {
   value?: Maybe<string>
+  type?: Maybe<string>
   index: number
 }
 
@@ -81,9 +82,9 @@ const StyleIndicator = styled.div<WithValue>`
 `
 
 const FilterValueLabel = styled.div<FilterValueLabelProps>`
-  ${({ theme, value, index }) => css`
+  ${({ theme, value, index, type }) => css`
     height: 100%;
-    z-index: ${10 - index};
+    z-index: ${50 - index};
     ${IndicatorStyle(value)}
     h5 {
       border: 1px solid #979797;
@@ -153,7 +154,7 @@ export const FilterIndicator = ({
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
-              <CloseButton />
+              <CloseButton aria-label="Remove filter" />
             </CloseButtonWrapper>
           </Heading>
         </FilterValueLabel>
@@ -164,7 +165,18 @@ export const FilterIndicator = ({
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
-              <CloseButton />
+              <CloseButton aria-label="Remove filter" />
+            </CloseButtonWrapper>
+          </Heading>
+        </FilterValueLabel>
+      )
+    case 'Size':
+      return (
+        <FilterValueLabel index={index} onClick={remove} type={type}>
+          <Heading level={5}>
+            {label}
+            <CloseButtonWrapper>
+              <CloseButton aria-label="Remove filter" />
             </CloseButtonWrapper>
           </Heading>
         </FilterValueLabel>
@@ -199,7 +211,7 @@ export const FilterIndicator = ({
       return (
         <FilterIndicatorWrapper>
           <Heading textTransform="uppercase" mt={0} mb={0} level={5}>
-            {label} - {index + 1}
+            {label}
           </Heading>
         </FilterIndicatorWrapper>
       )

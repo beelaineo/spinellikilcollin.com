@@ -19,7 +19,7 @@ import { ProductSwatches, IsDisplayingSwatches } from './ProductSwatches'
 import { Price } from '../Price'
 import {
   getProductUri,
-  getVariantBySelectedOption,
+  getVariantBySelectedOptions,
   optionMatchesVariant,
   getBestVariantByMatch,
   getBestVariantByFilterMatch,
@@ -235,13 +235,24 @@ export const ProductThumbnail = ({
   const onSwatchHover =
     (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
       if (!value.value) return
-
-      const currentSelection = {
-        name: option.name || 'foo',
-        currentValue: value.value,
-      }
-
-      const newVariant = getVariantBySelectedOption(variants, currentSelection)
+      if (!currentVariant?.selectedOptions) return
+      const currentOptions = currentVariant.selectedOptions
+        .filter((v) => v?.name === 'Color' || v?.name === 'Carat')
+        .map((v) => {
+          if (v?.name === option.name) {
+            return {
+              name: option.name || 'foo',
+              currentValue: value.value,
+            }
+          } else {
+            return {
+              name: v?.name || 'foo',
+              currentValue: v?.value,
+            }
+          }
+        })
+      const newVariant = getVariantBySelectedOptions(variants, currentOptions)
+      console.log('newVariant', newVariant)
       if (newVariant) setCurrentVariant(newVariant)
     }
 
@@ -297,7 +308,10 @@ export const ProductThumbnail = ({
       .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
       .map((filter, i) => {
         const { filterType } = filter
-        if (filterType === 'FILTER_MATCH_GROUP') {
+        if (
+          filterType === 'FILTER_MATCH_GROUP' ||
+          filterType === 'FILTER_SINGLE'
+        ) {
           const { matches } = filter
           const newMatches = matches.map((matchGroup) => {
             const { type, match } = matchGroup
@@ -327,7 +341,8 @@ export const ProductThumbnail = ({
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
   )
@@ -355,7 +370,7 @@ export const ProductThumbnail = ({
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>
-        <a>
+        <a aria-label={'Link to ' + product.title}>
           {variantAnimation ? (
             <VideoWrapper hide={!playing}>
               <CloudinaryAnimation

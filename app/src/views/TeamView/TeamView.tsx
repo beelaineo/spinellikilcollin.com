@@ -32,7 +32,7 @@ export const TeamView = ({ teamPage }: TeamViewProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="about/team" />
-      <PageWrapper>
+      <PageWrapper tabIndex={-1}>
         <Column columnwidth="mediumWide">
           <Heading mt={4} mb={10} textAlign="center" level={1}>
             {title}

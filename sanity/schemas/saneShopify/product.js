@@ -30,6 +30,14 @@ export const productOptionValue = {
       name: 'animation',
       type: 'string',
     },
+    {
+      title: 'Stone',
+      name: 'stone',
+      type: 'reference',
+      description: 'If Karat swatch, link to associated stone.',
+      weak: true,
+      to: [{ type: 'stone' }],
+    },
   ],
   preview: {
     select: {
@@ -62,6 +70,19 @@ export const product = {
       description: 'Always show product in specified collection.',
       weak: true,
       to: [{ type: 'shopifyCollection' }],
+    },
+    {
+      title: 'Show in Collections',
+      name: 'showInCollections',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          description: 'Always show product in specified collections.',
+          weak: true,
+          to: [{ type: 'shopifyCollection' }],
+        },
+      ],
     },
     {
       title: 'Initial Variant (by Collection)',

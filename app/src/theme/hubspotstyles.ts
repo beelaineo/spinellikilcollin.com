@@ -34,11 +34,13 @@ export const hubspotStyles = css`
       div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner p {
         font-size: 5;
         font-weight: 2 !important;
+        margin: 0 !important;
       }
       div#hs-eu-cookie-confirmation
         div#hs-eu-cookie-confirmation-inner
         div#hs-en-cookie-confirmation-buttons-area {
         text-align: center !important;
+        margin-right: 0 !important;
       }
       div#hs-eu-cookie-confirmation
         div#hs-eu-cookie-confirmation-inner
