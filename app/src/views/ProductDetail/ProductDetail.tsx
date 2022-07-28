@@ -10,6 +10,7 @@ import {
   getProductUri,
   getAdditionalDescriptions,
   getStorefrontId,
+  useProductVariant,
 } from '../../utils'
 import {
   useShopify,
@@ -32,7 +33,6 @@ import {
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useModal } from '../../providers/ModalProvider'
-import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
   AffirmWrapper,
@@ -150,7 +150,11 @@ export const ProductDetail = ({ product }: Props) => {
 
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
-    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+    variants?.filter(
+      (v) =>
+        v?.sourceData?.currentlyNotInStock === false &&
+        !v?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat'),
+    ) || []
 
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -168,7 +172,8 @@ export const ProductDetail = ({ product }: Props) => {
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
   )

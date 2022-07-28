@@ -47,7 +47,6 @@ export const ContactView = ({ contact }: ContactProps) => {
     description: seo?.description,
     image: seo?.image,
   }
-  console.log('Contact body', contact)
   const handleModalClick = (formtype: string) => () =>
     openContactModal({ formtype })
 

@@ -7,6 +7,7 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
+    'plugin:@next/next/recommended',
   ],
   parserOptions: {
     sourceType: 'module',
@@ -16,6 +17,7 @@ module.exports = {
     'import/no-unresolved': [2, { ignore: ['^(all|part):'] }],
     'react/prop-types': 'off',
     'no-unused-vars': 'off',
+    'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-inferrable-types': 'off',

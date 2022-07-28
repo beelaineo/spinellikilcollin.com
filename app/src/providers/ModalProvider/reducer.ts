@@ -1,6 +1,10 @@
 import { useRouter } from 'next/router'
 import { useEffect, useReducer } from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../../types'
+import {
+  ShopifyProduct,
+  ShopifyProductVariant,
+  ShopifySourceSelectedOption,
+} from '../../types'
 
 const CLOSE = 'CLOSE'
 const OPEN = 'OPEN'
@@ -10,12 +14,14 @@ export enum ModalName {
   SIZE_CONVERTER = 'SIZE_CONVERTER',
   CUSTOMIZATION = 'CUSTOMIZATION',
   CONTACT = 'CONTACT',
+  DIAMOND = 'DIAMOND',
 }
 
 interface State {
   currentModal: ModalName | null
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
   formtype?: string
 }
 
@@ -29,6 +35,7 @@ interface OpenFormAction {
   formtype?: string
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
 }
 
 type Action = CloseAction | OpenFormAction
@@ -40,6 +47,7 @@ const reducer = (state: State, action: Action): State => {
         currentModal: action.currentModal,
         currentProduct: action.currentProduct,
         currentVariant: action.currentVariant,
+        currentDiamond: action.currentDiamond,
         formtype: action.formtype,
       }
     }
@@ -62,6 +70,7 @@ const initialState = {
 export interface OpenModalArgs {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
   formtype?: string
 }
 
@@ -100,6 +109,16 @@ export const useModalReducer = () => {
     })
   }
 
+  const openDiamondModal = (args?: OpenModalArgs) => {
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.DIAMOND,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+      currentDiamond: args?.currentDiamond,
+    })
+  }
+
   const openContactModal = ({
     formtype,
     currentProduct,
@@ -125,5 +144,6 @@ export const useModalReducer = () => {
     openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
   }
 }

@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {
+  Filter as FilterSingleType,
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
   InventoryFilter as InventoryFilterTypeSource,
@@ -7,12 +8,15 @@ import {
   PriceRangeFilterConfiguration,
   InventoryFilterConfiguration,
   FilterMatchGroup,
+  FILTER_SINGLE,
   PRICE_RANGE_FILTER,
   INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
   Maybe,
+  FilterSingleConfiguration,
 } from '../../types'
 import { FilterSet } from './FilterSet'
+import { FilterSingle } from './FilterSingle'
 import { PriceRangeFilter } from './PriceRangeFilter'
 import { InventoryFilter } from './InventoryFilter'
 import {
@@ -54,7 +58,11 @@ interface InventoryFilterType extends InventoryFilterTypeSource {
 
 type FilterValues = Record<string, any>
 
-type FilterType = FilterSetType | PriceRangeFilterType | InventoryFilterType
+type FilterType =
+  | FilterSingleType
+  | FilterSetType
+  | PriceRangeFilterType
+  | InventoryFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
@@ -65,6 +73,7 @@ interface FilterProps {
   currentFilter: FilterConfiguration | null
   resetFilters: number
   hideFilter?: Maybe<boolean>
+  minimalDisplay?: Maybe<boolean>
   open?: boolean
 }
 
@@ -131,6 +140,16 @@ const getCurrentFilters = (
         label,
       }
       return [...acc, inventoryFilter]
+    } else if (filter.__typename === 'Filter') {
+      const activeMatchKeys = setState.activeMatchKeys
+      if (activeMatchKeys.length === 0) return acc
+      const filterMatches = definitely(filter.matches)
+      const filterSingle: FilterSingleConfiguration = {
+        filterType: FILTER_SINGLE,
+        matches: filterMatches,
+        key: filter._key || 'some-key',
+      }
+      return [...acc, filterSingle]
     }
     return acc
   }, [])
@@ -143,6 +162,7 @@ export const Filter = ({
   inStockFilter,
   resetFilters,
   hideFilter,
+  minimalDisplay,
   productsCount,
   open: parentOpen,
 }: FilterProps) => {
@@ -159,20 +179,26 @@ export const Filter = ({
     setOpen(parentOpen ?? false)
   }, [parentOpen])
 
-  const { filterSetStates, setValues, resetAll, resetSet, toggle } =
-    useFilterState(definitely(filters))
+  const {
+    filterSetStates,
+    setValues,
+    resetAll,
+    resetSet,
+    toggle,
+    toggleSingle,
+  } = useFilterState(definitely(filters))
 
   if (!filters || filterSetStates.length === 0) return null
-
-  const handleSubmit = () => {
-    const filterMatches = getCurrentFilters(filters, filterSetStates)
-    applyFilters(filterMatches)
-  }
 
   const handleReset = () => {
     resetAll()
     applyFilters(null)
     setActiveKey('')
+  }
+
+  const limitedToggle = (matchKey: string) => {
+    resetAll()
+    toggle(matchKey || 'some-key')
   }
 
   useEffect(() => {
@@ -195,9 +221,9 @@ export const Filter = ({
 
   if (hideFilter !== true) {
     return (
-      <Wrapper>
-        <Backdrop />
-        {isMobile === true && open === false ? (
+      <Wrapper minimalDisplay={minimalDisplay}>
+        {!minimalDisplay ? <Backdrop /> : null}
+        {isMobile === true && open === false && minimalDisplay === false ? (
           <MobileToggleWrapper onClick={toggleOpen}>
             <Heading level={4} color="body.7" textDecoration="underline">
               Filter<MobileControlsDivider>+</MobileControlsDivider>Sort
@@ -207,16 +233,21 @@ export const Filter = ({
           ''
         )}
         <Inner
-          open={Boolean(isMobile === false || (isMobile === true && open))}
+          open={Boolean(
+            isMobile === false ||
+              (isMobile === true && minimalDisplay) ||
+              (isMobile === true && open),
+          )}
+          minimalDisplay={minimalDisplay}
         >
-          {isMobile === false ? (
+          {isMobile === false && !minimalDisplay ? (
             <Heading level={5} color="body.7" mr={2} lineHeight={1}>
               Filter by:
             </Heading>
           ) : (
             ''
           )}
-          {isMobile === true ? (
+          {isMobile === true && !minimalDisplay ? (
             <MobileHeader>
               <MobileControls>
                 <ControlTab onClick={() => setMobileDisplay('filter')}>
@@ -262,6 +293,7 @@ export const Filter = ({
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
                   active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
                 >
                   <FilterSet
                     setKey={filter._key || 'some-key'}
@@ -274,6 +306,34 @@ export const Filter = ({
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>
+              ) : filter.__typename === 'Filter' ? (
+                <FilterWrapper
+                  heading={filter.label}
+                  key={filter._key || 'some-key'}
+                  type={filter.__typename}
+                  filter={filter}
+                  onClick={() => handleFilterClick(filter._key)}
+                  active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
+                >
+                  <FilterSingle
+                    setKey={filter._key || 'some-key'}
+                    filterSetState={filterSetStates.find(
+                      (s) => s.key === filter._key,
+                    )}
+                    resetSet={resetSet(filter._key || 'some-key')}
+                    toggleMatch={
+                      Boolean(
+                        minimalDisplay == true &&
+                          !filters.some((f) => f.__typename !== 'Filter'),
+                      )
+                        ? toggleSingle(filter._key || 'some-key')
+                        : toggle(filter._key || 'some-key')
+                    }
+                    filterSingle={filter}
+                    active={Boolean(activeKey === filter._key)}
+                  />
+                </FilterWrapper>
               ) : filter.__typename === 'PriceRangeFilter' ? (
                 <FilterWrapper
                   heading="Price:"
@@ -282,6 +342,7 @@ export const Filter = ({
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
                   active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
                 >
                   <PriceRangeFilter
                     setKey={filter._key || 'some-key'}
@@ -302,6 +363,7 @@ export const Filter = ({
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
                   active={Boolean(activeKey === filter._key)}
+                  minimalDisplay={minimalDisplay}
                 >
                   <InventoryFilter
                     setKey={filter._key || 'some-key'}
@@ -317,32 +379,39 @@ export const Filter = ({
                 </FilterWrapper>
               ) : null,
             )}
-            {isMobile === true ? (
-              <MobileFooter>
-                {productsCount > 0 ? (
-                  <Heading level={5} color="body.7">
-                    Results: {productsCount}
-                  </Heading>
-                ) : (
-                  ''
-                )}
-                <Reset onClick={handleReset}>Reset</Reset>
-              </MobileFooter>
+            {minimalDisplay === false ? (
+              isMobile === true ? (
+                <MobileFooter>
+                  {productsCount > 0 ? (
+                    <Heading level={5} color="body.7">
+                      Results: {productsCount}
+                    </Heading>
+                  ) : (
+                    ''
+                  )}
+                  <Reset onClick={handleReset}>Reset</Reset>
+                </MobileFooter>
+              ) : (
+                <DesktopFooter>
+                  {productsCount > 0 ? (
+                    <Heading level={5} color="body.7" ml={2}>
+                      Results: {productsCount}
+                    </Heading>
+                  ) : (
+                    ''
+                  )}
+                  <Reset onClick={handleReset}>Reset</Reset>
+                </DesktopFooter>
+              )
             ) : (
-              <DesktopFooter>
-                {productsCount > 0 ? (
-                  <Heading level={5} color="body.7" ml={2}>
-                    Results: {productsCount}
-                  </Heading>
-                ) : (
-                  ''
-                )}
-                <Reset onClick={handleReset}>Reset</Reset>
-              </DesktopFooter>
+              ''
             )}
           </FilterSets>
           <SortWrapper
-            hide={Boolean(isMobile === true && mobileDisplay === 'filter')}
+            hide={Boolean(
+              (isMobile === true && mobileDisplay === 'filter') ||
+                minimalDisplay,
+            )}
           >
             <SortSet applySort={applySort} />
           </SortWrapper>

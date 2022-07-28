@@ -161,6 +161,12 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
         value: variant?.selectedOptions?.find((o) => o.name === 'Chain')?.value,
       })
     }
+    if (variant?.selectedOptions?.some((o) => o.name === 'Carat')) {
+      options.push({
+        name: 'Carat',
+        value: variant?.selectedOptions?.find((o) => o.name === 'Carat')?.value,
+      })
+    }
     return options
   }
 

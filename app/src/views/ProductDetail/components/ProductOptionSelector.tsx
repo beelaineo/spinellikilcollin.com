@@ -20,6 +20,8 @@ import {
   isValidSwatchOption,
   definitely,
 } from '../../../utils'
+import { useModal } from '../../../providers/ModalProvider'
+import Link from 'next/link'
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
@@ -47,10 +49,23 @@ const currencyMask = createNumberMask({
   allowLeadingZeroes: false,
 })
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+  a {
+    text-decoration: underline;
+    display: inline-block;
+    padding-left: 4;
+  }
+`
 
 const SwatchesWrapper = styled.div`
   display: flex;
+`
+
+const DiamondInfoSpan = styled.span`
+  display: inline-block;
+  padding-left: 5;
+  text-decoration: underline;
+  cursor: pointer;
 `
 
 const SelectWrapper = styled.div<SelectWrapperProps>`
@@ -102,7 +117,8 @@ export const ProductOptionSelector = ({
     ?.filter((variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     })
     .map((variant) => variant?.node)
@@ -118,6 +134,11 @@ export const ProductOptionSelector = ({
   const currentSelectedColor =
     currentVariant?.sourceData?.selectedOptions?.find(
       (option) => option?.name === 'Color',
+    )
+
+  const currentSelectedDiamond =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Carat',
     )
 
   const getVariantOptions = (variantOptions) => {
@@ -199,14 +220,33 @@ export const ProductOptionSelector = ({
     return optionMatchesVariant(option.name || 'foo', value, currentVariant)
   }
 
+  const { openDiamondModal } = useModal()
+
   const handleSubmit = (values: any) => {
     //
   }
-
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
         {isInput ? null : option.name}
+        {option.name === 'Carat' ? (
+          <>
+            <DiamondInfoSpan
+              onClick={() =>
+                openDiamondModal({
+                  currentProduct: product,
+                  currentVariant: currentVariant || undefined,
+                  currentDiamond: currentSelectedDiamond || undefined,
+                })
+              }
+            >
+              Diamond Info
+            </DiamondInfoSpan>
+            <Link href={'/about/appointments'}>
+              <a target={'_blank'}>Appointments</a>
+            </Link>
+          </>
+        ) : null}
       </Heading>
       <SelectWrapper isInput={isInput}>
         {isValidSwatchOption(option) ? (

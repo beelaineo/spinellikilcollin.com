@@ -9,14 +9,15 @@ import {
   ShopifySourceProductVariantEdge,
   Maybe,
 } from '../../types'
-import {
-  getSwatchOptions,
-  definitely,
-  getVariantBySelectedOption,
-  optionMatchesVariant,
-} from '../../utils'
+import { getSwatchOptions, definitely } from '../../utils'
 import { SwatchesWrapper, SwatchWrapper } from './styled'
 import styled, { css } from '@xstyled/styled-components'
+
+const OptionSwatchesWrapper = styled('div')`
+  display: flex;
+  justify-content: center;
+  gap: 5;
+`
 
 const InStockDot = styled('span')`
   display: inline-block;
@@ -143,13 +144,21 @@ export const ProductSwatches = ({
     })
     .map((option) => slugify(option?.value))
 
+  const stockedCaratOptions = product?.variants
+    ?.map((variant) => {
+      return variant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Carat',
+      )
+    })
+    .map((option) => slugify(option?.value))
+
   const swatchOptions = getSwatchOptions(product).filter(
     // @ts-ignore: Object is possibly 'null' or 'undefined'.
     (option) => option.values.length > 0,
   )
 
   return (
-    <div>
+    <OptionSwatchesWrapper>
       {swatchOptions.map((option) => (
         <OptionSwatches
           option={option}
@@ -161,6 +170,6 @@ export const ProductSwatches = ({
           isSwatchActive={isSwatchActive}
         />
       ))}
-    </div>
+    </OptionSwatchesWrapper>
   )
 }
