@@ -223,7 +223,7 @@ export const Filter = ({
     return (
       <Wrapper minimalDisplay={minimalDisplay}>
         {!minimalDisplay ? <Backdrop /> : null}
-        {isMobile === true && open === false && minimalDisplay === false ? (
+        {isMobile === true && open === false && !minimalDisplay ? (
           <MobileToggleWrapper onClick={toggleOpen}>
             <Heading level={4} color="body.7" textDecoration="underline">
               Filter<MobileControlsDivider>+</MobileControlsDivider>Sort
