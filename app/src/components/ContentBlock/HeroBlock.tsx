@@ -26,7 +26,7 @@ interface HeroWrapperProps {
 export const HeroWrapper = styled.div<HeroWrapperProps>`
   ${({ theme, hero, minimalDisplay }) => css`
     display: ${hero.layout?.includes('flex') ? 'flex' : 'block'};
-    margin-bottom: ${minimalDisplay ? '-76px' : 'inherit'};
+    margin-bottom: ${minimalDisplay === true ? '-76px' : 'inherit'};
     position: relative;
     z-index: 0;
     grid-column: span 2;
@@ -41,7 +41,7 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     }
 
     ${theme.mediaQueries.tablet} {
-      margin-bottom: ${minimalDisplay ? '-76px' : 'inherit'};
+      margin-bottom: ${minimalDisplay === true ? '-76px' : 'inherit'};
     }
 
     ${theme.mediaQueries.mobile} {
@@ -57,9 +57,8 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
         : 'inherit'};
       flex-direction: column;
       overflow: hidden;
-      margin-bottom: ${minimalDisplay ? '-63px' : 'inherit'};
-      padding-bottom: ${minimalDisplay ? '63px' : 'inherit'};
-      margin-bottom: -63px;
+      margin-bottom: ${minimalDisplay === true ? '-63px' : 'inherit'};
+      padding-bottom: ${minimalDisplay === true ? '63px' : 'inherit'};
     }
   `}
 `
