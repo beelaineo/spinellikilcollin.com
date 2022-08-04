@@ -65,6 +65,8 @@ export const InfoWrapper = styled.div<WithProduct>`
     }
 
     ${theme.mediaQueries.mobile} {
+      height: 100%;
+      display: block;
       padding: ${product?.sourceData?.productType === 'Gift Card'
         ? '0 0 7'
         : '6 0 7'};
@@ -187,8 +189,14 @@ export const Nav = styled.div`
   font-family: sans;
 `
 
-export const ProductGalleryWrapper = styled.div<WithProduct>`
-  ${({ product, theme }) => css`
+interface WithProductHide {
+  product?: ShopifyProduct
+  hide?: boolean
+}
+
+export const ProductGalleryWrapper = styled.div<WithProductHide>`
+  ${({ product, hide, theme }) => css`
+    display: ${hide ? 'none' : 'block'};
     position: sticky;
     top: 0;
 

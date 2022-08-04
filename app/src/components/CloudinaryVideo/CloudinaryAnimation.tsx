@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { AdvancedVideo, lazyload } from '@cloudinary/react'
+import { AdvancedVideo } from '@cloudinary/react'
 import { Cloudinary } from '@cloudinary/url-gen'
 import { scale } from '@cloudinary/url-gen/actions/resize'
 import {
@@ -76,6 +76,8 @@ export const CloudinaryAnimation = ({
   setPlaying,
 }: CloudinaryVideoProps) => {
   if (!video?.videoId) return null
+  const videoEl = useRef<HTMLVideoElement>(null)
+  const [videoStatus, setVideoStatus] = useState<string>('')
 
   const { videoId } = video
 
@@ -87,7 +89,7 @@ export const CloudinaryAnimation = ({
 
   const handlePlay = () => {
     setPlaying(true)
-    console.log('play')
+    console.log('playing')
   }
 
   const poster =
@@ -97,17 +99,38 @@ export const CloudinaryAnimation = ({
       ? (image?.w1200 as string)
       : (image?.w800 as string)
 
+  useEffect(() => {
+    if (!videoEl) return
+    if (!videoEl.current) return
+    console.log('videoEl:', videoEl)
+
+    const promise = videoEl.current.play()
+
+    if (promise !== undefined) {
+      promise
+        .then((_) => {
+          console.log('Autoplay started')
+          setVideoStatus('autoplay started')
+        })
+        .catch((error) => {
+          console.log('Autoplay not allowed', error)
+          setVideoStatus('autoplay not allowed')
+        })
+    }
+  }, [])
+
   return screen === 'desktop' ? (
     <DesktopWrapper>
       <RatioPadding canvasFill={false} ratio={1} />
       <AdvancedVideo
         cldVid={cldVid}
-        autoPlay
         loop
         playsInline
         muted
         onPlay={handlePlay}
-        plugins={[lazyload()]}
+        innerRef={videoEl}
+        autoPlay={true}
+        preload={'auto'}
       />
     </DesktopWrapper>
   ) : screen === 'mobile' ? (
@@ -115,24 +138,26 @@ export const CloudinaryAnimation = ({
       <RatioPadding canvasFill={false} ratio={1} />
       <AdvancedVideo
         cldVid={cldVid}
-        autoPlay
         loop
         playsInline
         muted
         onPlay={handlePlay}
-        plugins={[lazyload()]}
+        innerRef={videoEl}
+        autoPlay={true}
+        preload={'auto'}
       />
     </MobileWrapper>
   ) : (
     <AnimationWrapper>
       <AdvancedVideo
         cldVid={cldVid}
-        autoPlay
         loop
         playsInline
         muted
         onPlay={handlePlay}
-        plugins={[lazyload()]}
+        innerRef={videoEl}
+        autoPlay={true}
+        preload={'auto'}
       />
     </AnimationWrapper>
   )

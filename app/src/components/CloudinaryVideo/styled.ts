@@ -43,7 +43,6 @@ export const AnimationWrapper = styled.div`
     max-width: 100%;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     &::-webkit-media-controls {
       opacity: 0;
     }
@@ -73,7 +72,11 @@ export const MobileWrapper = styled.div`
     position: relative;
     video {
       max-width: 100%;
-      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      left: 0;
+      right: 0;
       position: absolute;
       top: 0;
       &::-webkit-media-controls {

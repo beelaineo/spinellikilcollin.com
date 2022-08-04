@@ -343,13 +343,15 @@ export const ProductDetail = ({ product }: Props) => {
                     setPlaying={setPlaying}
                     screen="desktop"
                   />
-                ) : (
-                  <ProductImages
-                    currentVariant={currentVariant}
-                    product={product}
-                    screen="desktop"
-                  />
-                )}
+                ) : null}
+                <ProductImages
+                  currentVariant={currentVariant}
+                  product={product}
+                  screen="desktop"
+                  hide={Boolean(
+                    variantHasAnimation && variantAnimation?.videoId,
+                  )}
+                />
               </ProductImagesWrapper>
               <InfoWrapper product={product}>
                 <ProductDetailHeader
@@ -363,13 +365,15 @@ export const ProductDetail = ({ product }: Props) => {
                     setPlaying={setPlaying}
                     screen="mobile"
                   />
-                ) : (
-                  <ProductImages
-                    currentVariant={currentVariant}
-                    product={product}
-                    screen="mobile"
-                  />
-                )}
+                ) : null}
+                <ProductImages
+                  currentVariant={currentVariant}
+                  product={product}
+                  screen="mobile"
+                  hide={Boolean(
+                    variantHasAnimation && variantAnimation?.videoId,
+                  )}
+                />
                 <ProductInfoWrapper>
                   {variantsInStock?.length > 0 ? (
                     <StockedLabelMobile

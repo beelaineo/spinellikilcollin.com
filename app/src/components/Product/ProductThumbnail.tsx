@@ -164,7 +164,7 @@ export const ProductThumbnail = ({
       (o) => o?.value == initialSwatchValue,
     )[0]
 
-    console.log('initialColorOption', initialColorOption)
+    // console.log('initialColorOption', initialColorOption)
 
     if (initialColorOption?.animation) {
       const variantAnimation: VariantAnimation = {
@@ -178,7 +178,7 @@ export const ProductThumbnail = ({
   }, [])
 
   useEffect(() => {
-    console.log('currentVariant', currentVariant)
+    // console.log('currentVariant', currentVariant)
     const currentSwatchValue = currentVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Color',
     )[0]?.value
@@ -252,7 +252,7 @@ export const ProductThumbnail = ({
           }
         })
       const newVariant = getVariantBySelectedOptions(variants, currentOptions)
-      console.log('newVariant', newVariant)
+      // console.log('newVariant', newVariant)
       if (newVariant) setCurrentVariant(newVariant)
     }
 
@@ -364,8 +364,8 @@ export const ProductThumbnail = ({
     currentPath: asPath,
   })
 
-  console.log('variantAnimation', variantAnimation)
-  console.log('playing thumbnail', playing)
+  // console.log('variantAnimation', variantAnimation)
+  // console.log('playing thumbnail', playing)
 
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
