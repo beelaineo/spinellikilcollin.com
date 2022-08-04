@@ -11,6 +11,7 @@ import {
   getAdditionalDescriptions,
   getStorefrontId,
   useProductVariant,
+  useViewportSize,
 } from '../../utils'
 import {
   useShopify,
@@ -105,6 +106,7 @@ export const ProductDetail = ({ product }: Props) => {
     useProductVariantOptions,
   )
 
+  const { width: viewportWidth } = useViewportSize()
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)
   const hidden = product?.hideFromSearch
@@ -127,10 +129,12 @@ export const ProductDetail = ({ product }: Props) => {
     if (currentUri === newUri) return
     router.replace(newUri, undefined, {
       scroll: false,
+      shallow: true,
     })
   }, [currentVariant])
 
   useEffect(() => {
+    console.log('ProductDetail mount')
     const paramString = router.asPath.replace(/^(.*)\?/, '')
     const params = new URLSearchParams(paramString)
     const timeout = setTimeout(() => {
@@ -332,7 +336,7 @@ export const ProductDetail = ({ product }: Props) => {
           <Column>
             <ProductDetails>
               <ProductImagesWrapper>
-                {variantHasAnimation ? (
+                {variantHasAnimation && variantAnimation?.videoId ? (
                   <CloudinaryAnimation
                     video={variantAnimation}
                     image={posterImage}
@@ -352,7 +356,7 @@ export const ProductDetail = ({ product }: Props) => {
                   currentVariant={currentVariant}
                   product={product}
                 />
-                {variantHasAnimation ? (
+                {variantHasAnimation && variantAnimation?.videoId ? (
                   <CloudinaryAnimation
                     video={variantAnimation}
                     image={posterImage}
