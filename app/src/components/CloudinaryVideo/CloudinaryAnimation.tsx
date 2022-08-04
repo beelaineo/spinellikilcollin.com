@@ -22,8 +22,11 @@ interface VideoElementProps {
 }
 
 const NormalVideo = ({ playing, poster, video, onPlay }: VideoElementProps) => {
+  const [errorMsg, setErrorMsg] = useState('')
+  const [hide, setHide] = useState(false)
   const { width: viewportWidth } = useViewportSize()
   const videoRef = useRef<HTMLVideoElement>(null)
+  console.log(viewportWidth)
 
   useEffect(() => {
     if (!videoRef.current) return
@@ -36,6 +39,8 @@ const NormalVideo = ({ playing, poster, video, onPlay }: VideoElementProps) => {
         .catch((error) => {
           if (error.name === 'NotAllowedError') {
             console.log('Auto playback not allowed, need user permission')
+            setErrorMsg('error:' + error)
+            setHide(true)
           } else {
             // Handle a load or playback error
           }
@@ -45,20 +50,25 @@ const NormalVideo = ({ playing, poster, video, onPlay }: VideoElementProps) => {
 
   const bestSize =
     fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
-  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize}/${video.videoId}.mp4`
+  const quality = viewportWidth > 1000 ? 'q_100' : 'q_auto:good'
+  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},${quality},cs_copy/f_auto/${video.videoId}`
 
-  return (
-    <video
-      ref={videoRef}
-      onPlay={onPlay}
-      poster={poster}
-      loop
-      autoPlay
-      muted
-      playsInline
-      src={src}
-    />
-  )
+  if (hide === false) {
+    return (
+      <video
+        ref={videoRef}
+        onPlay={onPlay}
+        poster={poster}
+        loop
+        autoPlay
+        muted
+        playsInline
+        src={src}
+      />
+    )
+  } else {
+    return <img src={poster} />
+  }
 }
 
 interface RatioPaddingProps {

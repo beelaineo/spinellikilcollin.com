@@ -83,6 +83,16 @@ export const MobileWrapper = styled.div`
         opacity: 0;
       }
     }
+    img {
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      top: 0;
+    }
     ${theme.mediaQueries.tablet} {
       display: block;
       margin: 5 0 2;
