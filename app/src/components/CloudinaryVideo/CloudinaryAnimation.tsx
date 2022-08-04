@@ -1,7 +1,4 @@
 import * as React from 'react'
-import { AdvancedVideo } from '@cloudinary/react'
-import { Cloudinary } from '@cloudinary/url-gen'
-import { scale } from '@cloudinary/url-gen/actions/resize'
 import {
   CloudinaryVideo as CloudinaryVideoType,
   ShopifySourceImage,
@@ -15,13 +12,54 @@ import { FaCommentsDollar } from 'react-icons/fa'
 const { useRef, useEffect, useState } = React
 const BASE_URL = 'https://res.cloudinary.com/spinelli-kilcollin/video/upload'
 
-const cld = new Cloudinary({
-  cloud: {
-    cloudName: 'spinelli-kilcollin',
-  },
-})
-
 const fallbackSizes = [720, 1200, 1600, 1920]
+
+interface VideoElementProps {
+  video: CloudinaryVideoType
+  poster: string
+  playing: boolean | undefined
+  onPlay: () => void
+}
+
+const NormalVideo = ({ playing, poster, video, onPlay }: VideoElementProps) => {
+  const { width: viewportWidth } = useViewportSize()
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  useEffect(() => {
+    if (!videoRef.current) return
+    const startAutoplayPromise = videoRef.current.play()
+    if (startAutoplayPromise !== undefined) {
+      startAutoplayPromise
+        .then(() => {
+          console.log('playing')
+        })
+        .catch((error) => {
+          if (error.name === 'NotAllowedError') {
+            console.log('Auto playback not allowed, need user permission')
+          } else {
+            // Handle a load or playback error
+          }
+        })
+    }
+  }, [videoRef.current])
+
+  const bestSize =
+    fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
+  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize}/${video.videoId}.mp4`
+
+  return (
+    <video
+      ref={videoRef}
+      onPlay={onPlay}
+      poster={poster}
+      loop
+      autoPlay
+      muted
+      playsInline
+      src={src}
+    />
+  )
+}
 
 interface RatioPaddingProps {
   ratio: number
@@ -77,19 +115,15 @@ export const CloudinaryAnimation = ({
 }: CloudinaryVideoProps) => {
   if (!video?.videoId) return null
   const videoEl = useRef<HTMLVideoElement>(null)
-  const [videoStatus, setVideoStatus] = useState<string>('')
+  const [isPlaying, setIsPlaying] = useState<boolean | undefined>(undefined)
 
   const { videoId } = video
 
   const { width: viewportWidth } = useViewportSize()
-  const bestSize =
-    fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[3]
 
-  const cldVid = cld.video(videoId).resize(scale().width(bestSize))
-
-  const handlePlay = () => {
+  const handleOnPlay = () => {
     setPlaying(true)
-    console.log('playing')
+    setIsPlaying(true)
   }
 
   const poster =
@@ -99,30 +133,10 @@ export const CloudinaryAnimation = ({
       ? (image?.w1200 as string)
       : (image?.w800 as string)
 
-  useEffect(() => {
-    if (!videoEl) return
-    if (!videoEl.current) return
-    console.log('videoEl:', videoEl)
-
-    const promise = videoEl.current.play()
-
-    if (promise !== undefined) {
-      promise
-        .then((_) => {
-          console.log('Autoplay started')
-          setVideoStatus('autoplay started')
-        })
-        .catch((error) => {
-          console.log('Autoplay not allowed', error)
-          setVideoStatus('autoplay not allowed')
-        })
-    }
-  }, [])
-
   return screen === 'desktop' ? (
     <DesktopWrapper>
       <RatioPadding canvasFill={false} ratio={1} />
-      <AdvancedVideo
+      {/* <AdvancedVideo
         cldVid={cldVid}
         loop
         playsInline
@@ -130,34 +144,31 @@ export const CloudinaryAnimation = ({
         onPlay={handlePlay}
         innerRef={videoEl}
         autoPlay={true}
-        preload={'auto'}
+      /> */}
+      <NormalVideo
+        video={video}
+        playing={isPlaying}
+        onPlay={handleOnPlay}
+        poster={poster}
       />
     </DesktopWrapper>
   ) : screen === 'mobile' ? (
     <MobileWrapper>
       <RatioPadding canvasFill={false} ratio={1} />
-      <AdvancedVideo
-        cldVid={cldVid}
-        loop
-        playsInline
-        muted
-        onPlay={handlePlay}
-        innerRef={videoEl}
-        autoPlay={true}
-        preload={'auto'}
+      <NormalVideo
+        video={video}
+        playing={isPlaying}
+        onPlay={handleOnPlay}
+        poster={poster}
       />
     </MobileWrapper>
   ) : (
     <AnimationWrapper>
-      <AdvancedVideo
-        cldVid={cldVid}
-        loop
-        playsInline
-        muted
-        onPlay={handlePlay}
-        innerRef={videoEl}
-        autoPlay={true}
-        preload={'auto'}
+      <NormalVideo
+        video={video}
+        playing={isPlaying}
+        onPlay={handleOnPlay}
+        poster={poster}
       />
     </AnimationWrapper>
   )
