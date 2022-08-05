@@ -489,6 +489,7 @@ export const shopifyProductThumbnailFragment = gql`
         swatch {
           ...SanityImageFragment
         }
+        animation
         stone {
           ...StoneFragment
         }

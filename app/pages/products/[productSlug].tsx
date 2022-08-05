@@ -59,6 +59,7 @@ const productQueryInner = `
       swatch {
         ...SanityImageFragment
       }
+      animation
       stone {
         ...StoneFragment
       }
