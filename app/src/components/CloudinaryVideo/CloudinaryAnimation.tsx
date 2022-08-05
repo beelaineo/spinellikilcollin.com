@@ -5,6 +5,7 @@ import {
 } from '../../types'
 import { AnimationWrapper, DesktopWrapper, MobileWrapper } from './styled'
 import { useViewportSize } from '../../utils'
+import Image from 'next/image'
 import { RatioImageFill } from '../Image/styled'
 
 const { useRef, useEffect, useState } = React
@@ -30,7 +31,6 @@ const NormalVideo = ({
   const [hide, setHide] = useState(false)
   const { width: viewportWidth } = useViewportSize()
   const videoRef = useRef<HTMLVideoElement>(null)
-  console.log(viewportWidth)
 
   useEffect(() => {
     if (!videoRef.current) return
@@ -38,7 +38,7 @@ const NormalVideo = ({
     if (startAutoplayPromise !== undefined) {
       startAutoplayPromise
         .then(() => {
-          console.log('playing')
+          setErrorMsg('success: video autoplay successful')
         })
         .catch((error) => {
           if (error.name === 'NotAllowedError') {
@@ -47,6 +47,8 @@ const NormalVideo = ({
             setHide(true)
           } else {
             // Handle a load or playback error
+            setErrorMsg('error:' + error)
+            setHide(true)
           }
         })
     }
@@ -61,8 +63,7 @@ const NormalVideo = ({
       ? 480
       : fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
 
-  const quality =
-    viewportWidth > 1000 || view === 'list' ? 'q_100' : 'q_auto:good'
+  const quality = viewportWidth > 1000 ? 'q_100' : 'q_auto:good'
   const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},${quality},cs_copy/f_auto/${video.videoId}`
 
   if (hide === false) {
@@ -71,6 +72,7 @@ const NormalVideo = ({
         ref={videoRef}
         onPlay={onPlay}
         poster={poster}
+        controls={false}
         loop
         autoPlay
         muted
@@ -78,8 +80,8 @@ const NormalVideo = ({
         src={src}
       />
     )
-  } else {
-    return <img src={poster} />
+  } else if (hide === true) {
+    return <Image src={poster} layout="fill" />
   }
 }
 
