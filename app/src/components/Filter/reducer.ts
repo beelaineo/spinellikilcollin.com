@@ -146,8 +146,6 @@ const reducer = (state: State, action: Action): State => {
         ),
       }
     case TOGGLE_SINGLE:
-      console.log('state', state)
-      console.log('action', action)
       return {
         filterSetStates: state.filterSetStates.map((set) =>
           set.key === action.setKey

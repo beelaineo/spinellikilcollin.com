@@ -80,7 +80,7 @@ const NormalVideo = ({
         src={src}
       />
     )
-  } else if (hide === true) {
+  } else {
     return <Image src={poster} layout="fill" />
   }
 }
