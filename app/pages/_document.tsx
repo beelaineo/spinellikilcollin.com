@@ -110,6 +110,7 @@ export default class MyDocument extends Document {
                 ttq.page();
               }`,
             }}
+            strategy="beforeInteractive"
           />
           {/* Global Site Code Pixel - Facebook Pixel */}
           <Script
