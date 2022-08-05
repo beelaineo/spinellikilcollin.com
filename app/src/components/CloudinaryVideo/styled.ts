@@ -36,18 +36,37 @@ export const VideoWrapper = styled.div`
   }
 `
 export const AnimationWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  video {
-    max-width: 100%;
+  ${({ theme }) => css`
+    position: relative;
     width: 100%;
     height: 100%;
-    &::-webkit-media-controls {
-      opacity: 0;
+    max-width: 100%;
+    video {
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      top: 0;
+      &::-webkit-media-controls {
+        opacity: 0;
+      }
     }
-  }
+    img {
+      max-width: 100%;
+      width: 100%;
+      height: 100%;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      top: 0;
+    }
+  `}
 `
+
 export const DesktopWrapper = styled.div`
   ${({ theme }) => css`
     position: sticky;

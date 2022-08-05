@@ -3,14 +3,11 @@ import {
   CloudinaryVideo as CloudinaryVideoType,
   ShopifySourceImage,
 } from '../../types'
-import { AudioButton, PlaybackButton } from './Controls'
 import { AnimationWrapper, DesktopWrapper, MobileWrapper } from './styled'
 import { useViewportSize } from '../../utils'
 import { RatioImageFill } from '../Image/styled'
-import { FaCommentsDollar } from 'react-icons/fa'
 
 const { useRef, useEffect, useState } = React
-const BASE_URL = 'https://res.cloudinary.com/spinelli-kilcollin/video/upload'
 
 const fallbackSizes = [720, 1200, 1600, 1920]
 
@@ -19,9 +16,16 @@ interface VideoElementProps {
   poster: string
   playing: boolean | undefined
   onPlay: () => void
+  view?: 'list' | 'detail'
 }
 
-const NormalVideo = ({ playing, poster, video, onPlay }: VideoElementProps) => {
+const NormalVideo = ({
+  playing,
+  poster,
+  video,
+  view,
+  onPlay,
+}: VideoElementProps) => {
   const [errorMsg, setErrorMsg] = useState('')
   const [hide, setHide] = useState(false)
   const { width: viewportWidth } = useViewportSize()
@@ -49,8 +53,16 @@ const NormalVideo = ({ playing, poster, video, onPlay }: VideoElementProps) => {
   }, [videoRef.current])
 
   const bestSize =
-    fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
-  const quality = viewportWidth > 1000 ? 'q_100' : 'q_auto:good'
+    view == 'list' && viewportWidth > 1000
+      ? fallbackSizes.find((fs) => fs > viewportWidth / 2.5) ?? fallbackSizes[1]
+      : view == 'list' && viewportWidth > 650
+      ? fallbackSizes.find((fs) => fs > viewportWidth / 1.5) ?? fallbackSizes[0]
+      : view == 'list' && viewportWidth < 480
+      ? 480
+      : fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
+
+  const quality =
+    viewportWidth > 1000 || view === 'list' ? 'q_100' : 'q_auto:good'
   const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},${quality},cs_copy/f_auto/${video.videoId}`
 
   if (hide === false) {
@@ -114,6 +126,7 @@ interface CloudinaryVideoProps {
   video: CloudinaryVideoType
   image?: ShopifySourceImage
   screen?: 'desktop' | 'mobile'
+  view?: 'list' | 'detail'
   setPlaying: (playing: boolean) => void
 }
 
@@ -121,6 +134,7 @@ export const CloudinaryAnimation = ({
   video,
   image,
   screen,
+  view,
   setPlaying,
 }: CloudinaryVideoProps) => {
   if (!video?.videoId) return null
@@ -143,18 +157,12 @@ export const CloudinaryAnimation = ({
       ? (image?.w1200 as string)
       : (image?.w800 as string)
 
+  const listPoster =
+    viewportWidth > 1200 ? (image?.w1200 as string) : (image?.w800 as string)
+
   return screen === 'desktop' ? (
     <DesktopWrapper>
       <RatioPadding canvasFill={false} ratio={1} />
-      {/* <AdvancedVideo
-        cldVid={cldVid}
-        loop
-        playsInline
-        muted
-        onPlay={handlePlay}
-        innerRef={videoEl}
-        autoPlay={true}
-      /> */}
       <NormalVideo
         video={video}
         playing={isPlaying}
@@ -174,11 +182,13 @@ export const CloudinaryAnimation = ({
     </MobileWrapper>
   ) : (
     <AnimationWrapper>
+      <RatioPadding canvasFill={false} ratio={1} />
       <NormalVideo
         video={video}
         playing={isPlaying}
         onPlay={handleOnPlay}
-        poster={poster}
+        poster={listPoster}
+        view={view}
       />
     </AnimationWrapper>
   )

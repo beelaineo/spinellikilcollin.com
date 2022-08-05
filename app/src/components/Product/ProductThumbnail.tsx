@@ -377,6 +377,7 @@ export const ProductThumbnail = ({
                 video={variantAnimation}
                 image={productImage}
                 setPlaying={setPlaying}
+                view={'list'}
               />
             </VideoWrapper>
           ) : null}
