@@ -151,7 +151,6 @@ export const getVariantBySelectedOptions = (
   currentOptions: any[],
 ): ShopifySourceProductVariant | void =>
   variants.find((variant) => {
-    console.log(currentOptions)
     if (!currentOptions) return
     const { selectedOptions } = variant
     return currentOptions.every((currentOption) =>

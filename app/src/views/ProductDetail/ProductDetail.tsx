@@ -134,7 +134,6 @@ export const ProductDetail = ({ product }: Props) => {
   }, [currentVariant])
 
   useEffect(() => {
-    console.log('ProductDetail mount')
     const paramString = router.asPath.replace(/^(.*)\?/, '')
     const params = new URLSearchParams(paramString)
     const timeout = setTimeout(() => {

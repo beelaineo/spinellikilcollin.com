@@ -45,6 +45,9 @@ module.exports = withSourceMaps({
     locales: ['en'],
     defaultLocale: 'en',
   },
+  images: {
+    domains: ['cdn.shopify.com'],
+  },
   // webpack5: false,
   publicRuntimeConfig: {
     EXCHANGE_RATE_API_KEY,
