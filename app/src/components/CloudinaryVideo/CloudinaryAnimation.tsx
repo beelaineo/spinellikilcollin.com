@@ -60,8 +60,8 @@ const NormalVideo = ({
       : view == 'list' && viewportWidth > 650
       ? fallbackSizes.find((fs) => fs > viewportWidth / 1.5) ?? fallbackSizes[0]
       : view == 'list' && viewportWidth < 480
-      ? 480
-      : fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
+      ? 640
+      : fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[1]
 
   const quality = viewportWidth > 1000 ? 'q_100' : 'q_auto:good'
   const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},${quality},cs_copy/f_auto/${video.videoId}`
