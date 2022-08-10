@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Button } from '../Button'
 import { useAnalytics, useCart } from '../../providers'
@@ -40,6 +41,7 @@ export const Checkout = () => {
   /* State */
   const { message, open: cartOpen, closeCart } = useCart()
   const { goToCheckout, checkout, loading, addNote } = useShopify()
+  const router = useRouter()
 
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
@@ -59,6 +61,10 @@ export const Checkout = () => {
       sideCart.current.focus()
     }
   }, [cartOpen])
+
+  useEffect(() => {
+    cartOpen && closeCart()
+  }, [router])
 
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
