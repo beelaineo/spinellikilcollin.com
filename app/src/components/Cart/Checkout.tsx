@@ -56,8 +56,6 @@ export const Checkout = () => {
 
   const sideCart = useRef<any>(null)
 
-  //test vercel
-
   useEffect(() => {
     if (cartOpen) {
       sideCart.current.focus()
