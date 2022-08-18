@@ -279,6 +279,7 @@ const hydrate = (product: ShopifyProduct, selectedIndex: number, v: any) => {
         .sku(variant.shopifyVariantID)
         .name(colorValue)
         .sizes((s) => hydrateSize(product, s, colorValue, caratValue))
+      return variable
     })
     hydratedVariants.push(variants)
     console.log('HYDRATED VARIANTS', hydratedVariants)
