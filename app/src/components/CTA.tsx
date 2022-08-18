@@ -18,7 +18,7 @@ const Outer = styled.div`
   color: inherit;
 `
 
-const Wrapper = styled.a`
+const Wrapper = styled.span`
   color: inherit;
   text-decoration: none;
   padding-top: 3;

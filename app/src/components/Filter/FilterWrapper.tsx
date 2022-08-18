@@ -1,7 +1,13 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { FilterSetWrapper } from './styled'
-import { PriceRangeFilter, FilterSet, InventoryFilter } from '../../types'
+import {
+  Filter,
+  PriceRangeFilter,
+  FilterSet,
+  InventoryFilter,
+  Maybe,
+} from '../../types'
 
 const { useState } = React
 
@@ -13,27 +19,44 @@ interface WithType {
   type?: string
   rowSpan?: number
   active: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
 const Wrapper = styled.div<WithType>`
-  ${({ theme, rowSpan, type, active }) => css`
+  ${({ theme, rowSpan, type, active, minimalDisplay }) => css`
     grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
+
+    ${minimalDisplay
+      ? css`
+          &:nth-child(1) > div > div > div {
+            margin-left: 0px;
+          }
+        `
+      : ''};
 
     ${theme.mediaQueries.tablet} {
     }
     @media screen and (max-width: 960px) {
-      flex: 49%;
+      flex: ${minimalDisplay ? '0' : '49%'};
       flex-grow: 0;
       &:nth-last-child(2) {
         min-width: unset;
       }
 
+      ${minimalDisplay
+        ? css`
+            &:nth-child(1) > div > div > div {
+              margin-left: 0px;
+            }
+          `
+        : ''};
+
       ${active && type !== 'InventoryFilter'
         ? css`
-            flex: 100%;
-            order: -1;
-            margin-bottom: 4;
+            flex: ${minimalDisplay ? '0' : '100%'};
+            order: ${minimalDisplay ? 'unset' : '-1'};
+            margin-bottom: ${minimalDisplay ? 'auto' : '49%'};
           `
         : ''};
     }
@@ -66,9 +89,10 @@ interface FilterWrapperProps {
   heading?: string | null | void
   children: React.ReactNode
   type: string
-  filter: FilterSet | PriceRangeFilter | InventoryFilter
+  filter: Filter | FilterSet | PriceRangeFilter | InventoryFilter
   onClick: () => void
   active: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
 export const FilterWrapper = ({
@@ -78,6 +102,7 @@ export const FilterWrapper = ({
   filter,
   onClick,
   active,
+  minimalDisplay,
 }: FilterWrapperProps) => {
   const rowSpan =
     filter.__typename === 'FilterSet'
@@ -87,7 +112,13 @@ export const FilterWrapper = ({
       : undefined
 
   return (
-    <Wrapper rowSpan={rowSpan} type={type} onClick={onClick} active={active}>
+    <Wrapper
+      rowSpan={rowSpan}
+      type={type}
+      onClick={onClick}
+      active={active}
+      minimalDisplay={minimalDisplay}
+    >
       <Inner open={true}>{children}</Inner>
     </Wrapper>
   )

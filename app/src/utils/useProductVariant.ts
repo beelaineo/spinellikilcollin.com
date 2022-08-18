@@ -48,6 +48,7 @@ export const useProductVariant = (
   // ? (product?.variants)
   // : []
   if (!variants.length) throw new Error('The supplied product has no variants')
+
   /**
    * Private Methods
    */

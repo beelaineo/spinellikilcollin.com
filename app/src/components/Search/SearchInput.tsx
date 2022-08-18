@@ -23,6 +23,7 @@ export const SearchInput = () => {
       <SearchForm disabled={loading} onSubmit={handleSubmit}>
         <StyledSearchInput
           name="searchTerm"
+          aria-label="search term"
           value={searchTerm}
           onChange={setSearchTerm}
           ref={inputRef}

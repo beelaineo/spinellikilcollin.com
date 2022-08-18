@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import { gql } from 'graphql-tag'
 import {
   sanityImageFragment,
   sanityFileAssetFragment,
@@ -285,6 +285,21 @@ export const textBlockFragment = gql`
   ${richImageFragment}
 `
 
+export const stoneFragment = gql`
+  fragment StoneFragment on Stone {
+    _id
+    _type
+    _key
+    gia_number
+    gia_link
+    carat
+    cut
+    color
+    precision
+    clarity
+  }
+`
+
 export const shopifySourceProductFragment = gql`
   fragment ShopifySourceProductFragment on ShopifySourceProduct {
     __typename
@@ -474,6 +489,10 @@ export const shopifyProductThumbnailFragment = gql`
         swatch {
           ...SanityImageFragment
         }
+        animation
+        stone {
+          ...StoneFragment
+        }
       }
     }
     sourceData {
@@ -484,6 +503,7 @@ export const shopifyProductThumbnailFragment = gql`
   ${sanityImageFragment}
   ${shopifySourceImageFragment}
   ${shopifySourceProductFragment}
+  ${stoneFragment}
 `
 
 export const richPageLinkFragment = gql`
@@ -545,6 +565,32 @@ export const carouselFragment = gql`
   ${richPageLinkFragment}
 `
 
+export const colorFragment = gql`
+  fragment ColorFragment on Color {
+    _key
+    hex
+    alpha
+    hsl {
+      h
+      s
+      l
+      a
+    }
+    hsv {
+      h
+      s
+      v
+      a
+    }
+    rgb {
+      r
+      g
+      b
+      a
+    }
+  }
+`
+
 export const heroFragment = gql`
   fragment HeroFragment on Hero {
     __typename
@@ -553,13 +599,26 @@ export const heroFragment = gql`
     bodyRaw
     body_mobileRaw
     textColor
+    textColorCustom {
+      ...ColorFragment
+    }
     textColorMobile
+    textColorMobileCustom {
+      ...ColorFragment
+    }
     textContainer
     textPosition
     textPositionMobile
     backgroundColor
+    backgroundColorCustom {
+      ...ColorFragment
+    }
     mobileBackgroundColor
+    mobileBackgroundColorCustom {
+      ...ColorFragment
+    }
     aspectRatio
+    layout
     cta {
       ...CTAFragment
     }
@@ -583,4 +642,5 @@ export const heroFragment = gql`
   ${richImageFragment}
   ${internalLinkFragment}
   ${ctaFragment}
+  ${colorFragment}
 `

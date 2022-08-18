@@ -47,7 +47,7 @@ export const SearchInput = () => {
           onChange={handleChange}
           placeholder="search"
         />
-        <button type="submit">
+        <button type="submit" aria-label="submit search query">
           <IoIosSearch />
         </button>
       </Form>

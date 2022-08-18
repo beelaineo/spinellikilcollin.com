@@ -102,6 +102,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.facebook.com/Spinelli-Kilcollin-170280053017197/?fref=ts"
+            aria-label="Spinelli Kilcollin on Facebook"
           >
             <FaFacebookF />
           </a>
@@ -109,6 +110,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://twitter.com/SKilcollin"
+            aria-label="Spinelli Kilcollin on Twitter"
           >
             <FaTwitter />
           </a>
@@ -116,6 +118,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.pinterest.com/spinellikil"
+            aria-label="Spinelli Kilcollin on Pinterest"
           >
             <FaPinterest />
           </a>
@@ -123,6 +126,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://www.youtube.com/channel/UCraW2KqZkr3mNBD2btnIfSw"
+            aria-label="Spinelli Kilcollin on Youtube"
           >
             <FaYoutube />
           </a>
@@ -130,6 +134,7 @@ export const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
             href="https://instagram.com/spinellikilcollin"
+            aria-label="Spinelli Kilcollin on Instagram"
           >
             <TiSocialInstagram />
           </a>
@@ -165,7 +170,7 @@ export const Footer = () => {
           <Heading m={0} level={5} fontWeight={1} textTransform="uppercase">
             © {currentYear}{' '}
             <Link href="/">
-              <a>Spinelli Kilcollin</a>
+              <a aria-label="Spinelli Kilcollin homepage">Spinelli Kilcollin</a>
             </Link>
           </Heading>
         </FooterMenuWrapper>

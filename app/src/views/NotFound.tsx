@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Heading } from '../components/Text'
 import { PageWrapper } from '../components/Layout'
 
-const Main = styled.div`
+const Main = styled.main`
   min-height: 400px;
   text-align: center;
   display: flex;
@@ -16,7 +16,7 @@ const Main = styled.div`
 `
 
 export const NotFound = () => (
-  <PageWrapper py={0}>
+  <PageWrapper py={0} tabIndex={-1}>
     <Head>
       <meta name="robots" content="noindex" />
     </Head>

@@ -145,9 +145,5 @@ export const Tab = ({ children, name }: TabProps) => {
 
   if (!isActive && mode !== 'hidden') return null
 
-  return (
-    <TabWrapper aria-hidden={!isActive} visible={isActive}>
-      {children}
-    </TabWrapper>
-  )
+  return <TabWrapper visible={isActive}>{children}</TabWrapper>
 }

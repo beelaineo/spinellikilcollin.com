@@ -55,8 +55,28 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
   `}
 `
 
-export const ImageWrapper = styled.div`
-  position: relative;
+interface WithHide {
+  hide?: boolean
+}
+
+export const ImageWrapper = styled.div<WithHide>`
+  ${({ theme, hide }) => css`
+    position: relative;
+    display: ${hide ? 'none' : 'block'};
+  `}
+`
+
+export const VideoWrapper = styled.div<WithHide>`
+  ${({ theme, hide }) => css`
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    video {
+      transform: translate(0, 0);
+    }
+  `}
 `
 
 export const TagBadgeWrapper = styled.div`

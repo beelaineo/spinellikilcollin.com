@@ -47,7 +47,6 @@ export const ContactView = ({ contact }: ContactProps) => {
     description: seo?.description,
     image: seo?.image,
   }
-  console.log('Contact body', contact)
   const handleModalClick = (formtype: string) => () =>
     openContactModal({ formtype })
 
@@ -59,7 +58,7 @@ export const ContactView = ({ contact }: ContactProps) => {
         path="about/contact"
         contentType={_id!}
       />
-      <PageWrapper>
+      <PageWrapper tabIndex={-1}>
         <Heading level={1} textAlign="center">
           {title || 'Contact'}
         </Heading>

@@ -2,23 +2,27 @@ import styled, { css } from '@xstyled/styled-components'
 import { Button } from '../Button'
 import { Maybe } from '../../types'
 
-export const Wrapper = styled.div`
-  ${({ theme }) => css`
+interface WithMinimalDisplay {
+  minimalDisplay?: Maybe<boolean>
+}
+
+export const Wrapper = styled.div<WithMinimalDisplay>`
+  ${({ theme, minimalDisplay }) => css`
     padding: 5 0;
     width: 100%;
     position: sticky;
     top: 74px;
-    z-index: 1;
+    z-index: 11;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     ${theme.mediaQueries.tablet} {
       top: 62px;
-      padding: 3 5;
+      padding: ${minimalDisplay ? '5 0' : '3 5'};
     }
     ${theme.mediaQueries.mobile} {
       top: 48px;
-      padding: 3 0;
+      padding: ${minimalDisplay ? '4 0' : '3 0'};
     }
   `}
 `
@@ -199,16 +203,17 @@ export const Header = styled.div`
   `}
 `
 
-interface WithOpen {
+interface WithOpenMinimalDisplay {
   open: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
-export const Inner = styled.div<WithOpen>`
-  ${({ theme, open }) => css`
+export const Inner = styled.div<WithOpenMinimalDisplay>`
+  ${({ theme, open, minimalDisplay }) => css`
     display: ${open ? 'flex' : 'none'};
     margin: 0 7;
     padding: 0;
-    z-index: 1;
+    z-index: ${minimalDisplay ? '11' : '1'};
     max-height: 48px;
     & > svg {
       width: 24px;
@@ -217,15 +222,34 @@ export const Inner = styled.div<WithOpen>`
     & > svg path {
       stroke: ${theme.colors.grays[6]};
     }
+    ${theme.mediaQueries.tablet} {
+    }
     @media screen and (max-width: 960px) {
-      margin: 0 4;
+      margin: 0 ${minimalDisplay ? '6' : '4'};
       flex-direction: column;
-      border-bottom: 1px solid ${theme.colors.grays[5]};
+      border-bottom: ${minimalDisplay
+        ? `none`
+        : '1px solid ' + theme.colors.grays[5]};
       max-height: unset;
+      ${minimalDisplay
+        ? css`
+            & > div:first-child {
+              padding: 0;
+              gap: 2;
+              & > div {
+                padding-top: 0;
+                padding-bottom: 0;
+              }
+            }
+          `
+        : ''};
+    }
+    ${theme.mediaQueries.mobile} {
+      margin: 0 ${minimalDisplay ? '2' : 'inherit'};
+      align-items: ${minimalDisplay ? 'center' : 'inherit'};
     }
   `}
 `
-
 export const OpenButton = styled(Button)`
   ${({ theme }) => css`
     text-transform: initial;
@@ -544,12 +568,14 @@ export const KnobHandle = styled.div<WithPosition>`
 `
 
 export const KnobDot = styled.div`
-  width: 15px;
-  height: 15px;
-  background-color: body.0;
-  border: 1px solid;
-  border-color: body.6;
-  border-radius: 16px;
+  ${({ theme }) => css`
+    width: 15px;
+    height: 15px;
+    background-color: body.0;
+    border: 1px solid;
+    border-color: body.6;
+    border-radius: 16px;
+  `}
 `
 
 export const KnobLabel = styled.div`

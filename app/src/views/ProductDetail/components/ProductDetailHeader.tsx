@@ -68,7 +68,8 @@ export const ProductDetailHeader = ({
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
   )
