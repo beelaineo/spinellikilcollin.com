@@ -133,7 +133,6 @@ export const ImageTextBlock = ({
     cloudinaryVideo,
     layout,
   } = content
-
   const link = content.link ? content.link[0] : undefined
   const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
 

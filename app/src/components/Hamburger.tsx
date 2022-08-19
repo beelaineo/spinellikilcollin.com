@@ -20,6 +20,11 @@ const HamburgerWrapper = styled.button`
     &:hover {
       opacity: 0.5;
     }
+    &:focus {
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
+    }
 
     span {
       position: absolute;
@@ -81,7 +86,12 @@ interface HamburgerProps {
 
 export const Hamburger = ({ open, onClick, colorTheme }: HamburgerProps) => {
   return (
-    <HamburgerWrapper open={open} onClick={onClick} colorTheme={colorTheme}>
+    <HamburgerWrapper
+      open={open}
+      onClick={onClick}
+      colorTheme={colorTheme}
+      aria-label={open ? 'Close' : 'Open'}
+    >
       <span />
       <span />
       <span />

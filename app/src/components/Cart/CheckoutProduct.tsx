@@ -161,6 +161,12 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
         value: variant?.selectedOptions?.find((o) => o.name === 'Chain')?.value,
       })
     }
+    if (variant?.selectedOptions?.some((o) => o.name === 'Carat')) {
+      options.push({
+        name: 'Carat',
+        value: variant?.selectedOptions?.find((o) => o.name === 'Carat')?.value,
+      })
+    }
     return options
   }
 
@@ -182,14 +188,14 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   return (
     <CheckoutProductWrapper>
       <Link href="/products/[productSlug]" as={linkAs}>
-        <a>
+        <a aria-label={'Link to ' + displayTitle(title, variant)}>
           <Image image={variant.image} />
         </a>
       </Link>
       <CheckoutItemDetails>
         <div>
           <Link href="/products/[productSlug]" as={linkAs}>
-            <a>
+            <a aria-label={'Link to ' + displayTitle(title, variant)}>
               <Heading
                 level={5}
                 weight={2}

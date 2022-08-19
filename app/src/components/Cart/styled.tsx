@@ -6,7 +6,7 @@ interface CartSidebarProps {
   open: boolean
 }
 
-export const CartSidebar = styled.div`
+export const CartSidebar = styled.aside`
   ${({ open }: CartSidebarProps) => css`
     position: fixed;
     z-index: cart;

@@ -23,7 +23,8 @@
     "@sane-shopify/sanity-plugin",
     "@sanity/vision",
     "media",
-    "@sanity/production-preview"
+    "@sanity/production-preview",
+    "@sanity/color-input"
   ],
   "parts": [
     {

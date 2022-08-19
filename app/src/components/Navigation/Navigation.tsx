@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react'
 import Link from 'next/link'
 import { NextRouter } from 'next/router'
@@ -20,10 +21,12 @@ import {
   LogoWrapper,
   NavInnerBackground,
   ToolsWrapper,
+  SkipToMainContentButton,
 } from './styled'
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
+const { useEffect, useRef, useCallback } = React
 
 export const Navigation = () => {
   const {
@@ -45,14 +48,26 @@ export const Navigation = () => {
 
   const innerBorder = !/\/collections/.test(router.asPath)
 
+  const sideNav = useRef<any>(null)
+
+  useEffect(() => {
+    if (menuOpen) {
+      sideNav.current.focus()
+    }
+  }, [menuOpen])
+
+  const skipToMainContent = () => {
+    const content = document.querySelector('main') as HTMLElement | null
+    if (content != null) content.focus()
+  }
+
   return (
     <>
-      <NavInnerBackground
-        onClick={closeAll}
-        aria-hidden={!cartOpen && !menuOpen}
-        open={menuOpen || cartOpen}
-      />
-      <SideNavigation open={menuOpen}>
+      <SkipToMainContentButton onClick={skipToMainContent}>
+        Skip to Main Content
+      </SkipToMainContentButton>
+      <NavInnerBackground onClick={closeAll} open={menuOpen || cartOpen} />
+      <SideNavigation open={menuOpen} ref={sideNav} tabIndex={-1}>
         <NavigationInner closeMenu={closeMenu} />
       </SideNavigation>
 
@@ -67,20 +82,21 @@ export const Navigation = () => {
 
           <LogoWrapper colorTheme={colorTheme}>
             <Link href="/" as="/">
-              <a>
+              <a aria-label="Link to homepage">
                 <Logotype />
               </a>
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
             <CurrencySelector colorTheme={colorTheme} />
-            <SearchButtonWrapper colorTheme={colorTheme}>
+            <SearchButtonWrapper colorTheme={colorTheme} aria-label="search">
               <SearchButton />
             </SearchButtonWrapper>
             <CartButtonWrapper
               isLoading={loading}
               onClick={openCartHandler}
               colorTheme={colorTheme}
+              aria-label="open cart"
             >
               {cartCount ? (
                 <CartBadge colorTheme={colorTheme}>

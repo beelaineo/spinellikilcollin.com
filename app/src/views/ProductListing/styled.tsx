@@ -6,7 +6,7 @@ interface WrapperProps {
   isLightTheme: boolean
 }
 
-export const Wrapper = styled.div<WrapperProps>`
+export const Wrapper = styled.main<WrapperProps>`
   ${({ handle, theme, withHero, isLightTheme }) => css`
     position: relative;
     padding-top: ${withHero ? 0 : theme.navHeight};
@@ -59,4 +59,45 @@ export const NoResultsWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+`
+
+export const FooterGrid = styled.div`
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    & > div:first-child:after {
+      content: '';
+      display: block;
+      width: 1px;
+      bottom: 0;
+      top: 0;
+      position: absolute;
+      background-color: ${theme.colors.grays[5]};
+      margin: 2rem 0;
+      right: -0.5px;
+      z-index: 1;
+    }
+
+    & > div h1,
+    & > div h2,
+    & > div h3,
+    & > div h4 {
+      pointer-events: none;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr;
+      & > div:first-child:after {
+        content: '';
+        height: 1px;
+        width: unset;
+        bottom: unset;
+        top: unset;
+        left: 0;
+        right: 0;
+        margin: 0 4;
+        bottom: -0.5px;
+      }
+    }
+  `}
 `

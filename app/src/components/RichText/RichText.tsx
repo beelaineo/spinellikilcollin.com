@@ -117,6 +117,7 @@ const serializers = ({
     const { node } = props
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
+    // @ts-ignore
     if (Wrapper) return <Wrapper {...props} />
     const weight = customWeight ?? 4
 

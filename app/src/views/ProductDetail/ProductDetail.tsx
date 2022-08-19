@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Maybe, ShopifyProduct, ShopifySourceImage } from '../../types'
+import { Maybe, Scalars, ShopifyProduct, ShopifySourceImage } from '../../types'
 import {
   getVariantTitle,
   parseHTML,
@@ -10,12 +10,15 @@ import {
   getProductUri,
   getAdditionalDescriptions,
   getStorefrontId,
+  useProductVariant,
+  useViewportSize,
 } from '../../utils'
 import {
   useShopify,
   useAnalytics,
   CurrentProductProvider,
 } from '../../providers'
+import { CloudinaryAnimation } from '../../components/CloudinaryVideo'
 import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
@@ -32,7 +35,6 @@ import {
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useModal } from '../../providers/ModalProvider'
-import { useProductVariant } from '../../utils'
 import {
   ProductPageWrapper,
   AffirmWrapper,
@@ -45,9 +47,11 @@ import {
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
+import { configureScope } from '@sentry/node'
+import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 
-const { useEffect } = React
+const { useEffect, useState } = React
 
 const InStockDot = styled('span')`
   ${({ theme }) => css`
@@ -102,6 +106,7 @@ export const ProductDetail = ({ product }: Props) => {
     useProductVariantOptions,
   )
 
+  const { width: viewportWidth } = useViewportSize()
   const productType = product?.sourceData?.productType
   const [images] = unwindEdges(product?.sourceData?.images)
   const hidden = product?.hideFromSearch
@@ -124,6 +129,7 @@ export const ProductDetail = ({ product }: Props) => {
     if (currentUri === newUri) return
     router.replace(newUri, undefined, {
       scroll: false,
+      shallow: true,
     })
   }, [currentVariant])
 
@@ -150,7 +156,11 @@ export const ProductDetail = ({ product }: Props) => {
 
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
-    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+    variants?.filter(
+      (v) =>
+        v?.sourceData?.currentlyNotInStock === false &&
+        !v?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat'),
+    ) || []
 
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -168,7 +178,8 @@ export const ProductDetail = ({ product }: Props) => {
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false
+        variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
   )
@@ -206,6 +217,41 @@ export const ProductDetail = ({ product }: Props) => {
   const description = parseHTML(product?.sourceData?.descriptionHtml)
   const selectedOptions = getSelectedOptionValues(product, currentVariant)
   const optionDescriptions = getAdditionalDescriptions(selectedOptions)
+
+  const optionsWithAnimation =
+    selectedOptions.filter((option) => option.animation) || []
+
+  interface VariantAnimation {
+    __typename: 'CloudinaryVideo'
+    videoId?: Maybe<Scalars['String']>
+    enableAudio?: Maybe<Scalars['Boolean']>
+    enableControls?: Maybe<Scalars['Boolean']>
+    subtitle?: Maybe<Scalars['String']>
+  }
+
+  let variantHasAnimation = false
+  const variantAnimation: VariantAnimation = {
+    __typename: 'CloudinaryVideo',
+  }
+
+  if (optionsWithAnimation.length > 0) {
+    variantHasAnimation = true
+    variantAnimation.videoId = optionsWithAnimation[0].animation
+  } else {
+    variantHasAnimation = false
+  }
+
+  const [playing, setPlaying] = useState(false)
+
+  const productImages = product.sourceData?.images
+    ? unwindEdges(product.sourceData.images)[0]
+    : []
+
+  const posterImage = currentVariant?.sourceData?.image
+    ? currentVariant.sourceData.image
+    : productImages.length
+    ? productImages[0]
+    : undefined
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
@@ -285,14 +331,25 @@ export const ProductDetail = ({ product }: Props) => {
         hidden={hidden}
       />
       <CurrentProductProvider product={product} currentVariant={currentVariant}>
-        <ProductPageWrapper>
+        <ProductPageWrapper tabIndex={-1}>
           <Column>
             <ProductDetails>
               <ProductImagesWrapper>
+                {variantHasAnimation && variantAnimation?.videoId ? (
+                  <CloudinaryAnimation
+                    video={variantAnimation}
+                    image={posterImage}
+                    setPlaying={setPlaying}
+                    screen="desktop"
+                  />
+                ) : null}
                 <ProductImages
                   currentVariant={currentVariant}
                   product={product}
                   screen="desktop"
+                  hide={Boolean(
+                    variantHasAnimation && variantAnimation?.videoId,
+                  )}
                 />
               </ProductImagesWrapper>
               <InfoWrapper product={product}>
@@ -300,12 +357,22 @@ export const ProductDetail = ({ product }: Props) => {
                   currentVariant={currentVariant}
                   product={product}
                 />
+                {variantHasAnimation && variantAnimation?.videoId ? (
+                  <CloudinaryAnimation
+                    video={variantAnimation}
+                    image={posterImage}
+                    setPlaying={setPlaying}
+                    screen="mobile"
+                  />
+                ) : null}
                 <ProductImages
                   currentVariant={currentVariant}
                   product={product}
                   screen="mobile"
+                  hide={Boolean(
+                    variantHasAnimation && variantAnimation?.videoId,
+                  )}
                 />
-
                 <ProductInfoWrapper>
                   {variantsInStock?.length > 0 ? (
                     <StockedLabelMobile

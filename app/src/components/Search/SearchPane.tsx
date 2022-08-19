@@ -65,18 +65,22 @@ export const SearchPane = () => {
   const preferredVariantMatches = [searchTerm]
   return (
     <Outer>
-      <Wrapper aria-hidden={!open} visible={open}>
-        <CloseButton>
-          <Hamburger open={true} onClick={close} />
+      <Wrapper visible={open}>
+        <CloseButton hidden={!open}>
+          <Hamburger
+            open={true}
+            onClick={close}
+            aria-label="Close search pane"
+          />
         </CloseButton>
-        <SearchHeader>
+        <SearchHeader hidden={!open}>
           <Column maxWidth="medium">
             <SearchInput />
           </Column>
         </SearchHeader>
         {searchResults === undefined ? null : (
           <Results>
-            <ResultsInner>
+            <ResultsInner hidden={!open}>
               {loading ? (
                 <Loading />
               ) : errorMessage ? (
@@ -103,7 +107,7 @@ export const SearchPane = () => {
                     preferredVariantMatches={preferredVariantMatches}
                     items={searchResults}
                   />
-                  <Button mt={6} onClick={close} level={2}>
+                  <Button mt={6} onClick={close} level={2} hidden={!open}>
                     Close Search
                   </Button>
                 </>
@@ -111,7 +115,9 @@ export const SearchPane = () => {
             </ResultsInner>
           </Results>
         )}
-        <Footer />
+        <div hidden={!open}>
+          <Footer />
+        </div>
       </Wrapper>
     </Outer>
   )

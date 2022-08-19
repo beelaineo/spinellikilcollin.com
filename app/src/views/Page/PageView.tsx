@@ -62,7 +62,7 @@ export const PageView = ({ page }: PageViewProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
       {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
-      <PageWrapper p={fullWidth ? '0' : undefined}>
+      <PageWrapper p={fullWidth ? '0' : undefined} tabIndex={-1}>
         {hideTitle !== true ? (
           <>
             <Heading

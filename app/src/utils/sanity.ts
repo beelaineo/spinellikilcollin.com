@@ -3,6 +3,7 @@ import {
   PRICE_RANGE_FILTER,
   INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
+  FILTER_SINGLE,
   FilterConfiguration,
   Document,
   FilterMatchGroup,
@@ -80,6 +81,24 @@ export const buildFilters = (
   const filterString = filters
     .map((filterGroup) => {
       if (filterGroup.filterType === FILTER_MATCH_GROUP) {
+        if (filterGroup.matches.some((f) => f.type === 'size')) {
+          // console.log('size', filterGroup.matches)
+          filterGroup.matches.map((m) => filterSort.push(m.match || ''))
+          return null
+        } else if (sort == Sort.Default) {
+          return filterGroup.matches
+            .map(parseFilterMatchDefaultSort)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        } else {
+          return filterGroup.matches
+            .map(parseFilterMatch)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        }
+      } else if (filterGroup.filterType === FILTER_SINGLE) {
         if (filterGroup.matches.some((f) => f.type === 'size')) {
           // console.log('size', filterGroup.matches)
           filterGroup.matches.map((m) => filterSort.push(m.match || ''))

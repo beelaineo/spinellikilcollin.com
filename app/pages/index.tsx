@@ -1,5 +1,5 @@
 import * as React from 'react'
-import gql from 'graphql-tag'
+import { gql } from 'graphql-tag'
 import { GetStaticProps } from 'next'
 import { Homepage as HomepageType } from '../src/types'
 import { NotFound, Homepage as HomepageView } from '../src/views'
@@ -8,11 +8,12 @@ import {
   carouselFragment,
   heroFragment,
   seoFragment,
+  request,
 } from '../src/graphql'
 import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
-import { request } from '../src/graphql'
 import { Sentry } from '../src/services/sentry'
 import { useRefetch } from '../src/hooks'
+import { useEffect, useState } from 'react'
 
 const homepageQueryById = gql`
   query HomepageQuery($id: ID!) {
@@ -87,10 +88,10 @@ const getHomepageFromPreviewResponse = (response: HomepageResponse) => {
 }
 
 export const Homepage = ({ homepage }: HomepageProps) => {
-  const params =
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search)
-      : null
+  const [params, setParams] = useState<URLSearchParams | null>(null)
+  useEffect(() => {
+    return setParams(new URLSearchParams(window.location.search))
+  }, [])
   const token = params?.get('preview')
   const preview = Boolean(params?.get('preview'))
 
