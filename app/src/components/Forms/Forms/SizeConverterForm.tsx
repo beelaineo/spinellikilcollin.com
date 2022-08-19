@@ -58,6 +58,14 @@ const MainWrapper = styled.div`
   position: relative;
 `
 
+const HeaderWrapper = styled.div`
+  position: relative;
+
+  h4 {
+    max-width 16rem;
+  }
+`
+
 const FieldsWrapper = styled.div`
   margin-top: 5;
   display: grid;
@@ -66,14 +74,7 @@ const FieldsWrapper = styled.div`
   grid-column-gap: 3;
 
   & > * {
-    grid-column: 1 / 3;
-
-    &:nth-child(5),
-    &:nth-child(6),
-    &:nth-child(7),
-    &:nth-child(8) {
-      grid-column: span 1;
-    }
+    grid-column: span 1;
   }
 
   .field {
@@ -85,7 +86,7 @@ const FieldsWrapper = styled.div`
   ${FieldWrapper},
   select {
     flex-grow: 1;
-    height: 100%;
+    height: 42px;
     width: 100%;
     max-width: initial;
   }
@@ -145,12 +146,14 @@ export const SizeConverterForm = ({ initialSize }: SizeConverterFormProps) => {
 
   return (
     <MainWrapper>
-      <Heading mt={0} mb={5} level={3}>
-        International Size Converter
-      </Heading>
-      <Heading color="body.8" level={4}>
-        {`Select the size and country of origin and we'll do the rest`}
-      </Heading>
+      <HeaderWrapper>
+        <Heading mt={4} mb={3} level={3}>
+          International Size Converter
+        </Heading>
+        <Heading color="grays.5" level={4} fontStyle="italic">
+          {`Select the size and country of origin and we'll do the rest`}
+        </Heading>
+      </HeaderWrapper>
       <Form
         id="size-converter-form"
         initialValues={initialValues}
