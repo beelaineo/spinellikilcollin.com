@@ -70,8 +70,7 @@ const FieldsWrapper = styled.div`
   margin-top: 5;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-row-gap: 4;
-  grid-column-gap: 3;
+  grid-gap: 3;
 
   & > * {
     grid-column: span 1;
@@ -84,13 +83,24 @@ const FieldsWrapper = styled.div`
   }
 
   ${FieldWrapper},
-  select {
-    flex-grow: 1;
-    height: 42px;
-    width: 100%;
-    max-width: initial;
-    min-width: unset;
-  }
+  ${({ theme }) => css`
+    select {
+      flex-grow: 1;
+      height: 42px;
+      width: 100%;
+      max-width: initial;
+      min-width: unset;
+      border-color: ${theme.colors.grays[4]};
+    }
+  `}
+`
+
+const ArrowsWrapper = styled.div`
+  position: relative;
+  grid-column: span 2;
+  justify-self: center;
+  font-size: 28px;
+  font-weight: 100;
 `
 
 interface SizeConverterFormProps {
@@ -177,6 +187,7 @@ export const SizeConverterForm = ({ initialSize }: SizeConverterFormProps) => {
             placeholder="Size"
             sizeOptions={sizeConversionOptions}
           />
+          <ArrowsWrapper>↑ ↓</ArrowsWrapper>
           <ConvertSizeLocaleField
             name="countryB"
             label="Country"
