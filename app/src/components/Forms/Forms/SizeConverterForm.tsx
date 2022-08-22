@@ -89,6 +89,7 @@ const FieldsWrapper = styled.div`
     height: 42px;
     width: 100%;
     max-width: initial;
+    min-width: unset;
   }
 `
 
