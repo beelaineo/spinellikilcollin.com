@@ -192,7 +192,7 @@ export const ProductOptionSelector = ({
   const optionsNumeric =
     options !== undefined
       ? options.map((option: Option) => {
-          return Number(option.label.replace(/[^0-9\.-]+/g, ''))
+          return Number(option.label.toString().replace(/[^0-9\.-]+/g, ''))
         })
       : []
 
