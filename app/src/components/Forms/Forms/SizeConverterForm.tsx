@@ -8,14 +8,8 @@ import { ConvertSizeField } from '../CustomFields/ConvertSizeField'
 import { ConvertSizeLocaleField } from '../CustomFields/ConvertSizeLocaleField'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
-import { Select } from '../Fields/Select'
 import { FieldWrapper } from '../../Forms/Fields/styled'
-import { Button } from '../../Button'
-import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
-import { string } from 'zod'
-import { configureScope } from '@sentry/node'
-
-const { useState, useEffect } = React
+import { Maybe } from '../../../types'
 
 interface ConversionRule {
   mm: number
@@ -91,6 +85,10 @@ const FieldsWrapper = styled.div`
       max-width: initial;
       min-width: unset;
       border-color: ${theme.colors.grays[4]};
+
+      :disabled {
+        cursor: default;
+      }
     }
   `}
 `
@@ -101,6 +99,7 @@ const ArrowsWrapper = styled.div`
   justify-self: center;
   font-size: 28px;
   font-weight: 100;
+  pointer-events: none;
 `
 
 interface SizeConverterFormProps {

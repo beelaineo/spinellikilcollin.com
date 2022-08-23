@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useField, useFormikContext } from 'formik'
 import { FieldProps } from '../Fields/types'
 import { Field } from '../Fields'
-import { optional } from 'zod'
 import { useEffect, useState } from 'react'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
@@ -132,11 +131,17 @@ export const ConvertSizeField = (props: ConvertSizeFieldProps) => {
   }, [values.sizeB, countryA])
 
   useEffect(() => {
+    if (!values.countryA) {
+      return
+    }
     setFieldValue('sizeA', sizeA)
     console.log(sizeA)
   }, [sizeA])
 
   useEffect(() => {
+    if (!values.countryB) {
+      return
+    }
     setFieldValue('sizeB', sizeB)
     console.log(sizeB)
   }, [sizeB])
@@ -148,6 +153,7 @@ export const ConvertSizeField = (props: ConvertSizeFieldProps) => {
       options={localizedOptions}
       placeholder="Size"
       label="Size"
+      disabled={props.name === 'sizeA' ? !values.countryA : !values.countryB}
     />
   )
 }
