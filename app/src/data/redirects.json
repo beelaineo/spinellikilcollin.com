@@ -516,10 +516,6 @@
     "to": "/collections/chains"
   },
   {
-    "from": "/products/orbit-chain-bracelet",
-    "to": "/collections/bracelets"
-  },
-  {
     "from": "/products/sonny-max-mx-v",
     "to": "/"
   }
