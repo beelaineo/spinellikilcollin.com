@@ -54,30 +54,28 @@ const MainWrapper = styled.div`
 
 const HeaderWrapper = styled.div`
   position: relative;
-
-  h4 {
-    max-width: 16rem;
-  }
 `
 
 const FieldsWrapper = styled.div`
-  margin-top: 5;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 3;
-
-  & > * {
-    grid-column: span 1;
-  }
-
-  .field {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-  }
-
-  ${FieldWrapper}
   ${({ theme }) => css`
+    margin-top: 5;
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr 1fr 1fr;
+    align-items: center;
+    grid-gap: 3;
+
+    & > * {
+      grid-column: span 1;
+    }
+
+    .field {
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+    }
+
+    ${FieldWrapper}
+
     select {
       flex-grow: 1;
       height: 42px;
@@ -90,16 +88,43 @@ const FieldsWrapper = styled.div`
         cursor: default;
       }
     }
+
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr 1fr;
+    }
   `}
 `
 
-const ArrowsWrapper = styled.div`
-  position: relative;
-  grid-column: span 2;
-  justify-self: center;
-  font-size: 28px;
-  font-weight: 100;
-  pointer-events: none;
+const ArrowWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    grid-column: span 1;
+    justify-self: center;
+    font-size: 28px;
+    font-weight: 100;
+    pointer-events: none;
+    padding-top: 4;
+    ${theme.mediaQueries.mobile} {
+      display: none;
+    }
+  `}
+`
+
+const Divider = styled.div`
+  ${({ theme }) => css`
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 1px;
+    margin: 3 auto;
+    background-color: grays.5;
+    grid-column: span 2;
+    justify-self: center;
+    pointer-events: none;
+    ${theme.mediaQueries.mobile} {
+      display: block;
+    }
+  `}
 `
 
 interface SizeConverterFormProps {
@@ -163,8 +188,8 @@ export const SizeConverterForm = ({
   return (
     <MainWrapper>
       <HeaderWrapper>
-        <Heading textAlign={'left'} mt={4} mb={3} level={3}>
-          {title ? title : `International Size Converter`}
+        <Heading textAlign={'left'} mt={4} mb={3} level={2}>
+          {title ? title : `International Ring Size Converter`}
         </Heading>
         <Heading color="grays.5" level={4} fontStyle="italic">
           {subtitle
@@ -194,7 +219,8 @@ export const SizeConverterForm = ({
             placeholder="Size"
             sizeOptions={sizeConversionOptions}
           />
-          <ArrowsWrapper>↑ ↓</ArrowsWrapper>
+          <Divider />
+          <ArrowWrapper>→</ArrowWrapper>
           <ConvertSizeLocaleField
             name="countryB"
             label="Country"
