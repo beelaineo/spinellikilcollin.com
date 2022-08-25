@@ -11,7 +11,7 @@ export const Column = styled.divBox`
   `}
 `
 
-export const PageWrapper = styled.divBox`
+export const PageWrapper = styled.mainBox`
   ${({ theme }) => css`
     padding: calc(${theme.navHeight} + ${theme.space[9]}px) 10 8;
     overflow-x: hidden;

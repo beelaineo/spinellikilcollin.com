@@ -13,7 +13,7 @@ interface HomepageProps {
   homepage: HomepageType
 }
 
-const Grid = styled.div`
+const Grid = styled.main`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -55,7 +55,7 @@ export const Homepage = (props: HomepageProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} contentType={id!} path="" />
-      <Grid>
+      <Grid tabIndex={-1}>
         {definitely(content).map((c, i) => {
           return (
             <ContentBlock

@@ -6,6 +6,7 @@ export const colorPicker = {
     list: [
       { title: 'Light', value: 'light' },
       { title: 'Dark', value: 'dark' },
+      { title: 'Custom', value: 'custom' },
     ],
   },
 }

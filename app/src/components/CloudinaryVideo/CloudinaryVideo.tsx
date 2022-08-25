@@ -36,6 +36,24 @@ const NormalVideo = ({
 
   useEffect(() => {
     if (!videoRef.current) return
+    const startAutoplayPromise = videoRef.current.play()
+    if (startAutoplayPromise !== undefined) {
+      startAutoplayPromise
+        .then(() => {
+          console.log('playing')
+        })
+        .catch((error) => {
+          if (error.name === 'NotAllowedError') {
+            console.log('Auto playback not allowed, need user permission')
+          } else {
+            // Handle a load or playback error
+          }
+        })
+    }
+  }, [videoRef.current])
+
+  useEffect(() => {
+    if (!videoRef.current) return
     const paused = videoRef.current.paused
     if (paused && playing === true) videoRef.current.play()
     if (!paused && playing === false) videoRef.current.pause()
@@ -50,7 +68,6 @@ const NormalVideo = ({
       ref={videoRef}
       onPlay={onPlay}
       poster={poster}
-      autoPlay
       muted={muted}
       loop
       playsInline

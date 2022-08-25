@@ -63,6 +63,13 @@ export const collection = {
         'Toggle this to ON to remove all filters from the collection view.',
     },
     {
+      title: 'Minimal Filter Display',
+      name: 'minimalDisplay',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide filter label, reset button, and sort tools.',
+    },
+    {
       title: 'Override Default Filters',
       name: 'overrideDefaultFilter',
       type: 'boolean',
@@ -71,6 +78,16 @@ export const collection = {
     },
     { name: 'customFilter', type: 'productFilter' },
     { name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations' },
+    {
+      name: 'footer',
+      title: 'Footer Blocks',
+      type: 'array',
+      of: [
+        { type: 'carousel' },
+        { type: 'imageTextBlock' },
+        { type: 'textBlock' },
+      ],
+    },
     {
       name: 'seo',
       type: 'seo',

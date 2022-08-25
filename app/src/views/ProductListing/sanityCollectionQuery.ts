@@ -101,6 +101,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   customFilter,
   hideFilter,
   overrideDefaultFilter,
+  minimalDisplay,
 	seo{
   	"image": select(
   		defined(image.asset) => {
@@ -150,6 +151,15 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     body,
     "body_mobileRaw": body_mobile,
     ...
+  },
+  footer[]{
+    ...,
+    "bodyRaw": body,
+    "body_mobileRaw": body_mobile,
+    link[] {
+      ...,
+      document->
+    }
   },
   "descriptionRaw": description,
 }

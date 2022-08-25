@@ -30,6 +30,14 @@ export const productOptionValue = {
       name: 'animation',
       type: 'string',
     },
+    {
+      title: 'Stone',
+      name: 'stone',
+      type: 'reference',
+      description: 'If Karat swatch, link to associated stone.',
+      weak: true,
+      to: [{ type: 'stone' }],
+    },
   ],
   preview: {
     select: {

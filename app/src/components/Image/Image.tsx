@@ -54,8 +54,12 @@ const RatioPadding = ({
 
   const paddingBottom = src ? 0 : `${ratio * 100}%`
   return (
-    <RatioImageFill style={{ paddingBottom, backgroundColor }} aria-hidden>
-      {src ? <img src={src} /> : null}
+    <RatioImageFill style={{ paddingBottom, backgroundColor }}>
+      {src ? (
+        <picture>
+          <img src={src} role="none" />
+        </picture>
+      ) : null}
     </RatioImageFill>
   )
 }

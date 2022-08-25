@@ -66,7 +66,7 @@ export const Birthdays = ({ birthdays }: BirthdaysProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="birthdays" />
-      <PageWrapper>
+      <PageWrapper tabIndex={-1}>
         <Heading textAlign="center" level={1}>
           {title}
         </Heading>

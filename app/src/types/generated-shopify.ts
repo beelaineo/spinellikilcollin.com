@@ -93,7 +93,8 @@ export interface ShopifyStorefrontAppliedGiftCard
 /** An article in an online store blog. */
 export interface ShopifyStorefrontArticle
   extends ShopifyStorefrontHasMetafields,
-    ShopifyStorefrontNode {
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Article'
   /**
    * The article's author.
@@ -124,10 +125,12 @@ export interface ShopifyStorefrontArticle
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
   /** The date and time when the article was published. */
   publishedAt: Scalars['DateTime']
   /** The article’s SEO information. */
@@ -289,7 +292,8 @@ export interface ShopifyStorefrontAvailableShippingRates {
 /** An online store blog. */
 export interface ShopifyStorefrontBlog
   extends ShopifyStorefrontHasMetafields,
-    ShopifyStorefrontNode {
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Blog'
   /** Find an article by its handle. */
   articleByHandle?: Maybe<ShopifyStorefrontArticle>
@@ -305,10 +309,12 @@ export interface ShopifyStorefrontBlog
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
   /** The blog's SEO information. */
   seo?: Maybe<ShopifyStorefrontSeo>
   /** The blogs’s title. */
@@ -399,6 +405,312 @@ export enum ShopifyStorefrontCardBrand {
   DinersClub = 'DINERS_CLUB',
   /** JCB. */
   Jcb = 'JCB',
+}
+
+/** A cart represents the merchandise that a buyer intends to purchase, and the estimated cost associated with the cart. To learn how to interact with a cart during a customer's session, refer to [Manage a cart with the Storefront API](https://shopify.dev/api/examples/cart). */
+export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
+  __typename: 'Cart'
+  /** The attributes associated with the cart. Attributes are represented as key-value pairs. */
+  attributes: Array<ShopifyStorefrontAttribute>
+  /** Information about the buyer that is interacting with the cart. */
+  buyerIdentity: ShopifyStorefrontCartBuyerIdentity
+  /** The URL of the checkout for the cart. */
+  checkoutUrl: Scalars['URL']
+  /** The date and time when the cart was created. */
+  createdAt: Scalars['DateTime']
+  /** The case-insensitive discount codes that the customer added at checkout. */
+  discountCodes: Array<ShopifyStorefrontCartDiscountCode>
+  /**
+   * The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-cart).
+   * @deprecated Use `cost` instead
+   */
+  estimatedCost: ShopifyStorefrontCartEstimatedCost
+  /** A globally-unique identifier. */
+  id: Scalars['ID']
+  /** A list of lines containing information about the items the customer intends to purchase. */
+  lines: ShopifyStorefrontCartLineConnection
+  /** A note that is associated with the cart. For example, the note can be a personalized message to the buyer. */
+  note?: Maybe<Scalars['String']>
+  /** The date and time when the cart was updated. */
+  updatedAt: Scalars['DateTime']
+}
+
+/** A cart represents the merchandise that a buyer intends to purchase, and the estimated cost associated with the cart. To learn how to interact with a cart during a customer's session, refer to [Manage a cart with the Storefront API](https://shopify.dev/api/examples/cart). */
+export type ShopifyStorefrontCartLinesArgs = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** Return type for `cartAttributesUpdate` mutation. */
+export interface ShopifyStorefrontCartAttributesUpdatePayload {
+  __typename: 'CartAttributesUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** The discounts automatically applied to the cart line based on prerequisites that have been met. */
+export interface ShopifyStorefrontCartAutomaticDiscountAllocation
+  extends ShopifyStorefrontCartDiscountAllocation {
+  __typename: 'CartAutomaticDiscountAllocation'
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: ShopifyStorefrontMoneyV2
+  /** The title of the allocated discount. */
+  title: Scalars['String']
+}
+
+/** Represents information about the buyer that is interacting with the cart. */
+export interface ShopifyStorefrontCartBuyerIdentity {
+  __typename: 'CartBuyerIdentity'
+  /** The country where the buyer is located. */
+  countryCode?: Maybe<ShopifyStorefrontCountryCode>
+  /** The customer account associated with the cart. */
+  customer?: Maybe<ShopifyStorefrontCustomer>
+  /** The email address of the buyer that is interacting with the cart. */
+  email?: Maybe<Scalars['String']>
+  /** The phone number of the buyer that is interacting with the cart. */
+  phone?: Maybe<Scalars['String']>
+}
+
+/**
+ * Specifies the input fields to update the buyer information associated with a cart.
+ * Buyer identity is used to determine
+ * [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-checkout)
+ * and should match the customer's shipping address.
+ */
+export type ShopifyStorefrontCartBuyerIdentityInput = {
+  /** The email address of the buyer that is interacting with the cart. */
+  email?: Maybe<Scalars['String']>
+  /** The phone number of the buyer that is interacting with the cart. */
+  phone?: Maybe<Scalars['String']>
+  /** The country where the buyer is located. */
+  countryCode?: Maybe<ShopifyStorefrontCountryCode>
+  /** The access token used to identify the customer associated with the cart. */
+  customerAccessToken?: Maybe<Scalars['String']>
+}
+
+/** Return type for `cartBuyerIdentityUpdate` mutation. */
+export interface ShopifyStorefrontCartBuyerIdentityUpdatePayload {
+  __typename: 'CartBuyerIdentityUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** The discount that has been applied to the cart line using a discount code. */
+export interface ShopifyStorefrontCartCodeDiscountAllocation
+  extends ShopifyStorefrontCartDiscountAllocation {
+  __typename: 'CartCodeDiscountAllocation'
+  /** The code used to apply the discount. */
+  code: Scalars['String']
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: ShopifyStorefrontMoneyV2
+}
+
+/** Return type for `cartCreate` mutation. */
+export interface ShopifyStorefrontCartCreatePayload {
+  __typename: 'CartCreatePayload'
+  /** The new cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** The discounts that have been applied to the cart line. */
+export type ShopifyStorefrontCartDiscountAllocation = {
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: ShopifyStorefrontMoneyV2
+}
+
+/** The discount codes applied to the cart. */
+export interface ShopifyStorefrontCartDiscountCode {
+  __typename: 'CartDiscountCode'
+  /** Whether the discount code is applicable to the cart's current contents. */
+  applicable: Scalars['Boolean']
+  /** The code for the discount. */
+  code: Scalars['String']
+}
+
+/** Return type for `cartDiscountCodesUpdate` mutation. */
+export interface ShopifyStorefrontCartDiscountCodesUpdatePayload {
+  __typename: 'CartDiscountCodesUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Possible error codes that can be returned by `CartUserError`. */
+export enum ShopifyStorefrontCartErrorCode {
+  /** The input value is invalid. */
+  Invalid = 'INVALID',
+  /** The input value should be less than the maximum value allowed. */
+  LessThan = 'LESS_THAN',
+  /** Merchandise line was not found in cart. */
+  InvalidMerchandiseLine = 'INVALID_MERCHANDISE_LINE',
+  /** Missing discount code. */
+  MissingDiscountCode = 'MISSING_DISCOUNT_CODE',
+  /** Missing note. */
+  MissingNote = 'MISSING_NOTE',
+}
+
+/**
+ * The estimated costs that the buyer will pay at checkout.
+ * It uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine
+ * [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-cart).
+ */
+export interface ShopifyStorefrontCartEstimatedCost {
+  __typename: 'CartEstimatedCost'
+  /** The estimated amount, before taxes and discounts, for the customer to pay. */
+  subtotalAmount: ShopifyStorefrontMoneyV2
+  /** The estimated total amount for the customer to pay. */
+  totalAmount: ShopifyStorefrontMoneyV2
+  /** The estimated duty amount for the customer to pay at checkout. */
+  totalDutyAmount?: Maybe<ShopifyStorefrontMoneyV2>
+  /** The estimated tax amount for the customer to pay at checkout. */
+  totalTaxAmount?: Maybe<ShopifyStorefrontMoneyV2>
+}
+
+/** Specifies the input fields to create a cart. */
+export type ShopifyStorefrontCartInput = {
+  /** An array of key-value pairs that contains additional information about the cart. */
+  attributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
+  /** A list of merchandise lines to add to the cart. */
+  lines?: Maybe<Array<ShopifyStorefrontCartLineInput>>
+  /** The case-insensitive discount codes that the customer added at checkout. */
+  discountCodes?: Maybe<Array<Scalars['String']>>
+  /** A note that is associated with the cart. For example, the note can be a personalized message to the buyer. */
+  note?: Maybe<Scalars['String']>
+  /** The customer associated with the cart. Used to determine [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-checkout). Buyer identity should match the customer's shipping address. */
+  buyerIdentity?: Maybe<ShopifyStorefrontCartBuyerIdentityInput>
+}
+
+/** Represents information about the merchandise in the cart. */
+export interface ShopifyStorefrontCartLine extends ShopifyStorefrontNode {
+  __typename: 'CartLine'
+  /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
+  attributes: Array<ShopifyStorefrontAttribute>
+  /** The discounts that have been applied to the cart line. */
+  discountAllocations: Array<ShopifyStorefrontCartDiscountAllocation>
+  /**
+   * The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout.
+   * @deprecated Use `cost` instead
+   */
+  estimatedCost: ShopifyStorefrontCartLineEstimatedCost
+  /** A globally-unique identifier. */
+  id: Scalars['ID']
+  /** The merchandise that the buyer intends to purchase. */
+  merchandise: ShopifyStorefrontMerchandise
+  /** The quantity of the merchandise that the customer intends to purchase. */
+  quantity: Scalars['Int']
+  /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
+  sellingPlanAllocation?: Maybe<ShopifyStorefrontSellingPlanAllocation>
+}
+
+/** An auto-generated type for paginating through multiple CartLines. */
+export interface ShopifyStorefrontCartLineConnection {
+  __typename: 'CartLineConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontCartLineEdge>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/** An auto-generated type which holds one CartLine and a cursor during pagination. */
+export interface ShopifyStorefrontCartLineEdge {
+  __typename: 'CartLineEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+  /** The item at the end of CartLineEdge. */
+  node: ShopifyStorefrontCartLine
+}
+
+/** The estimated cost of the merchandise line that the buyer will pay at checkout. */
+export interface ShopifyStorefrontCartLineEstimatedCost {
+  __typename: 'CartLineEstimatedCost'
+  /** The estimated cost of the merchandise line before discounts. */
+  subtotalAmount: ShopifyStorefrontMoneyV2
+  /** The estimated total cost of the merchandise line. */
+  totalAmount: ShopifyStorefrontMoneyV2
+}
+
+/** Specifies the input fields to create a merchandise line on a cart. */
+export type ShopifyStorefrontCartLineInput = {
+  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  attributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
+  /** The quantity of the merchandise. */
+  quantity?: Maybe<Scalars['Int']>
+  /** The identifier of the merchandise that the buyer intends to purchase. */
+  merchandiseId: Scalars['ID']
+  /** The identifier of the selling plan that the merchandise is being purchased with. */
+  sellingPlanId?: Maybe<Scalars['ID']>
+}
+
+/** Specifies the input fields to update a line item on a cart. */
+export type ShopifyStorefrontCartLineUpdateInput = {
+  /** The identifier of the merchandise line. */
+  id: Scalars['ID']
+  /** The quantity of the line item. */
+  quantity?: Maybe<Scalars['Int']>
+  /** The identifier of the merchandise for the line item. */
+  merchandiseId?: Maybe<Scalars['ID']>
+  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  attributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
+  /** The identifier of the selling plan that the merchandise is being purchased with. */
+  sellingPlanId?: Maybe<Scalars['ID']>
+}
+
+/** Return type for `cartLinesAdd` mutation. */
+export interface ShopifyStorefrontCartLinesAddPayload {
+  __typename: 'CartLinesAddPayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Return type for `cartLinesRemove` mutation. */
+export interface ShopifyStorefrontCartLinesRemovePayload {
+  __typename: 'CartLinesRemovePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Return type for `cartLinesUpdate` mutation. */
+export interface ShopifyStorefrontCartLinesUpdatePayload {
+  __typename: 'CartLinesUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Return type for `cartNoteUpdate` mutation. */
+export interface ShopifyStorefrontCartNoteUpdatePayload {
+  __typename: 'CartNoteUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Represents an error that happens during execution of a cart mutation. */
+export interface ShopifyStorefrontCartUserError
+  extends ShopifyStorefrontDisplayableError {
+  __typename: 'CartUserError'
+  /** The error code. */
+  code?: Maybe<ShopifyStorefrontCartErrorCode>
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']>>
+  /** The error message. */
+  message: Scalars['String']
 }
 
 /** A container for all the information required to checkout items and pay. */
@@ -1167,7 +1479,8 @@ export interface ShopifyStorefrontCheckoutUserError
 /** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
 export interface ShopifyStorefrontCollection
   extends ShopifyStorefrontHasMetafields,
-    ShopifyStorefrontNode {
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Collection'
   /** Stripped description of the collection, single line with HTML tags removed. */
   description: Scalars['String']
@@ -1186,10 +1499,12 @@ export interface ShopifyStorefrontCollection
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
   /** List of products in the collection. */
   products: ShopifyStorefrontProductConnection
   /** The collection’s name. Limit of 255 characters. */
@@ -1330,7 +1645,7 @@ export interface ShopifyStorefrontCountry {
 
 /**
  * The code designating a country/region, which generally follows ISO 3166-1 alpha-2 guidelines.
- * If a territory doesn't have a country code value in the `CountryCode` enum, it might be considered a subdivision
+ * If a territory doesn't have a country code value in the `CountryCode` enum, then it might be considered a subdivision
  * of another country. For example, the territories associated with Spain are represented by the country code `ES`,
  * and the territories associated with the United States of America are represented by the country code `US`.
  */
@@ -2260,7 +2575,7 @@ export interface ShopifyStorefrontCustomer
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
@@ -2700,13 +3015,15 @@ export interface ShopifyStorefrontDiscountApplicationEdge {
 }
 
 /**
- * Which lines on the order that the discount is allocated over, of the type
- * defined by the Discount Application's target_type.
+ * The lines on the order to which the discount is applied, of the type defined by
+ * the discount application's `targetType`. For example, the value `ENTITLED`, combined with a `targetType` of
+ * `LINE_ITEM`, applies the discount on all line items that are entitled to the discount.
+ * The value `ALL`, combined with a `targetType` of `SHIPPING_LINE`, applies the discount on all shipping lines.
  */
 export enum ShopifyStorefrontDiscountApplicationTargetSelection {
   /** The discount is allocated onto all the lines. */
   All = 'ALL',
-  /** The discount is allocated onto only the lines it is entitled for. */
+  /** The discount is allocated onto only the lines that it's entitled for. */
   Entitled = 'ENTITLED',
   /** The discount is allocated onto explicitly chosen lines. */
   Explicit = 'EXPLICIT',
@@ -2860,7 +3177,7 @@ export type ShopifyStorefrontHasMetafields = {
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
@@ -3226,6 +3543,9 @@ export interface ShopifyStorefrontMediaImage
   previewImage?: Maybe<ShopifyStorefrontImage>
 }
 
+/** The merchandise to be purchased at checkout. */
+export type ShopifyStorefrontMerchandise = ShopifyStorefrontProductVariant
+
 /**
  * Metafields represent custom metadata attached to a resource. Metafields can be sorted into namespaces and are
  * comprised of keys, values, and value types.
@@ -3370,6 +3690,27 @@ export interface ShopifyStorefrontMoneyV2Edge {
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export interface ShopifyStorefrontMutation {
   __typename: 'Mutation'
+  /** Updates the attributes on a cart. */
+  cartAttributesUpdate?: Maybe<ShopifyStorefrontCartAttributesUpdatePayload>
+  /**
+   * Updates customer information associated with a cart.
+   * Buyer identity is used to determine
+   * [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-checkout)
+   * and should match the customer's shipping address.
+   */
+  cartBuyerIdentityUpdate?: Maybe<ShopifyStorefrontCartBuyerIdentityUpdatePayload>
+  /** Creates a new cart. */
+  cartCreate?: Maybe<ShopifyStorefrontCartCreatePayload>
+  /** Updates the discount codes applied to the cart. */
+  cartDiscountCodesUpdate?: Maybe<ShopifyStorefrontCartDiscountCodesUpdatePayload>
+  /** Adds a merchandise line to the cart. */
+  cartLinesAdd?: Maybe<ShopifyStorefrontCartLinesAddPayload>
+  /** Removes one or more merchandise lines from the cart. */
+  cartLinesRemove?: Maybe<ShopifyStorefrontCartLinesRemovePayload>
+  /** Updates one or more merchandise lines on a cart. */
+  cartLinesUpdate?: Maybe<ShopifyStorefrontCartLinesUpdatePayload>
+  /** Updates the note on the cart. */
+  cartNoteUpdate?: Maybe<ShopifyStorefrontCartNoteUpdatePayload>
   /**
    * Updates the attributes of a checkout if `allowPartialAddresses` is `true`.
    * @deprecated Use `checkoutAttributesUpdateV2` instead
@@ -3503,6 +3844,53 @@ export interface ShopifyStorefrontMutation {
   customerResetByUrl?: Maybe<ShopifyStorefrontCustomerResetByUrlPayload>
   /** Updates an existing customer. */
   customerUpdate?: Maybe<ShopifyStorefrontCustomerUpdatePayload>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartAttributesUpdateArgs = {
+  attributes: Array<ShopifyStorefrontAttributeInput>
+  cartId: Scalars['ID']
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartBuyerIdentityUpdateArgs = {
+  cartId: Scalars['ID']
+  buyerIdentity: ShopifyStorefrontCartBuyerIdentityInput
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartCreateArgs = {
+  input?: Maybe<ShopifyStorefrontCartInput>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartDiscountCodesUpdateArgs = {
+  cartId: Scalars['ID']
+  discountCodes?: Maybe<Array<Scalars['String']>>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartLinesAddArgs = {
+  lines: Array<ShopifyStorefrontCartLineInput>
+  cartId: Scalars['ID']
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartLinesRemoveArgs = {
+  cartId: Scalars['ID']
+  lineIds: Array<Scalars['ID']>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartLinesUpdateArgs = {
+  cartId: Scalars['ID']
+  lines: Array<ShopifyStorefrontCartLineUpdateInput>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartNoteUpdateArgs = {
+  cartId: Scalars['ID']
+  note?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
@@ -3775,6 +4163,12 @@ export type ShopifyStorefrontNode = {
   id: Scalars['ID']
 }
 
+/** Represents a resource that can be published to the Online Store sales channel. */
+export type ShopifyStorefrontOnlineStorePublishable = {
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
+}
+
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export interface ShopifyStorefrontOrder
   extends ShopifyStorefrontHasMetafields,
@@ -3816,7 +4210,7 @@ export interface ShopifyStorefrontOrder
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
@@ -4052,7 +4446,8 @@ export enum ShopifyStorefrontOrderSortKeys {
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export interface ShopifyStorefrontPage
   extends ShopifyStorefrontHasMetafields,
-    ShopifyStorefrontNode {
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Page'
   /** The description of the page, complete with HTML formatting. */
   body: Scalars['HTML']
@@ -4068,10 +4463,12 @@ export interface ShopifyStorefrontPage
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
   /** The page's SEO information. */
   seo?: Maybe<ShopifyStorefrontSeo>
   /** The title of the page. */
@@ -4174,7 +4571,7 @@ export interface ShopifyStorefrontPayment extends ShopifyStorefrontNode {
   idempotencyKey?: Maybe<Scalars['String']>
   /** The URL where the customer needs to be redirected so they can complete the 3D Secure payment flow. */
   nextActionUrl?: Maybe<Scalars['URL']>
-  /** Whether or not the payment is still processing asynchronously. */
+  /** Whether the payment is still processing asynchronously. */
   ready: Scalars['Boolean']
   /** A flag to indicate if the payment is to be done in test mode for gateways that support it. */
   test: Scalars['Boolean']
@@ -4211,6 +4608,8 @@ export enum ShopifyStorefrontPaymentTokenType {
   ShopifyPay = 'SHOPIFY_PAY',
   /** Google Pay token type. */
   GooglePay = 'GOOGLE_PAY',
+  /** Stripe token type. */
+  StripeVaultToken = 'STRIPE_VAULT_TOKEN',
 }
 
 /** The value of the percentage pricing object. */
@@ -4231,7 +4630,8 @@ export type ShopifyStorefrontPricingValue =
  */
 export interface ShopifyStorefrontProduct
   extends ShopifyStorefrontHasMetafields,
-    ShopifyStorefrontNode {
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Product'
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']
@@ -4260,7 +4660,7 @@ export interface ShopifyStorefrontProduct
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
@@ -4604,7 +5004,7 @@ export interface ShopifyStorefrontProductVariant
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
@@ -4780,6 +5180,8 @@ export interface ShopifyStorefrontQueryRoot {
   __typename: 'QueryRoot'
   /** List of the shop's articles. */
   articles: ShopifyStorefrontArticleConnection
+  /** Fetch a specific `Blog` by one of its unique attributes. */
+  blog?: Maybe<ShopifyStorefrontBlog>
   /**
    * Find a blog by its handle.
    * @deprecated Use `blog` instead
@@ -4787,6 +5189,10 @@ export interface ShopifyStorefrontQueryRoot {
   blogByHandle?: Maybe<ShopifyStorefrontBlog>
   /** List of the shop's blogs. */
   blogs: ShopifyStorefrontBlogConnection
+  /** Find a cart by its ID. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** Fetch a specific `Collection` by one of its unique attributes. */
+  collection?: Maybe<ShopifyStorefrontCollection>
   /**
    * Find a collection by its handle.
    * @deprecated Use `collection` instead
@@ -4808,6 +5214,8 @@ export interface ShopifyStorefrontQueryRoot {
   node?: Maybe<ShopifyStorefrontNode>
   /** Returns the list of nodes with the given IDs. */
   nodes: Array<Maybe<ShopifyStorefrontNode>>
+  /** Fetch a specific `Page` by one of its unique attributes. */
+  page?: Maybe<ShopifyStorefrontPage>
   /**
    * Find a page by its handle.
    * @deprecated Use `page` instead
@@ -4815,6 +5223,8 @@ export interface ShopifyStorefrontQueryRoot {
   pageByHandle?: Maybe<ShopifyStorefrontPage>
   /** List of the shop's pages. */
   pages: ShopifyStorefrontPageConnection
+  /** Fetch a specific `Product` by one of its unique attributes. */
+  product?: Maybe<ShopifyStorefrontProduct>
   /**
    * Find a product by its handle.
    * @deprecated Use `product` instead
@@ -4853,6 +5263,12 @@ export type ShopifyStorefrontQueryRootArticlesArgs = {
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootBlogArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootBlogByHandleArgs = {
   handle: Scalars['String']
 }
@@ -4866,6 +5282,17 @@ export type ShopifyStorefrontQueryRootBlogsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontBlogSortKeys>
   query?: Maybe<Scalars['String']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootCartArgs = {
+  id: Scalars['ID']
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootCollectionArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -4911,6 +5338,12 @@ export type ShopifyStorefrontQueryRootNodesArgs = {
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootPageArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootPageByHandleArgs = {
   handle: Scalars['String']
 }
@@ -4924,6 +5357,12 @@ export type ShopifyStorefrontQueryRootPagesArgs = {
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontPageSortKeys>
   query?: Maybe<Scalars['String']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootProductArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -5229,7 +5668,7 @@ export interface ShopifyStorefrontShop extends ShopifyStorefrontHasMetafields {
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /**
    * A paginated list of metafields associated with the resource.
-   * @deprecated The `metafields` field will be removed in the future in favor of using [aliases](https://graphql.org/learn/queries/#aliases) with the `metafield` field.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
    *
    */
   metafields: ShopifyStorefrontMetafieldConnection
@@ -5380,7 +5819,7 @@ export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
  */
 export interface ShopifyStorefrontStoreAvailability {
   __typename: 'StoreAvailability'
-  /** Whether or not this product variant is in-stock at this location. */
+  /** Whether the product variant is in-stock at this location. */
   available: Scalars['Boolean']
   /** The location where this product variant is stocked at. */
   location: ShopifyStorefrontLocation

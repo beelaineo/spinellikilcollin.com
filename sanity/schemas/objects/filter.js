@@ -272,6 +272,7 @@ export const productFilter = {
   type: 'array',
   title: 'Product Listing Filter',
   of: [
+    { type: 'filter' },
     { type: 'filterSet' },
     { type: 'priceRangeFilter' },
     { type: 'inventoryFilter' },

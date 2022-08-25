@@ -14,6 +14,7 @@ import { BsTools, BsBookHalf } from 'react-icons/bs'
 import { FaPencilAlt } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
+import { GrDiamond } from 'react-icons/gr'
 
 export default () =>
   S.list()
@@ -181,6 +182,16 @@ export default () =>
                     .id('birthdays')
                     .schemaType('birthdays')
                     .documentId('birthdays'),
+                ),
+              S.listItem()
+                .title('Stones')
+                .icon(GrDiamond)
+                .child(
+                  S.documentTypeList('stone')
+                    .title('Stones')
+                    .id('stonesList')
+                    .filter('_type == "stone" && !(_id in path("drafts.**"))')
+                    .defaultOrdering([{ field: 'title', direction: 'desc' }]),
                 ),
             ]),
           S.listItem()

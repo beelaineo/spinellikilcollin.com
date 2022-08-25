@@ -13,6 +13,9 @@ import {
   heroFragment,
   collectionBlockFragment,
   seoFragment,
+  carouselFragment,
+  imageTextBlockFragment,
+  textBlockFragment,
   request,
 } from '../../src/graphql'
 import { getParam, definitely } from '../../src/utils'
@@ -51,6 +54,20 @@ const collectionQueryById = gql`
       collectionBlocks {
         ...CollectionBlockFragment
       }
+      footer {
+        ... on Carousel {
+          __typename
+          ...CarouselFragment
+        }
+        ... on ImageTextBlock {
+          __typename
+          ...ImageTextBlockFragment
+        }
+        ... on TextBlock {
+          __typename
+          ...TextBlockFragment
+        }
+      }
       descriptionRaw
       preferredVariantMatches
       bambuser {
@@ -77,6 +94,9 @@ const collectionQueryById = gql`
   ${collectionBlockFragment}
   ${richImageFragment}
   ${seoFragment}
+  ${carouselFragment}
+  ${imageTextBlockFragment}
+  ${textBlockFragment}
 `
 
 export interface CollectionResult {

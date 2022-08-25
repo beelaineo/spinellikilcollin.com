@@ -28,7 +28,7 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
       {image ? (
         <ImageWrapper isOdd={Boolean(index % 2)}>
           <Link href={linkHref}>
-            <a>
+            <a aria-label={'Link to ' + title}>
               <Image
                 image={image}
                 ratio={0.75}
