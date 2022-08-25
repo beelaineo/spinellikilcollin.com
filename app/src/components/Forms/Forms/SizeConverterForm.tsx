@@ -56,7 +56,7 @@ const HeaderWrapper = styled.div`
   position: relative;
 
   h4 {
-    max-width 16rem;
+    max-width: 16rem;
   }
 `
 
@@ -76,7 +76,7 @@ const FieldsWrapper = styled.div`
     flex-direction: column;
   }
 
-  ${FieldWrapper},
+  ${FieldWrapper}
   ${({ theme }) => css`
     select {
       flex-grow: 1;
@@ -104,6 +104,8 @@ const ArrowsWrapper = styled.div`
 
 interface SizeConverterFormProps {
   initialSize?: Maybe<string>
+  title?: Maybe<string>
+  subtitle?: Maybe<string>
   onContinue?: () => void
 }
 
@@ -115,7 +117,11 @@ type FormValues = {
   sizeB?: ConversionRule
 }
 
-export const SizeConverterForm = ({ initialSize }: SizeConverterFormProps) => {
+export const SizeConverterForm = ({
+  initialSize,
+  title,
+  subtitle,
+}: SizeConverterFormProps) => {
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
   console.log('initialSizeParsed', initialSizeParsed)
 
@@ -157,11 +163,13 @@ export const SizeConverterForm = ({ initialSize }: SizeConverterFormProps) => {
   return (
     <MainWrapper>
       <HeaderWrapper>
-        <Heading mt={4} mb={3} level={3}>
-          International Size Converter
+        <Heading textAlign={'left'} mt={4} mb={3} level={3}>
+          {title ? title : `International Size Converter`}
         </Heading>
         <Heading color="grays.5" level={4} fontStyle="italic">
-          {`Select the size and country of origin and we'll do the rest`}
+          {subtitle
+            ? subtitle
+            : `Select the size and country of origin and we'll do the rest`}
         </Heading>
       </HeaderWrapper>
       <Form

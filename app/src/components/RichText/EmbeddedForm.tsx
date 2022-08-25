@@ -1,7 +1,12 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { FormBlock } from '../../types'
-import { CustomizationForm, RingSizerForm, VIPSignupForm } from '../Forms'
+import {
+  CustomizationForm,
+  RingSizerForm,
+  VIPSignupForm,
+  SizeConverterForm,
+} from '../Forms'
 
 const Wrapper = styled.div`
   margin: 9 auto;
@@ -33,6 +38,15 @@ export const EmbeddedForm = ({ block }: EmbeddedFormProps) => {
       return (
         <Wrapper>
           <VIPSignupForm />
+        </Wrapper>
+      )
+    case 'sizeConverter':
+      return (
+        <Wrapper>
+          <SizeConverterForm
+            title={block.formTitle}
+            subtitle={block.formSubtitle}
+          />
         </Wrapper>
       )
     default:

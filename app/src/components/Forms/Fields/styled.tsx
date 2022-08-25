@@ -5,8 +5,8 @@ interface FieldWrapperProps {
   noBorder?: boolean
 }
 
-export const FieldWrapper = styled.div`
-  ${({ noBorder }: FieldWrapperProps) => css`
+export const FieldWrapper = styled.div<FieldWrapperProps>`
+  ${({ noBorder }) => css`
     ${noBorder
       ? ``
       : css`
