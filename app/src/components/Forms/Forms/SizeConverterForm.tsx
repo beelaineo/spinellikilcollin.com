@@ -9,7 +9,8 @@ import { ConvertSizeLocaleField } from '../CustomFields/ConvertSizeLocaleField'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
 import { FieldWrapper } from '../../Forms/Fields/styled'
-import { Maybe } from '../../../types'
+import { Maybe, ShopifyProductVariant } from '../../../types'
+import Checkmark from '../../../svg/Checkmark.svg'
 
 interface ConversionRule {
   mm: number
@@ -54,6 +55,11 @@ const MainWrapper = styled.div`
 
 const HeaderWrapper = styled.div`
   position: relative;
+`
+
+const CurrentVariantWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `
 
 const FieldsWrapper = styled.div`
@@ -131,6 +137,7 @@ interface SizeConverterFormProps {
   initialSize?: Maybe<string>
   title?: Maybe<string>
   subtitle?: Maybe<string>
+  currentVariant?: ShopifyProductVariant
   onContinue?: () => void
 }
 
@@ -146,10 +153,16 @@ export const SizeConverterForm = ({
   initialSize,
   title,
   subtitle,
+  currentVariant,
 }: SizeConverterFormProps) => {
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
   console.log('initialSizeParsed', initialSizeParsed)
+  console.log('currentVariant', currentVariant)
 
+  const currentVariantTitle = currentVariant?.title?.substring(
+    0,
+    currentVariant?.title?.indexOf('/'),
+  )
   const stringifySize = (size?: number) => {
     if (size == NaN || !size) return undefined
     if (Number.isInteger(size)) return size.toString()
@@ -191,6 +204,14 @@ export const SizeConverterForm = ({
         <Heading textAlign={'left'} mt={4} mb={3} level={2}>
           {title ? title : `International Ring Size Converter`}
         </Heading>
+        {currentVariant ? (
+          <CurrentVariantWrapper>
+            <Checkmark />
+            <Heading ml={2} my={0} level={3} textTransform={'uppercase'}>
+              {currentVariantTitle}
+            </Heading>
+          </CurrentVariantWrapper>
+        ) : null}
         <Heading color="grays.5" level={4} fontStyle="italic">
           {subtitle
             ? subtitle

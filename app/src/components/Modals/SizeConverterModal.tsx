@@ -20,7 +20,7 @@ export const SizeConverterModal = ({
 
   return (
     <Modal closeModal={closeModal} display={'sizeConverter'}>
-      <SizeConverterForm initialSize={initialSize} />
+      <SizeConverterForm initialSize={initialSize} currentVariant={variant} />
     </Modal>
   )
 }
