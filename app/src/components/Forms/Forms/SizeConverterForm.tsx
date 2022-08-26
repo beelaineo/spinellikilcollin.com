@@ -9,45 +9,13 @@ import { ConvertSizeLocaleField } from '../CustomFields/ConvertSizeLocaleField'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
 import { FieldWrapper } from '../../Forms/Fields/styled'
-import { Maybe, ShopifyProductVariant } from '../../../types'
+import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import Checkmark from '../../../svg/Checkmark.svg'
+import { Button } from '../../Button'
+import { ConversionRule, CountryOption } from './types'
+import { CheckoutLineItemInput } from '../../../providers/ShopifyProvider/types'
 
-interface ConversionRule {
-  mm: number
-  inches: number
-  us: number
-  can: number
-  uk: string
-  aus: string
-  sa: string
-  fr: number
-  in: number
-  cn: number
-  jp: number
-  arg: number
-  bo: number
-  br: number
-  cl: number
-  col: number
-  ecua: number
-  guy: number
-  para: number
-  per: number
-  surm: number
-  uru: number
-  vz: number
-  tr: number
-  il: number
-  label: number
-  value: number
-  id: string
-}
-
-interface CountryOption {
-  id: string
-  value: string
-  label: string
-}
+const { useState } = React
 
 const MainWrapper = styled.div`
   position: relative;
@@ -101,6 +69,18 @@ const FieldsWrapper = styled.div`
   `}
 `
 
+const ButtonsWrapper = styled.div`
+  ${({ theme }) => css`
+    margin-top: 4;
+    button {
+      width: 100%;
+    }
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr 1fr;
+    }
+  `}
+`
+
 const ArrowWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
@@ -138,6 +118,8 @@ interface SizeConverterFormProps {
   title?: Maybe<string>
   subtitle?: Maybe<string>
   currentVariant?: ShopifyProductVariant
+  currentProduct?: ShopifyProduct
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
   onContinue?: () => void
 }
 
@@ -154,10 +136,13 @@ export const SizeConverterForm = ({
   title,
   subtitle,
   currentVariant,
+  currentProduct,
+  addLineItem,
 }: SizeConverterFormProps) => {
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
   console.log('initialSizeParsed', initialSizeParsed)
   console.log('currentVariant', currentVariant)
+  console.log('currentProduct', currentProduct)
 
   const currentVariantTitle = currentVariant?.title?.substring(
     0,
@@ -197,6 +182,31 @@ export const SizeConverterForm = ({
     sizeA: initialRule,
     sizeB: undefined,
   }
+
+  const handleATCClick = () => {
+    if (!currentVariant) return
+    if (!currentProduct) return
+    if (!addLineItem) return
+    if (typeof currentVariant.shopifyVariantID !== 'string') return
+
+    // sendAddToCart({
+    //   product: currentProduct,
+    //   variant: currentVariant,
+    //   quantity: 1,
+    // })
+    addLineItem({
+      variantId: currentVariant.shopifyVariantID,
+      quantity: 1,
+    })
+    // openCart('Product Added to Cart!')
+  }
+  const handleRingSizerClick = () => {
+    console.log('ring sizer open')
+  }
+  // openRingSizerModal({
+  //   currentProduct: currentProduct,
+  //   currentVariant: currentVariant,
+  // })
 
   return (
     <MainWrapper>
@@ -255,6 +265,14 @@ export const SizeConverterForm = ({
             sizeOptions={sizeConversionOptions}
           />
         </FieldsWrapper>
+        <ButtonsWrapper>
+          <Button level={1} my={4} onClick={handleATCClick} type="button">
+            Add to Cart in My Size
+          </Button>
+          <Button level={2} onClick={handleRingSizerClick} type="button">
+            Request a Ring Sizer
+          </Button>
+        </ButtonsWrapper>
       </Form>
     </MainWrapper>
   )

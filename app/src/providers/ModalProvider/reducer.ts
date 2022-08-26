@@ -5,6 +5,7 @@ import {
   ShopifyProductVariant,
   ShopifySourceSelectedOption,
 } from '../../types'
+import { CheckoutLineItemInput } from '../ShopifyProvider/types'
 
 const CLOSE = 'CLOSE'
 const OPEN = 'OPEN'
@@ -22,6 +23,7 @@ interface State {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
   formtype?: string
 }
 
@@ -36,6 +38,7 @@ interface OpenFormAction {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
 }
 
 type Action = CloseAction | OpenFormAction
@@ -48,6 +51,7 @@ const reducer = (state: State, action: Action): State => {
         currentProduct: action.currentProduct,
         currentVariant: action.currentVariant,
         currentDiamond: action.currentDiamond,
+        addLineItem: action.addLineItem,
         formtype: action.formtype,
       }
     }
@@ -71,6 +75,7 @@ export interface OpenModalArgs {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
   formtype?: string
 }
 
@@ -98,6 +103,7 @@ export const useModalReducer = () => {
       currentModal: ModalName.SIZE_CONVERTER,
       currentProduct: args?.currentProduct,
       currentVariant: args?.currentVariant,
+      addLineItem: args?.addLineItem,
     })
 
   const openCustomizationModal = (args?: OpenModalArgs) => {
