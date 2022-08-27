@@ -14,6 +14,7 @@ import Checkmark from '../../../svg/Checkmark.svg'
 import { Button } from '../../Button'
 import { ConversionRule, CountryOption } from './types'
 import { CheckoutLineItemInput } from '../../../providers/ShopifyProvider/types'
+import Link from 'next/link'
 
 const { useState } = React
 
@@ -120,6 +121,11 @@ interface SizeConverterFormProps {
   currentVariant?: ShopifyProductVariant
   currentProduct?: ShopifyProduct
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
+  closeModal?: () => void
   onContinue?: () => void
 }
 
@@ -138,6 +144,8 @@ export const SizeConverterForm = ({
   currentVariant,
   currentProduct,
   addLineItem,
+  openRingSizerModal,
+  closeModal,
 }: SizeConverterFormProps) => {
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
   console.log('initialSizeParsed', initialSizeParsed)
@@ -198,15 +206,21 @@ export const SizeConverterForm = ({
       variantId: currentVariant.shopifyVariantID,
       quantity: 1,
     })
+    if (!closeModal) return
+    closeModal()
     // openCart('Product Added to Cart!')
   }
   const handleRingSizerClick = () => {
-    console.log('ring sizer open')
+    console.log('openRingSizerModal', openRingSizerModal)
+    if (openRingSizerModal !== undefined) {
+      openRingSizerModal({
+        currentProduct: currentProduct,
+        currentVariant: currentVariant,
+      })
+    } else {
+      return
+    }
   }
-  // openRingSizerModal({
-  //   currentProduct: currentProduct,
-  //   currentVariant: currentVariant,
-  // })
 
   return (
     <MainWrapper>
@@ -266,9 +280,17 @@ export const SizeConverterForm = ({
           />
         </FieldsWrapper>
         <ButtonsWrapper>
-          <Button level={1} my={4} onClick={handleATCClick} type="button">
-            Add to Cart in My Size
-          </Button>
+          {addLineItem ? (
+            <Button level={1} my={4} onClick={handleATCClick} type="button">
+              Add to Cart in My Size
+            </Button>
+          ) : (
+            <Link href="/about/appointments">
+              <Button level={1} my={4} type="button">
+                Schedule an Appointment
+              </Button>
+            </Link>
+          )}
           <Button level={2} onClick={handleRingSizerClick} type="button">
             Request a Ring Sizer
           </Button>

@@ -9,6 +9,10 @@ interface SizeConverterModalProps {
   product?: ShopifyProduct
   variant?: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
 }
 
 export const SizeConverterModal = ({
@@ -16,6 +20,7 @@ export const SizeConverterModal = ({
   variant,
   closeModal,
   addLineItem,
+  openRingSizerModal,
 }: SizeConverterModalProps) => {
   const initialSize = variant?.sourceData?.selectedOptions?.filter(
     (o) => o?.name == 'Size',
@@ -28,6 +33,8 @@ export const SizeConverterModal = ({
         currentVariant={variant}
         currentProduct={product}
         addLineItem={addLineItem}
+        openRingSizerModal={openRingSizerModal}
+        closeModal={closeModal}
       />
     </Modal>
   )

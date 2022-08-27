@@ -18,9 +18,16 @@ const Wrapper = styled.div`
 
 interface EmbeddedFormProps {
   block: FormBlock
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
 }
 
-export const EmbeddedForm = ({ block }: EmbeddedFormProps) => {
+export const EmbeddedForm = ({
+  block,
+  openRingSizerModal,
+}: EmbeddedFormProps) => {
   switch (block.formType) {
     case 'customizationInquiry':
       return (
@@ -46,6 +53,7 @@ export const EmbeddedForm = ({ block }: EmbeddedFormProps) => {
           <SizeConverterForm
             title={block.formTitle}
             subtitle={block.formSubtitle}
+            openRingSizerModal={openRingSizerModal}
           />
         </Wrapper>
       )

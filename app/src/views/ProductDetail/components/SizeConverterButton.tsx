@@ -12,6 +12,10 @@ interface SizeConverterButtonProps {
   product: ShopifyProduct
   variant: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
 }
 
 interface WithMobile {
@@ -46,11 +50,13 @@ export const SizeConverterButton = ({
   addLineItem,
 }: SizeConverterButtonProps) => {
   const { openSizeConverterModal } = useModal()
+  const { openRingSizerModal } = useModal()
   const handleClick = () =>
     openSizeConverterModal({
       currentProduct: product,
       currentVariant: variant,
       addLineItem: addLineItem,
+      openRingSizerModal: openRingSizerModal,
     })
   return (
     <Wrapper mobile={mobile} onClick={handleClick}>

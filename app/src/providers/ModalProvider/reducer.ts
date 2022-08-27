@@ -24,6 +24,10 @@ interface State {
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
   formtype?: string
 }
 
@@ -39,6 +43,10 @@ interface OpenFormAction {
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
 }
 
 type Action = CloseAction | OpenFormAction
@@ -52,6 +60,7 @@ const reducer = (state: State, action: Action): State => {
         currentVariant: action.currentVariant,
         currentDiamond: action.currentDiamond,
         addLineItem: action.addLineItem,
+        openRingSizerModal: action.openRingSizerModal,
         formtype: action.formtype,
       }
     }
@@ -76,6 +85,10 @@ export interface OpenModalArgs {
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
   formtype?: string
 }
 
@@ -104,6 +117,7 @@ export const useModalReducer = () => {
       currentProduct: args?.currentProduct,
       currentVariant: args?.currentVariant,
       addLineItem: args?.addLineItem,
+      openRingSizerModal: args?.openRingSizerModal,
     })
 
   const openCustomizationModal = (args?: OpenModalArgs) => {

@@ -100,6 +100,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
           variant={currentVariant}
           closeModal={closeModal}
           addLineItem={addLineItem}
+          openRingSizerModal={openRingSizerModal}
         />
       ) : currentModal === ModalName.DIAMOND ? (
         <DiamondModal
