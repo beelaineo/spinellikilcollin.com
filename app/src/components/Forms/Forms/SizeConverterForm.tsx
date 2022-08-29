@@ -16,7 +16,7 @@ import { ConversionRule, CountryOption } from './types'
 import { CheckoutLineItemInput } from '../../../providers/ShopifyProvider/types'
 import Link from 'next/link'
 
-const { useState } = React
+const { useState, useEffect } = React
 
 const MainWrapper = styled.div`
   position: relative;
@@ -176,6 +176,8 @@ export const SizeConverterForm = ({
     (option) => stringifySize(option['us']) === size,
   )
 
+  console.log('initialRule', initialRule)
+
   const ValidationSchema = Yup.object().shape({
     countryA: Yup.string().required('Required'),
     countryB: Yup.string().required('Required'),
@@ -183,13 +185,24 @@ export const SizeConverterForm = ({
     sizeB: Yup.string().required('Required'),
   })
 
-  const initialValues: FormValues = {
+  const [initialValues, setInitialValues] = useState<FormValues>({
     size: initialRule,
     countryA: initialRule ? sizeCountryOptions[0].value : undefined,
     countryB: undefined,
     sizeA: initialRule,
     sizeB: undefined,
-  }
+  })
+
+  useEffect(() => {
+    console.log('update Initial Values')
+    setInitialValues({
+      size: initialRule,
+      countryA: initialRule ? sizeCountryOptions[0].value : undefined,
+      countryB: undefined,
+      sizeA: initialRule,
+      sizeB: undefined,
+    })
+  }, [initialRule])
 
   const handleATCClick = () => {
     if (!currentVariant) return
