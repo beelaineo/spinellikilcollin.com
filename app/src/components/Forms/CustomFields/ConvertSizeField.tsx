@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useField, useFormikContext } from 'formik'
+import { useFormikContext } from 'formik'
 import { FieldProps } from '../Fields/types'
 import { Field } from '../Fields'
 import { useEffect, useState } from 'react'
@@ -45,6 +45,7 @@ interface ConversionRule {
 
 interface ConvertSizeFieldProps extends Omit<FieldProps, 'type'> {
   sizeOptions: ConversionRule[]
+  setReferenceSize?: () => void
 }
 
 interface Values {
@@ -56,11 +57,10 @@ interface Values {
 }
 
 export const ConvertSizeField = (props: ConvertSizeFieldProps) => {
-  const { values, touched, setFieldValue } = useFormikContext<Values>()
-  const [field, meta] = useField(props)
+  const { values, setFieldValue } = useFormikContext<Values>()
 
-  const [sizeA, setSizeA] = useState<string | number>('')
-  const [sizeB, setSizeB] = useState<string | number>('')
+  const [sizeA, setSizeA] = useState<string | number>(values.sizeA || '')
+  const [sizeB, setSizeB] = useState<string | number>(values.sizeB || '')
 
   const findMatchedValue = (arr: CountryOption[], val?: string | number) => {
     return arr.find((o) => o.value == val)
@@ -129,6 +129,20 @@ export const ConvertSizeField = (props: ConvertSizeFieldProps) => {
 
     setSizeA(Object.values(sizeOption)[sizeIndex])
   }, [values.sizeB, countryA])
+
+  useEffect(() => {
+    if (!countryA) return
+
+    const sizeOption = sizeConversionOptions.find(
+      (o) => o[countryA.id] == values.sizeA,
+    )
+
+    if (sizeOption === undefined) return
+
+    const usIndex = Object.keys(sizeOption).findIndex((o) => o == 'us')
+
+    props.setReferenceSize(Object.values(sizeOption)[usIndex])
+  }, [values.sizeA])
 
   useEffect(() => {
     if (!values.countryA) {

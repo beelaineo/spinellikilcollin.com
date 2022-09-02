@@ -9,12 +9,16 @@ import { ConvertSizeLocaleField } from '../CustomFields/ConvertSizeLocaleField'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
 import { FieldWrapper } from '../../Forms/Fields/styled'
-import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Maybe, ShopifyProduct } from '../../../types'
 import Checkmark from '../../../svg/Checkmark.svg'
 import { Button } from '../../Button'
 import { ConversionRule, CountryOption } from './types'
 import { CheckoutLineItemInput } from '../../../providers/ShopifyProvider/types'
 import Link from 'next/link'
+import { useCart } from '../../../providers/CartProvider'
+import { useAnalytics } from '../../../providers/AnalyticsProvider'
+import { unwindEdges } from '@good-idea/unwind-edges'
+import { definitely, useProductVariant } from '../../../utils'
 
 const { useState, useEffect } = React
 
@@ -115,16 +119,12 @@ const Divider = styled.div`
 `
 
 interface SizeConverterFormProps {
-  initialSize?: Maybe<string>
   title?: Maybe<string>
   subtitle?: Maybe<string>
-  currentVariant?: ShopifyProductVariant
-  currentProduct?: ShopifyProduct
+  currentProduct: ShopifyProduct
+  changeValueForOption: (id: string) => (value: string) => void
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct: ShopifyProduct }) => void
   closeModal?: () => void
   onContinue?: () => void
 }
@@ -133,8 +133,9 @@ type FormValues = {
   size?: ConversionRule
   countryA?: CountryOption['value']
   countryB?: CountryOption['value']
-  sizeA?: ConversionRule
-  sizeB?: ConversionRule
+  sizeA?: string | number
+  sizeB?: string | number
+  sizeUS?: number
 }
 
 export const SizeConverterForm = ({
@@ -145,10 +146,15 @@ export const SizeConverterForm = ({
   openRingSizerModal,
   closeModal,
 }: SizeConverterFormProps) => {
+  const { openCart } = useCart()
+  const { sendAddToCart } = useAnalytics()
+  const { currentVariant, selectVariant } = useProductVariant(currentProduct)
+
+  const initialSize = currentVariant?.sourceData?.selectedOptions?.filter(
+    (o) => o?.name == 'Size',
+  )[0]?.value
+
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
-  console.log('initialSizeParsed', initialSizeParsed)
-  console.log('currentVariant', currentVariant)
-  console.log('currentProduct', currentProduct)
 
   const currentVariantTitle = currentVariant?.title?.substring(
     0,
@@ -174,13 +180,69 @@ export const SizeConverterForm = ({
     (option) => stringifySize(option['us']) === size,
   )
 
-  console.log('initialRule', initialRule)
+  const [referenceSize, setReferenceSize] = useState<number | void>(undefined)
+
+  const changeValueForOption = (optionName: string) => (newValue: string) => {
+    const product = currentProduct
+    const previousOptions = currentVariant?.sourceData?.selectedOptions || []
+    if (!product.sourceData) {
+      throw new Error('Product was loaded without sourceData')
+    }
+    const [variants] = unwindEdges(product.sourceData.variants)
+
+    const newOptions = definitely(previousOptions).map(({ name, value }) => {
+      if (name !== optionName) return { name, value }
+      return { name, value: newValue }
+    })
+
+    const newVariant = variants.find((variant) => {
+      const { selectedOptions } = variant
+      if (!selectedOptions) return false
+
+      const match = newOptions.every(({ name, value }) =>
+        selectedOptions.some(
+          (so) => so && so.name === name && so.value === value,
+        ),
+      )
+      return match
+    })
+
+    const bestVariant = newVariant
+      ? newVariant
+      : variants.find((variant) => {
+          const { selectedOptions } = variant
+
+          if (!selectedOptions) return false
+          const match = Boolean(
+            selectedOptions.find(
+              (so) => so && so.name === optionName && so.value === newValue,
+            ),
+          )
+          return match
+        })
+
+    if (!bestVariant || !bestVariant.id) {
+      throw new Error('No variant was found for these options')
+    }
+    console.log('bestVariant', bestVariant)
+    selectVariant(bestVariant.id)
+  }
+
+  useEffect(() => {
+    if (referenceSize === null) {
+      return
+    }
+
+    const stringSize = referenceSize?.toString()
+    stringSize && changeValueForOption('Size')(stringSize)
+  }, [referenceSize])
 
   const ValidationSchema = Yup.object().shape({
     countryA: Yup.string().required('Required'),
     countryB: Yup.string().required('Required'),
     sizeA: Yup.string().required('Required'),
     sizeB: Yup.string().required('Required'),
+    sizeUS: Yup.string().required('Required'),
   })
 
   const [initialValues, setInitialValues] = useState<FormValues>({
@@ -204,24 +266,26 @@ export const SizeConverterForm = ({
     })
   }, [initialRule])
 
-  const handleATCClick = () => {
+  const handleATCClick = async () => {
     if (!currentVariant) return
     if (!currentProduct) return
     if (!addLineItem) return
     if (typeof currentVariant.shopifyVariantID !== 'string') return
 
-    // sendAddToCart({
-    //   product: currentProduct,
-    //   variant: currentVariant,
-    //   quantity: 1,
-    // })
-    addLineItem({
+    sendAddToCart({
+      product: currentProduct,
+      variant: currentVariant,
+      quantity: 1,
+    })
+
+    await addLineItem({
       variantId: currentVariant.shopifyVariantID,
       quantity: 1,
     })
+
     if (!closeModal) return
     closeModal()
-    // openCart('Product Added to Cart!')
+    openCart('Product Added to Cart!')
   }
   const handleRingSizerClick = () => {
     console.log('openRingSizerModal', openRingSizerModal)
@@ -275,6 +339,7 @@ export const SizeConverterForm = ({
             label="Size"
             placeholder="Size"
             sizeOptions={sizeConversionOptions}
+            setReferenceSize={setReferenceSize}
           />
           <Divider />
           <ArrowWrapper>→</ArrowWrapper>
@@ -289,6 +354,7 @@ export const SizeConverterForm = ({
             label="Size"
             placeholder="Size"
             sizeOptions={sizeConversionOptions}
+            setReferenceSize={setReferenceSize}
           />
         </FieldsWrapper>
         <ButtonsWrapper>
