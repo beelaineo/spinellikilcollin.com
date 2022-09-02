@@ -5,11 +5,17 @@ import InternationalIcon from '../../../svg/International.svg'
 import { Heading } from '../../../components/Text'
 
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { CheckoutLineItemInput } from '../../../providers/ShopifyProvider/types/checkout'
 
 interface SizeConverterButtonProps {
   mobile?: boolean
   product: ShopifyProduct
   variant: ShopifyProductVariant
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
 }
 
 interface WithMobile {
@@ -25,6 +31,8 @@ const Wrapper = styled.button<WithMobile>`
 
     svg {
       margin-right: 2;
+      height: 29px;
+      width: 30px;
     }
 
     ${theme.mediaQueries.tablet} {
@@ -39,10 +47,18 @@ export const SizeConverterButton = ({
   mobile,
   product,
   variant,
+  addLineItem,
 }: SizeConverterButtonProps) => {
   const { openSizeConverterModal } = useModal()
+  const { openRingSizerModal } = useModal()
+  console.log('sizeConverterButton variant', variant)
   const handleClick = () =>
-    openSizeConverterModal({ currentProduct: product, currentVariant: variant })
+    openSizeConverterModal({
+      currentProduct: product,
+      currentVariant: variant,
+      addLineItem: addLineItem,
+      openRingSizerModal: openRingSizerModal,
+    })
   return (
     <Wrapper mobile={mobile} onClick={handleClick}>
       <InternationalIcon />

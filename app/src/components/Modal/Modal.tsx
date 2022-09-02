@@ -55,7 +55,7 @@ export const Modal: React.FC<ModalProps> = ({
   } else {
     return ReactDOM.createPortal(
       <Wrapper>
-        <ModalWrapper>
+        <ModalWrapper wide={Boolean(display === 'sizeConverter')}>
           <CloseButton onClick={closeModal} aria-label="Close modal" />
           {children}
         </ModalWrapper>

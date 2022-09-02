@@ -1,4 +1,5 @@
 import * as React from 'react'
+// eslint-disable-next-line import/no-cycle
 import {
   ContactFormModal,
   CustomizationModal,
@@ -75,6 +76,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     currentProduct,
     currentVariant,
     currentDiamond,
+    addLineItem,
   } = state
 
   return (
@@ -97,6 +99,8 @@ export const ModalProvider = ({ children }: ModalProps) => {
           product={currentProduct}
           variant={currentVariant}
           closeModal={closeModal}
+          addLineItem={addLineItem}
+          openRingSizerModal={openRingSizerModal}
         />
       ) : currentModal === ModalName.DIAMOND ? (
         <DiamondModal

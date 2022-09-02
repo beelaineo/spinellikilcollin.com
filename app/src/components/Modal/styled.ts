@@ -76,10 +76,15 @@ export const DiamondBackground = styled.button<WithOpen>`
   `}
 `
 
-export const ModalWrapper = styled.div`
-  ${({ theme }) => css`
+interface WithWide {
+  wide: boolean
+}
+
+export const ModalWrapper = styled.div<WithWide>`
+  ${({ theme, wide }) => css`
     position: relative;
     padding: 4 5 5;
+    width: ${wide ? '720px' : 'unset'};
     max-width: calc(100% - (${theme.space[4]}px * 2));
     max-height: calc(100% - (${theme.space[4]}px * 2));
     overflow: scroll;

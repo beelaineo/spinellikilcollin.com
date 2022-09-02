@@ -760,7 +760,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
    * @deprecated Use `paymentDueV2` instead
    */
   paymentDue: Scalars['Money']
-  /** The amount left to be paid. This is equal to the cost of the line items, duties, taxes and shipping minus discounts and gift cards. */
+  /** The amount left to be paid. This is equal to the cost of the line items, duties, taxes, and shipping, minus discounts and gift cards. */
   paymentDueV2: ShopifyStorefrontMoneyV2
   /**
    * Whether or not the Checkout is ready and can be completed. Checkouts may
@@ -782,7 +782,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
    * @deprecated Use `subtotalPriceV2` instead
    */
   subtotalPrice: Scalars['Money']
-  /** Price of the checkout before duties, shipping and taxes. */
+  /** The price at checkout before duties, shipping, and taxes. */
   subtotalPriceV2: ShopifyStorefrontMoneyV2
   /** Whether the checkout is tax exempt. */
   taxExempt: Scalars['Boolean']
@@ -795,7 +795,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
    * @deprecated Use `totalPriceV2` instead
    */
   totalPrice: Scalars['Money']
-  /** The sum of all the prices of all the items in the checkout, duties, taxes and discounts included. */
+  /** The sum of all the prices of all the items in the checkout, including duties, taxes, and discounts. */
   totalPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The sum of all the taxes applied to the line items and shipping lines in the checkout.
@@ -1227,6 +1227,8 @@ export enum ShopifyStorefrontCheckoutErrorCode {
   DiscountDisabled = 'DISCOUNT_DISABLED',
   /** Discount limit reached. */
   DiscountLimitReached = 'DISCOUNT_LIMIT_REACHED',
+  /** Higher value discount applied. */
+  HigherValueDiscountApplied = 'HIGHER_VALUE_DISCOUNT_APPLIED',
   /** Discount not found. */
   DiscountNotFound = 'DISCOUNT_NOT_FOUND',
   /** Customer already used once per customer discount notice. */
@@ -3808,9 +3810,10 @@ export interface ShopifyStorefrontMutation {
    */
   customerAccessTokenCreate?: Maybe<ShopifyStorefrontCustomerAccessTokenCreatePayload>
   /**
-   * Creates a customer access token using a multipass token instead of email and password.
-   * A customer record is created if customer does not exist. If a customer record already
-   * exists but the record is disabled, then it's enabled.
+   * Creates a customer access token using a
+   * [multipass token](https://shopify.dev/api/multipass) instead of email and
+   * password. A customer record is created if the customer doesn't exist. If a customer
+   * record already exists but the record is disabled, then the customer record is enabled.
    */
   customerAccessTokenCreateWithMultipass?: Maybe<ShopifyStorefrontCustomerAccessTokenCreateWithMultipassPayload>
   /** Permanently destroys a customer access token. */
@@ -5189,7 +5192,7 @@ export interface ShopifyStorefrontQueryRoot {
   blogByHandle?: Maybe<ShopifyStorefrontBlog>
   /** List of the shop's blogs. */
   blogs: ShopifyStorefrontBlogConnection
-  /** Find a cart by its ID. */
+  /** Retrieve a cart by its ID. For more information, refer to [Manage a cart with the Storefront API](https://shopify.dev/api/examples/cart). */
   cart?: Maybe<ShopifyStorefrontCart>
   /** Fetch a specific `Collection` by one of its unique attributes. */
   collection?: Maybe<ShopifyStorefrontCollection>
@@ -5458,7 +5461,7 @@ export interface ShopifyStorefrontSellingPlan {
   id: Scalars['ID']
   /** The name of the selling plan. For example, '6 weeks of prepaid granola, delivered weekly'. */
   name: Scalars['String']
-  /** The selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product. */
+  /** The selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product. Individual selling plans contribute their options to the associated selling plan group. For example, a selling plan group might have an option called `option1: Delivery every`. One selling plan in that group could contribute `option1: 2 weeks` with the pricing for that option, and another selling plan could contribute `option1: 4 weeks`, with different pricing. */
   options: Array<ShopifyStorefrontSellingPlanOption>
   /** The price adjustments that a selling plan makes when a variant is purchased with a selling plan. */
   priceAdjustments: Array<ShopifyStorefrontSellingPlanPriceAdjustment>
@@ -5578,7 +5581,11 @@ export interface ShopifyStorefrontSellingPlanGroupEdge {
   node: ShopifyStorefrontSellingPlanGroup
 }
 
-/** Represents an option on a selling plan group that's available in the drop-down list in the storefront. */
+/**
+ * Represents an option on a selling plan group that's available in the drop-down list in the storefront.
+ *
+ * Individual selling plans contribute their options to the associated selling plan group. For example, a selling plan group might have an option called `option1: Delivery every`. One selling plan in that group could contribute `option1: 2 weeks` with the pricing for that option, and another selling plan could contribute `option1: 4 weeks`, with different pricing.
+ */
 export interface ShopifyStorefrontSellingPlanGroupOption {
   __typename: 'SellingPlanGroupOption'
   /** The name of the option. For example, 'Delivery every'. */
@@ -5603,12 +5610,12 @@ export interface ShopifyStorefrontSellingPlanPercentagePriceAdjustment {
   adjustmentPercentage: Scalars['Int']
 }
 
-/** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. */
+/** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. If a variant has multiple price adjustments, then the first price adjustment applies when the variant is initially purchased. The second price adjustment applies after a certain number of orders (specified by the `orderCount` field) are made. If a selling plan doesn't have any price adjustments, then the unadjusted price of the variant is the effective price. */
 export interface ShopifyStorefrontSellingPlanPriceAdjustment {
   __typename: 'SellingPlanPriceAdjustment'
   /** The type of price adjustment. An adjustment value can have one of three types: percentage, amount off, or a new price. */
   adjustmentValue: ShopifyStorefrontSellingPlanPriceAdjustmentValue
-  /** The number of orders that the price adjustment applies to If the price adjustment always applies, then this field is `null`. */
+  /** The number of orders that the price adjustment applies to. If the price adjustment always applies, then this field is `null`. */
   orderCount?: Maybe<Scalars['Int']>
 }
 
@@ -5678,7 +5685,7 @@ export interface ShopifyStorefrontShop extends ShopifyStorefrontHasMetafields {
   name: Scalars['String']
   /** Settings related to payments. */
   paymentSettings: ShopifyStorefrontPaymentSettings
-  /** The shop’s primary domain. */
+  /** The primary domain of the shop’s Online Store. */
   primaryDomain: ShopifyStorefrontDomain
   /** The shop’s privacy policy. */
   privacyPolicy?: Maybe<ShopifyStorefrontShopPolicy>

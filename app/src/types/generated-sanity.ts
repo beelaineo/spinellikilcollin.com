@@ -830,18 +830,24 @@ export interface Form {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   formType?: Maybe<Scalars['String']>
+  formTitle?: Maybe<Scalars['String']>
+  formSubtitle?: Maybe<Scalars['String']>
 }
 
 export type FormFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   formType?: Maybe<StringFilter>
+  formTitle?: Maybe<StringFilter>
+  formSubtitle?: Maybe<StringFilter>
 }
 
 export type FormSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   formType?: Maybe<SortOrder>
+  formTitle?: Maybe<SortOrder>
+  formSubtitle?: Maybe<SortOrder>
 }
 
 export interface Geopoint {

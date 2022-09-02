@@ -11,14 +11,33 @@ interface CountryOption {
 
 interface ConversionRule {
   mm: number
-  in: number
-  'us-can': string
-  'uk-aus-sa': string
+  inches: number
+  us: number
+  can: number
+  uk: string
+  aus: string
+  sa: string
   fr: number
-  'in-cn-jp-sa-etc': number
+  in: number
+  cn: number
+  jp: number
+  arg: number
+  bo: number
+  br: number
+  cl: number
+  col: number
+  ecua: number
+  guy: number
+  para: number
+  per: number
+  surm: number
+  uru: number
+  vz: number
+  tr: number
+  il: number
+  label: number
+  value: number
   id: string
-  label: string
-  value: string
 }
 
 type ConvertSizeLocaleFieldProps = Omit<FieldProps, 'type'>
@@ -26,12 +45,13 @@ type ConvertSizeLocaleFieldProps = Omit<FieldProps, 'type'>
 interface Values {
   countryA?: CountryOption
   countryB?: CountryOption
+  sizeA?: ConversionRule
+  sizeB?: ConversionRule
   size?: ConversionRule
 }
 
 export const ConvertSizeLocaleField = (props: ConvertSizeLocaleFieldProps) => {
   const { values } = useFormikContext<Values>()
-  console.log('field values', values)
   return (
     <Field
       type="sizeLocaleCountrySelector"
