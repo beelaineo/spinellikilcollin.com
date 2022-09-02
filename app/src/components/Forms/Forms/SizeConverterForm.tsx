@@ -9,7 +9,7 @@ import { ConvertSizeLocaleField } from '../CustomFields/ConvertSizeLocaleField'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
 import { FieldWrapper } from '../../Forms/Fields/styled'
-import { Maybe, ShopifyProduct } from '../../../types'
+import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import Checkmark from '../../../svg/Checkmark.svg'
 import { Button } from '../../Button'
 import { ConversionRule, CountryOption } from './types'
@@ -123,6 +123,7 @@ interface SizeConverterFormProps {
   title?: Maybe<string>
   subtitle?: Maybe<string>
   currentProduct: ShopifyProduct
+  selectedColorVariant?: ShopifyProductVariant
   changeValueForOption: (id: string) => (value: string) => void
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
   openRingSizerModal?: ({
@@ -146,6 +147,7 @@ export const SizeConverterForm = ({
   title,
   subtitle,
   currentProduct,
+  selectedColorVariant,
   initialSize,
   addLineItem,
   openRingSizerModal,
@@ -154,16 +156,26 @@ export const SizeConverterForm = ({
   const { openCart } = useCart()
   const { sendAddToCart } = useAnalytics()
 
+  console.log('SELECTEDCOLORVARIANT', selectedColorVariant)
+
   // @ts-ignore
-  const { currentVariant, selectVariant } = !title
-    ? useProductVariant(currentProduct)
-    : {}
+  const { currentVariant, selectVariant } =
+    selectedColorVariant?.shopifyVariantID
+      ? useProductVariant(currentProduct, {
+          initialVariant: selectedColorVariant?.shopifyVariantID,
+        })
+      : {}
 
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
 
-  const currentVariantTitle = currentVariant?.title?.substring(
+  useEffect(
+    () => console.log('currentVariant', currentVariant),
+    [currentVariant],
+  )
+
+  const currentVariantTitle = selectedColorVariant?.title?.substring(
     0,
-    currentVariant?.title?.indexOf('/'),
+    selectedColorVariant?.title?.indexOf('/'),
   )
   const stringifySize = (size?: number) => {
     if (size == NaN || !size) return undefined

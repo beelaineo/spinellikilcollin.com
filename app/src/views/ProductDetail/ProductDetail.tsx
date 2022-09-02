@@ -114,6 +114,7 @@ export const ProductDetail = ({ product }: Props) => {
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
     sendProductDetailView({ product, variant: currentVariant })
+    console.log('PDP currentVariant', currentVariant)
   }, [currentVariant])
 
   /* Add the variant ID as a query parameter */
