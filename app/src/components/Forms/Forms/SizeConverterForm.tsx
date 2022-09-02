@@ -187,8 +187,9 @@ export const SizeConverterForm = ({
     size: initialRule,
     countryA: initialRule ? sizeCountryOptions[0].value : undefined,
     countryB: undefined,
-    sizeA: initialRule,
+    sizeA: initialRule && initialRule.us,
     sizeB: undefined,
+    sizeUS: initialRule && initialRule.us,
   })
 
   useEffect(() => {
@@ -197,8 +198,9 @@ export const SizeConverterForm = ({
       size: initialRule,
       countryA: initialRule ? sizeCountryOptions[0].value : undefined,
       countryB: undefined,
-      sizeA: initialRule,
+      sizeA: initialRule && initialRule.us,
       sizeB: undefined,
+      sizeUS: initialRule && initialRule.us,
     })
   }, [initialRule])
 
@@ -226,7 +228,6 @@ export const SizeConverterForm = ({
     if (openRingSizerModal !== undefined) {
       openRingSizerModal({
         currentProduct: currentProduct,
-        currentVariant: currentVariant,
       })
     } else {
       return
