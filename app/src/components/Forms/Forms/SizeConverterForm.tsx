@@ -119,12 +119,16 @@ const Divider = styled.div`
 `
 
 interface SizeConverterFormProps {
+  initialSize?: Maybe<string>
   title?: Maybe<string>
   subtitle?: Maybe<string>
   currentProduct: ShopifyProduct
   changeValueForOption: (id: string) => (value: string) => void
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({ currentProduct: ShopifyProduct }) => void
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
   closeModal?: () => void
   onContinue?: () => void
 }
@@ -142,17 +146,18 @@ export const SizeConverterForm = ({
   title,
   subtitle,
   currentProduct,
+  initialSize,
   addLineItem,
   openRingSizerModal,
   closeModal,
 }: SizeConverterFormProps) => {
   const { openCart } = useCart()
   const { sendAddToCart } = useAnalytics()
-  const { currentVariant, selectVariant } = useProductVariant(currentProduct)
 
-  const initialSize = currentVariant?.sourceData?.selectedOptions?.filter(
-    (o) => o?.name == 'Size',
-  )[0]?.value
+  // @ts-ignore
+  const { currentVariant, selectVariant } = !title
+    ? useProductVariant(currentProduct)
+    : {}
 
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
 
@@ -180,16 +185,21 @@ export const SizeConverterForm = ({
     (option) => stringifySize(option['us']) === size,
   )
 
-  const [referenceSize, setReferenceSize] = useState<number | void>(undefined)
+  const [referenceSize, setReferenceSize] = useState<number | string | void>(
+    undefined,
+  )
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     const product = currentProduct
+
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
-    if (!product.sourceData) {
+
+    if (!product?.sourceData) {
       throw new Error('Product was loaded without sourceData')
     }
     const [variants] = unwindEdges(product.sourceData.variants)
 
+    // @ts-ignore
     const newOptions = definitely(previousOptions).map(({ name, value }) => {
       if (name !== optionName) return { name, value }
       return { name, value: newValue }
@@ -199,6 +209,7 @@ export const SizeConverterForm = ({
       const { selectedOptions } = variant
       if (!selectedOptions) return false
 
+      // @ts-ignore
       const match = newOptions.every(({ name, value }) =>
         selectedOptions.some(
           (so) => so && so.name === name && so.value === value,
@@ -229,7 +240,7 @@ export const SizeConverterForm = ({
   }
 
   useEffect(() => {
-    if (referenceSize === null) {
+    if (referenceSize === null || title) {
       return
     }
 
@@ -290,8 +301,10 @@ export const SizeConverterForm = ({
   const handleRingSizerClick = () => {
     console.log('openRingSizerModal', openRingSizerModal)
     if (openRingSizerModal !== undefined) {
+      console.log
       openRingSizerModal({
         currentProduct: currentProduct,
+        currentVariant: currentVariant,
       })
     } else {
       return

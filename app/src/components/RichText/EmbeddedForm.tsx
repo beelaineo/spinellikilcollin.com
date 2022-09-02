@@ -50,6 +50,7 @@ export const EmbeddedForm = ({
     case 'sizeConverter':
       return (
         <Wrapper>
+          {/* @ts-ignore */}
           <SizeConverterForm
             title={block.formTitle}
             subtitle={block.formSubtitle}

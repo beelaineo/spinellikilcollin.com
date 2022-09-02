@@ -45,7 +45,7 @@ interface ConversionRule {
 
 interface ConvertSizeFieldProps extends Omit<FieldProps, 'type'> {
   sizeOptions: ConversionRule[]
-  setReferenceSize?: () => void
+  setReferenceSize: (size: number | string) => void
 }
 
 interface Values {
@@ -56,7 +56,10 @@ interface Values {
   sizeB?: string | number
 }
 
-export const ConvertSizeField = (props: ConvertSizeFieldProps) => {
+export const ConvertSizeField = ({
+  setReferenceSize,
+  ...props
+}: ConvertSizeFieldProps) => {
   const { values, setFieldValue } = useFormikContext<Values>()
 
   const [sizeA, setSizeA] = useState<string | number>(values.sizeA || '')
@@ -141,7 +144,7 @@ export const ConvertSizeField = (props: ConvertSizeFieldProps) => {
 
     const usIndex = Object.keys(sizeOption).findIndex((o) => o == 'us')
 
-    props.setReferenceSize(Object.values(sizeOption)[usIndex])
+    setReferenceSize(Object.values(sizeOption)[usIndex])
   }, [values.sizeA])
 
   useEffect(() => {
