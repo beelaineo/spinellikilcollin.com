@@ -40,7 +40,6 @@ export function Form<Values extends FormikValues>({
   children,
   validationSchema,
 }: FormProps<Values>) {
-  console.log('Form initialValues', initialValues)
   return (
     <FormWrapper disabled={disabled}>
       {title ? (

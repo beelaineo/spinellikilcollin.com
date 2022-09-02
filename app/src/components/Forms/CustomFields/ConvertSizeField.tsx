@@ -152,7 +152,6 @@ export const ConvertSizeField = ({
       return
     }
     setFieldValue('sizeA', sizeA)
-    console.log(sizeA)
   }, [sizeA])
 
   useEffect(() => {
@@ -160,7 +159,6 @@ export const ConvertSizeField = ({
       return
     }
     setFieldValue('sizeB', sizeB)
-    console.log(sizeB)
   }, [sizeB])
 
   return (

@@ -32,7 +32,7 @@ const Wrapper = styled.button<WithMobile>`
     svg {
       margin-right: 2;
       height: 29px;
-      width: 29px;
+      width: 30px;
     }
 
     ${theme.mediaQueries.tablet} {

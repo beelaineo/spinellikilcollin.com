@@ -26,8 +26,6 @@ export const SizeConverterModal = ({
     (o) => o?.name == 'Size',
   )[0]?.value
 
-  console.log('initialSize', initialSize)
-
   return (
     <Modal closeModal={closeModal} display={'sizeConverter'}>
       <SizeConverterForm

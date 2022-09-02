@@ -235,7 +235,6 @@ export const SizeConverterForm = ({
     if (!bestVariant || !bestVariant.id) {
       throw new Error('No variant was found for these options')
     }
-    console.log('bestVariant', bestVariant)
     selectVariant(bestVariant.id)
   }
 
@@ -266,7 +265,6 @@ export const SizeConverterForm = ({
   })
 
   useEffect(() => {
-    console.log('update Initial Values')
     setInitialValues({
       size: initialRule,
       countryA: initialRule ? sizeCountryOptions[0].value : undefined,
@@ -299,7 +297,6 @@ export const SizeConverterForm = ({
     openCart('Product Added to Cart!')
   }
   const handleRingSizerClick = () => {
-    console.log('openRingSizerModal', openRingSizerModal)
     if (openRingSizerModal !== undefined) {
       console.log
       openRingSizerModal({
