@@ -4,18 +4,14 @@ import { useModal } from '../../../providers/ModalProvider'
 import InternationalIcon from '../../../svg/International.svg'
 import { Heading } from '../../../components/Text'
 
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { ShopifyProduct } from '../../../types'
 import { CheckoutLineItemInput } from '../../../providers/ShopifyProvider/types/checkout'
 
 interface SizeConverterButtonProps {
   mobile?: boolean
   product: ShopifyProduct
-  variant: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct: ShopifyProduct }) => void
 }
 
 interface WithMobile {
@@ -46,7 +42,6 @@ const Wrapper = styled.button<WithMobile>`
 export const SizeConverterButton = ({
   mobile,
   product,
-  variant,
   addLineItem,
 }: SizeConverterButtonProps) => {
   const { openSizeConverterModal } = useModal()
@@ -54,7 +49,6 @@ export const SizeConverterButton = ({
   const handleClick = () =>
     openSizeConverterModal({
       currentProduct: product,
-      currentVariant: variant,
       addLineItem: addLineItem,
       openRingSizerModal: openRingSizerModal,
     })

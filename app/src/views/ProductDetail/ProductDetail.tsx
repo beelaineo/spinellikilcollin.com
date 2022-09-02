@@ -406,7 +406,6 @@ export const ProductDetail = ({ product }: Props) => {
                       />
                       <SizeConverterButton
                         product={product}
-                        variant={currentVariant}
                         addLineItem={addLineItem}
                       />
                     </RingToolsWrapper>

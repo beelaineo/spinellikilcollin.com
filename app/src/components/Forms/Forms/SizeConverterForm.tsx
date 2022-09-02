@@ -138,10 +138,8 @@ type FormValues = {
 }
 
 export const SizeConverterForm = ({
-  initialSize,
   title,
   subtitle,
-  currentVariant,
   currentProduct,
   addLineItem,
   openRingSizerModal,
