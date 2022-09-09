@@ -190,7 +190,27 @@ export const getBestVariantByFilterMatch = (
           let keywords: string[] = []
           switch (value) {
             case 's':
-              keywords = ['Silver', 'silver', 'SG', 'Gris']
+              keywords = [
+                'Silver',
+                'silver',
+                'SG',
+                'Gris',
+                'Clara',
+                'Sirius Max MX',
+                'Sirius Max SG',
+                'Capricorn MX',
+                'Capricorn CCW',
+                'Cyllene MX',
+                'Acacia',
+                'Gemini',
+                'Libra',
+                'Cici MX',
+                'Aries SG',
+                'Sagittarius',
+                'Leo MX',
+                'Leo Core',
+                'Nexus',
+              ]
               break
             case 'yg':
               keywords = [
@@ -198,17 +218,56 @@ export const getBestVariantByFilterMatch = (
                 'yellow gold',
                 'YG',
                 'MX',
-                'Nexus Gold',
+                'Nexus',
                 'Vela Gold',
                 'Akoya Gold',
                 'Vega Gold',
+                'Sirius Max BG',
+                'Sirius Max SG',
+                'Capricorn CCW',
+                'Libra',
+                'Sonny',
+                'Aries Core Gold',
+                'Sagittarius',
+                'Leo',
+                'Rhea',
               ]
               break
             case 'rg':
-              keywords = ['Rose Gold', 'rose gold', 'RG', 'Rose']
+              keywords = [
+                'Rose Gold',
+                'Rhea Gold',
+                'Rhea MX',
+                'Capricorn MX',
+                'Solarium Gold',
+                'Mercury MX',
+                'rose gold',
+                'Dua MX',
+                'Clara',
+                'RG',
+                'Rose',
+                'Acacia',
+                'Gemini SG',
+                'Libra MX',
+                'Sonny MX',
+                'Sonny Gold',
+                'Tigris MX Gris',
+                'Cici MX',
+                'Aries Core Gold',
+                'Sagittarius MX',
+                'Leo',
+              ]
               break
             case 'wg':
-              keywords = ['White Gold', 'white gold', 'WG', 'Blanc']
+              keywords = [
+                'White Gold',
+                'Ceres Gold',
+                'white gold',
+                'Rhea MX',
+                'WG',
+                'Blanc',
+                'Sonny MX',
+              ]
               break
             case 'bg':
               keywords = ['Black Gold', 'black gold', 'BG', 'Vega Gold']
