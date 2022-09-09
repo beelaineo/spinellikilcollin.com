@@ -294,6 +294,68 @@ export const getBestVariantByFilterMatch = (
     return colorMatches
   })
 
+  const bestStoneVariant = variants.find((v) => {
+    const stoneMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'stone':
+          let keywords: string[] = []
+          switch (value) {
+            case 'd':
+              keywords = [
+                'Pavé',
+                'Sirius Max MX',
+                'Ovio',
+                'Sagittarius',
+                'Gris',
+                'Libra SP',
+                'Libra MX',
+                'Leo Blac',
+                'Leo MX',
+                'Cancer Deux MX',
+                'Marigold',
+                'Sonny',
+                'Capricorn CCW',
+              ]
+              break
+            case 'am':
+              keywords = [
+                'Core',
+                'Sagittarius MX',
+                'Pisces SG',
+                'Scorpio SG',
+                'Cancer SG',
+                'Capricorn MX',
+                'Aquarius YG',
+                'Libra SG Core',
+              ]
+              break
+            case 'g':
+              keywords = ['Emerald', 'Petunia']
+              break
+            case 'p':
+              keywords = []
+              break
+            default:
+              break
+          }
+          match = v?.selectedOptions?.some((o) =>
+            keywords.some((word) => {
+              if (o?.value?.includes(word)) {
+                return true
+              }
+            }),
+          )
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return stoneMatches
+  })
+
   const inStockVariants = variants.filter((v) => {
     const stockMatches = filters.some((m) => {
       const { name, value } = m
