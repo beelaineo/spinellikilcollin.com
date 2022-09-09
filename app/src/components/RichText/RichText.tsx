@@ -125,7 +125,9 @@ const serializers = ({
       return <Image image={node} sizes={imageSizes} />
     }
     if (node._type === 'form') {
-      return <EmbeddedForm block={node} />
+      return (
+        <EmbeddedForm block={node} openRingSizerModal={openRingSizerModal} />
+      )
     }
     const style = node.style || 'normal'
     // if (props.node._type === 'videoEmbed') return <VideoEmbed video={props.node} />

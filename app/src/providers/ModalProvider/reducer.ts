@@ -5,6 +5,7 @@ import {
   ShopifyProductVariant,
   ShopifySourceSelectedOption,
 } from '../../types'
+import { CheckoutLineItemInput } from '../ShopifyProvider/types'
 
 const CLOSE = 'CLOSE'
 const OPEN = 'OPEN'
@@ -22,6 +23,11 @@ interface State {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
   formtype?: string
 }
 
@@ -36,6 +42,11 @@ interface OpenFormAction {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
 }
 
 type Action = CloseAction | OpenFormAction
@@ -48,6 +59,8 @@ const reducer = (state: State, action: Action): State => {
         currentProduct: action.currentProduct,
         currentVariant: action.currentVariant,
         currentDiamond: action.currentDiamond,
+        addLineItem: action.addLineItem,
+        openRingSizerModal: action.openRingSizerModal,
         formtype: action.formtype,
       }
     }
@@ -71,6 +84,11 @@ export interface OpenModalArgs {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({
+    currentProduct: ShopifyProduct,
+    currentVariant: ShopifyProductVariant,
+  }) => void
   formtype?: string
 }
 
@@ -98,6 +116,8 @@ export const useModalReducer = () => {
       currentModal: ModalName.SIZE_CONVERTER,
       currentProduct: args?.currentProduct,
       currentVariant: args?.currentVariant,
+      addLineItem: args?.addLineItem,
+      openRingSizerModal: args?.openRingSizerModal,
     })
 
   const openCustomizationModal = (args?: OpenModalArgs) => {

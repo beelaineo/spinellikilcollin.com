@@ -1,4 +1,4 @@
-import { Form, Block, RichImage } from './generated-sanity'
+import { Form, Block, RichImage, Maybe } from './generated-sanity'
 
 interface BlockNode<T> {
   node: T
@@ -7,6 +7,8 @@ interface BlockNode<T> {
 }
 
 export interface FormBlock extends Omit<Form, '_type'> {
+  formSubtitle: Maybe<string> | undefined
+  formTitle: Maybe<string> | undefined
   _type: 'form'
 }
 

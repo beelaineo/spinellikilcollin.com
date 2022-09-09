@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useAnalytics } from '../../../providers'
 import {
   useShopify,
   UseCheckoutValues,
@@ -7,7 +6,7 @@ import {
 import { Button } from '../../../components/Button'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
-import { useCart, useModal } from '../../../providers'
+import { useAnalytics, useCart, useModal } from '../../../providers'
 import { useMedia } from '../../../hooks'
 import { theme } from '../../../theme'
 const { useEffect, useRef, useState } = React

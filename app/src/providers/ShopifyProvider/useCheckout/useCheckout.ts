@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { DocumentNode } from 'graphql'
-import { UserError, QueryFunction } from '../types'
 import {
+  UserError,
+  QueryFunction,
   Checkout,
   CheckoutLineItemInput,
   CheckoutLineItemUpdateInput,
@@ -24,8 +25,10 @@ import {
   CheckoutLineItemsUpdateInput,
   CheckoutLineItemsUpdateResponse,
 } from './queries'
+import { reducer } from './reducer'
 import {
-  reducer,
+  UseCheckoutValues,
+  CheckoutState,
   STARTED_REQUEST,
   FETCHED_CHECKOUT,
   CREATED_CHECKOUT,
@@ -35,7 +38,7 @@ import {
   UPDATED_LINE_ITEMS,
   CART_CLEARED,
   // RECEIVED_ERRORS,
-} from './reducer'
+} from './types'
 import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
 import { ShopifyStorefrontCheckout } from '../../../types/generated-shopify'
 
@@ -66,47 +69,11 @@ export interface UseCheckoutQueries {
   CHECKOUT_LINE_ITEMS_UPDATE: string | DocumentNode
 }
 
-export interface UseCheckoutValues extends CheckoutState {
-  /* All of CheckoutState, and */
-  /* Base Methods */
-  checkoutCreate: (args: CheckoutCreateInput) => Promise<CheckoutAndErrors>
-  checkoutLineItemsAdd: (lineItems: CheckoutLineItemInput[]) => Promise<void>
-  checkoutLineItemsUpdate: (
-    lineItems: CheckoutLineItemUpdateInput[],
-  ) => Promise<void>
-  checkoutDiscountCodeApply: (discountCode: string) => Promise<void>
-  checkoutDiscountCodeRemove: () => Promise<void>
-  checkoutAttributesUpdate: (
-    args: CheckoutAttributesUpdateV2Input,
-  ) => Promise<void>
-
-  /* Shortcut Methods */
-  addLineItem: (lineItem: CheckoutLineItemInput) => Promise<void>
-  updateLineItem: (lineItem: CheckoutLineItemUpdateInput) => Promise<void>
-  clearCheckout: () => Promise<void>
-  addNote: (note: string) => Promise<void>
-}
-
-/**
- * Setup
- */
-
 const initialState = {
   ready: false,
   loading: true,
   checkoutUserErrors: [],
   checkout: undefined,
-}
-
-/**
- * State
- */
-
-export interface CheckoutState {
-  loading: boolean
-  ready: boolean
-  checkoutUserErrors: UserError[]
-  checkout: Checkout | void
 }
 
 /**

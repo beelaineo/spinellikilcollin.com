@@ -147,7 +147,10 @@ export const ProductImagesWrapper = styled.div`
 
 export const ProductAccordionsWrapper = styled.div`
   ${({ theme }) => css`
+    flex-direction: column;
+    display: flex;
     margin-top: 5;
+
     ul,
     ol,
     li {
@@ -170,6 +173,7 @@ export const RingToolsWrapper = styled.div`
     margin: 0 0 4 0;
 
     ${theme.mediaQueries.tablet} {
+      order: -1;
     }
 
     ${theme.mediaQueries.mobile} {

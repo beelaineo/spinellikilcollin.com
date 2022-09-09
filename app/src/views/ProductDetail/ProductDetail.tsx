@@ -114,6 +114,7 @@ export const ProductDetail = ({ product }: Props) => {
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
     sendProductDetailView({ product, variant: currentVariant })
+    console.log('PDP currentVariant', currentVariant)
   }, [currentVariant])
 
   /* Add the variant ID as a query parameter */
@@ -404,10 +405,11 @@ export const ProductDetail = ({ product }: Props) => {
                         product={product}
                         variant={currentVariant}
                       />
-                      {/* <SizeConverterButton
+                      <SizeConverterButton
                         product={product}
                         variant={currentVariant}
-                      /> */}
+                        addLineItem={addLineItem}
+                      />
                     </RingToolsWrapper>
                   ) : null}
                   <BuyButton
@@ -455,11 +457,12 @@ export const ProductDetail = ({ product }: Props) => {
                           variant={currentVariant}
                           mobile
                         />
-                        {/* <SizeConverterButton
+                        <SizeConverterButton
                           product={product}
                           variant={currentVariant}
+                          addLineItem={addLineItem}
                           mobile
-                        /> */}
+                        />
                       </RingToolsWrapper>
                     ) : null}
                   </ProductAccordionsWrapper>

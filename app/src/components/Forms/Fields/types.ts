@@ -3,7 +3,7 @@ import { FieldValidator } from 'formik'
 export interface Option {
   value: string | number
   id: string
-  label: string
+  label: string | number
   disabled?: boolean
 }
 
