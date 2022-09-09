@@ -376,7 +376,6 @@ export const getBestVariantByFilterMatch = (
     const matchingPair = bestColorVariant?.selectedOptions?.filter(
       (o1) =>
         !v.selectedOptions?.some((o2) => {
-          // console.log('matchingPair', o1, o2)
           if (o2?.name === 'Color') {
             return Boolean(o1?.value === o2?.value)
           } else {
@@ -388,6 +387,23 @@ export const getBestVariantByFilterMatch = (
       matchingPair && matchingPair?.length > 0,
     )
     return variantMatchesColor
+  })
+
+  const bestInStockStoneVariant = inStockVariants.find((v) => {
+    const matchingPair = bestStoneVariant?.selectedOptions?.filter(
+      (o1) =>
+        !v.selectedOptions?.some((o2) => {
+          if (o2?.name === 'Color') {
+            return Boolean(o1?.value === o2?.value)
+          } else {
+            return false
+          }
+        }),
+    )
+    const variantMatchesStone = Boolean(
+      matchingPair && matchingPair?.length > 0,
+    )
+    return variantMatchesStone
   })
 
   const bestInStockVariant = variants.find((v) => {
@@ -404,15 +420,13 @@ export const getBestVariantByFilterMatch = (
       return match
     })
     return stockMatches
-  })
 
-  // console.log('bestInStockColorVariant:', bestInStockColorVariant)
-  // console.log('bestInStockVariant:', bestInStockVariant)
-  // console.log('bestColorVariant:', bestColorVariant)
   return (
     bestInStockColorVariant ||
+    bestInStockStoneVariant ||
     bestInStockVariant ||
     bestColorVariant ||
+    bestStoneVariant ||
     variants[0]
   )
 }
