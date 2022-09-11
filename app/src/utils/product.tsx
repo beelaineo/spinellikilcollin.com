@@ -420,6 +420,7 @@ export const getBestVariantByFilterMatch = (
       return match
     })
     return stockMatches
+  })
 
   return (
     bestInStockColorVariant ||
