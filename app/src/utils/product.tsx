@@ -210,6 +210,8 @@ export const getBestVariantByFilterMatch = (
                 'Leo MX',
                 'Leo Core',
                 'Nexus',
+                'Atlantis MX',
+                'Argo SG',
               ]
               break
             case 'yg':
@@ -231,6 +233,8 @@ export const getBestVariantByFilterMatch = (
                 'Sagittarius',
                 'Leo',
                 'Rhea',
+                'Casseus',
+                'Atlantis MX',
               ]
               break
             case 'rg':
@@ -256,6 +260,8 @@ export const getBestVariantByFilterMatch = (
                 'Aries Core Gold',
                 'Sagittarius MX',
                 'Leo',
+                'Casseus SP',
+                'Atlantis MX',
               ]
               break
             case 'wg':
@@ -329,13 +335,16 @@ export const getBestVariantByFilterMatch = (
                 'Capricorn MX',
                 'Aquarius YG',
                 'Libra SG Core',
+                'Atlantis MX Bracelet',
+                'Atlantis Silver Toggle Bracelet',
+                'Casseus SG',
               ]
               break
             case 'g':
-              keywords = ['Emerald', 'Petunia']
+              keywords = ['Emerald', 'Petunia', 'Mini Mezzo']
               break
             case 'p':
-              keywords = []
+              keywords = ['Pearl']
               break
             default:
               break
@@ -373,15 +382,14 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestInStockColorVariant = inStockVariants.find((v) => {
-    const matchingPair = bestColorVariant?.selectedOptions?.filter(
-      (o1) =>
-        !v.selectedOptions?.some((o2) => {
-          if (o2?.name === 'Color') {
-            return Boolean(o1?.value === o2?.value)
-          } else {
-            return false
-          }
-        }),
+    const matchingPair = bestColorVariant?.selectedOptions?.filter((o1) =>
+      v.selectedOptions?.some((o2) => {
+        if (o2?.name === 'Color') {
+          return Boolean(o1?.value === o2?.value)
+        } else {
+          return false
+        }
+      }),
     )
     const variantMatchesColor = Boolean(
       matchingPair && matchingPair?.length > 0,
@@ -390,15 +398,14 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestInStockStoneVariant = inStockVariants.find((v) => {
-    const matchingPair = bestStoneVariant?.selectedOptions?.filter(
-      (o1) =>
-        !v.selectedOptions?.some((o2) => {
-          if (o2?.name === 'Color') {
-            return Boolean(o1?.value === o2?.value)
-          } else {
-            return false
-          }
-        }),
+    const matchingPair = bestStoneVariant?.selectedOptions?.filter((o1) =>
+      v.selectedOptions?.some((o2) => {
+        if (o2?.name === 'Color') {
+          return Boolean(o1?.value === o2?.value)
+        } else {
+          return false
+        }
+      }),
     )
     const variantMatchesStone = Boolean(
       matchingPair && matchingPair?.length > 0,
@@ -406,7 +413,7 @@ export const getBestVariantByFilterMatch = (
     return variantMatchesStone
   })
 
-  const bestInStockVariant = variants.find((v) => {
+  const bestInStockVariant = inStockVariants.find((v) => {
     const stockMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
