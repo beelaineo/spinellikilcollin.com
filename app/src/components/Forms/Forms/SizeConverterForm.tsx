@@ -329,7 +329,7 @@ export const SizeConverterForm = ({
         {currentVariant ? (
           <CurrentVariantWrapper>
             <Checkmark />
-            <Heading ml={2} my={0} level={3} textTransform={'uppercase'}>
+            <Heading ml={2} my={0} level={4} textTransform={'uppercase'}>
               {currentVariantTitle}
             </Heading>
           </CurrentVariantWrapper>
