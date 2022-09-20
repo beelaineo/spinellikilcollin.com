@@ -20,7 +20,7 @@
     "deploy:cms": "sanity deploy",
     "deploy:graphql": "sanity graphql deploy --generation gen2 --playground && yarn workspace spinellikilcollin-app generate-types",
     "sync:export": "sanity dataset export production",
-    "sync:reset": "sanity dataset delete staging && yarn sanity dataset create staging",
+    "sync:reset": "sanity dataset delete staging && sanity dataset create staging",
     "sync:import": "sanity dataset import production.tar.gz staging --replace",
     "sync:cleanup": "rm production.tar.gz",
     "sync": "yarn sync:reset && yarn sync:export && yarn sync:import && yarn sync:cleanup"
