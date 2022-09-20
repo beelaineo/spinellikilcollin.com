@@ -138,15 +138,15 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     const page = parseInt(query?.page as string) || 1
-    const inStock = query?.instock === 'true' ? true : false
+    // const inStock = query?.instock === 'true' ? true : false
     const initialPage = page || 1
     setInitialPage(initialPage)
     setProductStart((initialPage - 1) * PAGE_SIZE)
-    setInStockFilter(inStock)
+    // setInStockFilter(inStock)
     console.log('productListing.inStockFilter', inStockFilter)
     console.log('productListing.productStart', productStart)
     console.log('productListing.initialPage', initialPage)
-    fetchMore(true)
+    // fetchMore(true)
     console.log('ProductListing rendered')
   }, [])
 
@@ -159,10 +159,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     fetchMore(true, sort)
   }
 
-  useEffect(() => {
-    fetchMore(true)
-    console.log('triggered: currentFilter useEffect')
-  }, [currentFilter])
+  // useEffect(() => {
+  //   fetchMore(true)
+  //   console.log('triggered: currentFilter useEffect', currentFilter)
+  // }, [currentFilter])
 
   console.log('ProductListing.productStart', productStart)
   console.log('ProductListing re-rendered:')
@@ -216,7 +216,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       ? definitely(results[0].products)
       : definitely(results)
 
-    if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
+    // if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
 
     //@ts-ignore
     if (newProducts[0]?.queryCount) setProductsCount(newProducts[0].queryCount)
@@ -249,17 +249,18 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     setLoading(false)
   }
 
-  useEffect(() => {
-    console.log(
-      'triggered: isInView, fetchMoreState.loading, fetchComplete useEffect',
-    )
-    if (fetchComplete || !isInView || fetchMoreState.loading) return
-    // set a short timeout so it doesn't fetch twice
-    const timeout = setTimeout(() => {
-      fetchMore()
-    }, 300)
-    return () => clearTimeout(timeout)
-  }, [isInView, fetchMoreState.loading, fetchComplete])
+  // OLD SCROLL FETCH MORE CODE
+  // useEffect(() => {
+  //   console.log(
+  //     'triggered: isInView, fetchMoreState.loading, fetchComplete useEffect',
+  //   )
+  //   if (fetchComplete || !isInView || fetchMoreState.loading) return
+  //   // set a short timeout so it doesn't fetch twice
+  //   const timeout = setTimeout(() => {
+  //     fetchMore()
+  //   }, 300)
+  //   return () => clearTimeout(timeout)
+  // }, [isInView, fetchMoreState.loading, fetchComplete])
 
   // Confused what this was for???
   // useEffect(() => {
@@ -399,7 +400,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 items={items}
                 collectionId={_id}
               />
-              {!fetchComplete ? (
+              {/* {!fetchComplete ? (
                 <Box my={8}>
                   <Heading
                     level={4}
@@ -413,7 +414,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   </Heading>
                   <Loading />
                 </Box>
-              ) : null}
+              ) : null} */}
               {footer && footer.length > 0 ? (
                 <FooterGrid>
                   {definitely(footer).map((block) => {

@@ -48,6 +48,9 @@ module.exports = withSourceMaps({
   images: {
     domains: ['cdn.shopify.com'],
   },
+  experimental: {
+    scrollRestoration: true,
+  },
   // webpack5: false,
   publicRuntimeConfig: {
     EXCHANGE_RATE_API_KEY,

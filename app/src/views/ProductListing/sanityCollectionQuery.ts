@@ -143,7 +143,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     sort,
   )}) {
     ${productInner}
-  }[$productStart..$productEnd],
+  },
   preferredVariantMatches,
   collectionBlocks[]{
     _key,
@@ -179,7 +179,7 @@ export const moreProductsQuery = `
     (!(@->_id in path("drafts.**")) &&
     @->hideFromCollections != true || (@->hideFromCollections == true &&
       count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
-      handle == $handle][0]._id]) > 0))][$productStart..$productEnd]-> {
+      handle == $handle][0]._id]) > 0))]-> {
     ${productInner}
   },
 }
@@ -211,8 +211,7 @@ ${
         count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
         handle == $handle][0]._id]) > 0))
         ${filterString ? `&& ${filterString}` : ''}
-    ] | order(${getSortString(sort, filterSort)})
-    [$productStart..$productEnd]->
+    ] | order(${getSortString(sort, filterSort)})->
       {
         ${productInner}
       }
@@ -228,9 +227,7 @@ ${
       products[@->hidden != true &&
         !(@->_id in path("drafts.**")) &&
       (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))
-      ${
-        filterString ? `&& ${filterString}` : ''
-      }][$productStart...$productEnd]->{${productInner}}
+      ${filterString ? `&& ${filterString}` : ''}]->{${productInner}}
     }[0]
     `
     : `*[
@@ -243,7 +240,7 @@ ${
       ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort)}) {
       ${productInner}
-    }[$productStart...$productEnd]
+    }
   `
 }`
 
