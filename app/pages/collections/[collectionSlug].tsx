@@ -177,8 +177,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const responses = await Promise.all([
     sanityQuery<ShopifyCollection[]>(createSanityCollectionQuery(), {
       handle,
-      productStart: 0,
-      productEnd: 11,
       sort: null,
     }),
 

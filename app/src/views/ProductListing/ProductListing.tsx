@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import {
@@ -21,7 +20,6 @@ import { useInViewport, useSanityQuery } from '../../hooks'
 import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
-import { config } from '../../../src/config'
 import styled, { css, Box } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
@@ -30,7 +28,6 @@ import {
   NoResultsWrapper,
   FooterGrid,
 } from './styled'
-import { CountryCodeSelector } from '../../components/Forms/CustomFields/PhoneField/CountryCodeSelector'
 
 const { useRef, useEffect, useState } = React
 
@@ -47,11 +44,7 @@ interface FilterVariables {
 type PaginationArgs = {
   collectionId: string
   handle: string
-  productStart: number
-  productEnd: number
 }
-
-const PAGE_SIZE = 12
 
 function isCollectionResult(
   r?: ShopifyCollection[] | ShopifyProduct[],
@@ -63,7 +56,7 @@ function isCollectionResult(
 export const ProductListing = ({ collection }: ProductListingProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
   const [productResults, setProductResults] = useState<ShopifyProduct[]>([
-    ...definitely(collection.products).slice(0, PAGE_SIZE),
+    ...definitely(collection.products),
   ])
   const { isInView } = useInViewport(bottomRef, '500px 0px')
   const { productListingSettings } = useShopData()
@@ -126,26 +119,16 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
   const description = descriptionRaw ? descriptionRaw.slice(1) : null
 
-  const [fetchComplete, setFetchComplete] = useState(
-    definitely(collection.products).length < PAGE_SIZE,
-  )
+  const [fetchComplete, setFetchComplete] = useState(true)
 
   const [productsCount, setProductsCount] = useState(0)
-  const [productStart, setProductStart] = useState(0)
 
-  const [initialPage, setInitialPage] = useState(1)
   const [inStockFilter, setInStockFilter] = useState(false)
 
   useEffect(() => {
-    const page = parseInt(query?.page as string) || 1
     // const inStock = query?.instock === 'true' ? true : false
-    const initialPage = page || 1
-    setInitialPage(initialPage)
-    setProductStart((initialPage - 1) * PAGE_SIZE)
     // setInStockFilter(inStock)
     console.log('productListing.inStockFilter', inStockFilter)
-    console.log('productListing.productStart', productStart)
-    console.log('productListing.initialPage', initialPage)
     // fetchMore(true)
     console.log('ProductListing rendered')
   }, [])
@@ -164,7 +147,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   //   console.log('triggered: currentFilter useEffect', currentFilter)
   // }, [currentFilter])
 
-  console.log('ProductListing.productStart', productStart)
   console.log('ProductListing re-rendered:')
 
   // If there are collection blocks, insert them in the array
@@ -183,22 +165,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       setFetchComplete(false)
     }
 
-    const productStart =
-      reset && initialPage == 1
-        ? 0
-        : reset
-        ? initialPage
-        : productResults.length
-    const productEnd =
-      reset && initialPage == 1
-        ? PAGE_SIZE
-        : reset
-        ? PAGE_SIZE * (initialPage - 1)
-        : productResults.length + PAGE_SIZE
     const sortBy = newSort || sort
-
-    console.log('fetchMore productStart', productStart)
-    console.log('fetchMore productEnd', productEnd)
 
     const query =
       (sortBy && sortBy !== Sort.Default) || currentFilter
@@ -207,16 +174,12 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
     const results = await fetchMoreQuery(query, {
       handle,
-      productStart,
-      productEnd,
       collectionId: _id,
     })
 
     const newProducts = isCollectionResult(results)
       ? definitely(results[0].products)
       : definitely(results)
-
-    // if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
 
     //@ts-ignore
     if (newProducts[0]?.queryCount) setProductsCount(newProducts[0].queryCount)
@@ -225,9 +188,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
     if (reset) {
       setProductResults(newProducts)
-      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
-
-      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
 
       // const newRelativePathQuery =
       //   window.location.pathname + '?' + URLParams.toString()
@@ -235,8 +195,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       // console.log('window.location.search', window.location.search)
     } else {
       setProductResults([...productResults, ...newProducts])
-      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
-      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
 
       // const newRelativePathQuery =
       //   window.location.pathname + '?' + URLParams.toString()
@@ -385,7 +343,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           </NoResultsWrapper>
         ) : (
           <>
-            {loading && productStart > 1 ? (
+            {loading ? (
               <LoadingWrapper>
                 <Loading />
               </LoadingWrapper>
