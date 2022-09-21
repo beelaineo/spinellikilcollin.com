@@ -25,7 +25,6 @@ export const SizeConverterModal = ({
   const initialSize = variant?.sourceData?.selectedOptions?.filter(
     (o) => o?.name == 'Size',
   )[0]?.value
-  console.log('SizeCnverterModal variant', variant)
   return (
     <Modal closeModal={closeModal} display={'sizeConverter'}>
       <SizeConverterForm

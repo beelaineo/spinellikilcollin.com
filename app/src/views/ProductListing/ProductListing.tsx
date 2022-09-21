@@ -152,15 +152,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const [productsCount, setProductsCount] = useState(productResults.length)
 
-  useEffect(() => {
-    console.log('ProductListing initial render')
-  }, [])
-
-  // useEffect(() => {
-  //   if (collection.productsCount) setProductsCount(collection.productsCount)
-  //   console.log('triggered: collection useEffect')
-  // }, [collection])
-
   const applySort = async (sort: Sort) => {
     fetchMore(true, sort)
   }
@@ -236,12 +227,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       })
     })
 
-    console.log('filterResults', newResults)
     return newResults
   }
 
   useEffect(() => {
-    console.log('currentFilters', currentFilters)
     setProductResults(filterResults(currentFilters))
   }, [currentFilters])
 
@@ -295,7 +284,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     } else {
       // setProductResults([...productResults, ...newProducts])
 
-      console.log('PRODUCT RESULTS', productResults)
       setProductResults(productResults.filter((item) => item))
 
       // const newRelativePathQuery =

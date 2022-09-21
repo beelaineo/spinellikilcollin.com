@@ -117,8 +117,6 @@ const getCurrentFilters = (
         throw new Error('currentMaxPrice must be a number')
       }
 
-      console.log('filterSetState', filterSetState)
-
       const priceRangeFilter: PriceRangeFilterConfiguration = {
         filterType: PRICE_RANGE_FILTER,
         key: filter._key || 'some-key',
