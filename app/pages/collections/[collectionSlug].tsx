@@ -2,7 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
-import { ShopifyCollection } from '../../src/types'
+import { Maybe, ShopifyCollection, ShopifyProduct } from '../../src/types'
 import { sanityQuery } from '../../src/services/sanity'
 import { NotFound, ProductListing } from '../../src/views'
 import {
@@ -98,21 +98,34 @@ const collectionQueryById = gql`
   ${imageTextBlockFragment}
   ${textBlockFragment}
 `
+interface ShopifyProductListingProduct extends ShopifyProduct {
+  filterData: {
+    inStock: boolean
+    metal: string[]
+    stone: string[]
+    style: string[]
+    subcategory: string[]
+  }
+}
+
+interface ShopifyProductListingCollection extends ShopifyCollection {
+  products?: Maybe<Maybe<ShopifyProductListingProduct>[]> | undefined
+}
 
 export interface CollectionResult {
-  Collection: ShopifyCollection
+  Collection: ShopifyProductListingCollection
 }
 
 interface CollectionResponse {
-  allShopifyCollection: ShopifyCollection[]
+  allShopifyCollection: ShopifyProductListingCollection[]
 }
 
 interface CollectionPageProps {
-  collection: ShopifyCollection
+  collection: ShopifyProductListingCollection
 }
 
 interface Response {
-  ShopifyCollection: ShopifyCollection
+  ShopifyCollection: ShopifyProductListingCollection
 }
 
 const getCollectionFromPreviewResponse = (response: Response) => {
@@ -124,7 +137,6 @@ const Collection = ({ collection }: CollectionPageProps) => {
   const { query } = useRouter()
   const token = query?.preview
   const preview = Boolean(query?.preview)
-  console.log('collectionSlug collection', collection)
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
@@ -138,7 +150,7 @@ const Collection = ({ collection }: CollectionPageProps) => {
         token: token,
       }
 
-      const data = useRefetch<ShopifyCollection, Response>(
+      const data = useRefetch<ShopifyProductListingCollection, Response>(
         collection,
         refetchConfig,
       )

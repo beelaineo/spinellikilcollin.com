@@ -6,6 +6,14 @@ import {
   ShopifyProduct,
   CollectionBlock as CollectionBlockType,
   FilterConfiguration,
+  FilterMatch,
+  PRICE_RANGE_FILTER,
+  INVENTORY_FILTER,
+  FILTER_MATCH_GROUP,
+  FILTER_SINGLE,
+  Document,
+  FilterMatchGroup,
+  Maybe,
 } from '../../types'
 import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
@@ -31,11 +39,25 @@ import {
 
 const { useRef, useEffect, useState } = React
 
-interface ProductListingProps {
-  collection: ShopifyCollection & { productsCount?: number }
+interface ShopifyProductListingProduct extends ShopifyProduct {
+  filterData: {
+    inStock: boolean
+    metal: string[]
+    stone: string[]
+    style: string[]
+    subcategory: string[]
+  }
 }
 
-type Item = ShopifyProduct | CollectionBlockType
+interface ShopifyProductListingCollection extends ShopifyCollection {
+  products?: Maybe<Maybe<ShopifyProductListingProduct>[]> | undefined
+}
+
+interface ProductListingProps {
+  collection: ShopifyProductListingCollection & { productsCount?: number }
+}
+
+type Item = ShopifyProductListingProduct | CollectionBlockType
 
 interface FilterVariables {
   collectionId: string
@@ -47,28 +69,13 @@ type PaginationArgs = {
 }
 
 function isCollectionResult(
-  r?: ShopifyCollection[] | ShopifyProduct[],
+  r?: ShopifyCollection[] | ShopifyProductListingProduct[],
 ): r is ShopifyCollection[] {
   if (!r || !r[0]) return false
   return 'products' in r[0]
 }
 
 export const ProductListing = ({ collection }: ProductListingProps) => {
-  const bottomRef = useRef<HTMLDivElement>(null)
-  const [productResults, setProductResults] = useState<ShopifyProduct[]>([
-    ...definitely(collection.products),
-  ])
-  const { isInView } = useInViewport(bottomRef, '500px 0px')
-  const { productListingSettings } = useShopData()
-  const [sort, setSort] = useState<Sort>(Sort.Default)
-  const [loading, setLoading] = useState(false)
-  const [resetFilters, doResetFilters] = useState(0)
-  const [currentFilter, setCurrentFilter] =
-    useState<FilterConfiguration | null>(null)
-  const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
-    ShopifyCollection[] | ShopifyProduct[],
-    PaginationArgs
-  >()
   const {
     _id,
     preferredVariantMatches,
@@ -85,6 +92,31 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
+  const [productResults, setProductResults] = useState<
+    ShopifyProductListingProduct[]
+  >([...definitely(collection.products)])
+  const [items, setItems] = useState<Item[]>(
+    collectionBlocks?.length
+      ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
+          if (!current?.position) return acc
+          const index = current.position - 1
+          return [...acc.slice(0, index), current, ...acc.slice(index)]
+        }, definitely(productResults))
+      : definitely(productResults),
+  )
+  // const bottomRef = useRef<HTMLDivElement>(null)
+  // const { isInView } = useInViewport(bottomRef, '500px 0px')
+
+  const { productListingSettings } = useShopData()
+  const [sort, setSort] = useState<Sort>(Sort.Default)
+  const [loading, setLoading] = useState(false)
+  const [resetFilters, doResetFilters] = useState(0)
+  const [currentFilters, setCurrentFilters] =
+    useState<FilterConfiguration | null>(null)
+  const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
+    ShopifyCollection[] | ShopifyProductListingProduct[],
+    PaginationArgs
+  >()
   const defaultFilter = productListingSettings?.newDefaultFilter
   const defaultFilters = definitely(defaultFilter).filter(
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
@@ -109,11 +141,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
-  // console.log('collection', collection)
-  // console.log('customFilter', customFilter)
-  // console.log('currentFilter', currentFilter)
-  const router = useRouter()
-  const { query } = useRouter()
+  // const router = useRouter()
+  // const { query } = useRouter()
   // console.log('router params', router.query)
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
@@ -123,14 +152,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const [productsCount, setProductsCount] = useState(0)
 
-  const [inStockFilter, setInStockFilter] = useState(false)
-
   useEffect(() => {
-    // const inStock = query?.instock === 'true' ? true : false
-    // setInStockFilter(inStock)
-    console.log('productListing.inStockFilter', inStockFilter)
-    // fetchMore(true)
-    console.log('ProductListing rendered')
+    console.log('ProductListing initial render')
   }, [])
 
   // useEffect(() => {
@@ -142,22 +165,97 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     fetchMore(true, sort)
   }
 
-  // useEffect(() => {
-  //   fetchMore(true)
-  //   console.log('triggered: currentFilter useEffect', currentFilter)
-  // }, [currentFilter])
+  const parseFilterMatch = (
+    product: ShopifyProductListingProduct,
+    filterMatch: FilterMatch,
+  ) => {
+    const { type, match } = filterMatch
+    if (!match) return false
+    switch (type) {
+      case 'type':
+        return product.sourceData?.productType?.includes(match)
+      case 'tag':
+        return product.sourceData?.tags?.includes(match)
+      case 'title':
+        return product.title == match
+      case 'option':
+        return product.options?.some((o) =>
+          o?.values?.some((v) => v?.value == match),
+        )
+      case 'size':
+        return product.options?.some((o) => {
+          return Boolean(
+            o?.name == 'Size' && o?.values?.some((v) => v?.value == match),
+          )
+        })
+      case 'subcategory':
+        return product.filterData.subcategory.includes(match)
+      case 'metal':
+        return product.filterData.metal.includes(match)
+      case 'style':
+        return product.filterData.style.includes(match)
+      case 'stone':
+        return product.filterData.stone.includes(match)
+      default:
+        throw new Error(`"${type}" is not a valid filter type`)
+    }
+  }
 
-  console.log('ProductListing re-rendered:')
+  const filterResults = (currentFilters: FilterConfiguration | null) => {
+    if (currentFilters == null) return [...definitely(collection.products)]
+    const newResults: ShopifyProductListingProduct[] = [
+      ...definitely(collection.products),
+    ].filter((p) => {
+      return currentFilters.every((filterGroup) => {
+        if (filterGroup.filterType === FILTER_MATCH_GROUP) {
+          return filterGroup.matches.some((filterMatch) =>
+            parseFilterMatch(p, filterMatch),
+          )
+        } else if (filterGroup.filterType === FILTER_SINGLE) {
+          return filterGroup.matches.some((filterMatch) =>
+            parseFilterMatch(p, filterMatch),
+          )
+        } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
+          if (!p.minVariantPrice || !p.maxVariantPrice) return false
+          const { minPrice, maxPrice } = filterGroup
+          if (p.minVariantPrice == p.maxVariantPrice) {
+            return Boolean(
+              p.minVariantPrice >= minPrice && p.minVariantPrice <= maxPrice,
+            )
+          } else {
+            return Boolean(
+              p.minVariantPrice >= minPrice && p.maxVariantPrice <= maxPrice,
+            )
+          }
+        } else if (filterGroup.filterType === INVENTORY_FILTER) {
+          const { applyFilter } = filterGroup
+          return applyFilter ? Boolean(p.filterData.inStock == true) : true
+        } else {
+          throw new Error(`This kind of filter cannot be parsed`)
+        }
+      })
+    })
 
-  // If there are collection blocks, insert them in the array
-  // of products by position
-  const items = collectionBlocks?.length
-    ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
-        if (!current?.position) return acc
-        const index = current.position - 1
-        return [...acc.slice(0, index), current, ...acc.slice(index)]
-      }, definitely(productResults))
-    : definitely(productResults)
+    console.log('filterResults', newResults)
+    return newResults
+  }
+
+  useEffect(() => {
+    console.log('currentFilters', currentFilters)
+    setProductResults(filterResults(currentFilters))
+  }, [currentFilters])
+
+  useEffect(() => {
+    setItems(
+      collectionBlocks?.length
+        ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
+            if (!current?.position) return acc
+            const index = current.position - 1
+            return [...acc.slice(0, index), current, ...acc.slice(index)]
+          }, definitely(productResults))
+        : definitely(productResults),
+    )
+  }, [productResults])
 
   const fetchMore = async (reset?: boolean, newSort?: Sort) => {
     if (reset) {
@@ -168,8 +266,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     const sortBy = newSort || sort
 
     const query =
-      (sortBy && sortBy !== Sort.Default) || currentFilter
-        ? buildFilterQuery(currentFilter || [], sortBy)
+      (sortBy && sortBy !== Sort.Default) || currentFilters
+        ? buildFilterQuery(currentFilters || [], sortBy)
         : moreProductsQuery
 
     const results = await fetchMoreQuery(query, {
@@ -187,14 +285,17 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     const URLParams = new URLSearchParams(window.location.search)
 
     if (reset) {
-      setProductResults(newProducts)
+      setProductResults(productResults)
 
       // const newRelativePathQuery =
       //   window.location.pathname + '?' + URLParams.toString()
       // history.pushState(null, '', newRelativePathQuery)
       // console.log('window.location.search', window.location.search)
     } else {
-      setProductResults([...productResults, ...newProducts])
+      // setProductResults([...productResults, ...newProducts])
+
+      console.log('PRODUCT RESULTS', productResults)
+      setProductResults(productResults.filter((item) => item))
 
       // const newRelativePathQuery =
       //   window.location.pathname + '?' + URLParams.toString()
@@ -207,43 +308,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     setLoading(false)
   }
 
-  // OLD SCROLL FETCH MORE CODE
-  // useEffect(() => {
-  //   console.log(
-  //     'triggered: isInView, fetchMoreState.loading, fetchComplete useEffect',
-  //   )
-  //   if (fetchComplete || !isInView || fetchMoreState.loading) return
-  //   // set a short timeout so it doesn't fetch twice
-  //   const timeout = setTimeout(() => {
-  //     fetchMore()
-  //   }, 300)
-  //   return () => clearTimeout(timeout)
-  // }, [isInView, fetchMoreState.loading, fetchComplete])
-
-  // Confused what this was for???
-  // useEffect(() => {
-  //   console.log('triggered: loading useEffect')
-  //   if (loading === false) {
-  //     setProductStart(productStart + 1)
-  //   }
-  // }, [loading])
-
-  // useEffect(() => {
-  //   if (inStock) {
-  //     console.log('FILTERS', filters)
-  //     console.log('CURRENT FILTERS', currentFilter)
-  //     currentFilter?.map((f) => {
-  //       if (f.filterType === 'INVENTORY_FILTER') {
-  //         f.applyFilter = true
-  //       }
-  //     })
-  //     console.log('CURRENT FILTERS MAPPED', currentFilter)
-  //     setInitialFilterValues(currentFilter)
-  //   }
-  // }, [])
-
   const applyFilters = async (filters: null | FilterConfiguration) => {
-    setCurrentFilter(filters)
+    setCurrentFilters(filters)
   }
 
   if (!handle) throw new Error('No handle was fetched')
@@ -320,11 +386,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             applyFilters={applyFilters}
             applySort={applySort}
             filters={filters}
-            currentFilter={currentFilter}
+            currentFilter={currentFilters}
             productsCount={productsCount}
             resetFilters={resetFilters}
             hideFilter={hideFilter}
-            inStockFilter={inStockFilter}
             minimalDisplay={minimalDisplay}
           />
         ) : null}
@@ -353,7 +418,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
               <ProductGrid
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}
-                currentFilter={currentFilter}
+                currentFilter={currentFilters}
                 hideFilter={hideFilter}
                 items={items}
                 collectionId={_id}
@@ -400,8 +465,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   </TextWrapper>
                 </DescriptionWrapper>
               ) : null}
-
-              <div ref={bottomRef} />
             </ProductGridWrapper>
           </>
         )}
