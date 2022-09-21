@@ -12,7 +12,7 @@ export const Wrapper = styled.div<WithMinimalDisplay>`
     width: 100%;
     position: sticky;
     top: 74px;
-    z-index: 11;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
