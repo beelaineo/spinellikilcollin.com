@@ -150,7 +150,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const [fetchComplete, setFetchComplete] = useState(true)
 
-  const [productsCount, setProductsCount] = useState(0)
+  const [productsCount, setProductsCount] = useState(productResults.length)
 
   useEffect(() => {
     console.log('ProductListing initial render')
@@ -246,6 +246,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }, [currentFilters])
 
   useEffect(() => {
+    setProductsCount(productResults.length)
     setItems(
       collectionBlocks?.length
         ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {

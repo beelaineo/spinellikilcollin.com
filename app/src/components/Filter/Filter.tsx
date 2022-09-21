@@ -378,7 +378,7 @@ export const Filter = ({
                 </FilterWrapper>
               ) : null,
             )}
-            {minimalDisplay === false ? (
+            {!minimalDisplay ? (
               isMobile === true ? (
                 <MobileFooter>
                   {productsCount > 0 ? (
