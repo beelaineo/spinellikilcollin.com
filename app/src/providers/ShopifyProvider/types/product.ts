@@ -1,4 +1,5 @@
 import { Paginated } from '@good-idea/unwind-edges'
+// eslint-disable-next-line import/no-cycle
 import { Collection } from './collection'
 import { ShopifyImage } from './media'
 import { MoneyV2 } from './money'
