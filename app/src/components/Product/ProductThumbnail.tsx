@@ -24,6 +24,7 @@ import {
   getBestVariantByMatch,
   getBestVariantByFilterMatch,
   definitely,
+  getBestVariantBySort,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
 import { useAnalytics } from '../../providers'
@@ -31,6 +32,7 @@ import { ImageWrapper, VideoWrapper, ProductInfo, ProductThumb } from './styled'
 import { CloudinaryAnimation } from '../CloudinaryVideo'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
+import { Sort } from '../Filter'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -43,6 +45,7 @@ interface ProductThumbnailProps {
   headingLevel?: number
   preferredVariantMatches?: Maybe<string>[] | null
   currentFilter?: FilterConfiguration | null
+  currentSort?: Sort | null
   hideFilter?: boolean | null
   imageRatio?: number
   collectionId?: string | null
@@ -106,6 +109,7 @@ export const ProductThumbnail = ({
   headingLevel,
   preferredVariantMatches,
   currentFilter,
+  currentSort,
   hideFilter,
   imageRatio,
   collectionId,
@@ -270,72 +274,64 @@ export const ProductThumbnail = ({
     return matches
   }
 
-  // console.log('currentFilter on productthumbnail', currentFilter)
-
   useEffect(() => {
-    if (!currentFilter) return
+    if (!currentFilter && !currentSort) return
     if (hideFilter) return
-    // {
-    //   "filterType": "PRICE_RANGE_FILTER",
-    //   "key": "dda7b169dd63",
-    //   "minPrice": 0,
-    //   "maxPrice": 20000
-    // }
-    // {
-    //   "filterType": "FILTER_MATCH_GROUP",
-    //   "matches": [
-    //       {
-    //           "__typename": "FilterMatch",
-    //           "_key": "2c29d6a35976",
-    //           "type": "stone",
-    //           "match": "d"
-    //       }
-    //   ]
-    // }
-    //   {
-    //     "filterType": "INVENTORY_FILTER",
-    //     "key": "1db172bb87b8",
-    //     "applyFilter": true,
-    //     "label": "Ready to Ship"
-    // }
 
     interface FilterProps {
       name: string
       value: string | boolean
     }
 
-    const filters = currentFilter
-      .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
-      .map((filter, i) => {
-        const { filterType } = filter
-        if (
-          filterType === 'FILTER_MATCH_GROUP' ||
-          filterType === 'FILTER_SINGLE'
-        ) {
-          const { matches } = filter
-          const newMatches = matches.map((matchGroup) => {
-            const { type, match } = matchGroup
-            return {
-              name: type,
-              value: match,
-            }
-          })
-          return newMatches
-        } else if (filterType === 'INVENTORY_FILTER') {
-          const newFilter = {
-            name: 'inventory',
-            value: filter.applyFilter,
-          }
-          return newFilter
-        }
-      })
-      .flat()
-      .reverse()
+    const minVariantPrice = product?.minVariantPrice || 0
+    const maxVariantPrice = product?.maxVariantPrice || 0
 
-    //@ts-ignore
-    const filteredVariant = getBestVariantByFilterMatch(variants, filters)
-    setCurrentVariant(filteredVariant)
-  }, [currentFilter])
+    if (currentFilter) {
+      //@ts-ignore
+      const filters: FilterProps[] = currentFilter
+        .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
+        .map((filter, i) => {
+          const { filterType } = filter
+          if (
+            filterType === 'FILTER_MATCH_GROUP' ||
+            filterType === 'FILTER_SINGLE'
+          ) {
+            const { matches } = filter
+            const newMatches = matches.map((matchGroup) => {
+              const { type, match } = matchGroup
+              if (typeof type == 'string' && typeof match == 'string')
+                return { name: type, value: match }
+            })
+            return newMatches
+          } else if (filterType === 'INVENTORY_FILTER') {
+            const newFilter = {
+              name: 'inventory',
+              value: filter.applyFilter,
+            }
+            return newFilter
+          }
+        })
+        .flat()
+        .reverse()
+
+      const filteredVariant = getBestVariantByFilterMatch(
+        variants,
+        filters,
+        currentSort,
+        minVariantPrice,
+        maxVariantPrice,
+      )
+      setCurrentVariant(filteredVariant)
+    } else if (currentSort) {
+      const filteredVariant = getBestVariantBySort(
+        variants,
+        currentSort,
+        minVariantPrice,
+        maxVariantPrice,
+      )
+      setCurrentVariant(filteredVariant)
+    }
+  }, [currentFilter, currentSort])
 
   const stockedVariants = product.sourceData?.variants?.edges?.filter(
     (variant) => {

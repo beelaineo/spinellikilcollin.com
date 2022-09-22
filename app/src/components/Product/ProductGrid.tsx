@@ -9,6 +9,7 @@ import {
   FilterConfiguration,
 } from '../../types'
 import { CollectionThumbnail, CollectionBlock } from '../Collection'
+import { Sort } from '../Filter'
 import { definitely } from '../../utils'
 
 interface ProductGridWrapperProps {
@@ -94,12 +95,11 @@ export const ProductGridItem = styled.div<WithFormat>`
   `}
 `
 
-import * as React from 'react'
-
 interface ProductGridProps {
   items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
   currentFilter?: FilterConfiguration | null
+  currentSort?: Sort | null
   hideFilter?: boolean | null
   reduceColumnCount?: boolean | null
   collectionId?: string | null
@@ -108,6 +108,7 @@ interface ProductGridProps {
 export const ProductGrid = ({
   preferredVariantMatches,
   currentFilter,
+  currentSort,
   hideFilter,
   items,
   reduceColumnCount,
@@ -137,6 +138,7 @@ export const ProductGrid = ({
                   imageRatio={1}
                   preferredVariantMatches={preferredVariantMatches}
                   currentFilter={currentFilter}
+                  currentSort={currentSort}
                   hideFilter={hideFilter}
                   collectionId={collectionId}
                 />

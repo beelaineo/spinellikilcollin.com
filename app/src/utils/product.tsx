@@ -1,4 +1,5 @@
 import { unwindEdges } from '@good-idea/unwind-edges'
+import { Sort } from '../constants'
 import {
   ShopifyProduct,
   ShopifyProductOptionValue,
@@ -172,6 +173,31 @@ export const getBestVariantByMatch = (
   return bestVariant || variants[0]
 }
 
+export const getBestVariantBySort = (
+  variants: ShopifySourceProductVariant[],
+  sort?: Sort | null,
+  minVariantPrice?: number,
+  maxVariantPrice?: number,
+): ShopifySourceProductVariant => {
+  const bestVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+    if (sort == Sort.PriceAsc) {
+      const price = parseFloat(v.priceV2.amount)
+      console.log(
+        `bestSortVariant ${v.title} ${price}`,
+        Boolean(price == minVariantPrice),
+      )
+      return Boolean(price == minVariantPrice)
+    } else if (sort == Sort.PriceDesc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == maxVariantPrice)
+    } else {
+      return undefined
+    }
+  })
+  return bestVariant || variants[0]
+}
+
 interface FilterProps {
   name: string
   value: string | boolean
@@ -180,6 +206,9 @@ interface FilterProps {
 export const getBestVariantByFilterMatch = (
   variants: ShopifySourceProductVariant[],
   filters: FilterProps[],
+  sort?: Sort | null,
+  minVariantPrice?: number,
+  maxVariantPrice?: number,
 ): ShopifySourceProductVariant => {
   const bestColorVariant = variants.find((v) => {
     const colorMatches = filters.some((m) => {
@@ -429,7 +458,25 @@ export const getBestVariantByFilterMatch = (
     return stockMatches
   })
 
+  const bestSortVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+    if (sort == Sort.PriceAsc) {
+      const price = parseFloat(v.priceV2.amount)
+      console.log(
+        `bestSortVariant ${v.title} ${price}`,
+        Boolean(price == minVariantPrice),
+      )
+      return Boolean(price == minVariantPrice)
+    } else if (sort == Sort.PriceDesc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == maxVariantPrice)
+    } else {
+      return undefined
+    }
+  })
+
   return (
+    bestSortVariant ||
     bestInStockColorVariant ||
     bestInStockStoneVariant ||
     bestInStockVariant ||

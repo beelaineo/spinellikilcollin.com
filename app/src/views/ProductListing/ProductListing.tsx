@@ -426,6 +426,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}
                 currentFilter={currentFilters}
+                currentSort={sort}
                 hideFilter={hideFilter}
                 items={items}
                 collectionId={_id}
