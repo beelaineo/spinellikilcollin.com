@@ -25,7 +25,6 @@ import { Button } from '../../components/Button'
 import { getHeroImage, isValidHero, definitely } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
-import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
 import styled, { css, Box } from '@xstyled/styled-components'
@@ -95,6 +94,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [productResults, setProductResults] = useState<
     ShopifyProductListingProduct[]
   >([...definitely(collection.products)])
+
   const [items, setItems] = useState<Item[]>(
     collectionBlocks?.length
       ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
@@ -104,8 +104,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         }, definitely(productResults))
       : definitely(productResults),
   )
-  // const bottomRef = useRef<HTMLDivElement>(null)
-  // const { isInView } = useInViewport(bottomRef, '500px 0px')
+
+  const gridRef = useRef<HTMLDivElement>(null)
+  const { isInView } = useInViewport(gridRef, '500px 0px')
 
   const { productListingSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
@@ -151,10 +152,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [fetchComplete, setFetchComplete] = useState(true)
 
   const [productsCount, setProductsCount] = useState(productResults.length)
-
-  const applySort = async (sort: Sort) => {
-    fetchMore(true, sort)
-  }
 
   const parseFilterMatch = (
     product: ShopifyProductListingProduct,
@@ -232,73 +229,93 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
+    gridRef?.current?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+      behavior: 'smooth',
+    })
   }, [currentFilters])
 
-  useEffect(() => {
-    setProductsCount(productResults.length)
+  const updateItems = (products: ShopifyProductListingProduct[]) => {
     setItems(
       collectionBlocks?.length
         ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
             if (!current?.position) return acc
             const index = current.position - 1
             return [...acc.slice(0, index), current, ...acc.slice(index)]
-          }, definitely(productResults))
-        : definitely(productResults),
+          }, definitely(products))
+        : definitely(products),
     )
-  }, [productResults])
-
-  const fetchMore = async (reset?: boolean, newSort?: Sort) => {
-    if (reset) {
-      setLoading(true)
-      setFetchComplete(false)
-    }
-
-    const sortBy = newSort || sort
-
-    const query =
-      (sortBy && sortBy !== Sort.Default) || currentFilters
-        ? buildFilterQuery(currentFilters || [], sortBy)
-        : moreProductsQuery
-
-    const results = await fetchMoreQuery(query, {
-      handle,
-      collectionId: _id,
-    })
-
-    const newProducts = isCollectionResult(results)
-      ? definitely(results[0].products)
-      : definitely(results)
-
-    //@ts-ignore
-    if (newProducts[0]?.queryCount) setProductsCount(newProducts[0].queryCount)
-
-    const URLParams = new URLSearchParams(window.location.search)
-
-    if (reset) {
-      setProductResults(productResults)
-
-      // const newRelativePathQuery =
-      //   window.location.pathname + '?' + URLParams.toString()
-      // history.pushState(null, '', newRelativePathQuery)
-      // console.log('window.location.search', window.location.search)
-    } else {
-      // setProductResults([...productResults, ...newProducts])
-
-      setProductResults(productResults.filter((item) => item))
-
-      // const newRelativePathQuery =
-      //   window.location.pathname + '?' + URLParams.toString()
-      // history.pushState(null, '', newRelativePathQuery)
-      // console.log('window.location.search', window.location.search)
-    }
-    if (newSort) {
-      setSort(newSort)
-    }
-    setLoading(false)
   }
+
+  useEffect(() => {
+    setProductsCount(productResults.length)
+    console.log('sort', sort)
+
+    if (sort) {
+      const sortedProductResults = productResults.map((p, sortIndex) => ({
+        sortIndex,
+        ...p,
+      }))
+      switch (sort) {
+        case Sort.Default:
+          console.log('case Featured')
+          sortedProductResults.sort((a, b) =>
+            a.sortIndex && b.sortIndex ? a.sortIndex - b.sortIndex : 0,
+          )
+          updateItems(sortedProductResults)
+          break
+        case Sort.PriceDesc:
+          console.log('case High to Low')
+          sortedProductResults.sort((a, b) =>
+            b.maxVariantPrice && a.maxVariantPrice
+              ? b.maxVariantPrice - a.maxVariantPrice
+              : 0,
+          )
+          updateItems(sortedProductResults)
+          console.log('sortedProductsDesc', sortedProductResults)
+          break
+        case Sort.PriceAsc:
+          console.log('case Low to High')
+          sortedProductResults.sort((a, b) =>
+            b.minVariantPrice && a.minVariantPrice
+              ? a.minVariantPrice - b.minVariantPrice
+              : 0,
+          )
+          updateItems(sortedProductResults)
+          console.log('sortedProductsAsc', sortedProductResults)
+          break
+      }
+    } else {
+      updateItems(productResults)
+    }
+  }, [productResults, sort])
+
+  // useEffect(() => {
+  //   console.log('SORTED PRODUCT RESULTS', sortedProductResults)
+  //   setItems(
+  //     collectionBlocks?.length
+  //       ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
+  //           if (!current?.position) return acc
+  //           const index = current.position - 1
+  //           return [...acc.slice(0, index), current, ...acc.slice(index)]
+  //         }, definitely(sortedProductResults))
+  //       : definitely(sortedProductResults),
+  //   )
+  //   console.log('ITEMS', items)
+  // }, [sortedProductResults])
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
     setCurrentFilters(filters)
+  }
+
+  const applySort = async (sort: Sort) => {
+    setSort(sort)
+    gridRef?.current?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+      behavior: 'smooth',
+    })
   }
 
   if (!handle) throw new Error('No handle was fetched')
@@ -369,6 +386,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         withHero={Boolean(hero && validHero)}
         isLightTheme={Boolean(lightTheme)}
         tabIndex={-1}
+        ref={gridRef}
       >
         {filters && filters.length ? (
           <Filter
