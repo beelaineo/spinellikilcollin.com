@@ -8,6 +8,7 @@ import {
   Maybe,
   ShopifySourceProductVariant,
   ShopifySourceSelectedOption,
+  Stone,
 } from '../../../types'
 import { Heading } from '../../../components/Text'
 import { Form, Field } from '../../../components/Forms'
@@ -22,6 +23,8 @@ import {
 } from '../../../utils'
 import { useModal } from '../../../providers/ModalProvider'
 import Link from 'next/link'
+
+const { useEffect, useState } = React
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
@@ -94,6 +97,7 @@ export const ProductOptionSelector = ({
 
   if (option.values.length === 0) return null
 
+  const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
   const selectOption = changeValueForOption(option.name)
 
   const slugify = (text?: Maybe<string>) => {
@@ -220,6 +224,13 @@ export const ProductOptionSelector = ({
     return optionMatchesVariant(option.name || 'foo', value, currentVariant)
   }
 
+  useEffect(() => {
+    const d = currentSelectedDiamond?.value
+    const stones = product?.options?.find((o) => o?.name === 'Carat')?.values
+    const stone = stones?.find((s) => s?.value === d)
+    setActiveStone(stone?.stone)
+  }, [currentVariant])
+
   const { openDiamondModal } = useModal()
 
   const handleSubmit = (values: any) => {
@@ -231,17 +242,19 @@ export const ProductOptionSelector = ({
         {isInput ? null : option.name}
         {option.name === 'Carat' ? (
           <>
-            <DiamondInfoSpan
-              onClick={() =>
-                openDiamondModal({
-                  currentProduct: product,
-                  currentVariant: currentVariant || undefined,
-                  currentDiamond: currentSelectedDiamond || undefined,
-                })
-              }
-            >
-              Diamond Info
-            </DiamondInfoSpan>
+            {activeStone ? (
+              <DiamondInfoSpan
+                onClick={() =>
+                  openDiamondModal({
+                    currentProduct: product,
+                    currentVariant: currentVariant || undefined,
+                    currentDiamond: currentSelectedDiamond || undefined,
+                  })
+                }
+              >
+                Diamond Info
+              </DiamondInfoSpan>
+            ) : null}
             <Link href={'/about/appointments'}>
               <a target={'_blank'}>Appointments</a>
             </Link>
