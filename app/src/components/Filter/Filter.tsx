@@ -49,6 +49,7 @@ import { Backdrop } from '../Navigation/Backdrop'
 import { Sort, SortSet } from './SortSet'
 import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
+import { useRouter } from 'next/router'
 
 const { useEffect, useState } = React
 
@@ -168,6 +169,8 @@ export const Filter = ({
   const [mobileDisplay, setMobileDisplay] = useState('filter')
   const [activeKey, setActiveKey] = useState('')
 
+  const [filterQuery, setFilterQuery] = useState<{ [key: string]: any }>({})
+
   const toggleOpen = () => {
     setOpen(!open)
     setActiveKey('')
@@ -176,6 +179,19 @@ export const Filter = ({
   useEffect(() => {
     setOpen(parentOpen ?? false)
   }, [parentOpen])
+
+  const router = useRouter()
+  const query = router.query
+
+  const updateQueryParam = (query) => {
+    router.replace(
+      {
+        query: query,
+      },
+      '',
+      { shallow: true },
+    )
+  }
 
   const {
     filterSetStates,
@@ -211,11 +227,80 @@ export const Filter = ({
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
   }
 
+  // const findMatchKey = (items, type, match) => {
+  //   const key = items
+  //     ?.map((f) =>
+  //       f?.filters?.map((g) => {
+  //         const valid = g?.matches?.find(
+  //           (h) => h.type === type && h.match === match,
+  //         )
+  //         if (valid) {
+  //           return g
+  //         }
+  //       }),
+  //     )
+  //     .flat()
+  //     .filter((item) => item)[0]?._key
+  //   return key
+  // }
+
+  // const findMatchInnerKey = (items, type, match) => {
+  //   const key = items
+  //     ?.map((f) =>
+  //       f?.filters?.map((g) =>
+  //         g?.matches?.find((h) => h.type === type && h.match === match),
+  //       ),
+  //     )
+  //     .flat()
+  //     .filter((item) => item)[0]?._key
+
+  //   return key
+  // }
+
+  const getFilterMatchByType = (type: any) => {
+    const filterMatches = getCurrentFilters(filters, filterSetStates)
+
+    const matches = filterMatches
+      .filter((f) => f.filterType === FILTER_MATCH_GROUP)
+      //@ts-ignore
+      .map((f) => f?.matches.filter((m) => m.type === type))
+      .map((f) => f.map(({ match }) => match))
+      .flat()
+      .join()
+
+    return { [type]: matches }
+  }
+
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
-    // console.log('filterMatches', filterMatches)
+
+    setFilterQuery({
+      ...getFilterMatchByType('metal'),
+      ...getFilterMatchByType('stone'),
+    })
+
     applyFilters(filterMatches)
   }, [filterSetStates])
+
+  useEffect(() => {
+    if (filterQuery.stone !== '') {
+      updateQueryParam({ ...query, ...getFilterMatchByType('stone') })
+    } else {
+      const { stone, ...removeFromQuery } = query
+
+      updateQueryParam({ ...removeFromQuery })
+    }
+  }, [filterQuery.stone])
+
+  useEffect(() => {
+    if (filterQuery.metal !== '') {
+      updateQueryParam({ ...query, ...getFilterMatchByType('metal') })
+    } else {
+      const { metal, ...removeFromQuery } = query
+
+      updateQueryParam({ ...removeFromQuery })
+    }
+  }, [filterQuery.metal])
 
   if (hideFilter !== true) {
     return (
