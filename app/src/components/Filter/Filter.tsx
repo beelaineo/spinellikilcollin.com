@@ -266,7 +266,7 @@ export const Filter = ({
       .map((f) => f?.matches.filter((m) => m.type === type))
       .map((f) => f.map(({ match }) => match))
       .flat()
-      .join()
+      .join(' ')
 
     return { [type]: matches }
   }
