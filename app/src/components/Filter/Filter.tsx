@@ -227,23 +227,6 @@ export const Filter = ({
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
   }
 
-  // const findMatchKey = (items, type, match) => {
-  //   const key = items
-  //     ?.map((f) =>
-  //       f?.filters?.map((g) => {
-  //         const valid = g?.matches?.find(
-  //           (h) => h.type === type && h.match === match,
-  //         )
-  //         if (valid) {
-  //           return g
-  //         }
-  //       }),
-  //     )
-  //     .flat()
-  //     .filter((item) => item)[0]?._key
-  //   return key
-  // }
-
   // const findMatchInnerKey = (items, type, match) => {
   //   const key = items
   //     ?.map((f) =>
@@ -269,6 +252,28 @@ export const Filter = ({
       .join(' ')
 
     return { [type]: matches }
+  }
+
+  const findMatchedKeys = (items, type, query) => {
+    const matched = query?.[type]?.split(' ')
+
+    const key = items
+      ?.map((f) =>
+        f?.filters?.map((g) => {
+          const valid = g?.matches?.filter(
+            (h) => h.type === type && matched?.includes(h.match),
+          )
+          if (valid) {
+            return [...valid]
+          }
+        }),
+      )
+      .flat()
+      .filter((item) => item)
+      .map((item) => item.map(({ _key }) => _key))
+      .flat()
+
+    return key
   }
 
   useEffect(() => {
@@ -301,6 +306,14 @@ export const Filter = ({
       updateQueryParam({ ...removeFromQuery })
     }
   }, [filterQuery.metal])
+
+  useEffect(() => {
+    const metalKeys = findMatchedKeys(filters, 'metal', query)
+    const stoneKeys = findMatchedKeys(filters, 'stone', query)
+
+    console.log('metal matches from query:', metalKeys)
+    console.log('stone matches from query:', stoneKeys)
+  }, [router])
 
   if (hideFilter !== true) {
     return (
