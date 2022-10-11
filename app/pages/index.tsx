@@ -92,22 +92,23 @@ export const Homepage = ({ homepage }: HomepageProps) => {
   const token = router?.query?.preview
   const preview = Boolean(router.query.preview)
 
+  const refetchConfig = {
+    listenQuery: `*[_type == "homepage" && _id == $id]`,
+    listenQueryParams: { id: 'drafts.homepage' },
+    refetchQuery: homepageQueryById,
+    refetchQueryParams: { id: 'drafts.homepage' },
+    parseResponse: getHomepageFromPreviewResponse,
+    enabled: preview,
+    token: token,
+  }
+  const data = useRefetch<HomepageType, HomepageResponse>(
+    homepage,
+    refetchConfig,
+  )
+
   try {
     if (preview === true) {
       if (!homepage) return <NotFound />
-      const refetchConfig = {
-        listenQuery: `*[_type == "homepage" && _id == $id]`,
-        listenQueryParams: { id: 'drafts.homepage' },
-        refetchQuery: homepageQueryById,
-        refetchQueryParams: { id: 'drafts.homepage' },
-        parseResponse: getHomepageFromPreviewResponse,
-        enabled: preview,
-        token: token,
-      }
-      const data = useRefetch<HomepageType, HomepageResponse>(
-        homepage,
-        refetchConfig,
-      )
 
       if (!data) return <HomepageView homepage={homepage} />
       return <HomepageView homepage={data} />

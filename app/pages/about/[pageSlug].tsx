@@ -296,19 +296,20 @@ const Page = ({ page }: PageProps) => {
   const token = params?.get('preview')
   const preview = Boolean(params?.get('preview'))
 
+  const refetchConfig = {
+    listenQuery: `*[_type == "page" && _id == $id]`,
+    listenQueryParams: { id: 'drafts.' + page?._id },
+    refetchQuery: pageQueryById,
+    refetchQueryParams: { id: 'drafts.' + page?._id },
+    parseResponse: getPageFromPreviewResponse,
+    enabled: preview,
+    token: token,
+  }
+  const data = useRefetch<PageType, Response>(page, refetchConfig)
+
   try {
     if (preview === true) {
       if (!page) return <NotFound />
-      const refetchConfig = {
-        listenQuery: `*[_type == "page" && _id == $id]`,
-        listenQueryParams: { id: 'drafts.' + page._id },
-        refetchQuery: pageQueryById,
-        refetchQueryParams: { id: 'drafts.' + page._id },
-        parseResponse: getPageFromPreviewResponse,
-        enabled: preview,
-        token: token,
-      }
-      const data = useRefetch<PageType, Response>(page, refetchConfig)
 
       if (!data) return <PageView page={page} />
       return <PageView page={data} />
