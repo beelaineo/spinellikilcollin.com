@@ -316,6 +316,7 @@ export const HeroBlock = React.forwardRef(
       cloudinaryVideo,
       cloudinaryVideoMobile,
       mobileImage,
+      header_color,
       cta: ctas,
     } = hero
     const cta = definitely(ctas).length ? definitely(ctas)[0] : null
@@ -323,7 +324,6 @@ export const HeroBlock = React.forwardRef(
       maxWidth: `${theme.breakpoints?.md || '650'}px`,
     })
 
-    const header_color = 'light'
     const heroRef = useRef<HTMLDivElement>(null)
     const { setColorTheme } = useNavigation()
     const { isInView } = useInViewport(heroRef, '-55px 0px')
