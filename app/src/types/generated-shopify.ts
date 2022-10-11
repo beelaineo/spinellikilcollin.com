@@ -70,14 +70,14 @@ export interface ShopifyStorefrontAppliedGiftCard
   __typename: 'AppliedGiftCard'
   /**
    * The amount that was taken from the gift card by applying it.
-   * @deprecated Use `amountUsedV2` instead
+   * @deprecated Use `amountUsedV2` instead.
    */
   amountUsed: Scalars['Money']
   /** The amount that was taken from the gift card by applying it. */
   amountUsedV2: ShopifyStorefrontMoneyV2
   /**
    * The amount left on the gift card.
-   * @deprecated Use `balanceV2` instead
+   * @deprecated Use `balanceV2` instead.
    */
   balance: Scalars['Money']
   /** The amount left on the gift card. */
@@ -98,7 +98,7 @@ export interface ShopifyStorefrontArticle
   __typename: 'Article'
   /**
    * The article's author.
-   * @deprecated Use `authorV2` instead
+   * @deprecated Use `authorV2` instead.
    */
   author: ShopifyStorefrontArticleAuthor
   /** The article's author. */
@@ -141,7 +141,7 @@ export interface ShopifyStorefrontArticle
   title: Scalars['String']
   /**
    * The url pointing to the article accessible from the web.
-   * @deprecated Use `onlineStoreUrl` instead
+   * @deprecated Use `onlineStoreUrl` instead.
    */
   url: Scalars['URL']
 }
@@ -321,7 +321,7 @@ export interface ShopifyStorefrontBlog
   title: Scalars['String']
   /**
    * The url pointing to the blog accessible from the web.
-   * @deprecated Use `onlineStoreUrl` instead
+   * @deprecated Use `onlineStoreUrl` instead.
    */
   url: Scalars['URL']
 }
@@ -407,7 +407,12 @@ export enum ShopifyStorefrontCardBrand {
   Jcb = 'JCB',
 }
 
-/** A cart represents the merchandise that a buyer intends to purchase, and the estimated cost associated with the cart. To learn how to interact with a cart during a customer's session, refer to [Manage a cart with the Storefront API](https://shopify.dev/api/examples/cart). */
+/**
+ * A cart represents the merchandise that a buyer intends to purchase,
+ * and the estimated cost associated with the cart. Learn how to
+ * [interact with a cart](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+ * during a customer's session.
+ */
 export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
   __typename: 'Cart'
   /** The attributes associated with the cart. Attributes are represented as key-value pairs. */
@@ -421,8 +426,11 @@ export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
   /** The case-insensitive discount codes that the customer added at checkout. */
   discountCodes: Array<ShopifyStorefrontCartDiscountCode>
   /**
-   * The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-cart).
-   * @deprecated Use `cost` instead
+   * The estimated costs that the buyer will pay at checkout.
+   * The estimated costs are subject to change and changes will be reflected at checkout.
+   * The `estimatedCost` field uses the `buyerIdentity` field to determine
+   * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
+   * @deprecated Use `cost` instead.
    */
   estimatedCost: ShopifyStorefrontCartEstimatedCost
   /** A globally-unique identifier. */
@@ -435,7 +443,12 @@ export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
   updatedAt: Scalars['DateTime']
 }
 
-/** A cart represents the merchandise that a buyer intends to purchase, and the estimated cost associated with the cart. To learn how to interact with a cart during a customer's session, refer to [Manage a cart with the Storefront API](https://shopify.dev/api/examples/cart). */
+/**
+ * A cart represents the merchandise that a buyer intends to purchase,
+ * and the estimated cost associated with the cart. Learn how to
+ * [interact with a cart](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+ * during a customer's session.
+ */
 export type ShopifyStorefrontCartLinesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -479,7 +492,7 @@ export interface ShopifyStorefrontCartBuyerIdentity {
 /**
  * Specifies the input fields to update the buyer information associated with a cart.
  * Buyer identity is used to determine
- * [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-checkout)
+ * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
  * and should match the customer's shipping address.
  */
 export type ShopifyStorefrontCartBuyerIdentityInput = {
@@ -561,8 +574,10 @@ export enum ShopifyStorefrontCartErrorCode {
 
 /**
  * The estimated costs that the buyer will pay at checkout.
- * It uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine
- * [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-cart).
+ * The estimated cost uses
+ * [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity)
+ * to determine
+ * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
  */
 export interface ShopifyStorefrontCartEstimatedCost {
   __typename: 'CartEstimatedCost'
@@ -586,7 +601,11 @@ export type ShopifyStorefrontCartInput = {
   discountCodes?: Maybe<Array<Scalars['String']>>
   /** A note that is associated with the cart. For example, the note can be a personalized message to the buyer. */
   note?: Maybe<Scalars['String']>
-  /** The customer associated with the cart. Used to determine [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-checkout). Buyer identity should match the customer's shipping address. */
+  /**
+   * The customer associated with the cart. Used to determine [international pricing]
+   * (https://shopify.dev/custom-storefronts/internationalization/international-pricing).
+   * Buyer identity should match the customer's shipping address.
+   */
   buyerIdentity?: Maybe<ShopifyStorefrontCartBuyerIdentityInput>
 }
 
@@ -599,7 +618,7 @@ export interface ShopifyStorefrontCartLine extends ShopifyStorefrontNode {
   discountAllocations: Array<ShopifyStorefrontCartDiscountAllocation>
   /**
    * The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout.
-   * @deprecated Use `cost` instead
+   * @deprecated Use `cost` instead.
    */
   estimatedCost: ShopifyStorefrontCartLineEstimatedCost
   /** A globally-unique identifier. */
@@ -757,7 +776,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   orderStatusUrl?: Maybe<Scalars['URL']>
   /**
    * The amount left to be paid. This is equal to the cost of the line items, taxes and shipping minus discounts and gift cards.
-   * @deprecated Use `paymentDueV2` instead
+   * @deprecated Use `paymentDueV2` instead.
    */
   paymentDue: Scalars['Money']
   /** The amount left to be paid. This is equal to the cost of the line items, duties, taxes, and shipping, minus discounts and gift cards. */
@@ -779,7 +798,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   shippingLine?: Maybe<ShopifyStorefrontShippingRate>
   /**
    * Price of the checkout before shipping and taxes.
-   * @deprecated Use `subtotalPriceV2` instead
+   * @deprecated Use `subtotalPriceV2` instead.
    */
   subtotalPrice: Scalars['Money']
   /** The price at checkout before duties, shipping, and taxes. */
@@ -792,14 +811,14 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   totalDuties?: Maybe<ShopifyStorefrontMoneyV2>
   /**
    * The sum of all the prices of all the items in the checkout, taxes and discounts included.
-   * @deprecated Use `totalPriceV2` instead
+   * @deprecated Use `totalPriceV2` instead.
    */
   totalPrice: Scalars['Money']
   /** The sum of all the prices of all the items in the checkout, including duties, taxes, and discounts. */
   totalPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The sum of all the taxes applied to the line items and shipping lines in the checkout.
-   * @deprecated Use `totalTaxV2` instead
+   * @deprecated Use `totalTaxV2` instead.
    */
   totalTax: Scalars['Money']
   /** The sum of all the taxes applied to the line items and shipping lines in the checkout. */
@@ -852,7 +871,7 @@ export interface ShopifyStorefrontCheckoutAttributesUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -881,7 +900,7 @@ export interface ShopifyStorefrontCheckoutAttributesUpdateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -912,7 +931,7 @@ export interface ShopifyStorefrontCheckoutCompleteFreePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -928,7 +947,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithCreditCardPayload {
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -944,7 +963,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload {
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -960,7 +979,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentPayload {
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -976,7 +995,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV2Payload 
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -992,7 +1011,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV3Payload 
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1019,7 +1038,7 @@ export type ShopifyStorefrontCheckoutCreateInput = {
    * The three-letter currency code of one of the shop's enabled presentment currencies.
    * Including this field creates a checkout in the specified currency. By default, new
    * checkouts are created in the shop's primary currency.
-   *  This argument is deprecated: Use `country` field instead.
+   *  This argument is deprecated: Use the `buyerIdentity.countryCode` field instead.
    */
   presentmentCurrencyCode?: Maybe<ShopifyStorefrontCurrencyCode>
   /** The identity of the customer associated with the checkout. */
@@ -1037,7 +1056,7 @@ export interface ShopifyStorefrontCheckoutCreatePayload {
   queueToken?: Maybe<Scalars['String']>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1064,7 +1083,7 @@ export interface ShopifyStorefrontCheckoutCustomerAssociateV2Payload {
   customer?: Maybe<ShopifyStorefrontCustomer>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1078,7 +1097,7 @@ export interface ShopifyStorefrontCheckoutCustomerDisassociatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1092,7 +1111,7 @@ export interface ShopifyStorefrontCheckoutCustomerDisassociateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1106,7 +1125,7 @@ export interface ShopifyStorefrontCheckoutDiscountCodeApplyPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1120,7 +1139,7 @@ export interface ShopifyStorefrontCheckoutDiscountCodeApplyV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1134,7 +1153,7 @@ export interface ShopifyStorefrontCheckoutDiscountCodeRemovePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1148,7 +1167,7 @@ export interface ShopifyStorefrontCheckoutEmailUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1162,7 +1181,7 @@ export interface ShopifyStorefrontCheckoutEmailUpdateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1229,6 +1248,8 @@ export enum ShopifyStorefrontCheckoutErrorCode {
   DiscountLimitReached = 'DISCOUNT_LIMIT_REACHED',
   /** Higher value discount applied. */
   HigherValueDiscountApplied = 'HIGHER_VALUE_DISCOUNT_APPLIED',
+  /** Maximum number of discount codes limit reached. */
+  MaximumDiscountCodeLimitReached = 'MAXIMUM_DISCOUNT_CODE_LIMIT_REACHED',
   /** Discount not found. */
   DiscountNotFound = 'DISCOUNT_NOT_FOUND',
   /** Customer already used once per customer discount notice. */
@@ -1266,7 +1287,7 @@ export interface ShopifyStorefrontCheckoutGiftCardApplyPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1280,7 +1301,7 @@ export interface ShopifyStorefrontCheckoutGiftCardRemovePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1294,7 +1315,7 @@ export interface ShopifyStorefrontCheckoutGiftCardRemoveV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1308,7 +1329,7 @@ export interface ShopifyStorefrontCheckoutGiftCardsAppendPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1382,7 +1403,7 @@ export interface ShopifyStorefrontCheckoutLineItemsAddPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1396,7 +1417,7 @@ export interface ShopifyStorefrontCheckoutLineItemsRemovePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1419,7 +1440,7 @@ export interface ShopifyStorefrontCheckoutLineItemsUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1433,7 +1454,7 @@ export interface ShopifyStorefrontCheckoutShippingAddressUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1447,7 +1468,7 @@ export interface ShopifyStorefrontCheckoutShippingAddressUpdateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1461,7 +1482,7 @@ export interface ShopifyStorefrontCheckoutShippingLineUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2656,7 +2677,7 @@ export interface ShopifyStorefrontCustomerAccessTokenCreatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2720,7 +2741,7 @@ export interface ShopifyStorefrontCustomerActivatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2734,7 +2755,7 @@ export interface ShopifyStorefrontCustomerAddressCreatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2748,7 +2769,7 @@ export interface ShopifyStorefrontCustomerAddressDeletePayload {
   deletedCustomerAddressId?: Maybe<Scalars['String']>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2762,7 +2783,7 @@ export interface ShopifyStorefrontCustomerAddressUpdatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2796,7 +2817,7 @@ export interface ShopifyStorefrontCustomerCreatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2810,7 +2831,7 @@ export interface ShopifyStorefrontCustomerDefaultAddressUpdatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2856,7 +2877,7 @@ export interface ShopifyStorefrontCustomerRecoverPayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2872,7 +2893,7 @@ export interface ShopifyStorefrontCustomerResetByUrlPayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2896,7 +2917,7 @@ export interface ShopifyStorefrontCustomerResetPayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2935,7 +2956,7 @@ export interface ShopifyStorefrontCustomerUpdatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -3088,7 +3109,7 @@ export interface ShopifyStorefrontExternalVideo
   alt?: Maybe<Scalars['String']>
   /**
    * The URL.
-   * @deprecated Use `originUrl` instead
+   * @deprecated Use `originUrl` instead.
    */
   embeddedUrl: Scalars['URL']
   /** The host of the external video. */
@@ -3214,12 +3235,12 @@ export interface ShopifyStorefrontImage {
    * The location of the original image as a URL.
    *
    * If there are any existing transformations in the original source URL, they will remain and not be stripped.
-   * @deprecated Use `url` instead
+   * @deprecated Use `url` instead.
    */
   originalSrc: Scalars['URL']
   /**
    * The location of the image as a URL.
-   * @deprecated Use `url` instead
+   * @deprecated Use `url` instead.
    */
   src: Scalars['URL']
   /**
@@ -3367,7 +3388,7 @@ export interface ShopifyStorefrontMailingAddress extends ShopifyStorefrontNode {
    * The two-letter code for the country of the address.
    *
    * For example, US.
-   * @deprecated Use `countryCodeV2` instead
+   * @deprecated Use `countryCodeV2` instead.
    */
   countryCode?: Maybe<Scalars['String']>
   /**
@@ -3697,7 +3718,7 @@ export interface ShopifyStorefrontMutation {
   /**
    * Updates customer information associated with a cart.
    * Buyer identity is used to determine
-   * [international pricing](https://shopify.dev/api/examples/international-pricing#create-a-checkout)
+   * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
    * and should match the customer's shipping address.
    */
   cartBuyerIdentityUpdate?: Maybe<ShopifyStorefrontCartBuyerIdentityUpdatePayload>
@@ -3715,7 +3736,7 @@ export interface ShopifyStorefrontMutation {
   cartNoteUpdate?: Maybe<ShopifyStorefrontCartNoteUpdatePayload>
   /**
    * Updates the attributes of a checkout if `allowPartialAddresses` is `true`.
-   * @deprecated Use `checkoutAttributesUpdateV2` instead
+   * @deprecated Use `checkoutAttributesUpdateV2` instead.
    */
   checkoutAttributesUpdate?: Maybe<ShopifyStorefrontCheckoutAttributesUpdatePayload>
   /** Updates the attributes of a checkout if `allowPartialAddresses` is `true`. */
@@ -3724,19 +3745,19 @@ export interface ShopifyStorefrontMutation {
   checkoutCompleteFree?: Maybe<ShopifyStorefrontCheckoutCompleteFreePayload>
   /**
    * Completes a checkout using a credit card token from Shopify's Vault.
-   * @deprecated Use `checkoutCompleteWithCreditCardV2` instead
+   * @deprecated Use `checkoutCompleteWithCreditCardV2` instead.
    */
   checkoutCompleteWithCreditCard?: Maybe<ShopifyStorefrontCheckoutCompleteWithCreditCardPayload>
   /** Completes a checkout using a credit card token from Shopify's card vault. Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you need to  [_request payment processing_](https://shopify.dev/apps/channels/getting-started#request-payment-processing). */
   checkoutCompleteWithCreditCardV2?: Maybe<ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload>
   /**
    * Completes a checkout with a tokenized payment.
-   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV2` instead
+   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV2` instead.
    */
   checkoutCompleteWithTokenizedPayment?: Maybe<ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentPayload>
   /**
    * Completes a checkout with a tokenized payment.
-   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV3` instead
+   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV3` instead.
    */
   checkoutCompleteWithTokenizedPaymentV2?: Maybe<ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV2Payload>
   /** Completes a checkout with a tokenized payment. */
@@ -3745,21 +3766,21 @@ export interface ShopifyStorefrontMutation {
   checkoutCreate?: Maybe<ShopifyStorefrontCheckoutCreatePayload>
   /**
    * Associates a customer to the checkout.
-   * @deprecated Use `checkoutCustomerAssociateV2` instead
+   * @deprecated Use `checkoutCustomerAssociateV2` instead.
    */
   checkoutCustomerAssociate?: Maybe<ShopifyStorefrontCheckoutCustomerAssociatePayload>
   /** Associates a customer to the checkout. */
   checkoutCustomerAssociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerAssociateV2Payload>
   /**
    * Disassociates the current checkout customer from the checkout.
-   * @deprecated Use `checkoutCustomerDisassociateV2` instead
+   * @deprecated Use `checkoutCustomerDisassociateV2` instead.
    */
   checkoutCustomerDisassociate?: Maybe<ShopifyStorefrontCheckoutCustomerDisassociatePayload>
   /** Disassociates the current checkout customer from the checkout. */
   checkoutCustomerDisassociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerDisassociateV2Payload>
   /**
    * Applies a discount to an existing checkout using a discount code.
-   * @deprecated Use `checkoutDiscountCodeApplyV2` instead
+   * @deprecated Use `checkoutDiscountCodeApplyV2` instead.
    */
   checkoutDiscountCodeApply?: Maybe<ShopifyStorefrontCheckoutDiscountCodeApplyPayload>
   /** Applies a discount to an existing checkout using a discount code. */
@@ -3768,19 +3789,19 @@ export interface ShopifyStorefrontMutation {
   checkoutDiscountCodeRemove?: Maybe<ShopifyStorefrontCheckoutDiscountCodeRemovePayload>
   /**
    * Updates the email on an existing checkout.
-   * @deprecated Use `checkoutEmailUpdateV2` instead
+   * @deprecated Use `checkoutEmailUpdateV2` instead.
    */
   checkoutEmailUpdate?: Maybe<ShopifyStorefrontCheckoutEmailUpdatePayload>
   /** Updates the email on an existing checkout. */
   checkoutEmailUpdateV2?: Maybe<ShopifyStorefrontCheckoutEmailUpdateV2Payload>
   /**
    * Applies a gift card to an existing checkout using a gift card code. This will replace all currently applied gift cards.
-   * @deprecated Use `checkoutGiftCardsAppend` instead
+   * @deprecated Use `checkoutGiftCardsAppend` instead.
    */
   checkoutGiftCardApply?: Maybe<ShopifyStorefrontCheckoutGiftCardApplyPayload>
   /**
    * Removes an applied gift card from the checkout.
-   * @deprecated Use `checkoutGiftCardRemoveV2` instead
+   * @deprecated Use `checkoutGiftCardRemoveV2` instead.
    */
   checkoutGiftCardRemove?: Maybe<ShopifyStorefrontCheckoutGiftCardRemovePayload>
   /** Removes an applied gift card from the checkout. */
@@ -3797,7 +3818,7 @@ export interface ShopifyStorefrontMutation {
   checkoutLineItemsUpdate?: Maybe<ShopifyStorefrontCheckoutLineItemsUpdatePayload>
   /**
    * Updates the shipping address of an existing checkout.
-   * @deprecated Use `checkoutShippingAddressUpdateV2` instead
+   * @deprecated Use `checkoutShippingAddressUpdateV2` instead.
    */
   checkoutShippingAddressUpdate?: Maybe<ShopifyStorefrontCheckoutShippingAddressUpdatePayload>
   /** Updates the shipping address of an existing checkout. */
@@ -3839,11 +3860,23 @@ export interface ShopifyStorefrontMutation {
   customerCreate?: Maybe<ShopifyStorefrontCustomerCreatePayload>
   /** Updates the default address of an existing customer. */
   customerDefaultAddressUpdate?: Maybe<ShopifyStorefrontCustomerDefaultAddressUpdatePayload>
-  /** Sends a reset password email to the customer, as the first step in the reset password process. */
+  /**
+   * Sends a reset password email to the customer. The reset password
+   * email contains a reset password URL and token that you can pass to
+   * the [`customerResetByUrl`](https://shopify.dev/api/storefront/latest/mutations/customerResetByUrl) or
+   * [`customerReset`](https://shopify.dev/api/storefront/latest/mutations/customerReset) mutation to reset the
+   * customer password.
+   *
+   * This mutation is throttled by IP. With authenticated access,
+   * you can provide a [`Shopify-Storefront-Buyer-IP`](https://shopify.dev/api/usage/authentication#optional-ip-header) instead of the request IP.
+   *
+   * Make sure that the value provided to `Shopify-Storefront-Buyer-IP` is trusted. Unthrottled access to this
+   * mutation presents a security risk.
+   */
   customerRecover?: Maybe<ShopifyStorefrontCustomerRecoverPayload>
-  /** Resets a customer’s password with a token received from `CustomerRecover`. */
+  /** "Resets a customer’s password with the token received from a reset password email. You can send a reset password email with the [`customerRecover`](https://shopify.dev/api/storefront/latest/mutations/customerRecover) mutation." */
   customerReset?: Maybe<ShopifyStorefrontCustomerResetPayload>
-  /** Resets a customer’s password with the reset password url received from `CustomerRecover`. */
+  /** "Resets a customer’s password with the reset password URL received from a reset password email. You can send a reset password email with the [`customerRecover`](https://shopify.dev/api/storefront/latest/mutations/customerRecover) mutation." */
   customerResetByUrl?: Maybe<ShopifyStorefrontCustomerResetByUrlPayload>
   /** Updates an existing customer. */
   customerUpdate?: Maybe<ShopifyStorefrontCustomerUpdatePayload>
@@ -4244,7 +4277,7 @@ export interface ShopifyStorefrontOrder
   statusUrl: Scalars['URL']
   /**
    * Price of the order before shipping and taxes.
-   * @deprecated Use `subtotalPriceV2` instead
+   * @deprecated Use `subtotalPriceV2` instead.
    */
   subtotalPrice?: Maybe<Scalars['Money']>
   /** Price of the order before duties, shipping and taxes. */
@@ -4253,28 +4286,28 @@ export interface ShopifyStorefrontOrder
   successfulFulfillments?: Maybe<Array<ShopifyStorefrontFulfillment>>
   /**
    * The sum of all the prices of all the items in the order, taxes and discounts included (must be positive).
-   * @deprecated Use `totalPriceV2` instead
+   * @deprecated Use `totalPriceV2` instead.
    */
   totalPrice: Scalars['Money']
   /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
   totalPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The total amount that has been refunded.
-   * @deprecated Use `totalRefundedV2` instead
+   * @deprecated Use `totalRefundedV2` instead.
    */
   totalRefunded: Scalars['Money']
   /** The total amount that has been refunded. */
   totalRefundedV2: ShopifyStorefrontMoneyV2
   /**
    * The total cost of shipping.
-   * @deprecated Use `totalShippingPriceV2` instead
+   * @deprecated Use `totalShippingPriceV2` instead.
    */
   totalShippingPrice: Scalars['Money']
   /** The total cost of shipping. */
   totalShippingPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The total cost of taxes.
-   * @deprecated Use `totalTaxV2` instead
+   * @deprecated Use `totalTaxV2` instead.
    */
   totalTax?: Maybe<Scalars['Money']>
   /** The total cost of taxes. */
@@ -4480,7 +4513,7 @@ export interface ShopifyStorefrontPage
   updatedAt: Scalars['DateTime']
   /**
    * The url pointing to the page accessible from the web.
-   * @deprecated Use `onlineStoreUrl` instead
+   * @deprecated Use `onlineStoreUrl` instead.
    */
   url: Scalars['URL']
 }
@@ -4551,7 +4584,7 @@ export interface ShopifyStorefrontPayment extends ShopifyStorefrontNode {
   __typename: 'Payment'
   /**
    * The amount of the payment.
-   * @deprecated Use `amountV2` instead
+   * @deprecated Use `amountV2` instead.
    */
   amount: Scalars['Money']
   /** The amount of the payment. */
@@ -4985,14 +5018,14 @@ export interface ShopifyStorefrontProductVariant
   __typename: 'ProductVariant'
   /**
    * Indicates if the product variant is in stock.
-   * @deprecated Use `availableForSale` instead
+   * @deprecated Use `availableForSale` instead.
    */
   available?: Maybe<Scalars['Boolean']>
   /** Indicates if the product variant is available for sale. */
   availableForSale: Scalars['Boolean']
   /**
    * The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`.
-   * @deprecated Use `compareAtPriceV2` instead
+   * @deprecated Use `compareAtPriceV2` instead.
    */
   compareAtPrice?: Maybe<Scalars['Money']>
   /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPriceV2` is higher than `priceV2`. */
@@ -5023,7 +5056,7 @@ export interface ShopifyStorefrontProductVariant
   presentmentUnitPrices: ShopifyStorefrontMoneyV2Connection
   /**
    * The product variant’s price.
-   * @deprecated Use `priceV2` instead
+   * @deprecated Use `priceV2` instead.
    */
   price: Scalars['Money']
   /** The product variant’s price. */
@@ -5187,18 +5220,21 @@ export interface ShopifyStorefrontQueryRoot {
   blog?: Maybe<ShopifyStorefrontBlog>
   /**
    * Find a blog by its handle.
-   * @deprecated Use `blog` instead
+   * @deprecated Use `blog` instead.
    */
   blogByHandle?: Maybe<ShopifyStorefrontBlog>
   /** List of the shop's blogs. */
   blogs: ShopifyStorefrontBlogConnection
-  /** Retrieve a cart by its ID. For more information, refer to [Manage a cart with the Storefront API](https://shopify.dev/api/examples/cart). */
+  /**
+   * Retrieve a cart by its ID. For more information, refer to
+   * [Manage a cart with the Storefront API](https://shopify.dev/custom-storefronts/cart/manage).
+   */
   cart?: Maybe<ShopifyStorefrontCart>
   /** Fetch a specific `Collection` by one of its unique attributes. */
   collection?: Maybe<ShopifyStorefrontCollection>
   /**
    * Find a collection by its handle.
-   * @deprecated Use `collection` instead
+   * @deprecated Use `collection` instead.
    */
   collectionByHandle?: Maybe<ShopifyStorefrontCollection>
   /** List of the shop’s collections. */
@@ -5221,7 +5257,7 @@ export interface ShopifyStorefrontQueryRoot {
   page?: Maybe<ShopifyStorefrontPage>
   /**
    * Find a page by its handle.
-   * @deprecated Use `page` instead
+   * @deprecated Use `page` instead.
    */
   pageByHandle?: Maybe<ShopifyStorefrontPage>
   /** List of the shop's pages. */
@@ -5230,7 +5266,7 @@ export interface ShopifyStorefrontQueryRoot {
   product?: Maybe<ShopifyStorefrontProduct>
   /**
    * Find a product by its handle.
-   * @deprecated Use `product` instead
+   * @deprecated Use `product` instead.
    */
   productByHandle?: Maybe<ShopifyStorefrontProduct>
   /**
@@ -5419,7 +5455,7 @@ export interface ShopifyStorefrontScriptDiscountApplication
   allocationMethod: ShopifyStorefrontDiscountApplicationAllocationMethod
   /**
    * The description of the application as defined by the Script.
-   * @deprecated Use `title` instead
+   * @deprecated Use `title` instead.
    */
   description: Scalars['String']
   /** Which lines of targetType that the discount is allocated over. */
@@ -5632,7 +5668,7 @@ export interface ShopifyStorefrontShippingRate {
   handle: Scalars['String']
   /**
    * Price of this shipping rate.
-   * @deprecated Use `priceV2` instead
+   * @deprecated Use `priceV2` instead.
    */
   price: Scalars['Money']
   /** Price of this shipping rate. */
@@ -5666,7 +5702,7 @@ export interface ShopifyStorefrontShop extends ShopifyStorefrontHasMetafields {
   collections: ShopifyStorefrontCollectionConnection
   /**
    * The three-letter code for the currency that the shop accepts.
-   * @deprecated Use `paymentSettings` instead
+   * @deprecated Use `paymentSettings` instead.
    */
   currencyCode: ShopifyStorefrontCurrencyCode
   /** A description of the shop. */
@@ -5718,7 +5754,7 @@ export interface ShopifyStorefrontShop extends ShopifyStorefrontHasMetafields {
   shipsToCountries: Array<ShopifyStorefrontCountryCode>
   /**
    * The shop’s Shopify Payments account id.
-   * @deprecated Use `paymentSettings` instead
+   * @deprecated Use `paymentSettings` instead.
    */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>
   /** The shop’s terms of service. */
@@ -5938,7 +5974,7 @@ export interface ShopifyStorefrontTransaction {
   __typename: 'Transaction'
   /**
    * The amount of money that the transaction was for.
-   * @deprecated Use `amountV2` instead
+   * @deprecated Use `amountV2` instead.
    */
   amount: Scalars['Money']
   /** The amount of money that the transaction was for. */
@@ -5947,7 +5983,7 @@ export interface ShopifyStorefrontTransaction {
   kind: ShopifyStorefrontTransactionKind
   /**
    * The status of the transaction.
-   * @deprecated Use `statusV2` instead
+   * @deprecated Use `statusV2` instead.
    */
   status: ShopifyStorefrontTransactionStatus
   /** The status of the transaction. */
