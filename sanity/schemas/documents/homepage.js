@@ -10,7 +10,7 @@ export const homepage = {
       of: [{ type: 'hero' }, { type: 'carousel' }, { type: 'imageTextBlock' }],
     },
     {
-      name: 'headerColor',
+      name: 'header_color',
       type: 'header_color',
       initialValue: 'dark',
     },
@@ -19,7 +19,6 @@ export const homepage = {
       title: 'SEO',
       type: 'seo',
     },
-  
   ],
   preview: {
     select: {},

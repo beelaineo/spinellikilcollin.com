@@ -82,7 +82,7 @@ export const hero = {
       },
     },
     {
-      name: 'headerColor',
+      name: 'header_color',
       type: 'header_color',
       initialValue: 'dark',
     },
