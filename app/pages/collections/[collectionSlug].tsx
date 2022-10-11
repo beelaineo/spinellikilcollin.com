@@ -125,9 +125,9 @@ const Collection = ({ collection }: CollectionPageProps) => {
 
   const refetchConfig = {
     listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
-    listenQueryParams: { id: 'drafts.' + collection._id },
+    listenQueryParams: { id: 'drafts.' + collection?._id },
     refetchQuery: collectionQueryById,
-    refetchQueryParams: { id: 'drafts.' + collection._id },
+    refetchQueryParams: { id: 'drafts.' + collection?._id },
     parseResponse: getCollectionFromPreviewResponse,
     enabled: preview,
     token: token,

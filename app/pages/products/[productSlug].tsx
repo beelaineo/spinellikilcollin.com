@@ -159,9 +159,9 @@ const Product = ({ product }: ProductPageProps) => {
 
   const refetchConfig = {
     listenQuery: `*[_type == "shopifyProduct" && _id == $id]`,
-    listenQueryParams: { id: 'drafts.' + product._id },
+    listenQueryParams: { id: 'drafts.' + product?._id },
     refetchQuery: productQueryById,
-    refetchQueryParams: { id: 'drafts.' + product._id },
+    refetchQueryParams: { id: 'drafts.' + product?._id },
     parseResponse: getProductFromPreviewResponse,
     enabled: preview,
     token: token,
