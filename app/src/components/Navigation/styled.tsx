@@ -102,7 +102,7 @@ export const QuickLinksWrapper = styled.nav<WithColorTheme>`
     margin: 0 auto;
     color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
     padding: 4 0 0 0;
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       display: none;
     }
 
@@ -113,8 +113,10 @@ export const QuickLinksWrapper = styled.nav<WithColorTheme>`
       border-radius: 3rem;
       text-transform: uppercase;
       font-size: 5;
+      color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
       &:hover {
         background-color: ${theme.colors.grays[2]};
+        color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
       }
     }
   `}

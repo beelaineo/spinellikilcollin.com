@@ -44,6 +44,7 @@ export const Navigation = () => {
   const { loading, checkout } = useShopify()
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
   const cartCount = loading ? 0 : lineItems.length || 0
+  console.log('NAVIGATION ROUTER', router)
 
   const openCartHandler = () => openCart()
 
@@ -60,6 +61,11 @@ export const Navigation = () => {
   const skipToMainContent = () => {
     const content = document.querySelector('main') as HTMLElement | null
     if (content != null) content.focus()
+  }
+
+  const showQuickLinks = (router) => {
+    const showLinks = router.pathname.includes('collections') ? false : true
+    return showLinks
   }
 
   return (
@@ -110,7 +116,7 @@ export const Navigation = () => {
             </CartButtonWrapper>
           </ToolsWrapper>
         </Inner>
-        <QuickLinks colorTheme={colorTheme} />
+        {showQuickLinks(router) ? <QuickLinks colorTheme={colorTheme} /> : null}
       </Wrapper>
       <Checkout />
     </>
