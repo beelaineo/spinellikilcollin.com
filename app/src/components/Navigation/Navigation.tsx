@@ -26,6 +26,7 @@ import {
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
+import { QuickLinks } from './QuickLinks'
 const { useEffect, useRef, useCallback } = React
 
 export const Navigation = () => {
@@ -109,6 +110,7 @@ export const Navigation = () => {
             </CartButtonWrapper>
           </ToolsWrapper>
         </Inner>
+        <QuickLinks colorTheme={colorTheme} />
       </Wrapper>
       <Checkout />
     </>
