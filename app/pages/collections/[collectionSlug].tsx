@@ -123,23 +123,24 @@ const Collection = ({ collection }: CollectionPageProps) => {
   const token = params?.get('preview')
   const preview = Boolean(params?.get('preview'))
 
+  const refetchConfig = {
+    listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
+    listenQueryParams: { id: 'drafts.' + collection?._id },
+    refetchQuery: collectionQueryById,
+    refetchQueryParams: { id: 'drafts.' + collection?._id },
+    parseResponse: getCollectionFromPreviewResponse,
+    enabled: preview,
+    token: token,
+  }
+
+  const data = useRefetch<ShopifyCollection, Response>(
+    collection,
+    refetchConfig,
+  )
+
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
-      const refetchConfig = {
-        listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
-        listenQueryParams: { id: 'drafts.' + collection._id },
-        refetchQuery: collectionQueryById,
-        refetchQueryParams: { id: 'drafts.' + collection._id },
-        parseResponse: getCollectionFromPreviewResponse,
-        enabled: preview,
-        token: token,
-      }
-
-      const data = useRefetch<ShopifyCollection, Response>(
-        collection,
-        refetchConfig,
-      )
 
       if (!data)
         return (

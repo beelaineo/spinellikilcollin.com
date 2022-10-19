@@ -16,11 +16,11 @@ interface UseRefetchConfig<DataType, Response> {
   parseResponse?: (r: Response) => DataType
   /** An option to enable refetching */
   enabled: boolean | null | undefined
-  token: string | null | undefined
+  token: string | string[] | null | undefined
 }
 
 export const useRefetch = <DataType, Response>(
-  initialData: DataType,
+  initialData: any,
   config: UseRefetchConfig<DataType, Response>,
 ) => {
   const {

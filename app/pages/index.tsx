@@ -13,7 +13,7 @@ import {
 import { requestShopData } from '../src/providers/ShopDataProvider/shopDataQuery'
 import { Sentry } from '../src/services/sentry'
 import { useRefetch } from '../src/hooks'
-import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 const homepageQueryById = gql`
   query HomepageQuery($id: ID!) {
@@ -88,29 +88,27 @@ const getHomepageFromPreviewResponse = (response: HomepageResponse) => {
 }
 
 export const Homepage = ({ homepage }: HomepageProps) => {
-  const [params, setParams] = useState<URLSearchParams | null>(null)
-  useEffect(() => {
-    return setParams(new URLSearchParams(window.location.search))
-  }, [])
-  const token = params?.get('preview')
-  const preview = Boolean(params?.get('preview'))
+  const router = useRouter()
+  const token = router?.query?.preview
+  const preview = Boolean(router.query.preview)
+
+  const refetchConfig = {
+    listenQuery: `*[_type == "homepage" && _id == $id]`,
+    listenQueryParams: { id: 'drafts.homepage' },
+    refetchQuery: homepageQueryById,
+    refetchQueryParams: { id: 'drafts.homepage' },
+    parseResponse: getHomepageFromPreviewResponse,
+    enabled: preview,
+    token: token,
+  }
+  const data = useRefetch<HomepageType, HomepageResponse>(
+    homepage,
+    refetchConfig,
+  )
 
   try {
     if (preview === true) {
       if (!homepage) return <NotFound />
-      const refetchConfig = {
-        listenQuery: `*[_type == "homepage" && _id == $id]`,
-        listenQueryParams: { id: 'drafts.homepage' },
-        refetchQuery: homepageQueryById,
-        refetchQueryParams: { id: 'drafts.homepage' },
-        parseResponse: getHomepageFromPreviewResponse,
-        enabled: preview,
-        token: token,
-      }
-      const data = useRefetch<HomepageType, HomepageResponse>(
-        homepage,
-        refetchConfig,
-      )
 
       if (!data) return <HomepageView homepage={homepage} />
       return <HomepageView homepage={data} />
