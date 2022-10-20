@@ -14,8 +14,11 @@ import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 import { CTA } from '../CTA'
 import { definitely } from '../../utils'
-import { useMedia } from '../../hooks'
+import { useInViewport, useMedia } from '../../hooks'
 import { theme } from '../../theme'
+import { useNavigation } from '../../providers'
+
+const { useEffect, useRef } = React
 
 interface HeroWrapperProps {
   hero: Hero
@@ -313,6 +316,7 @@ export const HeroBlock = React.forwardRef(
       cloudinaryVideo,
       cloudinaryVideoMobile,
       mobileImage,
+      header_color,
       cta: ctas,
     } = hero
     const cta = definitely(ctas).length ? definitely(ctas)[0] : null
@@ -320,18 +324,34 @@ export const HeroBlock = React.forwardRef(
       maxWidth: `${theme.breakpoints?.md || '650'}px`,
     })
 
+    const heroRef = useRef<HTMLDivElement>(null)
+    const { setColorTheme } = useNavigation()
+    const { isInView } = useInViewport(heroRef, '-55px 0px')
+
+    useEffect(() => {
+      header_color == 'light' && isInView
+        ? setColorTheme('light')
+        : setColorTheme('dark')
+    }, [isInView])
+
+    useEffect(() => {
+      return () => {
+        setColorTheme('dark')
+      }
+    }, [])
+
     return (
       <HeroWrapper hero={hero} ref={ref} minimalDisplay={minimalDisplay}>
         <DocumentLink document={heroLink?.document ?? undefined}>
           {cloudinaryVideo?.videoId ? (
-            <HeroImageWrapper hero={hero}>
+            <HeroImageWrapper hero={hero} ref={heroRef}>
               <CloudinaryVideo video={cloudinaryVideo} />
               {cloudinaryVideoMobile ? (
                 <CloudinaryVideo video={cloudinaryVideoMobile} />
               ) : null}
             </HeroImageWrapper>
           ) : (
-            <HeroImageWrapper hero={hero}>
+            <HeroImageWrapper hero={hero} ref={heroRef}>
               {image ? <Image image={image} /> : null}
               {mobileImage ? <Image image={mobileImage} /> : null}
             </HeroImageWrapper>
