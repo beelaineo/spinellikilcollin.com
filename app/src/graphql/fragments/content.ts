@@ -619,6 +619,7 @@ export const heroFragment = gql`
     }
     aspectRatio
     layout
+    header_color
     cta {
       ...CTAFragment
     }
