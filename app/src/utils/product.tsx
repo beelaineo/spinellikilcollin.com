@@ -1,4 +1,5 @@
 import { unwindEdges } from '@good-idea/unwind-edges'
+import { Sort } from '../constants'
 import {
   ShopifyProduct,
   ShopifyProductOptionValue,
@@ -172,6 +173,31 @@ export const getBestVariantByMatch = (
   return bestVariant || variants[0]
 }
 
+export const getBestVariantBySort = (
+  variants: ShopifySourceProductVariant[],
+  sort?: Sort | null,
+  minVariantPrice?: number,
+  maxVariantPrice?: number,
+): ShopifySourceProductVariant => {
+  const bestVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+    if (sort == Sort.PriceAsc) {
+      const price = parseFloat(v.priceV2.amount)
+      console.log(
+        `bestSortVariant ${v.title} ${price}`,
+        Boolean(price == minVariantPrice),
+      )
+      return Boolean(price == minVariantPrice)
+    } else if (sort == Sort.PriceDesc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == maxVariantPrice)
+    } else {
+      return undefined
+    }
+  })
+  return bestVariant || variants[0]
+}
+
 interface FilterProps {
   name: string
   value: string | boolean
@@ -180,6 +206,9 @@ interface FilterProps {
 export const getBestVariantByFilterMatch = (
   variants: ShopifySourceProductVariant[],
   filters: FilterProps[],
+  sort?: Sort | null,
+  minVariantPrice?: number,
+  maxVariantPrice?: number,
 ): ShopifySourceProductVariant => {
   const bestColorVariant = variants.find((v) => {
     const colorMatches = filters.some((m) => {
@@ -190,7 +219,29 @@ export const getBestVariantByFilterMatch = (
           let keywords: string[] = []
           switch (value) {
             case 's':
-              keywords = ['Silver', 'silver', 'SG', 'Gris']
+              keywords = [
+                'Silver',
+                'silver',
+                'SG',
+                'Gris',
+                'Clara',
+                'Sirius Max MX',
+                'Sirius Max SG',
+                'Capricorn MX',
+                'Capricorn CCW',
+                'Cyllene MX',
+                'Acacia',
+                'Gemini',
+                'Libra',
+                'Cici MX',
+                'Aries SG',
+                'Sagittarius',
+                'Leo MX',
+                'Leo Core',
+                'Nexus',
+                'Atlantis MX',
+                'Argo SG',
+              ]
               break
             case 'yg':
               keywords = [
@@ -198,17 +249,60 @@ export const getBestVariantByFilterMatch = (
                 'yellow gold',
                 'YG',
                 'MX',
-                'Nexus Gold',
+                'Nexus',
                 'Vela Gold',
                 'Akoya Gold',
                 'Vega Gold',
+                'Sirius Max BG',
+                'Sirius Max SG',
+                'Capricorn CCW',
+                'Libra',
+                'Sonny',
+                'Aries Core Gold',
+                'Sagittarius',
+                'Leo',
+                'Rhea',
+                'Casseus',
+                'Atlantis MX',
               ]
               break
             case 'rg':
-              keywords = ['Rose Gold', 'rose gold', 'RG', 'Rose']
+              keywords = [
+                'Rose Gold',
+                'Rhea Gold',
+                'Rhea MX',
+                'Capricorn MX',
+                'Solarium Gold',
+                'Mercury MX',
+                'rose gold',
+                'Dua MX',
+                'Clara',
+                'RG',
+                'Rose',
+                'Acacia',
+                'Gemini SG',
+                'Libra MX',
+                'Sonny MX',
+                'Sonny Gold',
+                'Tigris MX Gris',
+                'Cici MX',
+                'Aries Core Gold',
+                'Sagittarius MX',
+                'Leo',
+                'Casseus SP',
+                'Atlantis MX',
+              ]
               break
             case 'wg':
-              keywords = ['White Gold', 'white gold', 'WG', 'Blanc']
+              keywords = [
+                'White Gold',
+                'Ceres Gold',
+                'white gold',
+                'Rhea MX',
+                'WG',
+                'Blanc',
+                'Sonny MX',
+              ]
               break
             case 'bg':
               keywords = ['Black Gold', 'black gold', 'BG', 'Vega Gold']
@@ -235,6 +329,71 @@ export const getBestVariantByFilterMatch = (
     return colorMatches
   })
 
+  const bestStoneVariant = variants.find((v) => {
+    const stoneMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'stone':
+          let keywords: string[] = []
+          switch (value) {
+            case 'd':
+              keywords = [
+                'Pavé',
+                'Sirius Max MX',
+                'Ovio',
+                'Sagittarius',
+                'Gris',
+                'Libra SP',
+                'Libra MX',
+                'Leo Blac',
+                'Leo MX',
+                'Cancer Deux MX',
+                'Marigold',
+                'Sonny',
+                'Capricorn CCW',
+              ]
+              break
+            case 'am':
+              keywords = [
+                'Core',
+                'Sagittarius MX',
+                'Pisces SG',
+                'Scorpio SG',
+                'Cancer SG',
+                'Capricorn MX',
+                'Aquarius YG',
+                'Libra SG Core',
+                'Atlantis MX Bracelet',
+                'Atlantis Silver Toggle Bracelet',
+                'Casseus SG',
+              ]
+              break
+            case 'g':
+              keywords = ['Emerald', 'Petunia', 'Mini Mezzo']
+              break
+            case 'p':
+              keywords = ['Pearl']
+              break
+            default:
+              break
+          }
+          match = v?.selectedOptions?.some((o) =>
+            keywords.some((word) => {
+              if (o?.value?.includes(word)) {
+                return true
+              }
+            }),
+          )
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return stoneMatches
+  })
+
   const inStockVariants = variants.filter((v) => {
     const stockMatches = filters.some((m) => {
       const { name, value } = m
@@ -252,16 +411,14 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestInStockColorVariant = inStockVariants.find((v) => {
-    const matchingPair = bestColorVariant?.selectedOptions?.filter(
-      (o1) =>
-        !v.selectedOptions?.some((o2) => {
-          // console.log('matchingPair', o1, o2)
-          if (o2?.name === 'Color') {
-            return Boolean(o1?.value === o2?.value)
-          } else {
-            return false
-          }
-        }),
+    const matchingPair = bestColorVariant?.selectedOptions?.filter((o1) =>
+      v.selectedOptions?.some((o2) => {
+        if (o2?.name === 'Color') {
+          return Boolean(o1?.value === o2?.value)
+        } else {
+          return false
+        }
+      }),
     )
     const variantMatchesColor = Boolean(
       matchingPair && matchingPair?.length > 0,
@@ -269,7 +426,23 @@ export const getBestVariantByFilterMatch = (
     return variantMatchesColor
   })
 
-  const bestInStockVariant = variants.find((v) => {
+  const bestInStockStoneVariant = inStockVariants.find((v) => {
+    const matchingPair = bestStoneVariant?.selectedOptions?.filter((o1) =>
+      v.selectedOptions?.some((o2) => {
+        if (o2?.name === 'Color') {
+          return Boolean(o1?.value === o2?.value)
+        } else {
+          return false
+        }
+      }),
+    )
+    const variantMatchesStone = Boolean(
+      matchingPair && matchingPair?.length > 0,
+    )
+    return variantMatchesStone
+  })
+
+  const bestInStockVariant = inStockVariants.find((v) => {
     const stockMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -285,13 +458,30 @@ export const getBestVariantByFilterMatch = (
     return stockMatches
   })
 
-  // console.log('bestInStockColorVariant:', bestInStockColorVariant)
-  // console.log('bestInStockVariant:', bestInStockVariant)
-  // console.log('bestColorVariant:', bestColorVariant)
+  const bestSortVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+    if (sort == Sort.PriceAsc) {
+      const price = parseFloat(v.priceV2.amount)
+      console.log(
+        `bestSortVariant ${v.title} ${price}`,
+        Boolean(price == minVariantPrice),
+      )
+      return Boolean(price == minVariantPrice)
+    } else if (sort == Sort.PriceDesc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == maxVariantPrice)
+    } else {
+      return undefined
+    }
+  })
+
   return (
+    bestSortVariant ||
     bestInStockColorVariant ||
+    bestInStockStoneVariant ||
     bestInStockVariant ||
     bestColorVariant ||
+    bestStoneVariant ||
     variants[0]
   )
 }

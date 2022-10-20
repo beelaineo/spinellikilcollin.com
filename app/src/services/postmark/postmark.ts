@@ -19,8 +19,6 @@ import { config } from '../../config'
 
 const debug = Debug('app:emails')
 
-export const DEAR = 'Spinelli Kilcollin dear@spinellikilcollin.com'
-
 /**
  * Client Setup
  */

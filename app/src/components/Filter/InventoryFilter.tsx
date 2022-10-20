@@ -30,7 +30,6 @@ interface InventoryFilterProps {
   resetSet: () => void
   setKey: string
   active: boolean
-  initiallyActive: boolean
 }
 
 interface WithIsApplied {
@@ -92,7 +91,6 @@ export function InventoryFilter({
   setValues,
   resetSet,
   active,
-  initiallyActive,
 }: InventoryFilterProps) {
   const { _key } = inventoryFilter
   if (!filterSetState) return null
@@ -106,12 +104,6 @@ export function InventoryFilter({
     setApplyFilter(!applyFilter)
     // console.log('URLParams', URLParams)
   }
-  // console.log('filterSetState', filterSetState)
-  // console.log('is Initially Active?', initiallyActive)
-
-  useEffect(() => {
-    filterSetState.initialValues.applyFilter = initiallyActive
-  }, [initiallyActive])
 
   const router = useRouter()
   // console.log('router', router)

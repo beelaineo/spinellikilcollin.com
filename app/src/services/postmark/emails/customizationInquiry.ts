@@ -1,6 +1,6 @@
 import { stripIndents } from 'common-tags'
 import { Message } from 'postmark'
-import { DEAR } from '../postmark'
+import { DEAR } from '../types'
 
 export interface CustomizationInquiryArgs {
   name: string

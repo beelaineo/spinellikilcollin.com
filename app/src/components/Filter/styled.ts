@@ -12,7 +12,7 @@ export const Wrapper = styled.div<WithMinimalDisplay>`
     width: 100%;
     position: sticky;
     top: 74px;
-    z-index: 11;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -109,6 +109,9 @@ export const MobileFooter = styled.div`
     position: static;
     flex: 100%;
     display: flex;
+    h5 {
+      margin-right: 3;
+    }
   `}
 `
 
@@ -622,6 +625,7 @@ export const Reset = styled.buttonBox`
     display: block;
     margin: 0;
     padding: 2;
+    margin-top: 1px;
     width: auto;
     border: none;
     text-decoration: underline;

@@ -14,7 +14,7 @@ export const ImagePreload = ({ sizes, image }: ImagePreloadProps) => {
 
   const { src, srcSet, srcSetWebp } = imageDetails || {}
 
-  const imageSrcset = [srcSet, srcSetWebp].filter(Boolean).join(', ')
+  const imageSrcSet = [srcSet, srcSetWebp].filter(Boolean).join(', ')
 
   if (!src) return null
   return (
@@ -26,7 +26,7 @@ export const ImagePreload = ({ sizes, image }: ImagePreloadProps) => {
         // @ts-ignore
         imageSizes={sizes}
         // @ts-ignore
-        imageSrcset={imageSrcset}
+        imageSrcSet={imageSrcSet}
       />
     </Head>
   )

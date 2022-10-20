@@ -1,5 +1,4 @@
 import * as React from 'react'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import {
@@ -7,6 +6,14 @@ import {
   ShopifyProduct,
   CollectionBlock as CollectionBlockType,
   FilterConfiguration,
+  FilterMatch,
+  PRICE_RANGE_FILTER,
+  INVENTORY_FILTER,
+  FILTER_MATCH_GROUP,
+  FILTER_SINGLE,
+  Document,
+  FilterMatchGroup,
+  Maybe,
 } from '../../types'
 import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
@@ -18,10 +25,8 @@ import { Button } from '../../components/Button'
 import { getHeroImage, isValidHero, definitely } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
-import { buildFilterQuery, moreProductsQuery } from './sanityCollectionQuery'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
-import { config } from '../../../src/config'
 import styled, { css, Box } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
@@ -33,12 +38,25 @@ import {
 
 const { useRef, useEffect, useState } = React
 
-interface ProductListingProps {
-  collection: ShopifyCollection & { productsCount?: number }
-  inStockFilter: boolean
+interface ShopifyProductListingProduct extends ShopifyProduct {
+  filterData: {
+    inStock: boolean
+    metal: string[]
+    stone: string[]
+    style: string[]
+    subcategory: string[]
+  }
 }
 
-type Item = ShopifyProduct | CollectionBlockType
+interface ShopifyProductListingCollection extends ShopifyCollection {
+  products?: Maybe<Maybe<ShopifyProductListingProduct>[]> | undefined
+}
+
+interface ProductListingProps {
+  collection: ShopifyProductListingCollection & { productsCount?: number }
+}
+
+type Item = ShopifyProductListingProduct | CollectionBlockType
 
 interface FilterVariables {
   collectionId: string
@@ -47,38 +65,16 @@ interface FilterVariables {
 type PaginationArgs = {
   collectionId: string
   handle: string
-  productStart: number
-  productEnd: number
 }
 
-const PAGE_SIZE = 12
-
 function isCollectionResult(
-  r?: ShopifyCollection[] | ShopifyProduct[],
+  r?: ShopifyCollection[] | ShopifyProductListingProduct[],
 ): r is ShopifyCollection[] {
   if (!r || !r[0]) return false
   return 'products' in r[0]
 }
 
-export const ProductListing = ({
-  collection,
-  inStockFilter,
-}: ProductListingProps) => {
-  const bottomRef = useRef<HTMLDivElement>(null)
-  const [productResults, setProductResults] = useState<ShopifyProduct[]>([
-    ...definitely(collection.products).slice(0, PAGE_SIZE),
-  ])
-  const { isInView } = useInViewport(bottomRef, '500px 0px')
-  const { productListingSettings } = useShopData()
-  const [sort, setSort] = useState<Sort>(Sort.Default)
-  const [loading, setLoading] = useState(false)
-  const [resetFilters, doResetFilters] = useState(0)
-  const [currentFilter, setCurrentFilter] =
-    useState<FilterConfiguration | null>(null)
-  const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
-    ShopifyCollection[] | ShopifyProduct[],
-    PaginationArgs
-  >()
+export const ProductListing = ({ collection }: ProductListingProps) => {
   const {
     _id,
     preferredVariantMatches,
@@ -95,6 +91,33 @@ export const ProductListing = ({
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
+  const [productResults, setProductResults] = useState<
+    ShopifyProductListingProduct[]
+  >([...definitely(collection.products)])
+
+  const [items, setItems] = useState<Item[]>(
+    collectionBlocks?.length
+      ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
+          if (!current?.position) return acc
+          const index = current.position - 1
+          return [...acc.slice(0, index), current, ...acc.slice(index)]
+        }, definitely(productResults))
+      : definitely(productResults),
+  )
+
+  const gridRef = useRef<HTMLDivElement>(null)
+  const { isInView } = useInViewport(gridRef, '500px 0px')
+
+  const { productListingSettings } = useShopData()
+  const [sort, setSort] = useState<Sort>(Sort.Default)
+  const [loading, setLoading] = useState(false)
+  const [resetFilters, doResetFilters] = useState(0)
+  const [currentFilters, setCurrentFilters] =
+    useState<FilterConfiguration | null>(null)
+  const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
+    ShopifyCollection[] | ShopifyProductListingProduct[],
+    PaginationArgs
+  >()
   const defaultFilter = productListingSettings?.newDefaultFilter
   const defaultFilters = definitely(defaultFilter).filter(
     (f) => !Boolean('searchOnly' in f && f.searchOnly),
@@ -119,133 +142,177 @@ export const ProductListing = ({
     throw new Error('The collection is missing an _id')
   }
 
-  // console.log('collection', collection)
-  // console.log('customFilter', customFilter)
-  // console.log('currentFilter', currentFilter)
-  const router = useRouter()
+  // const router = useRouter()
+  // const { query } = useRouter()
   // console.log('router params', router.query)
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
   const description = descriptionRaw ? descriptionRaw.slice(1) : null
 
-  const [fetchComplete, setFetchComplete] = useState(
-    definitely(collection.products).length < PAGE_SIZE,
-  )
+  const [fetchComplete, setFetchComplete] = useState(true)
 
-  const [productsCount, setProductsCount] = useState(0)
-  const [productStart, setProductStart] = useState(0)
+  const [productsCount, setProductsCount] = useState(productResults.length)
 
-  useEffect(() => {
-    if (collection.productsCount) setProductsCount(collection.productsCount)
-  }, [collection])
-
-  const applySort = async (sort: Sort) => {
-    fetchMore(true, sort)
+  const parseFilterMatch = (
+    product: ShopifyProductListingProduct,
+    filterMatch: FilterMatch,
+  ) => {
+    const { type, match } = filterMatch
+    if (!match) return false
+    switch (type) {
+      case 'type':
+        return product.sourceData?.productType?.includes(match)
+      case 'tag':
+        return product.sourceData?.tags?.includes(match)
+      case 'title':
+        return product.title == match
+      case 'option':
+        return product.options?.some((o) =>
+          o?.values?.some((v) => v?.value == match),
+        )
+      case 'size':
+        return product.options?.some((o) => {
+          return Boolean(
+            o?.name == 'Size' && o?.values?.some((v) => v?.value == match),
+          )
+        })
+      case 'subcategory':
+        return product.filterData.subcategory.includes(match)
+      case 'metal':
+        return product.filterData.metal.includes(match)
+      case 'style':
+        return product.filterData.style.includes(match)
+      case 'stone':
+        return product.filterData.stone.includes(match)
+      default:
+        throw new Error(`"${type}" is not a valid filter type`)
+    }
   }
 
-  useEffect(() => {
-    fetchMore(true)
-  }, [currentFilter])
-
-  // If there are collection blocks, insert them in the array
-  // of products by position
-  const items = collectionBlocks?.length
-    ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
-        if (!current?.position) return acc
-        const index = current.position - 1
-        return [...acc.slice(0, index), current, ...acc.slice(index)]
-      }, definitely(productResults))
-    : definitely(productResults)
-
-  const fetchMore = async (reset?: boolean, newSort?: Sort) => {
-    if (reset) {
-      setLoading(true)
-      setFetchComplete(false)
-    }
-    const productStart = reset ? 0 : productResults.length
-    const productEnd = reset ? PAGE_SIZE : productResults.length + PAGE_SIZE
-    const sortBy = newSort || sort
-
-    const query =
-      (sortBy && sortBy !== Sort.Default) || currentFilter
-        ? buildFilterQuery(currentFilter || [], sortBy)
-        : moreProductsQuery
-
-    const results = await fetchMoreQuery(query, {
-      handle,
-      productStart,
-      productEnd,
-      collectionId: _id,
+  const filterResults = (currentFilters: FilterConfiguration | null) => {
+    if (currentFilters == null) return [...definitely(collection.products)]
+    const newResults: ShopifyProductListingProduct[] = [
+      ...definitely(collection.products),
+    ].filter((p) => {
+      return currentFilters.every((filterGroup) => {
+        if (filterGroup.filterType === FILTER_MATCH_GROUP) {
+          return filterGroup.matches.some((filterMatch) =>
+            parseFilterMatch(p, filterMatch),
+          )
+        } else if (filterGroup.filterType === FILTER_SINGLE) {
+          return filterGroup.matches.some((filterMatch) =>
+            parseFilterMatch(p, filterMatch),
+          )
+        } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
+          if (!p.minVariantPrice || !p.maxVariantPrice) return false
+          const { minPrice, maxPrice } = filterGroup
+          if (p.minVariantPrice == p.maxVariantPrice) {
+            return Boolean(
+              p.minVariantPrice >= minPrice && p.minVariantPrice <= maxPrice,
+            )
+          } else {
+            return Boolean(
+              p.minVariantPrice >= minPrice && p.maxVariantPrice <= maxPrice,
+            )
+          }
+        } else if (filterGroup.filterType === INVENTORY_FILTER) {
+          const { applyFilter } = filterGroup
+          return applyFilter ? Boolean(p.filterData.inStock == true) : true
+        } else {
+          throw new Error(`This kind of filter cannot be parsed`)
+        }
+      })
     })
 
-    const newProducts = isCollectionResult(results)
-      ? definitely(results[0].products)
-      : definitely(results)
-
-    if (newProducts.length < PAGE_SIZE) setFetchComplete(true)
-
-    //@ts-ignore
-    if (newProducts[0]?.queryCount) setProductsCount(newProducts[0].queryCount)
-
-    const URLParams = new URLSearchParams(window.location.search)
-
-    if (reset) {
-      setProductResults(newProducts)
-      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
-
-      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
-
-      // const newRelativePathQuery =
-      //   window.location.pathname + '?' + URLParams.toString()
-      // history.pushState(null, '', newRelativePathQuery)
-      // console.log('window.location.search', window.location.search)
-    } else {
-      setProductResults([...productResults, ...newProducts])
-      router.query.page = Math.ceil(productEnd / PAGE_SIZE).toString()
-      // URLParams.set('page', Math.ceil(productEnd / PAGE_SIZE).toString())
-
-      // const newRelativePathQuery =
-      //   window.location.pathname + '?' + URLParams.toString()
-      // history.pushState(null, '', newRelativePathQuery)
-      // console.log('window.location.search', window.location.search)
-    }
-    if (newSort) {
-      setSort(newSort)
-    }
-    setLoading(false)
+    return newResults
   }
 
   useEffect(() => {
-    if (fetchComplete || !isInView || fetchMoreState.loading) return
-    // set a short timeout so it doesn't fetch twice
-    const timeout = setTimeout(() => {
-      fetchMore()
-    }, 300)
-    return () => clearTimeout(timeout)
-  }, [isInView, fetchMoreState.loading, fetchComplete])
+    setProductResults(filterResults(currentFilters))
+  }, [currentFilters])
+
+  const updateItems = (products: ShopifyProductListingProduct[]) => {
+    setItems(
+      collectionBlocks?.length
+        ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
+            if (!current?.position) return acc
+            const index = current.position - 1
+            return [...acc.slice(0, index), current, ...acc.slice(index)]
+          }, definitely(products))
+        : definitely(products),
+    )
+  }
 
   useEffect(() => {
-    if (loading === false) {
-      setProductStart(productStart + 1)
+    setProductsCount(productResults.length)
+    if (sort) {
+      const sortedProductResults = productResults.map((p, sortIndex) => ({
+        sortIndex,
+        ...p,
+      }))
+      switch (sort) {
+        case Sort.Default:
+          console.log('case Featured')
+          sortedProductResults.sort((a, b) =>
+            a.sortIndex && b.sortIndex ? a.sortIndex - b.sortIndex : 0,
+          )
+          updateItems(sortedProductResults)
+          break
+        case Sort.PriceDesc:
+          console.log('case High to Low')
+          sortedProductResults.sort((a, b) =>
+            b.maxVariantPrice && a.maxVariantPrice
+              ? b.maxVariantPrice - a.maxVariantPrice
+              : 0,
+          )
+          updateItems(sortedProductResults)
+          console.log('sortedProductsDesc', sortedProductResults)
+          break
+        case Sort.PriceAsc:
+          console.log('case Low to High')
+          sortedProductResults.sort((a, b) =>
+            b.minVariantPrice && a.minVariantPrice
+              ? a.minVariantPrice - b.minVariantPrice
+              : 0,
+          )
+          updateItems(sortedProductResults)
+          console.log('sortedProductsAsc', sortedProductResults)
+          break
+      }
+    } else {
+      updateItems(productResults)
     }
-  }, [loading])
+  }, [productResults, sort])
 
   // useEffect(() => {
-  //   if (inStockFilter) {
-  //     console.log('FILTERS', filters)
-  //     console.log('CURRENT FILTERS', currentFilter)
-  //     currentFilter?.map((f) => {
-  //       if (f.filterType === 'INVENTORY_FILTER') {
-  //         f.applyFilter = true
-  //       }
-  //     })
-  //     console.log('CURRENT FILTERS MAPPED', currentFilter)
-  //     setInitialFilterValues(currentFilter)
-  //   }
-  // }, [])
+  //   console.log('SORTED PRODUCT RESULTS', sortedProductResults)
+  //   setItems(
+  //     collectionBlocks?.length
+  //       ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
+  //           if (!current?.position) return acc
+  //           const index = current.position - 1
+  //           return [...acc.slice(0, index), current, ...acc.slice(index)]
+  //         }, definitely(sortedProductResults))
+  //       : definitely(sortedProductResults),
+  //   )
+  //   console.log('ITEMS', items)
+  // }, [sortedProductResults])
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
-    setCurrentFilter(filters)
+    setCurrentFilters(filters)
+  }
+
+  const scrollGridIntoView = () => {
+    gridRef?.current?.scrollIntoView({
+      block: 'start',
+      inline: 'nearest',
+      behavior: 'smooth',
+    })
+  }
+
+  const applySort = async (sort: Sort) => {
+    setSort(sort)
+    scrollGridIntoView()
   }
 
   if (!handle) throw new Error('No handle was fetched')
@@ -316,17 +383,18 @@ export const ProductListing = ({
         withHero={Boolean(hero && validHero)}
         isLightTheme={Boolean(lightTheme)}
         tabIndex={-1}
+        ref={gridRef}
       >
         {filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}
             filters={filters}
-            currentFilter={currentFilter}
+            currentFilter={currentFilters}
             productsCount={productsCount}
             resetFilters={resetFilters}
             hideFilter={hideFilter}
-            inStockFilter={inStockFilter}
+            scrollGridIntoView={scrollGridIntoView}
             minimalDisplay={minimalDisplay}
           />
         ) : null}
@@ -345,7 +413,7 @@ export const ProductListing = ({
           </NoResultsWrapper>
         ) : (
           <>
-            {loading && productStart > 1 ? (
+            {loading ? (
               <LoadingWrapper>
                 <Loading />
               </LoadingWrapper>
@@ -355,12 +423,13 @@ export const ProductListing = ({
               <ProductGrid
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}
-                currentFilter={currentFilter}
+                currentFilter={currentFilters}
+                currentSort={sort}
                 hideFilter={hideFilter}
                 items={items}
                 collectionId={_id}
               />
-              {!fetchComplete ? (
+              {/* {!fetchComplete ? (
                 <Box my={8}>
                   <Heading
                     level={4}
@@ -374,7 +443,7 @@ export const ProductListing = ({
                   </Heading>
                   <Loading />
                 </Box>
-              ) : null}
+              ) : null} */}
               {footer && footer.length > 0 ? (
                 <FooterGrid>
                   {definitely(footer).map((block) => {
@@ -402,8 +471,6 @@ export const ProductListing = ({
                   </TextWrapper>
                 </DescriptionWrapper>
               ) : null}
-
-              <div ref={bottomRef} />
             </ProductGridWrapper>
           </>
         )}

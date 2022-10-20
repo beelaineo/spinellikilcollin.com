@@ -18,7 +18,7 @@ const customRender = (ui: React.ReactElement, options = {}) =>
   render(ui, { wrapper: Providers, ...options })
 
 // re-export everything
-export * from '@testing-library/react'
+// export * from '@testing-library/react'
 
 // override render method
 export { customRender as render }

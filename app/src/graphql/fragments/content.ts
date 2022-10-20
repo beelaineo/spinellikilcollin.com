@@ -182,6 +182,39 @@ export const inventoryFilterFragment = gql`
   }
 `
 
+export const customFilterFragment = gql`
+  fragment CustomFilterFragment on FilterSetOrInventoryFilterOrPriceRangeFilter {
+    ... on FilterSet {
+      __typename
+      _key
+      heading
+      searchOnly
+      filters {
+        __typename
+        _key
+        label
+        matches {
+          __typename
+          _key
+          type
+          match
+        }
+      }
+    }
+    ... on InventoryFilter {
+      __typename
+      _key
+      label
+    }
+    ... on PriceRangeFilter {
+      __typename
+      _key
+      minPrice
+      maxPrice
+    }
+  }
+`
+
 export const ctaFragment = gql`
   fragment CTAFragment on Cta {
     __typename

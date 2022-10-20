@@ -51,7 +51,6 @@ export const SizeConverterButton = ({
 }: SizeConverterButtonProps) => {
   const { openSizeConverterModal } = useModal()
   const { openRingSizerModal } = useModal()
-  console.log('sizeConverterButton variant', variant)
   const handleClick = () =>
     openSizeConverterModal({
       currentProduct: product,

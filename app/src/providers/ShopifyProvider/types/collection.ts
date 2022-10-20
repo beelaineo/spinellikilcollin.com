@@ -1,5 +1,6 @@
 import { Paginated } from '@good-idea/unwind-edges'
 import { ShopifyImage } from './media'
+// eslint-disable-next-line import/no-cycle
 import { Product } from './product'
 
 export interface Collection {

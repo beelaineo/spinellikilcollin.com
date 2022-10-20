@@ -156,8 +156,6 @@ export const SizeConverterForm = ({
   const { openCart } = useCart()
   const { sendAddToCart } = useAnalytics()
 
-  console.log('SELECTEDCOLORVARIANT', selectedColorVariant)
-
   // @ts-ignore
   const { currentVariant, selectVariant } =
     selectedColorVariant?.shopifyVariantID
@@ -167,11 +165,6 @@ export const SizeConverterForm = ({
       : {}
 
   const initialSizeParsed = initialSize ? parseFloat(initialSize) : undefined
-
-  useEffect(
-    () => console.log('currentVariant', currentVariant),
-    [currentVariant],
-  )
 
   const currentVariantTitle = selectedColorVariant?.title?.substring(
     0,

@@ -14,6 +14,25 @@
       }
     }
   },
+  "__experimental_spaces": [
+    {
+      "name": "production",
+      "title": "Production",
+      "default": true,
+      "api": {
+        "projectId": "i21fjdbi",
+        "dataset": "production"
+      }
+    },
+    {
+      "name": "staging",
+      "title": "Staging",
+      "api": {
+        "projectId": "i21fjdbi",
+        "dataset": "staging"
+      }
+    }
+  ],
   "plugins": [
     "@sanity/base",
     "@sanity/components",

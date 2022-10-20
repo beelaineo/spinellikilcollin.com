@@ -1,13 +1,15 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { ShopifyCollection } from '../../src/types'
+import { useRouter } from 'next/router'
+import { Maybe, ShopifyCollection, ShopifyProduct } from '../../src/types'
 import { sanityQuery } from '../../src/services/sanity'
 import { NotFound, ProductListing } from '../../src/views'
 import {
   richImageFragment,
   shopifySourceCollectionFragment,
   shopifyProductFragment,
+  customFilterFragment,
   heroFragment,
   collectionBlockFragment,
   seoFragment,
@@ -20,6 +22,7 @@ import { getParam, definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { createSanityCollectionQuery } from '../../src/views/ProductListing'
 import { useRefetch } from '../../src/hooks'
+import KeepAlive from 'react-activation'
 
 const collectionQueryById = gql`
   query ShopifyCollectionQuery($id: ID!) {
@@ -41,7 +44,11 @@ const collectionQueryById = gql`
       hidden
       reduceColumnCount
       lightTheme
-      customFilter
+      customFilter {
+        ...CustomFilterFragment
+      }
+      hideFilter
+      overrideDefaultFilter
       hero {
         ...HeroFragment
       }
@@ -83,6 +90,7 @@ const collectionQueryById = gql`
   }
   ${shopifySourceCollectionFragment}
   ${shopifyProductFragment}
+  ${customFilterFragment}
   ${heroFragment}
   ${collectionBlockFragment}
   ${richImageFragment}
@@ -91,21 +99,34 @@ const collectionQueryById = gql`
   ${imageTextBlockFragment}
   ${textBlockFragment}
 `
+interface ShopifyProductListingProduct extends ShopifyProduct {
+  filterData: {
+    inStock: boolean
+    metal: string[]
+    stone: string[]
+    style: string[]
+    subcategory: string[]
+  }
+}
+
+interface ShopifyProductListingCollection extends ShopifyCollection {
+  products?: Maybe<Maybe<ShopifyProductListingProduct>[]> | undefined
+}
 
 export interface CollectionResult {
-  Collection: ShopifyCollection
+  Collection: ShopifyProductListingCollection
 }
 
 interface CollectionResponse {
-  allShopifyCollection: ShopifyCollection[]
+  allShopifyCollection: ShopifyProductListingCollection[]
 }
 
 interface CollectionPageProps {
-  collection: ShopifyCollection
+  collection: ShopifyProductListingCollection
 }
 
 interface Response {
-  ShopifyCollection: ShopifyCollection
+  ShopifyCollection: ShopifyProductListingCollection
 }
 
 const getCollectionFromPreviewResponse = (response: Response) => {
@@ -114,58 +135,44 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 }
 
 const Collection = ({ collection }: CollectionPageProps) => {
-  const params =
-    typeof window !== 'undefined'
-      ? new URLSearchParams(window.location.search)
-      : null
-  // console.log('params', params)
-  const inStock = params?.get('instock') === 'true' ? true : false
-  const token = params?.get('preview')
-  const preview = Boolean(params?.get('preview'))
-
-  const refetchConfig = {
-    listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
-    listenQueryParams: { id: 'drafts.' + collection?._id },
-    refetchQuery: collectionQueryById,
-    refetchQueryParams: { id: 'drafts.' + collection?._id },
-    parseResponse: getCollectionFromPreviewResponse,
-    enabled: preview,
-    token: token,
-  }
-
-  const data = useRefetch<ShopifyCollection, Response>(
-    collection,
-    refetchConfig,
-  )
-
+  const { query } = useRouter()
+  const token = query?.preview
+  const preview = Boolean(query?.preview)
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
+      const refetchConfig = {
+        listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
+        listenQueryParams: { id: 'drafts.' + collection._id },
+        refetchQuery: collectionQueryById,
+        refetchQueryParams: { id: 'drafts.' + collection._id },
+        parseResponse: getCollectionFromPreviewResponse,
+        enabled: preview,
+        token: token,
+      }
+
+      const data = useRefetch<ShopifyProductListingCollection, Response>(
+        collection,
+        refetchConfig,
+      )
 
       if (!data)
         return (
           <ProductListing
             key={collection._id || 'some-key'}
             collection={collection}
-            inStockFilter={inStock}
           />
         )
-      return (
-        <ProductListing
-          key={data._id || 'some-key'}
-          collection={data}
-          inStockFilter={inStock}
-        />
-      )
+      return <ProductListing key={data._id || 'some-key'} collection={data} />
     } else {
       if (!collection) return <NotFound />
-      // console.log('inStock', inStock)
       return (
-        <ProductListing
-          key={collection._id || 'some-key'}
-          collection={collection}
-          inStockFilter={inStock}
-        />
+        <KeepAlive saveScrollPosition="screen">
+          <ProductListing
+            key={collection._id || 'some-key'}
+            collection={collection}
+          />
+        </KeepAlive>
       )
     }
   } catch (e) {
@@ -185,8 +192,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const responses = await Promise.all([
     sanityQuery<ShopifyCollection[]>(createSanityCollectionQuery(), {
       handle,
-      productStart: 0,
-      productEnd: 13,
       sort: null,
     }),
 

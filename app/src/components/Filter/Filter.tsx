@@ -69,12 +69,12 @@ interface FilterProps {
   applySort: (sort: Sort) => void
   applyFilters: (filterConfiguration: null | FilterConfiguration) => void
   productsCount: number
-  inStockFilter: boolean
   currentFilter: FilterConfiguration | null
   resetFilters: number
   hideFilter?: Maybe<boolean>
   minimalDisplay?: Maybe<boolean>
   open?: boolean
+  scrollGridIntoView: () => void
 }
 
 const getCurrentFilters = (
@@ -159,9 +159,9 @@ export const Filter = ({
   filters,
   applyFilters,
   applySort,
-  inStockFilter,
   resetFilters,
   hideFilter,
+  scrollGridIntoView,
   minimalDisplay,
   productsCount,
   open: parentOpen,
@@ -194,11 +194,13 @@ export const Filter = ({
     resetAll()
     applyFilters(null)
     setActiveKey('')
+    scrollGridIntoView()
   }
 
   const limitedToggle = (matchKey: string) => {
     resetAll()
     toggle(matchKey || 'some-key')
+    scrollGridIntoView()
   }
 
   useEffect(() => {
@@ -211,6 +213,7 @@ export const Filter = ({
 
   const handleFilterClick = (key?: Maybe<string>) => {
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
+    scrollGridIntoView()
   }
 
   useEffect(() => {
@@ -374,12 +377,11 @@ export const Filter = ({
                     resetSet={resetSet(filter._key || 'some-key')}
                     inventoryFilter={filter}
                     active={Boolean(activeKey === filter._key)}
-                    initiallyActive={inStockFilter}
                   />
                 </FilterWrapper>
               ) : null,
             )}
-            {minimalDisplay === false ? (
+            {!minimalDisplay ? (
               isMobile === true ? (
                 <MobileFooter>
                   {productsCount > 0 ? (

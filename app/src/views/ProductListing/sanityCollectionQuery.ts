@@ -53,6 +53,13 @@ const productInner = `
     values[defined(swatch)],
     ...
   },
+  "filterData": {
+    "inStock": (count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0),
+    "subcategory": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "subcategory"].node.value),
+    "metal": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "metal"].node.value),
+    "style": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "style"].node.value),
+    "stone": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "stone"].node.value),
+  },
   sourceData {
     _type,
     handle,
@@ -62,6 +69,7 @@ const productInner = `
     title,
     tags,
     priceRange,
+    productType,
     publishedAt,
     variants {
       "edges": edges[][node.availableForSale == true] {
@@ -76,7 +84,8 @@ const productInner = `
           priceV2,
           compareAtPriceV2,
           availableForSale,
-          currentlyNotInStock
+          currentlyNotInStock,
+          metafields,
         },
       },
     },
@@ -143,7 +152,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
     sort,
   )}) {
     ${productInner}
-  }[$productStart..$productEnd],
+  },
   preferredVariantMatches,
   collectionBlocks[]{
     _key,
@@ -175,7 +184,11 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[@->hidden != true && (!(@->_id in path("drafts.**")) && @->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))][$productStart..$productEnd]-> {
+  "products": products[@->hidden != true &&
+    (!(@->_id in path("drafts.**")) &&
+    @->hideFromCollections != true || (@->hideFromCollections == true &&
+      count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
+      handle == $handle][0]._id]) > 0))]-> {
     ${productInner}
   },
 }
@@ -204,11 +217,10 @@ ${
         products[@->hidden != true &&
         !(@->_id in path("drafts.**")) &&
         (@->hideFromCollections != true || (@->hideFromCollections == true &&
-        @->showInCollection._ref == *[_type == "shopifyCollection" &&
-        handle == $handle][0]._id))
+        count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
+        handle == $handle][0]._id]) > 0))
         ${filterString ? `&& ${filterString}` : ''}
-    ] | order(${getSortString(sort, filterSort)})
-    [$productStart..$productEnd]->
+    ] | order(${getSortString(sort, filterSort)})->
       {
         ${productInner}
       }
@@ -224,9 +236,7 @@ ${
       products[@->hidden != true &&
         !(@->_id in path("drafts.**")) &&
       (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))
-      ${
-        filterString ? `&& ${filterString}` : ''
-      }][$productStart...$productEnd]->{${productInner}}
+      ${filterString ? `&& ${filterString}` : ''}]->{${productInner}}
     }[0]
     `
     : `*[
@@ -239,7 +249,7 @@ ${
       ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort)}) {
       ${productInner}
-    }[$productStart...$productEnd]
+    }
   `
 }`
 
