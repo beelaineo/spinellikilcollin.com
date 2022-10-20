@@ -79,9 +79,9 @@ export const Providers = ({ shopData, children }: Props) => {
                         <BambuserProvider>
                           <ErrorDisplay />
                           <GlobalStyles />
-                          <AliveScope>
-                            <ModalProvider>{children}</ModalProvider>
-                          </AliveScope>
+                          <ModalProvider>
+                            <AliveScope>{children}</AliveScope>
+                          </ModalProvider>
                         </BambuserProvider>
                       </SearchProvider>
                     </CurrencyProvider>
