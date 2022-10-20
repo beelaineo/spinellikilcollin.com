@@ -884,6 +884,8 @@ export interface Hero {
   body_mobileRaw?: Maybe<Scalars['JSON']>
   cta?: Maybe<Array<Maybe<Cta>>>
   aspectRatio?: Maybe<Scalars['Float']>
+  /** Text color for the header/nav overlay over the hero. */
+  header_color?: Maybe<Scalars['String']>
   /** Change the layout and alignment mode of the hero elements (Default: Full Width) */
   layout?: Maybe<Scalars['String']>
   /** Limit the size of the text container. (Default: Full Width) */
@@ -909,6 +911,7 @@ export type HeroFilter = {
   _type?: Maybe<StringFilter>
   heroLink?: Maybe<InternalLinkFilter>
   aspectRatio?: Maybe<FloatFilter>
+  header_color?: Maybe<StringFilter>
   layout?: Maybe<StringFilter>
   textContainer?: Maybe<StringFilter>
   textPosition?: Maybe<StringFilter>
@@ -932,6 +935,7 @@ export type HeroSorting = {
   _type?: Maybe<SortOrder>
   heroLink?: Maybe<InternalLinkSorting>
   aspectRatio?: Maybe<SortOrder>
+  header_color?: Maybe<SortOrder>
   layout?: Maybe<SortOrder>
   textContainer?: Maybe<SortOrder>
   textPosition?: Maybe<SortOrder>
@@ -964,7 +968,7 @@ export interface Homepage extends Document {
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
   content?: Maybe<Array<Maybe<CarouselOrHeroOrImageTextBlock>>>
-  /** Text color for the header/nav overlay above first block on homepage. */
+  /** Text color for the header/nav overlay over the hero. */
   header_color?: Maybe<Scalars['String']>
   seo?: Maybe<Seo>
 }
