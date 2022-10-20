@@ -20,7 +20,7 @@ interface UseRefetchConfig<DataType, Response> {
 }
 
 export const useRefetch = <DataType, Response>(
-  initialData: DataType,
+  initialData: any,
   config: UseRefetchConfig<DataType, Response>,
 ) => {
   const {

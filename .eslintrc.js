@@ -12,6 +12,7 @@ module.exports = {
   parserOptions: {
     sourceType: 'module',
   },
+  plugins: ['react-hooks'],
   rules: {
     'import/no-cycle': 'error',
     'import/no-unresolved': [2, { ignore: ['^(all|part):'] }],
@@ -27,6 +28,8 @@ module.exports = {
     '@typescript-eslint/camelcase': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    'react-hooks/rules-of-hooks': 'warn',
+    'react-hooks/exhaustive-deps': 'warn',
   },
   settings: {
     react: {

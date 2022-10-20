@@ -75,6 +75,7 @@ interface FilterProps {
   hideFilter?: Maybe<boolean>
   minimalDisplay?: Maybe<boolean>
   open?: boolean
+  scrollGridIntoView: () => void
 }
 
 const getCurrentFilters = (
@@ -161,6 +162,7 @@ export const Filter = ({
   applySort,
   resetFilters,
   hideFilter,
+  scrollGridIntoView,
   minimalDisplay,
   productsCount,
   open: parentOpen,
@@ -208,11 +210,13 @@ export const Filter = ({
     resetAll()
     applyFilters(null)
     setActiveKey('')
+    scrollGridIntoView()
   }
 
   const limitedToggle = (matchKey: string) => {
     resetAll()
     toggle(matchKey || 'some-key')
+    scrollGridIntoView()
   }
 
   useEffect(() => {
@@ -225,6 +229,7 @@ export const Filter = ({
 
   const handleFilterClick = (key?: Maybe<string>) => {
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
+    scrollGridIntoView()
   }
 
   // const findMatchInnerKey = (items, type, match) => {

@@ -82,6 +82,11 @@ export const hero = {
       },
     },
     {
+      name: 'header_color',
+      type: 'header_color',
+      initialValue: 'dark',
+    },
+    {
       name: 'layout',
       title: 'Layout Mode',
       description:

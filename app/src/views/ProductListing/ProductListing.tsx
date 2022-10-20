@@ -229,11 +229,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
-    gridRef?.current?.scrollIntoView({
-      block: 'start',
-      inline: 'nearest',
-      behavior: 'smooth',
-    })
   }, [currentFilters])
 
   const updateItems = (products: ShopifyProductListingProduct[]) => {
@@ -250,8 +245,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductsCount(productResults.length)
-    console.log('sort', sort)
-
     if (sort) {
       const sortedProductResults = productResults.map((p, sortIndex) => ({
         sortIndex,
@@ -309,13 +302,17 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     setCurrentFilters(filters)
   }
 
-  const applySort = async (sort: Sort) => {
-    setSort(sort)
+  const scrollGridIntoView = () => {
     gridRef?.current?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
       behavior: 'smooth',
     })
+  }
+
+  const applySort = async (sort: Sort) => {
+    setSort(sort)
+    scrollGridIntoView()
   }
 
   if (!handle) throw new Error('No handle was fetched')
@@ -397,6 +394,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             productsCount={productsCount}
             resetFilters={resetFilters}
             hideFilter={hideFilter}
+            scrollGridIntoView={scrollGridIntoView}
             minimalDisplay={minimalDisplay}
           />
         ) : null}
