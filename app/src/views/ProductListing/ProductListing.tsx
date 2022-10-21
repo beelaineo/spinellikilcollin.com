@@ -252,31 +252,26 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       }))
       switch (sort) {
         case Sort.Default:
-          console.log('case Featured')
           sortedProductResults.sort((a, b) =>
             a.sortIndex && b.sortIndex ? a.sortIndex - b.sortIndex : 0,
           )
           updateItems(sortedProductResults)
           break
         case Sort.PriceDesc:
-          console.log('case High to Low')
           sortedProductResults.sort((a, b) =>
             b.maxVariantPrice && a.maxVariantPrice
               ? b.maxVariantPrice - a.maxVariantPrice
               : 0,
           )
           updateItems(sortedProductResults)
-          console.log('sortedProductsDesc', sortedProductResults)
           break
         case Sort.PriceAsc:
-          console.log('case Low to High')
           sortedProductResults.sort((a, b) =>
             b.minVariantPrice && a.minVariantPrice
               ? a.minVariantPrice - b.minVariantPrice
               : 0,
           )
           updateItems(sortedProductResults)
-          console.log('sortedProductsAsc', sortedProductResults)
           break
       }
     } else {
