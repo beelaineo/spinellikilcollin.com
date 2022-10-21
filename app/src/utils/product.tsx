@@ -576,6 +576,7 @@ export const getProductUri = (
   const variantId = getVariantId(variant)
   newParams.delete('stone')
   newParams.delete('metal')
+  newParams.delete('pos')
   newParams.delete('search')
   newParams.delete('v')
   if (variant && variantId) {
