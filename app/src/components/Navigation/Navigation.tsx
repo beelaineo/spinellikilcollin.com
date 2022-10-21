@@ -5,6 +5,7 @@ import { NextRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useShopify } from '../../providers/ShopifyProvider'
 import { useNavigation } from '../../providers/NavigationProvider'
+import { useSearch } from '../../providers/SearchProvider'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
 import Logotype from '../../svg/Logotype.svg'
@@ -27,7 +28,7 @@ import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
 import { QuickLinks } from './QuickLinks'
-const { useEffect, useRef, useCallback } = React
+const { useEffect, useState, useRef, useCallback } = React
 
 export const Navigation = () => {
   const {
@@ -44,13 +45,13 @@ export const Navigation = () => {
   const { loading, checkout } = useShopify()
   const lineItems = checkout ? unwindEdges(checkout.lineItems)[0] : []
   const cartCount = loading ? 0 : lineItems.length || 0
-  console.log('NAVIGATION ROUTER', router)
 
   const openCartHandler = () => openCart()
 
   const innerBorder = !/\/collections/.test(router.asPath)
 
   const sideNav = useRef<any>(null)
+  const searchOpen = useSearch().open
 
   useEffect(() => {
     if (menuOpen) {
@@ -64,7 +65,8 @@ export const Navigation = () => {
   }
 
   const showQuickLinks = (router) => {
-    const showLinks = router.pathname.includes('collections') ? false : true
+    const showLinks =
+      router.pathname.includes('collections') || searchOpen ? false : true
     return showLinks
   }
 

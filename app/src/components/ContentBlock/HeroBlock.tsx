@@ -16,7 +16,7 @@ import { CTA } from '../CTA'
 import { definitely } from '../../utils'
 import { useInViewport, useMedia } from '../../hooks'
 import { theme } from '../../theme'
-import { useNavigation } from '../../providers'
+import { useNavigation, useSearch } from '../../providers'
 
 const { useEffect, useRef } = React
 
@@ -326,13 +326,14 @@ export const HeroBlock = React.forwardRef(
 
     const heroRef = useRef<HTMLDivElement>(null)
     const { setColorTheme } = useNavigation()
+    const searchOpen = useSearch().open
     const { isInView } = useInViewport(heroRef, '-55px 0px')
 
     useEffect(() => {
-      header_color == 'light' && isInView
+      header_color == 'light' && isInView && !searchOpen
         ? setColorTheme('light')
         : setColorTheme('dark')
-    }, [isInView])
+    }, [isInView, searchOpen])
 
     useEffect(() => {
       return () => {

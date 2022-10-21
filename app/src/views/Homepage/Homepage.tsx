@@ -4,7 +4,7 @@ import { ContentBlock } from '../../components/ContentBlock'
 import { getHeroImage, definitely } from '../../utils'
 import { Homepage as HomepageType } from '../../types'
 import { SEO } from '../../components/SEO'
-import { useNavigation } from '../../providers/NavigationProvider'
+import { useNavigation, useSearch } from '../../providers'
 import { useInViewport } from '../../hooks'
 
 const { useEffect, useRef } = React
@@ -39,12 +39,13 @@ export const Homepage = (props: HomepageProps) => {
   const firstBlockRef = useRef<HTMLDivElement>(null)
   const { setColorTheme } = useNavigation()
   const { isInView } = useInViewport(firstBlockRef, '-55px 0px')
+  const searchOpen = useSearch().open
 
   useEffect(() => {
-    header_color == 'light' && isInView
+    header_color == 'light' && isInView && !searchOpen
       ? setColorTheme('light')
       : setColorTheme('dark')
-  }, [isInView])
+  }, [isInView, searchOpen])
 
   useEffect(() => {
     return () => {
