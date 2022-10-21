@@ -45,7 +45,7 @@ export const FilterCheckboxWrapper = styled.div`
   margin: 7px 0 0;
   cursor: pointer;
   align-items: start;
-  flex: 49%;
+  flex: 4;
   flex-grow: 0;
 
   @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
