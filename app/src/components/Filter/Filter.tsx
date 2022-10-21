@@ -173,6 +173,8 @@ export const Filter = ({
 
   const [filterQuery, setFilterQuery] = useState<{ [key: string]: any }>({})
 
+  console.log('filterQuery', filterQuery)
+
   const toggleOpen = () => {
     setOpen(!open)
     setActiveKey('')
@@ -183,7 +185,6 @@ export const Filter = ({
   }, [parentOpen])
 
   const router = useRouter()
-  const query = router.query
 
   const updateQueryParam = (query) => {
     router.replace(
@@ -203,21 +204,6 @@ export const Filter = ({
     toggle,
     toggleSingle,
   } = useFilterState(definitely(filters))
-
-  if (!filters || filterSetStates.length === 0) return null
-
-  const handleReset = () => {
-    resetAll()
-    applyFilters(null)
-    setActiveKey('')
-    scrollGridIntoView()
-  }
-
-  const limitedToggle = (matchKey: string) => {
-    resetAll()
-    toggle(matchKey || 'some-key')
-    scrollGridIntoView()
-  }
 
   useEffect(() => {
     handleReset()
@@ -246,6 +232,8 @@ export const Filter = ({
   // }
 
   const getFilterMatchByType = (type: any) => {
+    if (!filters) return
+
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
     const matches = filterMatches
@@ -282,6 +270,8 @@ export const Filter = ({
   }
 
   useEffect(() => {
+    if (!filters) return
+
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
     setFilterQuery({
@@ -293,32 +283,54 @@ export const Filter = ({
   }, [filterSetStates])
 
   useEffect(() => {
+    if (!filterQuery.stone) return
+
     if (filterQuery.stone !== '') {
-      updateQueryParam({ ...query, ...getFilterMatchByType('stone') })
+      updateQueryParam({ ...router.query, ...getFilterMatchByType('stone') })
     } else {
-      const { stone, ...removeFromQuery } = query
+      const { stone, ...removeFromQuery } = router.query
 
       updateQueryParam({ ...removeFromQuery })
     }
   }, [filterQuery.stone])
 
   useEffect(() => {
+    if (!filterQuery.metal) return
+
     if (filterQuery.metal !== '') {
-      updateQueryParam({ ...query, ...getFilterMatchByType('metal') })
+      console.log('no match')
+      updateQueryParam({ ...router.query, ...getFilterMatchByType('metal') })
     } else {
-      const { metal, ...removeFromQuery } = query
+      console.log('match')
+
+      const { metal, ...removeFromQuery } = router.query
 
       updateQueryParam({ ...removeFromQuery })
     }
   }, [filterQuery.metal])
 
   useEffect(() => {
-    const metalKeys = findMatchedKeys(filters, 'metal', query)
-    const stoneKeys = findMatchedKeys(filters, 'stone', query)
+    const metalKeys = findMatchedKeys(filters, 'metal', router.query)
+    const stoneKeys = findMatchedKeys(filters, 'stone', router.query)
 
     console.log('metal matches from query:', metalKeys)
     console.log('stone matches from query:', stoneKeys)
-  }, [router])
+  }, [router.query])
+
+  if (!filters || filterSetStates.length === 0) return null
+
+  const handleReset = () => {
+    resetAll()
+    applyFilters(null)
+    setActiveKey('')
+    scrollGridIntoView()
+  }
+
+  const limitedToggle = (matchKey: string) => {
+    resetAll()
+    toggle(matchKey || 'some-key')
+    scrollGridIntoView()
+  }
 
   if (hideFilter !== true) {
     return (
