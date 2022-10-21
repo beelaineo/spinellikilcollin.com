@@ -38,7 +38,7 @@ const Wrapper = styled.div<WithType>`
     ${theme.mediaQueries.tablet} {
     }
     @media screen and (max-width: 960px) {
-      flex: ${minimalDisplay ? '0' : '4'};
+      flex: ${minimalDisplay ? '0' : '49%'};
       flex-grow: 0;
       &:nth-last-child(2) {
         min-width: unset;
