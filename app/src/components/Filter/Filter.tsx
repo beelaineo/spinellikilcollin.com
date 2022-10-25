@@ -50,7 +50,7 @@ import { Sort, SortSet } from './SortSet'
 import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
 
-const { useEffect, useState } = React
+const { useEffect, useState, useRef } = React
 
 interface InventoryFilterType extends InventoryFilterTypeSource {
   applyFilter?: boolean
@@ -81,6 +81,7 @@ const getCurrentFilters = (
   filters: FilterType[],
   filterSetStates: FilterSetState[],
 ): FilterConfiguration => {
+  console.log('getCurrentFilters', filters, filterSetStates)
   return filterSetStates.reduce<FilterConfiguration>((acc, setState) => {
     const filter = filters.find((filter) => filter._key === setState.key)
     if (!filter) return acc
@@ -170,6 +171,16 @@ export const Filter = ({
   const [mobileDisplay, setMobileDisplay] = useState('filter')
   const [activeKey, setActiveKey] = useState('')
 
+  const useFirstRender = () => {
+    const firstRender = useRef(true)
+    useEffect(() => {
+      firstRender.current = false
+    }, [])
+    return firstRender.current
+  }
+  const firstRender = useFirstRender()
+  const filterRef = useRef<HTMLDivElement>(null)
+
   const toggleOpen = () => {
     setOpen(!open)
     setActiveKey('')
@@ -197,11 +208,9 @@ export const Filter = ({
     scrollGridIntoView()
   }
 
-  const limitedToggle = (matchKey: string) => {
-    resetAll()
-    toggle(matchKey || 'some-key')
-    scrollGridIntoView()
-  }
+  useEffect(() => {
+    console.log('Filter component mount')
+  }, [])
 
   useEffect(() => {
     handleReset()
@@ -213,18 +222,18 @@ export const Filter = ({
 
   const handleFilterClick = (key?: Maybe<string>) => {
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
-    scrollGridIntoView()
   }
 
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
-    // console.log('filterMatches', filterMatches)
     applyFilters(filterMatches)
+    if (!firstRender) scrollGridIntoView()
+    console.log('firstRender:', firstRender)
   }, [filterSetStates])
 
   if (hideFilter !== true) {
     return (
-      <Wrapper minimalDisplay={minimalDisplay}>
+      <Wrapper minimalDisplay={minimalDisplay} ref={filterRef}>
         {!minimalDisplay ? <Backdrop /> : null}
         {isMobile === true && open === false && !minimalDisplay ? (
           <MobileToggleWrapper onClick={toggleOpen}>
