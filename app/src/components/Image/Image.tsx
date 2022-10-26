@@ -89,6 +89,7 @@ interface ImageProps {
   preloadImages?: ImageType[]
   preload?: boolean
   objectFit?: string
+
   /**
    * Set to `true` if you want to use HTML canvas
    * to render the placeholder. This is only necessary when
@@ -116,6 +117,8 @@ export const Image = ({
   ratio: customRatio,
   canvasFill,
   preloadImages,
+  fetchPriority,
+  loading,
   objectFit,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
@@ -125,6 +128,8 @@ export const Image = ({
   const { isInViewOnce } = useInViewport(containerRef)
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
+
+  console.log('imageDetails', imageDetails)
 
   const {
     caption,
@@ -175,6 +180,8 @@ export const Image = ({
             alt={altText || ''}
             ref={imageRef}
             onLoad={handleOnLoad}
+            fetchPriority={fetchPriority}
+            loading={loading}
           />
           {hoverDetails && hoverDetails.src ? (
             <HoverImage
