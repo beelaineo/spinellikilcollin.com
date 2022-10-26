@@ -11,6 +11,7 @@ import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
 import styled, { css } from '@xstyled/styled-components'
 import { useRouter } from 'next/router'
+import { commaListsOr } from 'common-tags'
 
 const { useEffect, useState } = React
 
@@ -28,6 +29,7 @@ interface InventoryFilterProps {
   filterSetState?: FilterSetState
   setValues: (matchKey: string, values: InventoryFilterValues) => void
   resetSet: () => void
+  scrollGridIntoView: () => void
   setKey: string
   active: boolean
 }
@@ -89,6 +91,7 @@ export function InventoryFilter({
   inventoryFilter,
   filterSetState,
   setValues,
+  scrollGridIntoView,
   resetSet,
   active,
 }: InventoryFilterProps) {
@@ -102,7 +105,8 @@ export function InventoryFilter({
 
   const toggleFilter = () => {
     setApplyFilter(!applyFilter)
-    // console.log('URLParams', URLParams)
+    scrollGridIntoView()
+    console.log('TOGGLE INVENTORY FILTER')
   }
 
   const router = useRouter()
@@ -141,7 +145,7 @@ export function InventoryFilter({
     <InventoryFilterWrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onClick={() => toggleFilter()}
+      onClick={toggleFilter}
       isApplied={applyFilter}
     >
       <HeadingWrapper>

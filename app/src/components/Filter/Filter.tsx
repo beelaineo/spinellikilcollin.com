@@ -50,7 +50,7 @@ import { Sort, SortSet } from './SortSet'
 import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
 
-const { useEffect, useState } = React
+const { useEffect, useState, useRef } = React
 
 interface InventoryFilterType extends InventoryFilterTypeSource {
   applyFilter?: boolean
@@ -170,6 +170,16 @@ export const Filter = ({
   const [mobileDisplay, setMobileDisplay] = useState('filter')
   const [activeKey, setActiveKey] = useState('')
 
+  const useFirstRender = () => {
+    const firstRender = useRef(true)
+    useEffect(() => {
+      firstRender.current = false
+    }, [])
+    return firstRender.current
+  }
+  const firstRender = useFirstRender()
+  const filterRef = useRef<HTMLDivElement>(null)
+
   const toggleOpen = () => {
     setOpen(!open)
     setActiveKey('')
@@ -194,13 +204,8 @@ export const Filter = ({
     resetAll()
     applyFilters(null)
     setActiveKey('')
-    scrollGridIntoView()
-  }
-
-  const limitedToggle = (matchKey: string) => {
-    resetAll()
-    toggle(matchKey || 'some-key')
-    scrollGridIntoView()
+    if (!firstRender) scrollGridIntoView()
+    console.log('RESET by handleReset(), firstRender: ', firstRender)
   }
 
   useEffect(() => {
@@ -213,18 +218,16 @@ export const Filter = ({
 
   const handleFilterClick = (key?: Maybe<string>) => {
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
-    scrollGridIntoView()
   }
 
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
-    // console.log('filterMatches', filterMatches)
     applyFilters(filterMatches)
   }, [filterSetStates])
 
   if (hideFilter !== true) {
     return (
-      <Wrapper minimalDisplay={minimalDisplay}>
+      <Wrapper minimalDisplay={minimalDisplay} ref={filterRef}>
         {!minimalDisplay ? <Backdrop /> : null}
         {isMobile === true && open === false && !minimalDisplay ? (
           <MobileToggleWrapper onClick={toggleOpen}>
@@ -307,6 +310,7 @@ export const Filter = ({
                     toggleMatch={toggle(filter._key || 'some-key')}
                     filterSet={filter}
                     active={Boolean(activeKey === filter._key)}
+                    scrollGridIntoView={scrollGridIntoView}
                   />
                 </FilterWrapper>
               ) : filter.__typename === 'Filter' ? (
@@ -354,6 +358,7 @@ export const Filter = ({
                     )}
                     resetSet={resetSet(filter._key || 'some-key')}
                     setValues={setValues(filter._key || 'some-key')}
+                    scrollGridIntoView={scrollGridIntoView}
                     priceRangeFilter={filter}
                     active={Boolean(activeKey === filter._key)}
                   />
@@ -375,6 +380,7 @@ export const Filter = ({
                     )}
                     setValues={setValues(filter._key || 'some-key')}
                     resetSet={resetSet(filter._key || 'some-key')}
+                    scrollGridIntoView={scrollGridIntoView}
                     inventoryFilter={filter}
                     active={Boolean(activeKey === filter._key)}
                   />

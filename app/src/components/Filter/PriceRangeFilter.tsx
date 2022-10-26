@@ -33,6 +33,7 @@ interface KnobProps {
   upperLimit: number
   lowerLimit: number
   updatePosition: (pos: number) => void
+  scrollGridIntoView: () => void
   container?: HTMLDivElement | null
 }
 
@@ -42,12 +43,16 @@ const Knob = ({
   position,
   updatePosition,
   container,
+  scrollGridIntoView,
 }: KnobProps) => {
   const [mouseDown, setMouseDown] = useState(false)
 
   const handleMouseDown = () => setMouseDown(true)
 
-  const release = () => setMouseDown(false)
+  const release = () => {
+    setMouseDown(false)
+    scrollGridIntoView()
+  }
 
   const handleMouseMove = (e: MouseEvent | TouchEvent) => {
     const mouseX = 'touches' in e ? e.touches[0].clientX : e.clientX
@@ -96,6 +101,7 @@ interface PriceRangeFilterProps {
   filterSetState?: FilterSetState
   setValues: (matchKey: string, values: PriceRangeFilterValues) => void
   resetSet: () => void
+  scrollGridIntoView: () => void
   setKey: string
   active: boolean
 }
@@ -123,6 +129,7 @@ export function PriceRangeFilter({
   priceRangeFilter,
   filterSetState,
   resetSet,
+  scrollGridIntoView,
   setValues,
   active,
 }: PriceRangeFilterProps) {
@@ -243,6 +250,7 @@ export function PriceRangeFilter({
           lowerLimit={0}
           updatePosition={updateMinPosition}
           container={container}
+          scrollGridIntoView={scrollGridIntoView}
         />
         <Knob
           position={currentMaxPrice}
@@ -250,6 +258,7 @@ export function PriceRangeFilter({
           lowerLimit={currentMinPrice}
           updatePosition={updateMaxPosition}
           container={container}
+          scrollGridIntoView={scrollGridIntoView}
         />
       </Slider>
     </PriceRangeFilterWrapper>

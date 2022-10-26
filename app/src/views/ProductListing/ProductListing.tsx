@@ -5,6 +5,10 @@ import {
   ShopifyCollection,
   ShopifyProduct,
   CollectionBlock as CollectionBlockType,
+  Filter as FilterType,
+  FilterSet as FilterSetType,
+  InventoryFilter as InventoryFilterType,
+  PriceRangeFilter as PriceRangeFilterType,
   FilterConfiguration,
   FilterMatch,
   PRICE_RANGE_FILTER,
@@ -112,28 +116,21 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [loading, setLoading] = useState(false)
   const [resetFilters, doResetFilters] = useState(0)
+  const [filters, setFilters] = useState<
+    | (
+        | FilterType
+        | FilterSetType
+        | InventoryFilterType
+        | PriceRangeFilterType
+      )[]
+    | null
+  >(null)
   const [currentFilters, setCurrentFilters] =
     useState<FilterConfiguration | null>(null)
   const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
     ShopifyCollection[] | ShopifyProductListingProduct[],
     PaginationArgs
   >()
-  const defaultFilter = productListingSettings?.newDefaultFilter
-  const defaultFilters = definitely(defaultFilter).filter(
-    (f) => !Boolean('searchOnly' in f && f.searchOnly),
-  )
-  const customFilter = collection?.customFilter
-  const customFilters = definitely(customFilter).filter(
-    (f) => !Boolean('searchOnly' in f && f.searchOnly),
-  )
-  const filters = overrideDefaultFilter
-    ? [...customFilters]
-    : [...customFilters, ...defaultFilters]
-
-  filters.map((filter) => {
-    if (filter._type === 'inventoryFilter')
-      filters.push(filters.splice(filters.indexOf(filter), 1)[0])
-  })
 
   if (!handle) {
     throw new Error('The collection is missing a handle')
@@ -141,6 +138,26 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   if (!_id) {
     throw new Error('The collection is missing an _id')
   }
+
+  useEffect(() => {
+    const defaultFilter = productListingSettings?.newDefaultFilter
+    const defaultFilters = definitely(defaultFilter).filter(
+      (f) => !Boolean('searchOnly' in f && f.searchOnly),
+    )
+    const customFilter = collection?.customFilter
+    const customFilters = definitely(customFilter).filter(
+      (f) => !Boolean('searchOnly' in f && f.searchOnly),
+    )
+    const filters = overrideDefaultFilter
+      ? [...customFilters]
+      : [...customFilters, ...defaultFilters]
+
+    filters.map((filter) => {
+      if (filter._type === 'inventoryFilter')
+        filters.push(filters.splice(filters.indexOf(filter), 1)[0])
+    })
+    setFilters(filters)
+  }, [])
 
   // const router = useRouter()
   // const { query } = useRouter()
@@ -279,30 +296,16 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     }
   }, [productResults, sort])
 
-  // useEffect(() => {
-  //   console.log('SORTED PRODUCT RESULTS', sortedProductResults)
-  //   setItems(
-  //     collectionBlocks?.length
-  //       ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
-  //           if (!current?.position) return acc
-  //           const index = current.position - 1
-  //           return [...acc.slice(0, index), current, ...acc.slice(index)]
-  //         }, definitely(sortedProductResults))
-  //       : definitely(sortedProductResults),
-  //   )
-  //   console.log('ITEMS', items)
-  // }, [sortedProductResults])
-
-  const applyFilters = async (filters: null | FilterConfiguration) => {
-    setCurrentFilters(filters)
-  }
-
   const scrollGridIntoView = () => {
     gridRef?.current?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
       behavior: 'smooth',
     })
+  }
+
+  const applyFilters = async (filters: null | FilterConfiguration) => {
+    setCurrentFilters(filters)
   }
 
   const applySort = async (sort: Sort) => {
