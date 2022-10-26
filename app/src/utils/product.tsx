@@ -183,10 +183,6 @@ export const getBestVariantBySort = (
     if (!v?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
       const price = parseFloat(v.priceV2.amount)
-      console.log(
-        `bestSortVariant ${v.title} ${price}`,
-        Boolean(price == minVariantPrice),
-      )
       return Boolean(price == minVariantPrice)
     } else if (sort == Sort.PriceDesc) {
       const price = parseFloat(v.priceV2.amount)
@@ -462,10 +458,6 @@ export const getBestVariantByFilterMatch = (
     if (!v?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
       const price = parseFloat(v.priceV2.amount)
-      console.log(
-        `bestSortVariant ${v.title} ${price}`,
-        Boolean(price == minVariantPrice),
-      )
       return Boolean(price == minVariantPrice)
     } else if (sort == Sort.PriceDesc) {
       const price = parseFloat(v.priceV2.amount)

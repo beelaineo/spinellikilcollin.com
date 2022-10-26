@@ -81,7 +81,6 @@ const getCurrentFilters = (
   filters: FilterType[],
   filterSetStates: FilterSetState[],
 ): FilterConfiguration => {
-  console.log('getCurrentFilters', filters, filterSetStates)
   return filterSetStates.reduce<FilterConfiguration>((acc, setState) => {
     const filter = filters.find((filter) => filter._key === setState.key)
     if (!filter) return acc
@@ -209,10 +208,6 @@ export const Filter = ({
   }
 
   useEffect(() => {
-    console.log('Filter component mount')
-  }, [])
-
-  useEffect(() => {
     handleReset()
   }, [resetFilters])
 
@@ -228,7 +223,6 @@ export const Filter = ({
     const filterMatches = getCurrentFilters(filters, filterSetStates)
     applyFilters(filterMatches)
     if (!firstRender) scrollGridIntoView()
-    console.log('firstRender:', firstRender)
   }, [filterSetStates])
 
   if (hideFilter !== true) {

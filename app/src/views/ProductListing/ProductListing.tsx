@@ -157,7 +157,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         filters.push(filters.splice(filters.indexOf(filter), 1)[0])
     })
     setFilters(filters)
-    console.log('SETFILTERS', filters)
   }, [])
 
   // const router = useRouter()
@@ -247,7 +246,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
-    console.log('currentFilters ProductListing', currentFilters)
   }, [currentFilters])
 
   const updateItems = (products: ShopifyProductListingProduct[]) => {
@@ -307,7 +305,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   const applyFilters = async (filters: null | FilterConfiguration) => {
-    console.log('applyFilters ProductListing', filters)
     setCurrentFilters(filters)
   }
 
