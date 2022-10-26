@@ -204,7 +204,8 @@ export const Filter = ({
     resetAll()
     applyFilters(null)
     setActiveKey('')
-    scrollGridIntoView()
+    if (!firstRender) scrollGridIntoView()
+    console.log('RESET by handleReset(), firstRender: ', firstRender)
   }
 
   useEffect(() => {
@@ -222,7 +223,6 @@ export const Filter = ({
   useEffect(() => {
     const filterMatches = getCurrentFilters(filters, filterSetStates)
     applyFilters(filterMatches)
-    if (!firstRender) scrollGridIntoView()
   }, [filterSetStates])
 
   if (hideFilter !== true) {
@@ -310,6 +310,7 @@ export const Filter = ({
                     toggleMatch={toggle(filter._key || 'some-key')}
                     filterSet={filter}
                     active={Boolean(activeKey === filter._key)}
+                    scrollGridIntoView={scrollGridIntoView}
                   />
                 </FilterWrapper>
               ) : filter.__typename === 'Filter' ? (
@@ -357,6 +358,7 @@ export const Filter = ({
                     )}
                     resetSet={resetSet(filter._key || 'some-key')}
                     setValues={setValues(filter._key || 'some-key')}
+                    scrollGridIntoView={scrollGridIntoView}
                     priceRangeFilter={filter}
                     active={Boolean(activeKey === filter._key)}
                   />
@@ -378,6 +380,7 @@ export const Filter = ({
                     )}
                     setValues={setValues(filter._key || 'some-key')}
                     resetSet={resetSet(filter._key || 'some-key')}
+                    scrollGridIntoView={scrollGridIntoView}
                     inventoryFilter={filter}
                     active={Boolean(activeKey === filter._key)}
                   />
