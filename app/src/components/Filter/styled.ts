@@ -539,7 +539,7 @@ export const Slider = styled.div<WithIsHoveredType>`
     padding: 3 0;
     max-width: 300px;
     margin-top: 2;
-    margin-bottom: 6;
+    margin-bottom: 2;
     &:after {
       content: '';
       width: 100%;
