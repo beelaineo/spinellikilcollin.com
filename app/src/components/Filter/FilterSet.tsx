@@ -90,9 +90,14 @@ export const FilterSet = ({
   }
   const { heading, filters } = filterSet
   const { activeMatchKeys } = filterSetState
-  if (!filters || !filters.length) return null
 
   const [mouseEnter, setMouseEnter] = useState(false)
+  const isMobile = useMedia({
+    maxWidth: `960px`,
+  })
+
+  if (!filters || !filters.length) return null
+
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
 
@@ -108,9 +113,6 @@ export const FilterSet = ({
     })
   }
 
-  const isMobile = useMedia({
-    maxWidth: `960px`,
-  })
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
