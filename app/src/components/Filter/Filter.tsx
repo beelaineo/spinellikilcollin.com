@@ -173,7 +173,6 @@ export const Filter = ({
 
   const [filterQuery, setFilterQuery] = useState<{ [key: string]: any }>({})
 
-  console.log('filterQuery', filterQuery)
   const useFirstRender = () => {
     const firstRender = useRef(true)
     useEffect(() => {
@@ -212,6 +211,8 @@ export const Filter = ({
     resetSet,
     toggle,
     toggleSingle,
+    enable,
+    disable,
   } = useFilterState(definitely(filters))
 
   useEffect(() => {
@@ -224,21 +225,7 @@ export const Filter = ({
 
   const handleFilterClick = (key?: Maybe<string>) => {
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
-    scrollGridIntoView()
   }
-
-  // const findMatchInnerKey = (items, type, match) => {
-  //   const key = items
-  //     ?.map((f) =>
-  //       f?.filters?.map((g) =>
-  //         g?.matches?.find((h) => h.type === type && h.match === match),
-  //       ),
-  //     )
-  //     .flat()
-  //     .filter((item) => item)[0]?._key
-
-  //   return key
-  // }
 
   const getFilterMatchByType = (type: any) => {
     if (!filters) return
@@ -256,26 +243,45 @@ export const Filter = ({
     return { [type]: matches }
   }
 
-  const findMatchedKeys = (items, type, query) => {
-    const matched = query?.[type]?.split(' ')
+  const getQueryType = (arr, query?: Maybe<string>) => {
+    const type = arr?.filter(
+      (item) => item?.heading?.toLowerCase() === query,
+    )[0]
 
-    const key = items
-      ?.map((f) =>
-        f?.filters?.map((g) => {
-          const valid = g?.matches?.filter(
-            (h) => h.type === type && matched?.includes(h.match),
-          )
-          if (valid) {
-            return [...valid]
-          }
-        }),
-      )
-      .flat()
-      .filter((item) => item)
-      .map((item) => item.map(({ _key }) => _key))
-      .flat()
+    return type
+  }
 
-    return key
+  const getQueryMatches = (items, query) => {
+    const matches = items?.filters
+      ?.map((filter) => {
+        const match = filter?.matches?.filter((match) => match?.match === query)
+        return {
+          filter,
+          match,
+        }
+      })
+      .filter((item) => item?.match?.length)[0]
+    return matches?.filter
+  }
+
+  const findMatchedKeys = (items, query) => {
+    const { collectionSlug, pos, ...filteredQuery } = query
+
+    const matches = Object.entries(filteredQuery)
+
+    const getKeys = matches?.map((match, i) => {
+      const type = getQueryType(items, match[0])
+
+      //@ts-ignore
+      const matchArr = match[1]?.split(' ')
+
+      const matchKeys = matchArr?.map((item) => {
+        return { type: type._key, match: getQueryMatches(type, item)?._key }
+      })
+      return matchKeys
+    })
+
+    return getKeys.flat()
   }
 
   useEffect(() => {
@@ -307,11 +313,8 @@ export const Filter = ({
     if (!filterQuery.metal) return
 
     if (filterQuery.metal !== '') {
-      console.log('no match')
       updateQueryParam({ ...router.query, ...getFilterMatchByType('metal') })
     } else {
-      console.log('match')
-
       const { metal, ...removeFromQuery } = router.query
 
       updateQueryParam({ ...removeFromQuery })
@@ -319,12 +322,11 @@ export const Filter = ({
   }, [filterQuery.metal])
 
   useEffect(() => {
-    const metalKeys = findMatchedKeys(filters, 'metal', router.query)
-    const stoneKeys = findMatchedKeys(filters, 'stone', router.query)
-
-    console.log('metal matches from query:', metalKeys)
-    console.log('stone matches from query:', stoneKeys)
-  }, [router.query])
+    const matchedKeys = findMatchedKeys(filters, router.query)
+    matchedKeys.map((key) => {
+      enable(key.type, key.match)
+    })
+  }, [router.isReady])
 
   if (!filters || filterSetStates.length === 0) return null
 
