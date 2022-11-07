@@ -189,8 +189,8 @@ interface UseFilterReducer {
   filterSetStates: FilterSetState[]
   resetAll: () => void
   resetSet: (setKey: string) => () => void
-  enable: (setKey: string) => (matchKey: string) => () => void
-  disable: (setKey: string) => (matchKey: string) => () => void
+  enable: (setKey: string, matchKey: string) => void
+  disable: (setKey: string, matchKey: string) => void
   toggle: (setKey: string) => (matchKey: string) => () => void
   toggleSingle: (setKey: string) => (matchKey: string) => () => void
   setValues: (
@@ -235,9 +235,9 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
   const resetAll = () => dispatch({ type: RESET_ALL })
   const resetSet = (setKey: string) => () =>
     dispatch({ type: RESET_SET, setKey })
-  const enable = (setKey: string) => (matchKey: string) => () =>
+  const enable = (setKey: string, matchKey: string) =>
     dispatch({ type: ENABLE, setKey, matchKey })
-  const disable = (setKey: string) => (matchKey: string) => () =>
+  const disable = (setKey: string, matchKey: string) =>
     dispatch({ type: DISABLE, setKey, matchKey })
   const toggle = (setKey: string) => (matchKey: string) => () =>
     dispatch({ type: TOGGLE, setKey, matchKey })
