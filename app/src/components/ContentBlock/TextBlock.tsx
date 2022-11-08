@@ -46,7 +46,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
     display: flex;
     text-align: ${textAlignment};
     align-items: center;
-    justify-content: initial;
+    justify-content: ${textAlignment == 'center' ? 'center' : 'initial'};
 
     h1,
     h2,
