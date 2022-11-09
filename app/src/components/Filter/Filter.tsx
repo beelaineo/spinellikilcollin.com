@@ -251,6 +251,19 @@ export const Filter = ({
     return type
   }
 
+  // const findMatchInnerKey = (items, type, match) => {
+  //   const key = items
+  //     ?.map((f) =>
+  //       f?.filters?.map((g) =>
+  //         g?.matches?.find((h) => h.type === type && h.match === match),
+  //       ),
+  //     )
+  //     .flat()
+  //     .filter((item) => item)[0]?._key
+
+  //   return key
+  // }
+
   const getQueryMatches = (items, query) => {
     const matches = items?.filters
       ?.map((filter) => {
@@ -276,12 +289,29 @@ export const Filter = ({
       const matchArr = match[1]?.split(' ')
 
       const matchKeys = matchArr?.map((item) => {
-        return { type: type._key, match: getQueryMatches(type, item)?._key }
+        return { type: type?._key, match: getQueryMatches(type, item)?._key }
       })
       return matchKeys
     })
 
     return getKeys.flat()
+  }
+
+  const useQueryUpdate = (type) => {
+    const updateQueryByType = (type) => {
+      if (!router.isReady) return
+
+      if (filterQuery[type] !== '') {
+        updateQueryParam({ ...router.query, ...getFilterMatchByType(type) })
+      } else {
+        delete router.query[type]
+        updateQueryParam({ ...router.query })
+      }
+    }
+
+    useEffect(() => {
+      updateQueryByType(type)
+    }, [filterQuery[type]])
   }
 
   useEffect(() => {
@@ -292,34 +322,19 @@ export const Filter = ({
     setFilterQuery({
       ...getFilterMatchByType('metal'),
       ...getFilterMatchByType('stone'),
+      ...getFilterMatchByType('style'),
+      ...getFilterMatchByType('type'),
+      ...getFilterMatchByType('subcategory'),
     })
 
     applyFilters(filterMatches)
   }, [filterSetStates])
 
-  useEffect(() => {
-    if (!filterQuery.stone) return
-
-    if (filterQuery.stone !== '') {
-      updateQueryParam({ ...router.query, ...getFilterMatchByType('stone') })
-    } else {
-      const { stone, ...removeFromQuery } = router.query
-
-      updateQueryParam({ ...removeFromQuery })
-    }
-  }, [filterQuery.stone])
-
-  useEffect(() => {
-    if (!filterQuery.metal) return
-
-    if (filterQuery.metal !== '') {
-      updateQueryParam({ ...router.query, ...getFilterMatchByType('metal') })
-    } else {
-      const { metal, ...removeFromQuery } = router.query
-
-      updateQueryParam({ ...removeFromQuery })
-    }
-  }, [filterQuery.metal])
+  useQueryUpdate('metal')
+  useQueryUpdate('stone')
+  useQueryUpdate('style')
+  useQueryUpdate('type')
+  useQueryUpdate('subcategory')
 
   useEffect(() => {
     const matchedKeys = findMatchedKeys(filters, router.query)
