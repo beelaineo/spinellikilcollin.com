@@ -168,7 +168,8 @@ export const FilterSet = ({
               hidden={Boolean(
                 (filterSet.heading === 'Type' ||
                   filterSet.heading === 'Bands' ||
-                  filterSet.heading === 'Size') &&
+                  filterSet.heading === 'Size' ||
+                  filterSet.heading === 'Ring Size') &&
                   filter._key &&
                   activeMatchKeys.includes(filter._key),
               )}
