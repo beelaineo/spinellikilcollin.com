@@ -285,12 +285,6 @@ export const Filter = ({
       }
     }
 
-    useQueryUpdate('metal')
-    useQueryUpdate('stone')
-    useQueryUpdate('style')
-    useQueryUpdate('type')
-    useQueryUpdate('subcategory')
-
     useEffect(() => {
       updateQueryByType(type)
     }, [filterQuery[type]])
@@ -311,6 +305,12 @@ export const Filter = ({
 
     applyFilters(filterMatches)
   }, [filterSetStates])
+
+  useQueryUpdate('metal')
+  useQueryUpdate('stone')
+  useQueryUpdate('style')
+  useQueryUpdate('type')
+  useQueryUpdate('subcategory')
 
   useEffect(() => {
     const matchedKeys = findMatchedKeys(filters, router.query)
