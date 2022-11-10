@@ -337,7 +337,9 @@ export const HeadingWrapper = styled.div<WithIsActive>`
     (type == 'Type' || type == 'Bands' || type == 'Size' || type == 'Ring Size')
       ? 'padding: 0; & > h5 { min-width: 72px; padding: 2 0; } h5 { border: 1px solid ' +
         theme.colors.grays[6] +
-        '; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 18px; justify-content: flex-start; display: flex; align-items: center; border: 1px solid' +
+        `; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: ${
+          type == 'Ring Size' ? '2 26px 2 22px' : '2 18px'
+        }; justify-content: flex-start; display: flex; align-items: center; border: 1px solid` +
         theme.colors.grays[6] +
         '; border-radius: 2em;' +
         '}'
