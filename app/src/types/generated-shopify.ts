@@ -37,6 +37,23 @@ export type Scalars = {
    *
    */
   HTML: any
+  /**
+   * A [JSON](https://www.json.org/json-en.html) object.
+   *
+   * Example value:
+   * `{
+   *   "product": {
+   *     "id": "gid://shopify/Product/1346443542550",
+   *     "title": "White T-shirt",
+   *     "options": [{
+   *       "name": "Size",
+   *       "values": ["M", "L"]
+   *     }]
+   *   }
+   * }`
+   *
+   */
+  JSON: { [key: string]: any }
   /** A monetary value string without a currency symbol or code. Example value: `"100.57"`. */
   Money: any
   /**
@@ -1573,6 +1590,7 @@ export type ShopifyStorefrontCollectionProductsArgs = {
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontProductCollectionSortKeys>
+  filters?: Maybe<Array<ShopifyStorefrontProductFilter>>
 }
 
 /** An auto-generated type for paginating through multiple Collections. */
@@ -3122,6 +3140,49 @@ export interface ShopifyStorefrontExternalVideo
   previewImage?: Maybe<ShopifyStorefrontImage>
 }
 
+/** A filter that is supported on the parent field. */
+export interface ShopifyStorefrontFilter {
+  __typename: 'Filter'
+  /** A unique identifier. */
+  id: Scalars['String']
+  /** A human-friendly string for this filter. */
+  label: Scalars['String']
+  /** An enumeration that denotes the type of data this filter represents. */
+  type: ShopifyStorefrontFilterType
+  /** The list of values for this filter. */
+  values: Array<ShopifyStorefrontFilterValue>
+}
+
+/**
+ * The type of data that the filter group represents.
+ *
+ * For more information, refer to [Filter products in a collection with the Storefront API]
+ * (https://shopify.dev/custom-storefronts/products-collections/filter-products).
+ */
+export enum ShopifyStorefrontFilterType {
+  /** A list of selectable values. */
+  List = 'LIST',
+  /** A range of prices. */
+  PriceRange = 'PRICE_RANGE',
+}
+
+/** A selectable value within a filter. */
+export interface ShopifyStorefrontFilterValue {
+  __typename: 'FilterValue'
+  /** The number of results that match this filter value. */
+  count: Scalars['Int']
+  /** A unique identifier. */
+  id: Scalars['String']
+  /**
+   * An input object that can be used to filter by this value on the parent field.
+   *
+   * The value is provided as a helper for building dynamic filtering UI. For example, if you have a list of selected `FilterValue` objects, you can combine their respective `input` values to use in a subsequent query.
+   */
+  input: Scalars['JSON']
+  /** A human-friendly string for this filter value. */
+  label: Scalars['String']
+}
+
 /** Represents a single fulfillment in an order. */
 export interface ShopifyStorefrontFulfillment {
   __typename: 'Fulfillment'
@@ -3251,6 +3312,16 @@ export interface ShopifyStorefrontImage {
    * @deprecated Use `url(transform:)` instead
    */
   transformedSrc: Scalars['URL']
+  /**
+   * The location of the image as a URL.
+   *
+   * If no transform options are specified, then the original image will be preserved including any pre-applied transforms.
+   *
+   * All transformation options are considered "best-effort". Any transformation that the original image type doesn't support will be ignored.
+   *
+   * If you need multiple variations of the same image, then you can use [GraphQL aliases](https://graphql.org/learn/queries/#aliases).
+   */
+  url: Scalars['URL']
   /** The original width of the image in pixels. Returns `null` if the image is not hosted by Shopify. */
   width?: Maybe<Scalars['Int']>
 }
@@ -3262,6 +3333,11 @@ export type ShopifyStorefrontImageTransformedSrcArgs = {
   crop?: Maybe<ShopifyStorefrontCropRegion>
   scale?: Maybe<Scalars['Int']>
   preferredContentType?: Maybe<ShopifyStorefrontImageContentType>
+}
+
+/** Represents an image resource. */
+export type ShopifyStorefrontImageUrlArgs = {
+  transform?: Maybe<ShopifyStorefrontImageTransformInput>
 }
 
 /** An auto-generated type for paginating through multiple Images. */
@@ -3290,6 +3366,33 @@ export interface ShopifyStorefrontImageEdge {
   cursor: Scalars['String']
   /** The item at the end of ImageEdge. */
   node: ShopifyStorefrontImage
+}
+
+/**
+ * The available options for transforming an image.
+ *
+ * All transformation options are considered best effort. Any transformation that the original image type doesn't support will be ignored.
+ */
+export type ShopifyStorefrontImageTransformInput = {
+  /**
+   * The region of the image to remain after cropping.
+   * Must be used in conjunction with the `maxWidth` and/or `maxHeight` fields, where the `maxWidth` and `maxHeight` aren't equal.
+   * The `crop` argument should coincide with the smaller value. A smaller `maxWidth` indicates a `LEFT` or `RIGHT` crop, while
+   * a smaller `maxHeight` indicates a `TOP` or `BOTTOM` crop. For example, `{ maxWidth: 5, maxHeight: 10, crop: LEFT }` will result
+   * in an image with a width of 5 and height of 10, where the right side of the image is removed.
+   */
+  crop?: Maybe<ShopifyStorefrontCropRegion>
+  /** Image width in pixels between 1 and 5760. */
+  maxWidth?: Maybe<Scalars['Int']>
+  /** Image height in pixels between 1 and 5760. */
+  maxHeight?: Maybe<Scalars['Int']>
+  /** Image size multiplier for high-resolution retina displays. Must be within 1..3. */
+  scale?: Maybe<Scalars['Int']>
+  /**
+   * Convert the source image into the preferred content type.
+   * Supported conversions: `.svg` to `.png`, any file type to `.jpg`, and any file type to `.webp`.
+   */
+  preferredContentType?: Maybe<ShopifyStorefrontImageContentType>
 }
 
 /** Information about the localized experiences configured for the shop. */
@@ -3587,6 +3690,8 @@ export interface ShopifyStorefrontMetafield extends ShopifyStorefrontNode {
   namespace: Scalars['String']
   /** The parent object that the metafield belongs to. */
   parentResource: ShopifyStorefrontMetafieldParentResource
+  /** Returns a reference object if the metafield definition's type is a resource reference. */
+  reference?: Maybe<ShopifyStorefrontMetafieldReference>
   /**
    * The type name of the metafield.
    * See the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
@@ -3621,6 +3726,24 @@ export interface ShopifyStorefrontMetafieldEdge {
   node: ShopifyStorefrontMetafield
 }
 
+/**
+ * A filter used to view a subset of products in a collection matching a specific metafield value.
+ *
+ * Only the following metafield types are currently supported:
+ * - `number_integer`
+ * - `number_decimal`
+ * - `single_line_text_field`
+ * - `boolean` as of 2022-04.
+ */
+export type ShopifyStorefrontMetafieldFilter = {
+  /** The namespace of the metafield to filter on. */
+  namespace: Scalars['String']
+  /** The key of the metafield to filter on. */
+  key: Scalars['String']
+  /** The value of the metafield. */
+  value: Scalars['String']
+}
+
 /** A resource that the metafield belongs to. */
 export type ShopifyStorefrontMetafieldParentResource =
   | ShopifyStorefrontArticle
@@ -3632,6 +3755,13 @@ export type ShopifyStorefrontMetafieldParentResource =
   | ShopifyStorefrontProduct
   | ShopifyStorefrontProductVariant
   | ShopifyStorefrontShop
+
+/** Returns the resource which is being referred to by a metafield. */
+export type ShopifyStorefrontMetafieldReference =
+  | ShopifyStorefrontMediaImage
+  | ShopifyStorefrontPage
+  | ShopifyStorefrontProduct
+  | ShopifyStorefrontProductVariant
 
 /** Metafield value types. */
 export enum ShopifyStorefrontMetafieldValueType {
@@ -4648,6 +4778,14 @@ export enum ShopifyStorefrontPaymentTokenType {
   StripeVaultToken = 'STRIPE_VAULT_TOKEN',
 }
 
+/** A filter used to view a subset of products in a collection matching a specific price range. */
+export type ShopifyStorefrontPriceRangeFilter = {
+  /** The minimum price in the range. Defaults to zero. */
+  min?: Maybe<Scalars['Float']>
+  /** The maximum price in the range. Empty indicates no max price. */
+  max?: Maybe<Scalars['Float']>
+}
+
 /** The value of the percentage pricing object. */
 export interface ShopifyStorefrontPricingPercentageValue {
   __typename: 'PricingPercentageValue'
@@ -4681,6 +4819,12 @@ export interface ShopifyStorefrontProduct
   description: Scalars['String']
   /** The description of the product, complete with HTML formatting. */
   descriptionHtml: Scalars['HTML']
+  /**
+   * The featured image for the product.
+   *
+   * This field is functionally equivalent to `images(first: 1)`.
+   */
+  featuredImage?: Maybe<ShopifyStorefrontImage>
   /**
    * A human-friendly unique string for the Product automatically generated from its title.
    * They are used by the Liquid templating language to refer to objects.
@@ -4903,6 +5047,8 @@ export interface ShopifyStorefrontProductConnection {
   __typename: 'ProductConnection'
   /** A list of edges. */
   edges: Array<ShopifyStorefrontProductEdge>
+  /** A list of available filters. */
+  filters: Array<ShopifyStorefrontFilter>
   /** Information to aid in pagination. */
   pageInfo: ShopifyStorefrontPageInfo
 }
@@ -4914,6 +5060,24 @@ export interface ShopifyStorefrontProductEdge {
   cursor: Scalars['String']
   /** The item at the end of ProductEdge. */
   node: ShopifyStorefrontProduct
+}
+
+/** A filter used to view a subset of products in a collection. */
+export type ShopifyStorefrontProductFilter = {
+  /** Filter on if the product is available for sale. */
+  available?: Maybe<Scalars['Boolean']>
+  /** A variant option to filter on. */
+  variantOption?: Maybe<ShopifyStorefrontVariantOptionFilter>
+  /** The product type to filter on. */
+  productType?: Maybe<Scalars['String']>
+  /** The product vendor to filter on. */
+  productVendor?: Maybe<Scalars['String']>
+  /** A range of prices to filter with-in. */
+  price?: Maybe<ShopifyStorefrontPriceRangeFilter>
+  /** A product metafield to filter on. */
+  productMetafield?: Maybe<ShopifyStorefrontMetafieldFilter>
+  /** A variant metafield to filter on. */
+  variantMetafield?: Maybe<ShopifyStorefrontMetafieldFilter>
 }
 
 /** The set of valid sort keys for the ProductImage query. */
@@ -5023,6 +5187,8 @@ export interface ShopifyStorefrontProductVariant
   available?: Maybe<Scalars['Boolean']>
   /** Indicates if the product variant is available for sale. */
   availableForSale: Scalars['Boolean']
+  /** The barcode (for example, ISBN, UPC, or GTIN) associated with the variant. */
+  barcode?: Maybe<Scalars['String']>
   /**
    * The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`.
    * @deprecated Use `compareAtPriceV2` instead.
@@ -5757,6 +5923,8 @@ export interface ShopifyStorefrontShop extends ShopifyStorefrontHasMetafields {
    * @deprecated Use `paymentSettings` instead.
    */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>
+  /** The shop’s subscription policy. */
+  subscriptionPolicy?: Maybe<ShopifyStorefrontShopPolicyWithDefault>
   /** The shop’s terms of service. */
   termsOfService?: Maybe<ShopifyStorefrontShopPolicy>
 }
@@ -5851,6 +6019,25 @@ export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
   /** A globally-unique identifier. */
   id: Scalars['ID']
   /** Policy’s title. */
+  title: Scalars['String']
+  /** Public URL to the policy. */
+  url: Scalars['URL']
+}
+
+/**
+ * A policy for the store that comes with a default value, such as a subscription policy.
+ * If the merchant hasn't configured a policy for their store, then the policy will return the default value.
+ * Otherwise, the policy will return the merchant-configured value.
+ */
+export interface ShopifyStorefrontShopPolicyWithDefault {
+  __typename: 'ShopPolicyWithDefault'
+  /** The text of the policy. Maximum size: 64KB. */
+  body: Scalars['String']
+  /** The handle of the policy. */
+  handle: Scalars['String']
+  /** The unique identifier of the policy. A default policy doesn't have an ID. */
+  id?: Maybe<Scalars['ID']>
+  /** The title of the policy. */
   title: Scalars['String']
   /** Public URL to the policy. */
   url: Scalars['URL']
@@ -6090,6 +6277,14 @@ export interface ShopifyStorefrontUserError
   field?: Maybe<Array<Scalars['String']>>
   /** The error message. */
   message: Scalars['String']
+}
+
+/** A filter used to view a subset of products in a collection matching a specific variant option. */
+export type ShopifyStorefrontVariantOptionFilter = {
+  /** The name of the variant option to filter on. */
+  name: Scalars['String']
+  /** The value of the variant option to filter on. */
+  value: Scalars['String']
 }
 
 /** Represents a Shopify hosted video. */

@@ -401,6 +401,31 @@ export type ContactSorting = {
   seo?: Maybe<SeoSorting>
 }
 
+export interface CrossDatasetReference {
+  __typename: 'CrossDatasetReference'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  _ref?: Maybe<Scalars['String']>
+  _weak?: Maybe<Scalars['Boolean']>
+  _dataset?: Maybe<Scalars['String']>
+}
+
+export type CrossDatasetReferenceFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  _ref?: Maybe<StringFilter>
+  _weak?: Maybe<BooleanFilter>
+  _dataset?: Maybe<StringFilter>
+}
+
+export type CrossDatasetReferenceSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _ref?: Maybe<SortOrder>
+  _weak?: Maybe<SortOrder>
+  _dataset?: Maybe<SortOrder>
+}
+
 export interface Cta {
   __typename: 'Cta'
   _key?: Maybe<Scalars['String']>
