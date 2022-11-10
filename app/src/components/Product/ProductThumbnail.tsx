@@ -366,7 +366,7 @@ export const ProductThumbnail = ({
   return (
     <ProductThumb ref={containerRef} onClick={handleClick}>
       <Link href="/products/[productSlug]" as={linkAs}>
-        <a aria-label={'Link to ' + product.title}>
+        <a draggable="false" aria-label={'Link to ' + product.title}>
           {variantAnimation ? (
             <VideoWrapper hide={!playing}>
               <CloudinaryAnimation
