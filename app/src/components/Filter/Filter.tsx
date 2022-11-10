@@ -29,26 +29,20 @@ import {
   CloseButton,
   Inner,
   FilterSets,
-  Header,
-  CountWrapper,
   MobileControlsDivider,
   MobileFooter,
   DesktopFooter,
-  ButtonsWrapper,
   SortWrapper,
   Reset,
 } from './styled'
 import { definitely } from '../../utils'
 import { useFilterState } from './reducer'
 import { FilterSetState } from './types'
-import { Button } from '../../components/Button'
 import { Heading } from '../../components/Text'
-import { PlusMinus } from '../../components/PlusMinus'
 import { FilterWrapper } from './FilterWrapper'
 import { Backdrop } from '../Navigation/Backdrop'
 import { Sort, SortSet } from './SortSet'
 import { useMedia } from '../../hooks'
-import { theme } from '../../theme'
 import { useRouter } from 'next/router'
 
 const { useEffect, useState, useRef } = React
@@ -243,7 +237,7 @@ export const Filter = ({
     return { [type]: matches }
   }
 
-  const getQueryType = (arr, query?: Maybe<string>) =>
+  const getQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
     arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
 
   const getQueryMatches = (items, query) => {
@@ -291,6 +285,12 @@ export const Filter = ({
       }
     }
 
+    useQueryUpdate('metal')
+    useQueryUpdate('stone')
+    useQueryUpdate('style')
+    useQueryUpdate('type')
+    useQueryUpdate('subcategory')
+
     useEffect(() => {
       updateQueryByType(type)
     }, [filterQuery[type]])
@@ -311,12 +311,6 @@ export const Filter = ({
 
     applyFilters(filterMatches)
   }, [filterSetStates])
-
-  useQueryUpdate('metal')
-  useQueryUpdate('stone')
-  useQueryUpdate('style')
-  useQueryUpdate('type')
-  useQueryUpdate('subcategory')
 
   useEffect(() => {
     const matchedKeys = findMatchedKeys(filters, router.query)
