@@ -243,26 +243,8 @@ export const Filter = ({
     return { [type]: matches }
   }
 
-  const getQueryType = (arr, query?: Maybe<string>) => {
-    const type = arr?.filter(
-      (item) => item?.heading?.toLowerCase() === query,
-    )[0]
-
-    return type
-  }
-
-  // const findMatchInnerKey = (items, type, match) => {
-  //   const key = items
-  //     ?.map((f) =>
-  //       f?.filters?.map((g) =>
-  //         g?.matches?.find((h) => h.type === type && h.match === match),
-  //       ),
-  //     )
-  //     .flat()
-  //     .filter((item) => item)[0]?._key
-
-  //   return key
-  // }
+  const getQueryType = (arr, query?: Maybe<string>) =>
+    arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
 
   const getQueryMatches = (items, query) => {
     const matches = items?.filters
