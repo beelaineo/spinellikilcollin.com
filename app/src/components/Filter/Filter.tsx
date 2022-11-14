@@ -291,7 +291,7 @@ export const Filter = ({
   }
 
   useEffect(() => {
-    if (!filters) return
+    if (!filters || filterSetStates.length === 0) return
 
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
