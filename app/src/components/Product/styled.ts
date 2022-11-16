@@ -66,9 +66,14 @@ export const ImageWrapper = styled.div<WithHide>`
   `}
 `
 
-export const VideoWrapper = styled.div<WithHide>`
-  ${({ theme, hide }) => css`
-    position: absolute;
+interface WithHideCarousel {
+  hide?: boolean
+  carousel?: boolean
+}
+
+export const VideoWrapper = styled.div<WithHideCarousel>`
+  ${({ theme, hide, carousel }) => css`
+    position: relative;
     top: 0;
     bottom: 0;
     right: 0;

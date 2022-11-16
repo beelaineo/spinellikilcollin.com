@@ -49,6 +49,7 @@ interface ProductThumbnailProps {
   hideFilter?: boolean | null
   imageRatio?: number
   collectionId?: string | null
+  carousel?: boolean
 }
 
 interface VariantAnimation {
@@ -113,6 +114,7 @@ export const ProductThumbnail = ({
   hideFilter,
   imageRatio,
   collectionId,
+  carousel,
 }: ProductThumbnailProps) => {
   const { asPath } = useRouter()
   const { inquiryOnly } = product
@@ -368,7 +370,7 @@ export const ProductThumbnail = ({
       <Link href="/products/[productSlug]" as={linkAs}>
         <a draggable="false" aria-label={'Link to ' + product.title}>
           {variantAnimation ? (
-            <VideoWrapper hide={!playing}>
+            <VideoWrapper hide={!playing} carousel={carousel}>
               <CloudinaryAnimation
                 video={variantAnimation}
                 image={productImage}
