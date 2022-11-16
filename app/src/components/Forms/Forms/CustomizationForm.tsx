@@ -12,6 +12,7 @@ import {
   FieldsWrapper,
   SuccessWrapper,
 } from './styled'
+import Script from 'next/script'
 
 const { useState } = React
 
@@ -32,6 +33,17 @@ interface ProductBadgeProps {
 }
 
 const formId = '65f5906c-622d-452b-8b63-51e42dd47a7c'
+
+{
+  /* <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
+<script>
+  hbspt.forms.create({
+    region: "na1",
+    portalId: "7668999",
+    formId: "65f5906c-622d-452b-8b63-51e42dd47a7c"
+  });
+</script> */
+}
 
 const ProductBadge = ({ product }: ProductBadgeProps) =>
   product.title ? (
@@ -80,62 +92,71 @@ export const CustomizationForm = ({
   }
 
   return (
-    <MainWrapper>
-      <Heading mt={0} level={3}>
-        Customization Inquiry
-      </Heading>
-      {product ? <ProductBadge product={product} /> : null}
-      <SuccessWrapper visible={success}>
-        <Heading color="body.8" level={4}>
-          Thank you! We have received your request.
+    <>
+      <Script id="hubspot-custom-widget">
+        {`hbspt.forms.create({
+        region: "na1",
+        portalId: "7668999",
+        formId: "65f5906c-622d-452b-8b63-51e42dd47a7c"
+      });`}
+      </Script>
+      <MainWrapper>
+        <Heading mt={0} level={3}>
+          Customization Inquiry
         </Heading>
-        {onContinue ? (
-          <Button onClick={onContinue} type="button" mt={3} level={3}>
-            Continue shopping
-          </Button>
-        ) : null}
-      </SuccessWrapper>
+        {product ? <ProductBadge product={product} /> : null}
+        <SuccessWrapper visible={success}>
+          <Heading color="body.8" level={4}>
+            Thank you! We have received your request.
+          </Heading>
+          {onContinue ? (
+            <Button onClick={onContinue} type="button" mt={3} level={3}>
+              Continue shopping
+            </Button>
+          ) : null}
+        </SuccessWrapper>
 
-      <Form
-        id="customization-form"
-        disabled={submitting}
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
-      >
-        <FieldsWrapper visible={!success}>
-          <Field
-            name="name"
-            label="Name"
-            placeholder="First and Last name"
-            required
-          />
-          <Field
-            name="email"
-            type="email"
-            placeholder="Email"
-            label="Email"
-            required
-          />
-          <Field
-            name="phone"
-            type="tel"
-            placeholder="Phone"
-            label="Phone"
-            required
-          />
-          <Field required name="location" label="Your Location" />
-          <Field
-            name="message"
-            type="textarea"
-            label="Notes"
-            placeholder="I'm interested in..."
-            required
-          />
-          <Field name="product" type="hidden" />
-          <Field name="variant" type="hidden" />
-          <Button type="submit">Submit</Button>
-        </FieldsWrapper>
-      </Form>
-    </MainWrapper>
+        <Form
+          id="customization-form"
+          disabled={submitting}
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+        >
+          <FieldsWrapper visible={!success}>
+            <Field
+              name="name"
+              label="Name"
+              placeholder="First and Last name"
+              required
+            />
+            <Field
+              name="email"
+              type="email"
+              placeholder="Email"
+              label="Email"
+              required
+            />
+            <Field
+              name="phone"
+              type="tel"
+              placeholder="Phone"
+              label="Phone"
+              required
+            />
+            <Field required name="location" label="Your Location" />
+            <Field
+              name="message"
+              type="textarea"
+              label="Notes"
+              placeholder="I'm interested in..."
+              required
+            />
+            <Field name="product" type="hidden" />
+            <Field name="variant" type="hidden" />
+            <Button type="submit">Submit</Button>
+          </FieldsWrapper>
+        </Form>
+      </MainWrapper>
+    </>
   )
 }

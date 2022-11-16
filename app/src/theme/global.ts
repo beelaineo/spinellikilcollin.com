@@ -120,5 +120,9 @@ export const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 
+  .hbspt-form {
+    display: none !important;
+  }
+
   ${hubspotStyles}
 `
