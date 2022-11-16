@@ -1,12 +1,18 @@
 import * as React from 'react'
 import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
 import { FilterSetState } from './types'
-import { PriceRangeFilterWrapper } from './styled'
+import {
+  PriceRangeFilterWrapper,
+  HeadingWrapper,
+  Slider,
+  KnobHandle,
+  KnobDot,
+} from './styled'
 import { Span } from '../Text'
-import { HeadingWrapper, Slider, KnobHandle, KnobDot } from './styled'
 import { Label } from '../Forms/Fields/styled'
 import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
+import { useRouter } from 'next/router'
 
 const { useMemo, useEffect, useState } = React
 
@@ -134,19 +140,19 @@ export function PriceRangeFilter({
   active,
 }: PriceRangeFilterProps) {
   const { _key } = priceRangeFilter
+
   if (!filterSetState) return null
   const { minPrice: initialMinPrice, maxPrice: initialMaxPrice } =
     filterSetState.initialValues
   const { minPrice, maxPrice } = filterSetState.values
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
 
-  const [currentMinPrice, setCurrentMinPrice] = useState(
-    minPrice / initialMaxPrice,
-  )
+  const router = useRouter()
+
+  const [currentMinPrice, setCurrentMinPrice] = useState(100 / initialMaxPrice)
   const [currentMaxPrice, setCurrentMaxPrice] = useState(
     maxPrice / initialMaxPrice,
   )
-
   const [applyFilter, setApplyFilter] = useState(false)
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
@@ -162,6 +168,14 @@ export function PriceRangeFilter({
       Math.max(0, Math.min(steps.length - 1, steps.length * pos)),
     )
     return steps[index]
+  }
+
+  const getClosestIndex = (num: number) => {
+    const diffArr = steps.map((x) => Math.abs(num - x))
+    const minNumber = Math.min(...diffArr)
+    const index = diffArr.findIndex((x) => x === minNumber)
+
+    return index
   }
 
   if (minPrice === null || minPrice === undefined) {
@@ -223,6 +237,18 @@ export function PriceRangeFilter({
       getClosestStep(currentMinPrice),
     )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
   }
+
+  useEffect(() => {
+    if (!router.query.price) return
+
+    const range = (router?.query?.price as string)?.split(' ')
+
+    const minPos = getClosestIndex(parseFloat(range[0]))
+    const maxPos = getClosestIndex(parseFloat(range[1]))
+
+    updateMinPosition(minPos / steps.length)
+    updateMaxPosition(maxPos / steps.length)
+  }, [router.isReady])
 
   return (
     <PriceRangeFilterWrapper

@@ -120,7 +120,7 @@ export const ProductGrid = ({
 }: ProductGridProps) => {
   // const { y } = useWindowScroll()
 
-  const pageRef = React.useRef(null)
+  // const pageRef = React.useRef(null)
   // const [height, setHeight] = React.useState(0)
   // const router = useRouter()
 

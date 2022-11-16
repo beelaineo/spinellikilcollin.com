@@ -226,7 +226,21 @@ export const Filter = ({
 
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
-    const matches = filterMatches
+    const priceRange = filterMatches.find(
+      (f) => f.filterType === PRICE_RANGE_FILTER,
+    )
+
+    //@ts-ignore
+    const priceRangeMatches = [priceRange?.minPrice, priceRange?.maxPrice]
+      .flat()
+      .join(' ')
+
+    const inventoryFilter = filterMatches.find(
+      (f) => f.filterType === INVENTORY_FILTER,
+      //@ts-ignore
+    )?.applyFilter
+
+    const filterSetMatches = filterMatches
       .filter((f) => f.filterType === FILTER_MATCH_GROUP)
       //@ts-ignore
       .map((f) => f?.matches.filter((m) => m.type === type))
@@ -234,43 +248,13 @@ export const Filter = ({
       .flat()
       .join(' ')
 
-    return { [type]: matches }
-  }
-
-  const getQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
-    arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
-
-  const getQueryMatches = (items, query) => {
-    const matches = items?.filters
-      ?.map((filter) => {
-        const match = filter?.matches?.filter((match) => match?.match === query)
-        return {
-          filter,
-          match,
-        }
-      })
-      .filter((item) => item?.match?.length)[0]
-    return matches?.filter
-  }
-
-  const findMatchedKeys = (items, query) => {
-    const { collectionSlug, pos, ...filteredQuery } = query
-
-    const matches = Object.entries(filteredQuery)
-
-    const getKeys = matches?.map((match, i) => {
-      const type = getQueryType(items, match[0])
-
-      //@ts-ignore
-      const matchArr = match[1]?.split(' ')
-
-      const matchKeys = matchArr?.map((item) => {
-        return { type: type?._key, match: getQueryMatches(type, item)?._key }
-      })
-      return matchKeys
-    })
-
-    return getKeys.flat()
+    if (type === 'price' && priceRangeMatches !== '0 40000') {
+      return { price: priceRangeMatches }
+    } else if (type === 'instock' && inventoryFilter) {
+      return { instock: inventoryFilter }
+    } else {
+      return { [type]: filterSetMatches }
+    }
   }
 
   const useQueryUpdate = (type) => {
@@ -301,6 +285,8 @@ export const Filter = ({
       ...getFilterMatchByType('style'),
       ...getFilterMatchByType('type'),
       ...getFilterMatchByType('subcategory'),
+      ...getFilterMatchByType('instock'),
+      ...getFilterMatchByType('price'),
     })
 
     applyFilters(filterMatches)
@@ -311,12 +297,75 @@ export const Filter = ({
   useQueryUpdate('style')
   useQueryUpdate('type')
   useQueryUpdate('subcategory')
+  useQueryUpdate('instock')
+  useQueryUpdate('price')
 
   useEffect(() => {
-    const matchedKeys = findMatchedKeys(filters, router.query)
-    matchedKeys.map((key) => {
+    const getFilterSetQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
+      arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
+
+    const getFilterSetQueryMatches = (items, query) => {
+      const matches = items?.filters
+        ?.map((filter) => {
+          const match = filter?.matches?.filter(
+            (match) => match?.match === query,
+          )
+          return {
+            filter,
+            match,
+          }
+        })
+        .filter((item) => item?.match?.length)[0]
+      return matches?.filter
+    }
+
+    const findFilterSetKeys = (items, query) => {
+      const { collectionSlug, instock, price, ...filteredQuery } = query
+
+      const matches = Object.entries(filteredQuery)
+
+      const getKeys = matches?.map((match, i) => {
+        const type = getFilterSetQueryType(items, match[0])
+
+        //@ts-ignore
+        const matchArr = match[1]?.split(' ')
+
+        const matchKeys = matchArr?.map((item) => {
+          return {
+            type: type?._key,
+            match: getFilterSetQueryMatches(type, item)?._key,
+          }
+        })
+        return matchKeys
+      })
+
+      return getKeys.flat()
+    }
+
+    const getInstockQuery = (items, query) => {
+      const match = items?.find(
+        (item) => item?.__typename === 'InventoryFilter',
+      )
+
+      return {
+        key: match?._key,
+        values: { applyFilter: Boolean(query?.instock), label: match?.label },
+      }
+    }
+
+    const instockQuery = getInstockQuery(filters, router?.query)
+
+    const filterSetMatchedKeys = findFilterSetKeys(filters, router.query)
+
+    filterSetMatchedKeys.map((key) => {
       enable(key.type, key.match)
     })
+
+    const updateFromValueFilter = (key, values) => {
+      setValues(key)('', values)
+    }
+
+    updateFromValueFilter(instockQuery?.key, instockQuery?.values)
   }, [router.isReady])
 
   if (!filters || filterSetStates.length === 0) return null
