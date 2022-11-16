@@ -566,6 +566,9 @@ export const getProductUri = (
   const existingParams = matches && matches[1] ? matches[1] : undefined
   const newParams = new URLSearchParams(existingParams)
   const variantId = getVariantId(variant)
+  newParams.delete('stone')
+  newParams.delete('metal')
+  newParams.delete('pos')
   newParams.delete('search')
   newParams.delete('v')
   if (variant && variantId) {
