@@ -174,6 +174,11 @@ export default class MyDocument extends Document {
             defer
             strategy="beforeInteractive"
           />
+          <Script
+            id="hs-form-loader"
+            src="//js.hsforms.net/forms/embed/v2.js"
+            strategy="beforeInteractive"
+          />
         </body>
       </Html>
     )

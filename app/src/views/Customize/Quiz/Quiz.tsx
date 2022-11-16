@@ -13,6 +13,7 @@ import { Notes } from './Notes'
 import { Name } from './Name'
 import { ThankYou } from './ThankYou'
 import { FormValues } from './types'
+import Script from 'next/script'
 
 interface QuizProps {
   customize: CustomizeType
@@ -56,6 +57,13 @@ const QuizInner = ({ customize }: QuizProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="customize/quiz" />
+      <Script id="hubspot-sizer-widget">
+        {`hbspt.forms.create({
+          region: "na1",
+          portalId: "7668999",
+          formId: "a50b3513-a12c-49fd-88c0-60f0cb4cb6ef"
+        });`}
+      </Script>
       <PageWrapper>
         <Form<FormValues> initialValues={initialValues} onSubmit={handleSubmit}>
           <Tab name="kind">
