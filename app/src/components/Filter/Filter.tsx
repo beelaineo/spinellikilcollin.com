@@ -255,7 +255,15 @@ export const Filter = ({
       .flat()
       .join(' ')
 
-    if (type === 'price' && priceRangeMatches !== '0 40000') {
+    const priceInitialValues =
+      //@ts-ignore
+      filterSetStates?.find((s) => s?.key === priceRange?.key)?.initialValues ||
+      {}
+
+    if (
+      type === 'price' &&
+      priceRangeMatches !== Object.values(priceInitialValues).join(' ')
+    ) {
       return { price: priceRangeMatches }
     } else if (type === 'instock' && inventoryFilter) {
       return { instock: inventoryFilter }
