@@ -108,6 +108,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         }, definitely(productResults))
       : definitely(productResults),
   )
+  const collectionBlocksLength = collectionBlocks?.length || 0
 
   const gridRef = useRef<HTMLDivElement>(null)
   const { isInView } = useInViewport(gridRef, '500px 0px')
@@ -396,7 +397,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             minimalDisplay={minimalDisplay}
           />
         ) : null}
-        {items.length === 0 && !loading ? (
+        {items.length === collectionBlocksLength && !loading ? (
           <NoResultsWrapper>
             <Heading level={3} textAlign="center" fontStyle="italic">
               No products found
