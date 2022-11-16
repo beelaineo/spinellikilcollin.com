@@ -182,7 +182,7 @@ export const ProductGrid = ({
   // )
 
   return (
-    <ProductGridWrapper ref={pageRef} reduceColumnCount={reduceColumnCount}>
+    <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
       {definitely(items).map((item) => {
         switch (item.__typename) {
           case 'CollectionBlock':
