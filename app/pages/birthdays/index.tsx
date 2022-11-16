@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ])
 
   const birthdays = response?.Birthdays || null
-  return { props: { birthdays, shopData }, revalidate: 60 }
+  return { props: { birthdays, shopData }, revalidate: 10 }
 }
 
 export default Birthdays
