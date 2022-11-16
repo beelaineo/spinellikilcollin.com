@@ -13,6 +13,7 @@ import { Label } from '../Forms/Fields/styled'
 import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
 import { useRouter } from 'next/router'
+import { CountryCodeSelector } from '../Forms/CustomFields/PhoneField/CountryCodeSelector'
 
 const { useMemo, useEffect, useState } = React
 
@@ -194,12 +195,27 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
+    console.log('filterSetState', filterSetState)
+    const resetUI = () => {
+      setApplyFilter(false)
+      updateMinPosition(0)
+      updateMaxPosition(1)
+    }
+    filterSetState.initialValues == filterSetState.values ? resetUI() : null
+  }, [filterSetState])
+
+  useEffect(() => {
     setApplyFilter(
       getClosestStep(currentMinPrice) == initialMinPrice &&
         getClosestStep(currentMaxPrice) == initialMaxPrice
         ? false
         : true,
     )
+    console.log('applyFilter', applyFilter)
+    console.log('initialMinPrice', initialMinPrice)
+    console.log('initialMaxPrice', initialMaxPrice)
+    console.log('currentMinPrice', currentMinPrice)
+    console.log('currentMaxPrice', currentMaxPrice)
     const timeout = setTimeout(() => {
       setValues('', {
         minPrice: getClosestStep(currentMinPrice),
