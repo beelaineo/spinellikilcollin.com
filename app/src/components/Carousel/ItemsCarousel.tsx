@@ -30,6 +30,7 @@ export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
                 preload
                 headingLevel={5}
                 product={item}
+                carousel={true}
               />
             )
           case 'ShopifyCollection':

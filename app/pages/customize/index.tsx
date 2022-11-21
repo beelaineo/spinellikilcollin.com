@@ -87,7 +87,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ])
 
   const customize = response?.Customize || null
-  return { props: { customize, shopData }, revalidate: 60 }
+  return { props: { customize, shopData }, revalidate: 10 }
 }
 
 export default Customize

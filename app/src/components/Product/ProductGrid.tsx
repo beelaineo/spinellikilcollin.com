@@ -120,7 +120,7 @@ export const ProductGrid = ({
 }: ProductGridProps) => {
   // const { y } = useWindowScroll()
 
-  const pageRef = React.useRef(null)
+  // const pageRef = React.useRef(null)
   // const [height, setHeight] = React.useState(0)
   // const router = useRouter()
 
@@ -182,7 +182,7 @@ export const ProductGrid = ({
   // )
 
   return (
-    <ProductGridWrapper ref={pageRef} reduceColumnCount={reduceColumnCount}>
+    <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
       {definitely(items).map((item) => {
         switch (item.__typename) {
           case 'CollectionBlock':

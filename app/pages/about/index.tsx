@@ -77,7 +77,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   ])
   const about = response?.About || null
 
-  return { props: { about, shopData }, revalidate: 60 }
+  return { props: { about, shopData }, revalidate: 10 }
 }
 
 export default AboutIndex

@@ -340,7 +340,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   // const directories = response?.allDirectory || []
   // const page = [...pages, ...directories][0] || null
   const page = pages[0] || null
-  return { props: { page, shopData }, revalidate: 60 }
+  return { props: { page, shopData }, revalidate: 10 }
 }
 
 /**

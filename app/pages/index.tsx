@@ -132,7 +132,7 @@ export const getStaticProps: GetStaticProps = async () => {
     requestShopData(),
   ])
   const homepage = response?.Homepage || null
-  return { props: { shopData, homepage }, revalidate: 60 }
+  return { props: { shopData, homepage }, revalidate: 10 }
 }
 
 export default Homepage

@@ -6,6 +6,8 @@ import { Form } from '../Form'
 import { StateField } from '../CustomFields'
 import { Field } from '../Fields/Field'
 import { submitToHubspot } from '../../../services'
+import Script from 'next/script'
+
 import {
   MainWrapper,
   SuccessWrapper,
@@ -79,71 +81,80 @@ export const ContactForm = ({ formtype, onContinue }: ContactFormProps) => {
   }
 
   return (
-    <MainWrapper>
-      <Heading mt={0} mb={2} level={3}>
-        Contact Us
-      </Heading>
-      {formtype ? (
-        <Heading mt={0} level={4} color="body.6">
-          {formtype} Inquiry
+    <>
+      <Script id="hubspot-contact-widget">
+        {`hbspt.forms.create({
+        region: "na1",
+        portalId: "7668999",
+        formId: "d1a0fa82-2130-40e7-b321-d073effb9079"
+      });`}
+      </Script>
+      <MainWrapper>
+        <Heading mt={0} mb={2} level={3}>
+          Contact Us
         </Heading>
-      ) : null}
-
-      <SuccessWrapper visible={success}>
-        <Heading color="body.8" level={4}>
-          Thank you! We have received your request.
-        </Heading>
-        {onContinue ? (
-          <Button onClick={onContinue} type="button" mt={3} level={3}>
-            Continue shopping
-          </Button>
+        {formtype ? (
+          <Heading mt={0} level={4} color="body.6">
+            {formtype} Inquiry
+          </Heading>
         ) : null}
-      </SuccessWrapper>
-      <Form
-        id="contact-form"
-        disabled={submitting}
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
-      >
-        <FieldsWrapper visible={!success}>
-          <Field
-            name="name"
-            label="Name"
-            placeholder="First and Last name"
-            required
-          />
-          <Field
-            name="email"
-            type="email"
-            placeholder="Email"
-            label="Email"
-            required
-          />
-          <Field
-            name="phone"
-            type="tel"
-            placeholder="Phone"
-            label="Phone (optional)"
-          />
-          <Field
-            label="Country"
-            name="country"
-            type="countrySelector"
-            required
-          />
 
-          <StateField label="State" name="state" required />
-          <Field
-            name="message"
-            type="textarea"
-            label="Notes"
-            placeholder="I'm interested in..."
-            required
-          />
-          <Field type="hidden" name="formtype" />
-          <Button type="submit">Submit</Button>
-        </FieldsWrapper>
-      </Form>
-    </MainWrapper>
+        <SuccessWrapper visible={success}>
+          <Heading color="body.8" level={4}>
+            Thank you! We have received your request.
+          </Heading>
+          {onContinue ? (
+            <Button onClick={onContinue} type="button" mt={3} level={3}>
+              Continue shopping
+            </Button>
+          ) : null}
+        </SuccessWrapper>
+        <Form
+          id="contact-form"
+          disabled={submitting}
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+        >
+          <FieldsWrapper visible={!success}>
+            <Field
+              name="name"
+              label="Name"
+              placeholder="First and Last name"
+              required
+            />
+            <Field
+              name="email"
+              type="email"
+              placeholder="Email"
+              label="Email"
+              required
+            />
+            <Field
+              name="phone"
+              type="tel"
+              placeholder="Phone"
+              label="Phone (optional)"
+            />
+            <Field
+              label="Country"
+              name="country"
+              type="countrySelector"
+              required
+            />
+
+            <StateField label="State" name="state" required />
+            <Field
+              name="message"
+              type="textarea"
+              label="Notes"
+              placeholder="I'm interested in..."
+              required
+            />
+            <Field type="hidden" name="formtype" />
+            <Button type="submit">Submit</Button>
+          </FieldsWrapper>
+        </Form>
+      </MainWrapper>
+    </>
   )
 }

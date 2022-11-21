@@ -22,6 +22,7 @@ import { getParam, definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { createSanityCollectionQuery } from '../../src/views/ProductListing'
 import { useRefetch } from '../../src/hooks'
+import KeepAlive from 'react-activation'
 
 const collectionQueryById = gql`
   query ShopifyCollectionQuery($id: ID!) {
@@ -166,10 +167,12 @@ const Collection = ({ collection }: CollectionPageProps) => {
     } else {
       if (!collection) return <NotFound />
       return (
-        <ProductListing
-          key={collection._id || 'some-key'}
-          collection={collection}
-        />
+        <KeepAlive saveScrollPosition="screen">
+          <ProductListing
+            key={collection._id || 'some-key'}
+            collection={collection}
+          />
+        </KeepAlive>
       )
     }
   } catch (e) {
@@ -203,7 +206,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       params,
       collection: collections[0] || null,
     },
-    revalidate: 60,
+    revalidate: 10,
   }
 }
 
