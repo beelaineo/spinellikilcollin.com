@@ -106,6 +106,7 @@ const Wrapper = styled.div<WrapperProps>`
     justify-content: ${getFlexJustification(textPosition)};
     text-align: ${getTextAlignment(textPosition)};
     padding: 6;
+    z-index: 0;
     ${VideoWrapper},
     ${ImageWrapper},
     img,
