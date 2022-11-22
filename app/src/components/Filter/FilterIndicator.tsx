@@ -171,6 +171,7 @@ export const FilterIndicator = ({
         </FilterValueLabel>
       )
     case 'Size':
+    case 'Ring Size':
       return (
         <FilterValueLabel index={index} onClick={remove} type={type}>
           <Heading level={5}>

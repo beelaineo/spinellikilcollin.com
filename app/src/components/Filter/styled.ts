@@ -333,10 +333,13 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
-    ${isActive && (type == 'Type' || type == 'Bands' || type == 'Size')
+    ${isActive &&
+    (type == 'Type' || type == 'Bands' || type == 'Size' || type == 'Ring Size')
       ? 'padding: 0; & > h5 { min-width: 72px; padding: 2 0; } h5 { border: 1px solid ' +
         theme.colors.grays[6] +
-        '; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: 2 18px; justify-content: flex-start; display: flex; align-items: center; border: 1px solid' +
+        `; flex: 75%; margin-top: -1px; box-sizing: content-box; border-radius: 2em; margin-right: 0; margin-left: -1px; margin-bottom: -1px; padding: ${
+          type == 'Ring Size' ? '2 26px 2 22px' : '2 18px'
+        }; justify-content: flex-start; display: flex; align-items: center; border: 1px solid` +
         theme.colors.grays[6] +
         '; border-radius: 2em;' +
         '}'
@@ -362,7 +365,7 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
     position: relative;
     z-index: 2;
     padding-top: 1;
-    ${type == 'Size'
+    ${type == 'Size' || type == 'Ring Size'
       ? css`
           display: ${isHovered ? 'flex' : 'none'};
           max-width: 330px;
@@ -391,7 +394,7 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
       & > div {
         display: block;
       }
-      ${type == 'Size'
+      ${type == 'Size' || type == 'Ring Size'
         ? css`
             display: ${isHovered ? 'grid' : 'none'};
             grid-template-columns: repeat(auto-fit, 36px);
@@ -443,15 +446,23 @@ export const FilterIndicatorsWrapper = styled.div<WithType>`
     display: flex;
     height: 100%;
     margin-right: ${isActive &&
-    (setType == 'Type' || setType == 'Bands' || setType == 'Size')
+    (setType == 'Type' ||
+      setType == 'Bands' ||
+      setType == 'Size' ||
+      setType == 'Ring Size')
       ? '0'
-      : isActive && setType != 'Type' && setType != 'Bands' && setType != 'Size'
+      : isActive &&
+        setType != 'Type' &&
+        setType != 'Bands' &&
+        setType != 'Size' &&
+        setType != 'Ring Size'
       ? '-13px'
       : '0px'};
     & > div:first-child {
       margin-left: 0;
       h5 {
-        padding-left: ${isActive && (setType == 'Bands' || setType == 'Size')
+        padding-left: ${isActive &&
+        (setType == 'Bands' || setType == 'Size' || setType == 'Ring Size')
           ? '16px'
           : '39px'};
       }
