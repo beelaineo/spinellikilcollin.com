@@ -301,6 +301,7 @@ export const Filter = ({
       ...getFilterMatchByType('size'),
       ...getFilterMatchByType('style'),
       ...getFilterMatchByType('type'),
+      ...getFilterMatchByType('tag'),
       ...getFilterMatchByType('subcategory'),
       ...getFilterMatchByType('instock'),
       ...getFilterMatchByType('price'),
@@ -314,6 +315,7 @@ export const Filter = ({
   useQueryUpdate('size')
   useQueryUpdate('style')
   useQueryUpdate('type')
+  useQueryUpdate('tag')
   useQueryUpdate('subcategory')
   useQueryUpdate('instock')
   useQueryUpdate('price')
