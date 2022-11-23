@@ -294,9 +294,11 @@ export const Filter = ({
 
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
+    //@ts-ignore
     setFilterQuery({
       ...getFilterMatchByType('metal'),
       ...getFilterMatchByType('stone'),
+      ...getFilterMatchByType('size'),
       ...getFilterMatchByType('style'),
       ...getFilterMatchByType('type'),
       ...getFilterMatchByType('subcategory'),
@@ -309,6 +311,7 @@ export const Filter = ({
 
   useQueryUpdate('metal')
   useQueryUpdate('stone')
+  useQueryUpdate('size')
   useQueryUpdate('style')
   useQueryUpdate('type')
   useQueryUpdate('subcategory')
