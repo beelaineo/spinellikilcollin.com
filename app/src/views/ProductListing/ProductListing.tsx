@@ -175,7 +175,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     product: ShopifyProductListingProduct,
     filterMatch: FilterMatch,
   ) => {
-    console.log('FILTERMATCH', filterMatch)
     const { type, match } = filterMatch
     if (!match) return false
     switch (type) {
@@ -199,7 +198,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         return product.filterData.subcategory.includes(match)
       case 'metal':
         const flattenedMetal = product.filterData.metal.toString()
-        console.log('FLATTENED', flattenedMetal)
         return flattenedMetal.includes(match)
       // return product.filterData.metal.includes(match)
       case 'style':
