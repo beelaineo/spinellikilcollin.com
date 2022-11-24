@@ -175,6 +175,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     product: ShopifyProductListingProduct,
     filterMatch: FilterMatch,
   ) => {
+    console.log('FILTERMATCH', filterMatch)
     const { type, match } = filterMatch
     if (!match) return false
     switch (type) {
@@ -197,11 +198,16 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       case 'subcategory':
         return product.filterData.subcategory.includes(match)
       case 'metal':
-        return product.filterData.metal.includes(match)
+        const flattenedMetal = product.filterData.metal.toString()
+        console.log('FLATTENED', flattenedMetal)
+        return flattenedMetal.includes(match)
+      // return product.filterData.metal.includes(match)
       case 'style':
         return product.filterData.style.includes(match)
       case 'stone':
-        return product.filterData.stone.includes(match)
+        const flattenedStone = product.filterData.stone.toString()
+        return flattenedStone.includes(match)
+      // return product.filterData.stone.includes(match)
       default:
         throw new Error(`"${type}" is not a valid filter type`)
     }
