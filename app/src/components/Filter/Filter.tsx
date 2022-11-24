@@ -294,11 +294,14 @@ export const Filter = ({
 
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
+    //@ts-ignore
     setFilterQuery({
       ...getFilterMatchByType('metal'),
       ...getFilterMatchByType('stone'),
+      ...getFilterMatchByType('size'),
       ...getFilterMatchByType('style'),
       ...getFilterMatchByType('type'),
+      ...getFilterMatchByType('tag'),
       ...getFilterMatchByType('subcategory'),
       ...getFilterMatchByType('instock'),
       ...getFilterMatchByType('price'),
@@ -309,8 +312,10 @@ export const Filter = ({
 
   useQueryUpdate('metal')
   useQueryUpdate('stone')
+  useQueryUpdate('size')
   useQueryUpdate('style')
   useQueryUpdate('type')
+  useQueryUpdate('tag')
   useQueryUpdate('subcategory')
   useQueryUpdate('instock')
   useQueryUpdate('price')
