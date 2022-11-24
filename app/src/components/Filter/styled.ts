@@ -368,7 +368,7 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
     ${type == 'Size' || type == 'Ring Size'
       ? css`
           display: ${isHovered ? 'flex' : 'none'};
-          max-width: 330px;
+          max-width: ${type == 'Size' ? '330px' : '115px'};
           flex-wrap: wrap;
           & > div {
             flex: 0;
