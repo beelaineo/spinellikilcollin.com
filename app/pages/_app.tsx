@@ -10,6 +10,7 @@ import { SearchPane } from '../src/components/Search'
 import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { config } from '../src/config'
+import { KeepAliveProvider } from 'react-next-keep-alive'
 
 import '../public/static/fonts/fonts.css'
 
@@ -63,6 +64,8 @@ const App = (props: AppProps) => {
     storage.setItem('currentPath', globalThis.location.pathname)
   }
 
+  console.log('slug', router.query.collectionSlug)
+
   return (
     <Providers shopData={shopData}>
       <ThemeProvider theme={getThemeByRoute(path)}>
@@ -76,7 +79,10 @@ const App = (props: AppProps) => {
           <Navigation />
           <SearchPane />
           <ToastRoot />
-          <Component {...pageProps} />
+          <KeepAliveProvider router={router}>
+            <Component {...pageProps} />
+          </KeepAliveProvider>
+
           <Footer />
         </Main>
         <div id="modal" />

@@ -6,9 +6,7 @@ interface ProductListingHeaderProps {
   collection: ShopifyCollection
 }
 
-export const ProductListingHeader = ({
-  collection,
-}: ProductListingHeaderProps) => {
+const ProductListingHeader = ({ collection }: ProductListingHeaderProps) => {
   const { title, sourceData } = collection
   const { description } = sourceData || {}
   return (
@@ -18,3 +16,5 @@ export const ProductListingHeader = ({
     </div>
   )
 }
+
+export default ProductListingHeader

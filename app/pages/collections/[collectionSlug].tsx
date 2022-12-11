@@ -22,7 +22,7 @@ import { getParam, definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { createSanityCollectionQuery } from '../../src/views/ProductListing'
 import { useRefetch } from '../../src/hooks'
-import KeepAlive from 'react-activation'
+import { withKeepAlive } from 'react-next-keep-alive'
 
 const collectionQueryById = gql`
   query ShopifyCollectionQuery($id: ID!) {
@@ -135,9 +135,10 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 }
 
 const Collection = ({ collection }: CollectionPageProps) => {
-  const { query } = useRouter()
+  const { query, asPath } = useRouter()
   const token = query?.preview
   const preview = Boolean(query?.preview)
+
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
@@ -167,12 +168,10 @@ const Collection = ({ collection }: CollectionPageProps) => {
     } else {
       if (!collection) return <NotFound />
       return (
-        <KeepAlive saveScrollPosition="screen">
-          <ProductListing
-            key={collection._id || 'some-key'}
-            collection={collection}
-          />
-        </KeepAlive>
+        <ProductListing
+          key={collection._id || 'some-key'}
+          collection={collection}
+        />
       )
     }
   } catch (e) {
@@ -249,4 +248,9 @@ export const config = {
   },
 }
 
-export default Collection
+export default withKeepAlive(
+  //@ts-ignore
+  Collection,
+  ({ props, router }) => router.query.collectionSlug,
+  { keepScrollEnabled: false },
+)
