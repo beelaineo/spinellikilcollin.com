@@ -24466,6 +24466,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-next-keep-alive@npm:^1.0.14":
+  version: 1.0.14
+  resolution: "react-next-keep-alive@npm:1.0.14"
+  peerDependencies:
+    react: ^16.0.0
+  checksum: 7fde7ee2a5308eb282596297a90e4a243c852a13e2ab2f9f65ba618f594dafd9084f4628a0c31482bd3f7c0f4a4015e49c1058873fcb8f94e573b11022a03eb5
+  languageName: node
+  linkType: hard
+
 "react-node-key@npm:^0.4.0":
   version: 0.4.0
   resolution: "react-node-key@npm:0.4.0"
@@ -26704,6 +26713,7 @@ __metadata:
     react-dom: ^18.2.0
     react-hot-loader: ^4.13.0
     react-icons: ^4.4.0
+    react-next-keep-alive: ^1.0.14
     react-router: ^5.3.3
     react-router-dom: ^5.3.3
     react-text-mask: ^5.4.3
