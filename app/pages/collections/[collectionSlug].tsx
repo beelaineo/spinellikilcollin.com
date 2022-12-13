@@ -22,7 +22,8 @@ import { getParam, definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { createSanityCollectionQuery } from '../../src/views/ProductListing'
 import { useRefetch } from '../../src/hooks'
-import { withKeepAlive } from 'react-next-keep-alive'
+import { keepAliveDropCache, withKeepAlive } from 'react-next-keep-alive'
+import { usePrevious } from 'react-use'
 
 const collectionQueryById = gql`
   query ShopifyCollectionQuery($id: ID!) {
@@ -123,6 +124,7 @@ interface CollectionResponse {
 
 interface CollectionPageProps {
   collection: ShopifyProductListingCollection
+  useEffect: any
 }
 
 interface Response {
@@ -134,10 +136,32 @@ const getCollectionFromPreviewResponse = (response: Response) => {
   return collection
 }
 
-const Collection = ({ collection }: CollectionPageProps) => {
-  const { query, asPath } = useRouter()
+const Collection = ({ collection, useEffect }: CollectionPageProps) => {
+  const { query, isReady } = useRouter()
+  const [collectionState, setCollectionState] = React.useState('')
+
   const token = query?.preview
   const preview = Boolean(query?.preview)
+
+  const prevCollection = usePrevious(collectionState)
+
+  useEffect(() => {
+    //@ts-ignore
+    query.collectionSlug && setCollectionState(query.collectionSlug)
+  }, [query, isReady])
+
+  React.useEffect(() => {
+    const previous =
+      !prevCollection || !prevCollection.length
+        ? collectionState
+        : prevCollection
+
+    if (!collectionState || !collectionState.length) return
+    if (collectionState !== previous) {
+      //@ts-ignore
+      keepAliveDropCache('collection-page', false)
+    }
+  }, [collectionState, prevCollection])
 
   try {
     if (preview === true) {
@@ -251,6 +275,6 @@ export const config = {
 export default withKeepAlive(
   //@ts-ignore
   Collection,
-  ({ props, router }) => router.query.collectionSlug,
+  'collection-page',
   { keepScrollEnabled: false },
 )

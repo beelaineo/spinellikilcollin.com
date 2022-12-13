@@ -64,8 +64,6 @@ const App = (props: AppProps) => {
     storage.setItem('currentPath', globalThis.location.pathname)
   }
 
-  console.log('slug', router.query.collectionSlug)
-
   return (
     <Providers shopData={shopData}>
       <ThemeProvider theme={getThemeByRoute(path)}>
