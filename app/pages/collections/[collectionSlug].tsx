@@ -139,27 +139,28 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 const Collection = ({ collection, useEffect }: CollectionPageProps) => {
   const { query, isReady } = useRouter()
 
+  const token = query?.preview
+  const preview = Boolean(query?.preview)
+
   const [collectionState, setCollectionState] = React.useState<
     string | string[]
   >('')
-
-  const token = query?.preview
-  const preview = Boolean(query?.preview)
 
   const prevCollection = usePrevious(collectionState)
 
   useEffect(() => {
     query.collectionSlug && setCollectionState(query.collectionSlug)
-  }, [query, isReady])
+  }, [query])
 
   useEffect(() => {
-    const previous =
+    if (!collectionState || !collectionState.length) return
+
+    const compareState =
       !prevCollection || !prevCollection.length
         ? collectionState
         : prevCollection
 
-    if (!collectionState || !collectionState.length) return
-    if (collectionState !== previous) {
+    if (collectionState !== compareState) {
       keepAliveDropCache('collection-page', false)
     }
   }, [collectionState, prevCollection])
