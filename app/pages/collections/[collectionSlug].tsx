@@ -138,7 +138,10 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 
 const Collection = ({ collection, useEffect }: CollectionPageProps) => {
   const { query, isReady } = useRouter()
-  const [collectionState, setCollectionState] = React.useState('')
+
+  const [collectionState, setCollectionState] = React.useState<
+    string | string[]
+  >('')
 
   const token = query?.preview
   const preview = Boolean(query?.preview)
@@ -146,11 +149,10 @@ const Collection = ({ collection, useEffect }: CollectionPageProps) => {
   const prevCollection = usePrevious(collectionState)
 
   useEffect(() => {
-    //@ts-ignore
     query.collectionSlug && setCollectionState(query.collectionSlug)
   }, [query, isReady])
 
-  React.useEffect(() => {
+  useEffect(() => {
     const previous =
       !prevCollection || !prevCollection.length
         ? collectionState
@@ -158,7 +160,6 @@ const Collection = ({ collection, useEffect }: CollectionPageProps) => {
 
     if (!collectionState || !collectionState.length) return
     if (collectionState !== previous) {
-      //@ts-ignore
       keepAliveDropCache('collection-page', false)
     }
   }, [collectionState, prevCollection])
