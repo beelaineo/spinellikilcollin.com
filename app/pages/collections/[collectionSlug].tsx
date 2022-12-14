@@ -22,7 +22,8 @@ import { getParam, definitely } from '../../src/utils'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { createSanityCollectionQuery } from '../../src/views/ProductListing'
 import { useRefetch } from '../../src/hooks'
-import KeepAlive from 'react-activation'
+import { keepAliveDropCache, withKeepAlive } from 'react-next-keep-alive'
+import { usePrevious } from 'react-use'
 
 const collectionQueryById = gql`
   query ShopifyCollectionQuery($id: ID!) {
@@ -123,6 +124,7 @@ interface CollectionResponse {
 
 interface CollectionPageProps {
   collection: ShopifyProductListingCollection
+  useEffect: any
 }
 
 interface Response {
@@ -134,13 +136,39 @@ const getCollectionFromPreviewResponse = (response: Response) => {
   return collection
 }
 
-const Collection = ({ collection }: CollectionPageProps) => {
-  const { query } = useRouter()
+const Collection = ({ collection, useEffect }: CollectionPageProps) => {
+  const { query, isReady } = useRouter()
+
   const token = query?.preview
   const preview = Boolean(query?.preview)
+
+  const [collectionState, setCollectionState] = React.useState<
+    string | string[]
+  >('')
+
+  const prevCollection = usePrevious(collectionState)
+
+  useEffect(() => {
+    query.collectionSlug && setCollectionState(query.collectionSlug)
+  }, [query])
+
+  useEffect(() => {
+    if (!collectionState || !collectionState.length) return
+
+    const compareState =
+      !prevCollection || !prevCollection.length
+        ? collectionState
+        : prevCollection
+
+    if (collectionState !== compareState) {
+      keepAliveDropCache('collection-page', false)
+    }
+  }, [collectionState, prevCollection])
+
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
+
       const refetchConfig = {
         listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
         listenQueryParams: { id: 'drafts.' + collection._id },
@@ -167,12 +195,10 @@ const Collection = ({ collection }: CollectionPageProps) => {
     } else {
       if (!collection) return <NotFound />
       return (
-        <KeepAlive saveScrollPosition="screen">
-          <ProductListing
-            key={collection._id || 'some-key'}
-            collection={collection}
-          />
-        </KeepAlive>
+        <ProductListing
+          key={collection._id || 'some-key'}
+          collection={collection}
+        />
       )
     }
   } catch (e) {
@@ -249,4 +275,9 @@ export const config = {
   },
 }
 
-export default Collection
+export default withKeepAlive(
+  //@ts-ignore
+  Collection,
+  'collection-page',
+  { keepScrollEnabled: false },
+)

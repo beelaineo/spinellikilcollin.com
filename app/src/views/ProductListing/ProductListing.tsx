@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   ShopifyCollection,
@@ -159,10 +158,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     })
     setFilters(filters)
   }, [])
-
-  // const router = useRouter()
-  // const { query } = useRouter()
-  // console.log('router params', router.query)
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
   const description = descriptionRaw ? descriptionRaw.slice(1) : null
