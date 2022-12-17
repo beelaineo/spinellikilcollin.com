@@ -5027,13 +5027,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sane-shopify/sanity-plugin@npm:^0.23.1":
-  version: 0.23.1
-  resolution: "@sane-shopify/sanity-plugin@npm:0.23.1"
+"@sane-shopify/sanity-plugin@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "@sane-shopify/sanity-plugin@npm:0.23.2"
   dependencies:
     "@good-idea/unwind-edges": ^1.5.3
-    "@sane-shopify/sync-utils": ^0.23.1
-    "@sane-shopify/types": ^0.23.1
+    "@sane-shopify/sync-utils": ^0.23.2
+    "@sane-shopify/types": ^0.23.2
     lodash: ^4.17.21
     react-icons: ^4.2.0
   peerDependencies:
@@ -5043,15 +5043,15 @@ __metadata:
     graphql: ^15.5.0
     react: 17.0.2
     react-dom: 17.0.2
-  checksum: df2251f180af24435663d47f2cd0a05c99e9cc27a8b05f41755bc4e2fa38163e426576e0ccbb2e00f9aa95e2d1e6e7975e39e711721f9a0cac09802fdddeccc9
+  checksum: 8840196e088abb65504bad44dda689e1abc881bd2f9f0ade1214a2f21e4cad662821b4ec86001f6f656d99c6928c1fc9d4549f6ed1a70a4e380495ff7b6a2ab9
   languageName: node
   linkType: hard
 
-"@sane-shopify/server@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "@sane-shopify/server@npm:0.23.0"
+"@sane-shopify/server@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "@sane-shopify/server@npm:0.23.2"
   dependencies:
-    "@sane-shopify/sync-utils": ^0.23.0
+    "@sane-shopify/sync-utils": ^0.23.2
     apollo-link: ^1.2.14
     apollo-link-http: ^1.5.17
     apollo-server-lambda: ^2.23.0
@@ -5059,17 +5059,17 @@ __metadata:
     graphql-tools: ^7.0.4
     node-fetch: ^2.6.1
     source-map-support: ^0.5.19
-  checksum: f79a58e38cf700e6b6066f94ab384a75f88c4306c0ebf3732bea13b2cfedbf4e8d09857a17599f6c7818ae461aee90fb420556b12a7c0082bbaba79cd1e831e8
+  checksum: 59a3e6d5f7319d5f1d6bc016870b4bbfad2ee3f7e15659577fdb722b62a961d6cd7322d3af2aac506fb1418cc9f581134358a99eca053fe0c860e24413d2922f
   languageName: node
   linkType: hard
 
-"@sane-shopify/sync-utils@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "@sane-shopify/sync-utils@npm:0.23.0"
+"@sane-shopify/sync-utils@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "@sane-shopify/sync-utils@npm:0.23.2"
   dependencies:
     "@good-idea/leaky-bucket": ^3.1.2
     "@good-idea/unwind-edges": ^1.5.3
-    "@sane-shopify/types": ^0.23.0
+    "@sane-shopify/types": ^0.23.2
     cross-fetch: ^3.1.4
     debug: ^4.3.1
     deepmerge: ^4.2.2
@@ -5081,43 +5081,14 @@ __metadata:
     xstate: ^4.18.0
   peerDependencies:
     "@sanity/client": ^2.8.0
-  checksum: 9d952026e7305b1b1f88bc71b62d0c1180d110e0d847a0951d36da2882a291df47f9579b77c8ab25cbd0ea0888040dfc9be631d0108e1bb60cb22a6aee320be3
+  checksum: 114cd931715794062b032a99058983c324a5b8582d2a4c32dbab24e11e84fecf943380b211be723e70cfb350da49af1200ab2d015b152bd0d82c1c535e01e1cd
   languageName: node
   linkType: hard
 
-"@sane-shopify/sync-utils@npm:^0.23.1":
-  version: 0.23.1
-  resolution: "@sane-shopify/sync-utils@npm:0.23.1"
-  dependencies:
-    "@good-idea/leaky-bucket": ^3.1.2
-    "@good-idea/unwind-edges": ^1.5.3
-    "@sane-shopify/types": ^0.23.1
-    cross-fetch: ^3.1.4
-    debug: ^4.3.1
-    deepmerge: ^4.2.2
-    es6-promise: ^4.2.8
-    graphql-tag: ^2.11.0
-    isomorphic-fetch: ^3.0.0
-    p-queue: ^6.6.2
-    uuid: ^8.3.2
-    xstate: ^4.18.0
-  peerDependencies:
-    "@sanity/client": ^2.8.0
-  checksum: d52e5d54e4a55779927f75492715e4f09264912d52de89a0a14d1abda697b32aa240299045eb737da96d1a7e3c169a26edd21241f482f2afea420243c39175b6
-  languageName: node
-  linkType: hard
-
-"@sane-shopify/types@npm:^0.23.0":
-  version: 0.23.0
-  resolution: "@sane-shopify/types@npm:0.23.0"
-  checksum: 64f971a1bc4f23f662dab5b09d95a3f6e2800cf4f2f42ff5ea58693997b919b97cf9489222041400370117b8e8b4cf94b031d8a3112f499eb7081bd7cac8ed7d
-  languageName: node
-  linkType: hard
-
-"@sane-shopify/types@npm:^0.23.1":
-  version: 0.23.1
-  resolution: "@sane-shopify/types@npm:0.23.1"
-  checksum: 56dd2ea635bcc18984a0a871a11a95b0c560b36554337afac3c2951384885010af56d823c6d43e889210cb7b52244533eb3b7dcab2c775dd42326c521a79cd4c
+"@sane-shopify/types@npm:^0.23.2":
+  version: 0.23.2
+  resolution: "@sane-shopify/types@npm:0.23.2"
+  checksum: ca2d9e8354568f8ad37b4fa7109e37c8682bbf91566e5b930716508a9e93201362ab1820d7f0be06b343ae7549a35267c065cc028ce83b20160c35ef9e0e35a9
   languageName: node
   linkType: hard
 
@@ -26557,7 +26528,7 @@ __metadata:
     "@graphql-codegen/typescript": ^1.23.0
     "@next/bundle-analyzer": ^11.1.4
     "@next/eslint-plugin-next": ^12.3.1
-    "@sane-shopify/server": ^0.23.0
+    "@sane-shopify/server": ^0.23.2
     "@sanity/block-content-to-react": ^3.0.0
     "@sanity/client": ^3.4.1
     "@sanity/image-url": ^0.140.22
@@ -26691,7 +26662,7 @@ __metadata:
   dependencies:
     "@good-idea/unwind-edges": ^1.5.3
     "@reach/auto-id": ^0.17.0
-    "@sane-shopify/sanity-plugin": ^0.23.1
+    "@sane-shopify/sanity-plugin": ^0.23.2
     "@sanity/base": ^2.35.2
     "@sanity/block-content-to-react": ^3.0.0
     "@sanity/client": ^3.4.1
