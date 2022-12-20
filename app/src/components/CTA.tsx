@@ -54,57 +54,57 @@ const openHubspotChat = () => {
 const ActionCTA = ({ cta }: CTAProps) => {
   const { action, label: defaultLabel } = cta
   const buttonRef = useStatefulRef<HTMLButtonElement>(null)
-  const { prepareShow } = useBambuser()
+  // const { prepareShow } = useBambuser()
 
-  const isLive = isBambuserTime(cta)
+  // const isLive = isBambuserTime(cta)
 
-  useEffect(() => {
-    /**
-     * If it is a bambuser action, attach the event listener
-     * to the button ref
-     */
-    if (!buttonRef.current) return
-    const slug = cta?.bambuser?.slug
-    if (action === 'launchBambuser' && !slug) {
-      throw new Error('No bambuser slug provided')
-    }
-    if (action === 'launchBambuser' && slug) {
-      prepareShow(slug, buttonRef.current)
-    }
-  }, [action, buttonRef.current, cta?.bambuser?.slug])
+  // useEffect(() => {
+  //   /**
+  //    * If it is a bambuser action, attach the event listener
+  //    * to the button ref
+  //    */
+  //   if (!buttonRef.current) return
+  //   const slug = cta?.bambuser?.slug
+  //   if (action === 'launchBambuser' && !slug) {
+  //     throw new Error('No bambuser slug provided')
+  //   }
+  //   if (action === 'launchBambuser' && slug) {
+  //     prepareShow(slug, buttonRef.current)
+  //   }
+  // }, [action, buttonRef.current, cta?.bambuser?.slug])
 
-  useEffect(() => {
-    if (!buttonRef.current) return
-    const storage = globalThis?.localStorage
-    const seen = storage.getItem(`seenBambuser-${cta._key}`)
-    if (seen != 'true' || seen == undefined) {
-      const timeout = setTimeout(() => {
-        buttonRef.current.dispatchEvent(new MouseEvent('click'))
-        storage.setItem(`seenBambuser-${cta._key}`, 'true')
-      }, 1000)
-      return () => clearTimeout(timeout)
-    } else {
-      return
-    }
-  }, [isLive])
+  // useEffect(() => {
+  //   if (!buttonRef.current) return
+  //   const storage = globalThis?.localStorage
+  //   const seen = storage.getItem(`seenBambuser-${cta._key}`)
+  //   if (seen != 'true' || seen == undefined) {
+  //     const timeout = setTimeout(() => {
+  //       buttonRef.current.dispatchEvent(new MouseEvent('click'))
+  //       storage.setItem(`seenBambuser-${cta._key}`, 'true')
+  //     }, 1000)
+  //     return () => clearTimeout(timeout)
+  //   } else {
+  //     return
+  //   }
+  // }, [isLive])
 
-  function logBambuserViews() {
-    const storage = globalThis?.localStorage
-    if (!storage) return
-    const prevPath = storage.getItem('currentPath')
-    //@ts-ignore
-    storage.setItem('prevPath', prevPath)
-    // Set the current path value by looking at the browser's location object.
-    storage.setItem('currentPath', globalThis.location.pathname)
-    return
-  }
+  // function logBambuserViews() {
+  //   const storage = globalThis?.localStorage
+  //   if (!storage) return
+  //   const prevPath = storage.getItem('currentPath')
+  //   //@ts-ignore
+  //   storage.setItem('prevPath', prevPath)
+  //   // Set the current path value by looking at the browser's location object.
+  //   storage.setItem('currentPath', globalThis.location.pathname)
+  //   return
+  // }
 
   const { openCustomizationModal, openRingSizerModal } = useModal()
   if (!action) return null
   const getActionHandler = (action: string) => {
     switch (action) {
-      case 'launchBambuser':
-        return noop
+      // case 'launchBambuser':
+      //   return noop
       case 'launchHubspot':
         return () => openHubspotChat()
       case 'launchRingSizerModal':
@@ -119,9 +119,11 @@ const ActionCTA = ({ cta }: CTAProps) => {
 
   const handleClick = () => handler()
 
-  const label = isLive
-    ? cta?.bambuser?.liveSettings?.liveCTALabel || defaultLabel
-    : defaultLabel
+  // const label = isLive
+  //   ? cta?.bambuser?.liveSettings?.liveCTALabel || defaultLabel
+  //   : defaultLabel
+
+  const label = defaultLabel
 
   return (
     <Outer>
