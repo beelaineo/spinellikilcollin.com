@@ -397,12 +397,12 @@ export const ProductThumbnail = ({
                 my={0}
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
-                {isProductCurrentlyInStock(product) &&
+                {/* {isProductCurrentlyInStock(product) &&
                 !IsDisplayingSwatches(product) ? (
                   <InStockDot />
                 ) : (
                   ''
-                )}
+                )} */}
                 {product.title} |{' '}
                 <PriceWrapper>
                   <Price
