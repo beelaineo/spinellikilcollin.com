@@ -108,7 +108,7 @@ export const ProductDetailHeader = ({
   return (
     <>
       <TitleWrapper product={product}>
-        {variantsInStock?.length > 0 ? (
+        {/* {variantsInStock?.length > 0 ? (
           <StockedLabel
             hide={
               !isSwatchCurrentlyInStock(
@@ -125,7 +125,7 @@ export const ProductDetailHeader = ({
                 : 'Ready to Ship in Select Sizes'}
             </Heading>
           </StockedLabel>
-        ) : null}
+        ) : null} */}
         <Heading level={3} weight={2} mb={{ xs: 1, md: 2 }}>
           {variantTitle || product.title}
         </Heading>

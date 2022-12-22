@@ -374,7 +374,7 @@ export const ProductDetail = ({ product }: Props) => {
                   )}
                 />
                 <ProductInfoWrapper>
-                  {variantsInStock?.length > 0 ? (
+                  {/* {variantsInStock?.length > 0 ? (
                     <StockedLabelMobile
                       hide={
                         !isSwatchCurrentlyInStock(
@@ -391,7 +391,7 @@ export const ProductDetail = ({ product }: Props) => {
                           : 'Ready to Ship in Select Sizes'}
                       </Heading>
                     </StockedLabelMobile>
-                  ) : null}
+                  ) : null} */}
                   <ProductVariantSelector
                     variants={variants}
                     currentVariant={currentVariant}
