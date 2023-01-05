@@ -33,7 +33,7 @@ export type Scalars = {
    * A string containing HTML code. Refer to the [HTML spec](https://html.spec.whatwg.org/#elements-3) for a
    * complete list of HTML elements.
    *
-   * Example value: `"<p>Grey cotton knit sweater.</p>"`.
+   * Example value: `"<p>Grey cotton knit sweater.</p>"`
    *
    */
   HTML: any
@@ -1271,6 +1271,8 @@ export enum ShopifyStorefrontCheckoutErrorCode {
   DiscountNotFound = 'DISCOUNT_NOT_FOUND',
   /** Customer already used once per customer discount notice. */
   CustomerAlreadyUsedOncePerCustomerDiscountNotice = 'CUSTOMER_ALREADY_USED_ONCE_PER_CUSTOMER_DISCOUNT_NOTICE',
+  /** Discount code isn't working right now. Please contact us for help. */
+  DiscountCodeApplicationFailed = 'DISCOUNT_CODE_APPLICATION_FAILED',
   /** Checkout is already completed. */
   Empty = 'EMPTY',
   /** Not enough in stock. */
@@ -4487,12 +4489,12 @@ export type ShopifyStorefrontOrderSuccessfulFulfillmentsArgs = {
 export enum ShopifyStorefrontOrderCancelReason {
   /** The customer wanted to cancel the order. */
   Customer = 'CUSTOMER',
+  /** Payment was declined. */
+  Declined = 'DECLINED',
   /** The order was fraudulent. */
   Fraud = 'FRAUD',
   /** There was insufficient inventory. */
   Inventory = 'INVENTORY',
-  /** Payment was declined. */
-  Declined = 'DECLINED',
   /** The order was canceled for an unlisted reason. */
   Other = 'OTHER',
 }
