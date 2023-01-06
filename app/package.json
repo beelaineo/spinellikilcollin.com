@@ -107,6 +107,7 @@
 		"postmark": "^2.9.5",
 		"public-ip": "^4.0.4",
 		"react": "^18.2.0",
+		"react-copy-html-to-clipboard": "^6.0.4",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.4.0",
 		"react-next-keep-alive": "^1.0.14",
