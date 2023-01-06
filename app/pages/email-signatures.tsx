@@ -47,6 +47,10 @@ const Pronouns = ({ pronouns }: { pronouns: string }) => {
   )
 }
 
+const Location = ({ location }: { location: string }) => {
+  return <span>Location: {location}</span>
+}
+
 const Email = ({ email }: { email: string }) => {
   return (
     <a
@@ -251,15 +255,42 @@ const Signature = ({
                     fontWeight: '200',
                   }}
                 >
-                  {signature.email && <Email email={signature.email} />}
-                  <br />
-                  Location: California
-                  <br />
+                  {signature.email && (
+                    <>
+                      <br />
+                      <Email email={signature.email} />
+                    </>
+                  )}
+
+                  {signature.location && (
+                    <>
+                      <br />
+                      <Location location={signature.location} />
+                    </>
+                  )}
                   {signature.phone && (
-                    <Phone
-                      phone={signature.phone}
-                      label={signature.label || 'Office:'}
-                    />
+                    <>
+                      <br />
+                      <Phone
+                        phone={signature.phone}
+                        label={signature.phone_label || 'Office:'}
+                      />
+                    </>
+                  )}
+                  {signature.phone_2 && (
+                    <>
+                      <br />
+                      <Phone
+                        phone={signature.phone_2}
+                        label={signature.phone_label_2 || 'Office:'}
+                      />
+                    </>
+                  )}
+                  {signature.additional_info && (
+                    <>
+                      <br />
+                      <span>{signature.additional_info}</span>
+                    </>
                   )}
                 </span>
               </td>
@@ -332,8 +363,12 @@ const emailSignatureSettingsQuery = gql`
         role
         email
         pronouns
+        location
         phone
         phone_label
+        phone_2
+        phone_label_2
+        additional_info
       }
     }
   }
