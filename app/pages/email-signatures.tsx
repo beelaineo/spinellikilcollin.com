@@ -194,16 +194,19 @@ const Signature = ({
                   fontWeight: '200',
                 }}
               >
-                <a href="https://spinellikilcollin.com" target="_blank">
-                  <img width="84" src={wordmark} />
+                <a
+                  style={{ display: 'block', lineHeight: 0 }}
+                  href="https://spinellikilcollin.com"
+                  target="_blank"
+                >
+                  <img width="75" src={wordmark} />
                 </a>
               </td>
               <td
                 style={{
-                  fontSize: '18px',
-                  paddingBottom: '16px',
-                  verticalAlign: 'bottom',
-                  lineHeight: '20px',
+                  fontSize: '16px',
+                  paddingTop: '8px',
+                  verticalAlign: 'top',
                   color: '#222222',
                   textAlign: 'left',
                   fontFamily: "'Inferi Book', 'Garamond', 'Georgia', serif",
@@ -213,10 +216,8 @@ const Signature = ({
                 <div>
                   <span
                     style={{
-                      fontSize: '18px',
-                      paddingBottom: '16px',
+                      fontSize: '16px',
                       verticalAlign: 'bottom',
-                      lineHeight: '20px',
                       color: '#222222',
                       textAlign: 'left',
                       fontFamily: "'Inferi Book', 'Garamond', 'Georgia', serif",
@@ -240,7 +241,9 @@ const Signature = ({
                   fontSize: '11px',
                   lineHeight: '1.33',
                   color: '#222222',
+                  paddingTop: '8px',
                   textAlign: 'left',
+                  verticalAlign: 'top',
                   fontFamily: "'Inferi Book', 'Garamond', 'Georgia', serif",
                   fontWeight: '200',
                 }}
@@ -257,7 +260,6 @@ const Signature = ({
                 >
                   {signature.email && (
                     <>
-                      <br />
                       <Email email={signature.email} />
                     </>
                   )}
