@@ -3543,6 +3543,10 @@ export interface Signature {
   /** defaults to "Office:" */
   phone_label?: Maybe<Scalars['String']>
   phone?: Maybe<Scalars['String']>
+  phone_label_2?: Maybe<Scalars['String']>
+  phone_2?: Maybe<Scalars['String']>
+  /** e.g. "Working hours 9am-5pm PST" */
+  additional_info?: Maybe<Scalars['String']>
 }
 
 export type SignatureFilter = {
@@ -3555,6 +3559,9 @@ export type SignatureFilter = {
   location?: Maybe<StringFilter>
   phone_label?: Maybe<StringFilter>
   phone?: Maybe<StringFilter>
+  phone_label_2?: Maybe<StringFilter>
+  phone_2?: Maybe<StringFilter>
+  additional_info?: Maybe<StringFilter>
 }
 
 export type SignatureSorting = {
@@ -3567,6 +3574,9 @@ export type SignatureSorting = {
   location?: Maybe<SortOrder>
   phone_label?: Maybe<SortOrder>
   phone?: Maybe<SortOrder>
+  phone_label_2?: Maybe<SortOrder>
+  phone_2?: Maybe<SortOrder>
+  additional_info?: Maybe<SortOrder>
 }
 
 export interface SiteSettings extends Document {

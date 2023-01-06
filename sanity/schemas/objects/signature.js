@@ -70,5 +70,33 @@ export const signature = {
           }
         }),
     },
+    {
+      name: 'phone_label_2',
+      title: 'Additional Phone Number Label (optional)',
+      type: 'string',
+    },
+    {
+      name: 'phone_2',
+      title: 'Additional Phone Number (optional)',
+      type: 'string',
+      validation: (Rule) =>
+        Rule.custom((phone) => {
+          if (typeof phone === 'undefined') {
+            return true
+          }
+          const regex = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
+          if (regex.test(phone)) {
+            return true
+          } else {
+            return 'Not a valid phone number'
+          }
+        }),
+    },
+    {
+      name: 'additional_info',
+      title: 'Additional Contact Info (optional)',
+      description: 'e.g. "Working hours 9am-5pm PST"',
+      type: 'string',
+    },
   ],
 }
