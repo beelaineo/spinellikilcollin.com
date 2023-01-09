@@ -184,10 +184,17 @@ export const CarouselButton = styled.button<CarouselButtonProps>`
     ${direction === 'next'
       ? css`
           right: -25px;
+
+          &:focus-visible {
+            ${theme.focus.bottom(-80, -70)}
+          }
         `
       : css`
           left: -25px;
           transform: rotate(180deg);
+          &:focus-visible {
+            ${theme.focus.bottom(0, -70)}
+          }
         `}
     background: transparent;
 

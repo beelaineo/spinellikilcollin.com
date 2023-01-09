@@ -5,15 +5,24 @@ interface BackgroundImageProps {
 }
 
 export const ProductThumb = styled.div`
-  text-align: left;
-  width: 100%;
-  a {
-    text-decoration: none;
+  ${({ theme }) => css`
+    position: relative;
+    text-align: left;
+    width: 100%;
+    a {
+      text-decoration: none;
 
-    &:hover {
-      color: body.8;
+      &:focus-visible {
+        ${theme.mediaQueries.mobile} {
+          ${theme.focus.bottom(0, -18)}
+        }
+        ${theme.focus.bottom(0, -12)}
+      }
+      &:hover {
+        color: body.8;
+      }
     }
-  }
+  `}
 `
 
 interface WithDisplayGrid {

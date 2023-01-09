@@ -28,6 +28,10 @@ const NavItemWrapper = styled.div`
     ${theme.mediaQueries.mobile} {
       margin-bottom: 3;
     }
+    a:focus-visible {
+      position: relative;
+      ${theme.focus.bottom()}
+    }
   `}
 `
 const FooterMenuWrapper = styled.div`
@@ -170,7 +174,9 @@ export const Footer = () => {
           <Heading m={0} level={5} fontWeight={1} textTransform="uppercase">
             © {currentYear}{' '}
             <Link href="/">
-              <a aria-label="Spinelli Kilcollin homepage">Spinelli Kilcollin</a>
+              <a tabIndex={-1} aria-label="Spinelli Kilcollin homepage">
+                Spinelli Kilcollin
+              </a>
             </Link>
           </Heading>
         </FooterMenuWrapper>

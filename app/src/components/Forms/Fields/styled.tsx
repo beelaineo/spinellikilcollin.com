@@ -237,7 +237,6 @@ export const SelectElement = styled.select`
     border: 1px solid;
     border-color: body.5;
     border-radius: 0;
-    transition: 0.2s;
     font-size: 1rem;
     cursor: pointer;
     background: none;

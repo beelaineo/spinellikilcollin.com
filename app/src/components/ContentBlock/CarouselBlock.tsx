@@ -14,6 +14,11 @@ const CarouselBlockStyled = styled.div`
 
     a {
       text-decoration: none;
+
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
     }
 
     ${theme.mediaQueries.mobile} {
