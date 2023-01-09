@@ -47,6 +47,19 @@ const RichTextWrapper = styled.div<WithArticle>`
       margin: 80px auto;
     }
 
+    a {
+      position: relative;
+    }
+
+    h4:has(a) {
+      width: fit-content;
+      margin: 2 auto 0.5em;
+
+      a:focus-visible {
+        ${theme.focus.bottom(0, 4)}
+      }
+    }
+
     ${theme.mediaQueries.tablet} {
       picture {
         max-width: 80%;
