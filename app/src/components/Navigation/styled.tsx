@@ -225,7 +225,7 @@ interface ColorThemeProps {
   colorTheme?: 'light' | 'dark'
 }
 
-export const SearchButtonWrapper = styled.button`
+export const SearchButtonWrapper = styled.div`
   ${({ theme, colorTheme }: ColorThemeProps) => css`
     position: relative;
     transition: 250ms ease;
@@ -245,7 +245,7 @@ export const SearchButtonWrapper = styled.button`
       height: 16px;
       margin-right: 3;
     }
-    &:focus-visible {
+    button:focus-visible {
       ${theme.focus.bottom()}
     }
   `}
