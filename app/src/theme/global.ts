@@ -35,10 +35,17 @@ export const GlobalStyles = createGlobalStyle`
   h6 { font-size: 6; }
 
   ${({ theme }) => css`
-    *:focus {
-      outline-color: ${theme.colors.grays[5]};
-      outline-offset: 2px;
-      outline-style: auto;
+    *:focus-visible {
+      outline: none;
+
+      ${theme.focus.left()}
+
+      &:after {
+        content: '';
+        background-color: ${theme.colors.grays[6]};
+        position: absolute;
+        border-radius: 4px;
+      }
     }
 
     ${theme.mediaQueries.tablet} {

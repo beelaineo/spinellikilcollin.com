@@ -123,4 +123,26 @@ export const defaultTheme: DefaultTheme = {
     desktop: '@media screen and (max-width: 1200px)',
     aboveDesktop: '@media screen and (min-width: 1200px)',
   },
+  focus: {
+    left: (offsetSize = 0, offsetPos = 15) =>
+      `&:after {
+        width: 4px;
+        height: calc(100% + ${offsetSize}%);
+        top: calc(0% - ${offsetSize / 2}%);
+        left: calc(0px - ${offsetPos}px);
+        bottom: unset;
+        opacity: 1;
+        transition: opacity .2s;
+    };`,
+    bottom: (offsetSize = 0, offsetPos = 10) =>
+      `&:after {
+        width: calc(100% + ${offsetSize}%);
+        height: 4px;
+        top: unset;
+        left: calc(0% - ${offsetSize / 2}%);
+        bottom: calc(0px - ${offsetPos}px);
+        opacity: 1;
+        transition: opacity .2s;
+    };`,
+  },
 }

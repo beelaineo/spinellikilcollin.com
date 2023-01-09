@@ -55,6 +55,11 @@ declare module 'styled-components' {
       aboveDesktop: string
     }
 
+    focus: {
+      left: function
+      bottom: function
+    }
+
     transition: {
       fast: string
       slow: string
