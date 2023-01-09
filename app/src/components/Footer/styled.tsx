@@ -67,6 +67,14 @@ export const BreadcrumbWrapper = styled.div`
       font-style: italic;
     }
 
+    a {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.bottom(0)}
+      }
+    }
+
     ${theme.mediaQueries.mobile} {
       padding: 4 0;
       margin: 0 auto;
@@ -260,6 +268,13 @@ export const HomepageLink = styled.div<HomepageLinkProps>`
       display: ${isMobile ? 'block' : 'none'};
       order: 3;
       padding: 7 5 0;
+    }
+
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
     }
   `}
 `

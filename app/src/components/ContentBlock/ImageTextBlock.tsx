@@ -30,7 +30,7 @@ const Wrapper = styled.div<WithLayout>`
       opacity: 1;
     }
 
-    a:focus-visible {
+    > a:focus-visible {
       ${theme.focus.bottom(0, 0)}
     }
 
