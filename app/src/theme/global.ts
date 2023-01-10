@@ -36,16 +36,9 @@ export const GlobalStyles = createGlobalStyle`
 
   ${({ theme }) => css`
     *:focus-visible {
-      outline: none;
-
-      ${theme.focus.left()}
-
-      &:after {
-        content: '';
-        background-color: ${theme.colors.grays[6]};
-        position: absolute;
-        border-radius: 4px;
-      }
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
     }
 
     ${theme.mediaQueries.tablet} {

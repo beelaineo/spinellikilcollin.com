@@ -125,7 +125,15 @@ export const defaultTheme: DefaultTheme = {
   },
   focus: {
     left: (offsetSize = 0, offsetPos = 15) =>
-      `&:after {
+      `
+      outline: none;
+      
+      &:after {
+        content: '';
+        background-color: ${defaultTheme.colors.grays[6]};
+        position: absolute;
+        border-radius: 4px;
+        
         width: 4px;
         height: calc(100% + ${offsetSize}%);
         top: calc(0% - ${offsetSize / 2}%);
@@ -135,7 +143,15 @@ export const defaultTheme: DefaultTheme = {
         transition: opacity .2s;
     };`,
     bottom: (offsetSize = 0, offsetPos = 10) =>
-      `&:after {
+      `
+      outline: none;
+      
+      &:after {
+        content: '';
+        background-color: ${defaultTheme.colors.grays[6]};
+        position: absolute;
+        border-radius: 4px;
+
         width: calc(100% + ${offsetSize}%);
         height: 4px;
         top: unset;
