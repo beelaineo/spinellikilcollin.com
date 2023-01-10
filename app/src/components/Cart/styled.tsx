@@ -94,6 +94,7 @@ export const CartInner = styled.div<CartInnerProps>`
     padding: 4 7;
     padding-bottom: 0;
     transition: 0.2s;
+
     ${isLoading
       ? css`
           opacity: 0.7;
@@ -111,6 +112,14 @@ export const CartInner = styled.div<CartInnerProps>`
   ${theme.mediaQueries.mobile} {
       padding: 4;
       overflow: initial;
+    }
+
+    button {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
     }
   `}
 `

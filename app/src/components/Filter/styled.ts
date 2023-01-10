@@ -420,6 +420,8 @@ interface WithActive {
 
 export const FilterSetWrapper = styled.div<WithActive>`
   ${({ theme, active }) => css`
+    position: relative;
+
     @media screen and (max-width: 960px) {
       display: ${active ? 'flex' : 'block'};
       flex-direction: column;
@@ -432,6 +434,10 @@ export const FilterSetWrapper = styled.div<WithActive>`
             }
           `
         : ''}
+    }
+
+    &:focus-visible {
+      ${theme.focus.bottom()}
     }
   `}
 `

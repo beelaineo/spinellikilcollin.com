@@ -116,11 +116,13 @@ export const QuickLinksWrapper = styled.nav<WithColorTheme>`
       font-size: 5;
       color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
       &:hover {
-        background-color: ${theme.colors.grays[2]};
+        background-color: white;
         color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
       }
       &:focus-visible {
         ${theme.focus.bottom()}
+        background-color: white;
+        color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
       }
     }
   `}
@@ -261,15 +263,12 @@ export const CurrencySelectorWrapper = styled.div`
       margin-right: 4px;
     }
 
+    select:focus-visible {
+      outline: none;
+    }
+
     :has(select:focus-visible) {
       ${theme.focus.bottom(-40)}
-
-      &:after {
-        content: '';
-        background-color: ${theme.colors.grays[6]};
-        position: absolute;
-        border-radius: 4px;
-      }
     }
   `}
 `

@@ -366,9 +366,13 @@ export const ProductThumbnail = ({
   // console.log('playing thumbnail', playing)
 
   return (
-    <ProductThumb ref={containerRef} onClick={handleClick}>
+    <ProductThumb ref={containerRef}>
       <Link href="/products/[productSlug]" as={linkAs}>
-        <a draggable="false" aria-label={'Link to ' + product.title}>
+        <a
+          draggable="false"
+          aria-label={'Link to ' + product.title}
+          onClick={handleClick}
+        >
           {variantAnimation ? (
             <VideoWrapper hide={!playing} carousel={carousel}>
               <CloudinaryAnimation

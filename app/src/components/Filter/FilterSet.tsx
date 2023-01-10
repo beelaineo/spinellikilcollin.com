@@ -116,8 +116,8 @@ export const FilterSet = ({
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
-      onFocus={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
       onBlur={handleBlur}
       active={active}
       tabIndex={0}

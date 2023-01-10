@@ -24,16 +24,24 @@ interface WithSticky {
 
 const BuyButtonEl = styled(Button)<WithSticky>`
   ${({ theme, sticky }) => css`
-    ${theme.mediaQueries.tablet} {
-      position: ${sticky ? 'fixed' : 'inherit'};
-      top: ${sticky ? '92px' : 'inherit'};
-      z-index: 4;
-      width: ${sticky ? 'calc(100% - 250px)' : 'inherit'};
-      transition: width 0s;
-    }
-    ${theme.mediaQueries.mobile} {
-      top: ${sticky ? '85px' : 'inherit'};
-      width: ${sticky ? 'calc(100% - 88px)' : 'inherit'};
+     {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
+
+      ${theme.mediaQueries.tablet} {
+        position: ${sticky ? 'fixed' : 'inherit'};
+        top: ${sticky ? '92px' : 'inherit'};
+        z-index: 4;
+        width: ${sticky ? 'calc(100% - 250px)' : 'inherit'};
+        transition: width 0s;
+      }
+      ${theme.mediaQueries.mobile} {
+        top: ${sticky ? '85px' : 'inherit'};
+        width: ${sticky ? 'calc(100% - 88px)' : 'inherit'};
+      }
     }
   `}
 `

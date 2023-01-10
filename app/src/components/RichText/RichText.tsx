@@ -47,17 +47,25 @@ const RichTextWrapper = styled.div<WithArticle>`
       margin: 80px auto;
     }
 
-    a {
-      position: relative;
-    }
-
     h4:has(a) {
       width: fit-content;
       margin: 2 auto 0.5em;
 
       a:focus-visible {
         ${theme.focus.bottom(0, 4)}
+        position: relative;
       }
+    }
+
+    h3:has(a) {
+      a:focus-visible {
+        position: relative;
+      }
+    }
+
+    p:has(a) {
+      width: fit-content;
+      margin: 2 auto 0.5em;
     }
 
     ${theme.mediaQueries.tablet} {
@@ -119,7 +127,7 @@ const serializers = ({
         return <>{children}</>
       }
       return (
-        <Span role="button" cursor="pointer" onClick={onClick}>
+        <Span role="button" tabIndex={0} cursor="pointer" onClick={onClick}>
           {children}
         </Span>
       )

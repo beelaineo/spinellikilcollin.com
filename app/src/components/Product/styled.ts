@@ -13,13 +13,16 @@ export const ProductThumb = styled.div`
       text-decoration: none;
 
       &:focus-visible {
-        ${theme.mediaQueries.mobile} {
-          ${theme.focus.bottom(0, -18)}
-        }
-        ${theme.focus.bottom(0, -12)}
+        ${theme.focus.bottom(-50, -12)}
       }
       &:hover {
         color: body.8;
+      }
+    }
+
+    ${theme.mediaQueries.mobile} {
+      a:focus-visible {
+        ${theme.focus.bottom(-50, -18)}
       }
     }
   `}
@@ -166,6 +169,10 @@ export const SwatchWrapper = styled.div<WithClickable>`
       ${SwatchLabel} {
         opacity: 1;
       }
+    }
+
+    &:focus-visible {
+      ${theme.focus.bottom()}
     }
 
     ${theme.mediaQueries.mobile} {

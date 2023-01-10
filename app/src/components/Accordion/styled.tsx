@@ -36,14 +36,20 @@ export const Wrapper = styled.div`
 `
 
 export const Label = styled.button`
-  font-size: 5;
-  font-family: serif;
-  position: relative;
-  padding: 3 0;
-  width: 100%;
-  text-align: left;
-  background-color: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${({ theme }) => css`
+    font-size: 5;
+    font-family: serif;
+    position: relative;
+    padding: 3 0;
+    width: 100%;
+    text-align: left;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:focus-visible {
+      ${theme.focus.left()}
+    }
+  `}
 `

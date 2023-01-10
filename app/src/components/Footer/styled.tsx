@@ -168,13 +168,6 @@ export const MailerForm = styled.form`
     }
     :has(input:focus-visible) {
       ${theme.focus.left()}
-
-      &:after {
-        content: '';
-        background-color: ${theme.colors.grays[6]};
-        position: absolute;
-        border-radius: 4px;
-      }
     }
 
     input:focus ~ button {
@@ -193,7 +186,7 @@ export const InputWrapper = styled.div<WithVisible>`
     pointer-events: ${visible ? 'inherit' : 'none'};
     transition: 0.2s;
 
-    button {
+    button:focus-visible {
       ${theme.focus.bottom(10)}
     }
   `}
