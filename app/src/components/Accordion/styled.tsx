@@ -20,8 +20,6 @@ export const Inner = styled.div`
           opacity: 0;
         `};
   `}
-
-  overflow: hidden;
 `
 
 export const Item = styled.div`
