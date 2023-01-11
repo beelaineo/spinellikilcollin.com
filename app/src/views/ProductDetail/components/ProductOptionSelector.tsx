@@ -81,15 +81,8 @@ const SelectWrapper = styled.div<SelectWrapperProps>`
       max-width: initial;
     }
 
-    :has(select:focus-visible) {
+    &:has(select:focus-visible) {
       ${theme.focus.left()}
-
-      &:after {
-        content: '';
-        background-color: ${theme.colors.grays[6]};
-        position: absolute;
-        border-radius: 4px;
-      }
     }
   `}
 `

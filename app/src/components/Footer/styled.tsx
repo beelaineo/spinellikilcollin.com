@@ -166,7 +166,7 @@ export const MailerForm = styled.form`
     svg {
       stroke: currentColor;
     }
-    :has(input:focus-visible) {
+    &:has(input:focus-visible) {
       ${theme.focus.left()}
     }
 

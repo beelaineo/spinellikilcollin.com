@@ -140,8 +140,24 @@ export const defaultTheme: DefaultTheme = {
         left: calc(0px - ${offsetPos}px);
         bottom: unset;
         opacity: 1;
-        transition: opacity .2s;
     };`,
+    right: (offsetSize = 0, offsetPos = 15) =>
+      `
+    outline: none;
+    
+    &:after {
+      content: '';
+      background-color: ${defaultTheme.colors.grays[6]};
+      position: absolute;
+      border-radius: 4px;
+      
+      width: 4px;
+      height: calc(100% + ${offsetSize}%);
+      top: calc(0% - ${offsetSize / 2}%);
+      right: calc(0px - ${offsetPos}px);
+      bottom: unset;
+      opacity: 1;
+  };`,
     bottom: (offsetSize = 0, offsetPos = 10) =>
       `
       outline: none;
@@ -158,7 +174,6 @@ export const defaultTheme: DefaultTheme = {
         left: calc(0% - ${offsetSize / 2}%);
         bottom: calc(0px - ${offsetPos}px);
         opacity: 1;
-        transition: opacity .2s;
     };`,
   },
 }

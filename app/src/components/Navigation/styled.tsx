@@ -267,7 +267,7 @@ export const CurrencySelectorWrapper = styled.div`
       outline: none;
     }
 
-    :has(select:focus-visible) {
+    &:has(select:focus-visible) {
       ${theme.focus.bottom(-40)}
     }
   `}
@@ -438,13 +438,24 @@ export const NavInnerBackground = styled.div`
 `
 
 export const NavItemWrapper = styled.div`
-  display: block;
-  position: relative;
-  padding: 3 0;
+  ${({ theme }) => css`
+    display: block;
+    position: relative;
+    padding: 3 0;
 
-  & + & {
-    border-top: 1px solid black;
-  }
+    a,
+    button {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.left(30)}
+      }
+    }
+
+    & + & {
+      border-top: 1px solid black;
+    }
+  `}
 `
 
 export const InStockDot = styled('span')`

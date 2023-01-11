@@ -57,6 +57,7 @@ declare module 'styled-components' {
 
     focus: {
       left: function
+      right: function
       bottom: function
     }
 

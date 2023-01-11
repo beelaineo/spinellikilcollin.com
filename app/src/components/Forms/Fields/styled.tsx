@@ -6,7 +6,7 @@ interface FieldWrapperProps {
 }
 
 export const FieldWrapper = styled.div<FieldWrapperProps>`
-  ${({ noBorder }) => css`
+  ${({ noBorder, theme }) => css`
     ${noBorder
       ? ``
       : css`
@@ -19,6 +19,18 @@ export const FieldWrapper = styled.div<FieldWrapperProps>`
     background-color: transparent;
     & + & {
       margin-top: 3;
+    }
+
+    #phone {
+      outline: none;
+    }
+
+    &:has(input:focus-visible) {
+      ${theme.focus.left()}
+    }
+
+    &:has(select:focus-visible) {
+      ${theme.focus.right()}
     }
 
     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {

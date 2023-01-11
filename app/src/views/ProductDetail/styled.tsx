@@ -181,6 +181,13 @@ export const RingToolsWrapper = styled.div`
     svg {
       flex-shrink: 0;
     }
+
+    button {
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
+    }
+
     ${theme.mediaQueries.tablet} {
       order: -1;
     }
