@@ -88,6 +88,7 @@
 		"common-tags": "^1.8.2",
 		"eslint-plugin-react": "^7.31.8",
 		"eslint-watch": "^8.0.0",
+		"focus-trap-react": "^10.0.2",
 		"formik": "^2.2.9",
 		"g": "^2.0.1",
 		"graphql-request": "^3.7.0",
