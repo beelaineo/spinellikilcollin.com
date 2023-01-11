@@ -65,8 +65,6 @@ const App = (props: AppProps) => {
   }
 
   useEffect(() => {
-    if (router.pathname === '/products/[productSlug]') return
-
     const _focus = () => {
       document.body.setAttribute('tabIndex', '-1')
     }
@@ -76,9 +74,10 @@ const App = (props: AppProps) => {
       document.body.removeAttribute('tabIndex')
     }
 
-    router.events.on('routeChangeStart', _focus)
-    router.events.on('routeChangeComplete', _reset)
-
+    if (router.pathname !== '/products/[productSlug]') {
+      router.events.on('routeChangeStart', _focus)
+      router.events.on('routeChangeComplete', _reset)
+    }
     return () => {
       router.events.off('routeChangeStart', _focus)
       router.events.off('routeChangeComplete', _reset)

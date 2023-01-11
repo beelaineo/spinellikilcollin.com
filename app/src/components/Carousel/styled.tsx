@@ -21,7 +21,7 @@ export const CarouselContainer = styled.div<WithSingle>`
     }
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
-      padding: ${single ? '0' : '1rem 32vw'};
+      padding: ${single ? '0' : '0 32vw'};
     }
   `}
 `
@@ -29,6 +29,7 @@ export const CarouselContainer = styled.div<WithSingle>`
 export const CarouselMask = styled.div<WithSingle>`
   ${({ theme, single }) => css`
     overflow: hidden;
+    padding-bottom: 3;
 
     ${theme.mediaQueries.mobile} {
       max-width: 100%;
