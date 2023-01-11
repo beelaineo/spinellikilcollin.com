@@ -604,7 +604,9 @@ export const getStorefrontId = (
  * returns a numeric Shopify ID when given a storefrontId
  */
 export const getProductIdFromStorefrontId = (storefrontId: string): string => {
-  const converted = atob(storefrontId)
+  const converted = /gid:\/\/shopify\//.test(storefrontId)
+    ? storefrontId
+    : atob(storefrontId)
   if (!/gid:\/\/shopify\//.test(converted)) {
     throw new Error(`Converted ID "${converted}" is not a valid Shopify ID`)
   }
