@@ -32,6 +32,8 @@ const BuyButtonEl = styled(Button)<WithSticky>`
       }
 
       ${theme.mediaQueries.tablet} {
+        position: relative;
+
         position: ${sticky ? 'fixed' : 'inherit'};
         top: ${sticky ? '92px' : 'inherit'};
         z-index: 4;
@@ -39,6 +41,8 @@ const BuyButtonEl = styled(Button)<WithSticky>`
         transition: width 0s;
       }
       ${theme.mediaQueries.mobile} {
+        position: relative;
+
         top: ${sticky ? '85px' : 'inherit'};
         width: ${sticky ? 'calc(100% - 88px)' : 'inherit'};
       }

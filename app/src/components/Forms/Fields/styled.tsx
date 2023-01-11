@@ -21,18 +21,6 @@ export const FieldWrapper = styled.div<FieldWrapperProps>`
       margin-top: 3;
     }
 
-    #phone {
-      outline: none;
-    }
-
-    &:has(input:focus-visible) {
-      ${theme.focus.left()}
-    }
-
-    &:has(select:focus-visible) {
-      ${theme.focus.right()}
-    }
-
     @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
       margin-top: 2;
     }
