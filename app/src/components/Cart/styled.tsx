@@ -114,7 +114,7 @@ export const CartInner = styled.div<CartInnerProps>`
       overflow: initial;
     }
 
-    button {
+    > button {
       position: relative;
 
       &:focus-visible {
@@ -159,21 +159,30 @@ export const CartModal = styled.div`
 `
 
 export const CheckoutProductWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  grid-gap: 3;
-  border-color: body.7;
-  padding: 4 0;
-  position: relative;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-gap: 3;
+    border-color: body.7;
+    padding: 4 0;
+    position: relative;
 
-  border-bottom: 1px solid;
+    border-bottom: 1px solid;
 
-  &:first-of-type {
-    padding-top: 0;
-  }
-  &:last-of-type {
-    border-bottom: none;
-  }
+    &:first-of-type {
+      padding-top: 0;
+    }
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    > a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
+    }
+  `}
 `
 export const CheckoutProductCloseButtonWrapper = styled.div`
   ${({ theme }) => css`
@@ -218,10 +227,18 @@ export const CheckoutProductCloseButton = styled.button`
 `
 
 export const CheckoutItemDetails = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-right: 20px;
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 20px;
+    > div {
+      width: fit-content;
+    }
+    a {
+      position: relative;
+    }
+  `}
 `
 
 export const RemoveCart = styled.button`
@@ -233,10 +250,21 @@ export const RemoveCart = styled.button`
 export const QuantityWrapper = styled.div`
   display: flex;
   align-items: center;
+  position: relative;
+`
+
+export const QuantityInputWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    &:has(input:focus-visible) {
+      ${theme.focus.bottom()}
+    }
+  `}
 `
 
 export const QuantityInput = styled(Input)`
   ${({ theme }) => css`
+    position: relative;
     width: 24px;
     height: 24px;
     text-align: center;
@@ -251,6 +279,13 @@ export const QuantityInput = styled(Input)`
 `
 
 export const QuantityAdjustButton = styled.button`
-  display: inline-block;
-  width: 24px;
+  ${({ theme }) => css`
+    display: inline-block;
+    width: 24px;
+    position: relative;
+
+    &:focus-visible {
+      ${theme.focus.bottom(-30)}
+    }
+  `}
 `
