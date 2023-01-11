@@ -133,7 +133,7 @@ export const defaultTheme: DefaultTheme = {
         background-color: ${defaultTheme.colors.grays[6]};
         position: absolute;
         border-radius: 4px;
-        
+        z-index: 1;
         width: 4px;
         height: calc(100% + ${offsetSize}%);
         top: calc(0% - ${offsetSize / 2}%);
@@ -150,7 +150,7 @@ export const defaultTheme: DefaultTheme = {
       background-color: ${defaultTheme.colors.grays[6]};
       position: absolute;
       border-radius: 4px;
-      
+      z-index: 1;
       width: 4px;
       height: calc(100% + ${offsetSize}%);
       top: calc(0% - ${offsetSize / 2}%);
@@ -167,7 +167,7 @@ export const defaultTheme: DefaultTheme = {
         background-color: ${defaultTheme.colors.grays[6]};
         position: absolute;
         border-radius: 4px;
-
+        z-index: 1;
         width: calc(100% + ${offsetSize}%);
         height: 4px;
         top: unset;

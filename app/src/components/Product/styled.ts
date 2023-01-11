@@ -13,7 +13,7 @@ export const ProductThumb = styled.div`
       text-decoration: none;
 
       &:focus-visible {
-        ${theme.focus.bottom(-50, -12)}
+        ${theme.focus.bottom(-50, -2)}
       }
       &:hover {
         color: body.8;
@@ -22,7 +22,7 @@ export const ProductThumb = styled.div`
 
     ${theme.mediaQueries.mobile} {
       a:focus-visible {
-        ${theme.focus.bottom(-50, -18)}
+        ${theme.focus.bottom(-50, 12)}
       }
     }
   `}

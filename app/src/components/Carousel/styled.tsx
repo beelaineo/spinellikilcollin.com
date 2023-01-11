@@ -20,7 +20,6 @@ export const CarouselContainer = styled.div<WithSingle>`
       padding: 0 11;
     }
     ${theme.mediaQueries.mobile} {
-      overflow: hidden;
       padding: ${single ? '0' : '0 32vw'};
     }
   `}
