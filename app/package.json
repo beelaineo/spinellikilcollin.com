@@ -70,7 +70,7 @@
 		"@cloudinary/react": "^1.5.0",
 		"@cloudinary/url-gen": "^1.8.6",
 		"@good-idea/unwind-edges": "^1.5.3",
-		"@sane-shopify/server": "^0.23.2",
+		"@sane-shopify/server": "^0.24.0",
 		"@sanity/block-content-to-react": "^3.0.0",
 		"@sanity/client": "^3.4.1",
 		"@sanity/image-url": "^0.140.22",

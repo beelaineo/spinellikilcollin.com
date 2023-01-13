@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@reach/auto-id": "^0.17.0",
-    "@sane-shopify/sanity-plugin": "^0.23.2",
+    "@sane-shopify/sanity-plugin": "^0.24.0",
     "@sanity/base": "^2.35.2",
     "@sanity/block-content-to-react": "^3.0.0",
     "@sanity/color-input": "^2.35.0",
@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@good-idea/unwind-edges": "^1.5.3",
+    "@sanity/cli": "^3.0.6",
     "@sanity/client": "^3.4.1",
     "@types/eslint": "^7.29.0",
     "@types/lodash": "^4.14.185",
