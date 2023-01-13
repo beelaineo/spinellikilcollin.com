@@ -566,13 +566,17 @@ export const getProductUri = (
   const existingParams = matches && matches[1] ? matches[1] : undefined
   const newParams = new URLSearchParams(existingParams)
   const variantId = getVariantId(variant)
+  const convertedId =
+    variantId && /gid:\/\/shopify\//.test(variantId)
+      ? btoa(variantId)
+      : variantId
   newParams.delete('stone')
   newParams.delete('metal')
   newParams.delete('pos')
   newParams.delete('search')
   newParams.delete('v')
-  if (variant && variantId) {
-    newParams.set('v', variantId)
+  if (variant && convertedId) {
+    newParams.set('v', convertedId)
   }
   if (params) {
     Object.entries(params).forEach(([k, v]) => newParams.set(k, v))
@@ -604,7 +608,9 @@ export const getStorefrontId = (
  * returns a numeric Shopify ID when given a storefrontId
  */
 export const getProductIdFromStorefrontId = (storefrontId: string): string => {
-  const converted = atob(storefrontId)
+  const converted = /gid:\/\/shopify\//.test(storefrontId)
+    ? storefrontId
+    : atob(storefrontId)
   if (!/gid:\/\/shopify\//.test(converted)) {
     throw new Error(`Converted ID "${converted}" is not a valid Shopify ID`)
   }
