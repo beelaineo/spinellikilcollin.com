@@ -22,7 +22,7 @@ export interface CheckoutCreateInput {
 
 export type CheckoutCreateResponse = CheckoutResponse<'checkoutCreate'>
 
-export const CHECKOUT_CREATE = gql`
+export const CHECKOUT_CREATE_LEGACY = gql`
   mutation CheckoutCreate(
     $email: String
     $lineItems: [CheckoutLineItemInput!]
@@ -33,6 +33,39 @@ export const CHECKOUT_CREATE = gql`
   ) {
     checkoutCreate(
       input: {
+        email: $email
+        lineItems: $lineItems
+        shippingAddress: $shippingAddress
+        note: $note
+        customAttributes: $customAttributes
+        allowPartialAddresses: $allowPartialAddresses
+      }
+    ) {
+      checkoutUserErrors {
+        __typename
+        code
+        field
+      }
+      checkout {
+        ...CheckoutFragment
+      }
+    }
+  }
+  ${checkoutFragment}
+`
+
+export const CHECKOUT_CREATE = gql`
+  mutation CheckoutCreate(
+    $email: String
+    $lineItems: [CheckoutLineItemInput!]
+    $shippingAddress: MailingAddressInput
+    $note: String
+    $customAttributes: [AttributeInput!]
+    $allowPartialAddresses: Boolean
+  ) @inContext(country: FR) {
+    checkoutCreate(
+      input: {
+        buyerIdentity: { countryCode: FR }
         email: $email
         lineItems: $lineItems
         shippingAddress: $shippingAddress

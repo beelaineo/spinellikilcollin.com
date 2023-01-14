@@ -10,6 +10,7 @@ import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
 import { SearchProvider } from './SearchProvider'
 import { CurrencyProvider } from './CurrencyProvider'
+import { CountryProvider } from './CountryProvider'
 import { ErrorDisplay, ErrorProvider } from './ErrorProvider'
 import { NavigationProvider } from './NavigationProvider'
 import { AnalyticsProvider } from './AnalyticsProvider'
@@ -73,11 +74,13 @@ export const Providers = ({ shopData, children }: Props) => {
                 <CartProvider>
                   <NavigationProvider>
                     <CurrencyProvider>
-                      <SearchProvider>
-                        <ErrorDisplay />
-                        <GlobalStyles />
-                        <ModalProvider>{children}</ModalProvider>\{' '}
-                      </SearchProvider>
+                      <CountryProvider>
+                        <SearchProvider>
+                          <ErrorDisplay />
+                          <GlobalStyles />
+                          <ModalProvider>{children}</ModalProvider>\{' '}
+                        </SearchProvider>
+                      </CountryProvider>
                     </CurrencyProvider>
                   </NavigationProvider>
                 </CartProvider>
