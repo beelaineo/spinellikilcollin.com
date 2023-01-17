@@ -61,7 +61,7 @@ interface InputWrapperProps {
   type?: string
 }
 export const InputWrapper = styled.div<InputWrapperProps>`
-  ${({ type }) => css`
+  ${({ type, theme }) => css`
     display: flex;
     align-items: center;
     max-width: 100%;

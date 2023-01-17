@@ -88,6 +88,11 @@ const Wrapper = styled.divBox<WrapperProps>`
     a {
       width: fit-content;
       height: fit-content;
+
+      &:focus-visible {
+        ${theme.focus.bottom(0, -2)}
+        position: relative;
+      }
     }
 
     ${theme.mediaQueries.tablet} {

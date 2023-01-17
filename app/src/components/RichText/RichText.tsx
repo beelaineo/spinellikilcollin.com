@@ -47,6 +47,16 @@ const RichTextWrapper = styled.div<WithArticle>`
       margin: 80px auto;
     }
 
+    h2:has(a) {
+      width: fit-content;
+      margin: 2 auto 0.5em;
+
+      a:focus-visible {
+        ${theme.focus.left(0)}
+        position: relative;
+      }
+    }
+
     h4:has(a) {
       width: fit-content;
       margin: 2 auto 0.5em;
@@ -59,6 +69,38 @@ const RichTextWrapper = styled.div<WithArticle>`
 
     h3:has(a) {
       a:focus-visible {
+        ${theme.focus.left(0)}
+        position: relative;
+      }
+    }
+
+    h3:has(span) {
+      a:focus-visible {
+        ${theme.focus.bottom(0, 5)}
+        position: relative;
+      }
+    }
+
+    p:has(span) {
+      a:focus-visible {
+        ${theme.focus.left(0)}
+        position: relative;
+      }
+    }
+
+    h3:has(span) {
+      span:focus-visible {
+        ${theme.focus.bottom(0, 5)}
+        position: relative;
+      }
+    }
+
+    p:has(span) {
+      width: fit-content;
+      margin: 2 auto 0.5em;
+
+      span:focus-visible {
+        ${theme.focus.bottom(0, 5)}
         position: relative;
       }
     }
@@ -66,6 +108,11 @@ const RichTextWrapper = styled.div<WithArticle>`
     p:has(a) {
       width: fit-content;
       margin: 2 auto 0.5em;
+
+      > a:focus-visible {
+        ${theme.focus.bottom(0, 5)}
+        position: relative;
+      }
     }
 
     ${theme.mediaQueries.tablet} {
