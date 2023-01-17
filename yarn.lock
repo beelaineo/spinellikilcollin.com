@@ -310,7 +310,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@axe-core/react@npm:^4.4.4":
+"@axe-core/react@npm:^4.5.2":
   version: 4.5.2
   resolution: "@axe-core/react@npm:4.5.2"
   dependencies:
@@ -1791,7 +1791,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cloudinary/react@npm:^1.5.0":
+"@cloudinary/react@npm:^1.9.0":
   version: 1.9.0
   resolution: "@cloudinary/react@npm:1.9.0"
   dependencies:
@@ -1811,7 +1811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cloudinary/url-gen@npm:^1.7.0, @cloudinary/url-gen@npm:^1.8.6":
+"@cloudinary/url-gen@npm:^1.7.0, @cloudinary/url-gen@npm:^1.8.7":
   version: 1.8.7
   resolution: "@cloudinary/url-gen@npm:1.8.7"
   dependencies:
@@ -1820,7 +1820,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/cli@npm:^17.1.2":
+"@commitlint/cli@npm:^17.4.2":
   version: 17.4.2
   resolution: "@commitlint/cli@npm:17.4.2"
   dependencies:
@@ -1840,7 +1840,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@commitlint/config-conventional@npm:^17.1.0":
+"@commitlint/config-conventional@npm:^17.4.2":
   version: 17.4.2
   resolution: "@commitlint/config-conventional@npm:17.4.2"
   dependencies:
@@ -4360,7 +4360,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:12.3.4, @next/eslint-plugin-next@npm:^12.3.1":
+"@next/eslint-plugin-next@npm:12.3.4, @next/eslint-plugin-next@npm:^12.3.4":
   version: 12.3.4
   resolution: "@next/eslint-plugin-next@npm:12.3.4"
   dependencies:
@@ -5004,16 +5004,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/auto-id@npm:^0.17.0":
-  version: 0.17.0
-  resolution: "@reach/auto-id@npm:0.17.0"
+"@reach/auto-id@npm:^0.18.0":
+  version: 0.18.0
+  resolution: "@reach/auto-id@npm:0.18.0"
   dependencies:
-    "@reach/utils": 0.17.0
-    tslib: ^2.3.0
+    "@reach/utils": 0.18.0
   peerDependencies:
     react: ^16.8.0 || 17.x
     react-dom: ^16.8.0 || 17.x
-  checksum: 30bb0e591fbf0a2a6124ea6b07e6cec254ec0483c326492e824a19df8d2e2fcb3a5708cc47e1221fb64b9e63e4497966deb37732916d330a0693c541d9d1b35d
+  checksum: 75a37a0a09c382dfc358d37f3212cffdea2b4c80c2f555b7fee857af59a46e959324234be8dbb51c476fba0874ed93694254079192b478ce3e9abba5ce63fdec
   languageName: node
   linkType: hard
 
@@ -5051,16 +5050,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@reach/utils@npm:0.17.0":
-  version: 0.17.0
-  resolution: "@reach/utils@npm:0.17.0"
-  dependencies:
-    tiny-warning: ^1.0.3
-    tslib: ^2.3.0
+"@reach/utils@npm:0.18.0":
+  version: 0.18.0
+  resolution: "@reach/utils@npm:0.18.0"
   peerDependencies:
     react: ^16.8.0 || 17.x
     react-dom: ^16.8.0 || 17.x
-  checksum: b9ee31b5d07e7f204f3605be3fa45448c9817937a3364d894054c57de9113d417014019d21ad895aebf848a43c20988924d069ba926c0cb20d6f2e8654d7a11e
+  checksum: eeda20a74c1db71e95680c622371c6efc46e2c767b28902bc43b580654436a34ec7f8b5f63c51a7c4cc8fd48c94066e3215496ba5a053c96e65c7a9bdcdc2687
   languageName: node
   linkType: hard
 
@@ -5179,7 +5175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/base@npm:2.35.4, @sanity/base@npm:^2.35.2":
+"@sanity/base@npm:2.35.4, @sanity/base@npm:^2.35.4":
   version: 2.35.4
   resolution: "@sanity/base@npm:2.35.4"
   dependencies:
@@ -5302,7 +5298,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/cli@npm:^3.0.6":
+"@sanity/cli@npm:^3.2.4":
   version: 3.2.4
   resolution: "@sanity/cli@npm:3.2.4"
   dependencies:
@@ -5331,7 +5327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/color-input@npm:^2.35.0":
+"@sanity/color-input@npm:^2.36.0":
   version: 2.36.0
   resolution: "@sanity/color-input@npm:2.36.0"
   dependencies:
@@ -5363,7 +5359,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/core@npm:^2.35.0":
+"@sanity/core@npm:^2.35.3":
   version: 2.35.3
   resolution: "@sanity/core@npm:2.35.3"
   dependencies:
@@ -5450,7 +5446,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/default-layout@npm:^2.35.2":
+"@sanity/default-layout@npm:^2.35.4":
   version: 2.35.4
   resolution: "@sanity/default-layout@npm:2.35.4"
   dependencies:
@@ -5481,7 +5477,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/default-login@npm:^2.35.2":
+"@sanity/default-login@npm:^2.35.4":
   version: 2.35.4
   resolution: "@sanity/default-login@npm:2.35.4"
   dependencies:
@@ -5499,7 +5495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/desk-tool@npm:^2.35.2":
+"@sanity/desk-tool@npm:^2.35.4":
   version: 2.35.4
   resolution: "@sanity/desk-tool@npm:2.35.4"
   dependencies:
@@ -5818,7 +5814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/production-preview@npm:^2.33.2":
+"@sanity/production-preview@npm:^2.35.3":
   version: 2.35.3
   resolution: "@sanity/production-preview@npm:2.35.3"
   checksum: 802f918718bfb4ab5cba356e4d5f04d46956f78b73a7246bb2ebd60ccb90913e5a5469e5567035d9659c56596736d8d9b35accb43060c40171a769cc071ecb82
@@ -6085,9 +6081,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sanity/vision@npm:2.35.2":
-  version: 2.35.2
-  resolution: "@sanity/vision@npm:2.35.2"
+"@sanity/vision@npm:2.35.4":
+  version: 2.35.4
+  resolution: "@sanity/vision@npm:2.35.4"
   dependencies:
     "@juggle/resize-observer": ^3.3.1
     "@sanity/icons": ^1.3.4
@@ -6108,7 +6104,7 @@ __metadata:
     react: ^16.9 || ^17
     react-dom: ^16.9 || ^17
     styled-components: ^5.2.0
-  checksum: 52273c9613aafe69da07020c1ef6712f3af22861cd2f4426cbe5fd5faf6982130d2b121e6aac99eef518a0bfb40ad76229dd3900a49bfd151df75e49216a3ba6
+  checksum: db24eb74c95f0aaa13a670670d3b661c918373a21c0e3b445b2a3eeff037f0beea0682c11d0cc9833af15f7bcf1b04e60c56ead426099c4e807c2176e7ecd58e
   languageName: node
   linkType: hard
 
@@ -6273,7 +6269,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@sentry/webpack-plugin@npm:^1.19.0":
+"@sentry/webpack-plugin@npm:^1.20.0":
   version: 1.20.0
   resolution: "@sentry/webpack-plugin@npm:1.20.0"
   dependencies:
@@ -6608,7 +6604,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:*, @types/eslint@npm:^8.4.6":
+"@types/eslint@npm:*, @types/eslint@npm:^8.4.10":
   version: 8.4.10
   resolution: "@types/eslint@npm:8.4.10"
   dependencies:
@@ -6686,10 +6682,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/gtag.js@npm:^0.0.10":
-  version: 0.0.10
-  resolution: "@types/gtag.js@npm:0.0.10"
-  checksum: 5c18ffdc64418887763ec1a564e73c9fbf222ff3eece1fbc35a182fdd884e7884bb7708f67e6e4939f157bb9f2cb7a4aff42be7834527e35c5aac4f98783164c
+"@types/gtag.js@npm:^0.0.12":
+  version: 0.0.12
+  resolution: "@types/gtag.js@npm:0.0.12"
+  checksum: 34efc27fbfd0013255b8bfd4af38ded9d5a6ba761130c76f17fd3a9585d83acc88d8005aab667cfec4bdec0e7c7217f689739799a8f61aed0edb929be58b162e
   languageName: node
   linkType: hard
 
@@ -6900,7 +6896,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/lodash@npm:*, @types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.175, @types/lodash@npm:^4.14.185":
+"@types/lodash@npm:*, @types/lodash@npm:^4.14.149, @types/lodash@npm:^4.14.175, @types/lodash@npm:^4.14.191":
   version: 4.14.191
   resolution: "@types/lodash@npm:4.14.191"
   checksum: ba0d5434e10690869f32d5ea49095250157cae502f10d57de0a723fd72229ce6c6a4979576f0f13e0aa9fbe3ce2457bfb9fa7d4ec3d6daba56730a51906d1491
@@ -7008,7 +7004,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prettier@npm:^2.1.5, @types/prettier@npm:^2.7.0":
+"@types/prettier@npm:^2.1.5, @types/prettier@npm:^2.7.2":
   version: 2.7.2
   resolution: "@types/prettier@npm:2.7.2"
   checksum: b47d76a5252265f8d25dd2fe2a5a61dc43ba0e6a96ffdd00c594cb4fd74c1982c2e346497e3472805d97915407a09423804cc2110a0b8e1b22cffcab246479b7
@@ -7036,7 +7032,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/ramda@npm:^0.28.15":
+"@types/ramda@npm:^0.28.21":
   version: 0.28.21
   resolution: "@types/ramda@npm:0.28.21"
   dependencies:
@@ -7061,7 +7057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.0.6":
+"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.0.10":
   version: 18.0.10
   resolution: "@types/react-dom@npm:18.0.10"
   dependencies:
@@ -7093,7 +7089,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-router@npm:*, @types/react-router@npm:^5.1.19":
+"@types/react-router@npm:*, @types/react-router@npm:^5.1.20":
   version: 5.1.20
   resolution: "@types/react-router@npm:5.1.20"
   dependencies:
@@ -7121,7 +7117,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^18.0.20":
+"@types/react@npm:*, @types/react@npm:^18.0.26":
   version: 18.0.26
   resolution: "@types/react@npm:18.0.26"
   dependencies:
@@ -7327,7 +7323,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^5.38.0":
+"@typescript-eslint/eslint-plugin@npm:^5.48.2":
   version: 5.48.2
   resolution: "@typescript-eslint/eslint-plugin@npm:5.48.2"
   dependencies:
@@ -7350,7 +7346,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^5.21.0, @typescript-eslint/parser@npm:^5.38.0":
+"@typescript-eslint/parser@npm:^5.21.0, @typescript-eslint/parser@npm:^5.48.2":
   version: 5.48.2
   resolution: "@typescript-eslint/parser@npm:5.48.2"
   dependencies:
@@ -7974,7 +7970,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"algoliasearch@npm:^4.14.2":
+"algoliasearch@npm:^4.14.3":
   version: 4.14.3
   resolution: "algoliasearch@npm:4.14.3"
   dependencies:
@@ -9710,7 +9706,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bufferutil@npm:^4.0.6":
+"bufferutil@npm:^4.0.7":
   version: 4.0.7
   resolution: "bufferutil@npm:4.0.7"
   dependencies:
@@ -12477,7 +12473,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:^16.0.2":
+"dotenv@npm:^16.0.3":
   version: 16.0.3
   resolution: "dotenv@npm:16.0.3"
   checksum: afcf03f373d7a6d62c7e9afea6328e62851d627a4e73f2e12d0a8deae1cd375892004f3021883f8aec85932cd2834b091f568ced92b4774625b321db83b827f8
@@ -13402,7 +13398,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:^12.3.1":
+"eslint-config-next@npm:^12.3.4":
   version: 12.3.4
   resolution: "eslint-config-next@npm:12.3.4"
   dependencies:
@@ -13425,7 +13421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-prettier@npm:^8.5.0":
+"eslint-config-prettier@npm:^8.6.0":
   version: 8.6.0
   resolution: "eslint-config-prettier@npm:8.6.0"
   peerDependencies:
@@ -13475,7 +13471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import@npm:^2.26.0":
+"eslint-plugin-import@npm:^2.26.0, eslint-plugin-import@npm:^2.27.5":
   version: 2.27.5
   resolution: "eslint-plugin-import@npm:2.27.5"
   dependencies:
@@ -13500,7 +13496,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsx-a11y@npm:^6.5.1, eslint-plugin-jsx-a11y@npm:^6.6.1":
+"eslint-plugin-jsx-a11y@npm:^6.5.1, eslint-plugin-jsx-a11y@npm:^6.7.1":
   version: 6.7.1
   resolution: "eslint-plugin-jsx-a11y@npm:6.7.1"
   dependencies:
@@ -13550,7 +13546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.31.7, eslint-plugin-react@npm:^7.31.8":
+"eslint-plugin-react@npm:^7.31.7, eslint-plugin-react@npm:^7.32.1":
   version: 7.32.1
   resolution: "eslint-plugin-react@npm:7.32.1"
   dependencies:
@@ -13649,7 +13645,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.23.1":
+"eslint@npm:^8.32.0":
   version: 8.32.0
   resolution: "eslint@npm:8.32.0"
   dependencies:
@@ -16119,7 +16115,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hls.js@npm:^1.2.3":
+"hls.js@npm:^1.3.1":
   version: 1.3.1
   resolution: "hls.js@npm:1.3.1"
   checksum: 10f40e8d7acf762b715575d6a34b0dfea3404f2e8b45c56eb2822791128b1ecb6978c0643a7dc027a9e434682e79686a860649a01ff1c9eed1957024ff037ee6
@@ -16414,7 +16410,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"husky@npm:^8.0.1":
+"husky@npm:^8.0.3":
   version: 8.0.3
   resolution: "husky@npm:8.0.3"
   bin:
@@ -18903,7 +18899,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lerna@npm:^5.5.1":
+"lerna@npm:^5.6.2":
   version: 5.6.2
   resolution: "lerna@npm:5.6.2"
   dependencies:
@@ -19042,7 +19038,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lint-staged@npm:^13.0.3":
+"lint-staged@npm:^13.1.0":
   version: 13.1.0
   resolution: "lint-staged@npm:13.1.0"
   dependencies:
@@ -20687,7 +20683,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:^12.3.1":
+"next@npm:^12.3.4":
   version: 12.3.4
   resolution: "next@npm:12.3.4"
   dependencies:
@@ -23569,7 +23565,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.7.1":
+"prettier@npm:^2.8.3":
   version: 2.8.3
   resolution: "prettier@npm:2.8.3"
   bin:
@@ -24264,7 +24260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hot-loader@npm:^4.12.11, react-hot-loader@npm:^4.13.0":
+"react-hot-loader@npm:^4.12.11, react-hot-loader@npm:^4.13.1":
   version: 4.13.1
   resolution: "react-hot-loader@npm:4.13.1"
   dependencies:
@@ -24297,7 +24293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-icons@npm:^4.2.0, react-icons@npm:^4.4.0":
+"react-icons@npm:^4.2.0, react-icons@npm:^4.7.1":
   version: 4.7.1
   resolution: "react-icons@npm:4.7.1"
   peerDependencies:
@@ -24443,7 +24439,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router-dom@npm:^5.3.3":
+"react-router-dom@npm:^5.3.4":
   version: 5.3.4
   resolution: "react-router-dom@npm:5.3.4"
   dependencies:
@@ -24460,7 +24456,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-router@npm:5.3.4, react-router@npm:^5.3.3":
+"react-router@npm:5.3.4, react-router@npm:^5.3.4":
   version: 5.3.4
   resolution: "react-router@npm:5.3.4"
   dependencies:
@@ -24556,7 +24552,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-text-mask@npm:^5.4.3":
+"react-text-mask@npm:^5.5.0":
   version: 5.5.0
   resolution: "react-text-mask@npm:5.5.0"
   dependencies:
@@ -25630,7 +25626,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.0.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.5, rxjs@npm:^7.5.6, rxjs@npm:^7.5.7":
+"rxjs@npm:^7.0.0, rxjs@npm:^7.5.1, rxjs@npm:^7.5.5, rxjs@npm:^7.5.7, rxjs@npm:^7.8.0":
   version: 7.8.0
   resolution: "rxjs@npm:7.8.0"
   dependencies:
@@ -25696,7 +25692,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sanity-plugin-media@npm:^1.4.11":
+"sanity-plugin-media@npm:^1.5.1":
   version: 1.5.1
   resolution: "sanity-plugin-media@npm:1.5.1"
   dependencies:
@@ -26511,15 +26507,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "spinellikilcollin-app@workspace:app"
   dependencies:
-    "@axe-core/react": ^4.4.4
-    "@cloudinary/react": ^1.5.0
-    "@cloudinary/url-gen": ^1.8.6
+    "@axe-core/react": ^4.5.2
+    "@cloudinary/react": ^1.9.0
+    "@cloudinary/url-gen": ^1.8.7
     "@good-idea/unwind-edges": ^1.5.3
     "@graphql-codegen/cli": ^1.21.8
     "@graphql-codegen/fragment-matcher": ^2.0.1
     "@graphql-codegen/typescript": ^1.23.0
     "@next/bundle-analyzer": ^11.1.4
-    "@next/eslint-plugin-next": ^12.3.1
+    "@next/eslint-plugin-next": ^12.3.4
     "@sane-shopify/server": ^0.24.0
     "@sanity/block-content-to-react": ^3.0.0
     "@sanity/client": ^3.4.1
@@ -26527,21 +26523,21 @@ __metadata:
     "@sentry/browser": ^6.19.7
     "@sentry/integrations": ^6.19.7
     "@sentry/node": ^6.19.7
-    "@sentry/webpack-plugin": ^1.19.0
+    "@sentry/webpack-plugin": ^1.20.0
     "@testing-library/react": ^12.1.5
     "@types/atob": ^2.1.2
     "@types/common-tags": ^1.8.1
     "@types/debug": ^4.1.7
     "@types/eslint": ^7.29.0
-    "@types/gtag.js": ^0.0.10
+    "@types/gtag.js": ^0.0.12
     "@types/hls.js": ^0.13.3
     "@types/js-cookie": ^2.2.7
     "@types/json2csv": ^5.0.3
     "@types/ndjson": ^2.0.1
-    "@types/prettier": ^2.7.0
-    "@types/react": ^18.0.20
-    "@types/react-dom": ^18.0.6
-    "@types/react-router": ^5.1.19
+    "@types/prettier": ^2.7.2
+    "@types/react": ^18.0.26
+    "@types/react-dom": ^18.0.10
+    "@types/react-router": ^5.1.20
     "@types/react-router-dom": ^5.3.3
     "@types/react-text-mask": ^5.4.11
     "@types/react-transition-group": ^4.4.5
@@ -26552,16 +26548,16 @@ __metadata:
     "@types/zeit__next-source-maps": ^0.0.2
     "@xstyled/styled-components": ^2.5.0
     "@zeit/next-source-maps": ^0.0.3
-    algoliasearch: ^4.14.2
+    algoliasearch: ^4.14.3
     atob: ^2.1.2
     babel-plugin-inline-react-svg: ^2.0.1
     babel-plugin-react-svg: ^3.0.3
     babel-plugin-styled-components: ^1.13.3
-    bufferutil: ^4.0.6
+    bufferutil: ^4.0.7
     common-tags: ^1.8.2
     debug: ^4.3.4
-    eslint-config-next: ^12.3.1
-    eslint-plugin-react: ^7.31.8
+    eslint-config-next: ^12.3.4
+    eslint-plugin-react: ^7.32.1
     eslint-watch: ^8.0.0
     formik: ^2.2.9
     g: ^2.0.1
@@ -26570,7 +26566,7 @@ __metadata:
     graphql-request: ^3.7.0
     graphql-tag: ^2.12.6
     gsheets: ^2.0.0
-    hls.js: ^1.2.3
+    hls.js: ^1.3.1
     html-parser-lite: ^0.2.2
     htmlparser2: ^7.2.0
     husky: ^7.0.4
@@ -26581,7 +26577,7 @@ __metadata:
     lint-staged: ^11.2.6
     mailchimp-api-v3: ^1.15.0
     ndjson: ^2.0.0
-    next: ^12.3.1
+    next: ^12.3.4
     node-html-parser: ^5.4.2
     node-watch: ^0.7.3
     postmark: ^2.9.5
@@ -26589,31 +26585,31 @@ __metadata:
     react: ^18.2.0
     react-copy-html-to-clipboard: ^6.0.4
     react-dom: ^18.2.0
-    react-hot-loader: ^4.13.0
-    react-icons: ^4.4.0
+    react-hot-loader: ^4.13.1
+    react-icons: ^4.7.1
     react-next-keep-alive: ^1.0.14
-    react-router: ^5.3.3
-    react-router-dom: ^5.3.3
-    react-text-mask: ^5.4.3
+    react-router: ^5.3.4
+    react-router-dom: ^5.3.4
+    react-text-mask: ^5.5.0
     react-transition-group: ^4.4.5
     react-use: ^17.4.0
     request: ^2.88.2
-    rxjs: ^7.5.6
+    rxjs: ^7.8.0
     rxjs-stream: ^3.3.0
     sitemap: ^7.1.1
     source-map-support: ^0.5.21
-    styled-components: ^5.3.5
+    styled-components: ^5.3.6
     swr: ^0.5.7
     text-mask-addons: ^3.8.0
     ts-jest: ^27.1.5
     ts-node: ^10.9.1
-    typescript: ^4.7.4
+    typescript: ^4.9.4
     typesync: ^0.9.2
-    utf-8-validate: ^5.0.9
+    utf-8-validate: ^5.0.10
     utility-types: ^3.10.0
     yup: ^0.32.11
     zlib: ^1.0.5
-    zod: ^3.19.1
+    zod: ^3.20.2
   languageName: unknown
   linkType: soft
 
@@ -26621,29 +26617,29 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "spinellikilcollin-root@workspace:."
   dependencies:
-    "@commitlint/cli": ^17.1.2
-    "@commitlint/config-conventional": ^17.1.0
-    "@types/eslint": ^8.4.6
+    "@commitlint/cli": ^17.4.2
+    "@commitlint/config-conventional": ^17.4.2
+    "@types/eslint": ^8.4.10
     "@types/eslint-plugin-prettier": ^3.1.0
-    "@types/prettier": ^2.7.0
+    "@types/prettier": ^2.7.2
     "@types/tsc-watch": ^4.2.0
-    "@typescript-eslint/eslint-plugin": ^5.38.0
-    "@typescript-eslint/parser": ^5.38.0
-    dotenv: ^16.0.2
-    eslint: ^8.23.1
-    eslint-config-prettier: ^8.5.0
-    eslint-plugin-import: ^2.26.0
+    "@typescript-eslint/eslint-plugin": ^5.48.2
+    "@typescript-eslint/parser": ^5.48.2
+    dotenv: ^16.0.3
+    eslint: ^8.32.0
+    eslint-config-prettier: ^8.6.0
+    eslint-plugin-import: ^2.27.5
     eslint-plugin-prettier: ^4.2.1
-    eslint-plugin-react: ^7.31.8
+    eslint-plugin-react: ^7.32.1
     eslint-plugin-react-hooks: ^4.6.0
     eslint-watch: ^8.0.0
     graphql: ^16.6.0
-    husky: ^8.0.1
-    lerna: ^5.5.1
-    lint-staged: ^13.0.3
+    husky: ^8.0.3
+    lerna: ^5.6.2
+    lint-staged: ^13.1.0
     npm-check-updates: ^15.3.4
-    prettier: ^2.7.1
-    react-icons: ^4.4.0
+    prettier: ^2.8.3
+    react-icons: ^4.7.1
     tsc-watch: ^5.0.3
     vercel: ^27.4.0
     yarnhook: ^0.6.0
@@ -26655,46 +26651,46 @@ __metadata:
   resolution: "spinellikilcollin-sanity@workspace:sanity"
   dependencies:
     "@good-idea/unwind-edges": ^1.5.3
-    "@reach/auto-id": ^0.17.0
+    "@reach/auto-id": ^0.18.0
     "@sane-shopify/sanity-plugin": ^0.24.0
-    "@sanity/base": ^2.35.2
+    "@sanity/base": ^2.35.4
     "@sanity/block-content-to-react": ^3.0.0
-    "@sanity/cli": ^3.0.6
+    "@sanity/cli": ^3.2.4
     "@sanity/client": ^3.4.1
-    "@sanity/color-input": ^2.35.0
+    "@sanity/color-input": ^2.36.0
     "@sanity/components": ^2.14.0
-    "@sanity/core": ^2.35.0
-    "@sanity/default-layout": ^2.35.2
-    "@sanity/default-login": ^2.35.2
-    "@sanity/desk-tool": ^2.35.2
-    "@sanity/production-preview": ^2.33.2
-    "@sanity/vision": 2.35.2
+    "@sanity/core": ^2.35.3
+    "@sanity/default-layout": ^2.35.4
+    "@sanity/default-login": ^2.35.4
+    "@sanity/desk-tool": ^2.35.4
+    "@sanity/production-preview": ^2.35.3
+    "@sanity/vision": 2.35.4
     "@types/eslint": ^7.29.0
-    "@types/lodash": ^4.14.185
-    "@types/prettier": ^2.7.0
+    "@types/lodash": ^4.14.191
+    "@types/prettier": ^2.7.2
     "@types/prop-types": ^15.7.5
-    "@types/ramda": ^0.28.15
-    "@types/react": ^18.0.20
-    "@types/react-dom": ^18.0.6
+    "@types/ramda": ^0.28.21
+    "@types/react": ^18.0.26
+    "@types/react-dom": ^18.0.10
     babel-eslint: ^10.1.0
-    eslint: ^8.23.1
+    eslint: ^8.32.0
     eslint-config-airbnb: ^18.2.1
-    eslint-config-prettier: ^8.5.0
-    eslint-plugin-import: ^2.26.0
-    eslint-plugin-jsx-a11y: ^6.6.1
-    eslint-plugin-react: ^7.31.8
+    eslint-config-prettier: ^8.6.0
+    eslint-plugin-import: ^2.27.5
+    eslint-plugin-jsx-a11y: ^6.7.1
+    eslint-plugin-react: ^7.32.1
     lodash: ^4.17.21
     ndjson-parse: ^1.0.4
-    prettier: ^2.7.1
+    prettier: ^2.8.3
     prop-types: ^15.8.1
     ramda: ^0.28.0
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-hot-loader: ^4.13.0
-    react-icons: ^4.4.0
-    rxjs: ^7.5.6
-    sanity-plugin-media: ^1.4.11
-    styled-components: ^5.3.5
+    react-hot-loader: ^4.13.1
+    react-icons: ^4.7.1
+    rxjs: ^7.8.0
+    sanity-plugin-media: ^1.5.1
+    styled-components: ^5.3.6
     tsc-watch: ^4.6.2
   languageName: unknown
   linkType: soft
@@ -27221,7 +27217,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"styled-components@npm:^5.3.5":
+"styled-components@npm:^5.3.6":
   version: 5.3.6
   resolution: "styled-components@npm:5.3.6"
   dependencies:
@@ -28390,7 +28386,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3 || ^4, typescript@npm:^4.1.2, typescript@npm:^4.6.4, typescript@npm:^4.7.4":
+"typescript@npm:^3 || ^4, typescript@npm:^4.1.2, typescript@npm:^4.6.4, typescript@npm:^4.9.4":
   version: 4.9.4
   resolution: "typescript@npm:4.9.4"
   bin:
@@ -28410,7 +28406,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^3 || ^4#~builtin<compat/typescript>, typescript@patch:typescript@^4.1.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.7.4#~builtin<compat/typescript>":
+"typescript@patch:typescript@^3 || ^4#~builtin<compat/typescript>, typescript@patch:typescript@^4.1.2#~builtin<compat/typescript>, typescript@patch:typescript@^4.6.4#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.4#~builtin<compat/typescript>":
   version: 4.9.4
   resolution: "typescript@patch:typescript@npm%3A4.9.4#~builtin<compat/typescript>::version=4.9.4&hash=7ad353"
   bin:
@@ -28964,7 +28960,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"utf-8-validate@npm:^5.0.9":
+"utf-8-validate@npm:^5.0.10":
   version: 5.0.10
   resolution: "utf-8-validate@npm:5.0.10"
   dependencies:
@@ -30100,7 +30096,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.19.1":
+"zod@npm:^3.20.2":
   version: 3.20.2
   resolution: "zod@npm:3.20.2"
   checksum: 04172f7e9350372684ccd298d4716908edc9113751295b6c4e1b3ea84e2af8997e504b33ba36f4741417bb2a5dc90bfd40501f6b0e7389df10e42a63d6d8366c
