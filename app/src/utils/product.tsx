@@ -51,7 +51,8 @@ const optionHasAvailableVariant = (
   optionName: string,
   optionValue: ShopifyProductOptionValue,
 ): boolean => {
-  const availableVariants = variants.filter((v) => v.availableForSale === true)
+  const availableVariants = variants.filter((v) => v.selectedOptions)
+
   return availableVariants.some((v) =>
     definitely(v.selectedOptions).some(
       (o) => o.name === optionName && o.value === optionValue.value,
