@@ -67,6 +67,14 @@ export const BreadcrumbWrapper = styled.div`
       font-style: italic;
     }
 
+    a {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.bottom(0)}
+      }
+    }
+
     ${theme.mediaQueries.mobile} {
       padding: 4 0;
       margin: 0 auto;
@@ -119,6 +127,11 @@ export const FooterLinks = styled.nav`
       grid-column-gap: 5;
     }
 
+    a:focus-visible {
+      position: relative;
+      ${theme.focus.bottom()}
+    }
+
     @media screen and (max-width: 324px) {
       padding: 0 20px;
     }
@@ -136,26 +149,31 @@ export const MailerWrapper = styled.div`
 `
 
 export const MailerForm = styled.form`
-  position: relative;
-  button {
-    color: body.5;
-    font-size: 3;
-    background-color: transparent;
-    position: absolute;
-    top: 0;
-    right: 11px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  svg {
-    stroke: currentColor;
-  }
+  ${({ theme }) => css`
+    position: relative;
+    button {
+      color: body.5;
+      font-size: 3;
+      background-color: transparent;
+      position: absolute;
+      top: 0;
+      right: 11px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    svg {
+      stroke: currentColor;
+    }
+    &:has(input:focus-visible) {
+      ${theme.focus.left()}
+    }
 
-  input:focus ~ button {
-    color: body.7;
-  }
+    input:focus ~ button {
+      color: body.7;
+    }
+  `}
 `
 
 interface WithVisible {
@@ -163,10 +181,14 @@ interface WithVisible {
 }
 
 export const InputWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
+  ${({ visible, theme }) => css`
     opacity: ${visible ? 1 : 0};
     pointer-events: ${visible ? 'inherit' : 'none'};
     transition: 0.2s;
+
+    button:focus-visible {
+      ${theme.focus.bottom(10)}
+    }
   `}
 `
 export const SuccessWrapper = styled.div<WithVisible>`
@@ -197,7 +219,12 @@ export const Socials = styled.div`
 
     a {
       display: flex;
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
     }
+
     ${theme.mediaQueries.aboveMobile} {
       a + a {
         margin-left: 7;
@@ -234,6 +261,13 @@ export const HomepageLink = styled.div<HomepageLinkProps>`
       display: ${isMobile ? 'block' : 'none'};
       order: 3;
       padding: 7 5 0;
+    }
+
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
     }
   `}
 `

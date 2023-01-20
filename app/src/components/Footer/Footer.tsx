@@ -28,6 +28,10 @@ const NavItemWrapper = styled.div`
     ${theme.mediaQueries.mobile} {
       margin-bottom: 3;
     }
+    a:focus-visible {
+      position: relative;
+      ${theme.focus.bottom()}
+    }
   `}
 `
 const FooterMenuWrapper = styled.div`
@@ -39,6 +43,13 @@ const FooterMenuWrapper = styled.div`
       flex-direction: column;
       align-self: flex-start;
       padding: 0 5;
+    }
+
+    h5 {
+      a:focus-visible {
+        position: relative;
+        ${theme.focus.bottom()}
+      }
     }
   `}
 `

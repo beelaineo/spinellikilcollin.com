@@ -98,7 +98,7 @@ export const Navigation = () => {
           </LogoWrapper>
           <ToolsWrapper>
             <CurrencySelector colorTheme={colorTheme} />
-            <SearchButtonWrapper colorTheme={colorTheme} aria-label="search">
+            <SearchButtonWrapper colorTheme={colorTheme}>
               <SearchButton />
             </SearchButtonWrapper>
             <CartButtonWrapper

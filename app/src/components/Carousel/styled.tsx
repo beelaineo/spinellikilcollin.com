@@ -29,6 +29,7 @@ export const CarouselContainer = styled.div<WithSingle>`
 export const CarouselMask = styled.div<WithSingle>`
   ${({ theme, single }) => css`
     overflow: hidden;
+    padding-bottom: 3;
 
     ${theme.mediaQueries.mobile} {
       max-width: 100%;
@@ -184,10 +185,17 @@ export const CarouselButton = styled.button<CarouselButtonProps>`
     ${direction === 'next'
       ? css`
           right: -25px;
+
+          &:focus-visible {
+            ${theme.focus.bottom(-80, -70)}
+          }
         `
       : css`
           left: -25px;
           transform: rotate(180deg);
+          &:focus-visible {
+            ${theme.focus.bottom(0, -70)}
+          }
         `}
     background: transparent;
 

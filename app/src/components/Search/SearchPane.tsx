@@ -66,6 +66,11 @@ export const SearchPane = () => {
   return (
     <Outer>
       <Wrapper visible={open}>
+        <SearchHeader hidden={!open}>
+          <Column maxWidth="medium">
+            <SearchInput />
+          </Column>
+        </SearchHeader>
         <CloseButton hidden={!open}>
           <Hamburger
             open={true}
@@ -73,11 +78,6 @@ export const SearchPane = () => {
             aria-label="Close search pane"
           />
         </CloseButton>
-        <SearchHeader hidden={!open}>
-          <Column maxWidth="medium">
-            <SearchInput />
-          </Column>
-        </SearchHeader>
         {searchResults === undefined ? null : (
           <Results>
             <ResultsInner hidden={!open}>

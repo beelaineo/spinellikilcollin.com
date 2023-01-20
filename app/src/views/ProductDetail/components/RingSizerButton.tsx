@@ -18,6 +18,7 @@ interface WithMobile {
 
 const Wrapper = styled.button<WithMobile>`
   ${({ mobile, theme }) => css`
+    position: relative;
     display: ${mobile ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;

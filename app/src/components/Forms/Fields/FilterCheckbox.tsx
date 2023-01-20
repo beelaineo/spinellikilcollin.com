@@ -26,8 +26,7 @@ export const FilterCheckboxElement = styled.input`
       background-color: grays.4;
     }
     @media screen and (min-width: 961px) {
-      &:hover ~ label,
-      &:focus ~ label {
+      &:hover ~ label {
         background-color: grays.4;
       }
     }
@@ -41,21 +40,30 @@ export const FilterCheckboxElement = styled.input`
 `
 
 export const FilterCheckboxWrapper = styled.div`
-  align-items: center;
-  margin: 7px 0 0;
-  cursor: pointer;
-  align-items: start;
-  flex: 49%;
-  flex-grow: 0;
+  ${({ theme }) => css`
+    position: relative;
+    align-items: center;
+    margin: 7px 0 0;
+    cursor: pointer;
+    align-items: start;
+    flex: 49%;
+    flex-grow: 0;
 
-  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-    display: flex;
-    align-items: flex-top;
-    & > *:first-child {
-      justify-content: flex-center;
-      margin-right: 15px;
+    &:has(input:focus-visible) {
+      label {
+        ${theme.focus.left()}
+      }
     }
-  }
+
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+      display: flex;
+      align-items: flex-top;
+      & > *:first-child {
+        justify-content: flex-center;
+        margin-right: 15px;
+      }
+    }
+  `}
 `
 
 export interface CheckboxProps extends FieldProps {

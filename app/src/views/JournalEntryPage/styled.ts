@@ -51,6 +51,12 @@ export const LinkWrapper = styled.div`
       justify-content: flex-start;
       align-items: center;
     }
+
+    a:focus-visible {
+      ${theme.focus.bottom(0, 5)}
+      position: relative;
+    }
+
     svg {
       margin-right: 0.5em;
       height: 1em;
