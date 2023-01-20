@@ -36,7 +36,7 @@ const SuccessWrapper = styled.div<WithVisible>`
 `
 
 const FieldsWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
+  ${({ visible, theme }) => css`
     opacity: ${visible ? 1 : 0};
     margin-top: 5;
     pointer-events: ${visible ? 'inherit' : 'none'};
@@ -61,6 +61,22 @@ const FieldsWrapper = styled.div<WithVisible>`
       display: flex;
       justify-content: space-between;
       flex-direction: column;
+
+      > div {
+        position: relative;
+
+        &:has(input:focus-visible) {
+          ${theme.focus.left()}
+        }
+
+        &:has(select:focus-visible) {
+          ${theme.focus.right()}
+        }
+
+        #phone {
+          outline: none;
+        }
+      }
     }
 
     ${FieldWrapper},

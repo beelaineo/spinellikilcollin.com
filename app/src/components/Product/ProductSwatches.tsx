@@ -68,6 +68,7 @@ export const OptionSwatches = ({
           key={value._key || 'some-type'}
           as={onSwatchClick ? 'button' : undefined}
           role="button"
+          tabIndex={0}
           clickable={Boolean(onSwatchClick)}
           onClick={onSwatchClick ? onSwatchClick(option, value) : undefined}
           onMouseEnter={

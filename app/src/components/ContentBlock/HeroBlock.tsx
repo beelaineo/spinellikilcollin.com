@@ -33,7 +33,6 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     position: relative;
     z-index: 0;
     grid-column: span 2;
-    overflow: hidden;
     background-color: ${hero.backgroundColor === 'custom'
       ? hero.backgroundColorCustom?.hex
       : hero.backgroundColor
@@ -41,6 +40,10 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
       : 'inherit'};
     video {
       display: block;
+    }
+
+    a:focus-visible {
+      ${theme.focus.bottom(-2)}
     }
 
     ${theme.mediaQueries.tablet} {
@@ -59,7 +62,7 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
         ? getColor(hero.backgroundColor)
         : 'inherit'};
       flex-direction: column;
-      overflow: hidden;
+
       margin-bottom: ${minimalDisplay === true ? '-63px' : 'inherit'};
       padding-bottom: ${minimalDisplay === true ? '63px' : 'inherit'};
     }

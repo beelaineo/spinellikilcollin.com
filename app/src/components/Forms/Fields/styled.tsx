@@ -6,7 +6,7 @@ interface FieldWrapperProps {
 }
 
 export const FieldWrapper = styled.div<FieldWrapperProps>`
-  ${({ noBorder }) => css`
+  ${({ noBorder, theme }) => css`
     ${noBorder
       ? ``
       : css`
@@ -61,7 +61,7 @@ interface InputWrapperProps {
   type?: string
 }
 export const InputWrapper = styled.div<InputWrapperProps>`
-  ${({ type }) => css`
+  ${({ type, theme }) => css`
     display: flex;
     align-items: center;
     max-width: 100%;
@@ -237,7 +237,6 @@ export const SelectElement = styled.select`
     border: 1px solid;
     border-color: body.5;
     border-radius: 0;
-    transition: 0.2s;
     font-size: 1rem;
     cursor: pointer;
     background: none;

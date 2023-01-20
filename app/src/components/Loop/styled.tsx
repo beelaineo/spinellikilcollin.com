@@ -40,9 +40,17 @@ export const LoopButtonContainer = styled.button<LoopButtonContainerProps>`
 `
 
 export const LoopContainer = styled.div`
-  position: relative;
-  width: 100%;
-  padding: 0 4;
+  ${({ theme }) => css`
+    position: relative;
+    width: 100%;
+    padding: 0 4;
+
+    button {
+      &:focus-visible {
+        ${theme.focus.bottom(0)}
+      }
+    }
+  `}
 `
 
 export const LoopInner = styled.div`
