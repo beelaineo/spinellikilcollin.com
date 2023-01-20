@@ -73,11 +73,16 @@ const DiamondInfoSpan = styled.span`
 
 const SelectWrapper = styled.div<SelectWrapperProps>`
   ${({ theme, isInput }) => css`
+    position: relative;
     max-width: ${isInput ? '100%' : '200px'};
 
     ${theme.mediaQueries.mobile} {
       width: 100%;
       max-width: initial;
+    }
+
+    &:has(select:focus-visible) {
+      ${theme.focus.left()}
     }
   `}
 `

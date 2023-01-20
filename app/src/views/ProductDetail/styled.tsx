@@ -84,6 +84,12 @@ export const AffirmWrapper = styled.div`
       max-width: small;
       text-align: center;
     }
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom(0, 6)}
+      }
+    }
   `}
 `
 
@@ -169,8 +175,18 @@ export const RingToolsWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: row;
-    column-gap: 4;
+    column-gap: 6;
     margin: 0 0 4 0;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    button {
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
+    }
 
     ${theme.mediaQueries.tablet} {
       order: -1;
@@ -275,6 +291,14 @@ export const ProductRelatedWrapper = styled.div`
   ${({ theme }) => css`
     background-color: body.0;
     padding: 7 0;
+
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
+    }
+
     ${theme.mediaQueries.mobile} {
       padding: 7 0;
     }

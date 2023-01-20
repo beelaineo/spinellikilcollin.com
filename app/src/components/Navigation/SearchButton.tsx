@@ -11,9 +11,9 @@ export const SearchButton = () => {
     <IconContext.Provider
       value={{ size: '100%', style: { verticalAlign: 'middle' } }}
     >
-      <div onClick={openSearchHandler}>
+      <button onClick={openSearchHandler}>
         <IoIosSearch />
-      </div>
+      </button>
     </IconContext.Provider>
   )
 }

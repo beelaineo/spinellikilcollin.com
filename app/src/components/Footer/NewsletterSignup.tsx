@@ -1,7 +1,6 @@
 import React, { SyntheticEvent } from 'react'
 import RightArrow from '../../svg/RightArrow.svg'
-import { Heading } from '../../components/Text'
-import { Input } from '../../components/Text'
+import { Heading, Input } from '../../components/Text'
 import {
   MailerForm,
   MailerWrapper,

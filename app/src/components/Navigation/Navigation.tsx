@@ -99,7 +99,7 @@ export const Navigation = () => {
           </LogoWrapper>
           <ToolsWrapper>
             <CountrySelector colorTheme={colorTheme} />
-            <SearchButtonWrapper colorTheme={colorTheme} aria-label="search">
+            <SearchButtonWrapper colorTheme={colorTheme}>
               <SearchButton />
             </SearchButtonWrapper>
             <CartButtonWrapper
