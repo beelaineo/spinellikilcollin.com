@@ -197,6 +197,7 @@ const Signature = ({
                 <a
                   style={{ display: 'block', lineHeight: 0 }}
                   href="https://spinellikilcollin.com"
+                  rel="noreferrer"
                   target="_blank"
                 >
                   <img width="75" src={wordmark} />
