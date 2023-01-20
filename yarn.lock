@@ -13676,7 +13676,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^4.5.0":
+"eslint-plugin-react-hooks@npm:^4.5.0, eslint-plugin-react-hooks@npm:^4.6.0":
   version: 4.6.0
   resolution: "eslint-plugin-react-hooks@npm:4.6.0"
   peerDependencies:
@@ -26664,6 +26664,7 @@ __metadata:
     eslint-plugin-import: ^2.26.0
     eslint-plugin-prettier: ^4.2.1
     eslint-plugin-react: ^7.31.8
+    eslint-plugin-react-hooks: ^4.6.0
     eslint-watch: ^8.0.0
     graphql: ^16.6.0
     husky: ^8.0.1
