@@ -36,6 +36,7 @@ const createTextBase = (as: any) => styled(as)`
     ${getCustomTextStyles(props)}
     line-height: 1.4em;
     margin: 2 0 0.5em;
+    position: relative;
 
     strong {
       font-weight: 4;
@@ -183,8 +184,4 @@ export const Input = styled.input`
   width: 100%;
   height: 32px;
   padding: 0 3;
-
-  &:focus {
-    border-color: body.6;
-  }
 `

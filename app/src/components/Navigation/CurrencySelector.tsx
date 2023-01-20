@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { useCurrency } from '../../providers/CurrencyProvider'
 import { Form } from '../Forms'
 import { SelectElement } from '../Forms/Fields/styled'
@@ -7,11 +7,13 @@ import { CurrencySelectorWrapper } from './styled'
 import { ShopifyStorefrontCurrencyCode } from '../../types/generated-shopify'
 
 const SelectField = styled(SelectElement)`
-  color: body.8;
-  border: none;
-  min-width: initial;
-  padding: 0 4 0 3;
-  height: auto;
+  ${({ theme }: any) => css`
+    color: body.8;
+    border: none;
+    min-width: initial;
+    padding: 0 4 0 3;
+    height: auto;
+  `}
 `
 
 /* prettier-ignore */

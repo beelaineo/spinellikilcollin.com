@@ -24,10 +24,7 @@ interface State {
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
   formtype?: string
 }
 
@@ -43,10 +40,7 @@ interface OpenFormAction {
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
 }
 
 type Action = CloseAction | OpenFormAction
@@ -85,10 +79,7 @@ export interface OpenModalArgs {
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
   formtype?: string
 }
 

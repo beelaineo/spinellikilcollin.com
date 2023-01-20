@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { CSSTransition } from 'react-transition-group'
+import FocusTrap from 'focus-trap-react'
 import {
   Background,
   DiamondBackground,
@@ -54,13 +55,15 @@ export const Modal: React.FC<ModalProps> = ({
     )
   } else {
     return ReactDOM.createPortal(
-      <Wrapper>
-        <ModalWrapper wide={Boolean(display === 'sizeConverter')}>
-          <CloseButton onClick={closeModal} aria-label="Close modal" />
-          {children}
-        </ModalWrapper>
-        <Background open onClick={closeModal} />
-      </Wrapper>,
+      <FocusTrap>
+        <Wrapper>
+          <ModalWrapper wide={Boolean(display === 'sizeConverter')}>
+            <CloseButton onClick={closeModal} aria-label="Close modal" />
+            {children}
+          </ModalWrapper>
+          <Background open onClick={closeModal} />
+        </Wrapper>
+      </FocusTrap>,
       modalRoot,
     )
   }

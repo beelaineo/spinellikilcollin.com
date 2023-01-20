@@ -64,6 +64,26 @@ const App = (props: AppProps) => {
     storage.setItem('currentPath', globalThis.location.pathname)
   }
 
+  useEffect(() => {
+    const _focus = () => {
+      document.body.setAttribute('tabIndex', '-1')
+    }
+
+    const _reset = () => {
+      document.body.focus()
+      document.body.removeAttribute('tabIndex')
+    }
+
+    if (router.pathname !== '/products/[productSlug]') {
+      router.events.on('routeChangeStart', _focus)
+      router.events.on('routeChangeComplete', _reset)
+    }
+    return () => {
+      router.events.off('routeChangeStart', _focus)
+      router.events.off('routeChangeComplete', _reset)
+    }
+  }, [router.events, router.pathname])
+
   return (
     <Providers shopData={shopData}>
       <ThemeProvider theme={getThemeByRoute(path)}>

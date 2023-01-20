@@ -33,6 +33,13 @@ export const PageLinkBody = styled.div<WithIsOdd>`
     align-items: center;
     justify-content: center;
 
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.left(0)}
+      }
+    }
+
     & ${Button} {
       display: inline-block;
       min-width: 336px;
@@ -54,6 +61,13 @@ export const ImageWrapper = styled.div<WithIsOdd>`
     ${theme.mediaQueries.aboveMobile} {
       grid-column: ${isOdd ? '2 / 3' : 'auto'};
       grid-row: ${isOdd ? '1' : 'auto'};
+    }
+
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.left(0)}
+      }
     }
   `}
 `
