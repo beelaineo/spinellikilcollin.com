@@ -149,10 +149,7 @@ interface SizeConverterFormProps {
   selectedColorVariant?: ShopifyProductVariant
   changeValueForOption: (id: string) => (value: string) => void
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
   closeModal?: () => void
   onContinue?: () => void
 }
@@ -194,6 +191,7 @@ export const SizeConverterForm = ({
     selectedColorVariant?.title?.indexOf('/'),
   )
   const stringifySize = (size?: number) => {
+    // @ts-ignore
     if (size == NaN || !size) return undefined
     if (Number.isInteger(size)) return size.toString()
 

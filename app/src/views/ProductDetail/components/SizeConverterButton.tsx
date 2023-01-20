@@ -12,10 +12,7 @@ interface SizeConverterButtonProps {
   product: ShopifyProduct
   variant: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
 }
 
 interface WithMobile {
