@@ -19,7 +19,9 @@ const Wrapper = styled.div`
 interface EmbeddedFormProps {
   block: FormBlock
   openRingSizerModal?: ({
+    // @ts-ignore
     currentProduct: ShopifyProduct,
+    // @ts-ignore
     currentVariant: ShopifyProductVariant,
   }) => void
 }

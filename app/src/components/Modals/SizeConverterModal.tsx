@@ -10,7 +10,9 @@ interface SizeConverterModalProps {
   variant?: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
   openRingSizerModal?: ({
+    // @ts-ignore
     currentProduct: ShopifyProduct,
+    // @ts-ignore
     currentVariant: ShopifyProductVariant,
   }) => void
 }
