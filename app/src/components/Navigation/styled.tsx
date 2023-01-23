@@ -47,7 +47,7 @@ export const SkipToMainContentButton = styled.button`
     position: fixed;
     top: 4;
     left: -500;
-    &:focus {
+    &:focus-visible {
       top: 4;
       left: 4;
       outline-color: ${theme.colors.grays[5]};
@@ -107,6 +107,7 @@ export const QuickLinksWrapper = styled.nav<WithColorTheme>`
     }
 
     button {
+      position: relative;
       margin-left: 4;
       padding: 2 3;
       border: 1px solid;
@@ -115,7 +116,12 @@ export const QuickLinksWrapper = styled.nav<WithColorTheme>`
       font-size: 5;
       color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
       &:hover {
-        background-color: ${theme.colors.grays[2]};
+        background-color: white;
+        color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
+      }
+      &:focus-visible {
+        ${theme.focus.bottom()}
+        background-color: white;
         color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
       }
     }
@@ -162,6 +168,7 @@ interface WithColor {
 
 export const LogoWrapper = styled.div`
   ${({ theme, colorTheme }: WithColor) => css`
+    position: relative;
     margin: 0 auto;
     svg {
       width: 100%;
@@ -172,10 +179,8 @@ export const LogoWrapper = styled.div`
         `
         : ''};
     }
-    a:focus {
-      outline-color: ${theme.colors.grays[5]};
-      outline-offset: 2px;
-      outline-style: auto;
+    a:focus-visible {
+      ${theme.focus.bottom(0, 0)}
     }
     ${theme.mediaQueries.mobile} {
       width: 170px;
@@ -222,7 +227,7 @@ interface ColorThemeProps {
   colorTheme?: 'light' | 'dark'
 }
 
-export const SearchButtonWrapper = styled.button`
+export const SearchButtonWrapper = styled.div`
   ${({ theme, colorTheme }: ColorThemeProps) => css`
     position: relative;
     transition: 250ms ease;
@@ -242,17 +247,28 @@ export const SearchButtonWrapper = styled.button`
       height: 16px;
       margin-right: 3;
     }
+    button:focus-visible {
+      ${theme.focus.bottom()}
+    }
   `}
 `
 
 export const CurrencySelectorWrapper = styled.div`
   ${({ theme, colorTheme }: ColorThemeProps) => css`
     margin-right: 2px;
+    position: relative;
     ${colorTheme == 'light' ? `select {color: ${theme.colors.grays[3]};}` : ''}
     ${theme.mediaQueries.mobile} {
       width: 24px;
-      overflow: hidden;
       margin-right: 4px;
+    }
+
+    select:focus-visible {
+      outline: none;
+    }
+
+    &:has(select:focus-visible) {
+      ${theme.focus.bottom(-40)}
     }
   `}
 `
@@ -272,7 +288,7 @@ export const NavHeaderWrapper = styled.div`
     margin-right: 0;
   }
 
-  &:focus ${NavHeader}, &:hover > ${NavHeader} {
+  &:focus-visible ${NavHeader}, &:hover > ${NavHeader} {
     border-bottom-color: black;
   }
 `
@@ -311,6 +327,9 @@ export const CartButtonWrapper = styled.button`
     ${theme.mediaQueries.mobile} {
       width: 16px;
       height: 16px;
+    }
+    &:focus-visible {
+      ${theme.focus.bottom(0)}
     }
   `}
 `
@@ -419,12 +438,24 @@ export const NavInnerBackground = styled.div`
 `
 
 export const NavItemWrapper = styled.div`
-  display: block;
-  padding: 3 0;
+  ${({ theme }) => css`
+    display: block;
+    position: relative;
+    padding: 3 0;
 
-  & + & {
-    border-top: 1px solid black;
-  }
+    a,
+    button {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.left(30)}
+      }
+    }
+
+    & + & {
+      border-top: 1px solid black;
+    }
+  `}
 `
 
 export const InStockDot = styled('span')`

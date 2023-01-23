@@ -17,6 +17,12 @@ module.exports = {
     'import/no-cycle': 'error',
     'import/no-unresolved': [2, { ignore: ['^(all|part):'] }],
     'react/prop-types': 'off',
+    'react/no-unknown-property': [
+      2,
+      {
+        ignore: ['jsx'],
+      },
+    ],
     'no-unused-vars': 'off',
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/no-unused-vars': 'off',

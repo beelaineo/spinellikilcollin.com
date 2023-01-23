@@ -121,6 +121,15 @@ export const DesktopFooter = styled.div`
     position: static;
     flex: 100%;
     display: flex;
+
+    button {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.bottom(-20)}
+      }
+    }
+
     @media screen and (max-width: 1200px) {
       position: absolute;
       top: 64px;
@@ -155,6 +164,7 @@ export const MobileControlsDivider = styled.span`
 
 export const SortWrapper = styled.div<WithHide>`
   ${({ theme, hide }) => css`
+    position: relative;
     padding: 2 4;
     width: 100%;
     flex: 0;
@@ -173,10 +183,20 @@ export const SortWrapper = styled.div<WithHide>`
     line-height: 1;
     margin-right: 0;
     cursor: pointer;
+
+    &:has(select:focus-visible) {
+      ${theme.focus.bottom()}
+    }
+
     select {
+      position: relative;
       text-transform: uppercase;
       line-height: 1;
       display: block;
+
+      &:focus-visible {
+        outline: none;
+      }
     }
     @media screen and (max-width: 960px) {
       margin: 5 0 4 0;
@@ -420,6 +440,8 @@ interface WithActive {
 
 export const FilterSetWrapper = styled.div<WithActive>`
   ${({ theme, active }) => css`
+    position: relative;
+
     @media screen and (max-width: 960px) {
       display: ${active ? 'flex' : 'block'};
       flex-direction: column;
@@ -432,6 +454,10 @@ export const FilterSetWrapper = styled.div<WithActive>`
             }
           `
         : ''}
+    }
+
+    &:focus-visible {
+      ${theme.focus.bottom()}
     }
   `}
 `

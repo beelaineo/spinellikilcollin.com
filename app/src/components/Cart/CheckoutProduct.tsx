@@ -14,6 +14,7 @@ import {
   CheckoutProductCloseButton as CloseButton,
   CheckoutProductCloseButtonWrapper as CloseButtonWrapper,
   QuantityInput,
+  QuantityInputWrapper,
   QuantityWrapper,
   QuantityAdjustButton,
 } from './styled'
@@ -226,11 +227,13 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
             <QuantityAdjustButton onClick={handleQuantityDecrement}>
               -
             </QuantityAdjustButton>
-            <QuantityInput
-              type="number"
-              value={quantityValue}
-              onChange={handleQuantityChange}
-            />
+            <QuantityInputWrapper>
+              <QuantityInput
+                type="number"
+                value={quantityValue}
+                onChange={handleQuantityChange}
+              />
+            </QuantityInputWrapper>
             <QuantityAdjustButton onClick={handleQuantityIncrement}>
               +
             </QuantityAdjustButton>

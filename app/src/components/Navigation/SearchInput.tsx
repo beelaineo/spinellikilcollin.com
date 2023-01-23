@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { useSearch } from '../../providers/SearchProvider'
 import { IoIosSearch } from 'react-icons/io'
 import { Heading, Input } from '../Text'
@@ -10,17 +10,27 @@ const SearchInputWrapper = styled.div`
 `
 
 const Form = styled.form`
-  position: relative;
+  ${({ theme }) => css`
+    position: relative;
 
-  & > button {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 0 2;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
+    &:has(input:focus-visible) {
+      ${theme.focus.left()}
+    }
+
+    & > button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
+
+      &:focus-visible {
+        ${theme.focus.bottom(0, 12)}
+      }
+    }
+  `}
 `
 
 export const SearchInput = () => {

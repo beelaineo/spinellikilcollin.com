@@ -57,18 +57,6 @@ export const signature = {
       title: 'Phone Number',
       initialValue: '213 300 8443',
       type: 'string',
-      validation: (Rule) =>
-        Rule.custom((phone) => {
-          if (typeof phone === 'undefined') {
-            return true
-          }
-          const regex = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-          if (regex.test(phone)) {
-            return true
-          } else {
-            return 'Not a valid phone number'
-          }
-        }),
     },
     {
       name: 'phone_label_2',
@@ -79,18 +67,6 @@ export const signature = {
       name: 'phone_2',
       title: 'Additional Phone Number (optional)',
       type: 'string',
-      validation: (Rule) =>
-        Rule.custom((phone) => {
-          if (typeof phone === 'undefined') {
-            return true
-          }
-          const regex = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/
-          if (regex.test(phone)) {
-            return true
-          } else {
-            return 'Not a valid phone number'
-          }
-        }),
     },
     {
       name: 'additional_info',

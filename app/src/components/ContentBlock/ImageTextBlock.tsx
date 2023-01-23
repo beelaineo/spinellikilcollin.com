@@ -30,6 +30,10 @@ const Wrapper = styled.div<WithLayout>`
       opacity: 1;
     }
 
+    > a:focus-visible {
+      ${theme.focus.bottom(0, 0)}
+    }
+
     video,
     ${VideoWrapper} {
       position: absolute;
