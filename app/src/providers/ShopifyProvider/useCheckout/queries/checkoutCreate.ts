@@ -62,10 +62,10 @@ export const CHECKOUT_CREATE = gql`
     $note: String
     $customAttributes: [AttributeInput!]
     $allowPartialAddresses: Boolean
-  ) @inContext(country: FR) {
+  ) @inContext(country: GB) {
     checkoutCreate(
       input: {
-        buyerIdentity: { countryCode: FR }
+        buyerIdentity: { countryCode: GB }
         email: $email
         lineItems: $lineItems
         shippingAddress: $shippingAddress
