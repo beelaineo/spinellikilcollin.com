@@ -29,6 +29,31 @@ export const FieldsWrapper = styled.div<WithVisible>`
     grid-row-gap: 4;
     grid-column-gap: 3;
 
+    > div:nth-child(odd) {
+      position: relative;
+      > div:has(input:focus-visible) {
+        ${theme.focus.left()}
+      }
+    }
+
+    > div:nth-child(even) {
+      position: relative;
+      > div:has(input:focus-visible) {
+        ${theme.focus.right()}
+      }
+    }
+
+    > div {
+      position: relative;
+      > div:has(textarea:focus-visible) {
+        ${theme.focus.left()}
+      }
+    }
+
+    #phone {
+      outline: none;
+    }
+
     select {
       height: 42px;
       max-width: initial;

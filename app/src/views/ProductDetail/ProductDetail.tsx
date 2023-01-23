@@ -424,6 +424,21 @@ export const ProductDetail = ({ product }: Props) => {
                   ) : null}
 
                   <ProductAccordionsWrapper>
+                    {productType === 'Ring' ? (
+                      <RingToolsWrapper>
+                        <RingSizerButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        />
+                        <SizeConverterButton
+                          product={product}
+                          variant={currentVariant}
+                          addLineItem={addLineItem}
+                          mobile
+                        />
+                      </RingToolsWrapper>
+                    ) : null}
                     {description || optionDescriptions.length ? (
                       <Accordion label="Description">
                         {description ? description : null}
@@ -449,21 +464,6 @@ export const ProductDetail = ({ product }: Props) => {
                           ) : null,
                         )
                       : null}
-                    {productType === 'Ring' ? (
-                      <RingToolsWrapper>
-                        <RingSizerButton
-                          product={product}
-                          variant={currentVariant}
-                          mobile
-                        />
-                        <SizeConverterButton
-                          product={product}
-                          variant={currentVariant}
-                          addLineItem={addLineItem}
-                          mobile
-                        />
-                      </RingToolsWrapper>
-                    ) : null}
                   </ProductAccordionsWrapper>
                 </ProductInfoWrapper>
               </InfoWrapper>

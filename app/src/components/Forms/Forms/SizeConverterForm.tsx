@@ -48,9 +48,31 @@ const FieldsWrapper = styled.div`
     }
 
     .field {
+      position: relative;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       flex-direction: column;
+      height: 5rem;
+      flex-shrink: 0;
+
+      &:has(select:focus-visible) {
+        &:nth-child(even) {
+          > div {
+            ${theme.focus.left()}
+          }
+        }
+        &:nth-child(odd) {
+          > div {
+            ${theme.focus.right()}
+          }
+        }
+      }
+    }
+
+    ${theme.mediaQueries.mobile} {
+      .field {
+        margin-top: 2;
+      }
     }
 
     ${FieldWrapper}
@@ -76,7 +98,7 @@ const FieldsWrapper = styled.div`
 
 const ButtonsWrapper = styled.div`
   ${({ theme }) => css`
-    margin-top: 4;
+    margin-top: 3;
     button {
       width: 100%;
     }
@@ -114,6 +136,7 @@ const Divider = styled.div`
     pointer-events: none;
     ${theme.mediaQueries.mobile} {
       display: block;
+      margin: 2 auto;
     }
   `}
 `
@@ -126,10 +149,7 @@ interface SizeConverterFormProps {
   selectedColorVariant?: ShopifyProductVariant
   changeValueForOption: (id: string) => (value: string) => void
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
   closeModal?: () => void
   onContinue?: () => void
 }
@@ -171,6 +191,7 @@ export const SizeConverterForm = ({
     selectedColorVariant?.title?.indexOf('/'),
   )
   const stringifySize = (size?: number) => {
+    // @ts-ignore
     if (size == NaN || !size) return undefined
     if (Number.isInteger(size)) return size.toString()
 

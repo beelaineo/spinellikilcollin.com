@@ -30,12 +30,12 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   }, [label])
 
   return (
-    <Wrapper>
+    <Wrapper onFocus={() => setOpen(true)}>
       <Label onClick={toggleOpen}>
         {label}
         <PlusMinus open={open} />
       </Label>
-      <Inner open={open} height={height}>
+      <Inner tabIndex={-1} open={open} height={height}>
         <Item ref={refContainer}>{children}</Item>
       </Inner>
     </Wrapper>

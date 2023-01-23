@@ -12,10 +12,7 @@ interface SizeConverterButtonProps {
   product: ShopifyProduct
   variant: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
-  openRingSizerModal?: ({
-    currentProduct: ShopifyProduct,
-    currentVariant: ShopifyProductVariant,
-  }) => void
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
 }
 
 interface WithMobile {
@@ -24,6 +21,7 @@ interface WithMobile {
 
 const Wrapper = styled.button<WithMobile>`
   ${({ mobile, theme }) => css`
+    position: relative;
     display: ${mobile ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;

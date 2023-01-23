@@ -123,4 +123,57 @@ export const defaultTheme: DefaultTheme = {
     desktop: '@media screen and (max-width: 1200px)',
     aboveDesktop: '@media screen and (min-width: 1200px)',
   },
+  focus: {
+    left: (offsetSize = 0, offsetPos = 15) =>
+      `
+      outline: none;
+      
+      &:after {
+        content: '';
+        background-color: ${defaultTheme.colors.grays[6]};
+        position: absolute;
+        border-radius: 4px;
+        z-index: 1;
+        width: 4px;
+        height: calc(100% + ${offsetSize}%);
+        top: calc(0% - ${offsetSize / 2}%);
+        left: calc(0px - ${offsetPos}px);
+        bottom: unset;
+        opacity: 1;
+    };`,
+    right: (offsetSize = 0, offsetPos = 15) =>
+      `
+    outline: none;
+    
+    &:after {
+      content: '';
+      background-color: ${defaultTheme.colors.grays[6]};
+      position: absolute;
+      border-radius: 4px;
+      z-index: 1;
+      width: 4px;
+      height: calc(100% + ${offsetSize}%);
+      top: calc(0% - ${offsetSize / 2}%);
+      right: calc(0px - ${offsetPos}px);
+      bottom: unset;
+      opacity: 1;
+  };`,
+    bottom: (offsetSize = 0, offsetPos = 10) =>
+      `
+      outline: none;
+      
+      &:after {
+        content: '';
+        background-color: ${defaultTheme.colors.grays[6]};
+        position: absolute;
+        border-radius: 4px;
+        z-index: 1;
+        width: calc(100% + ${offsetSize}%);
+        height: 4px;
+        top: unset;
+        left: calc(0% - ${offsetSize / 2}%);
+        bottom: calc(0px - ${offsetPos}px);
+        opacity: 1;
+    };`,
+  },
 }
