@@ -9,7 +9,7 @@
 		"dev": "NODE_ENV=development next dev",
 		"start": "DEBUG=app* next",
 		"start:prod": "NODE_ENV=production next",
-		"start:debug": "NODE_OPTIONS='--inspect' DEBUG=app* next dev",
+		"start:debug": "NODE_OPTIONS='--inspect' next dev",
 		"start:algolia": "DEBUG=api:algolia,dev:sentry yarn next",
 		"build": "yarn build:next",
 		"build:next": "next build",
