@@ -24,6 +24,7 @@ import {
   getBestVariantByMatch,
   getBestVariantByFilterMatch,
   definitely,
+  withTypenames,
   getBestVariantBySort,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
@@ -35,6 +36,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { Sort } from '../Filter'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { sanityClient } from '../../services/sanity'
+import { sanityQuery } from '../../services/sanity'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -162,6 +164,8 @@ export const ProductThumbnail = ({
 
   const [playing, setPlaying] = useState(false)
 
+  const [disableStockIndication, setDisableStockIndication] = useState(false)
+
   useEffect(() => {
     const initialSwatchValue = initialVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Color',
@@ -173,6 +177,8 @@ export const ProductThumbnail = ({
     const initialColorOption = colorOption?.[0]?.values?.filter(
       (o) => o?.value == initialSwatchValue,
     )[0]
+
+    isExcludedFromStockIndication(product)
 
     // console.log('initialColorOption', initialColorOption)
 
@@ -349,12 +355,23 @@ export const ProductThumbnail = ({
     },
   )
 
-  const productIsExcluded = async (product: ShopifyProduct) => {
-    const response = await sanityClient.fetch(
+  const sanityBooleanQuery = async <R = boolean,>(
+    query: string,
+    params?: Record<string, any>,
+  ): Promise<R> => {
+    const results = await sanityClient.fetch<R>(query, params || {})
+    // @ts-ignore
+    return withTypenames<R>(results)
+  }
+
+  const productIsExcluded = async (
+    product: ShopifyProduct,
+  ): Promise<boolean> => {
+    const productIsExcluded = await sanityBooleanQuery(
       `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
       { handle: product?.handle },
     )
-    return response
+    return Boolean(productIsExcluded)
   }
 
   const isExcludedFromStockIndication = (product: ShopifyProduct) => {
@@ -365,7 +382,9 @@ export const ProductThumbnail = ({
     })
     if (!isInExcludedList) return false
 
-    productIsExcluded(product).then((res) => res)
+    productIsExcluded(product).then((res: boolean) => {
+      setDisableStockIndication(res)
+    })
   }
 
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
@@ -426,7 +445,7 @@ export const ProductThumbnail = ({
               >
                 {isProductCurrentlyInStock(product) &&
                 !IsDisplayingSwatches(product) &&
-                !isExcludedFromStockIndication(product) ? (
+                disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
@@ -453,7 +472,7 @@ export const ProductThumbnail = ({
               >
                 {isProductCurrentlyInStock(product) &&
                 !IsDisplayingSwatches(product) &&
-                !isExcludedFromStockIndication(product) ? (
+                disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
@@ -468,6 +487,7 @@ export const ProductThumbnail = ({
                   isSwatchActive={isSwatchActive}
                   product={product}
                   stockedVariants={stockedVariants}
+                  disableStockIndication={disableStockIndication}
                 />
               </div>
             ) : (
