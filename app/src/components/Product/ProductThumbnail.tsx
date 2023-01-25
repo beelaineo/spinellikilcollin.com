@@ -33,6 +33,8 @@ import { CloudinaryAnimation } from '../CloudinaryVideo'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { Sort } from '../Filter'
+import { useShopData } from '../../providers/ShopDataProvider'
+import { sanityClient } from '../../services/sanity'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -121,6 +123,8 @@ export const ProductThumbnail = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
   const { sendProductImpression, sendProductClick } = useAnalytics()
+  const { productInfoSettings } = useShopData()
+
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
@@ -345,6 +349,25 @@ export const ProductThumbnail = ({
     },
   )
 
+  const productIsExcluded = async (product: ShopifyProduct) => {
+    const response = await sanityClient.fetch(
+      `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
+      { handle: product?.handle },
+    )
+    return response
+  }
+
+  const isExcludedFromStockIndication = (product: ShopifyProduct) => {
+    const excludedProducts = productInfoSettings?.excludeFromStockIndication
+    const handle = product?.handle
+    const isInExcludedList = excludedProducts?.find((product) => {
+      return product?.handle === handle
+    })
+    if (!isInExcludedList) return false
+
+    productIsExcluded(product).then((res) => res)
+  }
+
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
     if (!product?.sourceData) return false
 
@@ -401,12 +424,13 @@ export const ProductThumbnail = ({
                 my={0}
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
-                {/* {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) ? (
+                {isProductCurrentlyInStock(product) &&
+                !IsDisplayingSwatches(product) &&
+                !isExcludedFromStockIndication(product) ? (
                   <InStockDot />
                 ) : (
                   ''
-                )} */}
+                )}
                 {product.title} |{' '}
                 <PriceWrapper>
                   <Price
@@ -428,7 +452,8 @@ export const ProductThumbnail = ({
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
                 {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) ? (
+                !IsDisplayingSwatches(product) &&
+                !isExcludedFromStockIndication(product) ? (
                   <InStockDot />
                 ) : (
                   ''
