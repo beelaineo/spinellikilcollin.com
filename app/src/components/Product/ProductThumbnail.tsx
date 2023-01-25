@@ -36,7 +36,6 @@ import styled, { css } from '@xstyled/styled-components'
 import { Sort } from '../Filter'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { sanityClient } from '../../services/sanity'
-import { sanityQuery } from '../../services/sanity'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -164,7 +163,7 @@ export const ProductThumbnail = ({
 
   const [playing, setPlaying] = useState(false)
 
-  const [disableStockIndication, setDisableStockIndication] = useState(false)
+  const [disableStockIndication, setDisableStockIndication] = useState(true)
 
   useEffect(() => {
     const initialSwatchValue = initialVariant?.selectedOptions?.filter(
@@ -177,8 +176,6 @@ export const ProductThumbnail = ({
     const initialColorOption = colorOption?.[0]?.values?.filter(
       (o) => o?.value == initialSwatchValue,
     )[0]
-
-    isExcludedFromStockIndication(product)
 
     // console.log('initialColorOption', initialColorOption)
 
@@ -364,28 +361,39 @@ export const ProductThumbnail = ({
     return withTypenames<R>(results)
   }
 
-  const productIsExcluded = async (
-    product: ShopifyProduct,
-  ): Promise<boolean> => {
-    const productIsExcluded = await sanityBooleanQuery(
-      `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
-      { handle: product?.handle },
-    )
-    return Boolean(productIsExcluded)
-  }
+  useEffect(() => {
+    const productIsExcluded = async (
+      product: ShopifyProduct,
+    ): Promise<boolean> => {
+      const productIsExcluded = await sanityBooleanQuery(
+        `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
+        { handle: product?.handle },
+      )
+      return Boolean(productIsExcluded)
+    }
 
-  const isExcludedFromStockIndication = (product: ShopifyProduct) => {
-    const excludedProducts = productInfoSettings?.excludeFromStockIndication
-    const handle = product?.handle
-    const isInExcludedList = excludedProducts?.find((product) => {
-      return product?.handle === handle
-    })
-    if (!isInExcludedList) return false
+    const isExcludedFromStockIndication = (product: ShopifyProduct) => {
+      const excludedProducts = productInfoSettings?.excludeFromStockIndication
+      const handle = product?.handle
+      const isInExcludedList = excludedProducts?.find((product) => {
+        return product?.handle === handle
+      })
+      if (!isInExcludedList) {
+        setDisableStockIndication(false)
+        return
+      }
+      productIsExcluded(product).then((res: boolean) => {
+        setDisableStockIndication(res)
+      })
+    }
 
-    productIsExcluded(product).then((res: boolean) => {
-      setDisableStockIndication(res)
-    })
-  }
+    isExcludedFromStockIndication(product)
+    console.log('disableStockIndication', disableStockIndication)
+  }, [
+    productInfoSettings?.excludeFromStockIndication,
+    product,
+    disableStockIndication,
+  ])
 
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
     if (!product?.sourceData) return false

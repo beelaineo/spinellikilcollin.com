@@ -33,6 +33,7 @@ interface ProductOptionSelectorProps {
   option: ShopifyProductOption
   changeValueForOption: (optionId: string) => (value: string) => void
   isInput: boolean
+  disableStockIndication?: boolean
 }
 
 interface SelectWrapperProps {
@@ -94,6 +95,7 @@ export const ProductOptionSelector = ({
   changeValueForOption,
   currentVariant,
   isInput,
+  disableStockIndication,
 }: ProductOptionSelectorProps) => {
   if (!option || !option.name || !option.shopifyOptionId || !option.values) {
     console.warn('Missing option config', option)
@@ -166,6 +168,7 @@ export const ProductOptionSelector = ({
   )
 
   const formatLabel = (value: string, option: ShopifyProductOption) => {
+    if (disableStockIndication == true) return value
     let i = 0
     currentVariantStockedOptions?.forEach((v) => {
       if (currentSelectedColor) {
@@ -274,6 +277,7 @@ export const ProductOptionSelector = ({
               isSwatchActive={isSwatchActive}
               option={option}
               stockedOptions={stockedColorOptions}
+              disableStockIndication={disableStockIndication}
             />
           </SwatchesWrapper>
         ) : (
