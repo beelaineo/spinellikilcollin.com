@@ -41,8 +41,9 @@ import {
 } from './types'
 import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
 import { ShopifyStorefrontCheckout } from '../../../types/generated-shopify'
+import { useCountry } from '../../CountryProvider'
 
-const { useReducer, useEffect } = React
+const { useReducer, useEffect, useState } = React
 
 /**
  * API
@@ -112,6 +113,9 @@ export const useCheckout = ({
    */
 
   const [state, dispatch] = useReducer(reducer, initialState)
+  const { currentCountry } = useCountry()
+  const [countryCode, setCountryCode] = useState(currentCountry)
+
   /**
    * Base Methods
    *
@@ -153,7 +157,15 @@ export const useCheckout = ({
         variables,
       )
       const checkout = result.data ? result.data.node : undefined
-      dispatch({ type: FETCHED_CHECKOUT, checkout })
+      /* If checkout countryCode doesn't match CountryProvider countryCode, create a new checkout */
+      console.log('checkout', checkout)
+      console.log('currentCountry', currentCountry)
+      if (checkout?.buyerIdentity.countryCode != currentCountry) {
+        console.log('country code mismatch')
+        dispatch({ type: FETCHED_CHECKOUT, checkout })
+      } else {
+        dispatch({ type: FETCHED_CHECKOUT, checkout })
+      }
     } else {
       /* When no token exists, dispatch this to set "loading" to false. */
       /* This might deserve its own action type, "NOTHING_TO_FETCH" */
@@ -286,6 +298,11 @@ export const useCheckout = ({
   useEffect(() => {
     fetchCheckout()
   }, []) // fetch the checkout on load
+
+  useEffect(() => {
+    setCountryCode(currentCountry)
+    console.log('country code changed', currentCountry)
+  }, [currentCountry])
 
   const value = {
     ...state,

@@ -67,27 +67,27 @@ export const Providers = ({ shopData, children }: Props) => {
   return (
     <ErrorProvider>
       <AnalyticsProvider>
-        <ShopifyProvider query={shopifyQuery}>
-          <ShopDataProvider shopData={shopData}>
-            <ThemeProvider theme={theme}>
-              <ToastProvider>
-                <CartProvider>
-                  <NavigationProvider>
-                    <CurrencyProvider>
-                      <CountryProvider>
+        <ToastProvider>
+          <CurrencyProvider>
+            <CountryProvider>
+              <ShopifyProvider query={shopifyQuery}>
+                <ShopDataProvider shopData={shopData}>
+                  <ThemeProvider theme={theme}>
+                    <CartProvider>
+                      <NavigationProvider>
                         <SearchProvider>
                           <ErrorDisplay />
                           <GlobalStyles />
                           <ModalProvider>{children}</ModalProvider>\{' '}
                         </SearchProvider>
-                      </CountryProvider>
-                    </CurrencyProvider>
-                  </NavigationProvider>
-                </CartProvider>
-              </ToastProvider>
-            </ThemeProvider>
-          </ShopDataProvider>
-        </ShopifyProvider>
+                      </NavigationProvider>
+                    </CartProvider>
+                  </ThemeProvider>
+                </ShopDataProvider>
+              </ShopifyProvider>
+            </CountryProvider>
+          </CurrencyProvider>
+        </ToastProvider>
       </AnalyticsProvider>
     </ErrorProvider>
   )
