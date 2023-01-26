@@ -397,7 +397,6 @@ export const Filter = ({
     applyFilters(null)
     setActiveKey('')
     if (!firstRender) scrollGridIntoView()
-    console.log('RESET by handleReset(), firstRender: ', firstRender)
   }
 
   if (hideFilter !== true) {
