@@ -1,11 +1,13 @@
 import { useReducer } from 'react'
 import { Sentry } from '../../services/sentry'
+import { ShopifyStorefrontCountryCode } from '../../types/generated-shopify'
 import { config } from '../../config'
 import { string } from 'yup'
+import { Maybe } from '../../types'
 
 interface State {
   loading: boolean
-  currentCountry: string
+  currentCountry: Maybe<ShopifyStorefrontCountryCode>
   currency: string
   error?: Error | null
   message?: string | null
@@ -23,7 +25,7 @@ interface UpdateCountryAction {
 
 interface SuccessAction {
   type: ActionTypes.SUCCESS
-  country: string
+  country: Maybe<ShopifyStorefrontCountryCode>
   currency: string
 }
 
@@ -58,7 +60,7 @@ const reducer = (state: State, action: Action): State => {
         loading: false,
         error: action.error,
         message: action.message,
-        currentCountry: 'US',
+        currentCountry: ShopifyStorefrontCountryCode.Us,
         currency: 'USD',
       }
     default:
@@ -69,26 +71,25 @@ const reducer = (state: State, action: Action): State => {
 
 const initialState: State = {
   loading: false,
-  currentCountry: 'US',
+  currentCountry: ShopifyStorefrontCountryCode.Us,
   currency: 'USD',
 }
 
 const getCurrencyFromCountry = async (
-  countryCode: string,
+  country: Maybe<ShopifyStorefrontCountryCode>,
 ): Promise<string | undefined> => {
   const countryData = await import('../../data/countries.json')
   return countryData.default
-    .filter(
-      (country) =>
-        Boolean(country.countryCode) && Boolean(country.currencyCode),
-    )
-    .find((country) => country.countryCode === countryCode)?.currencyCode
+    .filter((c) => Boolean(c.countryCode) && Boolean(c.currencyCode))
+    .find((c) => c.countryCode === country)?.currencyCode
 }
 
 export const useCountryState = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const updateCountry = async (country: string) => {
+  const updateCountry = async (
+    country: Maybe<ShopifyStorefrontCountryCode>,
+  ) => {
     dispatch({ type: ActionTypes.UPDATE })
     getCurrencyFromCountry(country)
       .then((data) => {

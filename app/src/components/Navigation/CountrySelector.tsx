@@ -8,6 +8,9 @@ import {
   ShopifyStorefrontCurrencyCode,
   ShopifyStorefrontCountryCode,
 } from '../../types/generated-shopify'
+import { CountryOption } from './types'
+
+const { useState, useEffect } = React
 
 const SelectField = styled(SelectElement)`
   color: body.8;
@@ -22,27 +25,52 @@ const invalidOptions = [
   "AF","AL","DZ","AO","AR","AM","AW","BB","AZ","BD","BS","BH","BI","BY","BZ","BM","BT","BA","BO","BW","BN","MM","KH","CV","KY","XA","CL","CO","KM","CD","CR","DO","XC","EG","ET","XP","FJ","GM","GH","GT","GY","GE","HT","HN","IQ","JM","JE","JO","KZ","KE","KW","KG","LA","LV","LB","LS","LR","LT","MG","MK","MO","MW","MV","MU","MD","MA","MN","MZ","NA","NP","AN","NI","NG","OM","PA","PK","PG","PY","PE","QA","RW","WS","SA","ST","RS","SC","SD","SY","SS","SB","LK","SR","SZ","TW","TZ","TT","TN","TM","UG","UA","AE","UY","UZ","VU","VE","VN","XO","YE","ZM"
 ]
 
-const countryOptions = Object.values(ShopifyStorefrontCountryCode)
-  .filter((v) => !invalidOptions.includes(v))
-  .map((value) => ({ label: value, value, id: value }))
+const countryOptions = async (): Promise<CountryOption[]> => {
+  const countryData = await import('../../data/countries.json')
+  return countryData.default
+    .filter((country) => Boolean(country.currencyCode))
+    .map(({ countryCode, english, ...meta }) => {
+      const label = [meta.flagEmoji, english].join('  ')
+      const id = [countryCode, english].join('-')
+      return {
+        value: countryCode,
+        meta: {
+          ...meta,
+        },
+        id,
+        label,
+      }
+    })
+}
 
 interface CountrySelectorProps {
   colorTheme?: 'light' | 'dark'
 }
 
 export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
+  const [options, setOptions] = useState<CountryOption[]>([])
+  const [country, setCountry] = useState<string>()
   const { loading, currentCountry, updateCountry } = useCountry()
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
-    updateCountry(value)
+    const countryKey = value.slice(0, 1) + value[1].toLowerCase()
+    setCountry(value)
+    updateCountry(ShopifyStorefrontCountryCode[countryKey])
   }
 
   const handleSubmit = ({ country }) => {
     updateCountry(country)
   }
   const initialValues = {
-    country: currentCountry,
+    country: country,
   }
+
+  useEffect(() => {
+    countryOptions().then((options) => {
+      setOptions(options)
+      setCountry(options[1].value)
+    })
+  }, [])
 
   return (
     <CurrencySelectorWrapper colorTheme={colorTheme}>
@@ -56,9 +84,9 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
           color="body.8"
           onChange={handleChange}
           aria-label="Select Country"
-          value={currentCountry}
+          value={country}
         >
-          {countryOptions.map(({ id, value, label }) => (
+          {options.map(({ id, value, label }) => (
             <option key={id} id={id} value={value}>
               {label}
             </option>

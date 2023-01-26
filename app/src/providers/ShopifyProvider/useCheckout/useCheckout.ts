@@ -6,6 +6,7 @@ import {
   Checkout,
   CheckoutLineItemInput,
   CheckoutLineItemUpdateInput,
+  Maybe,
 } from '../types'
 import {
   defaultQueries,
@@ -40,7 +41,10 @@ import {
   // RECEIVED_ERRORS,
 } from './types'
 import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
-import { ShopifyStorefrontCheckout } from '../../../types/generated-shopify'
+import {
+  ShopifyStorefrontCheckout,
+  ShopifyStorefrontCountryCode,
+} from '../../../types/generated-shopify'
 import { useCountry } from '../../CountryProvider'
 
 const { useReducer, useEffect, useState } = React
@@ -114,7 +118,8 @@ export const useCheckout = ({
 
   const [state, dispatch] = useReducer(reducer, initialState)
   const { currentCountry } = useCountry()
-  const [countryCode, setCountryCode] = useState(currentCountry)
+  const [countryCode, setCountryCode] =
+    useState<Maybe<ShopifyStorefrontCountryCode>>(currentCountry)
 
   /**
    * Base Methods
@@ -160,8 +165,9 @@ export const useCheckout = ({
       /* If checkout countryCode doesn't match CountryProvider countryCode, create a new checkout */
       console.log('checkout', checkout)
       console.log('currentCountry', currentCountry)
-      if (checkout?.buyerIdentity.countryCode != currentCountry) {
-        console.log('country code mismatch')
+      if (checkout && checkout?.buyerIdentity.countryCode != currentCountry) {
+        console.log('country code mismatch, recreating checkout')
+        checkout.buyerIdentity.countryCode = currentCountry
         dispatch({ type: FETCHED_CHECKOUT, checkout })
       } else {
         dispatch({ type: FETCHED_CHECKOUT, checkout })

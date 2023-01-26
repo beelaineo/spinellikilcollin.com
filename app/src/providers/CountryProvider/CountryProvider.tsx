@@ -1,5 +1,6 @@
 import * as React from 'react'
-import { ShopifyMoneyV2, ShopifyStorefrontMoneyV2 } from '../../types'
+import { Maybe, ShopifyMoneyV2, ShopifyStorefrontMoneyV2 } from '../../types'
+import { ShopifyStorefrontCountryCode } from '../../types/generated-shopify'
 import { roundTo, setCookie, getCookie } from '../../utils'
 import { useCurrency } from '../CurrencyProvider'
 import { useToast, ToastType } from '../ToastProvider'
@@ -13,9 +14,9 @@ type Money =
   | Omit<ShopifyStorefrontMoneyV2, '__typename'>
 
 interface CountryContextValue {
-  currentCountry: string
+  currentCountry: Maybe<ShopifyStorefrontCountryCode>
   loading: boolean
-  updateCountry: (country: string) => Promise<void>
+  updateCountry: (country: Maybe<ShopifyStorefrontCountryCode>) => Promise<void>
 }
 
 const CountryContext = React.createContext<CountryContextValue | undefined>(
@@ -72,7 +73,9 @@ export const CountryProvider = ({ children }: CountryProps) => {
     console.log('COUNTRY', currentCountry)
   }, [currency])
 
-  const updateCountry = async (country: string) => {
+  const updateCountry = async (
+    country: Maybe<ShopifyStorefrontCountryCode>,
+  ) => {
     await updateCountryState(country)
   }
 
