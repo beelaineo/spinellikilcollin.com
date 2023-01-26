@@ -489,13 +489,13 @@ export const ProductThumbnail = ({
                 my={0}
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
-                {isProductCurrentlyInStock(product) &&
+                {/* {isProductCurrentlyInStock(product) &&
                 !IsDisplayingSwatches(product) &&
                 disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
-                )}
+                )} */}
                 {product.title} |{' '}
                 <PriceWrapper>
                   <Price
@@ -516,13 +516,13 @@ export const ProductThumbnail = ({
                 level={headingLevel || 3}
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
-                {isProductCurrentlyInStock(product) &&
+                {/* {isProductCurrentlyInStock(product) &&
                 !IsDisplayingSwatches(product) &&
                 disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
-                )}
+                )} */}
                 {product.title}
               </TitleHeading>
             )}

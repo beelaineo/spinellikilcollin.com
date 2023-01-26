@@ -85,12 +85,12 @@ export const OptionSwatches = ({
             ratio={1}
             sizes="40px"
           />
-          {disableStockIndication != true &&
+          {/* {disableStockIndication != true &&
           isSwatchCurrentlyInStock(value, stockedOptions) ? (
             <InStockDot />
           ) : (
             ''
-          )}
+          )} */}
         </SwatchWrapper>
       ))}
     </SwatchesWrapper>

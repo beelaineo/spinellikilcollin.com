@@ -417,7 +417,7 @@ export const ProductDetail = ({ product }: Props) => {
                   )}
                 />
                 <ProductInfoWrapper>
-                  {disableStockIndication != true &&
+                  {/* {disableStockIndication != true &&
                   variantsInStock?.length > 0 ? (
                     <StockedLabelMobile
                       hide={
@@ -435,7 +435,7 @@ export const ProductDetail = ({ product }: Props) => {
                           : 'Ready to Ship in Select Sizes'}
                       </Heading>
                     </StockedLabelMobile>
-                  ) : null}
+                  ) : null} */}
                   <ProductVariantSelector
                     variants={variants}
                     currentVariant={currentVariant}

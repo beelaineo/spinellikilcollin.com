@@ -185,7 +185,8 @@ export const ProductOptionSelector = ({
       }
     })
 
-    const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+    // const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+    const optionLabel = value
     return optionLabel
   }
 
