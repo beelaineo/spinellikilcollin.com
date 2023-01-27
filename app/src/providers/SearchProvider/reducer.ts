@@ -202,9 +202,18 @@ export const useSearchReducer = () => {
       filters: `hideFromSearch:false`,
     })
     const results = hits
-      .map((hit) => hit.document)
+      .map((hit) => {
+        const result = hit.document
+        // @ts-ignore
+        const optionDescriptions = hit?._highlightResult?.optionDescriptions
+        // @ts-ignore
+        const optionNames = hit?._highlightResult?.optionNames
+
+        return { ...result, matches: { optionDescriptions, optionNames } }
+      })
       .filter(Boolean)
       .filter((hit) => hit.hidden !== true)
+
     onSuccess(results || [])
   }
 
