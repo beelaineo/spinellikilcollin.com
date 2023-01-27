@@ -16,6 +16,7 @@ import {
   ResultsInner,
   Wrapper,
 } from './styled'
+import { Maybe } from '../../types'
 import { Footer } from '../Footer'
 
 const { useEffect } = React
@@ -62,7 +63,77 @@ export const SearchPane = () => {
       }`
     : undefined
 
-  const preferredVariantMatches = [searchTerm]
+  interface StripTag {
+    replace(expr: RegExp, arg1: string): string
+    str?: Maybe<Array<string>>
+  }
+
+  interface SearchMatch {
+    optionDescriptions: Maybe<Array<any>>
+    optionNames: Maybe<Array<any>>
+    fullyHighlighted?: Maybe<boolean>
+    matchLevel?: Maybe<string>
+    matchedWords: Maybe<Array<string>>
+  }
+
+  const stripTag = (str: StripTag) => {
+    const expr = /(<([^>]+)>)/gi
+    return str?.replace(expr, '')
+  }
+
+  const getBestVariantBySearch = (search) => {
+    //1. fullyHighlighted in optionNames
+    //2. most combined matched words in optionName and optionDescription
+
+    const variantMatches = search?.map((result) => result.matches)
+
+    const variantMatch = variantMatches?.map((match: SearchMatch) => {
+      const descriptions = match?.optionDescriptions
+      const names = match?.optionNames
+
+      const isFullyHighlighted =
+        names &&
+        Object.values(names)?.find(
+          (name) =>
+            name?.fullyHighlighted === true || name?.matchLevel === 'full',
+        )
+
+      const getArrayLengths = (arr) => {
+        if (!arr) return
+        return Object.values(arr).map((val: any) => val.matchedWords.length)
+      }
+
+      const getArraySums = (arr1, arr2) => {
+        if (!arr1 || !arr2) return
+        return arr1
+          .map((a, i) => a + arr2[i])
+          .filter((val) => !Number.isNaN(val))
+      }
+
+      const mostMatchedVariant = (matches, names) => {
+        if (!matches || !names) return
+        const index = matches.indexOf(Math.max(...matches))
+
+        return names[index]?.value
+      }
+
+      const nameMatches = getArrayLengths(names)
+      const descriptionMatches = getArrayLengths(descriptions)
+
+      const summedMatches = getArraySums(descriptionMatches, nameMatches)
+
+      return isFullyHighlighted
+        ? stripTag(isFullyHighlighted?.value)
+        : stripTag(mostMatchedVariant(summedMatches, names))
+    })
+
+    return variantMatch
+  }
+
+  const matchedVariants = getBestVariantBySearch(searchResults)
+
+  const preferredVariantMatches = matchedVariants || [searchTerm]
+
   return (
     <Outer>
       <Wrapper visible={open}>
