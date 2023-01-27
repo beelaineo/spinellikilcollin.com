@@ -296,7 +296,9 @@ export const getBestVariantBySort = (
   sort?: Sort | null,
   minVariantPrice?: number,
   maxVariantPrice?: number,
+  initialVariant?: ShopifySourceProductVariant,
 ): ShopifySourceProductVariant => {
+  if (sort == Sort.Default && initialVariant) return initialVariant
   const bestVariant = variants.find((v) => {
     if (!v?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
@@ -323,6 +325,7 @@ export const getBestVariantByFilterMatch = (
   sort?: Sort | null,
   minVariantPrice?: number,
   maxVariantPrice?: number,
+  initialVariant?: ShopifySourceProductVariant,
 ): ShopifySourceProductVariant => {
   const bestColorVariant = variants.find((v) => {
     v

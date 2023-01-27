@@ -195,7 +195,6 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
-    console.log('filterSetState', filterSetState)
     const resetUI = () => {
       setApplyFilter(false)
       updateMinPosition(0)
@@ -211,11 +210,6 @@ export function PriceRangeFilter({
         ? false
         : true,
     )
-    console.log('applyFilter', applyFilter)
-    console.log('initialMinPrice', initialMinPrice)
-    console.log('initialMaxPrice', initialMaxPrice)
-    console.log('currentMinPrice', currentMinPrice)
-    console.log('currentMaxPrice', currentMaxPrice)
     const timeout = setTimeout(() => {
       setValues('', {
         minPrice: getClosestStep(currentMinPrice),

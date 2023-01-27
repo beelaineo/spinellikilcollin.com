@@ -71,6 +71,19 @@ export const productInfo = {
       type: 'array',
       of: [{ type: 'tagBadge' }],
     },
+    {
+      name: 'excludeFromStockIndication',
+      title: 'Exclude from Ready To Ship Indication',
+      description:
+        'The selected products will NOT display inventory availability on the website front-end.',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          to: [{ type: 'shopifyProduct' }],
+        },
+      ],
+    },
   ],
   preview: {
     select: {},

@@ -60,6 +60,8 @@ const productInner = `
     "style": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "style"].node.value),
     "stone": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "stone"].node.value),
   },
+  "excludeFromIndication": sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value,
+  "metafields": sourceData.metafields.edges[].node,
   sourceData {
     _type,
     handle,

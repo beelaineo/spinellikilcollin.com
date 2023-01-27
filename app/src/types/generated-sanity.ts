@@ -1770,6 +1770,7 @@ export interface ProductInfoSettings extends Document {
   infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
   infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
   tagBadges?: Maybe<Array<Maybe<TagBadge>>>
+  excludeFromStockIndication?: Maybe<Array<Maybe<ShopifyProduct>>>
 }
 
 export type ProductInfoSettingsFilter = {
