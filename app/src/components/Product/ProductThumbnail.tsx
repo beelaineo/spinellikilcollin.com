@@ -304,9 +304,9 @@ export const ProductThumbnail = ({
       )
       const priceRangeFilterIsDefault =
         //@ts-ignore
-        priceRangeFilter.minPrice == defaultMinPrice &&
+        priceRangeFilter?.minPrice == defaultMinPrice &&
         //@ts-ignore
-        priceRangeFilter.maxPrice == defaultMaxPrice
+        priceRangeFilter?.maxPrice == defaultMaxPrice
           ? true
           : false
       // console.log(
