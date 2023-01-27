@@ -8,6 +8,8 @@ import { useSearch } from '../../providers/SearchProvider'
 import { SearchInput } from './SearchInput'
 import { Hamburger } from '../Hamburger'
 import { Loading } from '../Loading'
+import { unique } from '../../utils'
+
 import {
   Outer,
   CloseButton,
@@ -100,14 +102,19 @@ export const SearchPane = () => {
 
       const getArrayLengths = (arr) => {
         if (!arr) return
-        return Object.values(arr).map((val: any) => val.matchedWords.length)
+        return Object.values(arr).map((item: any) => {
+          return item.matchedWords
+        })
       }
 
       const getArraySums = (arr1, arr2) => {
         if (!arr1 || !arr2) return
-        return arr1
-          .map((a, i) => a + arr2[i])
-          .filter((val) => !Number.isNaN(val))
+
+        return (
+          arr1
+            ?.map((e, i) => unique([...e, arr2[i]])?.length)
+            .filter((val) => !Number.isNaN(val)) || []
+        )
       }
 
       const mostMatchedVariant = (matches, names) => {
