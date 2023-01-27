@@ -108,17 +108,20 @@ export const SearchPane = () => {
       }
 
       const getArraySums = (arr1, arr2) => {
-        if (!arr1 || !arr2) return
+        if (!arr1) return
 
-        return (
-          arr1
-            ?.map((e, i) => unique([...e, arr2[i]])?.length)
-            .filter((val) => !Number.isNaN(val)) || []
-        )
+        return arr1
+          ?.map((e, i) =>
+            arr2 && arr2[i]
+              ? unique([...e, ...arr2[i]])?.length
+              : [...e]?.length,
+          )
+          .filter((val) => !Number.isNaN(val))
       }
 
       const mostMatchedVariant = (matches, names) => {
         if (!matches || !names) return
+
         const index = matches.indexOf(Math.max(...matches))
 
         return names[index]?.value
@@ -126,9 +129,15 @@ export const SearchPane = () => {
 
       const nameMatches = getArrayLengths(names)
       const descriptionMatches = getArrayLengths(descriptions)
+      const summedMatches = getArraySums(nameMatches, descriptionMatches)
 
-      const summedMatches = getArraySums(descriptionMatches, nameMatches)
-
+      console.log('search-test: descriptionMatches', descriptionMatches)
+      console.log('search-test: nameMatches', nameMatches)
+      console.log('search-test: summedMatches', summedMatches)
+      console.log(
+        'search-test: mostMatchedVariant',
+        mostMatchedVariant(summedMatches, names),
+      )
       return isFullyHighlighted
         ? stripTag(isFullyHighlighted?.value)
         : stripTag(mostMatchedVariant(summedMatches, names))
