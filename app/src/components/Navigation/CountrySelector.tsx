@@ -72,6 +72,10 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
     })
   }, [])
 
+  useEffect(() => {
+    setCountry(currentCountry)
+  }, [currentCountry])
+
   return (
     <CurrencySelectorWrapper colorTheme={colorTheme}>
       <Form

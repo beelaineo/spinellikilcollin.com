@@ -7,7 +7,7 @@ import { Maybe } from '../../types'
 
 interface State {
   loading: boolean
-  currentCountry: Maybe<ShopifyStorefrontCountryCode>
+  currentCountry: ShopifyStorefrontCountryCode
   currency: string
   error?: Error | null
   message?: string | null
@@ -25,7 +25,7 @@ interface UpdateCountryAction {
 
 interface SuccessAction {
   type: ActionTypes.SUCCESS
-  country: Maybe<ShopifyStorefrontCountryCode>
+  country: ShopifyStorefrontCountryCode
   currency: string
 }
 
@@ -76,7 +76,7 @@ const initialState: State = {
 }
 
 const getCurrencyFromCountry = async (
-  country: Maybe<ShopifyStorefrontCountryCode>,
+  country: ShopifyStorefrontCountryCode,
 ): Promise<string | undefined> => {
   const countryData = await import('../../data/countries.json')
   return countryData.default
@@ -87,9 +87,7 @@ const getCurrencyFromCountry = async (
 export const useCountryState = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  const updateCountry = async (
-    country: Maybe<ShopifyStorefrontCountryCode>,
-  ) => {
+  const updateCountry = async (country: ShopifyStorefrontCountryCode) => {
     dispatch({ type: ActionTypes.UPDATE })
     getCurrencyFromCountry(country)
       .then((data) => {

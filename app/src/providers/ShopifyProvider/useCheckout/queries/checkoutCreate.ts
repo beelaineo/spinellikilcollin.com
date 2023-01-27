@@ -4,8 +4,10 @@ import {
   AttributeInput,
   MailingAddressInput,
   CheckoutResponse,
+  Maybe,
 } from '../../types'
 import { checkoutFragment } from '../../../../graphql'
+import { ShopifyStorefrontCountryCode } from '../../../../types/generated-shopify'
 
 export type CheckoutCreate = (
   input: CheckoutCreateInput,
@@ -18,6 +20,7 @@ export interface CheckoutCreateInput {
   note?: string
   customAttributes?: AttributeInput[]
   allowPartialAddresses?: boolean
+  countryCode: ShopifyStorefrontCountryCode
 }
 
 export type CheckoutCreateResponse = CheckoutResponse<'checkoutCreate'>
@@ -62,10 +65,11 @@ export const CHECKOUT_CREATE = gql`
     $note: String
     $customAttributes: [AttributeInput!]
     $allowPartialAddresses: Boolean
-  ) @inContext(country: GB) {
+    $countryCode: CountryCode!
+  ) @inContext(country: $countryCode) {
     checkoutCreate(
       input: {
-        buyerIdentity: { countryCode: GB }
+        buyerIdentity: { countryCode: $countryCode }
         email: $email
         lineItems: $lineItems
         shippingAddress: $shippingAddress

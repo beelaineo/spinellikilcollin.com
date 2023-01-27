@@ -14,9 +14,9 @@ type Money =
   | Omit<ShopifyStorefrontMoneyV2, '__typename'>
 
 interface CountryContextValue {
-  currentCountry: Maybe<ShopifyStorefrontCountryCode>
+  currentCountry: ShopifyStorefrontCountryCode
   loading: boolean
-  updateCountry: (country: Maybe<ShopifyStorefrontCountryCode>) => Promise<void>
+  updateCountry: (country: ShopifyStorefrontCountryCode) => Promise<void>
 }
 
 const CountryContext = React.createContext<CountryContextValue | undefined>(
@@ -52,6 +52,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
 
   useEffect(() => {
     const viewerCountry = getCookie(COUNTRY_COOKIE)
+    console.log('viewerCountry COOKIE', viewerCountry)
     if (viewerCountry && viewerCountry !== currentCountry) {
       updateCountryState(viewerCountry)
     }
@@ -73,9 +74,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
     console.log('COUNTRY', currentCountry)
   }, [currency])
 
-  const updateCountry = async (
-    country: Maybe<ShopifyStorefrontCountryCode>,
-  ) => {
+  const updateCountry = async (country: ShopifyStorefrontCountryCode) => {
     await updateCountryState(country)
   }
 
