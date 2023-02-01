@@ -356,8 +356,8 @@ export const HeroBlock = React.forwardRef(
             </HeroImageWrapper>
           ) : (
             <HeroImageWrapper hero={hero} ref={heroRef}>
-              {image ? <Image image={image} /> : null}
-              {mobileImage ? <Image image={mobileImage} /> : null}
+              {image ? <Image preload image={image} /> : null}
+              {mobileImage ? <Image preload image={mobileImage} /> : null}
             </HeroImageWrapper>
           )}
           <HeroText
