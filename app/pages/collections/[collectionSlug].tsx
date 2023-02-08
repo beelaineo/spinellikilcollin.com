@@ -100,6 +100,81 @@ const collectionQueryById = gql`
   ${imageTextBlockFragment}
   ${textBlockFragment}
 `
+const collectionQueryByHandle = gql`
+  query ShopifyCollectionQuery($handle: String) {
+    allShopifyCollection(where: { handle: { eq: $handle } }) {
+      __typename
+      _id
+      _key
+      _rev
+      shopifyId
+      title
+      handle
+      archived
+      sourceData {
+        ...ShopifySourceCollectionFragment
+      }
+      products {
+        ...ShopifyProductFragment
+      }
+      hidden
+      reduceColumnCount
+      lightTheme
+      customFilter {
+        ...CustomFilterFragment
+      }
+      hideFilter
+      overrideDefaultFilter
+      hero {
+        ...HeroFragment
+      }
+      collectionBlocks {
+        ...CollectionBlockFragment
+      }
+      footer {
+        ... on Carousel {
+          __typename
+          ...CarouselFragment
+        }
+        ... on ImageTextBlock {
+          __typename
+          ...ImageTextBlockFragment
+        }
+        ... on TextBlock {
+          __typename
+          ...TextBlockFragment
+        }
+      }
+      descriptionRaw
+      preferredVariantMatches
+      bambuser {
+        _key
+        __typename
+        slug
+        liveSettings {
+          _key
+          __typename
+          startDate
+          endDate
+          liveCTALabel
+        }
+      }
+      seo {
+        ...SEOFragment
+      }
+    }
+  }
+  ${shopifySourceCollectionFragment}
+  ${shopifyProductFragment}
+  ${customFilterFragment}
+  ${heroFragment}
+  ${collectionBlockFragment}
+  ${richImageFragment}
+  ${seoFragment}
+  ${carouselFragment}
+  ${imageTextBlockFragment}
+  ${textBlockFragment}
+`
 interface ShopifyProductListingProduct extends ShopifyProduct {
   filterData: {
     inStock: boolean
@@ -132,6 +207,11 @@ interface Response {
 }
 
 const getCollectionFromPreviewResponse = (response: Response) => {
+  const collection = response?.ShopifyCollection
+  return collection
+}
+
+const getCollectionFromResponse = (response: Response) => {
   const collection = response?.ShopifyCollection
   return collection
 }
@@ -216,15 +296,12 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return { props: { products: undefined, collection: undefined } }
   const handle = getParam(params.collectionSlug)
   const responses = await Promise.all([
-    sanityQuery<ShopifyCollection[]>(createSanityCollectionQuery(), {
-      handle,
-      sort: null,
-    }),
-
+    request<Response>(collectionQueryByHandle, { handle }),
     requestShopData(),
   ])
 
   const [collections, shopData] = responses
+  const collection = getCollectionFromResponse(collections)
 
   return {
     props: {
