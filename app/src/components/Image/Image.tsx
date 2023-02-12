@@ -69,6 +69,8 @@ interface ImageProps {
   altText?: Maybe<string>
   hoverImage?: Maybe<ImageType>
   ratio?: number
+  loading?: 'eager' | 'lazy' | undefined
+
   /**
    * The css/html sizes at which this image is expected to appear,
    * from mobile to desktop. The final value will be used without a breakpoint.
@@ -117,7 +119,6 @@ export const Image = ({
   ratio: customRatio,
   canvasFill,
   preloadImages,
-  fetchPriority,
   loading,
   objectFit,
 }: ImageProps) => {
@@ -128,8 +129,6 @@ export const Image = ({
   const { isInViewOnce } = useInViewport(containerRef)
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
-
-  console.log('imageDetails', imageDetails)
 
   const {
     caption,
@@ -180,8 +179,7 @@ export const Image = ({
             alt={altText || ''}
             ref={imageRef}
             onLoad={handleOnLoad}
-            fetchPriority={fetchPriority}
-            loading={loading}
+            loading={loading || 'lazy'}
           />
           {hoverDetails && hoverDetails.src ? (
             <HoverImage
