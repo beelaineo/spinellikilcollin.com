@@ -12,6 +12,7 @@ import {
   getStorefrontId,
   useProductVariant,
   useViewportSize,
+  withTypenames,
 } from '../../utils'
 import {
   useShopify,
@@ -50,6 +51,7 @@ import { SEO } from '../../components/SEO'
 import { configureScope } from '@sentry/node'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
+import { sanityClient } from '../../services/sanity'
 
 const { useEffect, useState } = React
 
@@ -95,7 +97,7 @@ export const ProductDetail = ({ product }: Props) => {
     : undefined
   /* get additional info blocks from Sanity */
   const { sendProductDetailView } = useAnalytics()
-  const { getProductInfoBlocks } = useShopData()
+  const { getProductInfoBlocks, productInfoSettings } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
   /* get product variant utils */
@@ -242,6 +244,7 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const [playing, setPlaying] = useState(false)
+  const [disableStockIndication, setDisableStockIndication] = useState(true)
 
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
@@ -305,6 +308,45 @@ export const ProductDetail = ({ product }: Props) => {
     selectVariant(bestVariant.id)
   }
 
+  const sanityBooleanQuery = async <R = boolean,>(
+    query: string,
+    params?: Record<string, any>,
+  ): Promise<R> => {
+    const results = await sanityClient.fetch<R>(query, params || {})
+    // @ts-ignore
+    return withTypenames<R>(results)
+  }
+
+  const productIsExcluded = async (
+    product: ShopifyProduct,
+  ): Promise<boolean> => {
+    const productIsExcluded = await sanityBooleanQuery(
+      `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
+      { handle: product?.handle },
+    )
+    return Boolean(productIsExcluded)
+  }
+
+  const isExcludedFromStockIndication = (product: ShopifyProduct) => {
+    const excludedProducts = productInfoSettings?.excludeFromStockIndication
+    const handle = product?.handle
+    const isInExcludedList = excludedProducts?.find((product) => {
+      return product?.handle === handle
+    })
+    if (!isInExcludedList) {
+      setDisableStockIndication(false)
+      return
+    }
+    productIsExcluded(product).then((res: boolean) => {
+      setDisableStockIndication(res)
+    })
+  }
+
+  useEffect(() => {
+    isExcludedFromStockIndication(product)
+    console.log('disableStockIndication', disableStockIndication)
+  }, [isExcludedFromStockIndication, disableStockIndication, product])
+
   const defaultSeo = {
     title: getVariantTitle(product, currentVariant),
     image:
@@ -356,6 +398,7 @@ export const ProductDetail = ({ product }: Props) => {
                 <ProductDetailHeader
                   currentVariant={currentVariant}
                   product={product}
+                  disableStockIndication={disableStockIndication}
                 />
                 {variantHasAnimation && variantAnimation?.videoId ? (
                   <CloudinaryAnimation
@@ -374,7 +417,8 @@ export const ProductDetail = ({ product }: Props) => {
                   )}
                 />
                 <ProductInfoWrapper>
-                  {variantsInStock?.length > 0 ? (
+                  {/* {disableStockIndication != true &&
+                  variantsInStock?.length > 0 ? (
                     <StockedLabelMobile
                       hide={
                         !isSwatchCurrentlyInStock(
@@ -391,12 +435,13 @@ export const ProductDetail = ({ product }: Props) => {
                           : 'Ready to Ship in Select Sizes'}
                       </Heading>
                     </StockedLabelMobile>
-                  ) : null}
+                  ) : null} */}
                   <ProductVariantSelector
                     variants={variants}
                     currentVariant={currentVariant}
                     changeValueForOption={changeValueForOption}
                     product={product}
+                    disableStockIndication={disableStockIndication}
                   />
                   {productType === 'Ring' ? (
                     <RingToolsWrapper>
@@ -424,6 +469,21 @@ export const ProductDetail = ({ product }: Props) => {
                   ) : null}
 
                   <ProductAccordionsWrapper>
+                    {productType === 'Ring' ? (
+                      <RingToolsWrapper>
+                        <RingSizerButton
+                          product={product}
+                          variant={currentVariant}
+                          mobile
+                        />
+                        <SizeConverterButton
+                          product={product}
+                          variant={currentVariant}
+                          addLineItem={addLineItem}
+                          mobile
+                        />
+                      </RingToolsWrapper>
+                    ) : null}
                     {description || optionDescriptions.length ? (
                       <Accordion label="Description">
                         {description ? description : null}
@@ -449,21 +509,6 @@ export const ProductDetail = ({ product }: Props) => {
                           ) : null,
                         )
                       : null}
-                    {productType === 'Ring' ? (
-                      <RingToolsWrapper>
-                        <RingSizerButton
-                          product={product}
-                          variant={currentVariant}
-                          mobile
-                        />
-                        <SizeConverterButton
-                          product={product}
-                          variant={currentVariant}
-                          addLineItem={addLineItem}
-                          mobile
-                        />
-                      </RingToolsWrapper>
-                    ) : null}
                   </ProductAccordionsWrapper>
                 </ProductInfoWrapper>
               </InfoWrapper>

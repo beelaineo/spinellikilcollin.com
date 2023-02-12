@@ -5,15 +5,27 @@ interface BackgroundImageProps {
 }
 
 export const ProductThumb = styled.div`
-  text-align: left;
-  width: 100%;
-  a {
-    text-decoration: none;
+  ${({ theme }) => css`
+    position: relative;
+    text-align: left;
+    width: 100%;
+    a {
+      text-decoration: none;
 
-    &:hover {
-      color: body.8;
+      &:focus-visible {
+        ${theme.focus.bottom(-50, -2)}
+      }
+      &:hover {
+        color: body.8;
+      }
     }
-  }
+
+    ${theme.mediaQueries.mobile} {
+      a:focus-visible {
+        ${theme.focus.bottom(-50, 12)}
+      }
+    }
+  `}
 `
 
 interface WithDisplayGrid {
@@ -66,9 +78,14 @@ export const ImageWrapper = styled.div<WithHide>`
   `}
 `
 
-export const VideoWrapper = styled.div<WithHide>`
-  ${({ theme, hide }) => css`
-    position: absolute;
+interface WithHideCarousel {
+  hide?: boolean
+  carousel?: boolean
+}
+
+export const VideoWrapper = styled.div<WithHideCarousel>`
+  ${({ theme, hide, carousel }) => css`
+    position: relative;
     top: 0;
     bottom: 0;
     right: 0;
@@ -152,6 +169,10 @@ export const SwatchWrapper = styled.div<WithClickable>`
       ${SwatchLabel} {
         opacity: 1;
       }
+    }
+
+    &:focus-visible {
+      ${theme.focus.bottom()}
     }
 
     ${theme.mediaQueries.mobile} {

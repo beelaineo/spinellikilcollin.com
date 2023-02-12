@@ -35,7 +35,7 @@ export const GlobalStyles = createGlobalStyle`
   h6 { font-size: 6; }
 
   ${({ theme }) => css`
-    *:focus {
+    *:focus-visible {
       outline-color: ${theme.colors.grays[5]};
       outline-offset: 2px;
       outline-style: auto;
@@ -118,6 +118,10 @@ export const GlobalStyles = createGlobalStyle`
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .hbspt-form {
+    display: none !important;
   }
 
   ${hubspotStyles}

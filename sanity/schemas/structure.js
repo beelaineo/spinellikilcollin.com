@@ -11,7 +11,7 @@ import { AiOutlineTeam, AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
 import { IoDocumentsOutline } from 'react-icons/io'
 import { ImFilesEmpty } from 'react-icons/im'
 import { BsTools, BsBookHalf } from 'react-icons/bs'
-import { FaPencilAlt } from 'react-icons/fa'
+import { FaPencilAlt, FaSignature } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
 import { GrDiamond } from 'react-icons/gr'
@@ -54,6 +54,15 @@ export default () =>
                     .id('productListingSettings')
                     .schemaType('productListingSettings')
                     .documentId('productListingSettings'),
+                ),
+              S.listItem()
+                .title('Email Signature Settings')
+                .icon(FaSignature)
+                .child(
+                  S.editor()
+                    .id('emailSignatureSettings')
+                    .schemaType('emailSignatureSettings')
+                    .documentId('emailSignatureSettings'),
                 ),
             ]),
         ),

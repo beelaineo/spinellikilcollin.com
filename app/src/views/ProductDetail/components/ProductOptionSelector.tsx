@@ -33,6 +33,7 @@ interface ProductOptionSelectorProps {
   option: ShopifyProductOption
   changeValueForOption: (optionId: string) => (value: string) => void
   isInput: boolean
+  disableStockIndication?: boolean
 }
 
 interface SelectWrapperProps {
@@ -73,11 +74,16 @@ const DiamondInfoSpan = styled.span`
 
 const SelectWrapper = styled.div<SelectWrapperProps>`
   ${({ theme, isInput }) => css`
+    position: relative;
     max-width: ${isInput ? '100%' : '200px'};
 
     ${theme.mediaQueries.mobile} {
       width: 100%;
       max-width: initial;
+    }
+
+    &:has(select:focus-visible) {
+      ${theme.focus.left()}
     }
   `}
 `
@@ -89,6 +95,7 @@ export const ProductOptionSelector = ({
   changeValueForOption,
   currentVariant,
   isInput,
+  disableStockIndication,
 }: ProductOptionSelectorProps) => {
   if (!option || !option.name || !option.shopifyOptionId || !option.values) {
     console.warn('Missing option config', option)
@@ -161,6 +168,7 @@ export const ProductOptionSelector = ({
   )
 
   const formatLabel = (value: string, option: ShopifyProductOption) => {
+    if (disableStockIndication == true) return value
     let i = 0
     currentVariantStockedOptions?.forEach((v) => {
       if (currentSelectedColor) {
@@ -177,7 +185,8 @@ export const ProductOptionSelector = ({
       }
     })
 
-    const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+    // const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+    const optionLabel = value
     return optionLabel
   }
 
@@ -269,6 +278,7 @@ export const ProductOptionSelector = ({
               isSwatchActive={isSwatchActive}
               option={option}
               stockedOptions={stockedColorOptions}
+              disableStockIndication={disableStockIndication}
             />
           </SwatchesWrapper>
         ) : (

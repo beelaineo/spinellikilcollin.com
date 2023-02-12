@@ -8,6 +8,7 @@ import { StateField } from '../CustomFields'
 import { Button } from '../../Button'
 import { submitToHubspot } from '../../../services'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import Script from 'next/script'
 
 const { useState } = React
 
@@ -35,7 +36,7 @@ const SuccessWrapper = styled.div<WithVisible>`
 `
 
 const FieldsWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
+  ${({ visible, theme }) => css`
     opacity: ${visible ? 1 : 0};
     margin-top: 5;
     pointer-events: ${visible ? 'inherit' : 'none'};
@@ -60,6 +61,22 @@ const FieldsWrapper = styled.div<WithVisible>`
       display: flex;
       justify-content: space-between;
       flex-direction: column;
+
+      > div {
+        position: relative;
+
+        &:has(input:focus-visible) {
+          ${theme.focus.left()}
+        }
+
+        &:has(select:focus-visible) {
+          ${theme.focus.right()}
+        }
+
+        #phone {
+          outline: none;
+        }
+      }
     }
 
     ${FieldWrapper},
@@ -131,59 +148,68 @@ export const RingSizerForm = ({
   }
 
   return (
-    <MainWrapper>
-      <Heading mt={0} mb={5} level={3}>
-        Request a ring sizer
-      </Heading>
-      <Form
-        id="ring-sizer-form"
-        disabled={submitting}
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
-      >
-        <SuccessWrapper visible={success}>
-          <Heading color="body.8" level={4}>
-            Thank you! We have received your request.
-          </Heading>
-          {onContinue ? (
-            <Button onClick={onContinue} type="button" mt={3} level={3}>
-              Continue shopping
+    <>
+      <Script id="hubspot-sizer-widget">
+        {`hbspt.forms.create({
+        region: "na1",
+        portalId: "7668999",
+        formId: "e62200cb-d8d3-468f-a19e-13c7d4bcec26"
+      });`}
+      </Script>
+      <MainWrapper>
+        <Heading mt={0} mb={5} level={3}>
+          Request a ring sizer
+        </Heading>
+        <Form
+          id="ring-sizer-form"
+          disabled={submitting}
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
+        >
+          <SuccessWrapper visible={success}>
+            <Heading color="body.8" level={4}>
+              Thank you! We have received your request.
+            </Heading>
+            {onContinue ? (
+              <Button onClick={onContinue} type="button" mt={3} level={3}>
+                Continue shopping
+              </Button>
+            ) : null}
+          </SuccessWrapper>
+          <FieldsWrapper visible={!success}>
+            <Field
+              name="name"
+              label="Name"
+              placeholder="First and Last name"
+              required
+            />
+            <Field
+              name="email"
+              type="email"
+              label="Email Address"
+              placeholder=""
+              required
+            />
+            <Field name="address1" label="Mailing Address Line 1" required />
+            <Field name="address2" label="Mailing Address Line 2" />
+            <Field label="City" name="city" required />
+            <StateField label="State" name="state" required />
+            <Field label="Postal Code" name="zip" required />
+            <Field
+              label="Country"
+              name="country"
+              type="countrySelector"
+              required
+            />
+            <Field name="phone" type="tel" label="Phone Number" required />
+            <Field name="product" type="hidden" />
+            <Field name="variant" type="hidden" />
+            <Button mt={2} type="submit">
+              Submit
             </Button>
-          ) : null}
-        </SuccessWrapper>
-        <FieldsWrapper visible={!success}>
-          <Field
-            name="name"
-            label="Name"
-            placeholder="First and Last name"
-            required
-          />
-          <Field
-            name="email"
-            type="email"
-            label="Email Address"
-            placeholder=""
-            required
-          />
-          <Field name="address1" label="Mailing Address Line 1" required />
-          <Field name="address2" label="Mailing Address Line 2" />
-          <Field label="City" name="city" required />
-          <StateField label="State" name="state" required />
-          <Field label="Postal Code" name="zip" required />
-          <Field
-            label="Country"
-            name="country"
-            type="countrySelector"
-            required
-          />
-          <Field name="phone" type="tel" label="Phone Number" required />
-          <Field name="product" type="hidden" />
-          <Field name="variant" type="hidden" />
-          <Button mt={2} type="submit">
-            Submit
-          </Button>
-        </FieldsWrapper>
-      </Form>
-    </MainWrapper>
+          </FieldsWrapper>
+        </Form>
+      </MainWrapper>
+    </>
   )
 }

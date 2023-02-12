@@ -17,6 +17,7 @@ export const PlaybackButton = ({ playing, onClick }: PlaybackButtonProps) => {
     <PlaybackButtonWrapper
       onClick={onClick}
       aria-label={playing ? 'pause video' : 'play video'}
+      tabIndex={-1}
     >
       {playing ? <BsPauseFill /> : <BsPlayFill />}
     </PlaybackButtonWrapper>

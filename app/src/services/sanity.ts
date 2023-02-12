@@ -8,7 +8,7 @@ const { SANITY_PROJECT_ID, SANITY_DATASET, SANITY_READ_TOKEN } = config
 export const sanityClient = createSanityClient({
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
-  useCdn: true, // `false` if you want to ensure fresh data
+  useCdn: false, // `false` if you want to ensure fresh data
   useProjectHostname: true,
   apiVersion: '2021-10-21',
 })

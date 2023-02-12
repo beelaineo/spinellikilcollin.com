@@ -3,20 +3,28 @@ import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 interface WithOpen {
   theme: DefaultTheme
   open: boolean
+  height: number
 }
 
 export const Inner = styled.div`
-  ${({ open }: WithOpen) => css`
-    transition: 150ms linear;
+  ${({ open, height }: WithOpen) => css`
+    transition: height 600ms cubic-bezier(0.65, 0, 0.35, 1),
+      opacity 600ms linear;
     ${open
       ? css`
-          display: block;
-          padding: 2 0 4;
+          height: ${height};
+          opacity: 1;
         `
       : css`
-          display: none;
-        `}
+          height: 0;
+          opacity: 0;
+        `};
   `}
+`
+
+export const Item = styled.div`
+  padding: 2 0 4;
+  opacity: 1;
 `
 
 export const Wrapper = styled.div`
@@ -28,14 +36,20 @@ export const Wrapper = styled.div`
 `
 
 export const Label = styled.button`
-  font-size: 5;
-  font-family: serif;
-  position: relative;
-  padding: 3 0;
-  width: 100%;
-  text-align: left;
-  background-color: transparent;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  ${({ theme }) => css`
+    font-size: 5;
+    font-family: serif;
+    position: relative;
+    padding: 3 0;
+    width: 100%;
+    text-align: left;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &:focus-visible {
+      ${theme.focus.left()}
+    }
+  `}
 `

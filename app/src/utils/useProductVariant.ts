@@ -54,7 +54,12 @@ export const useProductVariant = (
    */
 
   const findVariant = (variantId: string) => {
-    const variant = variants.find((v) => v.shopifyVariantID === variantId)
+    const convertedVariantId = /gid:\/\/shopify\//.test(variantId)
+      ? variantId
+      : atob(variantId)
+    const variant = variants.find(
+      (v) => v.shopifyVariantID === convertedVariantId,
+    )
     if (!variant)
       throw new Error(
         `There is no variant with the id "${variantId}" on the product ${product.title}`,

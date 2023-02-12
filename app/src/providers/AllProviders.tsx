@@ -15,8 +15,6 @@ import { NavigationProvider } from './NavigationProvider'
 import { AnalyticsProvider } from './AnalyticsProvider'
 import { ShopifyProvider } from './ShopifyProvider'
 import { ToastProvider } from './ToastProvider'
-import { BambuserProvider } from './BambuserProvider'
-import { AliveScope } from 'react-activation'
 
 const { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } = config
 
@@ -76,13 +74,9 @@ export const Providers = ({ shopData, children }: Props) => {
                   <NavigationProvider>
                     <CurrencyProvider>
                       <SearchProvider>
-                        <BambuserProvider>
-                          <ErrorDisplay />
-                          <GlobalStyles />
-                          <ModalProvider>
-                            <AliveScope>{children}</AliveScope>
-                          </ModalProvider>
-                        </BambuserProvider>
+                        <ErrorDisplay />
+                        <GlobalStyles />
+                        <ModalProvider>{children}</ModalProvider>\{' '}
                       </SearchProvider>
                     </CurrencyProvider>
                   </NavigationProvider>

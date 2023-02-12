@@ -1,10 +1,13 @@
 import * as React from 'react'
-import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   ShopifyCollection,
   ShopifyProduct,
   CollectionBlock as CollectionBlockType,
+  Filter as FilterType,
+  FilterSet as FilterSetType,
+  InventoryFilter as InventoryFilterType,
+  PriceRangeFilter as PriceRangeFilterType,
   FilterConfiguration,
   FilterMatch,
   PRICE_RANGE_FILTER,
@@ -104,36 +107,30 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         }, definitely(productResults))
       : definitely(productResults),
   )
+  const collectionBlocksLength = collectionBlocks?.length || 0
 
   const gridRef = useRef<HTMLDivElement>(null)
   const { isInView } = useInViewport(gridRef, '500px 0px')
 
-  const { productListingSettings } = useShopData()
+  const { productListingSettings, productInfoSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [loading, setLoading] = useState(false)
   const [resetFilters, doResetFilters] = useState(0)
+  const [filters, setFilters] = useState<
+    | (
+        | FilterType
+        | FilterSetType
+        | InventoryFilterType
+        | PriceRangeFilterType
+      )[]
+    | null
+  >(null)
   const [currentFilters, setCurrentFilters] =
     useState<FilterConfiguration | null>(null)
   const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
     ShopifyCollection[] | ShopifyProductListingProduct[],
     PaginationArgs
   >()
-  const defaultFilter = productListingSettings?.newDefaultFilter
-  const defaultFilters = definitely(defaultFilter).filter(
-    (f) => !Boolean('searchOnly' in f && f.searchOnly),
-  )
-  const customFilter = collection?.customFilter
-  const customFilters = definitely(customFilter).filter(
-    (f) => !Boolean('searchOnly' in f && f.searchOnly),
-  )
-  const filters = overrideDefaultFilter
-    ? [...customFilters]
-    : [...customFilters, ...defaultFilters]
-
-  filters.map((filter) => {
-    if (filter._type === 'inventoryFilter')
-      filters.push(filters.splice(filters.indexOf(filter), 1)[0])
-  })
 
   if (!handle) {
     throw new Error('The collection is missing a handle')
@@ -142,9 +139,27 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
-  // const router = useRouter()
-  // const { query } = useRouter()
-  // console.log('router params', router.query)
+  const excludedProducts = productInfoSettings?.excludeFromStockIndication
+
+  useEffect(() => {
+    const defaultFilter = productListingSettings?.newDefaultFilter
+    const defaultFilters = definitely(defaultFilter).filter(
+      (f) => !Boolean('searchOnly' in f && f.searchOnly),
+    )
+    const customFilter = collection?.customFilter
+    const customFilters = definitely(customFilter).filter(
+      (f) => !Boolean('searchOnly' in f && f.searchOnly),
+    )
+    const filters = overrideDefaultFilter
+      ? [...customFilters]
+      : [...customFilters, ...defaultFilters]
+
+    filters.map((filter) => {
+      if (filter._type === 'inventoryFilter')
+        filters.push(filters.splice(filters.indexOf(filter), 1)[0])
+    })
+    setFilters(filters)
+  }, [])
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
   const description = descriptionRaw ? descriptionRaw.slice(1) : null
@@ -179,11 +194,15 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       case 'subcategory':
         return product.filterData.subcategory.includes(match)
       case 'metal':
-        return product.filterData.metal.includes(match)
+        const flattenedMetal = product.filterData.metal.toString()
+        return flattenedMetal.includes(match)
+      // return product.filterData.metal.includes(match)
       case 'style':
         return product.filterData.style.includes(match)
       case 'stone':
-        return product.filterData.stone.includes(match)
+        const flattenedStone = product.filterData.stone.toString()
+        return flattenedStone.includes(match)
+      // return product.filterData.stone.includes(match)
       default:
         throw new Error(`"${type}" is not a valid filter type`)
     }
@@ -217,7 +236,13 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           }
         } else if (filterGroup.filterType === INVENTORY_FILTER) {
           const { applyFilter } = filterGroup
-          return applyFilter ? Boolean(p.filterData.inStock == true) : true
+          const handle = p.handle
+          const isInExcludedList = excludedProducts?.find((product) => {
+            return product?.handle === handle
+          })
+          return applyFilter
+            ? Boolean(!isInExcludedList && p.filterData.inStock == true)
+            : true
         } else {
           throw new Error(`This kind of filter cannot be parsed`)
         }
@@ -279,30 +304,16 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     }
   }, [productResults, sort])
 
-  // useEffect(() => {
-  //   console.log('SORTED PRODUCT RESULTS', sortedProductResults)
-  //   setItems(
-  //     collectionBlocks?.length
-  //       ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
-  //           if (!current?.position) return acc
-  //           const index = current.position - 1
-  //           return [...acc.slice(0, index), current, ...acc.slice(index)]
-  //         }, definitely(sortedProductResults))
-  //       : definitely(sortedProductResults),
-  //   )
-  //   console.log('ITEMS', items)
-  // }, [sortedProductResults])
-
-  const applyFilters = async (filters: null | FilterConfiguration) => {
-    setCurrentFilters(filters)
-  }
-
   const scrollGridIntoView = () => {
     gridRef?.current?.scrollIntoView({
       block: 'start',
       inline: 'nearest',
       behavior: 'smooth',
     })
+  }
+
+  const applyFilters = async (filters: null | FilterConfiguration) => {
+    setCurrentFilters(filters)
   }
 
   const applySort = async (sort: Sort) => {
@@ -393,7 +404,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             minimalDisplay={minimalDisplay}
           />
         ) : null}
-        {items.length === 0 && !loading ? (
+        {items.length === collectionBlocksLength && !loading ? (
           <NoResultsWrapper>
             <Heading level={3} textAlign="center" fontStyle="italic">
               No products found

@@ -36,6 +36,12 @@ const FilterSingleWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
   ${({ theme, isApplied }) => css`
     margin: 0;
     cursor: pointer;
+    position: relative;
+
+    &:focus-visible {
+      ${theme.focus.bottom()}
+    }
+
     & > div:first-child {
       min-width: 130px !important;
       text-align: center !important;

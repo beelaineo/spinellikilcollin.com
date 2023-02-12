@@ -1,3 +1,4 @@
+import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { ProductThumb, ProductInfo } from './styled'
 import { ProductThumbnail } from './ProductThumbnail'
@@ -11,9 +12,12 @@ import {
 import { CollectionThumbnail, CollectionBlock } from '../Collection'
 import { Sort } from '../Filter'
 import { definitely } from '../../utils'
+import { useWindowScroll, useMeasure, useDebounce } from 'react-use'
+import { useRouter } from 'next/router'
 
 interface ProductGridWrapperProps {
   reduceColumnCount?: boolean | null
+  ref?: any
 }
 
 const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
@@ -114,6 +118,69 @@ export const ProductGrid = ({
   reduceColumnCount,
   collectionId,
 }: ProductGridProps) => {
+  // const { y } = useWindowScroll()
+
+  // const pageRef = React.useRef(null)
+  // const [height, setHeight] = React.useState(0)
+  // const router = useRouter()
+
+  // const updateQueryParam = (query) => {
+  //   router.replace(
+  //     {
+  //       query: query,
+  //     },
+  //     '',
+  //     { shallow: true },
+  //   )
+  // }
+
+  // // React.useEffect(() => {
+  // //   if (!router.isReady) return
+  // //   console.log('currentFilter', currentFilter)
+  // //   setHeight(pageRef.current.getBoundingClientRect().height)
+  // // }, [currentFilter])
+
+  // console.log('height', height)
+
+  // React.useEffect(() => {
+  //   if (!router.isReady) return
+  //   console.log('calcued', height * parseFloat(router.query.pos as string))
+
+  //   if (router.query.pos) {
+  //     window.scrollTo({
+  //       top: height * parseFloat(router.query.pos as string),
+  //       behavior: 'smooth',
+  //     })
+  //   }
+  // }, [currentFilter])
+
+  // console.log(router.query.pos)
+
+  // useDebounce(
+  //   () => {
+  //     if (!router.isReady) return
+
+  //     setHeight(pageRef.current.getBoundingClientRect().height)
+
+  //     const min = 0
+  //     const max = 1
+
+  //     const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
+
+  //     const yPos = clamp(y / height, min, max)
+
+  //     if (yPos !== 0) {
+  //       updateQueryParam({ ...router.query, pos: yPos.toFixed(3) })
+  //     } else {
+  //       const { pos, ...removeFromQuery } = router.query
+
+  //       updateQueryParam({ ...removeFromQuery })
+  //     }
+  //   },
+  //   250,
+  //   [y],
+  // )
+
   return (
     <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
       {definitely(items).map((item) => {

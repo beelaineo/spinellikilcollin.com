@@ -35,6 +35,7 @@ interface OptionSwatchesProps {
   option: ShopifyProductOption
   variants?: Maybe<Maybe<ShopifyProductVariant>[]>
   stockedOptions?: string[]
+  disableStockIndication?: boolean
   onSwatchHover?: (
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
@@ -56,6 +57,7 @@ export const OptionSwatches = ({
   onSwatchClick,
   isSwatchActive,
   onSwatchHover,
+  disableStockIndication,
 }: OptionSwatchesProps) => {
   const isSwatchCurrentlyInStock = (value, stockedOptions): boolean => {
     return stockedOptions.includes(value._key) ? true : false
@@ -68,6 +70,7 @@ export const OptionSwatches = ({
           key={value._key || 'some-type'}
           as={onSwatchClick ? 'button' : undefined}
           role="button"
+          tabIndex={0}
           clickable={Boolean(onSwatchClick)}
           onClick={onSwatchClick ? onSwatchClick(option, value) : undefined}
           onMouseEnter={
@@ -82,11 +85,12 @@ export const OptionSwatches = ({
             ratio={1}
             sizes="40px"
           />
-          {isSwatchCurrentlyInStock(value, stockedOptions) ? (
+          {/* {disableStockIndication != true &&
+          isSwatchCurrentlyInStock(value, stockedOptions) ? (
             <InStockDot />
           ) : (
             ''
-          )}
+          )} */}
         </SwatchWrapper>
       ))}
     </SwatchesWrapper>
@@ -96,6 +100,7 @@ export const OptionSwatches = ({
 interface ProductSwatchesProps {
   product: ShopifyProduct
   stockedVariants?: Maybe<ShopifySourceProductVariantEdge>[]
+  disableStockIndication?: boolean
   onSwatchHover?: (
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
@@ -124,6 +129,7 @@ export const ProductSwatches = ({
   onSwatchClick,
   onSwatchHover,
   isSwatchActive,
+  disableStockIndication,
 }: ProductSwatchesProps) => {
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -168,6 +174,7 @@ export const ProductSwatches = ({
           onSwatchClick={onSwatchClick}
           onSwatchHover={onSwatchHover}
           isSwatchActive={isSwatchActive}
+          disableStockIndication={disableStockIndication}
         />
       ))}
     </OptionSwatchesWrapper>

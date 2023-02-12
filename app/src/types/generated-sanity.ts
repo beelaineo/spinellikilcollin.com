@@ -401,6 +401,31 @@ export type ContactSorting = {
   seo?: Maybe<SeoSorting>
 }
 
+export interface CrossDatasetReference {
+  __typename: 'CrossDatasetReference'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  _ref?: Maybe<Scalars['String']>
+  _weak?: Maybe<Scalars['Boolean']>
+  _dataset?: Maybe<Scalars['String']>
+}
+
+export type CrossDatasetReferenceFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  _ref?: Maybe<StringFilter>
+  _weak?: Maybe<BooleanFilter>
+  _dataset?: Maybe<StringFilter>
+}
+
+export type CrossDatasetReferenceSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _ref?: Maybe<SortOrder>
+  _weak?: Maybe<SortOrder>
+  _dataset?: Maybe<SortOrder>
+}
+
 export interface Cta {
   __typename: 'Cta'
   _key?: Maybe<Scalars['String']>
@@ -614,6 +639,45 @@ export type DocumentFilter = {
   references?: Maybe<Scalars['ID']>
   /** All documents that are drafts. */
   is_draft?: Maybe<Scalars['Boolean']>
+}
+
+export interface EmailSignatureSettings extends Document {
+  __typename: 'EmailSignatureSettings'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  wordmark?: Maybe<File>
+  signatures?: Maybe<Array<Maybe<Signature>>>
+}
+
+export type EmailSignatureSettingsFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  wordmark?: Maybe<FileFilter>
+}
+
+export type EmailSignatureSettingsSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  wordmark?: Maybe<FileSorting>
 }
 
 export interface EmbedBlock {
@@ -1706,6 +1770,7 @@ export interface ProductInfoSettings extends Document {
   infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
   infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
   tagBadges?: Maybe<Array<Maybe<TagBadge>>>
+  excludeFromStockIndication?: Maybe<Array<Maybe<ShopifyProduct>>>
 }
 
 export type ProductInfoSettingsFilter = {
@@ -1935,6 +2000,7 @@ export interface RootQuery {
   Customize?: Maybe<Customize>
   Birthdays?: Maybe<Birthdays>
   Stone?: Maybe<Stone>
+  EmailSignatureSettings?: Maybe<EmailSignatureSettings>
   ShopifyProduct?: Maybe<ShopifyProduct>
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
@@ -1956,6 +2022,7 @@ export interface RootQuery {
   allCustomize: Array<Customize>
   allBirthdays: Array<Birthdays>
   allStone: Array<Stone>
+  allEmailSignatureSettings: Array<EmailSignatureSettings>
   allShopifyProduct: Array<ShopifyProduct>
   allShopifyCollection: Array<ShopifyCollection>
   allSanityImageAsset: Array<SanityImageAsset>
@@ -2031,6 +2098,10 @@ export type RootQueryBirthdaysArgs = {
 }
 
 export type RootQueryStoneArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryEmailSignatureSettingsArgs = {
   id: Scalars['ID']
 }
 
@@ -2165,6 +2236,13 @@ export type RootQueryAllBirthdaysArgs = {
 export type RootQueryAllStoneArgs = {
   where?: Maybe<StoneFilter>
   sort?: Maybe<Array<StoneSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllEmailSignatureSettingsArgs = {
+  where?: Maybe<EmailSignatureSettingsFilter>
+  sort?: Maybe<Array<EmailSignatureSettingsSorting>>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
 }
@@ -3450,6 +3528,56 @@ export type ShopifySourceSelectedOptionSorting = {
   _type?: Maybe<SortOrder>
   name?: Maybe<SortOrder>
   value?: Maybe<SortOrder>
+}
+
+export interface Signature {
+  __typename: 'Signature'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  role?: Maybe<Scalars['String']>
+  /** e.g. "they/them," "he/him," "she/her" */
+  pronouns?: Maybe<Scalars['String']>
+  email?: Maybe<Scalars['String']>
+  /** e.g. "California" or "New York" */
+  location?: Maybe<Scalars['String']>
+  /** defaults to "Office:" */
+  phone_label?: Maybe<Scalars['String']>
+  phone?: Maybe<Scalars['String']>
+  phone_label_2?: Maybe<Scalars['String']>
+  phone_2?: Maybe<Scalars['String']>
+  /** e.g. "Working hours 9am-5pm PST" */
+  additional_info?: Maybe<Scalars['String']>
+}
+
+export type SignatureFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  role?: Maybe<StringFilter>
+  pronouns?: Maybe<StringFilter>
+  email?: Maybe<StringFilter>
+  location?: Maybe<StringFilter>
+  phone_label?: Maybe<StringFilter>
+  phone?: Maybe<StringFilter>
+  phone_label_2?: Maybe<StringFilter>
+  phone_2?: Maybe<StringFilter>
+  additional_info?: Maybe<StringFilter>
+}
+
+export type SignatureSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  role?: Maybe<SortOrder>
+  pronouns?: Maybe<SortOrder>
+  email?: Maybe<SortOrder>
+  location?: Maybe<SortOrder>
+  phone_label?: Maybe<SortOrder>
+  phone?: Maybe<SortOrder>
+  phone_label_2?: Maybe<SortOrder>
+  phone_2?: Maybe<SortOrder>
+  additional_info?: Maybe<SortOrder>
 }
 
 export interface SiteSettings extends Document {

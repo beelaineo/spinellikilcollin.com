@@ -115,6 +115,10 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         tag
         label
       }
+      excludeFromStockIndication {
+        _id
+        handle
+      }
     }
     SiteSettings(id: "site-settings") {
       _id

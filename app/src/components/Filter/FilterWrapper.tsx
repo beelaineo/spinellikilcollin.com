@@ -56,7 +56,7 @@ const Wrapper = styled.div<WithType>`
         ? css`
             flex: ${minimalDisplay ? '0' : '100%'};
             order: ${minimalDisplay ? 'unset' : '-1'};
-            margin-bottom: ${minimalDisplay ? 'auto' : '49%'};
+            margin-bottom: ${minimalDisplay ? 'auto' : '4'};
           `
         : ''};
     }

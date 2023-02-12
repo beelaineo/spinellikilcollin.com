@@ -22,6 +22,7 @@ const { useEffect, useState } = React
 interface FilterCheckboxProps {
   filter: Filter
   onChange: () => void
+  scrollGridIntoView: () => void
   checked: boolean
   matchKey: string
   hidden: boolean
@@ -31,10 +32,15 @@ const FilterCheckbox = ({
   matchKey,
   filter,
   onChange,
+  scrollGridIntoView,
   checked,
   hidden,
 }: FilterCheckboxProps) => {
   const { label } = filter
+  const handleChange = () => {
+    onChange()
+    scrollGridIntoView()
+  }
   if (hidden === false) {
     return (
       <FilterCheckboxWrapper>
@@ -43,7 +49,7 @@ const FilterCheckbox = ({
           name={matchKey}
           type="checkbox"
           checked={checked}
-          onChange={onChange}
+          onChange={handleChange}
           tabIndex={0}
         />
         <Label color="body.9" htmlFor={matchKey}>
@@ -61,6 +67,7 @@ interface FilterSetProps {
   filterSetState?: FilterSetState
   toggleMatch: (matchKey: string) => () => void
   resetSet: () => void
+  scrollGridIntoView: () => void
   setKey: string
   active: boolean
 }
@@ -73,6 +80,7 @@ export const FilterSet = ({
   filterSet,
   filterSetState,
   toggleMatch,
+  scrollGridIntoView,
   resetSet,
   setKey,
   active,
@@ -82,9 +90,14 @@ export const FilterSet = ({
   }
   const { heading, filters } = filterSet
   const { activeMatchKeys } = filterSetState
-  if (!filters || !filters.length) return null
 
   const [mouseEnter, setMouseEnter] = useState(false)
+  const isMobile = useMedia({
+    maxWidth: `960px`,
+  })
+
+  if (!filters || !filters.length) return null
+
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
 
@@ -100,14 +113,11 @@ export const FilterSet = ({
     })
   }
 
-  const isMobile = useMedia({
-    maxWidth: `960px`,
-  })
   return (
     <FilterSetWrapper
       onMouseEnter={handleMouseEnter}
-      onFocus={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onFocus={handleMouseEnter}
       onBlur={handleBlur}
       active={active}
       tabIndex={0}
@@ -152,12 +162,14 @@ export const FilterSet = ({
               key={filter._key || 'some-key'}
               matchKey={filter._key || 'some-key'}
               onChange={toggleMatch(filter._key || 'some-key')}
+              scrollGridIntoView={scrollGridIntoView}
               filter={filter}
               checked={activeMatchKeys.includes(filter._key || 'foo')}
               hidden={Boolean(
                 (filterSet.heading === 'Type' ||
                   filterSet.heading === 'Bands' ||
-                  filterSet.heading === 'Size') &&
+                  filterSet.heading === 'Size' ||
+                  filterSet.heading === 'Ring Size') &&
                   filter._key &&
                   activeMatchKeys.includes(filter._key),
               )}

@@ -2,7 +2,6 @@ module.exports = {
   presets: ['next/babel'],
   plugins: [
     'inline-react-svg',
-    'react-activation/babel',
     [
       'babel-plugin-styled-components',
       {

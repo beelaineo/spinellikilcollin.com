@@ -17,6 +17,123 @@ export interface SelectedProductOption {
   currentValue: string
 }
 
+const variantOptions = {
+  metal: {
+    s: [
+      'Silver',
+      'silver',
+      'SG',
+      'Gris',
+      'Clara',
+      'Sirius Max MX',
+      'Sirius Max SG',
+      'Capricorn MX',
+      'Capricorn CCW',
+      'Cyllene MX',
+      'Acacia',
+      'Gemini',
+      'Libra',
+      'Cici MX',
+      'Aries SG',
+      'Sagittarius',
+      'Leo MX',
+      'Leo Core',
+      'Nexus',
+      'Atlantis MX',
+      'Argo SG',
+    ],
+    yg: [
+      'Yellow Gold',
+      'yellow gold',
+      'YG',
+      'MX',
+      'Nexus',
+      'Vela Gold',
+      'Akoya Gold',
+      'Vega Gold',
+      'Sirius Max BG',
+      'Sirius Max SG',
+      'Capricorn CCW',
+      'Libra',
+      'Sonny',
+      'Aries Core Gold',
+      'Sagittarius',
+      'Leo',
+      'Rhea',
+      'Casseus',
+      'Atlantis MX',
+    ],
+    rg: [
+      'Rose Gold',
+      'Rhea Gold',
+      'Rhea MX',
+      'Capricorn MX',
+      'Solarium Gold',
+      'Mercury MX',
+      'rose gold',
+      'Dua MX',
+      'Clara',
+      'RG',
+      'Rose',
+      'Acacia',
+      'Gemini SG',
+      'Libra MX',
+      'Sonny MX',
+      'Sonny Gold',
+      'Tigris MX Gris',
+      'Cici MX',
+      'Aries Core Gold',
+      'Sagittarius MX',
+      'Leo',
+      'Casseus SP',
+      'Atlantis MX',
+    ],
+    wg: [
+      'White Gold',
+      'Ceres Gold',
+      'white gold',
+      'Rhea MX',
+      'WG',
+      'Blanc',
+      'Sonny MX',
+    ],
+    bg: ['Black Gold', 'black gold', 'BG', 'Vega Gold'],
+    p: ['Platinum', 'platinum'],
+  },
+  stone: {
+    d: [
+      'Pavé',
+      'Sirius Max MX',
+      'Ovio',
+      'Sagittarius',
+      'Gris',
+      'Libra SP',
+      'Libra MX',
+      'Leo Blac',
+      'Leo MX',
+      'Cancer Deux MX',
+      'Marigold',
+      'Sonny',
+      'Capricorn CCW',
+    ],
+    am: [
+      'Core',
+      'Sagittarius MX',
+      'Pisces SG',
+      'Scorpio SG',
+      'Cancer SG',
+      'Capricorn MX',
+      'Aquarius YG',
+      'Libra SG Core',
+      'Atlantis MX Bracelet',
+      'Atlantis Silver Toggle Bracelet',
+      'Casseus SG',
+    ],
+    g: ['Emerald', 'Petunia', 'Mini Mezzo'],
+    p: ['Pearl'],
+  },
+}
+
 export const isValidSwatchOption = (option: ShopifyProductOption): boolean =>
   definitely(option.values).every(({ swatch }) =>
     Boolean(swatch && swatch.asset),
@@ -51,7 +168,8 @@ const optionHasAvailableVariant = (
   optionName: string,
   optionValue: ShopifyProductOptionValue,
 ): boolean => {
-  const availableVariants = variants.filter((v) => v.availableForSale === true)
+  const availableVariants = variants.filter((v) => v.selectedOptions)
+
   return availableVariants.some((v) =>
     definitely(v.selectedOptions).some(
       (o) => o.name === optionName && o.value === optionValue.value,
@@ -178,15 +296,13 @@ export const getBestVariantBySort = (
   sort?: Sort | null,
   minVariantPrice?: number,
   maxVariantPrice?: number,
+  initialVariant?: ShopifySourceProductVariant,
 ): ShopifySourceProductVariant => {
+  if (sort == Sort.Default && initialVariant) return initialVariant
   const bestVariant = variants.find((v) => {
     if (!v?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
       const price = parseFloat(v.priceV2.amount)
-      console.log(
-        `bestSortVariant ${v.title} ${price}`,
-        Boolean(price == minVariantPrice),
-      )
       return Boolean(price == minVariantPrice)
     } else if (sort == Sort.PriceDesc) {
       const price = parseFloat(v.priceV2.amount)
@@ -209,8 +325,10 @@ export const getBestVariantByFilterMatch = (
   sort?: Sort | null,
   minVariantPrice?: number,
   maxVariantPrice?: number,
+  initialVariant?: ShopifySourceProductVariant,
 ): ShopifySourceProductVariant => {
   const bestColorVariant = variants.find((v) => {
+    v
     const colorMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -219,96 +337,22 @@ export const getBestVariantByFilterMatch = (
           let keywords: string[] = []
           switch (value) {
             case 's':
-              keywords = [
-                'Silver',
-                'silver',
-                'SG',
-                'Gris',
-                'Clara',
-                'Sirius Max MX',
-                'Sirius Max SG',
-                'Capricorn MX',
-                'Capricorn CCW',
-                'Cyllene MX',
-                'Acacia',
-                'Gemini',
-                'Libra',
-                'Cici MX',
-                'Aries SG',
-                'Sagittarius',
-                'Leo MX',
-                'Leo Core',
-                'Nexus',
-                'Atlantis MX',
-                'Argo SG',
-              ]
+              keywords = variantOptions.metal.s
               break
             case 'yg':
-              keywords = [
-                'Yellow Gold',
-                'yellow gold',
-                'YG',
-                'MX',
-                'Nexus',
-                'Vela Gold',
-                'Akoya Gold',
-                'Vega Gold',
-                'Sirius Max BG',
-                'Sirius Max SG',
-                'Capricorn CCW',
-                'Libra',
-                'Sonny',
-                'Aries Core Gold',
-                'Sagittarius',
-                'Leo',
-                'Rhea',
-                'Casseus',
-                'Atlantis MX',
-              ]
+              keywords = variantOptions.metal.yg
               break
             case 'rg':
-              keywords = [
-                'Rose Gold',
-                'Rhea Gold',
-                'Rhea MX',
-                'Capricorn MX',
-                'Solarium Gold',
-                'Mercury MX',
-                'rose gold',
-                'Dua MX',
-                'Clara',
-                'RG',
-                'Rose',
-                'Acacia',
-                'Gemini SG',
-                'Libra MX',
-                'Sonny MX',
-                'Sonny Gold',
-                'Tigris MX Gris',
-                'Cici MX',
-                'Aries Core Gold',
-                'Sagittarius MX',
-                'Leo',
-                'Casseus SP',
-                'Atlantis MX',
-              ]
+              keywords = variantOptions.metal.rg
               break
             case 'wg':
-              keywords = [
-                'White Gold',
-                'Ceres Gold',
-                'white gold',
-                'Rhea MX',
-                'WG',
-                'Blanc',
-                'Sonny MX',
-              ]
+              keywords = variantOptions.metal.wg
               break
             case 'bg':
-              keywords = ['Black Gold', 'black gold', 'BG', 'Vega Gold']
+              keywords = variantOptions.metal.bg
               break
             case 'p':
-              keywords = ['Platinum', 'platinum']
+              keywords = variantOptions.metal.p
               break
             default:
               break
@@ -338,42 +382,16 @@ export const getBestVariantByFilterMatch = (
           let keywords: string[] = []
           switch (value) {
             case 'd':
-              keywords = [
-                'Pavé',
-                'Sirius Max MX',
-                'Ovio',
-                'Sagittarius',
-                'Gris',
-                'Libra SP',
-                'Libra MX',
-                'Leo Blac',
-                'Leo MX',
-                'Cancer Deux MX',
-                'Marigold',
-                'Sonny',
-                'Capricorn CCW',
-              ]
+              keywords = variantOptions.stone.d
               break
             case 'am':
-              keywords = [
-                'Core',
-                'Sagittarius MX',
-                'Pisces SG',
-                'Scorpio SG',
-                'Cancer SG',
-                'Capricorn MX',
-                'Aquarius YG',
-                'Libra SG Core',
-                'Atlantis MX Bracelet',
-                'Atlantis Silver Toggle Bracelet',
-                'Casseus SG',
-              ]
+              keywords = variantOptions.stone.am
               break
             case 'g':
-              keywords = ['Emerald', 'Petunia', 'Mini Mezzo']
+              keywords = variantOptions.stone.g
               break
             case 'p':
-              keywords = ['Pearl']
+              keywords = variantOptions.stone.p
               break
             default:
               break
@@ -462,10 +480,6 @@ export const getBestVariantByFilterMatch = (
     if (!v?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
       const price = parseFloat(v.priceV2.amount)
-      console.log(
-        `bestSortVariant ${v.title} ${price}`,
-        Boolean(price == minVariantPrice),
-      )
       return Boolean(price == minVariantPrice)
     } else if (sort == Sort.PriceDesc) {
       const price = parseFloat(v.priceV2.amount)
@@ -574,10 +588,17 @@ export const getProductUri = (
   const existingParams = matches && matches[1] ? matches[1] : undefined
   const newParams = new URLSearchParams(existingParams)
   const variantId = getVariantId(variant)
+  const convertedId =
+    variantId && /gid:\/\/shopify\//.test(variantId)
+      ? btoa(variantId)
+      : variantId
+  newParams.delete('stone')
+  newParams.delete('metal')
+  newParams.delete('pos')
   newParams.delete('search')
   newParams.delete('v')
-  if (variant && variantId) {
-    newParams.set('v', variantId)
+  if (variant && convertedId) {
+    newParams.set('v', convertedId)
   }
   if (params) {
     Object.entries(params).forEach(([k, v]) => newParams.set(k, v))
@@ -609,7 +630,9 @@ export const getStorefrontId = (
  * returns a numeric Shopify ID when given a storefrontId
  */
 export const getProductIdFromStorefrontId = (storefrontId: string): string => {
-  const converted = atob(storefrontId)
+  const converted = /gid:\/\/shopify\//.test(storefrontId)
+    ? storefrontId
+    : atob(storefrontId)
   if (!/gid:\/\/shopify\//.test(converted)) {
     throw new Error(`Converted ID "${converted}" is not a valid Shopify ID`)
   }
