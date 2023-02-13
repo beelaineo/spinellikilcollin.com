@@ -1,66 +1,8 @@
 import * as React from 'react'
-import gql from 'graphql-tag'
 import { ShopifyCollection } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
 import { definitely, useViewportSize } from '../../utils'
-import { useLazyRequest, shopifySourceImageFragment } from '../../graphql'
-
-const { useEffect } = React
-
-const query = gql`
-  query CarouselCollectionQuery($collectionId: ID!) {
-    allShopifyCollection(where: { _id: { eq: $collectionId } }) {
-      __typename
-      _id
-      _type
-      _key
-      title
-      handle
-      archived
-      shopifyId
-      products {
-        __typename
-        _id
-        _key
-        title
-        hidden
-        hideFromSearch
-        handle
-        archived
-        shopifyId
-        minVariantPrice
-        maxVariantPrice
-        sourceData {
-          __typename
-          id
-          title
-          handle
-          tags
-          productType
-          images {
-            __typename
-            edges {
-              __typename
-              cursor
-              node {
-                ...ShopifySourceImageFragment
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-  ${shopifySourceImageFragment}
-`
-
-interface Response {
-  allShopifyCollection: ShopifyCollection[]
-}
-interface Variables {
-  collectionId: string | null | undefined
-}
 
 interface CollectionCarouselProps {
   collection: ShopifyCollection
@@ -70,8 +12,7 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
   const products = collection?.products
   const { width: viewportWidth } = useViewportSize()
 
-  if (!products.length) return
-
+  if (!products?.length) return
 
   const initialSlide = viewportWidth < 650 ? 1 : 0
   return (
