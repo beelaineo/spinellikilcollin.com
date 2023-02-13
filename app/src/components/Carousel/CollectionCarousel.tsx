@@ -12,7 +12,7 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
   const products = collection?.products
   const { width: viewportWidth } = useViewportSize()
 
-  if (!products?.length) return
+  if (!products?.length) return null
 
   const initialSlide = viewportWidth < 650 ? 1 : 0
   return (
