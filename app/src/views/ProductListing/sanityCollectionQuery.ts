@@ -131,13 +131,37 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
 		keywords,
 	},
   hero {
+    ...,
     image {
-  		asset->,
-      ...,
+       ...,
+      _type,
+      asset->{
+        _id,
+        _type,
+        _key,
+        extension,
+        path,
+        url,
+        metadata {
+          dimensions
+        },
+      },
     },
     mobileImage {
-      asset->,
-      ...,
+      _type,
+      asset->{
+        _id,
+        _type,
+        _key,
+        extension,
+        path,
+        url,
+        metadata {
+          dimensions
+        },
+      },
+      crop,
+      hotspot,
     },
     "bodyRaw": body,
     "body_mobileRaw": body_mobile,
@@ -148,7 +172,6 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
         document->
       }
     },
-    ...,
   },
   "products": products[!(@->_id in path("drafts.**")) && @->hidden!=true && (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))]-> | order(${getSortString(
     sort,
