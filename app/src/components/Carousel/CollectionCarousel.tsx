@@ -87,6 +87,10 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
 
   const fetchedCollection = data?.allShopifyCollection[0]
 
+  const products = collectionProducts
+    ? collectionProducts
+    : definitely(fetchedCollection?.products)
+
   if (!products?.length) return null
 
   const initialSlide = viewportWidth < 650 ? 1 : 0
