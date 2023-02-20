@@ -58,7 +58,6 @@ const RichTextWrapper = styled.div<WithArticle>`
     }
 
     h4:has(a) {
-      width: fit-content;
       margin: 2 auto 0.5em;
 
       a:focus-visible {
@@ -96,7 +95,6 @@ const RichTextWrapper = styled.div<WithArticle>`
     }
 
     p:has(span) {
-      width: fit-content;
       margin: 2 auto 0.5em;
 
       span:focus-visible {
@@ -106,7 +104,6 @@ const RichTextWrapper = styled.div<WithArticle>`
     }
 
     p:has(a) {
-      width: fit-content;
       margin: 2 auto 0.5em;
 
       > a:focus-visible {
