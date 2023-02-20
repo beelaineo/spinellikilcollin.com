@@ -21,7 +21,7 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   useEffect(() => {
     if (!refContainer.current) return
     updateHeight(refContainer.current.clientHeight)
-  })
+  }, [height, children])
 
   useEffect(() => {
     if (open) return
