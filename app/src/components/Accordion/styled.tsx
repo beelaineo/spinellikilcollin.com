@@ -16,15 +16,15 @@ export const Inner = styled.div`
           opacity: 1;
           visibility: visible;
 
-          transition: height 0.4s cubic-bezier(0.65, 0, 0.35, 1),
-            opacity 0.4s linear, visibility 0s linear;
+          transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+            opacity 0.5s linear, visibility 0s linear;
         `
       : css`
           height: 0;
           opacity: 0;
           visibility: hidden;
-          transition: height 0.4s cubic-bezier(0.65, 0, 0.35, 1),
-            opacity 0.4s linear, visibility 0s linear 0.4s;
+          transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+            opacity 0.5s linear, visibility 0s linear 0.5s;
         `};
   `}
 `

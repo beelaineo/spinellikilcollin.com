@@ -14,9 +14,14 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
   const toggleOpen = () => setOpen(!open)
 
-  const [refContainer, { height }] = useMeasure()
+  const [height, updateHeight] = React.useState(0)
 
-  const additionalPadding = 20
+  const refContainer = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!refContainer.current) return
+    updateHeight(refContainer.current.clientHeight)
+  })
 
   useEffect(() => {
     if (open) return
@@ -32,7 +37,7 @@ export const Accordion = ({ label, children }: AccordionProps) => {
         {label}
         <PlusMinus open={open} />
       </Label>
-      <Inner tabIndex={-1} open={open} height={height + additionalPadding}>
+      <Inner tabIndex={-1} open={open} height={height}>
         <Item ref={refContainer}>{children}</Item>
       </Inner>
     </Wrapper>
