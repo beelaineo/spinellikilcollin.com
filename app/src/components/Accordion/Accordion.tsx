@@ -1,5 +1,6 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
+import { useMeasure } from 'react-use'
 import { Label, Wrapper, Inner, Item } from './styled'
 import { useEffect, useRef } from 'react'
 import { PlusMinus } from '../PlusMinus'
@@ -11,15 +12,11 @@ interface AccordionProps {
 
 export const Accordion = ({ label, children }: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
-  const [height, updateHeight] = React.useState(0)
   const toggleOpen = () => setOpen(!open)
 
-  const refContainer = useRef<HTMLDivElement>(null)
+  const [refContainer, { height }] = useMeasure()
 
-  useEffect(() => {
-    if (!refContainer.current) return
-    updateHeight(refContainer.current.clientHeight)
-  }, [open, refContainer])
+  const additionalPadding = 20
 
   useEffect(() => {
     if (open) return
@@ -30,12 +27,12 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   }, [label])
 
   return (
-    <Wrapper onFocus={() => setOpen(true)}>
+    <Wrapper>
       <Label onClick={toggleOpen}>
         {label}
         <PlusMinus open={open} />
       </Label>
-      <Inner tabIndex={-1} open={open} height={height}>
+      <Inner tabIndex={-1} open={open} height={height + additionalPadding}>
         <Item ref={refContainer}>{children}</Item>
       </Inner>
     </Wrapper>
