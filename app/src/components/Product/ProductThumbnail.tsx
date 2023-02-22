@@ -316,13 +316,14 @@ export const ProductThumbnail = ({
       //@ts-ignore
       const inventoryFilterIsInactive = inventoryFilter?.applyFilter == false
 
-      const isNotDefaultFilter = (filter) => {
+      const isDefaultFilter = (filter) => {
         return Boolean(
-          filter.filterType != 'PRICE_RANGE_FILTER' || 'INVENTORY_FILTER',
+          filter.filterType === 'PRICE_RANGE_FILTER' &&
+            filter.filterType === 'INVENTORY_FILTER',
         )
       }
 
-      const filtersAreDefault = currentFilter.some((f) => isNotDefaultFilter(f))
+      const filtersAreDefault = currentFilter.some((f) => isDefaultFilter(f))
 
       if (
         priceRangeFilterIsDefault &&
