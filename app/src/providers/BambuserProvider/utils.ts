@@ -58,7 +58,7 @@ export const queryByHandle = async (handle: string) => {
     const product = products && products.length ? products[0] : null
     return product
   } catch (e) {
-    Sentry.captureException(e)
+    Sentry.captureException(e, 'shopify_query_error')
     return null
   }
 }

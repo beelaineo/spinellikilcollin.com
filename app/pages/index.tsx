@@ -117,7 +117,6 @@ export const Homepage = ({ homepage }: HomepageProps) => {
       return <HomepageView homepage={homepage} />
     }
   } catch (e) {
-    Sentry.captureException(e)
     return <NotFound />
   }
 }
@@ -127,12 +126,19 @@ export const Homepage = ({ homepage }: HomepageProps) => {
  */
 
 export const getStaticProps: GetStaticProps = async () => {
-  const [response, shopData] = await Promise.all([
-    request<HomepageResponse>(homepageQuery),
-    requestShopData(),
-  ])
-  const homepage = response?.Homepage || null
-  return { props: { shopData, homepage }, revalidate: 10 }
+  try {
+    const [response, shopData] = await Promise.all([
+      request<HomepageResponse>(homepageQuery),
+      requestShopData(),
+    ])
+    const homepage = response?.Homepage || null
+    return { props: { shopData, homepage }, revalidate: 10 }
+  } catch (e) {
+    Sentry.captureException(e, 'next_static_props_error', {
+      route: 'index',
+    })
+    return { props: {}, revalidate: 1 }
+  }
 }
 
 export default Homepage

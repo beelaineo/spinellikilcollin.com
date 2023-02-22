@@ -66,7 +66,7 @@ export const useRequest = <R, V extends Variables = Variables>(
       request<R>(q, variables),
     )
   } catch (e: any | unknown) {
-    handleError(e)
+    handleError(e, 'graphql_request_error', { query, variables })
   }
 }
 
@@ -93,7 +93,7 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
       const result = await request<R>(query, variables)
       response.mutate(result, false)
     } catch (e: any | unknown) {
-      handleError(e)
+      handleError(e, 'graphql_request_error', { query, variables })
     }
   }
 
