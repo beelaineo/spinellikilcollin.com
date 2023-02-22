@@ -182,7 +182,6 @@ const Product = ({ product }: ProductPageProps) => {
       return <ProductDetail key={product._id || 'some-key'} product={product} />
     }
   } catch (e) {
-    Sentry.captureException(e)
     return <NotFound />
   }
 }
@@ -192,12 +191,12 @@ const Product = ({ product }: ProductPageProps) => {
  */
 
 export const getStaticProps: GetStaticProps = async (ctx) => {
-  try {
-    const { params } = ctx
-    if (!params?.productSlug) return { props: { product: undefined } }
-    const handle = getParam(params.productSlug)
-    const variables = { handle }
+  const { params } = ctx
+  if (!params?.productSlug) return { props: { product: undefined } }
+  const handle = getParam(params.productSlug)
+  const variables = { handle }
 
+  try {
     const [response, shopData] = await Promise.all([
       request<Response>(productQueryByHandle, variables),
       requestShopData(),
@@ -207,7 +206,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
     return { props: { product, shopData }, revalidate: 10 }
   } catch (e) {
-    Sentry.captureException(e)
+    Sentry.captureException(e, 'next_static_props_error', {
+      route: 'products/[productSlug]',
+      handle,
+    })
     return { props: {}, revalidate: 1 }
   }
 }
@@ -243,7 +245,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
       fallback: true,
     }
   } catch (e) {
-    Sentry.captureException(e)
+    Sentry.captureException(e, 'next_static_paths_error', {
+      route: 'products/[productSlug]',
+    })
     return { paths: [], fallback: true }
   }
 }

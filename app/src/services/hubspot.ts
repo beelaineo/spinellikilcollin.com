@@ -72,9 +72,6 @@ export const submitToHubspot = async (
       throw response
     }
   } catch (err: any | unknown) {
-    Sentry.setContext('hubspotResponse', err)
-    Sentry.setContext('hubspotFormData', { body })
-    Sentry.configureScope((scope) => scope.setTag('integration', 'hubspot'))
-    Sentry.captureException(err)
+    Sentry.captureException(err, 'hubspot_error', { hubspotFormData: body })
   }
 }

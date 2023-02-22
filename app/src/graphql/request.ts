@@ -33,7 +33,12 @@ export const request = async <R, V extends Variables = Variables>(
     return result
   } catch (err: any | unknown) {
     console.error(err?.response)
-    throw new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
+    const error =
+      err instanceof Error
+        ? err
+        : new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
+
+    throw error
   }
 }
 
@@ -51,8 +56,13 @@ export const requestTokenized = async <R, V extends Variables = Variables>(
     )
     return result
   } catch (err: any | unknown) {
-    console.error(err.response)
-    throw new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
+    console.error(err?.response)
+    const error =
+      err instanceof Error
+        ? err
+        : new Error(`Network error: Failed to connect to ${SANITY_GRAPHQL_URL}`)
+
+    throw error
   }
 }
 
@@ -66,7 +76,7 @@ export const useRequest = <R, V extends Variables = Variables>(
       request<R>(q, variables),
     )
   } catch (e: any | unknown) {
-    handleError(e)
+    handleError(e, 'graphql_request_error', { query, variables })
   }
 }
 
@@ -93,7 +103,7 @@ export const useLazyRequest = <R, V extends Variables = Variables>(
       const result = await request<R>(query, variables)
       response.mutate(result, false)
     } catch (e: any | unknown) {
-      handleError(e)
+      handleError(e, 'graphql_request_error', { query, variables })
     }
   }
 

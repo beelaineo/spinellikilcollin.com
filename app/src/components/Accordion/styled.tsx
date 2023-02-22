@@ -8,16 +8,23 @@ interface WithOpen {
 
 export const Inner = styled.div`
   ${({ open, height }: WithOpen) => css`
-    transition: height 600ms cubic-bezier(0.65, 0, 0.35, 1),
-      opacity 600ms linear;
+    overflow: hidden;
+
     ${open
       ? css`
           height: ${height};
           opacity: 1;
+          visibility: visible;
+
+          transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+            opacity 0.5s linear, visibility 0s linear;
         `
       : css`
           height: 0;
           opacity: 0;
+          visibility: hidden;
+          transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+            opacity 0.5s linear, visibility 0s linear 0.5s;
         `};
   `}
 `
@@ -29,7 +36,6 @@ export const Item = styled.div`
 
 export const Wrapper = styled.div`
   border-top: 1px solid;
-
   &:last-of-type {
     border-bottom: 1px solid;
   }

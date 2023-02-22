@@ -24,6 +24,7 @@ import {
   getBestVariantByMatch,
   getBestVariantByFilterMatch,
   definitely,
+  withTypenames,
   getBestVariantBySort,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
@@ -33,6 +34,8 @@ import { CloudinaryAnimation } from '../CloudinaryVideo'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { Sort } from '../Filter'
+import { useShopData } from '../../providers/ShopDataProvider'
+import { sanityClient } from '../../services/sanity'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -121,6 +124,8 @@ export const ProductThumbnail = ({
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
   const { sendProductImpression, sendProductClick } = useAnalytics()
+  const { productInfoSettings, productListingSettings } = useShopData()
+
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
@@ -158,6 +163,8 @@ export const ProductThumbnail = ({
 
   const [playing, setPlaying] = useState(false)
 
+  const [disableStockIndication, setDisableStockIndication] = useState(true)
+
   useEffect(() => {
     const initialSwatchValue = initialVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Color',
@@ -169,8 +176,6 @@ export const ProductThumbnail = ({
     const initialColorOption = colorOption?.[0]?.values?.filter(
       (o) => o?.value == initialSwatchValue,
     )[0]
-
-    // console.log('initialColorOption', initialColorOption)
 
     if (initialColorOption?.animation) {
       const variantAnimation: VariantAnimation = {
@@ -184,7 +189,6 @@ export const ProductThumbnail = ({
   }, [])
 
   useEffect(() => {
-    // console.log('currentVariant', currentVariant)
     const currentSwatchValue = currentVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Color',
     )[0]?.value
@@ -205,15 +209,6 @@ export const ProductThumbnail = ({
     } else {
       setVariantAnimation(undefined)
     }
-    // if (value?.animation) {
-    //   const variantAnimation: VariantAnimation = {
-    //     __typename: 'CloudinaryVideo',
-    //     videoId: value.animation,
-    //   }
-    //   setVariantAnimation(variantAnimation)
-    // } else {
-    //   setVariantAnimation(undefined)
-    // }
   }, [currentVariant])
 
   const handleClick = () => {
@@ -289,47 +284,98 @@ export const ProductThumbnail = ({
     const maxVariantPrice = product?.maxVariantPrice || 0
 
     if (currentFilter) {
+      // console.log('current productListingSettings', productListingSettings)
+      const defaultPriceRangeFilter =
+        productListingSettings?.newDefaultFilter?.find(
+          (f) => f?.__typename == 'PriceRangeFilter',
+        )
       //@ts-ignore
-      const filters: FilterProps[] = currentFilter
-        .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
-        .map((filter, i) => {
-          const { filterType } = filter
-          if (
-            filterType === 'FILTER_MATCH_GROUP' ||
-            filterType === 'FILTER_SINGLE'
-          ) {
-            const { matches } = filter
-            const newMatches = matches.map((matchGroup) => {
-              const { type, match } = matchGroup
-              if (typeof type == 'string' && typeof match == 'string')
-                return { name: type, value: match }
-            })
-            return newMatches
-          } else if (filterType === 'INVENTORY_FILTER') {
-            const newFilter = {
-              name: 'inventory',
-              value: filter.applyFilter,
-            }
-            return newFilter
-          }
-        })
-        .flat()
-        .reverse()
-
-      const filteredVariant = getBestVariantByFilterMatch(
-        variants,
-        filters,
-        currentSort,
-        minVariantPrice,
-        maxVariantPrice,
+      const defaultMinPrice = defaultPriceRangeFilter?.minPrice
+      //@ts-ignore
+      const defaultMaxPrice = defaultPriceRangeFilter?.maxPrice
+      // console.log('current defaultMinPrice', defaultMinPrice)
+      // console.log('current defaultMaxPrice', defaultMaxPrice)
+      // console.log('currentFilter that messes up initialVariant', currentFilter)
+      const priceRangeFilter = currentFilter.find(
+        (f) => f?.filterType == 'PRICE_RANGE_FILTER',
       )
-      setCurrentVariant(filteredVariant)
+      const inventoryFilter = currentFilter.find(
+        (f) => f?.filterType == 'INVENTORY_FILTER',
+      )
+      const priceRangeFilterIsDefault =
+        //@ts-ignore
+        priceRangeFilter?.minPrice == defaultMinPrice &&
+        //@ts-ignore
+        priceRangeFilter?.maxPrice == defaultMaxPrice
+          ? true
+          : false
+      // console.log(
+      //   'current priceRangeFilterIsDefault',
+      //   priceRangeFilterIsDefault,
+      // )
+      //@ts-ignore
+      const inventoryFilterIsInactive = inventoryFilter?.applyFilter == false
+
+      const isNotDefaultFilter = (filter) => {
+        return Boolean(
+          filter.filterType != 'PRICE_RANGE_FILTER' || 'INVENTORY_FILTER',
+        )
+      }
+
+      const filtersAreDefault = currentFilter.some((f) => isNotDefaultFilter(f))
+
+      if (
+        priceRangeFilterIsDefault &&
+        inventoryFilterIsInactive &&
+        filtersAreDefault &&
+        initialVariant
+      ) {
+        setCurrentVariant(initialVariant)
+      } else {
+        //@ts-ignore
+        const filters: FilterProps[] = currentFilter
+          .filter((filter) => filter.filterType !== 'PRICE_RANGE_FILTER')
+          .map((filter, i) => {
+            const { filterType } = filter
+            if (
+              filterType === 'FILTER_MATCH_GROUP' ||
+              filterType === 'FILTER_SINGLE'
+            ) {
+              const { matches } = filter
+              const newMatches = matches.map((matchGroup) => {
+                const { type, match } = matchGroup
+                if (typeof type == 'string' && typeof match == 'string')
+                  return { name: type, value: match }
+              })
+              return newMatches
+            } else if (filterType === 'INVENTORY_FILTER') {
+              const newFilter = {
+                name: 'inventory',
+                value: filter.applyFilter,
+              }
+              return newFilter
+            }
+          })
+          .flat()
+          .reverse()
+
+        const filteredVariant = getBestVariantByFilterMatch(
+          variants,
+          filters,
+          currentSort,
+          minVariantPrice,
+          maxVariantPrice,
+          initialVariant,
+        )
+        setCurrentVariant(filteredVariant)
+      }
     } else if (currentSort) {
       const filteredVariant = getBestVariantBySort(
         variants,
         currentSort,
         minVariantPrice,
         maxVariantPrice,
+        initialVariant,
       )
       setCurrentVariant(filteredVariant)
     }
@@ -344,6 +390,48 @@ export const ProductThumbnail = ({
       )
     },
   )
+
+  const sanityBooleanQuery = async <R = boolean,>(
+    query: string,
+    params?: Record<string, any>,
+  ): Promise<R> => {
+    const results = await sanityClient.fetch<R>(query, params || {})
+    // @ts-ignore
+    return withTypenames<R>(results)
+  }
+
+  useEffect(() => {
+    const productIsExcluded = async (
+      product: ShopifyProduct,
+    ): Promise<boolean> => {
+      const productIsExcluded = await sanityBooleanQuery(
+        `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
+        { handle: product?.handle },
+      )
+      return Boolean(productIsExcluded)
+    }
+
+    const isExcludedFromStockIndication = (product: ShopifyProduct) => {
+      const excludedProducts = productInfoSettings?.excludeFromStockIndication
+      const handle = product?.handle
+      const isInExcludedList = excludedProducts?.find((product) => {
+        return product?.handle === handle
+      })
+      if (!isInExcludedList) {
+        setDisableStockIndication(false)
+        return
+      }
+      productIsExcluded(product).then((res: boolean) => {
+        setDisableStockIndication(res)
+      })
+    }
+
+    isExcludedFromStockIndication(product)
+  }, [
+    productInfoSettings?.excludeFromStockIndication,
+    product,
+    disableStockIndication,
+  ])
 
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
     if (!product?.sourceData) return false
@@ -402,7 +490,8 @@ export const ProductThumbnail = ({
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
                 {/* {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) ? (
+                !IsDisplayingSwatches(product) &&
+                disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
@@ -427,12 +516,13 @@ export const ProductThumbnail = ({
                 level={headingLevel || 3}
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
-                {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) ? (
+                {/* {isProductCurrentlyInStock(product) &&
+                !IsDisplayingSwatches(product) &&
+                disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
-                )}
+                )} */}
                 {product.title}
               </TitleHeading>
             )}
@@ -443,6 +533,7 @@ export const ProductThumbnail = ({
                   isSwatchActive={isSwatchActive}
                   product={product}
                   stockedVariants={stockedVariants}
+                  disableStockIndication={disableStockIndication}
                 />
               </div>
             ) : (
