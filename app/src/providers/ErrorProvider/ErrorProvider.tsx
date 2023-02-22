@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Sentry } from '../../services/sentry'
+import { Sentry, SentryEvent } from '../../services/sentry'
 import { useErrorReducer } from './reducer'
 import { parseError } from './parseError'
 
@@ -8,7 +8,11 @@ const { useEffect } = React
 interface ErrorContextValue {
   errorMessage: string | React.ReactNode | undefined
   isFatal?: boolean
-  handleError: (error: Error) => void
+  handleError: (
+    error: Error,
+    event: SentryEvent,
+    extra?: Record<string, any>,
+  ) => void
   clearError: () => void
 }
 
@@ -42,14 +46,17 @@ export const ErrorProvider = ({ children, error: parentError }: ErrorProps) => {
     } else {
       reset()
     }
-  }, [parentError])
+  }, [parentError, reset, setError])
 
-  const handleError = (error: Error, scope?: any) => {
+  const handleError = (
+    error: Error,
+    eventType: SentryEvent,
+    extra?: Record<string, any>,
+  ) => {
     const args = parseError(error)
 
     if (args.isFatal) {
-      if (scope) Sentry.configureScope(scope)
-      Sentry.captureException(error)
+      Sentry.captureException(error, eventType, extra)
     }
     setError(args)
   }
