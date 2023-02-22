@@ -34,6 +34,12 @@ const SentryInitializer =
     ? NodeSentryInitializer
     : BrowserSentryInitializer
 
+const SentryErrorsToIgnore = [
+  /^Hydration failed/,
+  /error while hydrating/,
+  /does not match server-rendered HTML/,
+]
+
 const getClient = () => {
   if (ENV === 'production' || ENV === 'staging' || FORCE) {
     if (!SENTRY_DSN) throw new Error('No Sentry DSN supplied')
@@ -45,6 +51,17 @@ const getClient = () => {
           root: global.__rootdir__,
         }),
       ],
+      beforeSend: (event) => {
+        const referer =
+          event?.request?.headers?.referer || event?.request?.headers?.Referer
+        if (
+          referer &&
+          SentryErrorsToIgnore.some((regExp) => regExp.test(referer))
+        ) {
+          return null
+        }
+        return event
+      },
     })
     return SentryInitializer
   } else {
