@@ -1,6 +1,7 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { SelectElement } from '../Forms/Fields/styled'
+import { useAnalytics } from '../../providers'
 
 export enum Sort {
   // DateAsc = 'Newest',
@@ -39,10 +40,13 @@ const getSortValue = (value: string): Sort => {
 }
 
 export const SortSet = ({ applySort }: SortButtonProps) => {
+  const { sendFilterClick } = useAnalytics()
+
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
     const sortValue = getSortValue(value)
     applySort(sortValue)
+    sendFilterClick()
   }
 
   return (

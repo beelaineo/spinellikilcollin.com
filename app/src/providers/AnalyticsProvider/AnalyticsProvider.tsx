@@ -14,6 +14,7 @@ import { SelectedProduct, EventType, GTagEvent } from './types'
 const { useEffect } = React
 
 interface AnalyticsContextValue {
+  sendFilterClick: () => void
   sendProductImpression: (
     products: SelectedProduct | SelectedProduct[],
     list?: string,
@@ -70,6 +71,12 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
   }
 
   useEffect(() => sendPageView(asPath), [asPath])
+
+  const sendFilterClick: AnalyticsContextValue['sendFilterClick'] = () => {
+    sendEvent({
+      event: EventType.FilterClick,
+    })
+  }
 
   const sendProductImpression: AnalyticsContextValue['sendProductImpression'] =
     (selected, list) => {
@@ -155,6 +162,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
   }
 
   const value = {
+    sendFilterClick,
     sendProductImpression,
     sendProductClick,
     sendProductDetailView,

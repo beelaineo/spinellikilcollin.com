@@ -47,6 +47,7 @@ export interface EcommerceObject {
 
 export enum EventType {
   Impressions = 'productImpressions',
+  FilterClick = 'filterClick',
   ProductClick = 'productClick',
   ProductDetailView = 'productDetail',
   AddToCart = 'productAddToCart',
@@ -59,6 +60,10 @@ interface ImpressionEvent {
   ecommerce: {
     impressions: EcommerceObject[]
   }
+}
+
+interface FilterClickEvent {
+  event: EventType.FilterClick
 }
 
 interface ProductClickEvent {
@@ -103,6 +108,7 @@ interface BeginCheckoutEvent {
 }
 
 export type GTagEvent =
+  | FilterClickEvent
   | ImpressionEvent
   | ProductClickEvent
   | ProductDetailEvent
