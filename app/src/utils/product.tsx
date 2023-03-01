@@ -41,6 +41,8 @@ const variantOptions = {
       'Nexus',
       'Atlantis MX',
       'Argo SG',
+      'Sirius SG Pavé',
+      'Janssen SG',
     ],
     yg: [
       'Yellow Gold',
@@ -62,6 +64,8 @@ const variantOptions = {
       'Rhea',
       'Casseus',
       'Atlantis MX',
+      'Sirius SG Pavé',
+      'Janssen SG',
     ],
     rg: [
       'Rose Gold',
@@ -78,8 +82,8 @@ const variantOptions = {
       'Acacia',
       'Gemini SG',
       'Libra MX',
-      'Sonny MX',
       'Sonny Gold',
+      'Sonny MX',
       'Tigris MX Gris',
       'Cici MX',
       'Aries Core Gold',
@@ -87,6 +91,9 @@ const variantOptions = {
       'Leo',
       'Casseus SP',
       'Atlantis MX',
+      'Sirius SG Pavé',
+      'Acacia MX',
+      'Janssen MX',
     ],
     wg: [
       'White Gold',
@@ -115,6 +122,7 @@ const variantOptions = {
       'Marigold',
       'Sonny',
       'Capricorn CCW',
+      'Janssen',
     ],
     am: [
       'Core',

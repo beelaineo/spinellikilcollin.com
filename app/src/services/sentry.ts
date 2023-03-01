@@ -34,12 +34,6 @@ const SentryInitializer =
     ? NodeSentryInitializer
     : BrowserSentryInitializer
 
-const SentryErrorsToIgnore = [
-  /^Hydration failed/,
-  /error while hydrating/,
-  /does not match server-rendered HTML/,
-]
-
 const getClient = () => {
   if (ENV === 'production' || ENV === 'staging' || FORCE) {
     if (!SENTRY_DSN) throw new Error('No Sentry DSN supplied')
@@ -51,17 +45,28 @@ const getClient = () => {
           root: global.__rootdir__,
         }),
       ],
-      beforeSend: (event) => {
-        const referer =
-          event?.request?.headers?.referer || event?.request?.headers?.Referer
-        if (
-          referer &&
-          SentryErrorsToIgnore.some((regExp) => regExp.test(referer))
-        ) {
-          return null
-        }
-        return event
-      },
+      /**
+       * Ignore hydration errors when logging to Sentry (until we fix them).
+       *
+       * If you see more errors that should be ignored, open one in Sentry and look for
+       * the description of the "sentry.event" line in the breadcrumbs and find the URL
+       * for the minified react error, then paste it here.
+       *
+       * References:
+       *
+       *  - Github issue: https://github.com/getsentry/sentry-javascript/issues/6295#issuecomment-1352958925
+       *  - Full list of minified error codes: https://github.com/facebook/react/blob/main/scripts/error-codes/codes.json
+       */
+      ignoreErrors: [
+        // Hydration failed because the initial UI does not match what was rendered on the server.
+        'https://reactjs.org/docs/error-decoder.html?invariant=418',
+        // There was an error while hydrating this Suspense boundary. Switched to client rendering.
+        'https://reactjs.org/docs/error-decoder.html?invariant=422',
+        // There was an error while hydrating. Because the error happened outside of a Suspense boundary, the entire root...
+        'https://reactjs.org/docs/error-decoder.html?invariant=423',
+        // Text content does not match server-rendered HTML...
+        'https://reactjs.org/docs/error-decoder.html?invariant=425',
+      ],
     })
     return SentryInitializer
   } else {
