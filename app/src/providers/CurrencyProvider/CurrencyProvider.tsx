@@ -90,7 +90,11 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
       typeof navigator !== 'undefined' ? navigator.language ?? 'en-US' : 'en-US'
 
     const currency =
-      currentCurrency == price.currencyCode ? currentCurrency : 'USD'
+      currentCurrency == price.currencyCode
+        ? currentCurrency
+        : price.currencyCode == null
+        ? 'USD'
+        : price.currencyCode
     const formattedPrice = new Intl.NumberFormat(lang, {
       style: 'currency',
       currency: currency,
