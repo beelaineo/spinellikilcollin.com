@@ -10,3 +10,5 @@ export * from './CartProvider'
 export * from './CurrentProductProvider'
 export * from './NavigationProvider'
 export * from './ShopifyProvider'
+// eslint-disable-next-line import/export
+export * from './ShopifyPriceProvider'

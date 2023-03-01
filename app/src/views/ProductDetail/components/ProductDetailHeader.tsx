@@ -1,10 +1,19 @@
 import * as React from 'react'
-import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import {
+  Maybe,
+  ShopifyMoneyV2,
+  ShopifyProduct,
+  ShopifyProductVariant,
+  ShopifyStorefrontMoneyV2,
+} from '../../../types'
 import { TitleWrapper } from '../styled'
 import { Heading, Span } from '../../../components/Text'
 import { Price } from '../../../components/Price'
 import { getVariantTitle } from '../../../utils'
+import { useShopifyPrice, useCountry } from '../../../providers'
 import styled, { css } from '@xstyled/styled-components'
+
+const { useEffect, useState } = React
 
 interface ProductDetailHeaderProps {
   product: ShopifyProduct
@@ -50,6 +59,40 @@ export const ProductDetailHeader = ({
   const { inquiryOnly, variants } = product
   const { compareAtPriceV2, priceV2, currentlyNotInStock } =
     currentVariant?.sourceData ?? {}
+
+  const { getPriceRangeById, getVariantPriceById } = useShopifyPrice()
+  const { currentCountry } = useCountry()
+
+  const [compareAtPrice, setCompareAtPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
+  const [price, setPrice] = useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
+
+  useEffect(() => {
+    let isSubscribed = true
+    // declare the async data fetching function
+    const fetchData = async () => {
+      if (!product?.shopifyId || !currentVariant?.shopifyVariantID) return
+      // get the data from the api
+      const variantPrice = await getVariantPriceById(
+        product.shopifyId,
+        currentVariant?.shopifyVariantID,
+      )
+      console.log('ProductDetailHeader current variant pricing', variantPrice)
+      // set state with the result if `isSubscribed` is true
+      if (isSubscribed) {
+        variantPrice?.priceV2 && setPrice(variantPrice?.priceV2)
+        variantPrice?.compareAtPriceV2 &&
+          setCompareAtPrice(variantPrice?.compareAtPriceV2)
+      }
+      console.log('price state:', price)
+    }
+    // call the function
+    fetchData().catch(console.error)
+    // cancel any future `setData`
+    return () => {
+      isSubscribed = false
+    }
+  }, [currentVariant, product, currentCountry])
 
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -133,7 +176,7 @@ export const ProductDetailHeader = ({
         </Heading>
         {inquiryOnly !== true ? (
           <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
-            <Price price={priceV2} />
+            <Price price={price != null ? price : priceV2} />
             <Span ml={2} color="body.6" textDecoration="line-through">
               <Price price={compareAtPriceV2} />
             </Span>

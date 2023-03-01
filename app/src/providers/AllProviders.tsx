@@ -6,6 +6,7 @@ import { ShopDataResponse } from './ShopDataProvider/shopDataQuery'
 import { config } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
+import { ShopifyPriceProvider } from './ShopifyPriceProvider'
 import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
 import { SearchProvider } from './SearchProvider'
@@ -71,19 +72,21 @@ export const Providers = ({ shopData, children }: Props) => {
           <CurrencyProvider>
             <CountryProvider>
               <ShopifyProvider query={shopifyQuery}>
-                <ShopDataProvider shopData={shopData}>
-                  <ThemeProvider theme={theme}>
-                    <CartProvider>
-                      <NavigationProvider>
-                        <SearchProvider>
-                          <ErrorDisplay />
-                          <GlobalStyles />
-                          <ModalProvider>{children}</ModalProvider>\{' '}
-                        </SearchProvider>
-                      </NavigationProvider>
-                    </CartProvider>
-                  </ThemeProvider>
-                </ShopDataProvider>
+                <ShopifyPriceProvider query={shopifyQuery}>
+                  <ShopDataProvider shopData={shopData}>
+                    <ThemeProvider theme={theme}>
+                      <CartProvider>
+                        <NavigationProvider>
+                          <SearchProvider>
+                            <ErrorDisplay />
+                            <GlobalStyles />
+                            <ModalProvider>{children}</ModalProvider>\{' '}
+                          </SearchProvider>
+                        </NavigationProvider>
+                      </CartProvider>
+                    </ThemeProvider>
+                  </ShopDataProvider>
+                </ShopifyPriceProvider>
               </ShopifyProvider>
             </CountryProvider>
           </CurrencyProvider>
