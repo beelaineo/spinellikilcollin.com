@@ -1,8 +1,17 @@
 import * as React from 'react'
 import { Box } from '@xstyled/styled-components'
 import Link from 'next/link'
-import { useShopify, useAnalytics } from '../../providers'
-import { ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType } from '../../types/generated-shopify'
+import {
+  useShopify,
+  useAnalytics,
+  useShopifyPrice,
+  useCountry,
+} from '../../providers'
+import {
+  Maybe,
+  ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType,
+  ShopifyStorefrontMoneyV2,
+} from '../../types/generated-shopify'
 import { Heading } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
@@ -27,9 +36,13 @@ interface CheckoutLineItemProps {
 
 export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   const { sendRemoveFromCart } = useAnalytics()
+  const { updateLineItem } = useShopify()
+  const { getVariantPriceById } = useShopifyPrice()
+  const { currentCountry } = useCountry()
+
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
-  const { updateLineItem } = useShopify()
+  const [price, setPrice] = useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
   const product = variant?.product
 
   const handleQuantityChange = async (
@@ -58,6 +71,28 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   ) => {
     setQuantityValue(lineItem.quantity - 1)
   }
+
+  useEffect(() => {
+    let isSubscribed = true
+    // declare the async data fetching function
+    const fetchData = async () => {
+      if (!product?.id || !variant?.id) return
+      // get the data from the api
+      const variantPrice = await getVariantPriceById(product.id, variant.id)
+      console.log('CheckoutProduct current variant pricing', variantPrice)
+      // set state with the result if `isSubscribed` is true
+      if (isSubscribed) {
+        variantPrice?.priceV2 && setPrice(variantPrice?.priceV2)
+      }
+      console.log('CHECKOUT PRODUCT price state:', price)
+    }
+    // call the function
+    fetchData().catch(console.error)
+    // cancel any future `setData`
+    return () => {
+      isSubscribed = false
+    }
+  }, [variant, product, currentCountry])
 
   useEffect(() => {
     if (quantityValue === lineItem.quantity) return
@@ -209,7 +244,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
             </a>
           </Link>
           <Heading level={5} weight={2} mb={0} mt={0} textTransform="uppercase">
-            <Price price={variant.priceV2} />
+            <Price price={price != null ? price : variant.priceV2} />
           </Heading>
           {displayOptions(variant).map((o, i) => {
             return (

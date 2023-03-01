@@ -60,7 +60,7 @@ export const ProductDetailHeader = ({
   const { compareAtPriceV2, priceV2, currentlyNotInStock } =
     currentVariant?.sourceData ?? {}
 
-  const { getPriceRangeById, getVariantPriceById } = useShopifyPrice()
+  const { getVariantPriceById } = useShopifyPrice()
   const { currentCountry } = useCountry()
 
   const [compareAtPrice, setCompareAtPrice] =

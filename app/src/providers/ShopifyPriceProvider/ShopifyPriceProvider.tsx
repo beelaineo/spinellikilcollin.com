@@ -85,7 +85,9 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     console.log('requestShopifyProductVariantPrices response:', result)
     const product = await result
     const variants = product?.variants.edges
-    const currentVariantId = Buffer.from(variantId, 'binary').toString('base64')
+    const currentVariantId = variantId.startsWith('gid')
+      ? Buffer.from(variantId, 'binary').toString('base64')
+      : variantId
     const currentVariant = variants.find((v) => v.node.id == currentVariantId)
     console.log('getVariantPriceById currentVariant', currentVariant)
     if (!currentVariant) return null
