@@ -100,10 +100,7 @@ export const useCountryState = () => {
         dispatch({ type: ActionTypes.SUCCESS, country, currency })
       })
       .catch((error: Error | any | unknown) => {
-        Sentry.configureScope((scope) => {
-          scope.setTag('country', country)
-        })
-        Sentry.captureException(error)
+        Sentry.captureException(error, 'currency_conversion')
         const message =
           'Sorry, there was a problem changing your Country. You can continue shopping in USD and update your currency at checkout.'
         dispatch({ type: ActionTypes.ERROR, error, message })
