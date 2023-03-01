@@ -178,7 +178,11 @@ export const ProductDetailHeader = ({
           <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
             <Price price={price != null ? price : priceV2} />
             <Span ml={2} color="body.6" textDecoration="line-through">
-              <Price price={compareAtPriceV2} />
+              <Price
+                price={
+                  compareAtPrice != null ? compareAtPrice : compareAtPriceV2
+                }
+              />
             </Span>
           </Heading>
         ) : null}
