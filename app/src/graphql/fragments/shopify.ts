@@ -250,7 +250,10 @@ export const checkoutFragment = gql`
   fragment CheckoutFragment on Checkout {
     __typename
     id
-    totalPrice
+    totalPriceV2 {
+      amount
+      currencyCode
+    }
     buyerIdentity {
       countryCode
     }

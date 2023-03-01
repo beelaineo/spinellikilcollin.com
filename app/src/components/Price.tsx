@@ -10,7 +10,6 @@ interface PriceProps {
 }
 
 export const Price = ({ price, quantity, style }: PriceProps) => {
-  console.log('PRICE COMPONENT', price)
   if (!price || !price.amount || price.currencyCode === 'NONE') return null
   const { getFormattedPrice } = useCurrency()
   const formattedPrice = getFormattedPrice(price, quantity, style)

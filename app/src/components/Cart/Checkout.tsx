@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Button } from '../Button'
-import { useAnalytics, useCart } from '../../providers'
+import { useAnalytics, useCart, useCountry } from '../../providers'
 import { useShopify } from '../../providers/ShopifyProvider'
 import { Form, Field } from '../Forms'
 import { Checkbox } from '../Forms/Fields/Checkbox'
@@ -22,6 +22,7 @@ import { BooleanCheckbox } from './BooleanCheckbox'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
 import { StringValueNode } from 'graphql'
+import { Maybe, ShopifyStorefrontMoneyV2 } from '../../types'
 
 const { useState, useRef, useEffect } = React
 
@@ -47,6 +48,8 @@ export const Checkout = () => {
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
 
+  const [totalPrice, setTotalPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
   const [notesVisible, setNotesVisible] = useState(false)
 
   const handleNotesToggle = (e) => {
@@ -65,6 +68,11 @@ export const Checkout = () => {
   useEffect(() => {
     cartOpen && closeCart()
   }, [router])
+
+  useEffect(() => {
+    checkout && setTotalPrice(checkout.totalPriceV2)
+    console.log('UPDATED CHECKOUT', checkout)
+  }, [checkout])
 
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
@@ -116,20 +124,20 @@ export const Checkout = () => {
           </CartInner>
 
           <CartBottom hidden={!cartOpen}>
-            {checkout && checkout?.paymentDueV2?.amount ? (
+            {checkout && checkout?.totalPriceV2?.amount ? (
               <SubtotalWrapper>
                 <Heading level={4} weight={2}>
                   Total:
                 </Heading>
                 <div>
                   <Heading level={4} textTransform="uppercase" weight={2}>
-                    <Price price={checkout.paymentDueV2} style={'full'} />
+                    <Price price={checkout.totalPriceV2} style={'full'} />
                   </Heading>
                   {lineItems?.some(
                     (item) =>
                       item.variant?.product?.productType === 'Gift Card',
                   ) ? null : (
-                    <Affirm price={checkout.paymentDueV2} />
+                    <Affirm price={checkout.totalPriceV2} />
                   )}
                 </div>
               </SubtotalWrapper>
