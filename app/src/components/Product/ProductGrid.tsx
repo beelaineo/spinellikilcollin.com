@@ -47,6 +47,7 @@ const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
 
 interface WithFormat {
   format?: string | null
+  featured?: boolean | null
 }
 
 export const ProductGridItemPadding = styled.div<WithFormat>`
@@ -68,13 +69,17 @@ export const ProductGridItemPadding = styled.div<WithFormat>`
 `
 
 export const ProductGridItem = styled.div<WithFormat>`
-  ${({ theme, format }) => css`
+  ${({ theme, format, featured }) => css`
     grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
     grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     position: relative;
 
     ${theme.mediaQueries.tablet} {
-      grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
+      grid-column: ${format === 'wide' && featured
+        ? 'span 1'
+        : format === 'wide' && !featured
+        ? 'span 2'
+        : 'auto'};
       grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     }
     ${theme.mediaQueries.mobile} {
@@ -118,68 +123,8 @@ export const ProductGrid = ({
   reduceColumnCount,
   collectionId,
 }: ProductGridProps) => {
-  // const { y } = useWindowScroll()
-
-  // const pageRef = React.useRef(null)
-  // const [height, setHeight] = React.useState(0)
-  // const router = useRouter()
-
-  // const updateQueryParam = (query) => {
-  //   router.replace(
-  //     {
-  //       query: query,
-  //     },
-  //     '',
-  //     { shallow: true },
-  //   )
-  // }
-
-  // // React.useEffect(() => {
-  // //   if (!router.isReady) return
-  // //   console.log('currentFilter', currentFilter)
-  // //   setHeight(pageRef.current.getBoundingClientRect().height)
-  // // }, [currentFilter])
-
-  // console.log('height', height)
-
-  // React.useEffect(() => {
-  //   if (!router.isReady) return
-  //   console.log('calcued', height * parseFloat(router.query.pos as string))
-
-  //   if (router.query.pos) {
-  //     window.scrollTo({
-  //       top: height * parseFloat(router.query.pos as string),
-  //       behavior: 'smooth',
-  //     })
-  //   }
-  // }, [currentFilter])
-
-  // console.log(router.query.pos)
-
-  // useDebounce(
-  //   () => {
-  //     if (!router.isReady) return
-
-  //     setHeight(pageRef.current.getBoundingClientRect().height)
-
-  //     const min = 0
-  //     const max = 1
-
-  //     const clamp = (num, min, max) => Math.min(Math.max(num, min), max)
-
-  //     const yPos = clamp(y / height, min, max)
-
-  //     if (yPos !== 0) {
-  //       updateQueryParam({ ...router.query, pos: yPos.toFixed(3) })
-  //     } else {
-  //       const { pos, ...removeFromQuery } = router.query
-
-  //       updateQueryParam({ ...removeFromQuery })
-  //     }
-  //   },
-  //   250,
-  //   [y],
-  // )
+  const router = useRouter()
+  const featuredLayout = router.query.collectionSlug === '925-collection'
 
   return (
     <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
@@ -189,6 +134,7 @@ export const ProductGrid = ({
             return (
               <ProductGridItem
                 format={item.format}
+                featured={featuredLayout}
                 key={item._key || 'some-key'}
               >
                 <ProductGridItemPadding format={item.format} />

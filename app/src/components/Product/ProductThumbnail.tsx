@@ -177,10 +177,21 @@ export const ProductThumbnail = ({
       (o) => o?.value == initialSwatchValue,
     )[0]
 
-    if (initialColorOption?.animation) {
+    const styleOption = product.options?.filter(
+      (option) => option?.name == 'Style',
+    )
+
+    const initialStyleOption = styleOption?.[0]?.values?.filter(
+      (o) => o?.animation,
+    )[0]
+
+    const initialAnimation =
+      initialColorOption?.animation || initialStyleOption?.animation
+
+    if (initialAnimation) {
       const variantAnimation: VariantAnimation = {
         __typename: 'CloudinaryVideo',
-        videoId: initialColorOption?.animation,
+        videoId: initialAnimation,
       }
       setVariantAnimation(variantAnimation)
     } else {
@@ -200,10 +211,21 @@ export const ProductThumbnail = ({
       (o) => o?.value == currentSwatchValue,
     )[0]
 
-    if (currentColorOption?.animation) {
+    const styleOption = product.options?.filter(
+      (option) => option?.name == 'Style',
+    )
+
+    const currentStyleOption = styleOption?.[0]?.values?.filter(
+      (o) => o?.animation,
+    )[0]
+
+    const currentAnimation =
+      currentColorOption?.animation || currentStyleOption?.animation
+
+    if (currentAnimation) {
       const variantAnimation: VariantAnimation = {
         __typename: 'CloudinaryVideo',
-        videoId: currentColorOption?.animation,
+        videoId: currentAnimation,
       }
       setVariantAnimation(variantAnimation)
     } else {
