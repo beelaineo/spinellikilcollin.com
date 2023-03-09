@@ -10,6 +10,8 @@ import {
 } from '../../utils'
 import { parseProduct } from './utils'
 import { SelectedProduct, EventType, GTagEvent } from './types'
+import { ConvertSizeLocaleField } from '../../components/Forms/CustomFields/ConvertSizeLocaleField'
+import { ShopifyStorefrontCurrencyCode } from '../../types/generated-shopify'
 
 const { useEffect } = React
 
@@ -144,9 +146,16 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     const products = arrayify(selected).map((s, i) =>
       parseProduct(s, { position: i + 1 }),
     )
+
     sendEvent({
       event: EventType.RemoveFromCart,
-      ecommerce: { remove: { products } },
+      ecommerce: {
+        remove: {
+          currency: ShopifyStorefrontCurrencyCode.Usd,
+          value: 7.77,
+          products,
+        },
+      },
     })
   }
   const sendBeginCheckout: AnalyticsContextValue['sendBeginCheckout'] = (

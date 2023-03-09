@@ -2,6 +2,7 @@ import {
   ShopifyStorefrontProductVariant as Variant,
   ShopifyStorefrontProduct as Product,
   ShopifyStorefrontCheckoutLineItem as CheckoutLineItem,
+  ShopifyStorefrontCurrencyCode,
 } from '../../types/generated-shopify'
 import {
   ShopifyProduct,
@@ -93,6 +94,8 @@ interface RemoveFromCartEvent {
   event: EventType.RemoveFromCart
   ecommerce: {
     remove: {
+      currency: ShopifyStorefrontCurrencyCode
+      value: number
       products: EcommerceObject[]
     }
   }
