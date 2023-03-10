@@ -2,12 +2,17 @@
 import { DocumentNode } from 'graphql'
 import gql from 'graphql-tag'
 import {
+  ShopifyStorefrontCollection,
   ShopifyStorefrontCountryCode,
   ShopifyStorefrontProduct,
 } from '../../types/generated-shopify'
 import { config } from '../../config'
 
-const { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } = config
+const {
+  NEW_SHOPIFY_STOREFRONT_URL,
+  SHOPIFY_STOREFRONT_URL,
+  SHOPIFY_STOREFRONT_TOKEN,
+} = config
 
 const deduplicateFragments = (queryString?: string) =>
   queryString
@@ -71,6 +76,42 @@ export const PRODUCT_PRICERANGE_QUERY = /* GraphQL */ gql`
   }
 `
 
+export const COLLECTION_VARIANT_PRICES_QUERY = /* GraphQL */ gql`
+  query localizedCollectionByHandle(
+    $handle: String!
+    $countryCode: CountryCode!
+  ) @inContext(country: $countryCode) {
+    collection(handle: $handle) {
+      products(first: 250) {
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+        edges {
+          node {
+            variants(first: 100) {
+              edges {
+                node {
+                  title
+                  id
+                  compareAtPriceV2 {
+                    amount
+                    currencyCode
+                  }
+                  priceV2 {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 export interface ProductQueryInput {
   id: string
   countryCode: ShopifyStorefrontCountryCode
@@ -82,6 +123,12 @@ export interface ProductQueryDataResponse {
   }
 }
 
+export interface CollectionQueryDataResponse {
+  data: {
+    collection: ShopifyStorefrontCollection
+  }
+}
+
 async function shopifyQuery<Response>(
   query: string | DocumentNode,
   variables?: Record<string, unknown>,
@@ -90,7 +137,7 @@ async function shopifyQuery<Response>(
     typeof query === 'string'
       ? query
       : deduplicateFragments(query?.loc?.source.body)
-  const result = await fetch(SHOPIFY_STOREFRONT_URL, {
+  const result = await fetch(NEW_SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -122,4 +169,16 @@ export const requestShopifyProductPriceRange = async (
   )
   const { product } = response.data
   return product
+}
+
+export const requestShopifyCollectionProductsVariantPrices = async (
+  variables?: Record<string, unknown>,
+) => {
+  const response = await shopifyQuery<CollectionQueryDataResponse>(
+    COLLECTION_VARIANT_PRICES_QUERY,
+    variables,
+  )
+  console.log('fetch function results', response)
+  const { collection } = response.data
+  return collection
 }

@@ -11,6 +11,7 @@ import {
   FilterConfiguration,
   Maybe,
   Scalars,
+  ShopifyStorefrontMoneyV2,
 } from '../../types'
 import { Heading, Span } from '../Text'
 import { Image } from '../Image'
@@ -28,13 +29,15 @@ import {
   getBestVariantBySort,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
-import { useAnalytics } from '../../providers'
+import { Money, useAnalytics } from '../../providers'
 import { ImageWrapper, VideoWrapper, ProductInfo, ProductThumb } from './styled'
 import { CloudinaryAnimation } from '../CloudinaryVideo'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { Sort } from '../Filter'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useShopifyPrice } from '../../providers/ShopifyPriceProvider'
+import { useCountry } from '../../providers/CountryProvider'
 import { sanityClient } from '../../services/sanity'
 
 const { useEffect, useState, useMemo, useRef } = React
@@ -119,12 +122,16 @@ export const ProductThumbnail = ({
   collectionId,
   carousel,
 }: ProductThumbnailProps) => {
+  const router = useRouter()
   const { asPath } = useRouter()
   const { inquiryOnly } = product
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
   const { sendProductImpression, sendProductClick } = useAnalytics()
   const { productInfoSettings, productListingSettings } = useShopData()
+  const { getVariantPriceByCollection, currentCollectionPrices } =
+    useShopifyPrice()
+  const { currentCountry } = useCountry()
 
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
@@ -156,6 +163,9 @@ export const ProductThumbnail = ({
   const [currentVariant, setCurrentVariant] = useState<
     ShopifySourceProductVariant | undefined
   >(initialVariant)
+
+  const [currentPrice, setCurrentPrice] =
+    useState<null | ShopifyStorefrontMoneyV2>(null)
 
   const [variantAnimation, setVariantAnimation] = useState<
     VariantAnimation | undefined
@@ -197,6 +207,19 @@ export const ProductThumbnail = ({
     } else {
       setVariantAnimation(undefined)
     }
+
+    const collectionHandle = router.query.collectionSlug
+    const currentVariantId = currentVariant?.id
+    if (!collectionHandle || !currentVariantId) return
+    const variantPriceInfo = getVariantPriceByCollection(
+      collectionHandle as string,
+      currentVariantId,
+    )
+    if (variantPriceInfo?.priceV2) {
+      setCurrentPrice(variantPriceInfo?.priceV2)
+    } else {
+      setCurrentPrice(null)
+    }
   }, [])
 
   useEffect(() => {
@@ -232,6 +255,24 @@ export const ProductThumbnail = ({
       setVariantAnimation(undefined)
     }
   }, [currentVariant])
+
+  useEffect(() => {
+    console.log('currentCollectionPrices', currentCollectionPrices)
+    const collectionHandle = router.query.collectionSlug
+    const currentVariantId = currentVariant?.id
+    if (!collectionHandle || !currentVariantId) return
+    const variantPriceInfo = getVariantPriceByCollection(
+      collectionHandle as string,
+      currentVariantId,
+    )
+    console.log('COUNTRY UPDATED, SETTING CURRENT PRICE')
+    if (variantPriceInfo?.priceV2) {
+      setCurrentPrice(variantPriceInfo?.priceV2)
+    } else {
+      console.log('VARIANT PRICE INFO IS NULL OR UNDEFINED')
+      setCurrentPrice(null)
+    }
+  }, [currentVariant, currentCollectionPrices])
 
   const handleClick = () => {
     // @ts-ignore
@@ -525,8 +566,10 @@ export const ProductThumbnail = ({
                 <PriceWrapper>
                   <Price
                     price={
-                      currentVariant?.priceV2 ||
-                      product?.sourceData?.priceRange?.minVariantPrice
+                      currentPrice && currentPrice != null
+                        ? currentPrice
+                        : currentVariant?.priceV2 ||
+                          product?.sourceData?.priceRange?.minVariantPrice
                     }
                   />
                   <Span ml={2} color="body.6" textDecoration="line-through">

@@ -3,12 +3,21 @@ import {
   ProductQueryDataResponse,
   requestShopifyProductVariantPrices,
   requestShopifyProductPriceRange,
+  requestShopifyCollectionProductsVariantPrices,
 } from './shopifyPriceQuery'
+import { useRouter } from 'next/router'
 import { useCountry } from '../CountryProvider'
 import { QueryFunction } from '../ShopifyProvider/types'
 import { Maybe, ShopifyStorefrontMoneyV2 } from '../../types'
+import {
+  ShopifyStorefrontCollection,
+  ShopifyStorefrontCountry,
+  ShopifyStorefrontCountryCode,
+  ShopifyStorefrontCurrencyCode,
+  ShopifyStorefrontProduct,
+} from '../../types/generated-shopify'
 
-const { useContext } = React
+const { useContext, useState, useEffect } = React
 
 interface PriceRange {
   minVariantPrice: {
@@ -22,17 +31,22 @@ interface PriceRange {
 }
 
 interface Price {
-  priceV2: ShopifyStorefrontMoneyV2
+  priceV2: ShopifyStorefrontMoneyV2 | undefined
   compareAtPriceV2: Maybe<ShopifyStorefrontMoneyV2> | undefined
 }
 
 interface ShopifyPriceContextValue {
   ready: boolean
+  currentCollectionPrices: ShopifyStorefrontCollection | null
   getPriceRangeById: (id: string) => PriceRange | null
   getVariantPriceById: (
     productId: string,
     variantId: string,
   ) => Promise<Price | null>
+  getVariantPriceByCollection: (
+    collectionHandle: string,
+    variantId: string,
+  ) => Price | null
 }
 
 const ShopifyPriceContext = React.createContext<
@@ -57,7 +71,71 @@ interface Props {
 
 export const ShopifyPriceProvider = ({ children, query }: Props) => {
   const ready = true
+  const router = useRouter()
+  const { asPath } = router
   const { currentCountry } = useCountry()
+  const [currentCollectionHandle, setCurrentCollectionHandle] = useState<
+    string | null
+  >(null)
+  const [currentCountryState, setCurrentCountryState] =
+    useState<ShopifyStorefrontCountryCode | null>(null)
+  const [currentCollectionPrices, setCurrentCollectionPrices] =
+    useState<ShopifyStorefrontCollection | null>(null)
+
+  useEffect(() => {
+    if (asPath.includes('collections') == false) return
+    if (
+      currentCollectionHandle &&
+      currentCollectionHandle == asPath.split('/')[2] &&
+      currentCountryState &&
+      currentCountryState == currentCountry
+    )
+      return
+    const handle = asPath.split('/')[2]
+    setCurrentCollectionHandle(handle)
+    setCurrentCountryState(currentCountry)
+    requestShopifyCollectionProductsVariantPrices({
+      handle,
+      countryCode: currentCountry,
+    }).then((response) => {
+      console.log('UPDATING COUNTRY PRICE TABLE', currentCountry)
+      setCurrentCollectionPrices(response)
+    })
+  }, [asPath, currentCountry])
+
+  useEffect(() => {
+    console.log(
+      'SET STATE OF CURRENT COLLECTION PRICES',
+      currentCollectionPrices,
+    )
+  }, [currentCollectionPrices])
+
+  const getVariantPriceByCollection = (
+    collectionHandle: string,
+    variantId: string,
+  ): Price | null => {
+    if (!collectionHandle) return null
+    if (currentCountry == 'US') return null
+    if (!currentCollectionPrices) return null
+    console.log(
+      'FIND LOCALIZED VARIANT PRICE IN COLLECTION AND RETURN IT',
+      variantId,
+      collectionHandle,
+    )
+
+    const findVariant = currentCollectionPrices.products.edges
+      .find((p) => {
+        return p.node.variants.edges.find((v) => v.node.id == variantId)
+      })
+      ?.node.variants.edges.filter((v) => v.node.id == variantId)[0].node
+
+    console.log('FOUND THE VARIANT', findVariant)
+
+    return {
+      priceV2: findVariant?.priceV2,
+      compareAtPriceV2: findVariant?.compareAtPriceV2,
+    }
+  }
 
   const getPriceRangeById = (id: string): PriceRange | null => {
     if (!id) return null
@@ -102,6 +180,8 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     ready,
     getPriceRangeById,
     getVariantPriceById,
+    getVariantPriceByCollection,
+    currentCollectionPrices,
   }
 
   return (
