@@ -5,10 +5,12 @@ import {
   getAspectRatio,
   getImageDetails,
   getImageKey,
+  getImageLQIP,
 } from './utils'
 import { Heading } from '../Text'
 import {
   MainImage,
+  BlurImage,
   HoverImage,
   Wrapper,
   Picture,
@@ -130,6 +132,8 @@ export const Image = ({
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
 
+  const lqip = getImageLQIP(image)
+
   const {
     caption,
     src,
@@ -167,7 +171,8 @@ export const Image = ({
     <Wrapper ref={containerRef}>
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
       {src && (preload || isInViewOnce) ? (
-        <Picture objectFit={objectFit} loaded={true}>
+        <Picture objectFit={objectFit} loaded={loaded}>
+          {lqip ? <BlurImage src={lqip} /> : null}
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
           ) : null}
