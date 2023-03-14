@@ -6,7 +6,10 @@ export async function middleware(req: NextRequest) {
 
   url.searchParams.set('country', country)
 
-  if (url.pathname.startsWith('/collections') || url.pathname === '/') {
+  if (
+    (url.pathname.startsWith('/collections') || url.pathname === '/') &&
+    country !== 'US'
+  ) {
     return NextResponse.rewrite(url)
   }
 }
