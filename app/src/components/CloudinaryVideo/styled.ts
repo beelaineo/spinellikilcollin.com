@@ -24,16 +24,27 @@ export const PlaybackButtonWrapper = styled(ButtonWrapper)`
   left: 20px;
 `
 
+interface VideoWrapperProps {
+  loaded: boolean
+}
+
 export const VideoWrapper = styled.div`
-  position: relative;
+  ${({ loaded }: VideoWrapperProps) => css`
+    position: relative;
 
-  video::-webkit-media-controls {
-    opacity: 0;
-  }
+    opacity: ${loaded ? 1 : 0};
 
-  &:hover ${ButtonWrapper} {
-    opacity: 1;
-  }
+    transition: opacity 0.3s linear;
+    transition-delay: 0s;
+
+    video::-webkit-media-controls {
+      opacity: 0;
+    }
+
+    &:hover ${ButtonWrapper} {
+      opacity: 1;
+    }
+  `}
 `
 export const AnimationWrapper = styled.div`
   ${({ theme }) => css`

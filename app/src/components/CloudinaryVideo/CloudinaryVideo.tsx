@@ -20,6 +20,7 @@ interface VideoElementProps {
   muted: boolean
   poster: string
   playing: boolean | undefined
+  setIsLoaded: (p: boolean) => void
   onPlay: () => void
 }
 
@@ -29,6 +30,7 @@ const NormalVideo = ({
   muted,
   video,
   onPlay,
+  setIsLoaded,
 }: VideoElementProps) => {
   const { width: viewportWidth } = useViewportSize()
 
@@ -41,6 +43,7 @@ const NormalVideo = ({
       startAutoplayPromise
         .then(() => {
           console.log('playing')
+          setIsLoaded(true)
         })
         .catch((error) => {
           if (error.name === 'NotAllowedError') {
@@ -136,9 +139,12 @@ interface CloudinaryVideoProps {
 }
 
 export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
-  if (!video?.videoId) return null
   const [muted, setMuted] = useState(true)
   const [playing, setPlaying] = useState<boolean | undefined>(undefined)
+  const [loaded, setIsLoaded] = useState<boolean>(false)
+
+  if (!video?.videoId) return null
+
   const { enableAudio, videoId } = video
   const poster = `${BASE_URL}/c_scale,w_1200/${videoId}.jpeg`
 
@@ -174,11 +180,12 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
   // )
 
   return (
-    <VideoWrapper>
+    <VideoWrapper loaded={loaded}>
       <NormalVideo
         video={video}
         playing={playing}
         onPlay={handleOnPlay}
+        setIsLoaded={setIsLoaded}
         poster={poster}
         muted={muted}
       />
