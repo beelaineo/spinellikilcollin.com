@@ -103,7 +103,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     })
   } catch (e) {
     console.error(e)
-    Sentry.captureException(e)
+    Sentry.captureException(e, 'sitemap_gen_error')
     res.status(500).end()
   }
 }

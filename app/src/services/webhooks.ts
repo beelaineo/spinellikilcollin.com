@@ -17,7 +17,7 @@ if (!shopName) throw new Error('You must provide a shopify shop name')
 if (!accessToken) throw new Error('You must provide a shopify access token')
 
 const handleError = (err: Error) => {
-  Sentry.captureException(err)
+  Sentry.captureException(err, 'sync_webhook_error')
 }
 
 const webhookConfig = {

@@ -69,6 +69,8 @@ interface ImageProps {
   altText?: Maybe<string>
   hoverImage?: Maybe<ImageType>
   ratio?: number
+  loading?: 'eager' | 'lazy' | undefined
+
   /**
    * The css/html sizes at which this image is expected to appear,
    * from mobile to desktop. The final value will be used without a breakpoint.
@@ -89,6 +91,7 @@ interface ImageProps {
   preloadImages?: ImageType[]
   preload?: boolean
   objectFit?: string
+
   /**
    * Set to `true` if you want to use HTML canvas
    * to render the placeholder. This is only necessary when
@@ -116,6 +119,7 @@ export const Image = ({
   ratio: customRatio,
   canvasFill,
   preloadImages,
+  loading,
   objectFit,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
@@ -175,6 +179,7 @@ export const Image = ({
             alt={altText || ''}
             ref={imageRef}
             onLoad={handleOnLoad}
+            loading={loading || 'lazy'}
           />
           {hoverDetails && hoverDetails.src ? (
             <HoverImage

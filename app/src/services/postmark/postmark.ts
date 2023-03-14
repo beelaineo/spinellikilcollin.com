@@ -81,7 +81,7 @@ const send = async (message: Message): Promise<PostmarkResponse> => {
       message,
     }
   } catch (error: any | unknown) {
-    Sentry.captureException(error)
+    Sentry.captureException(error, 'postmark_error')
     return {
       success: false,
       error,

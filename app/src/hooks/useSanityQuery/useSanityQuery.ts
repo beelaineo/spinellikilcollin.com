@@ -99,7 +99,7 @@ export const useSanityQuery = <
       // @ts-ignore
       return r
     } catch (err: any | unknown) {
-      handleError(err)
+      handleError(err, 'sanity_query_error', { query, params })
       // @ts-ignore
       return []
     }

@@ -590,12 +590,44 @@ export const carouselFragment = gql`
       handle
       archived
       shopifyId
+      products {
+        __typename
+        _id
+        _key
+        title
+        hidden
+        hideFromSearch
+        handle
+        archived
+        shopifyId
+        minVariantPrice
+        maxVariantPrice
+        sourceData {
+          __typename
+          id
+          title
+          handle
+          tags
+          productType
+          images {
+            __typename
+            edges {
+              __typename
+              cursor
+              node {
+                ...ShopifySourceImageFragment
+              }
+            }
+          }
+        }
+      }
     }
     items {
       ...RichPageLinkFragment
     }
   }
   ${richPageLinkFragment}
+  ${shopifySourceImageFragment}
 `
 
 export const colorFragment = gql`

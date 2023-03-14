@@ -43,6 +43,7 @@ import { FilterWrapper } from './FilterWrapper'
 import { Backdrop } from '../Navigation/Backdrop'
 import { Sort, SortSet } from './SortSet'
 import { useMedia } from '../../hooks'
+import { useAnalytics } from '../../providers'
 import { useRouter } from 'next/router'
 
 const { useEffect, useState, useRef } = React
@@ -166,6 +167,7 @@ export const Filter = ({
   const [activeKey, setActiveKey] = useState('')
   const [isRouterLoaded, setIsRouterLoaded] = useState(false)
   const router = useRouter()
+  const { sendFilterClick } = useAnalytics()
 
   const [filterQuery, setFilterQuery] = useState<{ [key: string]: any }>({})
 
@@ -225,6 +227,7 @@ export const Filter = ({
   })
 
   const handleFilterClick = (key?: Maybe<string>) => {
+    sendFilterClick()
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
   }
 
