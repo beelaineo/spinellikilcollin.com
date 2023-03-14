@@ -17,6 +17,7 @@ export const sanityImageAssetFragment = gql`
         aspectRatio
       }
       lqip
+      blurHash
     }
   }
 `

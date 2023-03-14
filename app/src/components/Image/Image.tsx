@@ -3,6 +3,7 @@ import { Maybe } from '../../types'
 import {
   ImageType,
   getAspectRatio,
+  getImageBlurHash,
   getImageDetails,
   getImageKey,
   getImageLQIP,
@@ -10,7 +11,7 @@ import {
 import { Heading } from '../Text'
 import {
   MainImage,
-  BlurImage,
+  BlurWrapper,
   HoverImage,
   Wrapper,
   Picture,
@@ -18,6 +19,7 @@ import {
   PreloadWrapper,
 } from './styled'
 import { useInViewport } from '../../hooks'
+import { Blurhash } from 'react-blurhash'
 
 /**
  * A placeholder box to enforce image size
@@ -133,6 +135,7 @@ export const Image = ({
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
 
   const lqip = getImageLQIP(image)
+  const blurHash = getImageBlurHash(image)
 
   const {
     caption,
@@ -172,7 +175,17 @@ export const Image = ({
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
       {src && (preload || isInViewOnce) ? (
         <Picture objectFit={objectFit} loaded={loaded}>
-          {lqip ? <BlurImage src={lqip} /> : null}
+          {blurHash ? (
+            <BlurWrapper>
+              <Blurhash
+                hash={blurHash}
+                width={'100%'}
+                height={'100%'}
+                resolutionX={32}
+                resolutionY={32}
+              />
+            </BlurWrapper>
+          ) : null}
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
           ) : null}
@@ -186,6 +199,7 @@ export const Image = ({
             onLoad={handleOnLoad}
             loading={loading || 'lazy'}
           />
+
           {hoverDetails && hoverDetails.src ? (
             <HoverImage
               src={hoverDetails.src}

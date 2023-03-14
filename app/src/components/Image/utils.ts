@@ -112,6 +112,19 @@ export const getImageLQIP = (
   return undefined
 }
 
+export const getImageBlurHash = (
+  image?: ImageType | null | void,
+): string | void => {
+  if (!image) return undefined
+  if (isSanityImage(image)) {
+    const blurHash = image.asset?.metadata?.blurHash
+    if (!blurHash) return undefined
+
+    return blurHash
+  }
+  return undefined
+}
+
 export const getAspectRatio = (
   image?: ImageType | null | void,
 ): number | void => {

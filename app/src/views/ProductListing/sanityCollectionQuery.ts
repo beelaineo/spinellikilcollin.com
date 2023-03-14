@@ -144,7 +144,8 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
         url,
         metadata {
           dimensions,
-          lqip
+          lqip,
+          blurHash
         },
       },
     },
@@ -159,7 +160,8 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
         url,
         metadata {
           dimensions,
-          lqip
+          lqip,
+          blurHash
         },
       },
       crop,

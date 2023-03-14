@@ -2,7 +2,7 @@ import * as React from 'react'
 import styled, { DefaultTheme, css } from '@xstyled/styled-components'
 
 export const MainImage = styled.img``
-export const BlurImage = styled.img``
+export const BlurWrapper = styled.div``
 
 export const HoverImage = styled.img`
   position: absolute;
@@ -47,13 +47,18 @@ export const Picture = styled.picture`
       display: block;
     }
 
-    & > ${BlurImage} {
+    & > ${BlurWrapper} {
       opacity: ${loaded ? 0 : 1};
       transition: opacity 0.3s linear;
       transition-delay: 0s;
-      max-width: 100%;
-      object-fit: ${objectFit || 'cover'};
       display: block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
     }
   `}
 `

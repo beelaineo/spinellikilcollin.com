@@ -9347,6 +9347,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"blurhash@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "blurhash@npm:2.0.5"
+  checksum: aa4d6855bbaae116065b118a7b1e889648c15047e72048c28bab3db426a042ce1dc032a30c55a52da6140c314534841b984ab11cc68303668dde446d6ca53bc6
+  languageName: node
+  linkType: hard
+
 "bn.js@npm:^4.0.0, bn.js@npm:^4.1.0, bn.js@npm:^4.11.9":
   version: 4.12.0
   resolution: "bn.js@npm:4.12.0"
@@ -24146,6 +24153,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-blurhash@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "react-blurhash@npm:0.3.0"
+  peerDependencies:
+    blurhash: ^2.0.3
+    react: ">=15"
+  checksum: 684d506594004ce1906f4fce7e3773785aaadc6a88b4be800d1ee3580069195fed90585937bf4a328979d3131c8213a55dc12a65353eaaa0472a4b155a7e2f15
+  languageName: node
+  linkType: hard
+
 "react-click-outside@npm:^3.0.0":
   version: 3.0.1
   resolution: "react-click-outside@npm:3.0.1"
@@ -26592,6 +26609,7 @@ __metadata:
     babel-plugin-inline-react-svg: ^2.0.1
     babel-plugin-react-svg: ^3.0.3
     babel-plugin-styled-components: ^1.13.3
+    blurhash: ^2.0.5
     bufferutil: ^4.0.7
     common-tags: ^1.8.2
     debug: ^4.3.4
@@ -26623,6 +26641,7 @@ __metadata:
     postmark: ^2.9.5
     public-ip: ^4.0.4
     react: ^18.2.0
+    react-blurhash: ^0.3.0
     react-copy-html-to-clipboard: ^6.0.4
     react-dom: ^18.2.0
     react-hot-loader: ^4.13.1
