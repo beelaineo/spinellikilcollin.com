@@ -51,10 +51,14 @@ export const CountryProvider = ({ children }: CountryProps) => {
   const { updateCurrency } = useCurrency()
 
   useEffect(() => {
+    const geolocateCountry = getCookie('geolocate')
     const viewerCountry = getCookie(COUNTRY_COOKIE)
+    console.log('geolocateCountry COOKIE', geolocateCountry)
     console.log('viewerCountry COOKIE', viewerCountry)
     if (viewerCountry && viewerCountry !== currentCountry) {
       updateCountryState(viewerCountry)
+    } else if (geolocateCountry && geolocateCountry !== currentCountry) {
+      updateCountryState(geolocateCountry)
     }
   }, [])
 
