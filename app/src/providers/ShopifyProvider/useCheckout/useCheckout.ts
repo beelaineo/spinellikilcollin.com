@@ -44,12 +44,16 @@ import { VIEWER_CART_TOKEN, setCookie, getCookie } from '../../../utils'
 import {
   ShopifyStorefrontAttributeInput,
   ShopifyStorefrontCheckout,
+  ShopifyStorefrontCheckoutLineItem,
+  ShopifyStorefrontCheckoutLineItemInput,
   ShopifyStorefrontCountryCode,
 } from '../../../types/generated-shopify'
 import { useCountry } from '../../CountryProvider'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Scalars } from '../../../types'
 import { fetch } from '@cloudinary/url-gen/qualifiers/source'
+import { CountrySelector } from '../../../components/Navigation/CountrySelector'
+import { count } from 'rxjs'
 
 const { useReducer, useEffect, useState } = React
 
@@ -116,6 +120,47 @@ export const useCheckout = ({
     ...userQueries,
   }
 
+  const getVariantLineItem = (
+    item: ShopifyStorefrontCheckoutLineItem,
+  ): ShopifyStorefrontCheckoutLineItemInput => {
+    const itemId =
+      item.id.startsWith('gid') && item.id.includes('checkout=')
+        ? item.id.toString().split('?')[0].split('/').pop()
+        : Buffer.from(item.id, 'base64')
+            .toString()
+            .split('?')[0]
+            .split('/')
+            .pop()
+    console.log('ITEM ID:', itemId)
+    const shopifyId =
+      item.id.startsWith('gid') && !item.id.includes('checkout=')
+        ? item.id
+        : `gid://shopify/ProductVariant/` + itemId
+    const hashedId = Buffer.from(shopifyId).toString('base64')
+    console.log('HASHED ID:', hashedId)
+
+    if (item.customAttributes && item.customAttributes.length > 0) {
+      const attributes: ShopifyStorefrontAttributeInput[] =
+        item.customAttributes.map((a) => {
+          return {
+            key: a.key,
+            value: a.value || '',
+          }
+        })
+
+      return {
+        variantId: shopifyId,
+        quantity: item.quantity,
+        customAttributes: attributes,
+      }
+    } else {
+      return {
+        variantId: shopifyId,
+        quantity: item.quantity,
+      }
+    }
+  }
+
   /**
    * State
    */
@@ -134,7 +179,11 @@ export const useCheckout = ({
    */
 
   const checkoutCreate = async (variables?: CheckoutCreateInput) => {
-    if (state.checkout) return { checkout: state.checkout }
+    if (
+      state.checkout &&
+      state.checkout.buyerIdentity.countryCode == countryCode
+    )
+      return { checkout: state.checkout }
     const result = await query<CheckoutCreateResponse, CheckoutCreateInput>(
       CHECKOUT_CREATE,
       variables || { countryCode: countryCode },
@@ -154,7 +203,7 @@ export const useCheckout = ({
       state.checkout &&
       state.checkout.buyerIdentity.countryCode == countryCode
     ) {
-      console.log('state.checkout exists and matches countryCode')
+      // state.checkout exists and matches countryCode
       return {
         checkout: state.checkout,
         checkoutUserErrors: state.checkoutUserErrors,
@@ -163,32 +212,20 @@ export const useCheckout = ({
     } else {
       // if state checkout had line items, add them to the new checkout
       if (state.checkout && state.checkout.lineItems) {
-        console.log(
-          'state checkout had line items, add them to the new checkout',
-        )
+        // state checkout had line items, add them to the new checkout
         const lineItems = unwindEdges(state.checkout.lineItems)[0]
         const checkoutLineItemInputs: CheckoutLineItemInput[] = lineItems.map(
-          (item) => {
-            const itemId = Buffer.from(item.id, 'base64')
-              .toString()
-              .split('?')[0]
-              .split('/')
-              .pop()
-            const shopifyId = `gid://shopify/ProductVariant/` + itemId
-            return {
-              quantity: item.quantity,
-              variantId: shopifyId,
-            }
-          },
+          (item) => getVariantLineItem(item),
         )
 
         const variables: CheckoutCreateInput = {
           lineItems: checkoutLineItemInputs,
           countryCode: countryCode,
         }
+        console.log('UPDATING CHECKOUT WITH VARIABLES:', variables)
         return checkoutCreate(variables)
       } else {
-        console.log('create new checkout with updated country code')
+        // create new checkout with updated country code
         return checkoutCreate({ countryCode: countryCode })
       }
     }
@@ -204,47 +241,35 @@ export const useCheckout = ({
         variables,
       )
       const checkout = result.data ? result.data.node : undefined
+      console.log(
+        'fetched checkout using token, with updated country code',
+        checkout,
+      )
       /* If checkout countryCode doesn't match CountryProvider countryCode, create a new checkout */
-      console.log('checkout', checkout)
-      console.log('countryCode', countryCode)
       if (
         checkout &&
         checkout.lineItems &&
         countryCode &&
         checkout?.buyerIdentity.countryCode != countryCode
       ) {
-        console.log('country code mismatch, recreating checkout')
+        console.log(
+          'country code mismatch, recreating checkout',
+          checkout,
+          countryCode,
+        )
         // checkout.buyerIdentity.countryCode = currentCountry
-        console.log('updated checkout', checkout)
         const lineItems = unwindEdges(checkout.lineItems)[0]
-        console.log('lineItems', lineItems)
-        // gid://shopify/ProductVariant/40037934202978"
-        // gid://shopify/CheckoutLineItem/316199337984980?checkout=e68b2a56075d319108507004de90a761
-        // customAttributes
-        // quantity
-        // variantId
 
         const checkoutLineItemInputs: CheckoutLineItemInput[] = lineItems.map(
-          (item) => {
-            const itemId = Buffer.from(item.id, 'base64')
-              .toString()
-              .split('?')[0]
-              .split('/')
-              .pop()
-            const shopifyId = `gid://shopify/ProductVariant/` + itemId
-            console.log(shopifyId)
-            return {
-              quantity: item.quantity,
-              variantId: shopifyId,
-            }
-          },
+          (item) => getVariantLineItem(item),
         )
 
         const variables: CheckoutCreateInput = {
           lineItems: checkoutLineItemInputs,
           countryCode: countryCode,
         }
-        checkoutCreate(variables)
+        const updatedCheckout = await getOrCreateCheckout(variables)
+        console.log('UPDATED CHECKOUT', updatedCheckout)
       } else {
         dispatch({ type: FETCHED_CHECKOUT, checkout })
       }

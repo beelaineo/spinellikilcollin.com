@@ -131,7 +131,7 @@ export const Checkout = () => {
                 </Heading>
                 <div>
                   <Heading level={4} textTransform="uppercase" weight={2}>
-                    <Price price={checkout.totalPriceV2} style={'full'} />
+                    <Price price={totalPrice} style={'full'} />
                   </Heading>
                   {lineItems?.some(
                     (item) =>

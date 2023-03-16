@@ -98,17 +98,10 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       handle,
       countryCode: currentCountry,
     }).then((response) => {
-      console.log('UPDATING COUNTRY PRICE TABLE', currentCountry)
+      // console.log('UPDATING COUNTRY PRICE TABLE', currentCountry)
       setCurrentCollectionPrices(response)
     })
   }, [asPath, currentCountry])
-
-  useEffect(() => {
-    console.log(
-      'SET STATE OF CURRENT COLLECTION PRICES',
-      currentCollectionPrices,
-    )
-  }, [currentCollectionPrices])
 
   const getVariantPriceByCollection = (
     collectionHandle: string,
@@ -117,19 +110,12 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     if (!collectionHandle) return null
     if (currentCountry == 'US') return null
     if (!currentCollectionPrices) return null
-    console.log(
-      'FIND LOCALIZED VARIANT PRICE IN COLLECTION AND RETURN IT',
-      variantId,
-      collectionHandle,
-    )
 
     const findVariant = currentCollectionPrices.products.edges
       .find((p) => {
         return p.node.variants.edges.find((v) => v.node.id == variantId)
       })
       ?.node.variants.edges.filter((v) => v.node.id == variantId)[0].node
-
-    console.log('FOUND THE VARIANT', findVariant)
 
     return {
       priceV2: findVariant?.priceV2,
@@ -143,7 +129,6 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
 
     requestShopifyProductPriceRange({ id, countryCode: currentCountry }).then(
       (response) => {
-        console.log('requestShopifyProductPriceRange response:', response)
         return response
       },
     )
@@ -155,12 +140,10 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     variantId: string,
   ): Promise<Price | null> => {
     if (!productId || !variantId || !currentCountry) return null
-    console.log('currentCountry in PriceProvider:', currentCountry)
     const result = requestShopifyProductVariantPrices({
       id: productId,
       countryCode: currentCountry,
     })
-    console.log('requestShopifyProductVariantPrices response:', result)
     const product = await result
     const variants = product?.variants.edges
     const encodedVariantId = variantId.startsWith('gid')
@@ -170,9 +153,6 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     const currentVariant = variants.find(
       (v) => v.node.id == encodedVariantId || v.node.id == decodedVariantId,
     )
-    console.log('getVariantPriceById encodedVariantId', encodedVariantId)
-    console.log('getVariantPriceById decodedVariantId', decodedVariantId)
-    console.log('getVariantPriceById currentVariant', currentVariant)
     if (!currentVariant) return null
     const variantPrice = {
       priceV2: currentVariant.node.priceV2,

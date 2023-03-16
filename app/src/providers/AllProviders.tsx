@@ -18,7 +18,11 @@ import { AnalyticsProvider } from './AnalyticsProvider'
 import { ShopifyProvider } from './ShopifyProvider'
 import { ToastProvider } from './ToastProvider'
 
-const { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } = config
+const {
+  NEW_SHOPIFY_STOREFRONT_URL,
+  SHOPIFY_STOREFRONT_URL,
+  SHOPIFY_STOREFRONT_TOKEN,
+} = config
 
 /**
  * App
@@ -48,7 +52,7 @@ async function shopifyQuery<Response>(
     typeof query === 'string'
       ? query
       : deduplicateFragments(query?.loc?.source.body)
-  const result = await fetch(SHOPIFY_STOREFRONT_URL, {
+  const result = await fetch(NEW_SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
