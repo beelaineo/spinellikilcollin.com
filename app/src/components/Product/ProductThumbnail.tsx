@@ -167,6 +167,9 @@ export const ProductThumbnail = ({
   const [currentPrice, setCurrentPrice] =
     useState<null | ShopifyStorefrontMoneyV2>(null)
 
+  const [currentCompareAtPrice, setCurrentCompareAtPrice] =
+    useState<null | ShopifyStorefrontMoneyV2>(null)
+
   const [variantAnimation, setVariantAnimation] = useState<
     VariantAnimation | undefined
   >(undefined)
@@ -220,6 +223,11 @@ export const ProductThumbnail = ({
     } else {
       setCurrentPrice(null)
     }
+    if (variantPriceInfo?.compareAtPriceV2) {
+      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+    } else {
+      setCurrentCompareAtPrice(null)
+    }
   }, [])
 
   useEffect(() => {
@@ -257,7 +265,6 @@ export const ProductThumbnail = ({
   }, [currentVariant])
 
   useEffect(() => {
-    console.log('currentCollectionPrices', currentCollectionPrices)
     const collectionHandle = router.query.collectionSlug
     const currentVariantId = currentVariant?.id
     if (!collectionHandle || !currentVariantId) return
@@ -265,12 +272,15 @@ export const ProductThumbnail = ({
       collectionHandle as string,
       currentVariantId,
     )
-    console.log('COUNTRY UPDATED, SETTING CURRENT PRICE')
     if (variantPriceInfo?.priceV2) {
       setCurrentPrice(variantPriceInfo?.priceV2)
     } else {
-      console.log('VARIANT PRICE INFO IS NULL OR UNDEFINED')
       setCurrentPrice(null)
+    }
+    if (variantPriceInfo?.compareAtPriceV2) {
+      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+    } else {
+      setCurrentCompareAtPrice(null)
     }
   }, [currentVariant, currentCollectionPrices])
 
@@ -573,7 +583,13 @@ export const ProductThumbnail = ({
                     }
                   />
                   <Span ml={2} color="body.6" textDecoration="line-through">
-                    <Price price={currentVariant?.compareAtPriceV2} />
+                    <Price
+                      price={
+                        currentCompareAtPrice && currentCompareAtPrice != null
+                          ? currentCompareAtPrice
+                          : currentVariant?.compareAtPriceV2
+                      }
+                    />
                   </Span>
                 </PriceWrapper>
               </TitleHeading>
