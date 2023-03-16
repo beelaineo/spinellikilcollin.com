@@ -65,6 +65,7 @@ export const getPageLinkUrl = (
     .join('')
     .replace(/^\?$/, '')
   if (!document) throw new Error('No document was provided')
+  console.log('document', document)
   switch (document.__typename) {
     case 'ShopifyCollection':
       return {
@@ -106,7 +107,7 @@ export const getPageLinkUrl = (
       if (!document.slug || !document.slug.current) {
         throw new Error('This page does not have a slug')
       }
-
+      console.log('PAGE document.slug.current', document.slug.current)
       return {
         href: `/about/${document.slug.current}`.concat(paramString),
       }
