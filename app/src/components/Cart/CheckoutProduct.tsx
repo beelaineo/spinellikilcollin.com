@@ -216,14 +216,6 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
               </Span>
             )}
           </Heading>
-          {/* <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
-            <Price price={priceV2} />
-            {compareAtPriceV2 && (
-              <Span ml={2} color="body.6" textDecoration="line-through">
-                <Price price={compareAtPriceV2} />
-              </Span>
-            )}
-          </Heading> */}
           {displayOptions(variant).map((o, i) => {
             return (
               <Heading level={5} weight={2} mb={0} mt={0} key={i}>
