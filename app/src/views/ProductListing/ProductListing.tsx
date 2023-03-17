@@ -231,7 +231,13 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             )
           } else {
             return Boolean(
-              p.minVariantPrice >= minPrice && p.maxVariantPrice <= maxPrice,
+              (p.minVariantPrice >= minPrice &&
+                p.maxVariantPrice <= maxPrice) ||
+                (p.minVariantPrice >= minPrice &&
+                  p.minVariantPrice <= maxPrice) ||
+                ((p.minVariantPrice >= minPrice ||
+                  p.maxVariantPrice >= minPrice) &&
+                  p.maxVariantPrice <= maxPrice),
             )
           }
         } else if (filterGroup.filterType === INVENTORY_FILTER) {
