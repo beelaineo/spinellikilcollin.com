@@ -73,6 +73,7 @@ export const productInfoFragment = gql`
     _type
     title
     bodyRaw
+    body_intlRaw
   }
 `
 
