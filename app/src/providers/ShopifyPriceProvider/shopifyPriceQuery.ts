@@ -62,6 +62,16 @@ export const PRODUCT_PRICERANGE_QUERY = /* GraphQL */ gql`
   @inContext(country: $countryCode) {
     product(id: $id) {
       title
+      compareAtPriceRange {
+        maxVariantPrice {
+          amount
+          currencyCode
+        }
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
       priceRange {
         maxVariantPrice {
           amount
@@ -70,6 +80,41 @@ export const PRODUCT_PRICERANGE_QUERY = /* GraphQL */ gql`
         minVariantPrice {
           amount
           currencyCode
+        }
+      }
+    }
+  }
+`
+
+export const PRODUCT_VARIANT_PRICES_FROM_ARRAY_QUERY = /* GraphQL */ gql`
+  query getProductVariantPricesByIdArray(
+    $ids: [ID!]!
+    $countryCode: CountryCode!
+  ) @inContext(country: $countryCode) {
+    nodes(ids: $ids) {
+      ... on Product {
+        title
+        variants(first: 100) {
+          __typename
+          edges {
+            __typename
+            node {
+              __typename
+              availableForSale
+              currentlyNotInStock
+              id
+              sku
+              title
+              compareAtPriceV2 {
+                amount
+                currencyCode
+              }
+              priceV2 {
+                amount
+                currencyCode
+              }
+            }
+          }
         }
       }
     }
@@ -123,6 +168,12 @@ export interface ProductQueryDataResponse {
   }
 }
 
+export interface ProductArrayQueryDataResponse {
+  data: {
+    nodes: ShopifyStorefrontProduct[]
+  }
+}
+
 export interface CollectionQueryDataResponse {
   data: {
     collection: ShopifyStorefrontCollection
@@ -158,6 +209,18 @@ export const requestShopifyProductVariantPrices = async (
   const { product } = response.data
   console.log('fetch function results', response)
   return product
+}
+
+export const requestShopifyProductVariantPricesFromArray = async (
+  variables?: Record<string, unknown>,
+) => {
+  const response = await shopifyQuery<ProductArrayQueryDataResponse>(
+    PRODUCT_VARIANT_PRICES_FROM_ARRAY_QUERY,
+    variables,
+  )
+  const { nodes } = response.data
+  console.log('fetch function results array', response)
+  return nodes
 }
 
 export const requestShopifyProductPriceRange = async (

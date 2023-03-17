@@ -5,6 +5,7 @@ import { ProductGrid } from '../Product'
 import { Button } from '../Button'
 import { useLockScroll } from '../LockScroll'
 import { useSearch } from '../../providers/SearchProvider'
+import { useShopifyPrice } from '../../providers/ShopifyPriceProvider'
 import { SearchInput } from './SearchInput'
 import { Hamburger } from '../Hamburger'
 import { Loading } from '../Loading'
@@ -35,11 +36,13 @@ export const SearchPane = () => {
     searchTerm,
   } = useSearch()
   const { lockScroll, unlockScroll } = useLockScroll()
+  const { clearSearchResultPrices } = useShopifyPrice()
 
   /* Handlers */
 
   const close = () => {
     closeSearch()
+    clearSearchResultPrices()
     reset()
   }
 
@@ -131,13 +134,13 @@ export const SearchPane = () => {
       const descriptionMatches = getArrayLengths(descriptions)
       const summedMatches = getArraySums(nameMatches, descriptionMatches)
 
-      console.log('search-test: descriptionMatches', descriptionMatches)
-      console.log('search-test: nameMatches', nameMatches)
-      console.log('search-test: summedMatches', summedMatches)
-      console.log(
-        'search-test: mostMatchedVariant',
-        mostMatchedVariant(summedMatches, names),
-      )
+      // console.log('search-test: descriptionMatches', descriptionMatches)
+      // console.log('search-test: nameMatches', nameMatches)
+      // console.log('search-test: summedMatches', summedMatches)
+      // console.log(
+      //   'search-test: mostMatchedVariant',
+      //   mostMatchedVariant(summedMatches, names),
+      // )
       return isFullyHighlighted
         ? stripTag(isFullyHighlighted?.value)
         : stripTag(mostMatchedVariant(summedMatches, names))

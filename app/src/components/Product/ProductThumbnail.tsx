@@ -129,8 +129,13 @@ export const ProductThumbnail = ({
   const { isInViewOnce } = useInViewport(containerRef)
   const { sendProductImpression, sendProductClick } = useAnalytics()
   const { productInfoSettings, productListingSettings } = useShopData()
-  const { getVariantPriceByCollection, currentCollectionPrices } =
-    useShopifyPrice()
+  const {
+    getVariantPriceByCollection,
+    currentCollectionPrices,
+    getVariantPriceBySearchResults,
+    currentSearchResultPrices,
+    getProductPriceById,
+  } = useShopifyPrice()
   const { currentCountry } = useCountry()
 
   const productImages = product.sourceData?.images
@@ -179,6 +184,11 @@ export const ProductThumbnail = ({
   const [disableStockIndication, setDisableStockIndication] = useState(true)
 
   useEffect(() => {
+    console.log('title', product.title)
+    console.log(
+      initialVariant === undefined ? 'PRODUCT INITIAL VARIANT UNDEFINED' : null,
+    )
+
     const initialSwatchValue = initialVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Color',
     )[0]?.value
@@ -210,23 +220,43 @@ export const ProductThumbnail = ({
     } else {
       setVariantAnimation(undefined)
     }
-
     const collectionHandle = router.query.collectionSlug
     const currentVariantId = currentVariant?.id
-    if (!collectionHandle || !currentVariantId) return
-    const variantPriceInfo = getVariantPriceByCollection(
-      collectionHandle as string,
-      currentVariantId,
-    )
-    if (variantPriceInfo?.priceV2) {
-      setCurrentPrice(variantPriceInfo?.priceV2)
-    } else {
-      setCurrentPrice(null)
+    if (collectionHandle && currentVariantId) {
+      const variantPriceInfo = getVariantPriceByCollection(
+        collectionHandle as string,
+        currentVariantId,
+      )
+      if (variantPriceInfo?.priceV2) {
+        setCurrentPrice(variantPriceInfo?.priceV2)
+      } else {
+        setCurrentPrice(null)
+      }
+      if (variantPriceInfo?.compareAtPriceV2) {
+        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+      } else {
+        setCurrentCompareAtPrice(null)
+      }
     }
-    if (variantPriceInfo?.compareAtPriceV2) {
-      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
-    } else {
-      setCurrentCompareAtPrice(null)
+    if (currentSearchResultPrices && currentVariantId) {
+      const variantPriceInfo = getVariantPriceBySearchResults(currentVariantId)
+      if (variantPriceInfo?.priceV2) {
+        setCurrentPrice(variantPriceInfo?.priceV2)
+      }
+      if (variantPriceInfo?.compareAtPriceV2) {
+        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+      }
+    }
+    if (currentSearchResultPrices && !currentVariantId && product.shopifyId) {
+      getProductPriceById(product?.shopifyId).then((price) => {
+        console.log('productPriceInfo', price)
+        if (price?.priceV2) {
+          setCurrentPrice(price?.priceV2)
+        }
+        if (price?.compareAtPriceV2) {
+          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        }
+      })
     }
   }, [])
 
@@ -267,7 +297,8 @@ export const ProductThumbnail = ({
   useEffect(() => {
     const collectionHandle = router.query.collectionSlug
     const currentVariantId = currentVariant?.id
-    if (!collectionHandle || !currentVariantId) return
+    if (!currentVariantId) return
+
     const variantPriceInfo = getVariantPriceByCollection(
       collectionHandle as string,
       currentVariantId,
@@ -282,7 +313,40 @@ export const ProductThumbnail = ({
     } else {
       setCurrentCompareAtPrice(null)
     }
-  }, [currentVariant, currentCollectionPrices])
+    const variantSearchPriceInfo =
+      getVariantPriceBySearchResults(currentVariantId)
+    if (variantSearchPriceInfo?.priceV2) {
+      setCurrentPrice(variantSearchPriceInfo?.priceV2)
+    }
+    if (variantSearchPriceInfo?.compareAtPriceV2) {
+      setCurrentCompareAtPrice(variantSearchPriceInfo?.compareAtPriceV2)
+    }
+    if (!currentVariantId && product.shopifyId) {
+      getProductPriceById(product?.shopifyId).then((price) => {
+        console.log('productPriceInfo', price)
+        if (price?.priceV2) {
+          setCurrentPrice(price?.priceV2)
+          console.log('SET PRICE TO PRODUCT PRICE (NO VARIANTS)', price)
+        } else {
+          setCurrentCompareAtPrice(null)
+          console.log('SET PRICE TO NULL (NO VARIANTS)')
+        }
+        if (price?.compareAtPriceV2) {
+          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        } else {
+          setCurrentCompareAtPrice(null)
+        }
+      })
+    }
+  }, [
+    currentVariant,
+    currentCountry,
+    router.query,
+    getVariantPriceByCollection,
+    getVariantPriceBySearchResults,
+    product.shopifyId,
+    getProductPriceById,
+  ])
 
   const handleClick = () => {
     // @ts-ignore
