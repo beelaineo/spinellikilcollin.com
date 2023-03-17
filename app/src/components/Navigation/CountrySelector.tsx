@@ -18,6 +18,31 @@ const SelectField = styled(SelectElement)`
   min-width: initial;
   padding: 0 4 0 3;
   height: auto;
+  @media (max-width: 768px) {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+  }
+`
+
+const FlagWrapper = styled('div')`
+  display: none;
+  margin-right: 3;
+  font-size: 22;
+
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  @media (max-width: 650px) {
+    font-size: 20;
+    margin-right: 2;
+  }
+  @media (max-width: 370px) {
+    font-size: 16;
+    margin-right: 0;
+  }
 `
 
 /* prettier-ignore */
@@ -65,6 +90,14 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
     country: country,
   }
 
+  const getFlagEmoji = (countryCode: string) => {
+    const codePoints = countryCode
+      .toUpperCase()
+      .split('')
+      .map((char) => 127397 + char.charCodeAt(0))
+    return String.fromCodePoint(...codePoints)
+  }
+
   useEffect(() => {
     countryOptions().then((options) => {
       setOptions(options)
@@ -83,6 +116,11 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
         onSubmit={handleSubmit}
         initialValues={initialValues}
       >
+        {country && (
+          <FlagWrapper>
+            <label htmlFor="country">{getFlagEmoji(country)}</label>
+          </FlagWrapper>
+        )}
         <SelectField
           name="country"
           color="body.8"

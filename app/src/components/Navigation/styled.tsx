@@ -242,8 +242,14 @@ export const SearchButtonWrapper = styled.div`
       width: 100%;
       ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
+    ${theme.mediaQueries.tablet} {
+      width: 20px;
+      height: 16px;
+      margin-right: 3;
+      padding-bottom: 2px;
+    }
     ${theme.mediaQueries.mobile} {
-      width: 18px;
+      width: 20px;
       height: 16px;
       margin-right: 3;
     }
