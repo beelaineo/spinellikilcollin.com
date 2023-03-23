@@ -307,6 +307,7 @@ export const getBestVariantBySort = (
   initialVariant?: ShopifySourceProductVariant,
 ): ShopifySourceProductVariant => {
   if (sort == Sort.Default && initialVariant) return initialVariant
+
   const bestVariant = variants.find((v) => {
     if (!v?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
@@ -334,6 +335,8 @@ export const getBestVariantByFilterMatch = (
   minVariantPrice?: number,
   maxVariantPrice?: number,
   initialVariant?: ShopifySourceProductVariant,
+  minPrice?: number,
+  maxPrice?: number,
 ): ShopifySourceProductVariant => {
   const bestColorVariant = variants.find((v) => {
     v
@@ -497,15 +500,28 @@ export const getBestVariantByFilterMatch = (
     }
   })
 
-  return (
+  const bestPriceVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+
+    const price = parseFloat(v.priceV2.amount)
+
+    if (!minPrice || !maxPrice) return
+
+    if (price >= minPrice && price <= maxPrice) {
+      return true
+    } else return undefined
+  })
+
+  const bestMatches =
     bestSortVariant ||
     bestInStockColorVariant ||
     bestInStockStoneVariant ||
     bestInStockVariant ||
     bestColorVariant ||
     bestStoneVariant ||
-    variants[0]
-  )
+    bestPriceVariant
+
+  return (bestPriceVariant && bestMatches) || bestMatches || variants[0]
 }
 
 export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {

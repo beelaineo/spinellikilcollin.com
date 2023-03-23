@@ -306,7 +306,6 @@ export const ProductThumbnail = ({
     const maxVariantPrice = product?.maxVariantPrice || 0
 
     if (currentFilter) {
-      // console.log('current productListingSettings', productListingSettings)
       const defaultPriceRangeFilter =
         productListingSettings?.newDefaultFilter?.find(
           (f) => f?.__typename == 'PriceRangeFilter',
@@ -315,9 +314,7 @@ export const ProductThumbnail = ({
       const defaultMinPrice = defaultPriceRangeFilter?.minPrice
       //@ts-ignore
       const defaultMaxPrice = defaultPriceRangeFilter?.maxPrice
-      // console.log('current defaultMinPrice', defaultMinPrice)
-      // console.log('current defaultMaxPrice', defaultMaxPrice)
-      // console.log('currentFilter that messes up initialVariant', currentFilter)
+
       const priceRangeFilter = currentFilter.find(
         (f) => f?.filterType == 'PRICE_RANGE_FILTER',
       )
@@ -384,6 +381,11 @@ export const ProductThumbnail = ({
           .flat()
           .reverse()
 
+        //@ts-ignore
+        const minPrice = priceRangeFilter?.minPrice
+        //@ts-ignore
+        const maxPrice = priceRangeFilter?.maxPrice
+
         const filteredVariant = getBestVariantByFilterMatch(
           variants,
           filters,
@@ -391,6 +393,8 @@ export const ProductThumbnail = ({
           minVariantPrice,
           maxVariantPrice,
           initialVariant,
+          minPrice,
+          maxPrice,
         )
         setCurrentVariant(filteredVariant)
       }
@@ -474,9 +478,6 @@ export const ProductThumbnail = ({
     variant: currentVariant,
     currentPath: asPath,
   })
-
-  // console.log('variantAnimation', variantAnimation)
-  // console.log('playing thumbnail', playing)
 
   return (
     <ProductThumb ref={containerRef}>

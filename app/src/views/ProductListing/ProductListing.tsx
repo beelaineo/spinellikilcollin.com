@@ -25,7 +25,7 @@ import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
-import { getHeroImage, isValidHero, definitely } from '../../utils'
+import { getHeroImage, isValidHero, definitely, unique } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
@@ -94,6 +94,19 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
+
+  const collectionProductsWithPrices = [...definitely(collection.products)].map(
+    (product) => {
+      const [variants] = unwindEdges(product?.sourceData?.variants)
+
+      const prices = variants.map(
+        (variant) => variant?.priceV2 && variant.priceV2.amount,
+      )
+
+      return { ...product, prices: unique(prices) }
+    },
+  )
+
   const [productResults, setProductResults] = useState<
     ShopifyProductListingProduct[]
   >([...definitely(collection.products)])
@@ -209,9 +222,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   const filterResults = (currentFilters: FilterConfiguration | null) => {
-    if (currentFilters == null) return [...definitely(collection.products)]
+    if (currentFilters == null)
+      return [...definitely(collectionProductsWithPrices)]
     const newResults: ShopifyProductListingProduct[] = [
-      ...definitely(collection.products),
+      ...definitely(collectionProductsWithPrices),
     ].filter((p) => {
       return currentFilters.every((filterGroup) => {
         if (filterGroup.filterType === FILTER_MATCH_GROUP) {
@@ -225,19 +239,19 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
           if (!p.minVariantPrice || !p.maxVariantPrice) return false
           const { minPrice, maxPrice } = filterGroup
+
           if (p.minVariantPrice == p.maxVariantPrice) {
             return Boolean(
               p.minVariantPrice >= minPrice && p.minVariantPrice <= maxPrice,
             )
           } else {
             return Boolean(
-              (p.minVariantPrice >= minPrice &&
-                p.maxVariantPrice <= maxPrice) ||
-                (p.minVariantPrice >= minPrice &&
-                  p.minVariantPrice <= maxPrice) ||
-                ((p.minVariantPrice >= minPrice ||
-                  p.maxVariantPrice >= minPrice) &&
-                  p.maxVariantPrice <= maxPrice),
+              p.prices.some(
+                (price) =>
+                  price &&
+                  minPrice <= parseFloat(price) &&
+                  maxPrice >= parseFloat(price),
+              ),
             )
           }
         } else if (filterGroup.filterType === INVENTORY_FILTER) {
