@@ -513,13 +513,13 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestMatches =
-    bestSortVariant ||
     bestInStockColorVariant ||
     bestInStockStoneVariant ||
     bestInStockVariant ||
     bestColorVariant ||
     bestStoneVariant ||
-    bestPriceVariant
+    bestPriceVariant ||
+    bestSortVariant
 
   return (bestPriceVariant && bestMatches) || bestMatches || variants[0]
 }
