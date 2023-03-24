@@ -84,12 +84,17 @@ export const CountryProvider = ({ children }: CountryProps) => {
         'updating user country to country based on browser geolocation',
       )
       updateCountryState(geolocateCountry)
-      const formattedCountry = getCountryNameFromCountryCode(geolocateCountry)
       // create toast here
-      const toastMessage = `We've detected that you're in ${
-        formattedCountry || 'Country Unknown'
-      }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
-      createToast({ message: toastMessage, type: ToastType.Message })
+      const sendToast = async () => {
+        const formattedCountry = await getCountryNameFromCountryCode(
+          geolocateCountry,
+        )
+        const toastMessage = `We've detected that you're in ${
+          formattedCountry || 'Country Unknown'
+        }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
+        createToast({ message: toastMessage, type: ToastType.Message })
+      }
+      sendToast()
     }
   }, [])
 
