@@ -506,10 +506,11 @@ export const ProductDetail = ({ product }: Props) => {
                               key={a._key || 'some-key'}
                               label={a.title}
                             >
-                              {currentCountry == 'US' ? (
-                                <RichText body={a.bodyRaw} />
-                              ) : (
+                              {a.title == 'Shipping' &&
+                              currentCountry != 'US' ? (
                                 <RichText body={a.body_intlRaw} />
+                              ) : (
+                                <RichText body={a.bodyRaw} />
                               )}
                             </Accordion>
                           ) : null,
