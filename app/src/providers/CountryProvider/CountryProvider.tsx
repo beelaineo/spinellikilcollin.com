@@ -36,6 +36,25 @@ interface CountryProps {
   children: React.ReactNode
 }
 
+const getCountryNameFromCountryCode = async (
+  country: ShopifyStorefrontCountryCode,
+): Promise<string | undefined> => {
+  const countryData = await import('../../data/countries.json')
+  const flag = countryData.default
+    .filter(
+      (c) =>
+        Boolean(c.countryCode) && Boolean(c.flagEmoji && Boolean(c.english)),
+    )
+    .find((c) => c.countryCode === country)?.flagEmoji
+  const name = countryData.default
+    .filter(
+      (c) =>
+        Boolean(c.countryCode) && Boolean(c.flagEmoji && Boolean(c.english)),
+    )
+    .find((c) => c.countryCode === country)?.english
+  return `${flag} ${name}`
+}
+
 export const CountryProvider = ({ children }: CountryProps) => {
   const {
     loading,
@@ -56,9 +75,21 @@ export const CountryProvider = ({ children }: CountryProps) => {
     console.log('geolocateCountry COOKIE', geolocateCountry)
     console.log('viewerCountry COOKIE', viewerCountry)
     if (viewerCountry && viewerCountry !== currentCountry) {
+      console.log(
+        'updating user country to viewer country preference (from browser cookie)',
+      )
       updateCountryState(viewerCountry)
     } else if (geolocateCountry && geolocateCountry !== currentCountry) {
+      console.log(
+        'updating user country to country based on browser geolocation',
+      )
       updateCountryState(geolocateCountry)
+      const formattedCountry = getCountryNameFromCountryCode(geolocateCountry)
+      // create toast here
+      const toastMessage = `We've detected that you're in ${
+        formattedCountry || 'Country Unknown'
+      }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
+      createToast({ message: toastMessage, type: ToastType.Message })
     }
   }, [])
 
