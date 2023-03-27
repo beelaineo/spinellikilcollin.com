@@ -390,10 +390,14 @@ export const ProductThumbnail = ({
           .flat()
           .reverse()
 
-        //@ts-ignore
-        const minPrice = priceRangeFilter?.minPrice
-        //@ts-ignore
-        const maxPrice = priceRangeFilter?.maxPrice
+        const minPrice = priceRangeFilterIsDefault
+          ? null
+          : //@ts-ignore
+            priceRangeFilter?.minPrice
+        const maxPrice = priceRangeFilterIsDefault
+          ? null
+          : //@ts-ignore
+            priceRangeFilter?.maxPrice
 
         const filteredVariant = getBestVariantByFilterMatch(
           variants,

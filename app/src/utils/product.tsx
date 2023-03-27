@@ -345,10 +345,25 @@ export const getBestVariantByFilterMatch = (
   minVariantPrice?: number,
   maxVariantPrice?: number,
   initialVariant?: ShopifySourceProductVariant,
-  minPrice?: number,
-  maxPrice?: number,
+  minPrice?: number | null,
+  maxPrice?: number | null,
 ): ShopifySourceProductVariant => {
-  const bestColorVariant = variants.find((v) => {
+  const priceFilteredVariants = variants.filter((v) => {
+    if (!v?.priceV2?.amount) return false
+
+    const price = parseFloat(v.priceV2.amount)
+
+    if (!minPrice && !maxPrice) return false
+
+    //@ts-ignore
+    return price >= minPrice && price <= maxPrice
+  })
+
+  const bestVariants = priceFilteredVariants.length
+    ? priceFilteredVariants
+    : variants
+
+  const bestColorVariant = bestVariants.find((v) => {
     const colorMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -393,7 +408,7 @@ export const getBestVariantByFilterMatch = (
     return colorMatches
   })
 
-  const bestStoneVariant = variants.find((v) => {
+  const bestStoneVariant = bestVariants.find((v) => {
     const stoneMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -432,7 +447,7 @@ export const getBestVariantByFilterMatch = (
     return stoneMatches
   })
 
-  const inStockVariants = variants.filter((v) => {
+  const inStockVariants = bestVariants.filter((v) => {
     const stockMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -531,7 +546,7 @@ export const getBestVariantByFilterMatch = (
     bestStoneVariant ||
     bestPriceVariant
 
-  return (bestPriceVariant && bestMatches) || bestMatches || variants[0]
+  return bestMatches || variants[0]
 }
 
 export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
