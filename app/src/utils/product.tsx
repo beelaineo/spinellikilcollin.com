@@ -349,7 +349,6 @@ export const getBestVariantByFilterMatch = (
   maxPrice?: number,
 ): ShopifySourceProductVariant => {
   const bestColorVariant = variants.find((v) => {
-    v
     const colorMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -515,21 +514,22 @@ export const getBestVariantByFilterMatch = (
 
     const price = parseFloat(v.priceV2.amount)
 
-    if (!minPrice || !maxPrice) return
+    if (!minPrice && !maxPrice) return
 
+    //@ts-ignore
     if (price >= minPrice && price <= maxPrice) {
       return true
     } else return undefined
   })
 
   const bestMatches =
+    bestSortVariant ||
     bestInStockColorVariant ||
     bestInStockStoneVariant ||
     bestInStockVariant ||
     bestColorVariant ||
     bestStoneVariant ||
-    bestPriceVariant ||
-    bestSortVariant
+    bestPriceVariant
 
   return (bestPriceVariant && bestMatches) || bestMatches || variants[0]
 }
