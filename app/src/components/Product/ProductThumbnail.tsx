@@ -346,7 +346,16 @@ export const ProductThumbnail = ({
         isNotDefaultFilter(f),
       )
 
-      if (
+      if (currentSort !== 'Featured') {
+        const filteredVariant = getBestVariantBySort(
+          variants,
+          currentSort,
+          minVariantPrice,
+          maxVariantPrice,
+          initialVariant,
+        )
+        setCurrentVariant(filteredVariant)
+      } else if (
         priceRangeFilterIsDefault &&
         inventoryFilterIsInactive &&
         filtersAreDefault &&
@@ -398,15 +407,6 @@ export const ProductThumbnail = ({
         )
         setCurrentVariant(filteredVariant)
       }
-    } else if (currentSort) {
-      const filteredVariant = getBestVariantBySort(
-        variants,
-        currentSort,
-        minVariantPrice,
-        maxVariantPrice,
-        initialVariant,
-      )
-      setCurrentVariant(filteredVariant)
     }
   }, [currentFilter, currentSort])
 
