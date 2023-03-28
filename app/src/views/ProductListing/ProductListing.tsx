@@ -109,7 +109,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const [productResults, setProductResults] = useState<
     ShopifyProductListingProduct[]
-  >([...definitely(collection.products)])
+  >([...definitely(collectionProductsWithPrices)])
 
   const [items, setItems] = useState<Item[]>(
     collectionBlocks?.length
@@ -144,6 +144,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     ShopifyCollection[] | ShopifyProductListingProduct[],
     PaginationArgs
   >()
+
+  const priceRange = currentFilters?.filter(
+    (f) => f.filterType === 'PRICE_RANGE_FILTER',
+  )[0]
 
   if (!handle) {
     throw new Error('The collection is missing a handle')
@@ -290,11 +294,15 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductsCount(productResults.length)
+
+    if (!priceRange) return
+
     if (sort) {
       const sortedProductResults = productResults.map((p, sortIndex) => ({
         sortIndex,
         ...p,
       }))
+
       switch (sort) {
         case Sort.Default:
           sortedProductResults.sort((a, b) =>
@@ -304,18 +312,49 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           break
         case Sort.PriceDesc:
           sortedProductResults.sort((a, b) =>
-            b.maxVariantPrice && a.maxVariantPrice
-              ? b.maxVariantPrice - a.maxVariantPrice
+            b.prices && a.prices
+              ? Math.max(
+                  b.prices.filter(
+                    (price) =>
+                      price >= priceRange?.minPrice &&
+                      price <= priceRange?.maxPrice,
+                  ),
+                ) -
+                Math.max(
+                  a.prices.filter(
+                    (price) =>
+                      price >= priceRange?.minPrice &&
+                      price <= priceRange?.maxPrice,
+                  ),
+                )
               : 0,
           )
           updateItems(sortedProductResults)
           break
         case Sort.PriceAsc:
           sortedProductResults.sort((a, b) =>
-            b.minVariantPrice && a.minVariantPrice
-              ? a.minVariantPrice - b.minVariantPrice
+            b.prices && a.prices
+              ? Math.min(
+                  parseFloat(
+                    a.prices.filter(
+                      (price) =>
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                ) -
+                Math.min(
+                  parseFloat(
+                    b.prices.filter(
+                      (price) =>
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                )
               : 0,
           )
+
           updateItems(sortedProductResults)
           break
       }

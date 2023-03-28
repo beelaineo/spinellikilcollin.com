@@ -344,7 +344,7 @@ export const ProductThumbnail = ({
         isNotDefaultFilter(f),
       )
 
-      if (currentSort !== 'Featured') {
+      if (currentSort !== 'Featured' && priceRangeFilterIsDefault) {
         const filteredVariant = getBestVariantBySort(
           variants,
           currentSort,
