@@ -538,7 +538,6 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestMatches =
-    bestSortVariant ||
     bestInStockColorVariant ||
     bestInStockStoneVariant ||
     bestInStockVariant ||
