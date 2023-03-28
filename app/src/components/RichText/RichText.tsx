@@ -10,6 +10,7 @@ import { useCart } from '../../providers/CartProvider'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { LinkInfo } from '../../utils'
 import { EmbeddedForm } from './EmbeddedForm'
+import { CloudinaryVideo } from '../CloudinaryVideo'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
@@ -150,10 +151,12 @@ const serializers = ({
     regular: ({ children }) => <Span fontWeight={400}>{children}</Span>,
     bold: ({ children }) => <Span fontWeight={700}>{children}</Span>,
     internalLink: ({ children, mark }) => {
+      console.log('INTERNAL LINK', mark)
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
-      const { as } = linkData
-      return <a href={as}>{children}</a>
+      console.log('linkData', linkData)
+      const { as, href } = linkData
+      return <a href={href || as}>{children}</a>
     },
     action: ({ children, mark }) => {
       const { actionType } = mark
@@ -178,6 +181,11 @@ const serializers = ({
     },
   },
   listItem: (props) => <Li weight={3} {...props} />,
+  cloudinaryVideo: (props) => {
+    const { node } = props
+    console.log('node', node)
+    return <CloudinaryVideo video={node} />
+  },
   block: (props: RichTextBlock): React.ReactNode => {
     const { node } = props
     /* If a custom block wrapper was passed in, use it instead.
@@ -193,6 +201,9 @@ const serializers = ({
       return (
         <EmbeddedForm block={node} openRingSizerModal={openRingSizerModal} />
       )
+    }
+    if (node._type === 'cloudinaryVideo') {
+      return <CloudinaryVideo video={node} />
     }
     const style = node.style || 'normal'
     // if (props.node._type === 'videoEmbed') return <VideoEmbed video={props.node} />
@@ -256,6 +267,7 @@ export const RichText = ({
   const openRingSizerModalWithProduct = () =>
     openRingSizerModal({ currentProduct, currentVariant })
   const Wrapper = CustomWrapper || RichTextWrapper
+  console.log('PAGE BODY RAW', body)
   return body ? (
     <Wrapper article={article}>
       <BlockContent

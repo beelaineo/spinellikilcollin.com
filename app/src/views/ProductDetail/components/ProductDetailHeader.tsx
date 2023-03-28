@@ -134,9 +134,11 @@ export const ProductDetailHeader = ({
         {inquiryOnly !== true ? (
           <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
             <Price price={priceV2} />
-            <Span ml={2} color="body.6" textDecoration="line-through">
-              <Price price={compareAtPriceV2} />
-            </Span>
+            {compareAtPriceV2 && (
+              <Span ml={2} color="body.6" textDecoration="line-through">
+                <Price price={compareAtPriceV2} />
+              </Span>
+            )}
           </Heading>
         ) : null}
       </TitleWrapper>

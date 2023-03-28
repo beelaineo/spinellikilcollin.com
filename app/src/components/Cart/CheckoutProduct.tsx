@@ -3,7 +3,7 @@ import { Box } from '@xstyled/styled-components'
 import Link from 'next/link'
 import { useShopify, useAnalytics } from '../../providers'
 import { ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType } from '../../types/generated-shopify'
-import { Heading } from '../../components/Text'
+import { Heading, Span } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
 import { Button } from '../../components/Button'
@@ -210,6 +210,11 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
           </Link>
           <Heading level={5} weight={2} mb={0} mt={0} textTransform="uppercase">
             <Price price={variant.priceV2} />
+            {variant.compareAtPriceV2 && (
+              <Span ml={2} color="body.6" textDecoration="line-through">
+                <Price price={variant.compareAtPriceV2} />
+              </Span>
+            )}
           </Heading>
           {displayOptions(variant).map((o, i) => {
             return (
