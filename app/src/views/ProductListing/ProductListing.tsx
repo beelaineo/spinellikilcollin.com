@@ -295,13 +295,13 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   useEffect(() => {
     setProductsCount(productResults.length)
 
-    if (!priceRange) return
-
     if (sort) {
       const sortedProductResults = productResults.map((p, sortIndex) => ({
         sortIndex,
         ...p,
       }))
+
+      if (!priceRange) return
 
       switch (sort) {
         case Sort.Default:
@@ -314,17 +314,25 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           sortedProductResults.sort((a, b) =>
             b.prices && a.prices
               ? Math.max(
-                  b.prices.filter(
-                    (price) =>
-                      price >= priceRange?.minPrice &&
-                      price <= priceRange?.maxPrice,
+                  parseFloat(
+                    b.prices.filter(
+                      (price) =>
+                        priceRange.minPrice &&
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        priceRange.maxPrice &&
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
                   ),
                 ) -
                 Math.max(
-                  a.prices.filter(
-                    (price) =>
-                      price >= priceRange?.minPrice &&
-                      price <= priceRange?.maxPrice,
+                  parseFloat(
+                    a.prices.filter(
+                      (price) =>
+                        priceRange.minPrice &&
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        priceRange.maxPrice &&
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
                   ),
                 )
               : 0,
@@ -338,7 +346,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   parseFloat(
                     a.prices.filter(
                       (price) =>
+                        priceRange.minPrice &&
                         parseFloat(price) >= priceRange?.minPrice &&
+                        priceRange.maxPrice &&
                         parseFloat(price) <= priceRange?.maxPrice,
                     ),
                   ),
@@ -347,7 +357,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   parseFloat(
                     b.prices.filter(
                       (price) =>
+                        priceRange.minPrice &&
                         parseFloat(price) >= priceRange?.minPrice &&
+                        priceRange.maxPrice &&
                         parseFloat(price) <= priceRange?.maxPrice,
                     ),
                   ),

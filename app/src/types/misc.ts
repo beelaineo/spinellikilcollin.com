@@ -42,23 +42,23 @@ export interface InventoryFilterConfiguration {
   key: string
   label: string
   applyFilter: boolean
-  minPrice: number
-  maxPrice: number
+  minPrice?: number
+  maxPrice?: number
 }
 
 export interface FilterMatchGroup {
   filterType: typeof FILTER_MATCH_GROUP
   matches: FilterMatch[]
-  minPrice: number
-  maxPrice: number
+  minPrice?: number
+  maxPrice?: number
 }
 
 export interface FilterSingleConfiguration {
   filterType: typeof FILTER_SINGLE
   key: string
   matches: FilterMatch[]
-  minPrice: number
-  maxPrice: number
+  minPrice?: number
+  maxPrice?: number
 }
 
 type FilterGroup =
