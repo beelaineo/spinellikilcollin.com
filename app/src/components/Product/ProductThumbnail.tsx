@@ -322,9 +322,7 @@ export const ProductThumbnail = ({
         (f) => f?.filterType == 'INVENTORY_FILTER',
       )
       const priceRangeFilterIsDefault =
-        //@ts-ignore
         priceRangeFilter?.minPrice == defaultMinPrice &&
-        //@ts-ignore
         priceRangeFilter?.maxPrice == defaultMaxPrice
           ? true
           : false
@@ -392,12 +390,10 @@ export const ProductThumbnail = ({
 
         const minPrice = priceRangeFilterIsDefault
           ? null
-          : //@ts-ignore
-            priceRangeFilter?.minPrice
+          : priceRangeFilter?.minPrice
         const maxPrice = priceRangeFilterIsDefault
           ? null
-          : //@ts-ignore
-            priceRangeFilter?.maxPrice
+          : priceRangeFilter?.maxPrice
 
         const filteredVariant = getBestVariantByFilterMatch(
           variants,

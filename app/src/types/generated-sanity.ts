@@ -1255,6 +1255,8 @@ export interface InventoryFilter {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  minPrice?: Maybe<Scalars['String']>
+  maxPrice?: Maybe<Scalars['String']>
 }
 
 export type InventoryFilterFilter = {
@@ -1677,22 +1679,22 @@ export interface PriceRangeFilter {
   __typename: 'PriceRangeFilter'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  minPrice?: Maybe<Scalars['Float']>
-  maxPrice?: Maybe<Scalars['Float']>
+  minPrice: Maybe<FloatFilter>
+  maxPrice: Maybe<FloatFilter>
 }
 
 export type PriceRangeFilterFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
-  minPrice?: Maybe<FloatFilter>
-  maxPrice?: Maybe<FloatFilter>
+  minPrice: Maybe<FloatFilter>
+  maxPrice: Maybe<FloatFilter>
 }
 
 export type PriceRangeFilterSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  minPrice?: Maybe<SortOrder>
-  maxPrice?: Maybe<SortOrder>
+  minPrice: Maybe<SortOrder>
+  maxPrice: Maybe<SortOrder>
 }
 
 export interface ProductInfo {
@@ -2811,6 +2813,7 @@ export interface ShopifyProduct extends Document {
   collections?: Maybe<Array<Maybe<ShopifyCollection>>>
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>
   variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
+  prices?: any
   /** DEPRECATED: This has been split up into "Hide from Collections" and "Hide from Search" */
   hidden?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL */

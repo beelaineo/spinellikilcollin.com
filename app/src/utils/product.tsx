@@ -353,9 +353,8 @@ export const getBestVariantByFilterMatch = (
 
     const price = parseFloat(v.priceV2.amount)
 
-    if (!minPrice && !maxPrice) return false
+    if (!minPrice || !maxPrice) return false
 
-    //@ts-ignore
     return price >= minPrice && price <= maxPrice
   })
 
@@ -529,9 +528,8 @@ export const getBestVariantByFilterMatch = (
 
     const price = parseFloat(v.priceV2.amount)
 
-    if (!minPrice && !maxPrice) return
+    if (!minPrice || !maxPrice) return
 
-    //@ts-ignore
     if (price >= minPrice && price <= maxPrice) {
       return true
     } else return undefined
