@@ -240,9 +240,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           const isInExcludedList = excludedProducts?.find((product) => {
             return product?.handle === handle
           })
-          return applyFilter
-            ? Boolean(!isInExcludedList && p.filterData.inStock == true)
-            : true
+          return applyFilter ? p.filterData.inStock == true : true
         } else {
           throw new Error(`This kind of filter cannot be parsed`)
         }

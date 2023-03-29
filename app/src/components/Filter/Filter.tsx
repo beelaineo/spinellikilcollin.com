@@ -550,7 +550,7 @@ export const Filter = ({
                   active={Boolean(activeKey === filter._key)}
                   minimalDisplay={minimalDisplay}
                 >
-                  {/* <InventoryFilter
+                  <InventoryFilter
                     setKey={filter._key || 'some-key'}
                     filterSetState={filterSetStates.find(
                       (s) => s.key === filter._key,
@@ -560,7 +560,7 @@ export const Filter = ({
                     scrollGridIntoView={scrollGridIntoView}
                     inventoryFilter={filter}
                     active={Boolean(activeKey === filter._key)}
-                  /> */}
+                  />
                 </FilterWrapper>
               ) : null,
             )}
