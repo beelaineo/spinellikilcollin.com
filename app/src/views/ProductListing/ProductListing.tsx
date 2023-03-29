@@ -298,7 +298,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         sortIndex,
         ...p,
       }))
-
       if (!priceRange) return
 
       switch (sort) {
@@ -315,9 +314,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   parseFloat(
                     b.prices.filter(
                       (price) =>
-                        priceRange.minPrice &&
+                        // @ts-ignore
                         parseFloat(price) >= priceRange?.minPrice &&
-                        priceRange.maxPrice &&
+                        // @ts-ignore
                         parseFloat(price) <= priceRange?.maxPrice,
                     ),
                   ),
@@ -326,9 +325,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   parseFloat(
                     a.prices.filter(
                       (price) =>
-                        priceRange.minPrice &&
+                        // @ts-ignore
                         parseFloat(price) >= priceRange?.minPrice &&
-                        priceRange.maxPrice &&
+                        // @ts-ignore
                         parseFloat(price) <= priceRange?.maxPrice,
                     ),
                   ),
@@ -344,9 +343,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   parseFloat(
                     a.prices.filter(
                       (price) =>
-                        priceRange.minPrice &&
+                        // @ts-ignore
                         parseFloat(price) >= priceRange?.minPrice &&
-                        priceRange.maxPrice &&
+                        // @ts-ignore
                         parseFloat(price) <= priceRange?.maxPrice,
                     ),
                   ),
@@ -355,9 +354,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                   parseFloat(
                     b.prices.filter(
                       (price) =>
-                        priceRange.minPrice &&
+                        // @ts-ignore
                         parseFloat(price) >= priceRange?.minPrice &&
-                        priceRange.maxPrice &&
+                        // @ts-ignore
                         parseFloat(price) <= priceRange?.maxPrice,
                     ),
                   ),
@@ -366,6 +365,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           )
 
           updateItems(sortedProductResults)
+
           break
       }
     } else {
