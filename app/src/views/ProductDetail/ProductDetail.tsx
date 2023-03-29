@@ -1,7 +1,14 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
-import { Maybe, Scalars, ShopifyProduct, ShopifySourceImage } from '../../types'
+import {
+  Maybe,
+  Scalars,
+  ShopifyProduct,
+  ShopifyProductVariant,
+  ShopifySourceImage,
+  ShopifySourceProductVariant,
+} from '../../types'
 import {
   getVariantTitle,
   parseHTML,
@@ -155,7 +162,6 @@ export const ProductDetail = ({ product }: Props) => {
   const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)
-
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
     variants?.filter(
@@ -245,7 +251,8 @@ export const ProductDetail = ({ product }: Props) => {
 
   const [playing, setPlaying] = useState(false)
   const [disableStockIndication, setDisableStockIndication] = useState(true)
-
+  const [disableVariantStockIndication, setDisableVariantStockIndication] =
+    useState(true)
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
     : []
@@ -317,6 +324,15 @@ export const ProductDetail = ({ product }: Props) => {
     return withTypenames<R>(results)
   }
 
+  const sanityQuery = async <R = string | null,>(
+    query: string,
+    params?: Record<string, any>,
+  ): Promise<R> => {
+    const results = await sanityClient.fetch<R>(query, params || {})
+    // @ts-ignore
+    return withTypenames<R>(results)
+  }
+
   const productIsExcluded = async (
     product: ShopifyProduct,
   ): Promise<boolean> => {
@@ -327,6 +343,7 @@ export const ProductDetail = ({ product }: Props) => {
     return Boolean(productIsExcluded)
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const isExcludedFromStockIndication = (product: ShopifyProduct) => {
     const excludedProducts = productInfoSettings?.excludeFromStockIndication
     const handle = product?.handle
@@ -343,8 +360,24 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   useEffect(() => {
+    const variantIsExcluded = async (
+      variant: ShopifyProductVariant,
+      product: ShopifyProduct,
+    ): Promise<boolean> => {
+      const variantIsExcluded = await sanityQuery(
+        `*[_type == 'shopifyProduct' && handle == $handle][0].variants[id == $id].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
+        { handle: product?.handle, id: variant?.sourceData?.id },
+      )
+      return Boolean(variantIsExcluded == 'true')
+    }
+
+    variantIsExcluded(currentVariant, product).then((res: boolean) => {
+      setDisableVariantStockIndication(res)
+    })
+  }, [currentVariant, product])
+
+  useEffect(() => {
     isExcludedFromStockIndication(product)
-    console.log('disableStockIndication', disableStockIndication)
   }, [isExcludedFromStockIndication, disableStockIndication, product])
 
   const defaultSeo = {
@@ -417,8 +450,8 @@ export const ProductDetail = ({ product }: Props) => {
                   )}
                 />
                 <ProductInfoWrapper>
-                  {/* {disableStockIndication != true &&
-                  variantsInStock?.length > 0 ? (
+                  {variantsInStock?.length > 0 &&
+                  disableStockIndication !== true ? (
                     <StockedLabelMobile
                       hide={
                         !isSwatchCurrentlyInStock(
@@ -435,7 +468,7 @@ export const ProductDetail = ({ product }: Props) => {
                           : 'Ready to Ship in Select Sizes'}
                       </Heading>
                     </StockedLabelMobile>
-                  ) : null} */}
+                  ) : null}
                   <ProductVariantSelector
                     variants={variants}
                     currentVariant={currentVariant}
