@@ -98,8 +98,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     ShopifyProductListingProduct[]
   >([...definitely(collection.products)])
 
-  console.log('COLLECTION', collection)
-
   const [items, setItems] = useState<Item[]>(
     collectionBlocks?.length
       ? definitely(collectionBlocks).reduce<Item[]>((acc, current) => {
