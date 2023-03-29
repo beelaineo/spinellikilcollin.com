@@ -463,7 +463,8 @@ export const ProductDetail = ({ product }: Props) => {
                     >
                       <Heading level={4} weight={1} as={'em'}>
                         <InStockDot />
-                        {currentlyNotInStock !== true
+                        {currentlyNotInStock !== true &&
+                        !currentVariant.title?.includes('Not sure of my size')
                           ? 'Ready to Ship'
                           : 'Ready to Ship in Select Sizes'}
                       </Heading>
