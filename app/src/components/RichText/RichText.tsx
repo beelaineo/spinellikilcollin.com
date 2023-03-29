@@ -267,7 +267,6 @@ export const RichText = ({
   const openRingSizerModalWithProduct = () =>
     openRingSizerModal({ currentProduct, currentVariant })
   const Wrapper = CustomWrapper || RichTextWrapper
-  console.log('PAGE BODY RAW', body)
   return body ? (
     <Wrapper article={article}>
       <BlockContent

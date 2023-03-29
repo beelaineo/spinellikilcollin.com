@@ -110,7 +110,7 @@ export const ProductDetailHeader = ({
   return (
     <>
       <TitleWrapper product={product}>
-        {variantsInStock?.length > 0 ? (
+        {variantsInStock?.length > 0 && disableStockIndication !== true ? (
           <StockedLabel
             hide={
               !isSwatchCurrentlyInStock(

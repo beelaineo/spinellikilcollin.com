@@ -162,7 +162,6 @@ export const ProductDetail = ({ product }: Props) => {
   const { inquiryOnly, seo, handle, variants: maybeVariants } = product
 
   const variants = definitely(maybeVariants)
-  console.log('CURRENT VARIANT', currentVariant)
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
     variants?.filter(
@@ -373,14 +372,12 @@ export const ProductDetail = ({ product }: Props) => {
     }
 
     variantIsExcluded(currentVariant, product).then((res: boolean) => {
-      console.log('currentVariant is excluded?', res)
       setDisableVariantStockIndication(res)
     })
   }, [currentVariant, product])
 
   useEffect(() => {
     isExcludedFromStockIndication(product)
-    console.log('disableStockIndication', disableStockIndication)
   }, [isExcludedFromStockIndication, disableStockIndication, product])
 
   const defaultSeo = {
@@ -453,7 +450,8 @@ export const ProductDetail = ({ product }: Props) => {
                   )}
                 />
                 <ProductInfoWrapper>
-                  {variantsInStock?.length > 0 ? (
+                  {variantsInStock?.length > 0 &&
+                  disableStockIndication !== true ? (
                     <StockedLabelMobile
                       hide={
                         !isSwatchCurrentlyInStock(
