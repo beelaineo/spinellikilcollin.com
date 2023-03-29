@@ -25,7 +25,7 @@ import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
-import { getHeroImage, isValidHero, definitely } from '../../utils'
+import { getHeroImage, isValidHero, definitely, unique } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
@@ -94,9 +94,22 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
+
+  const collectionProductsWithPrices = [...definitely(collection.products)].map(
+    (product) => {
+      const [variants] = unwindEdges(product?.sourceData?.variants)
+
+      const prices = variants.map(
+        (variant) => variant?.priceV2 && variant.priceV2.amount,
+      )
+
+      return { ...product, prices: unique(prices) }
+    },
+  )
+
   const [productResults, setProductResults] = useState<
     ShopifyProductListingProduct[]
-  >([...definitely(collection.products)])
+  >([...definitely(collectionProductsWithPrices)])
 
   const [items, setItems] = useState<Item[]>(
     collectionBlocks?.length
@@ -131,6 +144,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     ShopifyCollection[] | ShopifyProductListingProduct[],
     PaginationArgs
   >()
+
+  const priceRange = currentFilters?.filter(
+    (f) => f.filterType === 'PRICE_RANGE_FILTER',
+  )[0]
 
   if (!handle) {
     throw new Error('The collection is missing a handle')
@@ -209,9 +226,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   const filterResults = (currentFilters: FilterConfiguration | null) => {
-    if (currentFilters == null) return [...definitely(collection.products)]
+    if (currentFilters == null)
+      return [...definitely(collectionProductsWithPrices)]
     const newResults: ShopifyProductListingProduct[] = [
-      ...definitely(collection.products),
+      ...definitely(collectionProductsWithPrices),
     ].filter((p) => {
       return currentFilters.every((filterGroup) => {
         if (filterGroup.filterType === FILTER_MATCH_GROUP) {
@@ -225,13 +243,19 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
           if (!p.minVariantPrice || !p.maxVariantPrice) return false
           const { minPrice, maxPrice } = filterGroup
+
           if (p.minVariantPrice == p.maxVariantPrice) {
             return Boolean(
               p.minVariantPrice >= minPrice && p.minVariantPrice <= maxPrice,
             )
           } else {
             return Boolean(
-              p.minVariantPrice >= minPrice && p.maxVariantPrice <= maxPrice,
+              p.prices.some(
+                (price) =>
+                  price &&
+                  minPrice <= parseFloat(price) &&
+                  maxPrice >= parseFloat(price),
+              ),
             )
           }
         } else if (filterGroup.filterType === INVENTORY_FILTER) {
@@ -268,11 +292,14 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductsCount(productResults.length)
+
     if (sort) {
       const sortedProductResults = productResults.map((p, sortIndex) => ({
         sortIndex,
         ...p,
       }))
+      if (!priceRange) return
+
       switch (sort) {
         case Sort.Default:
           sortedProductResults.sort((a, b) =>
@@ -282,19 +309,63 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           break
         case Sort.PriceDesc:
           sortedProductResults.sort((a, b) =>
-            b.maxVariantPrice && a.maxVariantPrice
-              ? b.maxVariantPrice - a.maxVariantPrice
+            b.prices && a.prices
+              ? Math.max(
+                  parseFloat(
+                    b.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                ) -
+                Math.max(
+                  parseFloat(
+                    a.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                )
               : 0,
           )
           updateItems(sortedProductResults)
           break
         case Sort.PriceAsc:
           sortedProductResults.sort((a, b) =>
-            b.minVariantPrice && a.minVariantPrice
-              ? a.minVariantPrice - b.minVariantPrice
+            b.prices && a.prices
+              ? Math.min(
+                  parseFloat(
+                    a.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                ) -
+                Math.min(
+                  parseFloat(
+                    b.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                )
               : 0,
           )
+
           updateItems(sortedProductResults)
+
           break
       }
     } else {
