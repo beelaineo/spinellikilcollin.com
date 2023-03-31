@@ -48,6 +48,7 @@ interface ShopifyProductListingProduct extends ShopifyProduct {
     stone: string[]
     style: string[]
     subcategory: string[]
+    sizes: Maybe<string | undefined>
   }
 }
 
@@ -127,6 +128,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const { productListingSettings, productInfoSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
+  const [selectedSizes, setSelectedSizes] = useState<
+    Maybe<string | undefined>[] | undefined
+  >([])
   const [loading, setLoading] = useState(false)
   const [resetFilters, doResetFilters] = useState(0)
   const [filters, setFilters] = useState<
@@ -276,6 +280,33 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
+    console.log('currentFilters', currentFilters)
+    if (
+      currentFilters?.some((filter) => {
+        return (
+          filter.filterType === 'FILTER_MATCH_GROUP' &&
+          filter.matches.some((match) => match.type == 'size')
+        )
+      })
+    ) {
+      console.log('size filter applied')
+      const selectedSizes = currentFilters
+        .map((filter) => {
+          if (
+            filter.filterType === 'FILTER_MATCH_GROUP' &&
+            filter.matches.some((match) => match.type == 'size')
+          ) {
+            return filter.matches.map((match) => match.match)
+          }
+        })
+        .flat()
+        .filter((n) => n)
+      console.log('selectedSizes', selectedSizes)
+      setSelectedSizes(selectedSizes)
+    } else {
+      console.log('size filter not applied')
+      setSelectedSizes([])
+    }
   }, [currentFilters])
 
   const updateItems = (products: ShopifyProductListingProduct[]) => {
@@ -292,7 +323,21 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductsCount(productResults.length)
-
+    if (selectedSizes && selectedSizes.length > 0) {
+      const sortedProductResults = productResults.map((p, sortIndex) => ({
+        sortIndex,
+        ...p,
+      }))
+      sortedProductResults.sort((a, b) =>
+        // sort products with selected sizes to the top
+        selectedSizes.includes(a.filterData.sizes) &&
+        !selectedSizes.includes(b.filterData.sizes)
+          ? -1
+          : 1,
+      )
+      console.log('sortedProductResults', sortedProductResults)
+      updateItems(sortedProductResults)
+    }
     if (sort) {
       const sortedProductResults = productResults.map((p, sortIndex) => ({
         sortIndex,
@@ -371,7 +416,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     } else {
       updateItems(productResults)
     }
-  }, [productResults, sort])
+  }, [productResults, sort, selectedSizes])
 
   const scrollGridIntoView = () => {
     gridRef?.current?.scrollIntoView({

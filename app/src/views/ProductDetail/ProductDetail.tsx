@@ -167,6 +167,9 @@ export const ProductDetail = ({ product }: Props) => {
     variants?.filter(
       (v) =>
         v?.sourceData?.currentlyNotInStock === false &&
+        !v?.sourceData?.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ) &&
         !v?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat'),
     ) || []
 
@@ -187,6 +190,9 @@ export const ProductDetail = ({ product }: Props) => {
       return (
         variant?.node?.availableForSale === true &&
         variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ) &&
         !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
