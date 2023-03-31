@@ -107,7 +107,7 @@ interface ShopifyProductListingProduct extends ShopifyProduct {
     stone: string[]
     style: string[]
     subcategory: string[]
-    sizes: Maybe<string | undefined>
+    sizes: (string | undefined)[]
   }
 }
 
