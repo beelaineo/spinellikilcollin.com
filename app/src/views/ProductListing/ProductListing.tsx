@@ -48,7 +48,7 @@ interface ShopifyProductListingProduct extends ShopifyProduct {
     stone: string[]
     style: string[]
     subcategory: string[]
-    sizes: Maybe<string | undefined>
+    sizes: (string | undefined)[]
   }
 }
 
@@ -128,9 +128,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const { productListingSettings, productInfoSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
-  const [selectedSizes, setSelectedSizes] = useState<
-    Maybe<string | undefined>[] | undefined
-  >([])
+  const [selectedSizes, setSelectedSizes] = useState<(string | undefined)[]>([])
   const [loading, setLoading] = useState(false)
   const [resetFilters, doResetFilters] = useState(0)
   const [filters, setFilters] = useState<
@@ -290,19 +288,21 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       })
     ) {
       console.log('size filter applied')
-      const selectedSizes = currentFilters
+      const getSelectedSizes: (string | undefined)[] = currentFilters
         .map((filter) => {
           if (
             filter.filterType === 'FILTER_MATCH_GROUP' &&
             filter.matches.some((match) => match.type == 'size')
           ) {
-            return filter.matches.map((match) => match.match)
+            return filter.matches.map((match) => {
+              if (typeof match.match == 'string') return match.match
+            })
           }
         })
         .flat()
         .filter((n) => n)
-      console.log('selectedSizes', selectedSizes)
-      setSelectedSizes(selectedSizes)
+      console.log('selectedSizes', getSelectedSizes)
+      setSelectedSizes(getSelectedSizes)
     } else {
       console.log('size filter not applied')
       setSelectedSizes([])
@@ -329,9 +329,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         ...p,
       }))
       sortedProductResults.sort((a, b) =>
-        // sort products with selected sizes to the top
-        selectedSizes.includes(a.filterData.sizes) &&
-        !selectedSizes.includes(b.filterData.sizes)
+        // sort products that hae values in filterData.sizes array matching values in selectedSizes array to the top
+        selectedSizes.some((size) => a.filterData.sizes.includes(size)) &&
+        selectedSizes.some((size) => b.filterData.sizes.includes(size))
           ? -1
           : 1,
       )

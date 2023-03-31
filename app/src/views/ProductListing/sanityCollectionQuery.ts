@@ -59,7 +59,7 @@ const productInner = `
     "metal": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "metal"].node.value),
     "style": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "style"].node.value),
     "stone": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "stone"].node.value),
-    "sizes": array::unique(options[name == "Size"].values[].value),
+    "sizes": array::unique(sourceData.variants.edges[][node.currentlyNotInStock == false && node.title != "Not sure of my size"].node.selectedOptions[name == "Size"].value),
   },
   "excludeFromIndication": sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value,
   "metafields": sourceData.metafields.edges[].node,
