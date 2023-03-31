@@ -64,13 +64,22 @@ export const ProductDetailHeader = ({
   }
 
   const variantsInStock =
-    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+    variants?.filter(
+      (v) =>
+        v?.sourceData?.currentlyNotInStock === false &&
+        !v?.sourceData.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ),
+    ) || []
 
   const stockedVariants = product.sourceData?.variants?.edges?.filter(
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
         variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ) &&
         !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },

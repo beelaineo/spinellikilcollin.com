@@ -54,11 +54,12 @@ const productInner = `
     ...
   },
   "filterData": {
-    "inStock": (count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0),
+    "inStock": (count(sourceData.variants.edges[][node.currentlyNotInStock == false && node.title != "Not sure of my size"]) > 0),
     "subcategory": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "subcategory"].node.value),
     "metal": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "metal"].node.value),
     "style": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "style"].node.value),
     "stone": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "stone"].node.value),
+    "sizes": array::unique(sourceData.variants.edges[][node.currentlyNotInStock == false && node.title != "Not sure of my size"].node.selectedOptions[name == "Size"].value),
   },
   "excludeFromIndication": sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value,
   "metafields": sourceData.metafields.edges[].node,
