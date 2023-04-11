@@ -183,7 +183,7 @@ export const inventoryFilterFragment = gql`
 `
 
 export const customFilterFragment = gql`
-  fragment CustomFilterFragment on FilterSetOrInventoryFilterOrPriceRangeFilter {
+  fragment CustomFilterFragment on FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter {
     ... on FilterSet {
       __typename
       _key
