@@ -34,6 +34,10 @@ export const VideoWrapper = styled.div`
 
     opacity: ${loaded ? 1 : 0};
 
+    video {
+      max-width: 100%;
+    }
+
     transition: opacity 0.3s linear;
     transition-delay: 0s;
 

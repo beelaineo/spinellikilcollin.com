@@ -22,6 +22,7 @@ const variantOptions = {
     s: [
       'Silver',
       'silver',
+      'Core Silver',
       'SG',
       'Gris',
       'Clara',
@@ -35,6 +36,7 @@ const variantOptions = {
       'Libra',
       'Cici MX',
       'Aries SG',
+      'Aries Core Silver',
       'Sagittarius',
       'Leo MX',
       'Leo Core',
@@ -54,8 +56,10 @@ const variantOptions = {
       'Akoya Gold',
       'Vega Gold',
       'Sirius Max BG',
+      'Sirius Max MX',
       'Sirius Max SG',
       'Capricorn CCW',
+      'Libra MX',
       'Libra',
       'Sonny',
       'Aries Core Gold',
@@ -70,9 +74,11 @@ const variantOptions = {
     rg: [
       'Rose Gold',
       'Rhea Gold',
+      'Aries Core Gold',
       'Rhea MX',
       'Capricorn MX',
       'Solarium Gold',
+      'Solarium MX',
       'Mercury MX',
       'rose gold',
       'Dua MX',
@@ -86,7 +92,6 @@ const variantOptions = {
       'Sonny MX',
       'Tigris MX Gris',
       'Cici MX',
-      'Aries Core Gold',
       'Sagittarius MX',
       'Leo',
       'Casseus SP',
@@ -109,14 +114,16 @@ const variantOptions = {
   },
   stone: {
     d: [
+      'Gris',
       'Pavé',
       'Sirius Max MX',
       'Ovio',
       'Sagittarius',
-      'Gris',
       'Libra SP',
       'Libra MX',
       'Leo Blac',
+      'Scorpio SG',
+      'Sirius Max MX',
       'Leo MX',
       'Cancer Deux MX',
       'Marigold',
@@ -125,17 +132,20 @@ const variantOptions = {
       'Janssen',
     ],
     am: [
+      'Aries Core Silver',
       'Core',
       'Sagittarius MX',
       'Pisces SG',
       'Scorpio SG',
       'Cancer SG',
       'Capricorn MX',
+      'Gemini SG',
       'Aquarius YG',
       'Libra SG Core',
       'Atlantis MX Bracelet',
       'Atlantis Silver Toggle Bracelet',
       'Casseus SG',
+      'Sirius SG',
     ],
     g: ['Emerald', 'Petunia', 'Mini Mezzo'],
     p: ['Pearl'],
@@ -307,6 +317,7 @@ export const getBestVariantBySort = (
   initialVariant?: ShopifySourceProductVariant,
 ): ShopifySourceProductVariant => {
   if (sort == Sort.Default && initialVariant) return initialVariant
+
   const bestVariant = variants.find((v) => {
     if (!v?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
@@ -334,9 +345,24 @@ export const getBestVariantByFilterMatch = (
   minVariantPrice?: number,
   maxVariantPrice?: number,
   initialVariant?: ShopifySourceProductVariant,
+  minPrice?: number | null,
+  maxPrice?: number | null,
 ): ShopifySourceProductVariant => {
-  const bestColorVariant = variants.find((v) => {
-    v
+  const priceFilteredVariants = variants.filter((v) => {
+    if (!v?.priceV2?.amount) return false
+
+    const price = parseFloat(v.priceV2.amount)
+
+    if (!minPrice || !maxPrice) return false
+
+    return price >= minPrice && price <= maxPrice
+  })
+
+  const bestVariants = priceFilteredVariants.length
+    ? priceFilteredVariants
+    : variants
+
+  const bestColorVariant = bestVariants.find((v) => {
     const colorMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -381,7 +407,7 @@ export const getBestVariantByFilterMatch = (
     return colorMatches
   })
 
-  const bestStoneVariant = variants.find((v) => {
+  const bestStoneVariant = bestVariants.find((v) => {
     const stoneMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -420,7 +446,7 @@ export const getBestVariantByFilterMatch = (
     return stoneMatches
   })
 
-  const inStockVariants = variants.filter((v) => {
+  const inStockVariants = bestVariants.filter((v) => {
     const stockMatches = filters.some((m) => {
       const { name, value } = m
       let match: boolean | undefined = false
@@ -497,15 +523,27 @@ export const getBestVariantByFilterMatch = (
     }
   })
 
-  return (
-    bestSortVariant ||
+  const bestPriceVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+
+    const price = parseFloat(v.priceV2.amount)
+
+    if (!minPrice || !maxPrice) return
+
+    if (price >= minPrice && price <= maxPrice) {
+      return true
+    } else return undefined
+  })
+
+  const bestMatches =
     bestInStockColorVariant ||
     bestInStockStoneVariant ||
     bestInStockVariant ||
     bestColorVariant ||
     bestStoneVariant ||
-    variants[0]
-  )
+    bestPriceVariant
+
+  return bestMatches || variants[0]
 }
 
 export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {

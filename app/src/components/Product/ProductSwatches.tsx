@@ -12,6 +12,7 @@ import {
 import { getSwatchOptions, definitely } from '../../utils'
 import { SwatchesWrapper, SwatchWrapper } from './styled'
 import styled, { css } from '@xstyled/styled-components'
+import { ShopifyStorefrontProductVariant } from '../../types/generated-shopify'
 
 const OptionSwatchesWrapper = styled('div')`
   display: flex;
@@ -85,12 +86,11 @@ export const OptionSwatches = ({
             ratio={1}
             sizes="40px"
           />
-          {/* {disableStockIndication != true &&
-          isSwatchCurrentlyInStock(value, stockedOptions) ? (
+          {isSwatchCurrentlyInStock(value, stockedOptions) ? (
             <InStockDot />
           ) : (
             ''
-          )} */}
+          )}
         </SwatchWrapper>
       ))}
     </SwatchesWrapper>
@@ -101,6 +101,9 @@ interface ProductSwatchesProps {
   product: ShopifyProduct
   stockedVariants?: Maybe<ShopifySourceProductVariantEdge>[]
   disableStockIndication?: boolean
+  includedVariants?: Maybe<
+    ShopifyStorefrontProductVariant[] | ShopifySourceProductVariant[]
+  >
   onSwatchHover?: (
     option: ShopifyProductOption,
     value: ShopifyProductOptionValue,
@@ -130,6 +133,7 @@ export const ProductSwatches = ({
   onSwatchHover,
   isSwatchActive,
   disableStockIndication,
+  includedVariants,
 }: ProductSwatchesProps) => {
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -142,13 +146,23 @@ export const ProductSwatches = ({
       .replace(/^-+/, '')
       .replace(/-+$/, '')
   }
-  const stockedColorOptions = stockedVariants
-    ?.map((variant) => {
-      return variant?.node?.selectedOptions?.find(
-        (option) => option?.name === 'Color',
-      )
-    })
-    .map((option) => slugify(option?.value))
+  const stockedColorOptions =
+    disableStockIndication && includedVariants
+      ? includedVariants
+          ?.map((variant) => {
+            console.log('VARIANT', variant)
+            return variant?.sourceData?.selectedOptions?.find(
+              (option) => option?.name === 'Color',
+            )
+          })
+          .map((option) => slugify(option?.value))
+      : stockedVariants
+          ?.map((variant) => {
+            return variant?.node?.selectedOptions?.find(
+              (option) => option?.name === 'Color',
+            )
+          })
+          .map((option) => slugify(option?.value))
 
   const stockedCaratOptions = product?.variants
     ?.map((variant) => {
