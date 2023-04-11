@@ -20,9 +20,12 @@ import {
   optionMatchesVariant,
   isValidSwatchOption,
   definitely,
+  withTypenames,
 } from '../../../utils'
 import { useModal } from '../../../providers/ModalProvider'
 import Link from 'next/link'
+import { ShopifyStorefrontProductVariant } from '../../../types/generated-shopify'
+import { sanityClient } from '../../../services/sanity'
 
 const { useEffect, useState } = React
 
@@ -88,6 +91,15 @@ const SelectWrapper = styled.div<SelectWrapperProps>`
   `}
 `
 
+const sanityQuery = async <R = any | null,>(
+  query: string,
+  params?: Record<string, any>,
+): Promise<R> => {
+  const results = await sanityClient.fetch<R>(query, params || {})
+  // @ts-ignore
+  return withTypenames<R>(results)
+}
+
 export const ProductOptionSelector = ({
   option,
   product,
@@ -105,6 +117,13 @@ export const ProductOptionSelector = ({
   if (option.values.length === 0) return null
 
   const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
+  const [includedVariants, setIncludedVariants] = useState<
+    | Maybe<ShopifyStorefrontProductVariant[] | ShopifySourceProductVariant[]>
+    | undefined
+  >(null)
+  const [stockedColorOptionsIncluded, setStockedColorOptionsIncluded] =
+    useState<Maybe<string[]> | undefined>(null)
+
   const selectOption = changeValueForOption(option.name)
 
   const slugify = (text?: Maybe<string>) => {
@@ -129,6 +148,9 @@ export const ProductOptionSelector = ({
       return (
         variant?.node?.availableForSale === true &&
         variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ) &&
         !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     })
@@ -167,27 +189,66 @@ export const ProductOptionSelector = ({
     getVariantOptions(variant?.selectedOptions),
   )
 
-  const formatLabel = (value: string, option: ShopifyProductOption) => {
-    if (disableStockIndication == true) return value
-    let i = 0
-    currentVariantStockedOptions?.forEach((v) => {
-      if (currentSelectedColor) {
-        if (
-          Object.values(v).includes(value) &&
-          Object.values(v).includes(currentSelectedColor?.value)
-        ) {
-          i++
-        }
-      } else {
-        if (Object.values(v).includes(value)) {
-          i++
-        }
-      }
-    })
+  const getIncludedVariants = async (
+    product: ShopifyProduct,
+  ): Promise<ShopifyStorefrontProductVariant[] | null> => {
+    const variants = await sanityQuery(
+      `*[_type == 'shopifyProduct' && handle == $handle][0].variants[sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value == "false"]`,
+      { handle: product?.handle },
+    )
+    return variants
+  }
 
-    // const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
-    const optionLabel = value
-    return optionLabel
+  const formatLabel = (value: string, option: ShopifyProductOption) => {
+    if (disableStockIndication == true) {
+      // console.log('current variant', currentVariant)
+      // console.log('disableStockIndication is TRUE')
+      // console.log('OPTION', option)
+      // console.log('VALUE NAME', value)
+      // console.log('includedVariants', includedVariants)
+      // console.log('currentVariantStockedOptions', currentVariantStockedOptions)
+      const disabledProductCurrentStockedOptions =
+        currentVariantStockedOptions?.filter((o) => {
+          return includedVariants?.some((v) => {
+            return Boolean(v.title == `${o.color} / ${o.size}`)
+          })
+        })
+      let i = 0
+      disabledProductCurrentStockedOptions?.forEach((v) => {
+        if (currentSelectedColor) {
+          if (
+            Object.values(v).includes(value) &&
+            Object.values(v).includes(currentSelectedColor?.value)
+          ) {
+            i++
+          }
+        } else {
+          if (Object.values(v).includes(value)) {
+            i++
+          }
+        }
+      })
+      const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+      return optionLabel
+    } else {
+      let i = 0
+      currentVariantStockedOptions?.forEach((v) => {
+        if (currentSelectedColor) {
+          if (
+            Object.values(v).includes(value) &&
+            Object.values(v).includes(currentSelectedColor?.value)
+          ) {
+            i++
+          }
+        } else {
+          if (Object.values(v).includes(value)) {
+            i++
+          }
+        }
+      })
+      const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+      return optionLabel
+    }
   }
 
   const options = definitely(
@@ -234,11 +295,34 @@ export const ProductOptionSelector = ({
   }
 
   useEffect(() => {
+    if (disableStockIndication == true) {
+      const includedVariantsArray = getIncludedVariants(product)
+      includedVariantsArray.then((variants) => {
+        setIncludedVariants(variants)
+      })
+    }
+  }, [product])
+
+  useEffect(() => {
     const d = currentSelectedDiamond?.value
     const stones = product?.options?.find((o) => o?.name === 'Carat')?.values
     const stone = stones?.find((s) => s?.value === d)
     setActiveStone(stone?.stone)
   }, [currentVariant])
+
+  useEffect(() => {
+    const colorOptions =
+      disableStockIndication == true
+        ? includedVariants
+            ?.map((variant) => {
+              return variant?.sourceData?.selectedOptions?.find(
+                (option) => option?.name === 'Color',
+              )
+            })
+            .map((option) => slugify(option?.value))
+        : null
+    setStockedColorOptionsIncluded(colorOptions)
+  }, [disableStockIndication, includedVariants, product])
 
   const { openDiamondModal } = useModal()
 
@@ -277,7 +361,11 @@ export const ProductOptionSelector = ({
               onSwatchClick={handleSwatchClick}
               isSwatchActive={isSwatchActive}
               option={option}
-              stockedOptions={stockedColorOptions}
+              stockedOptions={
+                stockedColorOptionsIncluded
+                  ? stockedColorOptionsIncluded
+                  : stockedColorOptions
+              }
               disableStockIndication={disableStockIndication}
             />
           </SwatchesWrapper>
