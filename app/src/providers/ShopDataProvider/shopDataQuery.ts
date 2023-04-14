@@ -36,6 +36,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         ... on MenuLink {
           _key
           _type
+          label
           link {
             ...InternalLinkFragment
           }
