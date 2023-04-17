@@ -89,10 +89,18 @@ export const CountryProvider = ({ children }: CountryProps) => {
         const formattedCountry = await getCountryNameFromCountryCode(
           geolocateCountry,
         )
-        const toastMessage = `We've detected that you're in ${
+        // const toastMessage = `We've detected that you're in ${
+        //   formattedCountry || 'Country Unknown'
+        // }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
+
+        const toastMessage = `Now shopping in  ${
           formattedCountry || 'Country Unknown'
-        }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
-        createToast({ message: toastMessage, type: ToastType.Message })
+        }.\n Use our country selector to change your currency.`
+
+        createToast({
+          message: toastMessage,
+          type: ToastType.Currency,
+        })
       }
       sendToast()
     }

@@ -66,11 +66,29 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   const elHeight = wrapperRef.current?.offsetHeight
   const styles = getStyles(divState, elHeight)
 
-  return (
-    <ToastWrapper style={styles} ref={wrapperRef} toastType={toast.type}>
+  const containsLinebreaks = Boolean((message.match(/\n/g) || []).length)
+
+  const messageFormatted = () =>
+    containsLinebreaks ? (
+      message.split('\n').map((line, i) => (
+        <Heading key={i} my={0} level={5}>
+          {line}
+        </Heading>
+      ))
+    ) : (
       <Heading my={0} level={5}>
         {message}
       </Heading>
+    )
+
+  return (
+    <ToastWrapper
+      style={styles}
+      ref={wrapperRef}
+      toastType={toast.type}
+      colorTheme={colorTheme}
+    >
+      {messageFormatted()}
       {dismissable ? (
         <CloseButton
           type="button"
