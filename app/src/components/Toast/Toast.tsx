@@ -6,6 +6,7 @@ import { Heading } from '../Text'
 import { useStatefulRef } from '../../utils/hooks'
 
 import { Toast as IToast, ToastType, ToastDivState } from './types'
+import { useNavigation } from '../../providers'
 
 const { useEffect, useState, useRef } = React
 
@@ -40,6 +41,8 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   const [divState, setDivState] = useState(ToastDivState.Init)
   const dismiss = () => dismissToast(toastKey)
   const { dismissable, message } = toast
+
+  const { colorTheme } = useNavigation()
 
   const clearToast = () => {
     setDivState(ToastDivState.Hidden)
