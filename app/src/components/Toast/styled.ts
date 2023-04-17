@@ -20,9 +20,44 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
     margin-bottom: 3;
     transition: 0.5s;
 
+    ${toastType === ToastType.Currency && 'border-radius: 50px'};
+    ${toastType === ToastType.Currency && 'text-align: left'};
+    ${toastType === ToastType.Currency && 'padding: 3  5'};
+    ${toastType === ToastType.Currency && 'border: none'};
+
+    h5 {
+      :nth-child(1) {
+        font-size: ${toastType === ToastType.Currency ? 4 : 5};
+      }
+      :nth-child(2) {
+        font-size: ${toastType === ToastType.Currency ? '13px' : 5};
+      }
+    }
+
+    ${theme.mediaQueries.tablet} {
+      h5 {
+        :nth-child(1),
+        :nth-child(2) {
+          font-size: ${toastType === ToastType.Currency ? '12px' : 5};
+        }
+      }
+    }
+
     & ${CloseButton} {
       top: 7px;
       right: 8px;
+
+      color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
+
+      :after,
+      :before {
+        background-color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
+      }
+
+      ${toastType === ToastType.Currency && 'top: 50%'};
+      ${toastType === ToastType.Currency && 'transform: translateY(-50%)'};
+      ${toastType === ToastType.Currency && 'right: 6%'};
+      width: 20px;
     }
 
     &:after {
@@ -44,9 +79,9 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
 export const ToastRootWrapper = styled.div`
   ${({ theme }) => css`
     position: fixed;
-    z-index: ${theme.zIndices.alert};
+    z-index: 1;
     pointer-events: none;
-    bottom: 0;
+    top: 120px;
     left: 0;
     width: 100%;
     display: flex;
