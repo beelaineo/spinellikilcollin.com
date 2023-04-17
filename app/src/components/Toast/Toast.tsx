@@ -17,20 +17,34 @@ interface ToastProps {
   dismissToast: (key: string) => void
 }
 
-const getStyles = (state: ToastDivState, elHeight: number | undefined) => {
+const getStyles = (
+  state: ToastDivState,
+  elHeight: number | undefined,
+  position: string,
+) => {
   switch (state) {
     case ToastDivState.Init:
       return { opacity: 0 }
     case ToastDivState.Mounted:
       return {
-        marginBottom: `-${elHeight}px`,
+        transform:
+          `${position}` === 'top'
+            ? `translateY(-${elHeight && 2 * elHeight}px)`
+            : `translateY(${elHeight}px)`,
         opacity: 0,
+
         transitionDuration: '0s',
       }
     case ToastDivState.Displayed:
       return { opacity: 1 }
     case ToastDivState.Hidden:
-      return { marginBottom: `-${elHeight}px`, opacity: 0 }
+      return {
+        transform:
+          `${position}` === 'top'
+            ? `translateY(-${elHeight && 2 * elHeight}px)`
+            : `translateY(${elHeight}px)`,
+        opacity: 0,
+      }
     default:
       return undefined
   }
@@ -67,7 +81,11 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
     return () => clearTimeout(timeout)
   }, [dismissable])
   const elHeight = wrapperRef.current?.offsetHeight
-  const styles = getStyles(divState, elHeight)
+  const styles = getStyles(
+    divState,
+    elHeight,
+    toast.type === ToastType.Currency ? 'top' : 'bottom',
+  )
 
   const containsLinebreaks = Boolean((message.match(/\n/g) || []).length)
 
