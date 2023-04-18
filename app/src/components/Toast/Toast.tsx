@@ -7,6 +7,8 @@ import { useStatefulRef } from '../../utils/hooks'
 
 import { Toast as IToast, ToastType, ToastDivState } from './types'
 import { useNavigation } from '../../providers'
+import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
 
 const { useEffect, useState, useRef } = React
 
@@ -17,44 +19,15 @@ interface ToastProps {
   dismissToast: (key: string) => void
 }
 
-const getStyles = (
-  state: ToastDivState,
-  elHeight: number | undefined,
-  position: string,
-) => {
-  switch (state) {
-    case ToastDivState.Init:
-      return { opacity: 0 }
-    case ToastDivState.Mounted:
-      return {
-        transform:
-          `${position}` === 'top'
-            ? `translateY(-${elHeight && 2 * elHeight}px)`
-            : `translateY(${elHeight}px)`,
-        opacity: 0,
-
-        transitionDuration: '0s',
-      }
-    case ToastDivState.Displayed:
-      return { opacity: 1 }
-    case ToastDivState.Hidden:
-      return {
-        transform:
-          `${position}` === 'top'
-            ? `translateY(-${elHeight && 2 * elHeight}px)`
-            : `translateY(${elHeight}px)`,
-        opacity: 0,
-      }
-    default:
-      return undefined
-  }
-}
-
 const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   const wrapperRef = useStatefulRef<HTMLDivElement>(null)
   const [divState, setDivState] = useState(ToastDivState.Init)
   const dismiss = () => dismissToast(toastKey)
   const { dismissable, message } = toast
+
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
 
   const { colorTheme } = useNavigation()
 
@@ -81,11 +54,35 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
     return () => clearTimeout(timeout)
   }, [dismissable])
   const elHeight = wrapperRef.current?.offsetHeight
-  const styles = getStyles(
-    divState,
-    elHeight,
-    toast.type === ToastType.Currency ? 'top' : 'bottom',
-  )
+
+  const getStyles = (state: ToastDivState, elHeight?: number | undefined) => {
+    switch (state) {
+      case ToastDivState.Init:
+        return { opacity: 0 }
+      case ToastDivState.Mounted:
+        return {
+          transform: `translateY(${
+            isMobile ? elHeight && 2 * -elHeight : elHeight && elHeight * 2
+          }px)`,
+
+          opacity: 0,
+          transitionDuration: '0s',
+        }
+      case ToastDivState.Displayed:
+        return { opacity: 1 }
+      case ToastDivState.Hidden:
+        return {
+          transform: `translateY(${
+            isMobile ? elHeight && 2 * -elHeight : elHeight
+          }px)`,
+          opacity: 0,
+        }
+      default:
+        return undefined
+    }
+  }
+
+  const styles = getStyles(divState, elHeight)
 
   const containsLinebreaks = Boolean((message.match(/\n/g) || []).length)
 

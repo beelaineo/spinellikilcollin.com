@@ -38,6 +38,8 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
     }
 
     ${theme.mediaQueries.tablet} {
+      max-width: 21rem;
+
       h5 {
         :nth-child(1),
         :nth-child(2) {
@@ -81,11 +83,16 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
 
 export const ToastRootWrapper = styled.div`
   ${({ theme }) => css`
+    ${theme.mediaQueries.tablet} {
+      top: 6rem;
+      bottom: auto;
+    }
+
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     pointer-events: none;
-    top: 120px;
-    left: 0;
+    top: 'auto';
+    bottom: 1rem;
     width: 100%;
     display: flex;
     flex-direction: column;
