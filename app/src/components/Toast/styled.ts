@@ -28,23 +28,25 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
     ${toastType === ToastType.Currency && 'padding: 3  5'};
     ${toastType === ToastType.Currency && 'border: none'};
 
+    a {
+      text-decoration: underline;
+      z-index: 1;
+      position: relative;
+    }
+
     h5 {
-      :nth-child(1) {
-        font-size: ${toastType === ToastType.Currency ? 4 : 5};
-      }
-      :nth-child(2) {
-        font-size: ${toastType === ToastType.Currency ? '13px' : 5};
-      }
+      font-size: ${toastType === ToastType.Currency ? 4 : 5};
+    }
+    h6 {
+      font-size: ${toastType === ToastType.Currency ? '13px' : 5};
     }
 
     ${theme.mediaQueries.tablet} {
       max-width: 21rem;
 
-      h5 {
-        :nth-child(1),
-        :nth-child(2) {
-          font-size: ${toastType === ToastType.Currency ? '12px' : 5};
-        }
+      h5,
+      h6 {
+        font-size: ${toastType === ToastType.Currency ? '12px' : 5};
       }
     }
 

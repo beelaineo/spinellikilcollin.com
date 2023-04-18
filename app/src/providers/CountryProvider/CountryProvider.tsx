@@ -52,7 +52,7 @@ const getCountryNameFromCountryCode = async (
         Boolean(c.countryCode) && Boolean(c.flagEmoji && Boolean(c.english)),
     )
     .find((c) => c.countryCode === country)?.english
-  return `${flag} <em>${name}</em>`
+  return `${flag} ${name}`
 }
 
 export const CountryProvider = ({ children }: CountryProps) => {
@@ -93,9 +93,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
         //   formattedCountry || 'Country Unknown'
         // }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
 
-        const toastMessage = `Now shopping in  ${
-          formattedCountry || 'Country Unknown'
-        }.\n Use our country selector to change your currency.`
+        const toastMessage = formattedCountry || 'Country Unknown'
 
         createToast({
           message: toastMessage,

@@ -9,6 +9,7 @@ import { Toast as IToast, ToastType, ToastDivState } from './types'
 import { useNavigation } from '../../providers'
 import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
+import Link from 'next/link'
 
 const { useEffect, useState, useRef } = React
 
@@ -86,16 +87,21 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
 
   const containsLinebreaks = Boolean((message.match(/\n/g) || []).length)
 
-  const messageFormatted = () =>
-    containsLinebreaks ? (
-      message.split('\n').map((line, i) => (
-        <Heading key={i} my={0} level={5}>
-          <span dangerouslySetInnerHTML={{ __html: line }} />
+  const renderMessage = () =>
+    toast.type === ToastType.Currency ? (
+      <>
+        <Heading my={0} level={5}>
+          Now shopping in {message || 'Country Unknown'}.
         </Heading>
-      ))
+
+        <Heading my={0} level={6}>
+          Use our <Link href="#">country selector</Link> to change your
+          currency.{' '}
+        </Heading>
+      </>
     ) : (
       <Heading my={0} level={5}>
-        {message}
+        message
       </Heading>
     )
 
@@ -106,7 +112,8 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
       toastType={toast.type}
       colorTheme={colorTheme}
     >
-      {messageFormatted()}
+      {renderMessage()}
+
       {dismissable ? (
         <CloseButton
           type="button"
