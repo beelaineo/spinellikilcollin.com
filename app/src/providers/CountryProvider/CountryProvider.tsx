@@ -79,7 +79,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
         'updating user country to viewer country preference (from browser cookie)',
       )
       updateCountryState(viewerCountry)
-    } else if (geolocateCountry) {
+    } else if (geolocateCountry && geolocateCountry !== currentCountry) {
       console.log(
         'updating user country to country based on browser geolocation',
       )
