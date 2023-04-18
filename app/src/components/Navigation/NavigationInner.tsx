@@ -22,6 +22,7 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
   if (!menu) return null
   const { menuOpen } = useNavigation()
   const menuItems = menu?.menuItems || []
+  console.log('menuItems', menuItems)
   return (
     <NavInner hidden={!menuOpen}>
       {menuOpen ? (
@@ -62,6 +63,22 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
                       </Heading>
                     )}
                   />
+                </NavItemWrapper>
+              )
+            case 'MenuLinkExternal':
+              if (!(typeof menuItem.link?.url === 'string')) return null
+              return (
+                <NavItemWrapper key={menuItem._key || 'some-key'}>
+                  <a
+                    onClick={closeMenu}
+                    href={menuItem.link?.url}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Heading m={0} level={4}>
+                      {menuItem.label ? menuItem.label.toUpperCase() : ''}
+                    </Heading>
+                  </a>
                 </NavItemWrapper>
               )
             default:

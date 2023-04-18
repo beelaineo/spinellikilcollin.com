@@ -446,7 +446,7 @@ export type CtaFilter = {
   bambuser?: Maybe<BambuserSettingsFilter>
 }
 
-export type CtaOrSubMenu = Cta | SubMenu
+export type CtaOrMenuLinkExternalOrSubMenu = Cta | MenuLinkExternal | SubMenu
 
 export type CtaSorting = {
   _key?: Maybe<SortOrder>
@@ -1255,8 +1255,6 @@ export interface InventoryFilter {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
-  minPrice?: Maybe<Scalars['String']>
-  maxPrice?: Maybe<Scalars['String']>
 }
 
 export type InventoryFilterFilter = {
@@ -1488,8 +1486,8 @@ export interface Menu extends Document {
   /** Current document revision */
   _rev?: Maybe<Scalars['String']>
   _key?: Maybe<Scalars['String']>
-  menuItems?: Maybe<Array<Maybe<MenuLinkOrSubMenu>>>
-  footerMenuItems?: Maybe<Array<Maybe<MenuLink>>>
+  menuItems?: Maybe<Array<Maybe<MenuLinkOrMenuLinkExternalOrSubMenu>>>
+  footerMenuItems?: Maybe<Array<Maybe<MenuLinkOrMenuLinkExternal>>>
 }
 
 export type MenuFilter = {
@@ -1511,6 +1509,28 @@ export interface MenuLink {
   link?: Maybe<InternalLink>
 }
 
+export interface MenuLinkExternal {
+  __typename: 'MenuLinkExternal'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  label?: Maybe<Scalars['String']>
+  link?: Maybe<ExternalLink>
+}
+
+export type MenuLinkExternalFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+  link?: Maybe<ExternalLinkFilter>
+}
+
+export type MenuLinkExternalSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
+  link?: Maybe<ExternalLinkSorting>
+}
+
 export type MenuLinkFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
@@ -1518,7 +1538,12 @@ export type MenuLinkFilter = {
   link?: Maybe<InternalLinkFilter>
 }
 
-export type MenuLinkOrSubMenu = MenuLink | SubMenu
+export type MenuLinkOrMenuLinkExternal = MenuLink | MenuLinkExternal
+
+export type MenuLinkOrMenuLinkExternalOrSubMenu =
+  | MenuLink
+  | MenuLinkExternal
+  | SubMenu
 
 export type MenuLinkSorting = {
   _key?: Maybe<SortOrder>
@@ -1679,22 +1704,22 @@ export interface PriceRangeFilter {
   __typename: 'PriceRangeFilter'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  minPrice: Maybe<FloatFilter>
-  maxPrice: Maybe<FloatFilter>
+  minPrice?: Maybe<Scalars['Float']>
+  maxPrice?: Maybe<Scalars['Float']>
 }
 
 export type PriceRangeFilterFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
-  minPrice: Maybe<FloatFilter>
-  maxPrice: Maybe<FloatFilter>
+  minPrice?: Maybe<FloatFilter>
+  maxPrice?: Maybe<FloatFilter>
 }
 
 export type PriceRangeFilterSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  minPrice: Maybe<SortOrder>
-  maxPrice: Maybe<SortOrder>
+  minPrice?: Maybe<SortOrder>
+  maxPrice?: Maybe<SortOrder>
 }
 
 export interface ProductInfo {
@@ -2813,7 +2838,6 @@ export interface ShopifyProduct extends Document {
   collections?: Maybe<Array<Maybe<ShopifyCollection>>>
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>
   variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
-  prices?: any
   /** DEPRECATED: This has been split up into "Hide from Collections" and "Hide from Search" */
   hidden?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL */
@@ -3737,7 +3761,7 @@ export interface SubMenu {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
-  links?: Maybe<Array<Maybe<CtaOrSubMenu>>>
+  links?: Maybe<Array<Maybe<CtaOrMenuLinkExternalOrSubMenu>>>
 }
 
 export type SubMenuFilter = {

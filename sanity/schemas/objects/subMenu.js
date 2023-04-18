@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { groupBy, prop } from 'ramda'
-import { IoIosListBox } from 'react-icons/io'
+import { IoIosListBox, IoIosLink } from 'react-icons/io'
 import { BlockPreview } from '../components/BlockPreview'
 import { getReferencedDocument, getShopifyThumbnail } from '../utils'
 
@@ -62,6 +62,34 @@ export const MenuLink = {
   },
 }
 
+export const MenuLinkExternal = {
+  name: 'menuLinkExternal',
+  type: 'object',
+  icon: IoIosLink,
+  title: 'External Link',
+  fields: [
+    {
+      title: 'Label',
+      name: 'label',
+      type: 'string',
+    },
+    {
+      title: 'Link',
+      name: 'link',
+      type: 'externalLink',
+      options: {
+        required: true,
+      },
+    },
+  ],
+  preview: {
+    select: {
+      title: 'label',
+      subtitle: 'link.url',
+    },
+  },
+}
+
 export const subMenu = {
   title: 'Submenu',
   name: 'subMenu',
@@ -78,7 +106,7 @@ export const subMenu = {
       title: 'Links & Submenus',
       name: 'links',
       type: 'array',
-      of: [{ type: 'cta' }, { type: 'subMenu' }],
+      of: [{ type: 'cta' }, { type: 'subMenu' }, { type: 'menuLinkExternal' }],
     },
   ],
   preview: {
