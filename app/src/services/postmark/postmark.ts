@@ -72,6 +72,19 @@ const send = async (message: Message): Promise<PostmarkResponse> => {
         message,
       }
     }
+    if (message.From.includes('example.com')) {
+      debug(
+        `Not sending mail. Sender email: ${message.From} (suspicious domain example.com)`,
+      )
+      Sentry.captureException(
+        `Not sending mail. Sender email: ${message.From} (suspicious domain example.com)`,
+        'postmark_error',
+      )
+      return {
+        success: false,
+        error: null,
+      }
+    }
     const response = await client.sendEmail(message)
     debug(
       `Sent email "${message.Subject} to ${message.To} - Postmark ID: ${response.MessageID}"`,
