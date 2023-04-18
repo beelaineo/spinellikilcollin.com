@@ -89,7 +89,7 @@ export const ToastRootWrapper = styled.div`
     }
 
     position: fixed;
-    z-index: 2;
+    z-index: 9;
     pointer-events: none;
     top: 'auto';
     bottom: 1rem;

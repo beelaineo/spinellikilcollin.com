@@ -86,7 +86,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 8;
     display: flex;
     justify-content: ${getFlexJustification(textPosition)};
     align-items: ${getFlexAlignment(textPosition)};

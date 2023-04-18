@@ -90,7 +90,7 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
     containsLinebreaks ? (
       message.split('\n').map((line, i) => (
         <Heading key={i} my={0} level={5}>
-          {line}
+          <span dangerouslySetInnerHTML={{ __html: line }} />
         </Heading>
       ))
     ) : (
