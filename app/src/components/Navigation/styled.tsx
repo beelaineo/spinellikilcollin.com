@@ -274,7 +274,7 @@ export const CurrencySelectorWrapper = styled.div`
     }
 
     &:has(select:focus-visible) {
-      ${theme.focus.bottom(-40)}
+      ${theme.focus.bottom(-10)}
     }
   `}
 `
