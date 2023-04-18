@@ -52,7 +52,7 @@ const getCountryNameFromCountryCode = async (
         Boolean(c.countryCode) && Boolean(c.flagEmoji && Boolean(c.english)),
     )
     .find((c) => c.countryCode === country)?.english
-  return `${flag} ${name}`
+  return `${flag} <em>${name}</em>`
 }
 
 export const CountryProvider = ({ children }: CountryProps) => {
@@ -79,7 +79,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
         'updating user country to viewer country preference (from browser cookie)',
       )
       updateCountryState(viewerCountry)
-    } else if (geolocateCountry && geolocateCountry !== currentCountry) {
+    } else if (geolocateCountry) {
       console.log(
         'updating user country to country based on browser geolocation',
       )
