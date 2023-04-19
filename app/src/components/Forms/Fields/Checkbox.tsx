@@ -10,7 +10,7 @@ export const CheckboxElement = styled.input`
   border: 1px solid;
   border-color: body.5;
   background-color: white;
-  margin-top: 3px;
+  margin-top: 8px;
 
   width: 12px;
   height: 12px;

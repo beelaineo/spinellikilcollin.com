@@ -26,8 +26,9 @@ const SuccessWrapper = styled.div<WithVisible>`
     pointer-events: ${visible ? 'inherit' : 'none'};
     transition: 0.2s;
     position: absolute;
+    top: 0;
+    bottom: 0;
     width: 100%;
-    height: 100%;
     justify-content: center;
     align-items: center;
     flex-direction: column;
@@ -109,9 +110,10 @@ type FormValues = {
   variant?: string
   phoneCountryCode?: string
   dialingCode?: string
+  communicationsConsent: boolean
 }
 
-const formId = 'e62200cb-d8d3-468f-a19e-13c7d4bcec26'
+const formId = '1057340a-0402-4853-920d-a5e775a4d2a7'
 
 export const RingSizerForm = ({
   product,
@@ -123,10 +125,12 @@ export const RingSizerForm = ({
 
   const handleSubmit = async (values: FormValues) => {
     setSubmitting(true)
-    await fetch('/api/requestRingSizer', {
-      method: 'POST',
-      body: JSON.stringify(values),
-    }).then((r) => r.json())
+    // TODO: uncomment when we swap in the real form
+    // await fetch('/api/requestRingSizer', {
+    //   method: 'POST',
+    //   body: JSON.stringify(values),
+    // }).then((r) => r.json())
+    console.log('FORM VALUES', values)
     await submitToHubspot(values, formId)
     setSuccess(true)
   }
@@ -145,15 +149,17 @@ export const RingSizerForm = ({
     variant: variant?.title || '(none)',
     phoneCountryCode: 'US',
     dialingCode: '',
+    communicationsConsent: false,
   }
 
   return (
     <>
       <Script id="hubspot-sizer-widget">
+        {/* temporarily point component to cloned form for testing */}
         {`hbspt.forms.create({
         region: "na1",
         portalId: "7668999",
-        formId: "e62200cb-d8d3-468f-a19e-13c7d4bcec26"
+        formId: "1057340a-0402-4853-920d-a5e775a4d2a7",
       });`}
       </Script>
       <MainWrapper>
@@ -204,6 +210,11 @@ export const RingSizerForm = ({
             <Field name="phone" type="tel" label="Phone Number" required />
             <Field name="product" type="hidden" />
             <Field name="variant" type="hidden" />
+            <Field
+              name="communicationsConsent"
+              type="checkbox"
+              label="I agree to receive other communications from Spinelli Kilcollin."
+            />
             <Button mt={2} type="submit">
               Submit
             </Button>
