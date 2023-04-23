@@ -79,10 +79,10 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
   `}
 `
 
-export const ToastRootWrapper = styled.div<ToastRootWrapperProps>`
+export const ToastRootWrapper = styled.div`
   ${({ theme }) => css`
     ${theme.mediaQueries.tablet} {
-      top: 6rem;
+      top: 7rem;
       bottom: auto;
     }
 
