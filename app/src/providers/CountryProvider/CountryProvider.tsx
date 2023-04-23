@@ -17,6 +17,8 @@ interface CountryContextValue {
   currentCountry: ShopifyStorefrontCountryCode
   loading: boolean
   updateCountry: (country: ShopifyStorefrontCountryCode) => Promise<void>
+  showOutline: 'isVisible' | 'isHidden' | null
+  setShowOutline: (value: 'isVisible' | 'isHidden' | null) => void
 }
 
 const CountryContext = React.createContext<CountryContextValue | undefined>(
@@ -79,7 +81,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
         'updating user country to viewer country preference (from browser cookie)',
       )
       updateCountryState(viewerCountry)
-    } else if (geolocateCountry && geolocateCountry !== currentCountry) {
+    } else if (geolocateCountry) {
       console.log(
         'updating user country to country based on browser geolocation',
       )
@@ -124,10 +126,16 @@ export const CountryProvider = ({ children }: CountryProps) => {
     await updateCountryState(country)
   }
 
+  const [showOutline, setShowOutline] = React.useState<
+    'isHidden' | 'isVisible' | null
+  >(null)
+
   const value = {
     loading,
     currentCountry,
     updateCountry,
+    showOutline,
+    setShowOutline,
   }
   return (
     <CountryContext.Provider value={value}>{children}</CountryContext.Provider>

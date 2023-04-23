@@ -6,7 +6,7 @@ import { Heading } from '../Text'
 import { useStatefulRef } from '../../utils/hooks'
 
 import { Toast as IToast, ToastType, ToastDivState } from './types'
-import { useNavigation } from '../../providers'
+import { useCountry, useNavigation } from '../../providers'
 import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
 import Link from 'next/link'
@@ -83,9 +83,13 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
     }
   }
 
-  const styles = getStyles(divState, elHeight)
+  const { setShowOutline } = useCountry()
 
-  const containsLinebreaks = Boolean((message.match(/\n/g) || []).length)
+  const handleClick = () => {
+    setShowOutline('isVisible')
+  }
+
+  const styles = getStyles(divState, elHeight)
 
   const renderMessage = () =>
     toast.type === ToastType.Currency ? (
@@ -95,8 +99,8 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
         </Heading>
 
         <Heading my={0} level={6}>
-          Use our <Link href="#">country selector</Link> to change your
-          currency.{' '}
+          Use our <button onClick={handleClick}>country selector</button> to
+          change your currency.{' '}
         </Heading>
       </>
     ) : (
@@ -128,11 +132,13 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
 export const ToastRoot: React.FC = () => {
   const { state, dismissToast, createToast } = useToast()
 
+  const { showOutline } = useCountry()
+
   const { toasts } = state
   const toastsArray = Array.from(toasts)
 
   return (
-    <ToastRootWrapper>
+    <ToastRootWrapper showOutline={showOutline}>
       {toastsArray.map(([key, toast]) => (
         <Toast
           key={key}

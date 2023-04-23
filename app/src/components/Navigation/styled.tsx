@@ -225,6 +225,7 @@ export const HamburgerWrapper = styled.div`
 interface ColorThemeProps {
   theme: DefaultTheme
   colorTheme?: 'light' | 'dark'
+  showOutline?: 'isVisible' | 'isHidden' | null
 }
 
 export const SearchButtonWrapper = styled.div`
@@ -260,11 +261,37 @@ export const SearchButtonWrapper = styled.div`
 `
 
 export const CurrencySelectorWrapper = styled.div`
-  ${({ theme, colorTheme }: ColorThemeProps) => css`
-    margin-right: 2px;
+  ${({ theme, colorTheme, showOutline }: ColorThemeProps) => css`
+    margin-right: 2;
     position: relative;
-    ${colorTheme == 'light' ? `select {color: ${theme.colors.grays[3]};}` : ''}
+    border-radius: 4px;
+
+    ${showOutline === 'isVisible'
+      ? `outline: 100vmax solid rgba(0, 0, 0, 0.7); 
+        background-color: ${colorTheme === 'light' && theme.colors.grays[1]};
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`
+      : showOutline === 'isHidden'
+      ? `outline: 100vmax solid rgba(0, 0, 0, 0); 
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;
+        background-color: transparent;`
+      : `outline: none;
+        outline-color: rgba(0, 0, 0, 0);
+        background-color: transparent;
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`}
+
+    transition: outline-color 0.3s ease-in-out;
+
+    ${colorTheme == 'light' && !showOutline
+      ? `select {color: ${theme.colors.grays[3]};}`
+      : ''};
+
     ${theme.mediaQueries.mobile} {
+      ${showOutline === 'isVisible'
+        ? `background-color: ${theme.colors.grays[1]};`
+        : showOutline === 'isHidden'
+        ? `background-color: transparent;`
+        : `background-color: transparent;`}
+
       width: 24px;
       margin-right: 4px;
     }

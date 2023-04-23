@@ -7,10 +7,14 @@ interface ToastWrapperProps {
   colorTheme?: 'light' | 'dark'
 }
 
+interface ToastRootWrapperProps {
+  showOutline?: 'isVisible' | 'isHidden' | null
+}
+
 export const ToastWrapper = styled.div<ToastWrapperProps>`
   ${({ toastType, theme, colorTheme }) => css`
     pointer-events: initial;
-    border: 1px solid currentColor;
+    border: none;
     background-color: ${colorTheme === 'light' ? 'body.9' : 'body.0'};
     color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
@@ -22,23 +26,21 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
     position: relative;
     margin-bottom: 3;
     transition: 0.5s;
-
-    ${toastType === ToastType.Currency && 'border-radius: 50px'};
-    ${toastType === ToastType.Currency && 'text-align: left'};
-    ${toastType === ToastType.Currency && 'padding: 3  5'};
-    ${toastType === ToastType.Currency && 'border: none'};
-
-    a {
-      text-decoration: underline;
-      z-index: 1;
-      position: relative;
-    }
+    border-radius: 50px;
+    text-align: left;
+    padding: 3 5;
 
     h5 {
-      font-size: ${toastType === ToastType.Currency ? 4 : 5};
+      font-size: 4;
     }
     h6 {
-      font-size: ${toastType === ToastType.Currency ? '13px' : 5};
+      font-size: 13px;
+
+      button {
+        text-decoration: underline;
+        z-index: 1;
+        position: relative;
+      }
     }
 
     ${theme.mediaQueries.tablet} {
@@ -46,14 +48,11 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
 
       h5,
       h6 {
-        font-size: ${toastType === ToastType.Currency ? '12px' : 5};
+        font-size: 12px;
       }
     }
 
     & ${CloseButton} {
-      top: 7px;
-      right: 8px;
-
       color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
 
       :after,
@@ -61,9 +60,9 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
         background-color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
       }
 
-      ${toastType === ToastType.Currency && 'top: 50%'};
-      ${toastType === ToastType.Currency && 'transform: translateY(-50%)'};
-      ${toastType === ToastType.Currency && 'right: 6%'};
+      top: 50%;
+      transform: translateY(-50%);
+      right: 6%;
       width: 20px;
     }
 
@@ -74,6 +73,7 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
       top: 0;
       width: 100%;
       height: 100%;
+      border-radius: 50px;
       box-shadow: ${toastType === ToastType.Warning
         ? 'inset 0 -3px 15px -7px orange'
         : toastType === ToastType.Error
@@ -83,15 +83,15 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
   `}
 `
 
-export const ToastRootWrapper = styled.div`
-  ${({ theme }) => css`
+export const ToastRootWrapper = styled.div<ToastRootWrapperProps>`
+  ${({ theme, showOutline }) => css`
     ${theme.mediaQueries.tablet} {
       top: 6rem;
       bottom: auto;
     }
 
     position: fixed;
-    z-index: 9;
+    z-index: ${showOutline ? 1000 : 9};
     pointer-events: none;
     top: 'auto';
     bottom: 1rem;
