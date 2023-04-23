@@ -132,13 +132,11 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
 export const ToastRoot: React.FC = () => {
   const { state, dismissToast, createToast } = useToast()
 
-  const { showOutline } = useCountry()
-
   const { toasts } = state
   const toastsArray = Array.from(toasts)
 
   return (
-    <ToastRootWrapper showOutline={showOutline}>
+    <ToastRootWrapper>
       {toastsArray.map(([key, toast]) => (
         <Toast
           key={key}

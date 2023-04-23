@@ -7,10 +7,6 @@ interface ToastWrapperProps {
   colorTheme?: 'light' | 'dark'
 }
 
-interface ToastRootWrapperProps {
-  showOutline?: 'isVisible' | 'isHidden' | null
-}
-
 export const ToastWrapper = styled.div<ToastWrapperProps>`
   ${({ toastType, theme, colorTheme }) => css`
     pointer-events: initial;
@@ -84,14 +80,14 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
 `
 
 export const ToastRootWrapper = styled.div<ToastRootWrapperProps>`
-  ${({ theme, showOutline }) => css`
+  ${({ theme }) => css`
     ${theme.mediaQueries.tablet} {
       top: 6rem;
       bottom: auto;
     }
 
     position: fixed;
-    z-index: ${showOutline ? 1000 : 9};
+    z-index: 9;
     pointer-events: none;
     top: 'auto';
     bottom: 1rem;

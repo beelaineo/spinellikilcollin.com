@@ -267,11 +267,11 @@ export const CurrencySelectorWrapper = styled.div`
     border-radius: 4px;
 
     ${showOutline === 'isVisible'
-      ? `outline: 100vmax solid rgba(0, 0, 0, 0.7); 
+      ? `outline: 110vmax solid rgba(0, 0, 0, 0.7); 
         background-color: ${colorTheme === 'light' && theme.colors.grays[1]};
         transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`
       : showOutline === 'isHidden'
-      ? `outline: 100vmax solid rgba(0, 0, 0, 0); 
+      ? `outline: 110vmax solid rgba(0, 0, 0, 0); 
         transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;
         background-color: transparent;`
       : `outline: none;
