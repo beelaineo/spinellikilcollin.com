@@ -14,7 +14,6 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
     background-color: ${colorTheme === 'light' ? 'body.9' : 'body.0'};
     color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
-    padding: 3 18px;
     max-width: 400px;
     width: calc(100vw - 20px);
     text-align: center;
@@ -24,7 +23,7 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
     transition: 0.5s;
     border-radius: 50px;
     text-align: left;
-    padding: 3 5;
+    padding: 3 8 3 5;
 
     h5 {
       font-size: 4;
