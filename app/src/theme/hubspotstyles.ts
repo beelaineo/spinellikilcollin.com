@@ -4,7 +4,7 @@ export const hubspotStyles = css`
   ${({ theme }) => css`
     body {
       div#hubspot-messages-iframe-container {
-        z-index: calc(${theme.zIndices.cart - 1});
+        z-index: 8;
       }
       div#hs-eu-cookie-confirmation {
         position: fixed;
