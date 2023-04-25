@@ -48,12 +48,16 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   }, [wrapperRef.current])
 
   useEffect(() => {
-    if (dismissable) return
+    if (dismissable && !ToastType.Currency) return
+
+    const duration = ToastType.Currency ? 8000 : 5000
+
     const timeout = setTimeout(() => {
       clearToast()
-    }, 5000)
+    }, duration)
     return () => clearTimeout(timeout)
   }, [dismissable])
+
   const elHeight = wrapperRef.current?.offsetHeight
 
   const getStyles = (state: ToastDivState, elHeight?: number | undefined) => {
