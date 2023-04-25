@@ -225,7 +225,7 @@ export const HamburgerWrapper = styled.div`
 interface ColorThemeProps {
   theme: DefaultTheme
   colorTheme?: 'light' | 'dark'
-  showOutline?: 'isVisible' | 'isHidden' | null
+  isHighlighted?: 'isVisible' | 'isHidden' | null
 }
 
 export const SearchButtonWrapper = styled.div`
@@ -261,16 +261,16 @@ export const SearchButtonWrapper = styled.div`
 `
 
 export const CurrencySelectorWrapper = styled.div`
-  ${({ theme, colorTheme, showOutline }: ColorThemeProps) => css`
+  ${({ theme, colorTheme, isHighlighted }: ColorThemeProps) => css`
     margin-right: 2;
     position: relative;
     border-radius: 4px;
 
-    ${showOutline === 'isVisible'
+    ${isHighlighted === 'isVisible'
       ? `outline: 110vmax solid rgba(0, 0, 0, 0.7); 
         background-color: ${colorTheme === 'light' && theme.colors.grays[1]};
         transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`
-      : showOutline === 'isHidden'
+      : isHighlighted === 'isHidden'
       ? `outline: 110vmax solid rgba(0, 0, 0, 0); 
         transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;
         background-color: transparent;`
@@ -281,14 +281,14 @@ export const CurrencySelectorWrapper = styled.div`
 
     transition: outline-color 0.3s ease-in-out;
 
-    ${colorTheme == 'light' && !showOutline
+    ${colorTheme == 'light' && !isHighlighted
       ? `select {color: ${theme.colors.grays[3]};}`
       : ''};
 
     ${theme.mediaQueries.mobile} {
-      ${showOutline === 'isVisible'
+      ${isHighlighted === 'isVisible'
         ? `background-color: ${theme.colors.grays[1]};`
-        : showOutline === 'isHidden'
+        : isHighlighted === 'isHidden'
         ? `background-color: transparent;`
         : `background-color: transparent;`}
 

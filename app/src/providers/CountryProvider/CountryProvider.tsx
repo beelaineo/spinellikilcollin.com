@@ -17,8 +17,8 @@ interface CountryContextValue {
   currentCountry: ShopifyStorefrontCountryCode
   loading: boolean
   updateCountry: (country: ShopifyStorefrontCountryCode) => Promise<void>
-  showOutline: 'isVisible' | 'isHidden' | null
-  setShowOutline: (value: 'isVisible' | 'isHidden' | null) => void
+  isHighlighted: 'isVisible' | 'isHidden' | null
+  setIsHighlighted: (value: 'isVisible' | 'isHidden' | null) => void
 }
 
 const CountryContext = React.createContext<CountryContextValue | undefined>(
@@ -126,7 +126,7 @@ export const CountryProvider = ({ children }: CountryProps) => {
     await updateCountryState(country)
   }
 
-  const [showOutline, setShowOutline] = React.useState<
+  const [isHighlighted, setIsHighlighted] = React.useState<
     'isHidden' | 'isVisible' | null
   >(null)
 
@@ -134,8 +134,8 @@ export const CountryProvider = ({ children }: CountryProps) => {
     loading,
     currentCountry,
     updateCountry,
-    showOutline,
-    setShowOutline,
+    isHighlighted,
+    setIsHighlighted,
   }
   return (
     <CountryContext.Provider value={value}>{children}</CountryContext.Provider>

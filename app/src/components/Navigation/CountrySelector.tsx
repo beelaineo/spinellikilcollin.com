@@ -84,8 +84,8 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
     loading,
     currentCountry,
     updateCountry,
-    showOutline,
-    setShowOutline,
+    isHighlighted,
+    setIsHighlighted,
   } = useCountry()
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
@@ -117,18 +117,18 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
   }, [])
 
   useEffect(() => {
-    if (showOutline === 'isVisible') {
+    if (isHighlighted === 'isVisible') {
       wait(1200)
         .then(() => {
-          setShowOutline('isHidden')
+          setIsHighlighted('isHidden')
         })
         .then(() => {
           wait(300).then(() => {
-            setShowOutline(null)
+            setIsHighlighted(null)
           })
         })
     }
-  }, [showOutline])
+  }, [isHighlighted])
 
   useEffect(() => {
     setCountry(currentCountry)
@@ -137,7 +137,7 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
   return (
     <>
       <CurrencySelectorWrapper
-        showOutline={showOutline}
+        isHighlighted={isHighlighted}
         colorTheme={colorTheme}
         id={'currency-select'}
       >

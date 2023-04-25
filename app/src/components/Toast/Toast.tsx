@@ -83,10 +83,10 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
     }
   }
 
-  const { setShowOutline } = useCountry()
+  const { setIsHighlighted } = useCountry()
 
   const handleClick = () => {
-    setShowOutline('isVisible')
+    setIsHighlighted('isVisible')
   }
 
   const styles = getStyles(divState, elHeight)
