@@ -8,7 +8,10 @@ import {
   ShopifyStorefrontCurrencyCode,
   ShopifyStorefrontCountryCode,
 } from '../../types/generated-shopify'
+import { useWait } from '../../hooks'
+
 import { CountryOption } from './types'
+import { Maybe } from '../../types'
 
 const { useState, useEffect } = React
 
@@ -27,7 +30,7 @@ const SelectField = styled(SelectElement)`
 
 const FlagWrapper = styled('div')`
   display: none;
-  margin-right: 3;
+
   font-size: 22;
 
   @media (max-width: 768px) {
@@ -37,11 +40,11 @@ const FlagWrapper = styled('div')`
   }
   @media (max-width: 650px) {
     font-size: 20;
-    margin-right: 2;
+    margin: 0 2;
   }
   @media (max-width: 370px) {
     font-size: 16;
-    margin-right: 0;
+    margin: 0;
   }
 `
 
@@ -73,9 +76,17 @@ interface CountrySelectorProps {
 }
 
 export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
+  const wait = useWait()
+
   const [options, setOptions] = useState<CountryOption[]>([])
   const [country, setCountry] = useState<string>()
-  const { loading, currentCountry, updateCountry } = useCountry()
+  const {
+    loading,
+    currentCountry,
+    updateCountry,
+    isHighlighted,
+    setIsHighlighted,
+  } = useCountry()
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
     const countryKey = value.slice(0, 1) + value[1].toLowerCase()
@@ -106,35 +117,55 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
   }, [])
 
   useEffect(() => {
+    if (isHighlighted === 'isVisible') {
+      wait(1200)
+        .then(() => {
+          setIsHighlighted('isHidden')
+        })
+        .then(() => {
+          wait(300).then(() => {
+            setIsHighlighted(null)
+          })
+        })
+    }
+  }, [isHighlighted])
+
+  useEffect(() => {
     setCountry(currentCountry)
   }, [currentCountry])
 
   return (
-    <CurrencySelectorWrapper colorTheme={colorTheme}>
-      <Form
-        disabled={loading}
-        onSubmit={handleSubmit}
-        initialValues={initialValues}
+    <>
+      <CurrencySelectorWrapper
+        isHighlighted={isHighlighted}
+        colorTheme={colorTheme}
+        id={'currency-select'}
       >
-        {country && (
-          <FlagWrapper>
-            <label htmlFor="country">{getFlagEmoji(country)}</label>
-          </FlagWrapper>
-        )}
-        <SelectField
-          name="country"
-          color="body.8"
-          onChange={handleChange}
-          aria-label="Select Country"
-          value={country}
+        <Form
+          disabled={loading}
+          onSubmit={handleSubmit}
+          initialValues={initialValues}
         >
-          {options.map(({ id, value, label }) => (
-            <option key={id} id={id} value={value}>
-              {label}
-            </option>
-          ))}
-        </SelectField>
-      </Form>
-    </CurrencySelectorWrapper>
+          {country && (
+            <FlagWrapper>
+              <label htmlFor="country">{getFlagEmoji(country)}</label>
+            </FlagWrapper>
+          )}
+          <SelectField
+            name="country"
+            color="body.8"
+            onChange={handleChange}
+            aria-label="Select Country"
+            value={country}
+          >
+            {options.map(({ id, value, label }) => (
+              <option key={id} id={id} value={value}>
+                {label}
+              </option>
+            ))}
+          </SelectField>
+        </Form>
+      </CurrencySelectorWrapper>
+    </>
   )
 }

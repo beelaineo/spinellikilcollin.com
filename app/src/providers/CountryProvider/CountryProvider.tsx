@@ -17,6 +17,8 @@ interface CountryContextValue {
   currentCountry: ShopifyStorefrontCountryCode
   loading: boolean
   updateCountry: (country: ShopifyStorefrontCountryCode) => Promise<void>
+  isHighlighted: 'isVisible' | 'isHidden' | null
+  setIsHighlighted: (value: 'isVisible' | 'isHidden' | null) => void
 }
 
 const CountryContext = React.createContext<CountryContextValue | undefined>(
@@ -89,10 +91,16 @@ export const CountryProvider = ({ children }: CountryProps) => {
         const formattedCountry = await getCountryNameFromCountryCode(
           geolocateCountry,
         )
-        const toastMessage = `We've detected that you're in ${
-          formattedCountry || 'Country Unknown'
-        }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
-        createToast({ message: toastMessage, type: ToastType.Message })
+        // const toastMessage = `We've detected that you're in ${
+        //   formattedCountry || 'Country Unknown'
+        // }. If you'd like to change your country, please do so using the Country Selector in the top navigation bar.`
+
+        const toastMessage = formattedCountry || 'Country Unknown'
+
+        createToast({
+          message: toastMessage,
+          type: ToastType.Currency,
+        })
       }
       sendToast()
     }
@@ -118,10 +126,16 @@ export const CountryProvider = ({ children }: CountryProps) => {
     await updateCountryState(country)
   }
 
+  const [isHighlighted, setIsHighlighted] = React.useState<
+    'isHidden' | 'isVisible' | null
+  >(null)
+
   const value = {
     loading,
     currentCountry,
     updateCountry,
+    isHighlighted,
+    setIsHighlighted,
   }
   return (
     <CountryContext.Provider value={value}>{children}</CountryContext.Provider>
