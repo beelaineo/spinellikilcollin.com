@@ -74,6 +74,11 @@ export const submitToHubspot = async (
           subscriptionTypeId: '9286953',
           text: 'I agree to receive marketing communications from Spinelli Kilcollin.',
         },
+        {
+          value: values.communicationsConsent,
+          subscriptionTypeId: '9532507',
+          text: 'I agree to receive one to one emails from Spinelli Kilcollin.',
+        },
       ],
     },
   }
@@ -84,12 +89,12 @@ export const submitToHubspot = async (
   }
   console.log('HUSBPOT FORM BODY SUBMITTED:', body)
 
-  if (config.STOREFRONT_ENV !== 'production') {
-    console.log('Not currently in production. Mocking Hubpsot form submission:')
-    debug('Not currently in production. Mocking Hubpsot form submission:')
-    debug(body)
-    return
-  }
+  // if (config.STOREFRONT_ENV !== 'production') {
+  //   console.log('Not currently in production. Mocking Hubpsot form submission:')
+  //   debug('Not currently in production. Mocking Hubpsot form submission:')
+  //   debug(body)
+  //   return
+  // }
 
   try {
     const response = await fetch(url, {
