@@ -41,7 +41,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
             ...InternalLinkFragment
           }
         }
-        ... on MenuExternalLink {
+        ... on MenuLinkExternal {
           _key
           _type
           label
@@ -69,7 +69,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
                 }
               }
             }
-            ... on MenuExternalLink {
+            ... on MenuLinkExternal {
               _key
               _type
               label
@@ -90,7 +90,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
             ...InternalLinkFragment
           }
         }
-        ... on MenuExternalLink {
+        ... on MenuLinkExternal {
           _key
           _type
           label

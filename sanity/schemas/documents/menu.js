@@ -15,9 +15,6 @@ export const Menu = {
           type: 'subMenu',
           name: 'subMenu',
         },
-        {
-          type: 'menuLinkExternal',
-        },
       ],
     },
     {
@@ -27,9 +24,6 @@ export const Menu = {
       of: [
         {
           type: 'menuLink',
-        },
-        {
-          type: 'menuLinkExternal',
         },
       ],
     },
