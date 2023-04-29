@@ -172,6 +172,12 @@ export default () =>
                     .schemaType('contact')
                     .documentId('contact'),
                 ),
+              S.listItem()
+                .title('FAQ')
+                .icon(MdLocalPhone)
+                .child(
+                  S.editor().id('contact').schemaType('faq').documentId('faq'),
+                ),
 
               S.listItem()
                 .title('Customize')
