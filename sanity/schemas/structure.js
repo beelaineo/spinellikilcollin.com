@@ -176,7 +176,7 @@ export default () =>
                 .title('FAQ')
                 .icon(MdLocalPhone)
                 .child(
-                  S.editor().id('contact').schemaType('faq').documentId('faq'),
+                  S.editor().id('faq').schemaType('faq').documentId('faq'),
                 ),
 
               S.listItem()
