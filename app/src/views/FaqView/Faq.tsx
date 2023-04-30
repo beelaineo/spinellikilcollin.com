@@ -104,7 +104,7 @@ export const FaqView = ({ faq }: FaqProps) => {
   const sections = faqCategories?.map((category) => category?.label)
 
   const [isActiveSection, setIsActiveSection] = useState(0)
-  const [isClickedSection, setIsClickedSection] = useState(0)
+  const [isClickedSection, setIsClickedSection] = useState(null)
 
   const [quickLinksHeight, setQuickLinksHeight] = useState(0)
 

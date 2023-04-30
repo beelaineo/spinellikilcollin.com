@@ -46,6 +46,8 @@ export const FaqCategory = ({
   }, [isInView])
 
   useEffect(() => {
+    if (!isClickedSection) return
+
     const yOffset = -130
     const element = ref?.current
     const y =
