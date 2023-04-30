@@ -102,6 +102,7 @@ const Route2LabelMap = {
   '/': 'Home',
   '/404': 'Page Not Found',
   '/about': 'About',
+  '/faq': 'FAQ',
   '/about/contact': 'Contact',
   '/about/team': 'Team',
   '/blogs': 'Blog',
