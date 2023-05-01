@@ -10,8 +10,8 @@ interface FaqCategoryProps {
   label: Maybe<string> | undefined
   faqQuestions: any
   index: number
-  setIsActiveSection: (index: number) => void
-  isClickedSection?: boolean
+  setIsActive: (index: number) => void
+  isClicked?: boolean | null
 }
 
 const QuestionWrapper = styled.div`
@@ -32,8 +32,8 @@ export const FaqCategory = ({
   label,
   faqQuestions,
   index,
-  setIsActiveSection,
-  isClickedSection,
+  setIsActive,
+  isClicked,
 }: FaqCategoryProps) => {
   const ref = useRef<null | HTMLDivElement>(null)
 
@@ -42,21 +42,23 @@ export const FaqCategory = ({
   useEffect(() => {
     if (!isInView) return
 
-    setIsActiveSection(isInView && index)
+    setIsActive(isInView && index)
   }, [isInView])
 
   useEffect(() => {
-    if (!isClickedSection) return
+    if (!isClicked) return
 
     const yOffset = -130
     const element = ref?.current
     const y =
-      (element &&
-        element.getBoundingClientRect().top + window.scrollY + yOffset) ||
-      0
+      index === 0
+        ? 0
+        : (element &&
+            element.getBoundingClientRect().top + window.scrollY + yOffset) ||
+          0
 
-    isClickedSection && window.scrollTo({ top: y, behavior: 'smooth' })
-  }, [isClickedSection])
+    window.scrollTo({ top: y, behavior: 'smooth' })
+  }, [isClicked])
 
   return (
     <CategoryWrapper ref={ref}>

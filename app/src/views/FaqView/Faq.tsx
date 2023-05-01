@@ -104,7 +104,7 @@ export const FaqView = ({ faq }: FaqProps) => {
   const sections = faqCategories?.map((category) => category?.label)
 
   const [isActiveSection, setIsActiveSection] = useState(0)
-  const [isClickedSection, setIsClickedSection] = useState(null)
+  const [isClickedSection, setIsClickedSection] = useState(-1)
 
   const [quickLinksHeight, setQuickLinksHeight] = useState(0)
 
@@ -116,7 +116,6 @@ export const FaqView = ({ faq }: FaqProps) => {
 
   useEffect(() => {
     if (!quickLinksRef?.current) return
-
     const height = quickLinksRef?.current?.offsetHeight
 
     setQuickLinksHeight(height)
@@ -124,7 +123,12 @@ export const FaqView = ({ faq }: FaqProps) => {
 
   const handleQuickLinkClick = (index) => {
     setIsClickedSection(index)
+
+    setTimeout(() => {
+      setIsClickedSection(-1)
+    }, 100)
   }
+
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="/faq" contentType={_id!} />
@@ -157,7 +161,7 @@ export const FaqView = ({ faq }: FaqProps) => {
                     key={category?._key}
                     label={category?.label}
                     faqQuestions={category?.faqQuestions}
-                    setIsActiveSection={setIsActiveSection}
+                    setIsActive={setIsActiveSection}
                   />
                 </Accordion>
               ) : (
@@ -166,8 +170,8 @@ export const FaqView = ({ faq }: FaqProps) => {
                   key={category?._key}
                   label={category?.label}
                   faqQuestions={category?.faqQuestions}
-                  setIsActiveSection={setIsActiveSection}
-                  isClickedSection={index === isClickedSection}
+                  setIsActive={setIsActiveSection}
+                  isClicked={index === isClickedSection}
                 />
               ),
             )}
