@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { RichText } from '../../components/RichText'
 import { useInViewport } from '../../hooks'
 import { Maybe } from '../../types'
+import { Answer, CategoryWrapper, QuestionWrapper } from './styled'
 
 interface FaqCategoryProps {
   label: Maybe<string> | undefined
@@ -13,20 +14,6 @@ interface FaqCategoryProps {
   setIsActive: (index: number) => void
   scrollToSection?: boolean | null
 }
-
-const QuestionWrapper = styled.div`
-  margin: 60px 0;
-`
-
-const Answer = styled.div`
-  p:first-child {
-    &:before {
-      content: 'A: ';
-    }
-  }
-`
-
-const CategoryWrapper = styled.div``
 
 export const FaqCategory = ({
   label,

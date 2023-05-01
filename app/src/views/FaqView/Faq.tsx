@@ -3,96 +3,27 @@ import { Faq, FaqCategory as FaqCategoryType } from '../../types'
 import { Column } from '../../components/Layout'
 import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
-import {} from './styled'
+import {
+  Answer,
+  PageText,
+  QuestionWrapper,
+  QuickLink,
+  QuickLinksNav,
+  Wrapper,
+} from './styled'
 import { SEO } from '../../components/SEO'
 
 import { FaqCategory } from './FaqCategory'
-import { Heading } from '../../components/Text'
+import { Heading, Span } from '../../components/Text'
 import { Accordion } from '../../components/Accordion'
 import { useMedia } from '../../hooks'
 import { useRouter } from 'next/router'
 import { kebabCase } from '../../utils'
+import { RichText } from '../../components/RichText'
 
 interface FaqProps {
   faq: Faq
 }
-
-interface QuickLinksNavProps {
-  containerHeight: number
-}
-
-interface QuickLinkProps {
-  isActive: boolean
-}
-
-const PageText = styled.div`
-  span {
-    font-size: 17px;
-  }
-
-  h1,
-  h2,
-  h3 {
-    text-align: center;
-  }
-
-  h2 {
-    line-height: 1.5em;
-    margin: 0.6em 0px;
-  }
-`
-
-const Wrapper = styled.mainBox`
-  ${({ theme }) => css`
-    padding: calc(${theme.navHeight} + ${theme.space[9]}px) 8 6;
-
-    ${theme.mediaQueries.mobile} {
-      padding: calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 30px 5;
-    }
-  `}
-`
-
-const QuestionWrapper = styled.div`
-  margin: 60px 0;
-`
-
-const QuickLinksNav = styled.ul<QuickLinksNavProps>`
-  ${({ theme, containerHeight }) => css`
-    position: sticky;
-    top: 50%;
-    transform: translateY(-50%);
-    padding-inline-start: 0;
-    margin-top: calc(-1 * ${containerHeight}px);
-
-    ${theme.mediaQueries.tablet} {
-      margin-top: 0;
-    }
-  `}
-`
-
-const QuickLink = styled.li<QuickLinkProps>`
-  ${({ isActive, theme }) => css`
-    ${theme.mediaQueries.tablet} {
-      display: none;
-    }
-
-    display: block;
-    font-size: 17px;
-    font-weight: 200;
-    list-style: none;
-    margin: 6px auto 0.5em;
-    text-decoration: ${isActive ? 'underline' : 'none'};
-    cursor: pointer;
-  `}
-`
-
-const Answer = styled.div`
-  p:first-child {
-    &:before {
-      content: 'A: ';
-    }
-  }
-`
 
 export const FaqView = ({ faq }: FaqProps) => {
   const { seo, title, faqCategories, _id } = faq
@@ -172,13 +103,23 @@ export const FaqView = ({ faq }: FaqProps) => {
                   key={category?._key}
                   label={category?.label || 'label'}
                 >
-                  <FaqCategory
-                    index={index}
-                    key={category?._key}
-                    label={category?.label}
-                    faqQuestions={category?.faqQuestions}
-                    setIsActive={setIsActiveSection}
-                  />
+                  <Heading level={2}>{category?.label}</Heading>
+                  {category?.faqQuestions?.map((item) => {
+                    const { _key, question, answerRaw } = item || {}
+
+                    return (
+                      <QuestionWrapper key={_key}>
+                        <Span fontWeight={200}>{`Q: ${question}`}</Span>
+                        <Answer>
+                          <RichText
+                            article
+                            body={answerRaw}
+                            imageSizes="(max-width: 600px) 100vw, 600px"
+                          />
+                        </Answer>
+                      </QuestionWrapper>
+                    )
+                  })}
                 </Accordion>
               ) : (
                 <FaqCategory
