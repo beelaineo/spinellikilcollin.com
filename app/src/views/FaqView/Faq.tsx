@@ -10,6 +10,8 @@ import { FaqCategory } from './FaqCategory'
 import { Heading } from '../../components/Text'
 import { Accordion } from '../../components/Accordion'
 import { useMedia } from '../../hooks'
+import { useRouter } from 'next/router'
+import { kebabCase } from '../../utils'
 
 interface FaqProps {
   faq: Faq
@@ -104,7 +106,7 @@ export const FaqView = ({ faq }: FaqProps) => {
   const sections = faqCategories?.map((category) => category?.label)
 
   const [isActiveSection, setIsActiveSection] = useState(0)
-  const [isClickedSection, setIsClickedSection] = useState(-1)
+  const [scrollToSection, setScrollToSection] = useState(-1)
 
   const [quickLinksHeight, setQuickLinksHeight] = useState(0)
 
@@ -122,12 +124,26 @@ export const FaqView = ({ faq }: FaqProps) => {
   }, [isMedium])
 
   const handleQuickLinkClick = (index) => {
-    setIsClickedSection(index)
+    setScrollToSection(index)
 
     setTimeout(() => {
-      setIsClickedSection(-1)
+      setScrollToSection(-1)
     }, 100)
   }
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!router.isReady) return
+
+    const { category } = router.query
+
+    const queryMatch = sections?.findIndex(
+      (section) => section && kebabCase(section) === category,
+    )
+
+    queryMatch && setScrollToSection(queryMatch)
+  }, [router.isReady])
 
   return (
     <>
@@ -171,7 +187,7 @@ export const FaqView = ({ faq }: FaqProps) => {
                   label={category?.label}
                   faqQuestions={category?.faqQuestions}
                   setIsActive={setIsActiveSection}
-                  isClicked={index === isClickedSection}
+                  scrollToSection={index === scrollToSection}
                 />
               ),
             )}

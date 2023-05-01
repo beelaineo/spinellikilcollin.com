@@ -11,7 +11,7 @@ interface FaqCategoryProps {
   faqQuestions: any
   index: number
   setIsActive: (index: number) => void
-  isClicked?: boolean | null
+  scrollToSection?: boolean | null
 }
 
 const QuestionWrapper = styled.div`
@@ -33,7 +33,7 @@ export const FaqCategory = ({
   faqQuestions,
   index,
   setIsActive,
-  isClicked,
+  scrollToSection,
 }: FaqCategoryProps) => {
   const ref = useRef<null | HTMLDivElement>(null)
 
@@ -46,7 +46,7 @@ export const FaqCategory = ({
   }, [isInView])
 
   useEffect(() => {
-    if (!isClicked) return
+    if (!scrollToSection) return
 
     const yOffset = -130
     const element = ref?.current
@@ -58,7 +58,7 @@ export const FaqCategory = ({
           0
 
     window.scrollTo({ top: y, behavior: 'smooth' })
-  }, [isClicked])
+  }, [scrollToSection])
 
   return (
     <CategoryWrapper ref={ref}>
