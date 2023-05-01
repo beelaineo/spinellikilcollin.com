@@ -27,6 +27,8 @@ export const Accordion = ({ label, children }: AccordionProps) => {
     if (open) return
 
     setTimeout(() => {
+      if (label !== 'Description') return
+
       setOpen(label === 'Description')
     }, 3000)
   }, [label])
