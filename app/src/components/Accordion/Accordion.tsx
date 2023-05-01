@@ -17,6 +17,10 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   const refContainer = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const element = refContainer?.current
+
+    if (!element) return
+
     const observer = new ResizeObserver(() => {
       if (!refContainer.current) return
 
