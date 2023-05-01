@@ -1,6 +1,4 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
-import { useMeasure } from 'react-use'
 import { Label, Wrapper, Inner, Item } from './styled'
 import { useEffect, useRef } from 'react'
 import { PlusMinus } from '../PlusMinus'
@@ -19,9 +17,17 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   const refContainer = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (!refContainer.current) return
-    updateHeight(refContainer.current.clientHeight)
-  }, [height, children])
+    const observer = new ResizeObserver(() => {
+      if (!refContainer.current) return
+
+      updateHeight(refContainer.current.clientHeight)
+    })
+
+    observer.observe(element)
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
 
   useEffect(() => {
     if (open) return
