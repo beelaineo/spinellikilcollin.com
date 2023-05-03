@@ -78,7 +78,12 @@ export const FaqView = ({ faq }: FaqProps) => {
 
   return (
     <>
-      <SEO seo={seo} defaultSeo={defaultSeo} path="/faq" contentType={_id!} />
+      <SEO
+        seo={seo}
+        defaultSeo={defaultSeo}
+        path="about/faq"
+        contentType={_id!}
+      />
       <Wrapper tabIndex={-1}>
         <Heading level={1} textAlign="center">
           {title || 'FAQ'}
