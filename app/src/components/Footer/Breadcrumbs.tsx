@@ -215,6 +215,7 @@ export const Breadcrumbs = () => {
             if (
               segmentsRoute.length > 2 &&
               segmentsRoute[2] !== 'contact' &&
+              segmentsRoute[2] !== 'faq' &&
               segmentsRoute[2] !== 'team'
             ) {
               const page = await getPage(router.query?.pageSlug)
