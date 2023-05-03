@@ -89,6 +89,12 @@ export const internalLinkFragment = gql`
         _key
         title
       }
+      ... on Faq {
+        _id
+        _type
+        _key
+        title
+      }
       ... on Customize {
         _id
         _type
@@ -127,6 +133,7 @@ export const internalLinkFragment = gql`
           current
         }
       }
+
       ... on ShopifyProduct {
         _id
         _key
