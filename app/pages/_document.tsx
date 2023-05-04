@@ -62,6 +62,16 @@ export default class MyDocument extends Document {
           />
           <link rel="manifest" href="/site.webmanifest" />
           <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#8e8e8e" />
+          <link
+            rel="preconnect dns-prefetch"
+            href="https://triplewhale-pixel.web.app/"
+            crossOrigin="anonymous"
+          />
+          <link
+            rel="preconnect dns-prefetch"
+            href="https://api.config-security.com/"
+            crossOrigin="anonymous"
+          />
           <meta name="msapplication-TileColor" content="#f5f3f4" />
           <meta name="theme-color" content="#ffffff"></meta>
           <meta
@@ -159,6 +169,25 @@ export default class MyDocument extends Document {
                 />
               `,
             }}
+          />
+          {/* Triple Whale Pixel */}
+          <Script
+            id="triple-pixel-var"
+            dangerouslySetInnerHTML={{
+              __html: `TripleHeadless = "spinellikilcollin.myshopify.com"`,
+            }}
+            strategy="beforeInteractive"
+          />
+          <Script
+            id="triple-pixel"
+            dangerouslySetInnerHTML={{
+              __html: `
+                /* >> TriplePixel :: start*/
+                ~function(W,H,A,L,E,_,B,N){function O(U,T,H,R){void 0===R&&(R=!1),H=new XMLHttpRequest,H.open("GET",U,!0),H.send(null),H.onreadystatechange=function(){4===H.readyState&&200===H.status?(R=H.responseText,U.includes(".txt")?eval(R):N[B]=R):(299<H.status||H.status<200)&&T&&!R&&(R=!0,O(U,T-1))}}if(N=window,!N[H+"sn"]){N[H+"sn"]=1;try{A.setItem(H,1+(0|A.getItem(H)||0)),(E=JSON.parse(A.getItem(H+"U")||"[]")).push(location.href),A.setItem(H+"U",JSON.stringify(E))}catch(e){}A.getItem(\'\"!nC\`\')||(A=N,A[H]||(L=function(){return Date.now().toString(36)+"_"+Math.random().toString(36)},E=A[H]=function(t,e){return W=L(),(E._q=E._q||[]).push([W,t,e]),W},E.ch=W,B="configSecurityConfModel",N[B]=1,O("//conf.config-security.com/model",0),O("//triplewhale-pixel.web.app/triplefw.txt?",5)))}}("K","TriplePixel",localStorage);
+                /* << TriplePixel :: end*/
+              `,
+            }}
+            strategy="beforeInteractive"
           />
           <noscript
             dangerouslySetInnerHTML={{
