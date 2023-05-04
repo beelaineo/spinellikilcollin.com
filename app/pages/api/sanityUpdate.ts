@@ -14,6 +14,8 @@ export default async function handler(req, res) {
         ? '/about'
         : type == 'contact'
         ? '/about/contact'
+        : type == 'faq'
+        ? '/about/faq'
         : type == 'customize'
         ? '/customize'
         : type == 'shopifyProduct'
