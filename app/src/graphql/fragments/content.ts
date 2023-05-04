@@ -229,8 +229,12 @@ export const ctaFragment = gql`
     _type
     action
     label
+    linkType
     link {
       ...InternalLinkFragment
+    }
+    link_external {
+      ...ExternalLinkFragment
     }
   }
   ${internalLinkFragment}

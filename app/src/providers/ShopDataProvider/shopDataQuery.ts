@@ -37,17 +37,14 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           _key
           _type
           label
+          linkType
           link {
             ...InternalLinkFragment
           }
-        }
-        ... on MenuLinkExternal {
-          _key
-          _type
-          label
-          link {
+          link_external {
             ...ExternalLinkFragment
           }
+          action
         }
         ... on SubMenu {
           _key
@@ -67,22 +64,17 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
                 ... on Cta {
                   ...CTAFragment
                 }
-                ... on MenuLinkExternal {
+                ... on SubMenu {
                   _key
                   _type
-                  label
-                  link {
-                    ...ExternalLinkFragment
+                  title
+                  links {
+                    __typename
+                    ... on Cta {
+                      ...CTAFragment
+                    }
                   }
                 }
-              }
-            }
-            ... on MenuLinkExternal {
-              _key
-              _type
-              label
-              link {
-                ...ExternalLinkFragment
               }
             }
           }
@@ -94,17 +86,14 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
           _key
           _type
           label
+          linkType
           link {
             ...InternalLinkFragment
           }
-        }
-        ... on MenuLinkExternal {
-          _key
-          _type
-          label
-          link {
+          link_external {
             ...ExternalLinkFragment
           }
+          action
         }
       }
     }

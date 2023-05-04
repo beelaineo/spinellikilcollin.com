@@ -22,7 +22,6 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
   if (!menu) return null
   const { menuOpen } = useNavigation()
   const menuItems = menu?.menuItems || []
-  console.log('menuItems', menuItems)
   return (
     <NavInner hidden={!menuOpen}>
       {menuOpen ? (
