@@ -7,10 +7,12 @@ import {
   getImageKey,
   getImageLQIP,
 } from './utils'
+
 import { Heading } from '../Text'
 import {
   MainImage,
   BlurImage,
+  ShadowImage,
   HoverImage,
   Wrapper,
   Picture,
@@ -172,7 +174,7 @@ export const Image = ({
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
       {src && (preload || isInViewOnce) ? (
         <Picture objectFit={objectFit} loaded={loaded}>
-          {lqip ? <BlurImage src={lqip} /> : null}
+          {lqip ? <BlurImage src={lqip} /> : <ShadowImage />}
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
           ) : null}
