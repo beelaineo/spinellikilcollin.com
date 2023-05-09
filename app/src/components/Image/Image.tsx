@@ -74,6 +74,7 @@ interface ImageProps {
   hoverImage?: Maybe<ImageType>
   ratio?: number
   loading?: 'eager' | 'lazy' | undefined
+  placeholder?: 'shadow' | undefined
 
   /**
    * The css/html sizes at which this image is expected to appear,
@@ -125,6 +126,7 @@ export const Image = ({
   preloadImages,
   loading,
   objectFit,
+  placeholder,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
@@ -174,7 +176,11 @@ export const Image = ({
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
       {src && (preload || isInViewOnce) ? (
         <Picture objectFit={objectFit} loaded={loaded}>
-          {lqip ? <BlurImage src={lqip} /> : <ShadowImage />}
+          {lqip ? (
+            <BlurImage src={lqip} />
+          ) : placeholder === 'shadow' ? (
+            <ShadowImage />
+          ) : null}
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
           ) : null}
