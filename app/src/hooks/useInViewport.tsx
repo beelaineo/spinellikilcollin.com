@@ -40,6 +40,7 @@ const initialState: State = {
 export const useInViewport = (
   node: React.RefObject<HTMLElement>,
   rootMargin?: string,
+  threshold?: number,
 ) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
@@ -49,6 +50,7 @@ export const useInViewport = (
     if (observer?.current) observer.current.disconnect()
     const options = {
       rootMargin: rootMargin || '200px 400px',
+      threshold: threshold || 0,
     }
 
     observer.current = new IntersectionObserver(([entry]) => {

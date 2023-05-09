@@ -365,9 +365,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           break
         case Sort.PriceDesc:
           sortedProductResults.sort((a, b) =>
+            // @ts-ignore
             b.prices && a.prices
               ? Math.max(
                   parseFloat(
+                    // @ts-ignore
                     b.prices.filter(
                       (price) =>
                         // @ts-ignore
@@ -379,6 +381,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 ) -
                 Math.max(
                   parseFloat(
+                    // @ts-ignore
                     a.prices.filter(
                       (price) =>
                         // @ts-ignore
@@ -400,9 +403,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           break
         case Sort.PriceAsc:
           sortedProductResults.sort((a, b) =>
+            // @ts-ignore
             b.prices && a.prices
               ? Math.min(
                   parseFloat(
+                    // @ts-ignore
                     a.prices.filter(
                       (price) =>
                         // @ts-ignore
@@ -414,6 +419,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 ) -
                 Math.min(
                   parseFloat(
+                    // @ts-ignore
                     b.prices.filter(
                       (price) =>
                         // @ts-ignore
