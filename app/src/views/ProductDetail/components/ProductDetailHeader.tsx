@@ -107,13 +107,22 @@ export const ProductDetailHeader = ({
   }
 
   const variantsInStock =
-    variants?.filter((v) => v?.sourceData?.currentlyNotInStock === false) || []
+    variants?.filter(
+      (v) =>
+        v?.sourceData?.currentlyNotInStock === false &&
+        !v?.sourceData.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ),
+    ) || []
 
   const stockedVariants = product.sourceData?.variants?.edges?.filter(
     (variant) => {
       return (
         variant?.node?.availableForSale === true &&
         variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ) &&
         !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
@@ -153,7 +162,7 @@ export const ProductDetailHeader = ({
   return (
     <>
       <TitleWrapper product={product}>
-        {/* {!disableStockIndication && variantsInStock?.length > 0 ? (
+        {variantsInStock?.length > 0 && disableStockIndication !== true ? (
           <StockedLabel
             hide={
               !isSwatchCurrentlyInStock(
@@ -165,25 +174,28 @@ export const ProductDetailHeader = ({
           >
             <Heading level={5} weight={1} as={'em'}>
               <InStockDot />
-              {currentlyNotInStock !== true
+              {currentlyNotInStock !== true &&
+              !currentVariant.title?.includes('Not sure of my size')
                 ? 'Ready to Ship'
                 : 'Ready to Ship in Select Sizes'}
             </Heading>
           </StockedLabel>
-        ) : null} */}
+        ) : null}
         <Heading level={3} weight={2} mb={{ xs: 1, md: 2 }}>
           {variantTitle || product.title}
         </Heading>
         {inquiryOnly !== true ? (
           <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
             <Price price={price != null ? price : priceV2} />
-            <Span ml={2} color="body.6" textDecoration="line-through">
-              <Price
-                price={
-                  compareAtPrice != null ? compareAtPrice : compareAtPriceV2
-                }
-              />
-            </Span>
+            {(compareAtPriceV2 || compareAtPrice) && (
+              <Span ml={2} color="body.6" textDecoration="line-through">
+                <Price
+                  price={
+                    compareAtPrice != null ? compareAtPrice : compareAtPriceV2
+                  }
+                />
+              </Span>
+            )}
           </Heading>
         ) : null}
       </TitleWrapper>

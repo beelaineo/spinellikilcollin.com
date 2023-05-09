@@ -107,6 +107,7 @@ interface ShopifyProductListingProduct extends ShopifyProduct {
     stone: string[]
     style: string[]
     subcategory: string[]
+    sizes: (string | undefined)[]
   }
 }
 
@@ -165,24 +166,24 @@ const Collection = ({ collection, useEffect }: CollectionPageProps) => {
     }
   }, [collectionState, prevCollection])
 
+  const refetchConfig = {
+    listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
+    listenQueryParams: { id: 'drafts.' + collection?._id },
+    refetchQuery: collectionQueryById,
+    refetchQueryParams: { id: 'drafts.' + collection?._id },
+    parseResponse: getCollectionFromPreviewResponse,
+    enabled: preview,
+    token: token,
+  }
+
+  const data = useRefetch<ShopifyProductListingCollection, Response>(
+    collection,
+    refetchConfig,
+  )
+
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
-
-      const refetchConfig = {
-        listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
-        listenQueryParams: { id: 'drafts.' + collection._id },
-        refetchQuery: collectionQueryById,
-        refetchQueryParams: { id: 'drafts.' + collection._id },
-        parseResponse: getCollectionFromPreviewResponse,
-        enabled: preview,
-        token: token,
-      }
-
-      const data = useRefetch<ShopifyProductListingCollection, Response>(
-        collection,
-        refetchConfig,
-      )
 
       if (!data)
         return (

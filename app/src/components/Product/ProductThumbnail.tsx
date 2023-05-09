@@ -39,6 +39,7 @@ import { useShopData } from '../../providers/ShopDataProvider'
 import { useShopifyPrice } from '../../providers/ShopifyPriceProvider'
 import { useCountry } from '../../providers/CountryProvider'
 import { sanityClient } from '../../services/sanity'
+import { ShopifyStorefrontProductVariant } from '../../types/generated-shopify'
 
 const { useEffect, useState, useMemo, useRef } = React
 
@@ -107,6 +108,25 @@ const uniqueImages = (
     }
     return [...acc, image]
   }, [])
+
+const sanityQuery = async <R = any | null,>(
+  query: string,
+  params?: Record<string, any>,
+): Promise<R> => {
+  const results = await sanityClient.fetch<R>(query, params || {})
+  // @ts-ignore
+  return withTypenames<R>(results)
+}
+
+const getIncludedVariants = async (
+  product: ShopifyProduct,
+): Promise<ShopifyStorefrontProductVariant[] | null> => {
+  const variants = await sanityQuery(
+    `*[_type == 'shopifyProduct' && handle == $handle][0].variants[sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value == "false"]`,
+    { handle: product?.handle },
+  )
+  return variants
+}
 
 export const ProductThumbnail = ({
   product,
@@ -182,6 +202,10 @@ export const ProductThumbnail = ({
   const [playing, setPlaying] = useState(false)
 
   const [disableStockIndication, setDisableStockIndication] = useState(true)
+  const [includedVariants, setIncludedVariants] = useState<
+    | Maybe<ShopifyStorefrontProductVariant[] | ShopifySourceProductVariant[]>
+    | undefined
+  >(null)
 
   useEffect(() => {
     console.log('title', product.title)
@@ -259,6 +283,17 @@ export const ProductThumbnail = ({
       })
     }
   }, [])
+
+  useEffect(() => {
+    if (disableStockIndication == true) {
+      const includedVariantsArray = getIncludedVariants(product)
+      includedVariantsArray.then((variants) => {
+        setIncludedVariants(variants)
+      })
+    } else {
+      setIncludedVariants(null)
+    }
+  }, [product])
 
   useEffect(() => {
     const currentSwatchValue = currentVariant?.selectedOptions?.filter(
@@ -421,7 +456,6 @@ export const ProductThumbnail = ({
     const maxVariantPrice = product?.maxVariantPrice || 0
 
     if (currentFilter) {
-      // console.log('current productListingSettings', productListingSettings)
       const defaultPriceRangeFilter =
         productListingSettings?.newDefaultFilter?.find(
           (f) => f?.__typename == 'PriceRangeFilter',
@@ -430,9 +464,7 @@ export const ProductThumbnail = ({
       const defaultMinPrice = defaultPriceRangeFilter?.minPrice
       //@ts-ignore
       const defaultMaxPrice = defaultPriceRangeFilter?.maxPrice
-      // console.log('current defaultMinPrice', defaultMinPrice)
-      // console.log('current defaultMaxPrice', defaultMaxPrice)
-      // console.log('currentFilter that messes up initialVariant', currentFilter)
+
       const priceRangeFilter = currentFilter.find(
         (f) => f?.filterType == 'PRICE_RANGE_FILTER',
       )
@@ -440,9 +472,7 @@ export const ProductThumbnail = ({
         (f) => f?.filterType == 'INVENTORY_FILTER',
       )
       const priceRangeFilterIsDefault =
-        //@ts-ignore
         priceRangeFilter?.minPrice == defaultMinPrice &&
-        //@ts-ignore
         priceRangeFilter?.maxPrice == defaultMaxPrice
           ? true
           : false
@@ -464,7 +494,16 @@ export const ProductThumbnail = ({
         isNotDefaultFilter(f),
       )
 
-      if (
+      if (currentSort !== 'Featured' && priceRangeFilterIsDefault) {
+        const filteredVariant = getBestVariantBySort(
+          variants,
+          currentSort,
+          minVariantPrice,
+          maxVariantPrice,
+          initialVariant,
+        )
+        setCurrentVariant(filteredVariant)
+      } else if (
         priceRangeFilterIsDefault &&
         inventoryFilterIsInactive &&
         filtersAreDefault &&
@@ -499,6 +538,13 @@ export const ProductThumbnail = ({
           .flat()
           .reverse()
 
+        const minPrice = priceRangeFilterIsDefault
+          ? null
+          : priceRangeFilter?.minPrice
+        const maxPrice = priceRangeFilterIsDefault
+          ? null
+          : priceRangeFilter?.maxPrice
+
         const filteredVariant = getBestVariantByFilterMatch(
           variants,
           filters,
@@ -506,18 +552,11 @@ export const ProductThumbnail = ({
           minVariantPrice,
           maxVariantPrice,
           initialVariant,
+          minPrice,
+          maxPrice,
         )
         setCurrentVariant(filteredVariant)
       }
-    } else if (currentSort) {
-      const filteredVariant = getBestVariantBySort(
-        variants,
-        currentSort,
-        minVariantPrice,
-        maxVariantPrice,
-        initialVariant,
-      )
-      setCurrentVariant(filteredVariant)
     }
   }, [currentFilter, currentSort])
 
@@ -526,6 +565,9 @@ export const ProductThumbnail = ({
       return (
         variant?.node?.availableForSale === true &&
         variant?.node?.currentlyNotInStock === false &&
+        !variant?.node?.selectedOptions?.find(
+          (o) => o?.value == 'Not sure of my size',
+        ) &&
         !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     },
@@ -590,9 +632,6 @@ export const ProductThumbnail = ({
     currentPath: asPath,
   })
 
-  // console.log('variantAnimation', variantAnimation)
-  // console.log('playing thumbnail', playing)
-
   return (
     <ProductThumb ref={containerRef}>
       <Link href="/products/[productSlug]" as={linkAs}>
@@ -629,13 +668,13 @@ export const ProductThumbnail = ({
                 my={0}
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
-                {/* {isProductCurrentlyInStock(product) &&
+                {isProductCurrentlyInStock(product) &&
                 !IsDisplayingSwatches(product) &&
                 disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
-                )} */}
+                )}
                 {product.title} |{' '}
                 <PriceWrapper>
                   <Price
@@ -664,13 +703,13 @@ export const ProductThumbnail = ({
                 level={headingLevel || 3}
                 currentlyInStock={isProductCurrentlyInStock(product)}
               >
-                {/* {isProductCurrentlyInStock(product) &&
+                {isProductCurrentlyInStock(product) &&
                 !IsDisplayingSwatches(product) &&
                 disableStockIndication == false ? (
                   <InStockDot />
                 ) : (
                   ''
-                )} */}
+                )}
                 {product.title}
               </TitleHeading>
             )}
@@ -682,6 +721,7 @@ export const ProductThumbnail = ({
                   product={product}
                   stockedVariants={stockedVariants}
                   disableStockIndication={disableStockIndication}
+                  includedVariants={includedVariants}
                 />
               </div>
             ) : (

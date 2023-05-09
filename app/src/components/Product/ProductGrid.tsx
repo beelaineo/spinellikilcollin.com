@@ -12,7 +12,6 @@ import {
 import { CollectionThumbnail, CollectionBlock } from '../Collection'
 import { Sort } from '../Filter'
 import { definitely } from '../../utils'
-import { useWindowScroll, useMeasure, useDebounce } from 'react-use'
 import { useRouter } from 'next/router'
 
 interface ProductGridWrapperProps {

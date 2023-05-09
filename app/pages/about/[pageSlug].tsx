@@ -42,6 +42,12 @@ const pageQuery = gql`
             _key
             title
           }
+          ... on Faq {
+            _id
+            _type
+            _key
+            title
+          }
           ... on Customize {
             _id
             _type
@@ -164,6 +170,12 @@ const pageQueryById = gql`
         linkedPage {
           __typename
           ... on Contact {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Faq {
             _id
             _type
             _key

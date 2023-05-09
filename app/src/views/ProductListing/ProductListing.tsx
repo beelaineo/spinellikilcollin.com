@@ -25,7 +25,7 @@ import { Sort, Filter } from '../../components/Filter'
 import { Heading } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
-import { getHeroImage, isValidHero, definitely } from '../../utils'
+import { getHeroImage, isValidHero, definitely, unique } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
@@ -48,6 +48,7 @@ interface ShopifyProductListingProduct extends ShopifyProduct {
     stone: string[]
     style: string[]
     subcategory: string[]
+    sizes: (string | undefined)[]
   }
 }
 
@@ -94,9 +95,22 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
+
+  const collectionProductsWithPrices = [...definitely(collection.products)].map(
+    (product) => {
+      const [variants] = unwindEdges(product?.sourceData?.variants)
+
+      const prices = variants.map(
+        (variant) => variant?.priceV2 && variant.priceV2.amount,
+      )
+
+      return { ...product, prices: unique(prices) }
+    },
+  )
+
   const [productResults, setProductResults] = useState<
     ShopifyProductListingProduct[]
-  >([...definitely(collection.products)])
+  >([...definitely(collectionProductsWithPrices)])
 
   const [items, setItems] = useState<Item[]>(
     collectionBlocks?.length
@@ -114,6 +128,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   const { productListingSettings, productInfoSettings } = useShopData()
   const [sort, setSort] = useState<Sort>(Sort.Default)
+  const [selectedSizes, setSelectedSizes] = useState<(string | undefined)[]>([])
   const [loading, setLoading] = useState(false)
   const [resetFilters, doResetFilters] = useState(0)
   const [filters, setFilters] = useState<
@@ -131,6 +146,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     ShopifyCollection[] | ShopifyProductListingProduct[],
     PaginationArgs
   >()
+
+  const priceRange = currentFilters?.filter(
+    (f) => f.filterType === 'PRICE_RANGE_FILTER',
+  )[0]
 
   if (!handle) {
     throw new Error('The collection is missing a handle')
@@ -209,9 +228,10 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   }
 
   const filterResults = (currentFilters: FilterConfiguration | null) => {
-    if (currentFilters == null) return [...definitely(collection.products)]
+    if (currentFilters == null)
+      return [...definitely(collectionProductsWithPrices)]
     const newResults: ShopifyProductListingProduct[] = [
-      ...definitely(collection.products),
+      ...definitely(collectionProductsWithPrices),
     ].filter((p) => {
       return currentFilters.every((filterGroup) => {
         if (filterGroup.filterType === FILTER_MATCH_GROUP) {
@@ -225,13 +245,19 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
           if (!p.minVariantPrice || !p.maxVariantPrice) return false
           const { minPrice, maxPrice } = filterGroup
+
           if (p.minVariantPrice == p.maxVariantPrice) {
             return Boolean(
               p.minVariantPrice >= minPrice && p.minVariantPrice <= maxPrice,
             )
           } else {
             return Boolean(
-              p.minVariantPrice >= minPrice && p.maxVariantPrice <= maxPrice,
+              p.prices.some(
+                (price) =>
+                  price &&
+                  minPrice <= parseFloat(price) &&
+                  maxPrice >= parseFloat(price),
+              ),
             )
           }
         } else if (filterGroup.filterType === INVENTORY_FILTER) {
@@ -240,9 +266,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           const isInExcludedList = excludedProducts?.find((product) => {
             return product?.handle === handle
           })
-          return applyFilter
-            ? Boolean(!isInExcludedList && p.filterData.inStock == true)
-            : true
+          return applyFilter ? p.filterData.inStock == true : true
         } else {
           throw new Error(`This kind of filter cannot be parsed`)
         }
@@ -254,6 +278,35 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
+    console.log('currentFilters', currentFilters)
+    if (
+      currentFilters?.some((filter) => {
+        return (
+          filter.filterType === 'FILTER_MATCH_GROUP' &&
+          filter.matches.some((match) => match.type == 'size')
+        )
+      })
+    ) {
+      console.log('size filter applied')
+      const getSelectedSizes: (string | undefined)[] = currentFilters
+        .map((filter) => {
+          if (
+            filter.filterType === 'FILTER_MATCH_GROUP' &&
+            filter.matches.some((match) => match.type == 'size')
+          ) {
+            return filter.matches.map((match) => {
+              if (typeof match.match == 'string') return match.match
+            })
+          }
+        })
+        .flat()
+        .filter((n) => n)
+      console.log('selectedSizes', getSelectedSizes)
+      setSelectedSizes(getSelectedSizes)
+    } else {
+      console.log('size filter not applied')
+      setSelectedSizes([])
+    }
   }, [currentFilters])
 
   const updateItems = (products: ShopifyProductListingProduct[]) => {
@@ -270,39 +323,136 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductsCount(productResults.length)
+
+    const sortBySelectedSizes = (results) => {
+      const sorted = results.sort((a, b) =>
+        // sort sortedProductResults by making products that have matching values in filterData.sizes with values selectedSizes array first, then sort by sortIndex
+        selectedSizes.some((size) => a.filterData.sizes.includes(size)) &&
+        selectedSizes.some((size) => b.filterData.sizes.includes(size))
+          ? a.sortIndex && b.sortIndex
+            ? a.sortIndex - b.sortIndex
+            : 0
+          : selectedSizes.some((size) => a.filterData.sizes.includes(size))
+          ? -1
+          : selectedSizes.some((size) => b.filterData.sizes.includes(size))
+          ? 1
+          : a.sortIndex && b.sortIndex
+          ? a.sortIndex - b.sortIndex
+          : 0,
+      )
+      return sorted
+    }
+
     if (sort) {
       const sortedProductResults = productResults.map((p, sortIndex) => ({
         sortIndex,
         ...p,
       }))
+      if (!priceRange) return
+
       switch (sort) {
         case Sort.Default:
           sortedProductResults.sort((a, b) =>
             a.sortIndex && b.sortIndex ? a.sortIndex - b.sortIndex : 0,
           )
-          updateItems(sortedProductResults)
+          if (selectedSizes && selectedSizes.length > 0) {
+            const sortedBySelectedSizes =
+              sortBySelectedSizes(sortedProductResults)
+            updateItems(sortedBySelectedSizes)
+          } else {
+            updateItems(sortedProductResults)
+          }
           break
         case Sort.PriceDesc:
           sortedProductResults.sort((a, b) =>
-            b.maxVariantPrice && a.maxVariantPrice
-              ? b.maxVariantPrice - a.maxVariantPrice
+            // @ts-ignore
+            b.prices && a.prices
+              ? Math.max(
+                  parseFloat(
+                    // @ts-ignore
+                    b.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                ) -
+                Math.max(
+                  parseFloat(
+                    // @ts-ignore
+                    a.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                )
               : 0,
           )
-          updateItems(sortedProductResults)
+          if (selectedSizes && selectedSizes.length > 0) {
+            const sortedBySelectedSizes =
+              sortBySelectedSizes(sortedProductResults)
+            updateItems(sortedBySelectedSizes)
+          } else {
+            updateItems(sortedProductResults)
+          }
           break
         case Sort.PriceAsc:
           sortedProductResults.sort((a, b) =>
-            b.minVariantPrice && a.minVariantPrice
-              ? a.minVariantPrice - b.minVariantPrice
+            // @ts-ignore
+            b.prices && a.prices
+              ? Math.min(
+                  parseFloat(
+                    // @ts-ignore
+                    a.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                ) -
+                Math.min(
+                  parseFloat(
+                    // @ts-ignore
+                    b.prices.filter(
+                      (price) =>
+                        // @ts-ignore
+                        parseFloat(price) >= priceRange?.minPrice &&
+                        // @ts-ignore
+                        parseFloat(price) <= priceRange?.maxPrice,
+                    ),
+                  ),
+                )
               : 0,
           )
-          updateItems(sortedProductResults)
+          if (selectedSizes && selectedSizes.length > 0) {
+            const sortedBySelectedSizes =
+              sortBySelectedSizes(sortedProductResults)
+            updateItems(sortedBySelectedSizes)
+          } else {
+            updateItems(sortedProductResults)
+          }
           break
       }
     } else {
-      updateItems(productResults)
+      if (selectedSizes && selectedSizes.length > 0) {
+        const sortedProductResults = productResults.map((p, sortIndex) => ({
+          sortIndex,
+          ...p,
+        }))
+        const sortedBySelectedSizes = sortBySelectedSizes(sortedProductResults)
+        updateItems(sortedBySelectedSizes)
+      } else {
+        updateItems(productResults)
+      }
     }
-  }, [productResults, sort])
+  }, [productResults, sort, selectedSizes])
 
   const scrollGridIntoView = () => {
     gridRef?.current?.scrollIntoView({

@@ -27,6 +27,10 @@ export const PlaybackButtonWrapper = styled(ButtonWrapper)`
 export const VideoWrapper = styled.div`
   position: relative;
 
+  video {
+    max-width: 100%;
+  }
+
   video::-webkit-media-controls {
     opacity: 0;
   }
