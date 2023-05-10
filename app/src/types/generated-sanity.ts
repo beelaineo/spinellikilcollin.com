@@ -1728,6 +1728,7 @@ export interface ProductInfo {
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
+  body_intlRaw?: Maybe<Scalars['JSON']>
 }
 
 export interface ProductInfoByTag {
