@@ -15,6 +15,12 @@ export const productInfo = {
       label: 'Text',
       type: 'richText',
     },
+    {
+      name: 'body_intl',
+      title: 'Body (International)',
+      type: 'richText',
+      hidden: ({ parent }) => parent.title != 'Shipping',
+    },
   ],
 }
 
