@@ -116,7 +116,6 @@ export const ModalProvider = ({ children }: ModalProps) => {
         <WeddingModal
           product={currentProduct}
           variant={currentVariant}
-          diamond={currentDiamond}
           closeModal={closeModal}
         />
       ) : currentModal === ModalName.CONTACT ? (
