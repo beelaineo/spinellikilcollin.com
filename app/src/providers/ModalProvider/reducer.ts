@@ -16,6 +16,7 @@ export enum ModalName {
   CUSTOMIZATION = 'CUSTOMIZATION',
   CONTACT = 'CONTACT',
   DIAMOND = 'DIAMOND',
+  WEDDING = 'WEDDING',
 }
 
 interface State {
@@ -130,6 +131,15 @@ export const useModalReducer = () => {
     })
   }
 
+  const openWeddingModal = (args?: OpenModalArgs) => {
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.WEDDING,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+    })
+  }
+
   const openContactModal = ({
     formtype,
     currentProduct,
@@ -156,5 +166,6 @@ export const useModalReducer = () => {
     openCustomizationModal,
     openContactModal,
     openDiamondModal,
+    openWeddingModal,
   }
 }
