@@ -40,7 +40,7 @@ const NormalVideo = ({
     if (startAutoplayPromise !== undefined) {
       startAutoplayPromise
         .then(() => {
-          console.log('playing')
+          // Auto-play started
         })
         .catch((error) => {
           if (error.name === 'NotAllowedError') {

@@ -99,7 +99,8 @@ const ActionCTA = ({ cta }: CTAProps) => {
   //   return
   // }
 
-  const { openCustomizationModal, openRingSizerModal } = useModal()
+  const { openCustomizationModal, openRingSizerModal, openWeddingModal } =
+    useModal()
   if (!action) return null
   const getActionHandler = (action: string) => {
     switch (action) {
@@ -111,6 +112,8 @@ const ActionCTA = ({ cta }: CTAProps) => {
         return () => openRingSizerModal()
       case 'launchCustomizationModal':
         return () => openCustomizationModal()
+      case 'launchWeddingModal':
+        return () => openWeddingModal()
       default:
         throw new Error(`"${action}" is not a valid CTA action`)
     }
