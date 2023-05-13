@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import InternationalIcon from '../../../svg/International.svg'
+import WeddingCustomizeIcon from '../../../svg/WeddingCustomize.svg'
 import { Heading } from '../../../components/Text'
 import Link from 'next/link'
 import { useModal } from '../../../providers'
@@ -47,7 +47,7 @@ export const CustomizeButton = ({
 
   return (
     <Wrapper mobile={mobile}>
-      <InternationalIcon />
+      <WeddingCustomizeIcon />
       <Heading m={0} level={5} textDecoration="underline">
         <span
           onClick={() =>

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import InternationalIcon from '../../../svg/International.svg'
+import WeddingAppointmentIcon from '../../../svg/WeddingAppointment.svg'
 import { Heading } from '../../../components/Text'
 import Link from 'next/link'
 
@@ -37,7 +37,7 @@ const Wrapper = styled.button<WithMobile>`
 export const AppointmentsButton = ({ mobile }: AppointmentsButtonProps) => {
   return (
     <Wrapper mobile={mobile}>
-      <InternationalIcon />
+      <WeddingAppointmentIcon />
       <Heading m={0} level={5} textDecoration="underline">
         <Link href={'/about/appointments'}>
           <a target={'_blank'}>Appointments</a>
