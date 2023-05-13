@@ -152,6 +152,16 @@ export const internalLinkFragment = gql`
   }
 `
 
+export const externalLinkFragment = gql`
+  fragment ExternalLinkFragment on ExternalLink {
+    __typename
+    _key
+    _type
+    url
+    newTab
+  }
+`
+
 export const filterSetFragment = gql`
   fragment FilterSetFragment on FilterSet {
     __typename
@@ -229,21 +239,16 @@ export const ctaFragment = gql`
     _type
     action
     label
+    linkType
     link {
       ...InternalLinkFragment
     }
+    link_external {
+      ...ExternalLinkFragment
+    }
   }
   ${internalLinkFragment}
-`
-
-export const externalLinkFragment = gql`
-  fragment ExternalLinkFragment on ExternalLink {
-    __typename
-    _key
-    _type
-    url
-    newTab
-  }
+  ${externalLinkFragment}
 `
 
 export const pdfLinkFragment = gql`

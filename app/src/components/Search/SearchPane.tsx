@@ -131,13 +131,13 @@ export const SearchPane = () => {
       const descriptionMatches = getArrayLengths(descriptions)
       const summedMatches = getArraySums(nameMatches, descriptionMatches)
 
-      console.log('search-test: descriptionMatches', descriptionMatches)
-      console.log('search-test: nameMatches', nameMatches)
-      console.log('search-test: summedMatches', summedMatches)
-      console.log(
-        'search-test: mostMatchedVariant',
-        mostMatchedVariant(summedMatches, names),
-      )
+      // console.log('search-test: descriptionMatches', descriptionMatches)
+      // console.log('search-test: nameMatches', nameMatches)
+      // console.log('search-test: summedMatches', summedMatches)
+      // console.log(
+      //   'search-test: mostMatchedVariant',
+      //   mostMatchedVariant(summedMatches, names),
+      // )
       return isFullyHighlighted
         ? stripTag(isFullyHighlighted?.value)
         : stripTag(mostMatchedVariant(summedMatches, names))

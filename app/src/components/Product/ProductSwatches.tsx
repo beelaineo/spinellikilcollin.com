@@ -150,7 +150,6 @@ export const ProductSwatches = ({
     disableStockIndication && includedVariants
       ? includedVariants
           ?.map((variant) => {
-            console.log('VARIANT', variant)
             return variant?.sourceData?.selectedOptions?.find(
               (option) => option?.name === 'Color',
             )
