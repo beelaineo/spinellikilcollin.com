@@ -16,6 +16,7 @@ import {
 import Script from 'next/script'
 import { Select } from '../Fields/Select'
 import Link from 'next/link'
+import { definitely } from '../../../utils'
 
 const { useState } = React
 
@@ -35,6 +36,7 @@ type FormValues = {
 interface ProductBadgeProps {
   product: ShopifyProduct
   variant?: ShopifyProductVariant
+  title?: string
 }
 
 const formId = '7c315eff-33a3-4d1c-975a-c01e0a87e2e1'
@@ -50,8 +52,15 @@ const formId = '7c315eff-33a3-4d1c-975a-c01e0a87e2e1'
 </script> */
 }
 
-const ProductBadge = ({ product, variant }: ProductBadgeProps) =>
-  variant?.title ? (
+const ProductBadge = ({ product, variant, title }: ProductBadgeProps) =>
+  title ? (
+    <ProductBadgeWrapper>
+      <Checkmark />
+      <Heading my={0} ml={2} level={5}>
+        {title.toUpperCase()}
+      </Heading>
+    </ProductBadgeWrapper>
+  ) : variant?.title ? (
     <ProductBadgeWrapper>
       <Checkmark />
       <Heading my={0} ml={2} level={5}>
@@ -91,6 +100,29 @@ export const WeddingCustomizationForm = ({
     setSuccess(true)
   }
 
+  const hasCarat = variant?.sourceData?.selectedOptions?.some(
+    (option) => option?.name === 'Carat',
+  )
+  const hasColor = variant?.sourceData?.selectedOptions?.some(
+    (option) => option?.name === 'Color',
+  )
+  // Parse the product title by combining the selected option
+  // values, omitting the "Size" option
+  const titleByOptions = variant?.sourceData?.selectedOptions?.length
+    ? definitely(variant?.sourceData?.selectedOptions)
+        .map((option) => {
+          if (option.name === 'Size') return null
+          return option.value
+        })
+        .filter(Boolean)
+        .join(' | ')
+    : undefined
+
+  const weddingTitle =
+    titleByOptions?.length && hasCarat && !hasColor
+      ? product?.title + ' | ' + titleByOptions
+      : undefined
+
   const budgetOptions = [
     { value: '$1000-$5000', id: '1000-5000', label: '$1000-$5000' },
     { value: '$5000-$10,000', id: '5000-10000', label: '$5000-$10,000' },
@@ -105,7 +137,7 @@ export const WeddingCustomizationForm = ({
     location: '',
     phone: '',
     product: product?.title || '(no product specified)',
-    variant: variant?.title || '',
+    variant: weddingTitle || variant?.title || '',
     customization_wedding_details: '',
     customization_wedding_budget: '',
     phoneCountryCode: 'US',
@@ -126,7 +158,13 @@ export const WeddingCustomizationForm = ({
         <Heading mt={0} level={3}>
           Wedding Customization Inquiry
         </Heading>
-        {product ? <ProductBadge product={product} variant={variant} /> : null}
+        {product ? (
+          <ProductBadge
+            product={product}
+            variant={variant}
+            title={weddingTitle}
+          />
+        ) : null}
         <SuccessWrapper visible={success}>
           <Heading color="body.8" level={4}>
             Thank you! We have received your request.
