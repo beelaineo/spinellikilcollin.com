@@ -407,8 +407,6 @@ export const ProductDetail = ({ product }: Props) => {
     (tag) => tag === 'wedding',
   )
 
-  console.log(weddingMatch, product.sourceData?.tags)
-
   return (
     <>
       <SEO
