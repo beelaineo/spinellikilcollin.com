@@ -7,7 +7,7 @@ const handler: NextApiHandler = async (req, res) => {
     return
   }
   const body = JSON.parse(req.body)
-  await postmark.sendCustomizationInquiry(body)
+  await postmark.sendWeddingCustomizationInquiry(body)
   res.status(200).send({ success: true })
 }
 
