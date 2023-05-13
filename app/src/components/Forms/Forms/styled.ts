@@ -83,10 +83,16 @@ export const SuccessWrapper = styled.div<WithVisible>`
     transition: 0.2s;
     position: absolute;
     width: 100%;
-    height: 100%;
+    top: 0;
+    bottom: 0;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     display: flex;
   `}
+`
+
+export const CheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
 `

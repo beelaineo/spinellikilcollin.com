@@ -53,7 +53,7 @@ export const CustomizeButton = ({
           onClick={() =>
             openWeddingModal({
               currentProduct: product,
-              currentVariant: variant || undefined,
+              currentVariant: variant,
             })
           }
         >
