@@ -36,9 +36,15 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         ... on MenuLink {
           _key
           _type
+          label
+          linkType
           link {
             ...InternalLinkFragment
           }
+          link_external {
+            ...ExternalLinkFragment
+          }
+          action
         }
         ... on SubMenu {
           _key
@@ -58,6 +64,17 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
                 ... on Cta {
                   ...CTAFragment
                 }
+                ... on SubMenu {
+                  _key
+                  _type
+                  title
+                  links {
+                    __typename
+                    ... on Cta {
+                      ...CTAFragment
+                    }
+                  }
+                }
               }
             }
           }
@@ -65,13 +82,18 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       }
       footerMenuItems {
         __typename
-        label
         ... on MenuLink {
           _key
           _type
+          label
+          linkType
           link {
             ...InternalLinkFragment
           }
+          link_external {
+            ...ExternalLinkFragment
+          }
+          action
         }
       }
     }

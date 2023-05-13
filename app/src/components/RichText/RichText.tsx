@@ -151,10 +151,8 @@ const serializers = ({
     regular: ({ children }) => <Span fontWeight={400}>{children}</Span>,
     bold: ({ children }) => <Span fontWeight={700}>{children}</Span>,
     internalLink: ({ children, mark }) => {
-      console.log('INTERNAL LINK', mark)
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
-      console.log('linkData', linkData)
       const { as, href } = linkData
       return <a href={href || as}>{children}</a>
     },
@@ -183,7 +181,6 @@ const serializers = ({
   listItem: (props) => <Li weight={3} {...props} />,
   cloudinaryVideo: (props) => {
     const { node } = props
-    console.log('node', node)
     return <CloudinaryVideo video={node} />
   },
   block: (props: RichTextBlock): React.ReactNode => {

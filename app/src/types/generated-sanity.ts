@@ -432,7 +432,9 @@ export interface Cta {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  linkType?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
+  link_external?: Maybe<ExternalLink>
   /** Have this CTA launch an action instead of linking to a page. For launching Bambuser, make sure you fill out the Bambuser Settings below. (If selected, this will override any linked document) */
   action?: Maybe<Scalars['String']>
   bambuser?: Maybe<BambuserSettings>
@@ -442,7 +444,9 @@ export type CtaFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
+  linkType?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
+  link_external?: Maybe<ExternalLinkFilter>
   action?: Maybe<StringFilter>
   bambuser?: Maybe<BambuserSettingsFilter>
 }
@@ -453,7 +457,9 @@ export type CtaSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
+  linkType?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+  link_external?: Maybe<ExternalLinkSorting>
   action?: Maybe<SortOrder>
   bambuser?: Maybe<BambuserSettingsSorting>
 }
@@ -1589,14 +1595,21 @@ export interface MenuLink {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  linkType?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
+  link_external?: Maybe<ExternalLink>
+  /** Have this link launch an action instead of linking to a page. (If selected, this will override any linked document) */
+  action?: Maybe<Scalars['String']>
 }
 
 export type MenuLinkFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
+  linkType?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
+  link_external?: Maybe<ExternalLinkFilter>
+  action?: Maybe<StringFilter>
 }
 
 export type MenuLinkOrSubMenu = MenuLink | SubMenu
@@ -1605,7 +1618,10 @@ export type MenuLinkSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
+  linkType?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+  link_external?: Maybe<ExternalLinkSorting>
+  action?: Maybe<SortOrder>
 }
 
 export type MenuSorting = {

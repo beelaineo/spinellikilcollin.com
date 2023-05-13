@@ -55,7 +55,6 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
   const allPages = shopData?.allPage || []
 
   const getLinkByRef = (ref: string): LinkInfo | null => {
-    console.log('getLinkByRef', ref)
     if (!ref) return null
     if (ref === 'customize') return getPageLinkUrl({ __typename: 'Customize' })
     if (ref === 'journalPage') {
@@ -64,7 +63,6 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
     if (ref === 'magazine') return getPageLinkUrl({ __typename: 'Magazine' })
     if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
     const page = allPages.find((page) => page._id === ref)
-    console.log('page', page)
     if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
     return { href: '/id/[nodeId]', as: `/id/${ref}` }
     return null

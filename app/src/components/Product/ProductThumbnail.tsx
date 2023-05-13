@@ -310,7 +310,6 @@ export const ProductThumbnail = ({
           }
         })
       const newVariant = getVariantBySelectedOptions(variants, currentOptions)
-      // console.log('newVariant', newVariant)
       if (newVariant) setCurrentVariant(newVariant)
     }
 
