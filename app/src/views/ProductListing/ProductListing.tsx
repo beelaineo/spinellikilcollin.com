@@ -344,7 +344,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         sortIndex,
         ...p,
       }))
-      if (!priceRange) return
 
       switch (sort) {
         case Sort.Default:
