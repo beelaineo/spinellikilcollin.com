@@ -12,6 +12,7 @@ import {
   FieldsWrapper,
   SuccessWrapper,
   CheckboxWrapper,
+  ConsentWrapper,
 } from './styled'
 import Script from 'next/script'
 import { Select } from '../Fields/Select'
@@ -221,7 +222,7 @@ export const WeddingCustomizationForm = ({
               options={budgetOptions}
               required
             />
-            <Heading level={6}>
+            <ConsentWrapper>
               Spinelli Kilcollin is committed to respecting your privacy and we
               will never sell your personal information. We only use your
               information to administer your account and to provide you with the
@@ -229,7 +230,7 @@ export const WeddingCustomizationForm = ({
               time to time, we may contact you about our products and services,
               as well as other content that may interest you. If you consent to
               us contacting you for this purpose, please check the box below.
-            </Heading>
+            </ConsentWrapper>
             <CheckboxWrapper>
               <Field
                 name="communicationsConsent"
@@ -238,7 +239,7 @@ export const WeddingCustomizationForm = ({
               />
             </CheckboxWrapper>
             <Button type="submit">Submit</Button>
-            <Heading level={6}>
+            <ConsentWrapper>
               You may unsubscribe from these communications at any time. For
               more information on how to unsubscribe, our privacy practices, and
               how we are committed to protecting and respecting your privacy,
@@ -247,12 +248,12 @@ export const WeddingCustomizationForm = ({
                 Privacy Policy
               </Link>
               .
-            </Heading>
-            <Heading level={6}>
+            </ConsentWrapper>
+            <ConsentWrapper>
               By clicking submit, you consent to allow Spinelli Kilcollin to
               store and process the personal information submitted above to
               provide you the content requested.
-            </Heading>
+            </ConsentWrapper>
           </FieldsWrapper>
         </Form>
       </MainWrapper>
