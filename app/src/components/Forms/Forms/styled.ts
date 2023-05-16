@@ -96,3 +96,13 @@ export const CheckboxWrapper = styled.div`
   display: flex;
   align-items: center;
 `
+
+export const ConsentWrapper = styled.div`
+  ${({ theme }) => css`
+    font-size: 6;
+    font-weight: 200;
+    line-height: 1.3;
+    display: inline;
+    max-width: 360px;
+  `}
+`
