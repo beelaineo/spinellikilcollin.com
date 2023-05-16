@@ -32,6 +32,7 @@ type FormValues = {
   customization_wedding_budget: string
   phoneCountryCode?: string
   dialingCode?: string
+  communicationsConsent: boolean
 }
 
 interface ProductBadgeProps {
@@ -132,7 +133,7 @@ export const WeddingCustomizationForm = ({
     { value: '$20,000+', id: '20000+', label: '$20,000+' },
   ]
 
-  const initialValues = {
+  const initialValues: FormValues = {
     name: '',
     email: '',
     location: '',

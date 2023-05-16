@@ -10,6 +10,7 @@ export interface ContactInquiryArgs {
   state: string
   message: string
   formtype?: string
+  communicationsConsent: boolean
 }
 
 const textTemplate = ({
@@ -20,6 +21,7 @@ const textTemplate = ({
   country,
   state,
   message,
+  communicationsConsent,
 }: ContactInquiryArgs): string => stripIndents`
   New ${formtype} inquiry:
 
@@ -28,6 +30,7 @@ const textTemplate = ({
   Email Address: ${email}
   Country: ${country}
   State/Region: ${state}
+  Consent to receive communications: ${communicationsConsent}
 
   Message:
 

@@ -8,8 +8,11 @@ import { submitToHubspot } from '../../../services'
 import {
   MainWrapper,
   SuccessWrapper,
+  CheckboxWrapper,
+  ConsentWrapper,
   FieldsWrapper as BaseFieldsWrapper,
 } from './styled'
+import Link from 'next/link'
 
 const FieldsWrapper = styled(BaseFieldsWrapper)`
   ${({ theme }) => css`
@@ -46,6 +49,7 @@ type FormValues = {
   dialingCode?: string
   special_date_1_?: string
   special_date_2_?: string
+  communicationsConsent: boolean
 }
 
 const formId = '369f2dfa-fad2-4e44-bcdf-04f336d57e31'
@@ -72,6 +76,7 @@ export const VIPSignupForm = ({ onContinue }: VIPSignupFormProps) => {
     special_date_2_: '',
     phoneCountryCode: 'US',
     dialingCode: '',
+    communicationsConsent: false,
   }
 
   return (
@@ -108,7 +113,38 @@ export const VIPSignupForm = ({ onContinue }: VIPSignupFormProps) => {
           <Field name="phone" type="tel" placeholder="Phone" label="Phone" />
           <Field name="special_date_1_" label="Special Date 1" placeholder="" />
           <Field name="special_date_2_" label="Special Date 2" placeholder="" />
+          <ConsentWrapper>
+            Spinelli Kilcollin is committed to respecting your privacy and we
+            will never sell your personal information. We only use your
+            information to administer your account and to provide you with the
+            best experience, products and services you requested from us. From
+            time to time, we may contact you about our products and services, as
+            well as other content that may interest you. If you consent to us
+            contacting you for this purpose, please check the box below.
+          </ConsentWrapper>
+          <CheckboxWrapper>
+            <Field
+              name="communicationsConsent"
+              type="checkbox"
+              label="I agree to receive other communications from Spinelli Kilcollin."
+            />
+          </CheckboxWrapper>
           <Button type="submit">Submit</Button>
+          <ConsentWrapper>
+            You may unsubscribe from these communications at any time. For more
+            information on how to unsubscribe, our privacy practices, and how we
+            are committed to protecting and respecting your privacy, please
+            review our{' '}
+            <Link href="/about/privacy-policy" target="_blank">
+              Privacy Policy
+            </Link>
+            .
+          </ConsentWrapper>
+          <ConsentWrapper>
+            By clicking submit, you consent to allow Spinelli Kilcollin to store
+            and process the personal information submitted above to provide you
+            the content requested.
+          </ConsentWrapper>
         </FieldsWrapper>
       </Form>
     </MainWrapper>

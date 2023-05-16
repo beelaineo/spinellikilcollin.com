@@ -13,6 +13,7 @@ export interface RequestRingSizerArgs {
   country: string
   product?: string
   variant?: string
+  communicationsConsent: boolean
 }
 
 const Subject = 'New ring sizer request'
@@ -26,6 +27,8 @@ const textTemplate = (args: RequestRingSizerArgs): string => stripIndents`
   ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
   ${args.city}, ${args.state} ${args.zip}
   ${args.country}
+  
+  Consent to receive communications: ${args.communicationsConsent}
 
   Interested in: ${args.product || ''} ${args.variant || ''}
 `
