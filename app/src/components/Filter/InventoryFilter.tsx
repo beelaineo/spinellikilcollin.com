@@ -106,7 +106,6 @@ export function InventoryFilter({
   const toggleFilter = () => {
     setApplyFilter(!applyFilter)
     scrollGridIntoView()
-    console.log('TOGGLE INVENTORY FILTER')
   }
 
   const router = useRouter()

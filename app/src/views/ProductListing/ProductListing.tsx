@@ -278,7 +278,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
-    console.log('currentFilters', currentFilters)
     if (
       currentFilters?.some((filter) => {
         return (
@@ -287,7 +286,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         )
       })
     ) {
-      console.log('size filter applied')
       const getSelectedSizes: (string | undefined)[] = currentFilters
         .map((filter) => {
           if (
@@ -301,10 +299,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         })
         .flat()
         .filter((n) => n)
-      console.log('selectedSizes', getSelectedSizes)
       setSelectedSizes(getSelectedSizes)
     } else {
-      console.log('size filter not applied')
       setSelectedSizes([])
     }
   }, [currentFilters])
@@ -348,7 +344,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         sortIndex,
         ...p,
       }))
-      if (!priceRange) return
 
       switch (sort) {
         case Sort.Default:
@@ -365,9 +360,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           break
         case Sort.PriceDesc:
           sortedProductResults.sort((a, b) =>
+            // @ts-ignore
             b.prices && a.prices
               ? Math.max(
                   parseFloat(
+                    // @ts-ignore
                     b.prices.filter(
                       (price) =>
                         // @ts-ignore
@@ -379,6 +376,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 ) -
                 Math.max(
                   parseFloat(
+                    // @ts-ignore
                     a.prices.filter(
                       (price) =>
                         // @ts-ignore
@@ -400,9 +398,11 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           break
         case Sort.PriceAsc:
           sortedProductResults.sort((a, b) =>
+            // @ts-ignore
             b.prices && a.prices
               ? Math.min(
                   parseFloat(
+                    // @ts-ignore
                     a.prices.filter(
                       (price) =>
                         // @ts-ignore
@@ -414,6 +414,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
                 ) -
                 Math.min(
                   parseFloat(
+                    // @ts-ignore
                     b.prices.filter(
                       (price) =>
                         // @ts-ignore

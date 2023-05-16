@@ -103,6 +103,7 @@ const Route2LabelMap = {
   '/404': 'Page Not Found',
   '/about': 'About',
   '/about/contact': 'Contact',
+  '/about/faq': 'FAQ',
   '/about/team': 'Team',
   '/blogs': 'Blog',
   '/collections': 'Collections',
@@ -214,6 +215,7 @@ export const Breadcrumbs = () => {
             if (
               segmentsRoute.length > 2 &&
               segmentsRoute[2] !== 'contact' &&
+              segmentsRoute[2] !== 'faq' &&
               segmentsRoute[2] !== 'team'
             ) {
               const page = await getPage(router.query?.pageSlug)

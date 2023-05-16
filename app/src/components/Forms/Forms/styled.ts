@@ -83,10 +83,26 @@ export const SuccessWrapper = styled.div<WithVisible>`
     transition: 0.2s;
     position: absolute;
     width: 100%;
-    height: 100%;
+    top: 0;
+    bottom: 0;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     display: flex;
+  `}
+`
+
+export const CheckboxWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const ConsentWrapper = styled.div`
+  ${({ theme }) => css`
+    font-size: 6;
+    font-weight: 200;
+    line-height: 1.3;
+    display: inline;
+    max-width: 360px;
   `}
 `

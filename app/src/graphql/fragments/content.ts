@@ -89,6 +89,12 @@ export const internalLinkFragment = gql`
         _key
         title
       }
+      ... on Faq {
+        _id
+        _type
+        _key
+        title
+      }
       ... on Customize {
         _id
         _type
@@ -127,6 +133,7 @@ export const internalLinkFragment = gql`
           current
         }
       }
+
       ... on ShopifyProduct {
         _id
         _key
@@ -142,6 +149,16 @@ export const internalLinkFragment = gql`
         handle
       }
     }
+  }
+`
+
+export const externalLinkFragment = gql`
+  fragment ExternalLinkFragment on ExternalLink {
+    __typename
+    _key
+    _type
+    url
+    newTab
   }
 `
 
@@ -183,7 +200,7 @@ export const inventoryFilterFragment = gql`
 `
 
 export const customFilterFragment = gql`
-  fragment CustomFilterFragment on FilterSetOrInventoryFilterOrPriceRangeFilter {
+  fragment CustomFilterFragment on FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter {
     ... on FilterSet {
       __typename
       _key
@@ -222,21 +239,16 @@ export const ctaFragment = gql`
     _type
     action
     label
+    linkType
     link {
       ...InternalLinkFragment
     }
+    link_external {
+      ...ExternalLinkFragment
+    }
   }
   ${internalLinkFragment}
-`
-
-export const externalLinkFragment = gql`
-  fragment ExternalLinkFragment on ExternalLink {
-    __typename
-    _key
-    _type
-    url
-    newTab
-  }
+  ${externalLinkFragment}
 `
 
 export const pdfLinkFragment = gql`

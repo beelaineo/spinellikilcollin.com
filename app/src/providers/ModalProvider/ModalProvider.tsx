@@ -6,6 +6,7 @@ import {
   RingSizerModal,
   SizeConverterModal,
   DiamondModal,
+  WeddingModal,
 } from '../../components/Modals'
 import { useLockScroll } from '../../components/LockScroll'
 import { ModalName, useModalReducer } from './reducer'
@@ -40,6 +41,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openCustomizationModal,
     openContactModal,
     openDiamondModal,
+    openWeddingModal,
   } = useModalReducer()
   const { lockScroll, unlockScroll } = useLockScroll()
 
@@ -69,6 +71,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openCustomizationModal,
     openContactModal,
     openDiamondModal,
+    openWeddingModal,
   }
   const {
     formtype,
@@ -107,6 +110,12 @@ export const ModalProvider = ({ children }: ModalProps) => {
           product={currentProduct}
           variant={currentVariant}
           diamond={currentDiamond}
+          closeModal={closeModal}
+        />
+      ) : currentModal === ModalName.WEDDING ? (
+        <WeddingModal
+          product={currentProduct}
+          variant={currentVariant}
           closeModal={closeModal}
         />
       ) : currentModal === ModalName.CONTACT ? (

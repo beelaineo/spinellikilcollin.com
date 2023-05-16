@@ -58,11 +58,12 @@ export type AboutFilter = {
   seo?: Maybe<SeoFilter>
 }
 
-export type AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage =
+export type AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage =
 
     | About
     | Contact
     | Customize
+    | Faq
     | JournalEntry
     | JournalPage
     | Magazine
@@ -431,7 +432,9 @@ export interface Cta {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  linkType?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
+  link_external?: Maybe<ExternalLink>
   /** Have this CTA launch an action instead of linking to a page. For launching Bambuser, make sure you fill out the Bambuser Settings below. (If selected, this will override any linked document) */
   action?: Maybe<Scalars['String']>
   bambuser?: Maybe<BambuserSettings>
@@ -441,7 +444,9 @@ export type CtaFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
+  linkType?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
+  link_external?: Maybe<ExternalLinkFilter>
   action?: Maybe<StringFilter>
   bambuser?: Maybe<BambuserSettingsFilter>
 }
@@ -452,7 +457,9 @@ export type CtaSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
+  linkType?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+  link_external?: Maybe<ExternalLinkSorting>
   action?: Maybe<SortOrder>
   bambuser?: Maybe<BambuserSettingsSorting>
 }
@@ -782,6 +789,88 @@ export type ExternalLinkSorting = {
   _type?: Maybe<SortOrder>
   url?: Maybe<SortOrder>
   newTab?: Maybe<SortOrder>
+}
+
+export interface Faq extends Document {
+  __typename: 'Faq'
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']>
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>
+  _key?: Maybe<Scalars['String']>
+  title?: Maybe<Scalars['String']>
+  faqCategories?: Maybe<Array<Maybe<FaqCategory>>>
+  seo?: Maybe<Seo>
+}
+
+export interface FaqCategory {
+  __typename: 'FaqCategory'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  label?: Maybe<Scalars['String']>
+  faqQuestions?: Maybe<Array<Maybe<FaqQuestion>>>
+}
+
+export type FaqCategoryFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  label?: Maybe<StringFilter>
+}
+
+export type FaqCategorySorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  label?: Maybe<SortOrder>
+}
+
+export type FaqFilter = {
+  /** Apply filters on document level */
+  _?: Maybe<DocumentFilter>
+  _id?: Maybe<IdFilter>
+  _type?: Maybe<StringFilter>
+  _createdAt?: Maybe<DatetimeFilter>
+  _updatedAt?: Maybe<DatetimeFilter>
+  _rev?: Maybe<StringFilter>
+  _key?: Maybe<StringFilter>
+  title?: Maybe<StringFilter>
+  seo?: Maybe<SeoFilter>
+}
+
+export interface FaqQuestion {
+  __typename: 'FaqQuestion'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  question?: Maybe<Scalars['String']>
+  answerRaw?: Maybe<Scalars['JSON']>
+}
+
+export type FaqQuestionFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  question?: Maybe<StringFilter>
+}
+
+export type FaqQuestionSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  question?: Maybe<SortOrder>
+}
+
+export type FaqSorting = {
+  _id?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  _createdAt?: Maybe<SortOrder>
+  _updatedAt?: Maybe<SortOrder>
+  _rev?: Maybe<SortOrder>
+  _key?: Maybe<SortOrder>
+  title?: Maybe<SortOrder>
+  seo?: Maybe<SeoSorting>
 }
 
 export interface File {
@@ -1237,7 +1326,7 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  document?: Maybe<AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
+  document?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
 }
 
 export type InternalLinkFilter = {
@@ -1255,8 +1344,6 @@ export interface InventoryFilter {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
-  minPrice?: Maybe<Scalars['String']>
-  maxPrice?: Maybe<Scalars['String']>
 }
 
 export type InventoryFilterFilter = {
@@ -1508,14 +1595,21 @@ export interface MenuLink {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  linkType?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
+  link_external?: Maybe<ExternalLink>
+  /** Have this link launch an action instead of linking to a page. (If selected, this will override any linked document) */
+  action?: Maybe<Scalars['String']>
 }
 
 export type MenuLinkFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
+  linkType?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
+  link_external?: Maybe<ExternalLinkFilter>
+  action?: Maybe<StringFilter>
 }
 
 export type MenuLinkOrSubMenu = MenuLink | SubMenu
@@ -1524,7 +1618,10 @@ export type MenuLinkSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
+  linkType?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+  link_external?: Maybe<ExternalLinkSorting>
+  action?: Maybe<SortOrder>
 }
 
 export type MenuSorting = {
@@ -1605,7 +1702,7 @@ export interface PageLink {
   __typename: 'PageLink'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  linkedPage?: Maybe<AboutOrContactOrCustomizeOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
+  linkedPage?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
   image?: Maybe<RichImage>
   /** Optional. By default the linked page title will be used. */
   title?: Maybe<Scalars['String']>
@@ -1679,22 +1776,22 @@ export interface PriceRangeFilter {
   __typename: 'PriceRangeFilter'
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
-  minPrice: Maybe<FloatFilter>
-  maxPrice: Maybe<FloatFilter>
+  minPrice?: Maybe<Scalars['Float']>
+  maxPrice?: Maybe<Scalars['Float']>
 }
 
 export type PriceRangeFilterFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
-  minPrice: Maybe<FloatFilter>
-  maxPrice: Maybe<FloatFilter>
+  minPrice?: Maybe<FloatFilter>
+  maxPrice?: Maybe<FloatFilter>
 }
 
 export type PriceRangeFilterSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
-  minPrice: Maybe<SortOrder>
-  maxPrice: Maybe<SortOrder>
+  minPrice?: Maybe<SortOrder>
+  maxPrice?: Maybe<SortOrder>
 }
 
 export interface ProductInfo {
@@ -1703,6 +1800,7 @@ export interface ProductInfo {
   _type?: Maybe<Scalars['String']>
   title?: Maybe<Scalars['String']>
   bodyRaw?: Maybe<Scalars['JSON']>
+  body_intlRaw?: Maybe<Scalars['JSON']>
 }
 
 export interface ProductInfoByTag {
@@ -2003,6 +2101,7 @@ export interface RootQuery {
   Birthdays?: Maybe<Birthdays>
   Stone?: Maybe<Stone>
   EmailSignatureSettings?: Maybe<EmailSignatureSettings>
+  Faq?: Maybe<Faq>
   ShopifyProduct?: Maybe<ShopifyProduct>
   ShopifyCollection?: Maybe<ShopifyCollection>
   SanityImageAsset?: Maybe<SanityImageAsset>
@@ -2025,6 +2124,7 @@ export interface RootQuery {
   allBirthdays: Array<Birthdays>
   allStone: Array<Stone>
   allEmailSignatureSettings: Array<EmailSignatureSettings>
+  allFaq: Array<Faq>
   allShopifyProduct: Array<ShopifyProduct>
   allShopifyCollection: Array<ShopifyCollection>
   allSanityImageAsset: Array<SanityImageAsset>
@@ -2104,6 +2204,10 @@ export type RootQueryStoneArgs = {
 }
 
 export type RootQueryEmailSignatureSettingsArgs = {
+  id: Scalars['ID']
+}
+
+export type RootQueryFaqArgs = {
   id: Scalars['ID']
 }
 
@@ -2245,6 +2349,13 @@ export type RootQueryAllStoneArgs = {
 export type RootQueryAllEmailSignatureSettingsArgs = {
   where?: Maybe<EmailSignatureSettingsFilter>
   sort?: Maybe<Array<EmailSignatureSettingsSorting>>
+  limit?: Maybe<Scalars['Int']>
+  offset?: Maybe<Scalars['Int']>
+}
+
+export type RootQueryAllFaqArgs = {
+  where?: Maybe<FaqFilter>
+  sort?: Maybe<Array<FaqSorting>>
   limit?: Maybe<Scalars['Int']>
   offset?: Maybe<Scalars['Int']>
 }
@@ -2813,7 +2924,6 @@ export interface ShopifyProduct extends Document {
   collections?: Maybe<Array<Maybe<ShopifyCollection>>>
   options?: Maybe<Array<Maybe<ShopifyProductOption>>>
   variants?: Maybe<Array<Maybe<ShopifyProductVariant>>>
-  prices?: any
   /** DEPRECATED: This has been split up into "Hide from Collections" and "Hide from Search" */
   hidden?: Maybe<Scalars['Boolean']>
   /** Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL */
