@@ -78,7 +78,7 @@ export const Field = (fieldProps: FieldProps) => {
 
   return (
     <div className={className}>
-      {label ? (
+      {label && type != 'checkbox' ? (
         <Label required={required} htmlFor={name}>
           {label}
         </Label>

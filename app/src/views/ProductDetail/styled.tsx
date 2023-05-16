@@ -175,14 +175,19 @@ export const RingToolsWrapper = styled.div`
   ${({ theme }) => css`
     display: flex;
     flex-direction: row;
-    column-gap: 6;
+    flex-wrap: wrap;
     margin: 0 0 4 0;
+
+    gap: 4;
 
     svg {
       flex-shrink: 0;
     }
 
     button {
+      min-width: 116px;
+      justify-content: flex-start;
+
       &:focus-visible {
         ${theme.focus.left()}
       }
@@ -193,6 +198,7 @@ export const RingToolsWrapper = styled.div`
     }
 
     ${theme.mediaQueries.mobile} {
+      row-gap: 0;
     }
   `}
 `

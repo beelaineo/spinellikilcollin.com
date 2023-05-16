@@ -14,6 +14,8 @@ import {
   QuizSubmissionArgs,
   vipSignup,
   VIPSignupArgs,
+  weddingCustomizationInquiry,
+  WeddingCustomizationInquiryArgs,
 } from './emails'
 import { config } from '../../config'
 
@@ -46,6 +48,9 @@ interface PostmarkService {
   ) => Promise<PostmarkResponse>
   sendContactInquiry: (args: ContactInquiryArgs) => Promise<PostmarkResponse>
   sendQuizSubmission: (args: QuizSubmissionArgs) => Promise<PostmarkResponse>
+  sendWeddingCustomizationInquiry: (
+    args: WeddingCustomizationInquiryArgs,
+  ) => Promise<PostmarkResponse>
 }
 
 if (!POSTMARK_KEY || !POSTMARK_KEY.length)
@@ -130,6 +135,13 @@ export const postmark: PostmarkService = {
 
   sendQuizSubmission: async (args: QuizSubmissionArgs) => {
     const message = quizSubmission(args)
+    return send(message)
+  },
+
+  sendWeddingCustomizationInquiry: async (
+    args: WeddingCustomizationInquiryArgs,
+  ) => {
+    const message = weddingCustomizationInquiry(args)
     return send(message)
   },
 }

@@ -278,7 +278,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
-    console.log('currentFilters', currentFilters)
     if (
       currentFilters?.some((filter) => {
         return (
@@ -287,7 +286,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         )
       })
     ) {
-      console.log('size filter applied')
       const getSelectedSizes: (string | undefined)[] = currentFilters
         .map((filter) => {
           if (
@@ -301,10 +299,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         })
         .flat()
         .filter((n) => n)
-      console.log('selectedSizes', getSelectedSizes)
       setSelectedSizes(getSelectedSizes)
     } else {
-      console.log('size filter not applied')
       setSelectedSizes([])
     }
   }, [currentFilters])
@@ -348,7 +344,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         sortIndex,
         ...p,
       }))
-      if (!priceRange) return
 
       switch (sort) {
         case Sort.Default:

@@ -68,13 +68,6 @@ const SwatchesWrapper = styled.div`
   display: flex;
 `
 
-const DiamondInfoSpan = styled.span`
-  display: inline-block;
-  padding-left: 5;
-  text-decoration: underline;
-  cursor: pointer;
-`
-
 const SelectWrapper = styled.div<SelectWrapperProps>`
   ${({ theme, isInput }) => css`
     position: relative;
@@ -324,8 +317,6 @@ export const ProductOptionSelector = ({
     setStockedColorOptionsIncluded(colorOptions)
   }, [disableStockIndication, includedVariants, product])
 
-  const { openDiamondModal } = useModal()
-
   const handleSubmit = (values: any) => {
     //
   }
@@ -333,26 +324,6 @@ export const ProductOptionSelector = ({
     <Wrapper>
       <Heading level={5} mb={2}>
         {isInput ? null : option.name}
-        {option.name === 'Carat' ? (
-          <>
-            {activeStone ? (
-              <DiamondInfoSpan
-                onClick={() =>
-                  openDiamondModal({
-                    currentProduct: product,
-                    currentVariant: currentVariant || undefined,
-                    currentDiamond: currentSelectedDiamond || undefined,
-                  })
-                }
-              >
-                Diamond Info
-              </DiamondInfoSpan>
-            ) : null}
-            <Link href={'/about/appointments'}>
-              <a target={'_blank'}>Appointments</a>
-            </Link>
-          </>
-        ) : null}
       </Heading>
       <SelectWrapper isInput={isInput}>
         {isValidSwatchOption(option) ? (

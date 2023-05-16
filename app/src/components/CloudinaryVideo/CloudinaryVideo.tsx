@@ -44,6 +44,7 @@ const NormalVideo = ({
         .then(() => {
           console.log('playing')
           setIsLoaded(true)
+          // Auto-play started
         })
         .catch((error) => {
           if (error.name === 'NotAllowedError') {

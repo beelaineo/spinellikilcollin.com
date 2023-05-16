@@ -6,6 +6,20 @@ import publicIp from 'public-ip'
 
 const debug = Debug('dev:hubspot')
 
+interface CommunicationsOption {
+  value: boolean
+  subscriptionTypeId: string
+  text: string
+}
+
+interface LegalConsentOptions {
+  consent: {
+    consentToProcess: boolean
+    text: string
+    communications: CommunicationsOption[]
+  }
+}
+
 type Values = Record<string, string | number | boolean | undefined>
 
 const HUBSPOT_API_URL =
@@ -50,10 +64,30 @@ export const submitToHubspot = async (
     pageName,
     ipAddress,
   }
+  const legalConsentOptions = values.communicationsConsent && {
+    consent: {
+      consentToProcess: true,
+      text: 'I agree to allow Spinelli Kilcollin to store and process my personal data.',
+      communications: [
+        {
+          value: values.communicationsConsent,
+          subscriptionTypeId: '9286953',
+          text: 'I agree to receive marketing communications from Spinelli Kilcollin.',
+        },
+        {
+          value: values.communicationsConsent,
+          subscriptionTypeId: '9532507',
+          text: 'I agree to receive one to one emails from Spinelli Kilcollin.',
+        },
+      ],
+    },
+  }
   const body = {
     fields: parseValues(formatPhoneField(values)),
     context,
+    legalConsentOptions,
   }
+  console.log('HUSBPOT FORM BODY SUBMITTED:', body)
   if (config.STOREFRONT_ENV !== 'production') {
     debug('Not currently in production. Mocking Hubpsot form submission:')
     debug(body)
