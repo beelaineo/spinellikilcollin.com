@@ -542,6 +542,7 @@ export const ProductThumbnail = ({
               preload
               altText={altText}
               preloadImages={allImages}
+              placeholder="shadow"
             />
           </ImageWrapper>
           <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>

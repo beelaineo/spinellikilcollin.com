@@ -12,6 +12,7 @@ import { Heading } from '../Text'
 import {
   MainImage,
   BlurWrapper,
+  ShadowImage,
   HoverImage,
   Wrapper,
   Picture,
@@ -74,6 +75,7 @@ interface ImageProps {
   hoverImage?: Maybe<ImageType>
   ratio?: number
   loading?: 'eager' | 'lazy' | undefined
+  placeholder?: 'shadow' | undefined
 
   /**
    * The css/html sizes at which this image is expected to appear,
@@ -125,6 +127,7 @@ export const Image = ({
   preloadImages,
   loading,
   objectFit,
+  placeholder,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
@@ -185,6 +188,8 @@ export const Image = ({
                 resolutionY={32}
               />
             </BlurWrapper>
+          ) : placeholder === 'shadow' ? (
+            <ShadowImage />
           ) : null}
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
