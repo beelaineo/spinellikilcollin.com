@@ -64,7 +64,7 @@ const NormalVideo = ({
       : fallbackSizes.find((fs) => fs > viewportWidth) ?? fallbackSizes[2]
 
   const quality = viewportWidth > 1000 ? 'q_100' : 'q_auto:good'
-  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},${quality},cs_copy/f_auto/${video.videoId}`
+  const src = `https://res.cloudinary.com/spinelli-kilcollin/video/upload/c_scale,w_${bestSize},${quality},cs_copy/f_auto/${video.videoId}.mp4`
 
   if (hide === false) {
     return (
