@@ -48,7 +48,6 @@ const NormalVideo = ({
           } else {
             // Handle a load or playback error
             setErrorMsg('error:' + error)
-            setHide(true)
           }
         })
     }
