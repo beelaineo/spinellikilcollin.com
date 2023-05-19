@@ -4,12 +4,17 @@ interface WrapperProps {
   withHero: boolean
   handle: string
   isLightTheme: boolean
+  isReady: boolean
 }
 
 export const Wrapper = styled.main<WrapperProps>`
-  ${({ handle, theme, withHero, isLightTheme }) => css`
+  ${({ handle, theme, withHero, isLightTheme, isReady }) => css`
     position: relative;
     padding-top: ${withHero ? 0 : theme.navHeight};
+
+    opacity: ${isReady ? 1 : 0};
+
+    transition: opacity 0.3s;
 
     ${isLightTheme === true
       ? css`
