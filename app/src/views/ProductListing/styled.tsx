@@ -12,10 +12,13 @@ export const Wrapper = styled.main<WrapperProps>`
     position: relative;
     padding-top: ${withHero ? 0 : theme.navHeight};
 
-    opacity: ${isReady ? 1 : 0};
+    opacity: ${isReady === true ? 1 : 0};
+    transition: opacity 0.3s linear 0s;
 
-    transition: opacity 0.3s;
-
+    & > div:last-child {
+      opacity: ${isReady ? 1 : 0};
+      transition: opacity 0.3s linear 0.3s;
+    }
     ${isLightTheme === true
       ? css`
           h3,
