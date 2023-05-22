@@ -7,7 +7,6 @@ import { Heading } from '../../components/Text'
 import { ImageWrapper, PageLinkWrapper, PageLinkBody } from './styled'
 import { Button } from '../../components/Button'
 import { getPageLinkUrl } from '../../utils'
-import { on } from 'json2csv/JSON2CSVTransform'
 
 interface PageLinkProps {
   pageLink: PageLinkType
