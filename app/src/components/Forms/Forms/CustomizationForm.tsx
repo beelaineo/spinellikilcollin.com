@@ -11,28 +11,37 @@ import {
   ProductBadgeWrapper,
   FieldsWrapper,
   SuccessWrapper,
+  CheckboxWrapper,
+  ConsentWrapper,
 } from './styled'
 import Script from 'next/script'
+import { Select } from '../Fields/Select'
+import Link from 'next/link'
+import { definitely } from '../../../utils'
 
 const { useState } = React
 
 type FormValues = {
   name: string
   email: string
-  location?: string
-  phone?: string
-  message: string
-  product?: string
-  variant?: string
+  location: string
+  phone: string
+  product: string
+  variant: string
+  customization_details: string
+  customization_budget: string
   phoneCountryCode?: string
   dialingCode?: string
+  communicationsConsent: boolean
 }
 
 interface ProductBadgeProps {
   product: ShopifyProduct
+  variant?: ShopifyProductVariant
+  title?: string
 }
 
-const formId = '65f5906c-622d-452b-8b63-51e42dd47a7c'
+const formId = '6975f0f0-b2b4-4570-acdc-b77c8fe9c151'
 
 {
   /* <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
@@ -40,13 +49,27 @@ const formId = '65f5906c-622d-452b-8b63-51e42dd47a7c'
   hbspt.forms.create({
     region: "na1",
     portalId: "7668999",
-    formId: "65f5906c-622d-452b-8b63-51e42dd47a7c"
+    formId: "6975f0f0-b2b4-4570-acdc-b77c8fe9c151"
   });
 </script> */
 }
 
-const ProductBadge = ({ product }: ProductBadgeProps) =>
-  product.title ? (
+const ProductBadge = ({ product, variant, title }: ProductBadgeProps) =>
+  title ? (
+    <ProductBadgeWrapper>
+      <Checkmark />
+      <Heading my={0} ml={2} level={5}>
+        {title.toUpperCase()}
+      </Heading>
+    </ProductBadgeWrapper>
+  ) : variant?.title ? (
+    <ProductBadgeWrapper>
+      <Checkmark />
+      <Heading my={0} ml={2} level={5}>
+        {variant.title.toUpperCase()}
+      </Heading>
+    </ProductBadgeWrapper>
+  ) : product.title ? (
     <ProductBadgeWrapper>
       <Checkmark />
       <Heading my={0} ml={2} level={5}>
@@ -79,32 +102,71 @@ export const CustomizationForm = ({
     setSuccess(true)
   }
 
+  const hasCarat = variant?.sourceData?.selectedOptions?.some(
+    (option) => option?.name === 'Carat',
+  )
+  const hasColor = variant?.sourceData?.selectedOptions?.some(
+    (option) => option?.name === 'Color',
+  )
+  // Parse the product title by combining the selected option
+  // values, omitting the "Size" option
+  const titleByOptions = variant?.sourceData?.selectedOptions?.length
+    ? definitely(variant?.sourceData?.selectedOptions)
+        .map((option) => {
+          if (option.name === 'Size') return null
+          return option.value
+        })
+        .filter(Boolean)
+        .join(' | ')
+    : undefined
+
+  const weddingTitle =
+    titleByOptions?.length && hasCarat && !hasColor
+      ? product?.title + ' | ' + titleByOptions
+      : undefined
+
+  const budgetOptions = [
+    { value: '$1000-$5000', id: '1000-5000', label: '$1000-$5000' },
+    { value: '$5000-$10,000', id: '5000-10000', label: '$5000-$10,000' },
+    { value: '$10,000-$15,000', id: '10000-15000', label: '$10,000-$15,000' },
+    { value: '$15,000-$20,000', id: '15000-20000', label: '$15,000-$20,000' },
+    { value: '$20,000+', id: '20000+', label: '$20,000+' },
+  ]
+
   const initialValues = {
     name: '',
     email: '',
     location: '',
     phone: '',
-    message: '',
     product: product?.title || '(no product specified)',
-    variant: variant?.title || '',
+    variant: weddingTitle || variant?.title || '',
+    customization_details: '',
+    customization_budget: '',
     phoneCountryCode: 'US',
     dialingCode: '',
+    communicationsConsent: false,
   }
 
   return (
     <>
       <Script id="hubspot-custom-widget">
         {`hbspt.forms.create({
-        region: "na1",
-        portalId: "7668999",
-        formId: "65f5906c-622d-452b-8b63-51e42dd47a7c"
-      });`}
+          region: "na1",
+          portalId: "7668999",
+          formId: "6975f0f0-b2b4-4570-acdc-b77c8fe9c151"
+        });`}
       </Script>
       <MainWrapper>
         <Heading mt={0} level={3}>
           Customization Inquiry
         </Heading>
-        {product ? <ProductBadge product={product} /> : null}
+        {product ? (
+          <ProductBadge
+            product={product}
+            variant={variant}
+            title={weddingTitle}
+          />
+        ) : null}
         <SuccessWrapper visible={success}>
           <Heading color="body.8" level={4}>
             Thank you! We have received your request.
@@ -144,16 +206,55 @@ export const CustomizationForm = ({
               required
             />
             <Field required name="location" label="Your Location" />
+            <Field name="product" label="Product Name" type="hidden" />
+            <Field name="variant" label="Variant Name" type="hidden" />
             <Field
-              name="message"
+              name="customization_details"
               type="textarea"
-              label="Notes"
+              label="What did you have in mind for the customization?"
               placeholder="I'm interested in..."
               required
             />
-            <Field name="product" type="hidden" />
-            <Field name="variant" type="hidden" />
+            <Field
+              name="customization_budget"
+              type="select"
+              label="Did you have a budget in mind?"
+              placeholder="Please Select"
+              options={budgetOptions}
+              required
+            />
+            <ConsentWrapper>
+              Spinelli Kilcollin is committed to respecting your privacy and we
+              will never sell your personal information. We only use your
+              information to administer your account and to provide you with the
+              best experience, products and services you requested from us. From
+              time to time, we may contact you about our products and services,
+              as well as other content that may interest you. If you consent to
+              us contacting you for this purpose, please check the box below.
+            </ConsentWrapper>
+            <CheckboxWrapper>
+              <Field
+                name="communicationsConsent"
+                type="checkbox"
+                label="I agree to receive other communications from Spinelli Kilcollin."
+              />
+            </CheckboxWrapper>
             <Button type="submit">Submit</Button>
+            <ConsentWrapper>
+              You may unsubscribe from these communications at any time. For
+              more information on how to unsubscribe, our privacy practices, and
+              how we are committed to protecting and respecting your privacy,
+              please review our{' '}
+              <Link href="/about/privacy-policy" target="_blank">
+                Privacy Policy
+              </Link>
+              .
+            </ConsentWrapper>
+            <ConsentWrapper>
+              By clicking submit, you consent to allow Spinelli Kilcollin to
+              store and process the personal information submitted above to
+              provide you the content requested.
+            </ConsentWrapper>
           </FieldsWrapper>
         </Form>
       </MainWrapper>

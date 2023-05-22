@@ -6,9 +6,11 @@ import { Field } from '../Fields/Field'
 import { FieldWrapper } from '../../Forms/Fields/styled'
 import { StateField } from '../CustomFields'
 import { Button } from '../../Button'
+import { CheckboxWrapper, ConsentWrapper } from './styled'
 import { submitToHubspot } from '../../../services'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import Script from 'next/script'
+import Link from 'next/link'
 
 const { useState } = React
 
@@ -109,6 +111,7 @@ type FormValues = {
   variant?: string
   phoneCountryCode?: string
   dialingCode?: string
+  communicationsConsent: boolean
 }
 
 const formId = 'e62200cb-d8d3-468f-a19e-13c7d4bcec26'
@@ -145,6 +148,7 @@ export const RingSizerForm = ({
     variant: variant?.title || '(none)',
     phoneCountryCode: 'US',
     dialingCode: '',
+    communicationsConsent: false,
   }
 
   return (
@@ -202,11 +206,42 @@ export const RingSizerForm = ({
               required
             />
             <Field name="phone" type="tel" label="Phone Number" required />
+            <ConsentWrapper>
+              Spinelli Kilcollin is committed to respecting your privacy and we
+              will never sell your personal information. We only use your
+              information to administer your account and to provide you with the
+              best experience, products and services you requested from us. From
+              time to time, we may contact you about our products and services,
+              as well as other content that may interest you. If you consent to
+              us contacting you for this purpose, please check the box below.
+            </ConsentWrapper>
+            <CheckboxWrapper>
+              <Field
+                name="communicationsConsent"
+                type="checkbox"
+                label="I agree to receive other communications from Spinelli Kilcollin."
+              />
+            </CheckboxWrapper>
             <Field name="product" type="hidden" />
             <Field name="variant" type="hidden" />
             <Button mt={2} type="submit">
               Submit
             </Button>
+            <ConsentWrapper>
+              You may unsubscribe from these communications at any time. For
+              more information on how to unsubscribe, our privacy practices, and
+              how we are committed to protecting and respecting your privacy,
+              please review our{' '}
+              <Link href="/about/privacy-policy" target="_blank">
+                Privacy Policy
+              </Link>
+              .
+            </ConsentWrapper>
+            <ConsentWrapper>
+              By clicking submit, you consent to allow Spinelli Kilcollin to
+              store and process the personal information submitted above to
+              provide you the content requested.
+            </ConsentWrapper>
           </FieldsWrapper>
         </Form>
       </MainWrapper>

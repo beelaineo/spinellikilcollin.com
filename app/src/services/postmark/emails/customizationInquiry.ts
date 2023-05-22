@@ -6,10 +6,12 @@ export interface CustomizationInquiryArgs {
   name: string
   email: string
   location: string
-  phone?: string
-  message?: string
-  product?: string
-  variant?: string
+  phone: string
+  product: string
+  variant: string
+  customization_details: string
+  customization_budget: string
+  communicationsConsent: boolean
 }
 
 const Subject = 'New customization inquiry'
@@ -22,10 +24,13 @@ const textTemplate = (args: CustomizationInquiryArgs): string => stripIndents`
   Email Address: ${args.email}
   Location: ${args.location}
   ${args.phone ? `Phone: ${args.phone}` : ''}
+  Consent to receive communications: ${args.communicationsConsent}
 
-  Notes: ${args.message}
+  N Budget: ${args.customization_budget}
+  Notes: ${args.customization_details}
 
-  ${args.product ? `Interested in: ${args.product} | ${args.variant}` : ''}
+  ${args.variant ? `Interested in: ${args.variant}` : ''}
+  ${args.product ? `Product: ${args.product}` : ''}
 `
 
 export const customizationInquiry = (
