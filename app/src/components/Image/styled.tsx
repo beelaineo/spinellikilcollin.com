@@ -53,7 +53,7 @@ export const Picture = styled.picture`
       opacity: ${loaded ? 1 : 0};
 
       transition: opacity 0.5s ease-out;
-      transition-delay: 0.1s;
+      transition-delay: 0.25s;
       max-width: 100%;
       object-fit: ${objectFit || 'cover'};
       display: block;
@@ -65,7 +65,7 @@ export const Picture = styled.picture`
       aspect-ratio: ${ratio};
 
       transition: opacity 0.5s ease-in, filter 0.5s ease-in;
-      transition-delay: 0s;
+      transition-delay: 0.1s;
       max-width: 100%;
       transform: scale(1.1, 1.1);
 
@@ -75,6 +75,8 @@ export const Picture = styled.picture`
     & > ${ShadowImage} {
       opacity: ${loaded ? 0 : 1};
       transition: opacity 0.3s ease-out;
+      transition-delay: 0.1s;
+
       max-width: 100%;
       position: absolute;
       top: 0;
