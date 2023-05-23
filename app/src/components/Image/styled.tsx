@@ -52,8 +52,8 @@ export const Picture = styled.picture`
     & > ${MainImage} {
       opacity: ${loaded ? 1 : 0};
 
-      transition: opacity 0.3s linear;
-      transition-delay: 0s;
+      transition: opacity 0.5s ease-out;
+      transition-delay: 0.1s;
       max-width: 100%;
       object-fit: ${objectFit || 'cover'};
       display: block;
@@ -61,10 +61,10 @@ export const Picture = styled.picture`
 
     & > ${BlurImage} {
       opacity: ${loaded ? 0 : 1};
-      filter: blur(${loaded ? 0 : 10}px) contrast(${loaded ? 0 : 0.5});
+      filter: blur(${loaded ? 0 : 16}px) contrast(${loaded ? 0 : 0.7});
       aspect-ratio: ${ratio};
 
-      transition: opacity 0.3s ease-out;
+      transition: opacity 0.5s ease-in, filter 0.5s ease-in;
       transition-delay: 0s;
       max-width: 100%;
       transform: scale(1.1, 1.1);
@@ -74,7 +74,7 @@ export const Picture = styled.picture`
     }
     & > ${ShadowImage} {
       opacity: ${loaded ? 0 : 1};
-      transition: opacity 0.3s ease-in;
+      transition: opacity 0.3s ease-out;
       max-width: 100%;
       position: absolute;
       top: 0;
