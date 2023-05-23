@@ -42,6 +42,7 @@ export const Picture = styled.picture`
 
     & > ${MainImage} {
       opacity: ${loaded ? 1 : 0};
+
       transition: opacity 0.3s linear;
       transition-delay: 0s;
       max-width: 100%;
@@ -51,7 +52,9 @@ export const Picture = styled.picture`
 
     & > ${BlurImage} {
       opacity: ${loaded ? 0 : 1};
-      transition: opacity 0.3s linear;
+      filter: blur(${loaded ? 0 : 10}px);
+
+      transition: opacity 0.3s linear, blur 0.3s linear;
       transition-delay: 0s;
       max-width: 100%;
       object-fit: ${objectFit || 'cover'};
