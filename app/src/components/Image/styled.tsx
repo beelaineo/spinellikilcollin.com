@@ -57,6 +57,7 @@ export const Picture = styled.picture`
       transition: opacity 0.3s linear, blur 0.3s linear;
       transition-delay: 0s;
       max-width: 100%;
+      transform: scale(1.1 1);
       object-fit: ${objectFit || 'cover'};
       display: block;
     }
