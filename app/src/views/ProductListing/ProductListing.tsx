@@ -130,6 +130,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [selectedSizes, setSelectedSizes] = useState<(string | undefined)[]>([])
   const [loading, setLoading] = useState(false)
+  const [isReady, setIsReady] = useState(false)
+
   const [resetFilters, doResetFilters] = useState(0)
   const [filters, setFilters] = useState<
     | (
@@ -178,6 +180,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         filters.push(filters.splice(filters.indexOf(filter), 1)[0])
     })
     setFilters(filters)
+    setIsReady(true)
   }, [])
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
@@ -535,6 +538,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         isLightTheme={Boolean(lightTheme)}
         tabIndex={-1}
         ref={gridRef}
+        isReady={isReady}
       >
         {filters && filters.length ? (
           <Filter
