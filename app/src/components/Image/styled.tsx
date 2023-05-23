@@ -53,7 +53,7 @@ export const Picture = styled.picture`
       opacity: ${loaded ? 1 : 0};
 
       transition: opacity 0.5s ease-out;
-      transition-delay: 0.25s;
+      transition-delay: 0s;
       max-width: 100%;
       object-fit: ${objectFit || 'cover'};
       display: block;
@@ -65,7 +65,7 @@ export const Picture = styled.picture`
       aspect-ratio: ${ratio};
 
       transition: opacity 0.5s ease-in, filter 0.5s ease-in;
-      transition-delay: 0.1s;
+      transition-delay: 0s;
       max-width: 100%;
       transform: scale(1.1, 1.1);
 
