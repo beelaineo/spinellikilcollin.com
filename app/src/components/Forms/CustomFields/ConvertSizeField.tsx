@@ -62,8 +62,12 @@ export const ConvertSizeField = ({
 }: ConvertSizeFieldProps) => {
   const { values, setFieldValue } = useFormikContext<Values>()
 
-  const [sizeA, setSizeA] = useState<string | number>(values.sizeA || '')
-  const [sizeB, setSizeB] = useState<string | number>(values.sizeB || '')
+  const [sizeA, setSizeA] = useState<string | number | undefined>(
+    values.sizeA || undefined,
+  )
+  const [sizeB, setSizeB] = useState<string | number | undefined>(
+    values.sizeB || undefined,
+  )
 
   const findMatchedValue = (arr: CountryOption[], val?: string | number) => {
     return arr.find((o) => o.value == val)
@@ -134,10 +138,10 @@ export const ConvertSizeField = ({
   }, [values.sizeB, countryA])
 
   useEffect(() => {
-    if (!countryA) return
+    if (!countryB) return
 
     const sizeOption = sizeConversionOptions.find(
-      (o) => o[countryA.id] == values.sizeA,
+      (o) => o[countryB.id] == values.sizeB,
     )
 
     if (sizeOption === undefined) return
@@ -145,7 +149,7 @@ export const ConvertSizeField = ({
     const usIndex = Object.keys(sizeOption).findIndex((o) => o == 'us')
 
     setReferenceSize(Object.values(sizeOption)[usIndex])
-  }, [values.sizeA])
+  }, [values.sizeB])
 
   useEffect(() => {
     if (!values.countryA) {

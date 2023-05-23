@@ -283,20 +283,20 @@ export const SizeConverterForm = ({
 
   const [initialValues, setInitialValues] = useState<FormValues>({
     size: initialRule,
-    countryA: initialRule ? sizeCountryOptions[0].value : undefined,
-    countryB: undefined,
-    sizeA: initialRule && initialRule.us,
-    sizeB: undefined,
+    countryA: undefined,
+    countryB: sizeCountryOptions[0].value,
+    sizeA: undefined,
+    sizeB: initialRule && initialRule.us,
     sizeUS: initialRule && initialRule.us,
   })
 
   useEffect(() => {
     setInitialValues({
       size: initialRule,
-      countryA: initialRule ? sizeCountryOptions[0].value : undefined,
-      countryB: undefined,
-      sizeA: initialRule && initialRule.us,
-      sizeB: undefined,
+      countryA: undefined,
+      countryB: initialRule ? sizeCountryOptions[0].value : undefined,
+      sizeA: undefined,
+      sizeB: initialRule && initialRule.us,
       sizeUS: initialRule && initialRule.us,
     })
   }, [initialRule])
