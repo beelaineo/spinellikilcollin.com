@@ -13,6 +13,7 @@ import {
   FieldsWrapper as BaseFieldsWrapper,
 } from './styled'
 import Link from 'next/link'
+import * as Yup from 'yup'
 
 const FieldsWrapper = styled(BaseFieldsWrapper)`
   ${({ theme }) => css`
@@ -76,8 +77,15 @@ export const VIPSignupForm = ({ onContinue }: VIPSignupFormProps) => {
     special_date_2_: '',
     phoneCountryCode: 'US',
     dialingCode: '',
-    communicationsConsent: false,
+    communicationsConsent: true,
   }
+
+  const validationSchema = Yup.object().shape({
+    communicationsConsent: Yup.boolean().oneOf(
+      [true],
+      'You must consent to communications to submit this form.',
+    ),
+  })
 
   return (
     <MainWrapper>
@@ -96,6 +104,7 @@ export const VIPSignupForm = ({ onContinue }: VIPSignupFormProps) => {
         disabled={submitting}
         onSubmit={handleSubmit}
         initialValues={initialValues}
+        validationSchema={validationSchema}
       >
         <FieldsWrapper visible={!success}>
           <Field

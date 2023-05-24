@@ -11,6 +11,7 @@ import { submitToHubspot } from '../../../services'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import Script from 'next/script'
 import Link from 'next/link'
+import * as Yup from 'yup'
 
 const { useState } = React
 
@@ -148,8 +149,15 @@ export const RingSizerForm = ({
     variant: variant?.title || '(none)',
     phoneCountryCode: 'US',
     dialingCode: '',
-    communicationsConsent: false,
+    communicationsConsent: true,
   }
+
+  const validationSchema = Yup.object().shape({
+    communicationsConsent: Yup.boolean().oneOf(
+      [true],
+      'You must consent to communications to submit this form.',
+    ),
+  })
 
   return (
     <>
@@ -169,6 +177,7 @@ export const RingSizerForm = ({
           disabled={submitting}
           onSubmit={handleSubmit}
           initialValues={initialValues}
+          validationSchema={validationSchema}
         >
           <SuccessWrapper visible={success}>
             <Heading color="body.8" level={4}>

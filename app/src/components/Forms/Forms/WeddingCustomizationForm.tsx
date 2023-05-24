@@ -18,6 +18,7 @@ import Script from 'next/script'
 import { Select } from '../Fields/Select'
 import Link from 'next/link'
 import { definitely } from '../../../utils'
+import * as Yup from 'yup'
 
 const { useState } = React
 
@@ -144,8 +145,15 @@ export const WeddingCustomizationForm = ({
     customization_wedding_budget: '',
     phoneCountryCode: 'US',
     dialingCode: '',
-    communicationsConsent: false,
+    communicationsConsent: true,
   }
+
+  const validationSchema = Yup.object().shape({
+    communicationsConsent: Yup.boolean().oneOf(
+      [true],
+      'You must consent to communications to submit this form.',
+    ),
+  })
 
   return (
     <>
@@ -183,6 +191,7 @@ export const WeddingCustomizationForm = ({
           disabled={submitting}
           onSubmit={handleSubmit}
           initialValues={initialValues}
+          validationSchema={validationSchema}
         >
           <FieldsWrapper visible={!success}>
             <Field
