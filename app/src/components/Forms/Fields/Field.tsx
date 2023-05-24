@@ -42,8 +42,6 @@ export const Field = (fieldProps: FieldProps) => {
         return <Radio {...fieldProps} />
       case 'checkbox':
         return <Checkbox {...fieldProps} />
-      case 'agreementCheckbox':
-        return <Checkbox {...fieldProps} />
       case 'number':
         return <NumberInput {...fieldProps} />
       case 'select':
@@ -80,7 +78,7 @@ export const Field = (fieldProps: FieldProps) => {
 
   return (
     <div className={className}>
-      {label && type != 'checkbox' && type != 'agreementCheckbox' ? (
+      {label && type != 'checkbox' ? (
         <Label required={required} htmlFor={name}>
           {label}
         </Label>

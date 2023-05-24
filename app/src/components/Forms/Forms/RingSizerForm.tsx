@@ -227,7 +227,7 @@ export const RingSizerForm = ({
             <CheckboxWrapper>
               <Field
                 name="communicationsConsent"
-                type="agreementCheckbox"
+                type="checkbox"
                 label="I agree to receive other communications from Spinelli Kilcollin."
               />
             </CheckboxWrapper>
