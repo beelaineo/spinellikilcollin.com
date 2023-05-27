@@ -1,4 +1,7 @@
 import * as React from 'react'
+import styled, { css } from '@xstyled/styled-components'
+import gql from 'graphql-tag'
+
 import {
   useShopify,
   UseCheckoutValues,
@@ -9,12 +12,14 @@ import { Placeholder } from '../../../components/Placeholder'
 import { useAnalytics, useCart, useModal } from '../../../providers'
 import { useMedia } from '../../../hooks'
 import { theme } from '../../../theme'
+import { shopifyQuery } from '../../../providers/AllProviders'
+import { ShopifyStorefrontProductVariant } from '../../../types/generated-shopify'
+
 const { useEffect, useRef, useState } = React
-import styled, { css } from '@xstyled/styled-components'
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
   product: ShopifyProduct
-  currentVariant?: ShopifyProductVariant
+  currentVariant: ShopifyProductVariant
   quantity?: number
 }
 
@@ -58,6 +63,45 @@ const ButtonSpacer = styled.div`
   `}
 `
 
+const shopifyVariantQuery = gql`
+  query ShopifyVariantQuery($id: ID!) {
+    node(id: $id) {
+      ... on ProductVariant {
+        id
+        availableForSale
+      }
+    }
+  }
+`
+
+const PENDING = 'PENDING'
+type IsInStockValue = typeof PENDING | true | false
+const useVariantIsInStock = (
+  variant: ShopifyProductVariant,
+): IsInStockValue => {
+  const [isInStock, setIsInStock] = useState<IsInStockValue>(PENDING)
+  const currentVariantId = variant?.sourceData?.id
+  if (!currentVariantId) {
+    throw new Error(
+      'A product variant without source data was supplied to BuyButton',
+    )
+  }
+  useEffect(() => {
+    const requestVariantData = async () => {
+      setIsInStock(PENDING)
+      const result = await shopifyQuery<{
+        data: { node: ShopifyStorefrontProductVariant }
+      }>(shopifyVariantQuery, {
+        id: currentVariantId,
+      })
+      const variantIsAvailableForSale = result?.data.node.availableForSale
+      setIsInStock(variantIsAvailableForSale)
+    }
+    requestVariantData()
+  }, [currentVariantId])
+  return isInStock
+}
+
 export const BuyButton = ({
   product,
   currentVariant,
@@ -69,6 +113,13 @@ export const BuyButton = ({
   const { loading } = useShopify()
   const { inquiryOnly } = product
   const { openCustomizationModal } = useModal()
+
+  /**
+   * Before enabling the buy button, query shopify directly to
+   * see if the variant is in stock. Inventory data from Sanity can
+   * sometimes be out of date.
+   */
+  const variantIsInStock = useVariantIsInStock(currentVariant)
 
   const [initialOffsetTop, setInitialOffsetTop] = useState(0)
   const [winScroll, setWinScroll] = useState(0)
@@ -134,13 +185,13 @@ export const BuyButton = ({
       openCart('Product Added to Cart!')
     }
   }
-  if (currentVariant && !currentVariant?.sourceData?.availableForSale) {
+  if (variantIsInStock === false) {
     return <Placeholder>Out of stock</Placeholder>
   }
   return (
     <>
       <BuyButtonEl
-        disabled={loading || Boolean(!currentVariant)}
+        disabled={loading || variantIsInStock === PENDING}
         onClick={handleClick}
         ref={buttonRef}
         sticky={false}
