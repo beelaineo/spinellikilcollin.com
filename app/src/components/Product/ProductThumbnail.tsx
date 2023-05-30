@@ -534,39 +534,42 @@ export const ProductThumbnail = ({
           onClick={handleClick}
         >
           {variantAnimation ? (
-            <VideoWrapper hide={!playing} carousel={carousel}>
-              {imageHover ? (
-                <HoverThumb src="https://placehold.co/480" />
-              ) : (
-                <CloudinaryAnimation
-                  video={variantAnimation}
-                  image={productImage}
-                  setPlaying={setPlaying}
-                  view={'list'}
-                />
-              )}
+            <VideoWrapper
+              hide={!playing}
+              carousel={carousel}
+              hover={imageHover}
+            >
+              {imageHover && <HoverThumb src="https://placehold.co/480" />}
+
+              <CloudinaryAnimation
+                video={variantAnimation}
+                image={productImage}
+                setPlaying={setPlaying}
+                view={'list'}
+              />
             </VideoWrapper>
           ) : null}
-          <ImageWrapper hide={Boolean(variantAnimation)}>
-            {imageHover ? (
-              <HoverThumb src="https://placehold.co/480" />
-            ) : (
-              <Image
-                image={productImage}
-                ratio={imageRatio || 1}
-                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                preload
-                altText={altText}
-                preloadImages={allImages}
-              />
-            )}
+          <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
+            {imageHover && <HoverThumb src="https://placehold.co/480" />}
+
+            <Image
+              image={productImage}
+              ratio={imageRatio || 1}
+              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+              preload
+              altText={altText}
+              preloadImages={allImages}
+            />
           </ImageWrapper>
           <HoverArea
             onMouseEnter={() => setImageHover(true)}
             onMouseLeave={() => setImageHover(false)}
           />
 
-          <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>
+          <ProductInfo
+            hover={imageHover}
+            displayGrid={Boolean(displayTags || displaySwatches)}
+          >
             {displayTags ? <TagBadges product={product} /> : <div />}
             {displayPrice && inquiryOnly != true ? (
               <TitleHeading

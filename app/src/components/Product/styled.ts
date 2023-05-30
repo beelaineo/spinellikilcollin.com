@@ -30,10 +30,11 @@ export const ProductThumb = styled.div`
 
 interface WithDisplayGrid {
   displayGrid?: boolean
+  hover?: boolean
 }
 
 export const ProductInfo = styled.div<WithDisplayGrid>`
-  ${({ theme, displayGrid }) => css`
+  ${({ theme, displayGrid, hover }) => css`
     padding: 3 0 5;
     text-align: center;
     text-transform: capitalize;
@@ -53,6 +54,11 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
       font-size: 16px;
     }
 
+    & > *:first-child,
+    & > *:nth-child(2) {
+      opacity: ${hover ? 0 : 1};
+    }
+
     ${theme.mediaQueries.mobile} {
       margin-top: 3;
       padding: 0px;
@@ -69,16 +75,21 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
 
 interface WithHide {
   hide?: boolean
+  hover?: boolean
 }
 
 export const ImageWrapper = styled.div<WithHide>`
-  ${({ theme, hide }) => css`
+  ${({ theme, hide, hover }) => css`
     position: relative;
     display: ${hide ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
+
+    > div {
+      opacity: ${hover ? 0 : 1};
+    }
   `}
 `
 
@@ -99,10 +110,11 @@ export const HoverThumb = styled.img`
 interface WithHideCarousel {
   hide?: boolean
   carousel?: boolean
+  hover?: boolean
 }
 
 export const VideoWrapper = styled.div<WithHideCarousel>`
-  ${({ theme, hide, carousel }) => css`
+  ${({ theme, hide, carousel, hover }) => css`
     position: relative;
     width: 100%;
     height: 100%;
@@ -112,6 +124,10 @@ export const VideoWrapper = styled.div<WithHideCarousel>`
     left: 0;
     video {
       transform: translate(0, 0);
+    }
+
+    > div {
+      opacity: ${hover ? 0 : 1};
     }
   `}
 `
