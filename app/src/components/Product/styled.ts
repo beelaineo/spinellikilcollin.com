@@ -197,6 +197,12 @@ export const SwatchWrapper = styled.div<WithClickable>`
     border-bottom: ${active ? '1px solid' : 'none'};
     border-color: body.5;
 
+    img {
+      filter: drop-shadow(0.5px 0px 0px #f5f3f4)
+        drop-shadow(-0.5px 0px 0px #f5f3f4) drop-shadow(0px 0.5px 0px #f5f3f4)
+        drop-shadow(0px -0.5px 0px #f5f3f4);
+    }
+
     &:last-child {
       margin-right: 0;
     }
