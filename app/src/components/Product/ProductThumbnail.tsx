@@ -29,7 +29,14 @@ import {
 } from '../../utils'
 import { useInViewport } from '../../hooks'
 import { useAnalytics } from '../../providers'
-import { ImageWrapper, VideoWrapper, ProductInfo, ProductThumb } from './styled'
+import {
+  ImageWrapper,
+  VideoWrapper,
+  ProductInfo,
+  ProductThumb,
+  HoverArea,
+  HoverThumb,
+} from './styled'
 import { CloudinaryAnimation } from '../CloudinaryVideo'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
@@ -516,6 +523,8 @@ export const ProductThumbnail = ({
     currentPath: asPath,
   })
 
+  const [imageHover, setImageHover] = useState(false)
+
   return (
     <ProductThumb ref={containerRef}>
       <Link href="/products/[productSlug]" as={linkAs}>
@@ -526,24 +535,37 @@ export const ProductThumbnail = ({
         >
           {variantAnimation ? (
             <VideoWrapper hide={!playing} carousel={carousel}>
-              <CloudinaryAnimation
-                video={variantAnimation}
-                image={productImage}
-                setPlaying={setPlaying}
-                view={'list'}
-              />
+              {imageHover ? (
+                <HoverThumb src="https://placehold.co/480" />
+              ) : (
+                <CloudinaryAnimation
+                  video={variantAnimation}
+                  image={productImage}
+                  setPlaying={setPlaying}
+                  view={'list'}
+                />
+              )}
             </VideoWrapper>
           ) : null}
           <ImageWrapper hide={Boolean(variantAnimation)}>
-            <Image
-              image={productImage}
-              ratio={imageRatio || 1}
-              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-              preload
-              altText={altText}
-              preloadImages={allImages}
-            />
+            {imageHover ? (
+              <HoverThumb src="https://placehold.co/480" />
+            ) : (
+              <Image
+                image={productImage}
+                ratio={imageRatio || 1}
+                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                preload
+                altText={altText}
+                preloadImages={allImages}
+              />
+            )}
           </ImageWrapper>
+          <HoverArea
+            onMouseEnter={() => setImageHover(true)}
+            onMouseLeave={() => setImageHover(false)}
+          />
+
           <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>
             {displayTags ? <TagBadges product={product} /> : <div />}
             {displayPrice && inquiryOnly != true ? (

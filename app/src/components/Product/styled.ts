@@ -74,8 +74,26 @@ interface WithHide {
 export const ImageWrapper = styled.div<WithHide>`
   ${({ theme, hide }) => css`
     position: relative;
-    display: ${hide ? 'none' : 'block'};
+    display: ${hide ? 'none' : 'flex'};
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
   `}
+`
+
+export const HoverArea = styled.span`
+  position: absolute;
+  width: 87%;
+  height: 69%;
+  top: 6.5%;
+  left: 6.5%;
+`
+
+export const HoverThumb = styled.img`
+  position: absolute;
+  width: 100%;
+  height: 100%;
 `
 
 interface WithHideCarousel {
@@ -86,6 +104,8 @@ interface WithHideCarousel {
 export const VideoWrapper = styled.div<WithHideCarousel>`
   ${({ theme, hide, carousel }) => css`
     position: relative;
+    width: 100%;
+    height: 100%;
     top: 0;
     bottom: 0;
     right: 0;
