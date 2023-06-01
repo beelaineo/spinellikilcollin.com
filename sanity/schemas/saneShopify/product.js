@@ -25,6 +25,11 @@ export const productOptionValue = {
       type: 'image',
     },
     {
+      title: 'Hover Image',
+      name: 'hover_image',
+      type: 'image',
+    },
+    {
       title: 'Variant Animation',
       description: 'Cloudinary Video ID (looping render)',
       name: 'animation',
