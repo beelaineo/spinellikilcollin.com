@@ -2998,6 +2998,7 @@ export interface ShopifyProductOptionValue {
   value?: Maybe<Scalars['String']>
   descriptionRaw?: Maybe<Scalars['JSON']>
   swatch?: Maybe<Image>
+  hover_image?: Maybe<Image>
   /** Cloudinary Video ID (looping render) */
   animation?: Maybe<Scalars['String']>
   /** If Karat swatch, link to associated stone. */
@@ -3009,6 +3010,7 @@ export type ShopifyProductOptionValueFilter = {
   _type?: Maybe<StringFilter>
   value?: Maybe<StringFilter>
   swatch?: Maybe<ImageFilter>
+  hover_image?: Maybe<ImageFilter>
   animation?: Maybe<StringFilter>
   stone?: Maybe<StoneFilter>
 }
@@ -3018,6 +3020,7 @@ export type ShopifyProductOptionValueSorting = {
   _type?: Maybe<SortOrder>
   value?: Maybe<SortOrder>
   swatch?: Maybe<ImageSorting>
+  hover_image?: Maybe<ImageSorting>
   animation?: Maybe<SortOrder>
 }
 
