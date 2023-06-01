@@ -203,11 +203,6 @@ export default class MyDocument extends Document {
           />
           <Main />
           <NextScript />
-          <Script
-            id="bambuser-script-loader"
-            src="https://lcx-embed.bambuser.com/spinelli-kilcollin/embed.js"
-            strategy="beforeInteractive"
-          />
           {/* Hubspot */}
           <Script
             id="hs-script-loader"

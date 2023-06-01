@@ -6,7 +6,6 @@ export * from './richtext'
 export * from './postmark'
 export * from './sanity'
 export * from './globals'
-export * from './bambuser'
 
 export interface CollectionBlock extends BaseCollectionBlock {
   body?: any
