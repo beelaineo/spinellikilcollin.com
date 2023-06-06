@@ -39,6 +39,7 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
     text-align: center;
     text-transform: capitalize;
     color: body.7;
+    z-index: 1;
     ${displayGrid
       ? css`
           display: grid;
@@ -86,10 +87,6 @@ export const ImageWrapper = styled.div<WithHide>`
     align-items: center;
     width: 100%;
     height: 100%;
-
-    > div {
-      opacity: ${hover ? 0 : 1};
-    }
   `}
 `
 
@@ -99,12 +96,21 @@ export const HoverArea = styled.span`
   height: 69%;
   top: 6.5%;
   left: 6.5%;
+  z-index: 1;
+  opacity: 0;
 `
 
 export const HoverThumb = styled.img`
   position: absolute;
   width: 100%;
   height: 100%;
+`
+
+export const HoverThumbWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 `
 
 interface WithHideCarousel {
@@ -124,10 +130,6 @@ export const VideoWrapper = styled.div<WithHideCarousel>`
     left: 0;
     video {
       transform: translate(0, 0);
-    }
-
-    > div {
-      opacity: ${hover ? 0 : 1};
     }
   `}
 `

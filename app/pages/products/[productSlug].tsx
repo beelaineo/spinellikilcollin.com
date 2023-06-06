@@ -59,6 +59,9 @@ const productQueryInner = `
       swatch {
         ...SanityImageFragment
       }
+      hover_image {
+        ...SanityImageFragment
+      }
       animation
       stone {
         ...StoneFragment
