@@ -11,6 +11,7 @@ import {
   FilterConfiguration,
   Maybe,
   Scalars,
+  ShopifySourceSelectedOption,
 } from '../../types'
 import { Heading, Span } from '../Text'
 import { Image } from '../Image'
@@ -29,7 +30,15 @@ import {
 } from '../../utils'
 import { useInViewport } from '../../hooks'
 import { useAnalytics } from '../../providers'
-import { ImageWrapper, VideoWrapper, ProductInfo, ProductThumb } from './styled'
+import {
+  ImageWrapper,
+  VideoWrapper,
+  ProductInfo,
+  ProductThumb,
+  HoverArea,
+  HoverThumb,
+  HoverThumbWrapper,
+} from './styled'
 import { CloudinaryAnimation } from '../CloudinaryVideo'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
@@ -177,6 +186,10 @@ export const ProductThumbnail = ({
     ShopifySourceProductVariant | undefined
   >(initialVariant)
 
+  const [currentSwatchOption, setCurrentSwatchOption] = useState<
+    Maybe<ShopifyProductOptionValue> | undefined
+  >(undefined)
+
   const [variantAnimation, setVariantAnimation] = useState<
     VariantAnimation | undefined
   >(undefined)
@@ -239,6 +252,14 @@ export const ProductThumbnail = ({
       (o) => o?.name === 'Color',
     )[0]?.value
 
+    const currentSwatchCaratValue = currentVariant?.selectedOptions?.filter(
+      (o) => o?.name === 'Carat',
+    )[0]?.value
+
+    const currentSwatchDefaultValue = currentVariant?.selectedOptions?.filter(
+      (o) => o?.name === 'Title',
+    )[0]?.value
+
     const colorOption = product.options?.filter(
       (option) => option?.name == 'Color',
     )
@@ -253,6 +274,29 @@ export const ProductThumbnail = ({
     const currentStyleOption = styleOption?.[0]?.values?.filter(
       (o) => o?.animation,
     )[0]
+
+    const caratOption = product.options?.filter(
+      (option) => option?.name == 'Carat',
+    )
+
+    const currentCaratOption = caratOption?.[0]?.values?.filter(
+      (o) => o?.value == currentSwatchCaratValue,
+    )[0]
+
+    const defaultOption = product.options?.filter(
+      (option) => option?.name == 'Title',
+    )
+
+    const currentDefaultOption = defaultOption?.[0]?.values?.filter(
+      (o) => o?.value == currentSwatchDefaultValue,
+    )[0]
+
+    setCurrentSwatchOption(
+      currentColorOption ||
+        currentCaratOption ||
+        currentStyleOption ||
+        currentDefaultOption,
+    )
 
     const currentAnimation =
       currentColorOption?.animation || currentStyleOption?.animation
@@ -516,6 +560,12 @@ export const ProductThumbnail = ({
     currentPath: asPath,
   })
 
+  const [imageHover, setImageHover] = useState(false)
+
+  useEffect(() => {
+    console.log('currentSwatchOption', currentSwatchOption)
+  }, [currentSwatchOption, imageHover])
+
   return (
     <ProductThumb ref={containerRef}>
       <Link href="/products/[productSlug]" as={linkAs}>
@@ -525,7 +575,25 @@ export const ProductThumbnail = ({
           onClick={handleClick}
         >
           {variantAnimation ? (
-            <VideoWrapper hide={!playing} carousel={carousel}>
+            <VideoWrapper
+              hide={!playing}
+              carousel={carousel}
+              hover={imageHover}
+            >
+              {imageHover && currentSwatchOption?.hover_image && (
+                <HoverThumbWrapper>
+                  <Image
+                    image={currentSwatchOption?.hover_image}
+                    ratio={imageRatio || 1}
+                    sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                    preload
+                    altText={altText}
+                    preloadImages={allImages}
+                    objectFit="cover"
+                  />
+                </HoverThumbWrapper>
+              )}
+
               <CloudinaryAnimation
                 video={variantAnimation}
                 image={productImage}
@@ -534,7 +602,21 @@ export const ProductThumbnail = ({
               />
             </VideoWrapper>
           ) : null}
-          <ImageWrapper hide={Boolean(variantAnimation)}>
+          <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
+            {imageHover && currentSwatchOption?.hover_image && (
+              // <HoverThumb src={currentSwatchOption?.hover_image.asset?.url} />
+              <HoverThumbWrapper>
+                <Image
+                  image={currentSwatchOption?.hover_image}
+                  ratio={imageRatio || 1}
+                  sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                  preload
+                  altText={altText}
+                  preloadImages={allImages}
+                />
+              </HoverThumbWrapper>
+            )}
+
             <Image
               image={productImage}
               ratio={imageRatio || 1}
@@ -544,7 +626,15 @@ export const ProductThumbnail = ({
               preloadImages={allImages}
             />
           </ImageWrapper>
-          <ProductInfo displayGrid={Boolean(displayTags || displaySwatches)}>
+          <HoverArea
+            onMouseEnter={() => setImageHover(true)}
+            onMouseLeave={() => setImageHover(false)}
+          />
+
+          <ProductInfo
+            hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+            displayGrid={Boolean(displayTags || displaySwatches)}
+          >
             {displayTags ? <TagBadges product={product} /> : <div />}
             {displayPrice && inquiryOnly != true ? (
               <TitleHeading
