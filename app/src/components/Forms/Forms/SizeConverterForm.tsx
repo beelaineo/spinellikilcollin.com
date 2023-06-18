@@ -174,7 +174,7 @@ export const SizeConverterForm = ({
   closeModal,
 }: SizeConverterFormProps) => {
   const { openCart } = useCart()
-  const { sendAddToCart } = useAnalytics()
+  // const { sendAddToCart } = useAnalytics()
 
   // @ts-ignore
   const { currentVariant, selectVariant } =
@@ -307,11 +307,11 @@ export const SizeConverterForm = ({
     if (!addLineItem) return
     if (typeof currentVariant.shopifyVariantID !== 'string') return
 
-    sendAddToCart({
-      product: currentProduct,
-      variant: currentVariant,
-      quantity: 1,
-    })
+    // sendAddToCart({
+    //   product: currentProduct,
+    //   variant: currentVariant,
+    //   quantity: 1,
+    // })
 
     await addLineItem({
       variantId: currentVariant.shopifyVariantID,
