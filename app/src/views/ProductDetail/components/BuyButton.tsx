@@ -108,7 +108,7 @@ export const BuyButton = ({
   addLineItem,
   quantity,
 }: Props) => {
-  const { sendAddToCart } = useAnalytics()
+  // const { sendAddToCart } = useAnalytics()
   const { openCart } = useCart()
   const { loading } = useShopify()
   const { inquiryOnly } = product
@@ -177,7 +177,7 @@ export const BuyButton = ({
         currentVariant,
       })
     } else {
-      sendAddToCart({ product, variant: currentVariant, quantity })
+      // sendAddToCart({ product, variant: currentVariant, quantity })
       await addLineItem({
         variantId: currentVariant.shopifyVariantID,
         quantity: quantity || 1,
