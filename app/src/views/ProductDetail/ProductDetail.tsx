@@ -106,7 +106,7 @@ export const ProductDetail = ({ product }: Props) => {
     ? { initialVariant: variantId }
     : undefined
   /* get additional info blocks from Sanity */
-  const { sendProductDetailView } = useAnalytics()
+  // const { sendProductDetailView } = useAnalytics()
   const { getProductInfoBlocks, productInfoSettings } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
@@ -125,7 +125,7 @@ export const ProductDetail = ({ product }: Props) => {
 
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
-    sendProductDetailView({ product, variant: currentVariant })
+    // sendProductDetailView({ product, variant: currentVariant })
   }, [currentVariant])
 
   /* Add the variant ID as a query parameter */
