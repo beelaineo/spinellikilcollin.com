@@ -12,10 +12,11 @@ export const Wrapper = styled.div<WithMinimalDisplay>`
     width: 100%;
     position: sticky;
     top: 74px;
-    z-index: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    z-index: 100;
+
     ${theme.mediaQueries.tablet} {
       top: 62px;
       padding: ${minimalDisplay ? '5 0' : '3 5'};
