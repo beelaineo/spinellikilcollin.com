@@ -152,7 +152,7 @@ export const ProductThumbnail = ({
   const { inquiryOnly } = product
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
-  const { sendProductImpression, sendProductClick } = useAnalytics()
+  // const { sendProductImpression, sendProductClick } = useAnalytics()
   const { productInfoSettings, productListingSettings } = useShopData()
 
   const productImages = product.sourceData?.images
@@ -314,13 +314,13 @@ export const ProductThumbnail = ({
 
   const handleClick = () => {
     // @ts-ignore
-    sendProductClick({ product, variant: currentVariant })
+    // sendProductClick({ product, variant: currentVariant })
   }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
   useEffect(() => {
     if (!isInViewOnce) return
     // @ts-ignore
-    sendProductImpression({ product, variant: currentVariant })
+    // sendProductImpression({ product, variant: currentVariant })
   }, [isInViewOnce, currentVariant])
 
   const productImage = currentVariant?.image
