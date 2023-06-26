@@ -15,7 +15,7 @@ export const Wrapper = styled.div<WithMinimalDisplay>`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 100;
+    z-index: 99;
 
     ${theme.mediaQueries.tablet} {
       top: 62px;
