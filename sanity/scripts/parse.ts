@@ -1,6 +1,6 @@
 import { isMatch, pick } from 'lodash'
 
-const createClient = require('@sanity/client')
+import { createClient } from '@sanity/client'
 
 const stagingClient = createClient({
   projectId: 'i21fjdbi',

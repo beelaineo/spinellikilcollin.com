@@ -1,11 +1,11 @@
-import createSanityClient from '@sanity/client'
+import { createClient } from '@sanity/client'
 import { Document } from '../types'
 import { withTypenames } from '../utils'
 import { config } from '../config'
 
 const { SANITY_PROJECT_ID, SANITY_DATASET, SANITY_READ_TOKEN } = config
 
-export const sanityClient = createSanityClient({
+export const sanityClient = createClient({
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
   useCdn: false, // `false` if you want to ensure fresh data
@@ -13,7 +13,7 @@ export const sanityClient = createSanityClient({
   apiVersion: '2021-10-21',
 })
 
-export const sanityClientForPreview = createSanityClient({
+export const sanityClientForPreview = createClient({
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
   token: SANITY_READ_TOKEN,

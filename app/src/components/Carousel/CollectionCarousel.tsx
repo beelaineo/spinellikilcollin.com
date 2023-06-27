@@ -98,12 +98,12 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
     <Carousel initialSlide={initialSlide}>
       {definitely(products)
         .filter(
-          (product) =>
+          (product: any) =>
             product?.archived !== true &&
             product?.hidden !== true &&
             product?.hideFromSearch !== true,
         )
-        .map((product) => {
+        .map((product: any) => {
           return (
             <ProductThumbnail
               key={product.shopifyId || 'some-key'}
