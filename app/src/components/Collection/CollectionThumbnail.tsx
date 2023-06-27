@@ -14,18 +14,20 @@ export const CollectionThumbnail = ({
 }: CollectionThumbnailProps) => {
   const to = `/collections/${collection.handle}`
   return (
-    <Link href="/collections/[collectionSlug]" as={to}>
-      <a aria-label={'Link to ' + collection.title + ' collection'}>
-        <ImageWrapper>
-          <Image image={collection?.sourceData?.image} ratio={1} />
-        </ImageWrapper>
-        <TextWrapper>
-          <Heading level={4}>{collection.title}</Heading>
-          {collection.products && collection.products.length ? (
-            <Heading level={6}>{collection.products.length} items</Heading>
-          ) : null}
-        </TextWrapper>
-      </a>
+    <Link
+      href="/collections/[collectionSlug]"
+      as={to}
+      aria-label={'Link to ' + collection.title + ' collection'}
+    >
+      <ImageWrapper>
+        <Image image={collection?.sourceData?.image} ratio={1} />
+      </ImageWrapper>
+      <TextWrapper>
+        <Heading level={4}>{collection.title}</Heading>
+        {collection.products && collection.products.length ? (
+          <Heading level={6}>{collection.products.length} items</Heading>
+        ) : null}
+      </TextWrapper>
     </Link>
   )
 }

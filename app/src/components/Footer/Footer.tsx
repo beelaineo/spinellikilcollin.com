@@ -87,9 +87,7 @@ export const Footer = () => {
             <HomepageLink isMobile={false}>
               <Heading m={0} level={4}>
                 <Link href="/">
-                  <a>
-                    → <em>Return</em> to the Homepage
-                  </a>
+                  → <em>Return</em> to the Homepage
                 </Link>
               </Heading>
             </HomepageLink>
@@ -99,9 +97,7 @@ export const Footer = () => {
           <HomepageLink isMobile={true}>
             <Heading m={0} level={4}>
               <Link href="/">
-                <a>
-                  → <em>Return</em> to the Homepage
-                </a>
+                → <em>Return</em> to the Homepage
               </Link>
             </Heading>
           </HomepageLink>
@@ -180,8 +176,8 @@ export const Footer = () => {
           </FooterNav>
           <Heading m={0} level={5} fontWeight={1} textTransform="uppercase">
             © {currentYear}{' '}
-            <Link href="/">
-              <a aria-label="Spinelli Kilcollin homepage">Spinelli Kilcollin</a>
+            <Link href="/" aria-label="Spinelli Kilcollin homepage">
+              Spinelli Kilcollin
             </Link>
           </Heading>
         </FooterMenuWrapper>

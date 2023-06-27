@@ -88,12 +88,11 @@ export const Navigation = () => {
             open={false}
             colorTheme={colorTheme}
           />
-
+          
           <LogoWrapper colorTheme={colorTheme}>
-            <Link href="/" as="/">
-              <a aria-label="Link to homepage">
-                <Logotype />
-              </a>
+            <Link href="/" as="/" aria-label="Link to homepage">     
+              <Logotype />
+
             </Link>
           </LogoWrapper>
           <ToolsWrapper>

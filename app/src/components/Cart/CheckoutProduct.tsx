@@ -188,25 +188,29 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
 
   return (
     <CheckoutProductWrapper>
-      <Link href="/products/[productSlug]" as={linkAs}>
-        <a aria-label={'Link to ' + displayTitle(title, variant)}>
-          <Image image={variant.image} />
-        </a>
+      <Link
+        href="/products/[productSlug]"
+        as={linkAs}
+        aria-label={'Link to ' + displayTitle(title, variant)}
+      >
+        <Image image={variant.image} />
       </Link>
       <CheckoutItemDetails>
         <div>
-          <Link href="/products/[productSlug]" as={linkAs}>
-            <a aria-label={'Link to ' + displayTitle(title, variant)}>
-              <Heading
-                level={5}
-                weight={2}
-                mb={0}
-                mt={0}
-                textTransform="uppercase"
-              >
-                {displayTitle(title, variant)}
-              </Heading>
-            </a>
+          <Link
+            href="/products/[productSlug]"
+            as={linkAs}
+            aria-label={'Link to ' + displayTitle(title, variant)}
+          >
+            <Heading
+              level={5}
+              weight={2}
+              mb={0}
+              mt={0}
+              textTransform="uppercase"
+            >
+              {displayTitle(title, variant)}
+            </Heading>
           </Link>
           <Heading level={5} weight={2} mb={0} mt={0} textTransform="uppercase">
             <Price price={variant.priceV2} />
