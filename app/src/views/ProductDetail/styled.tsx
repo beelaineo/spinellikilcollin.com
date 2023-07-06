@@ -1,9 +1,14 @@
 import styled, { css } from '@xstyled/styled-components'
+import { ShopifyProduct } from '../../types'
 import {
   CarouselContainer,
   SlidesContainer,
   DotsInner,
 } from '../../components/Carousel/styled'
+
+interface WithProduct {
+  product?: ShopifyProduct
+}
 
 export const Wrapper = styled.div`
   position: relative;
@@ -13,7 +18,7 @@ export const Wrapper = styled.div`
   background-color: body.2;
 `
 
-export const ProductPageWrapper = styled.div`
+export const ProductPageWrapper = styled.main`
   ${({ theme }) => css`
     padding: 0;
 
@@ -45,8 +50,8 @@ export const ProductDetails = styled.div`
   `}
 `
 
-export const InfoWrapper = styled.div`
-  ${({ theme }) => css`
+export const InfoWrapper = styled.div<WithProduct>`
+  ${({ product, theme }) => css`
     height: 100%;
     display: flex;
     padding: 190px 0 9 0;
@@ -54,11 +59,17 @@ export const InfoWrapper = styled.div`
     justify-content: flex-start;
 
     ${theme.mediaQueries.tablet} {
-      padding: 9 81px 7;
+      padding: ${product?.sourceData?.productType === 'Gift Card'
+        ? '0 81px 7'
+        : '9 81px 7'};
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 6 0 7;
+      height: 100%;
+      display: block;
+      padding: ${product?.sourceData?.productType === 'Gift Card'
+        ? '0 0 7'
+        : '6 0 7'};
     }
   `}
 `
@@ -73,16 +84,33 @@ export const AffirmWrapper = styled.div`
       max-width: small;
       text-align: center;
     }
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom(0, 6)}
+      }
+    }
   `}
 `
 
-export const TitleWrapper = styled.div`
-  ${({ theme }) => css`
+export const TitleWrapper = styled.div<WithProduct>`
+  ${({ product, theme }) => css`
+    & > em {
+      display: block;
+      margin-bottom: 3;
+    }
     ${theme.mediaQueries.tablet} {
       text-align: center;
       grid-row: 1;
-      margin-top: -2;
-      margin-bottom: 0;
+      margin-top: ${product?.sourceData?.productType === 'Gift Card'
+        ? '0'
+        : '-2'};
+      margin-bottom: ${product?.sourceData?.productType === 'Gift Card'
+        ? '4'
+        : '0'};
+      & > em {
+        margin-bottom: 2;
+      }
     }
   `}
 `
@@ -111,6 +139,7 @@ export const ProductImagesWrapper = styled.div`
     justify-content: flex-start;
     flex-direction: column;
     padding-right: 9;
+    padding-top: ${theme.navHeight};
 
     ${theme.mediaQueries.desktop} {
       padding-right: 0;
@@ -124,9 +153,52 @@ export const ProductImagesWrapper = styled.div`
 
 export const ProductAccordionsWrapper = styled.div`
   ${({ theme }) => css`
+    flex-direction: column;
+    display: flex;
     margin-top: 5;
+
+    ul,
+    ol,
+    li {
+      white-space: normal;
+    }
+    p {
+      font-weight: 300;
+    }
     ${theme.mediaQueries.tablet} {
       margin-top: 4;
+    }
+  `}
+`
+
+export const RingToolsWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 0 4 0;
+
+    gap: 4;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    button {
+      min-width: 116px;
+      justify-content: flex-start;
+
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
+    }
+
+    ${theme.mediaQueries.tablet} {
+      order: -1;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      row-gap: 0;
     }
   `}
 `
@@ -143,13 +215,20 @@ export const Nav = styled.div`
   font-family: sans;
 `
 
-export const ProductGalleryWrapper = styled.div`
-  ${({ theme }) => css`
+interface WithProductHide {
+  product?: ShopifyProduct
+  hide?: boolean
+}
+
+export const ProductGalleryWrapper = styled.div<WithProductHide>`
+  ${({ product, hide, theme }) => css`
+    display: ${hide ? 'none' : 'block'};
     position: sticky;
     top: 0;
 
     ${theme.mediaQueries.tablet} {
       position: relative;
+      order: ${product?.sourceData?.productType === 'Gift Card' ? '-1' : '0'};
     }
   `}
 `
@@ -163,7 +242,6 @@ export const Thumbnails = styled.div`
 
 export const DesktopWrapper = styled.div`
   ${({ theme }) => css`
-    padding-top: ${theme.navHeight};
     ${theme.mediaQueries.tablet} {
       display: none;
     }
@@ -190,6 +268,7 @@ export const MobileWrapper = styled.div`
     }
 
     ${theme.mediaQueries.mobile} {
+      margin: 5 -7 2;
       ${DotsInner} {
         margin: auto;
       }
@@ -197,11 +276,7 @@ export const MobileWrapper = styled.div`
   `}
 `
 export const MainImage = styled.div`
-  ${({ theme }) => css`
-    ${theme.mediaQueries.tablet} {
-      display: none;
-    }
-  `}
+  ${({ theme }) => css``}
 `
 
 export const ThumbnailButton = styled.div`
@@ -222,6 +297,14 @@ export const ProductRelatedWrapper = styled.div`
   ${({ theme }) => css`
     background-color: body.0;
     padding: 7 0;
+
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
+    }
+
     ${theme.mediaQueries.mobile} {
       padding: 7 0;
     }

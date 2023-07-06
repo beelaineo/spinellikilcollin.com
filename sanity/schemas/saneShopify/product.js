@@ -24,6 +24,25 @@ export const productOptionValue = {
       name: 'swatch',
       type: 'image',
     },
+    {
+      title: 'Hover Image',
+      name: 'hover_image',
+      type: 'image',
+    },
+    {
+      title: 'Variant Animation',
+      description: 'Cloudinary Video ID (looping render)',
+      name: 'animation',
+      type: 'string',
+    },
+    {
+      title: 'Stone',
+      name: 'stone',
+      type: 'reference',
+      description: 'If Karat swatch, link to associated stone.',
+      weak: true,
+      to: [{ type: 'stone' }],
+    },
   ],
   preview: {
     select: {
@@ -48,6 +67,35 @@ export const product = {
       type: 'boolean',
       description:
         'Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL',
+    },
+    {
+      title: 'Show in Collection',
+      name: 'showInCollection',
+      type: 'reference',
+      description: 'Always show product in specified collection.',
+      weak: true,
+      to: [{ type: 'shopifyCollection' }],
+    },
+    {
+      title: 'Show in Collections',
+      name: 'showInCollections',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          description: 'Always show product in specified collections.',
+          weak: true,
+          to: [{ type: 'shopifyCollection' }],
+        },
+      ],
+    },
+    {
+      title: 'Initial Variant (by Collection)',
+      name: 'initialVariantSelections',
+      type: 'array',
+      description:
+        "Choose initial variant to show based on the product's parent collection.",
+      of: [{ type: 'initialVariantSelection' }],
     },
     {
       title: 'Hide from Search',

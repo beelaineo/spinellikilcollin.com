@@ -22,26 +22,35 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
     : linkedPage
     ? getPageLinkUrl(linkedPage).href
     : null
+
+  const onQuizClick = () => {
+    if (
+      window &&
+      // @ts-ignore
+      window?.HubSpotConversations?.widget
+    ) {
+      // @ts-ignore
+      window.HubSpotConversations.widget.open()
+    }
+  }
   if (!linkHref) return null
-  return (
-    <PageLinkWrapper>
-      {image ? (
-        <ImageWrapper isOdd={Boolean(index % 2)}>
-          <Link href={linkHref}>
-            <a>
+  if (href == '/customize/quiz') {
+    return (
+      <PageLinkWrapper>
+        {image ? (
+          <ImageWrapper isOdd={Boolean(index % 2)}>
+            <a aria-label={'Link to ' + title} onClick={() => onQuizClick()}>
               <Image
                 image={image}
                 ratio={0.75}
                 sizes="(min-width: 600px) 100vw, 600px"
               />
             </a>
-          </Link>
-        </ImageWrapper>
-      ) : null}
+          </ImageWrapper>
+        ) : null}
 
-      <PageLinkBody isOdd={Boolean(index % 2)}>
-        <Link href={linkHref}>
-          <a>
+        <PageLinkBody isOdd={Boolean(index % 2)}>
+          <a onClick={() => onQuizClick()}>
             <Heading mb={0} level={2}>
               {title}
             </Heading>
@@ -71,8 +80,61 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
               )
             ) : null}
           </a>
-        </Link>
-      </PageLinkBody>
-    </PageLinkWrapper>
-  )
+        </PageLinkBody>
+      </PageLinkWrapper>
+    )
+  } else {
+    return (
+      <PageLinkWrapper>
+        {image ? (
+          <ImageWrapper isOdd={Boolean(index % 2)}>
+            <Link href={linkHref}>
+              <a aria-label={'Link to ' + title}>
+                <Image
+                  image={image}
+                  ratio={0.75}
+                  sizes="(min-width: 600px) 100vw, 600px"
+                />
+              </a>
+            </Link>
+          </ImageWrapper>
+        ) : null}
+
+        <PageLinkBody isOdd={Boolean(index % 2)}>
+          <Link href={linkHref}>
+            <a>
+              <Heading mb={0} level={2}>
+                {title}
+              </Heading>
+              <Heading
+                maxWidth="450px"
+                my={3}
+                mx="auto"
+                textAlign="center"
+                level={3}
+              >
+                {summary}
+              </Heading>
+              {ctaText ? (
+                ctaType === 'button' ? (
+                  <Button level={2} as="div">
+                    {ctaText}
+                  </Button>
+                ) : (
+                  <Heading
+                    mb="-5px"
+                    level={4}
+                    fontStyle="italic"
+                    textDecoration="underline"
+                  >
+                    {ctaText}
+                  </Heading>
+                )
+              ) : null}
+            </a>
+          </Link>
+        </PageLinkBody>
+      </PageLinkWrapper>
+    )
+  }
 }

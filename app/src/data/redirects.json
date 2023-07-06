@@ -12,10 +12,6 @@
     "to": "/products/venus-test?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTYyMDE5MzE1NzIxOA%3D%3D"
   },
   {
-    "from": "/products/orion",
-    "to": "/products/orion-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTQ2NDY2NjM5ODgxOA%3D%3D"
-  },
-  {
     "from": "/products/raneth-silver-1",
     "to": "/products/raneth-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU4Nzg4NDE3MTM2Mg%3D%3D"
   },
@@ -26,10 +22,6 @@
   {
     "from": "/products/akoya-ara-yg-bloom-hoops",
     "to": "/products/akoya-ara-bloom?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTYwOTE0MzYyMzc3OA%3D%3D"
-  },
-  {
-    "from": "/products/venus",
-    "to": "/products/venus-test?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTYyMDE5NDg5MzkyMg%3D%3D"
   },
   {
     "from": "/products/aurora-mx-v",
@@ -301,7 +293,7 @@
   },
   {
     "from": "/products/libra-noir",
-    "to": "/products/libra-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
+    "to": "/products/libra?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
   },
   {
     "from": "/collections/from-the-vault",
@@ -341,7 +333,7 @@
   },
   {
     "from": "/products/libra-bg-v",
-    "to": "/products/libra-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
+    "to": "/products/libra?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
   },
   {
     "from": "/products/anaka-pearl-yg",
@@ -453,7 +445,7 @@
   },
   {
     "from": "/collections/stellar-collection/products/libra-rose",
-    "to": "/products/libra-1?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
+    "to": "/products/libra?v=Z2lkOi8vc2hvcGlmeS9Qcm9kdWN0VmFyaWFudC8zMTU5OTE4MjgwNzEzOA%3D%3D"
   },
   {
     "from": "/products/gemini-ex",
@@ -522,10 +514,6 @@
   {
     "from": "/collections/necklaces",
     "to": "/collections/chains"
-  },
-  {
-    "from": "/products/orbit-chain-bracelet",
-    "to": "/collections/bracelets"
   },
   {
     "from": "/products/sonny-max-mx-v",

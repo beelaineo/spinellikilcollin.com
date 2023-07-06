@@ -1,4 +1,7 @@
 !.vscode
+*.code-workspace
+.DS_Store
+.vscode/tasks.json
 
 node_modules
 build
@@ -13,6 +16,14 @@ sanity/dist
 yarn-error.log
 .now
 .env*
+
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 *.tar.gz
 production-export*

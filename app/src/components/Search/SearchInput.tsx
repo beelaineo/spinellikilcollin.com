@@ -15,7 +15,7 @@ export const SearchInput = () => {
   }
 
   useEffect(() => {
-    // if (open && inputRef.current) inputRef.current.focus()
+    if (open && inputRef.current) inputRef.current.focus()
   }, [open])
 
   return (
@@ -23,9 +23,11 @@ export const SearchInput = () => {
       <SearchForm disabled={loading} onSubmit={handleSubmit}>
         <StyledSearchInput
           name="searchTerm"
+          aria-label="search term"
           value={searchTerm}
           onChange={setSearchTerm}
           ref={inputRef}
+          autoFocus
         />
         <Button level={1} disabled={loading} type="submit">
           Search

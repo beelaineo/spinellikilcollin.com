@@ -1,9 +1,11 @@
 import * as React from 'react'
 import Head from 'next/head'
-import { useShopData } from '../providers'
+import Script from 'next/script'
+import { CurrentProductProvider, useShopData } from '../providers'
 import {
   ShopifySourceImage,
   ShopifyProduct,
+  ShopifyProductVariant,
   RichImage,
   Image,
   Maybe,
@@ -11,7 +13,7 @@ import {
 } from '../types'
 import { definitely, getProductIdLocationSearch } from '../utils'
 
-type ImageType = Image | RichImage | ShopifySourceImage
+type ImageType = Image | RichImage | ShopifySourceImage | null
 
 type DefaultSeo = {
   title?: string | null
@@ -25,16 +27,87 @@ interface SEOProps {
   path: string
   contentType?: string
   product?: ShopifyProduct
+  hidden?: Maybe<boolean>
+  currentVariant?: ShopifyProductVariant
 }
 
 const BASE_URL = 'https://www.spinellikilcollin.com'
 
-interface ProductSEOProps {
-  product: ShopifyProduct
+interface HomeSEOProps {
+  defaultSeo: DefaultSeo
+  phone?: Maybe<string>
+}
+interface ContactSEOProps {
   defaultSeo: DefaultSeo
 }
 
-const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
+interface AboutSEOProps {
+  defaultSeo: DefaultSeo
+}
+
+interface ProductSEOProps {
+  product: ShopifyProduct
+  defaultSeo: DefaultSeo
+  currentVariant?: ShopifyProductVariant
+}
+
+const ContactSEO = ({ defaultSeo }: ContactSEOProps) => {
+  const { description, image } = defaultSeo
+  const ldJson = {
+    '@type': 'ContactPage',
+    '@context': 'http://schema.org',
+    description: description,
+    image: getImageUrl(image),
+  }
+  return (
+    <Script
+      id="contact-ldjson"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+    />
+  )
+}
+
+const AboutSEO = ({ defaultSeo }: AboutSEOProps) => {
+  const { description, image } = defaultSeo
+  const ldJson = {
+    '@type': 'aboutPage',
+    '@context': 'http://schema.org',
+    description: description,
+    image: getImageUrl(image),
+  }
+  return (
+    <Script
+      id="about-ldjson"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+    />
+  )
+}
+
+const HomeSEO = ({ defaultSeo, phone }: HomeSEOProps) => {
+  const { description } = defaultSeo
+  const ldJson = {
+    '@type': 'Corporation',
+    '@context': 'http://schema.org',
+    name: 'Spinelli Kilcollin',
+    description: description,
+    telephone: phone ? phone : '',
+  }
+  return (
+    <Script
+      id="home-ldjson"
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
+    />
+  )
+}
+
+const ProductSEO = ({
+  product,
+  currentVariant,
+  defaultSeo,
+}: ProductSEOProps) => {
   const { minVariantPrice } = product
   const formattedPrice = minVariantPrice
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
@@ -44,8 +117,14 @@ const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
 
   const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
   let id, imageSrc
+  const vendor = product?.sourceData?.vendor
   const description = product?.sourceData?.description
   const productType = product?.sourceData?.productType
+  const sku = currentVariant?.sourceData?.sku
+  const variantPrice =
+    currentVariant?.sourceData?.compareAtPriceV2?.amount !== '0'
+      ? currentVariant?.sourceData?.compareAtPriceV2?.amount
+      : currentVariant?.sourceData?.priceV2?.amount
 
   if (typeof window !== 'undefined' && window.location.search) {
     const productId = getProductIdLocationSearch(window.location.search)
@@ -65,24 +144,38 @@ const ProductSEO = ({ product, defaultSeo }: ProductSEOProps) => {
     '@context': 'http://schema.org/',
     name: defaultSeo.title,
     description: description,
-    brand: { '@type': productType },
+    brand: {
+      name: 'Spinelli Kilcollin',
+    },
     image: imageSrc ? imageSrc : '',
+    productID: id,
+    sku: sku ? sku : '',
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'USD',
+      price: variantPrice,
+      itemCondition: 'http://schema.org/NewCondition',
+      availability: 'http://schema.org/InStock',
+    },
   }
 
   return (
-    <Head>
-      <meta property="og:availability" content={availability} />
-      <meta property="og:description" content={description || undefined} />
-      <meta property="og:id" content={id || undefined} />
-      <meta property="product:price:amount" content={formattedPrice} />
-      <meta property="product:price:currency" content="USD" />
-      <meta property="og:price:amount" content={formattedPrice} />
-      <meta property="og:price:currency" content="USD" />
-      <script
+    <>
+      <Head>
+        <meta property="og:availability" content={availability} />
+        <meta property="og:description" content={description || undefined} />
+        <meta property="og:id" content={id || undefined} />
+        <meta property="product:price:amount" content={formattedPrice} />
+        <meta property="product:price:currency" content="USD" />
+        <meta property="og:price:amount" content={formattedPrice} />
+        <meta property="og:price:currency" content="USD" />
+      </Head>
+      <Script
+        id="product-ldjson"
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(ldJson) }}
       />
-    </Head>
+    </>
   )
 }
 
@@ -124,6 +217,8 @@ export const SEO = ({
   defaultSeo,
   contentType,
   product,
+  currentVariant,
+  hidden,
 }: SEOProps) => {
   if (!defaultSeo.title) throw new Error('No default title was supplied')
   const { siteSettings } = useShopData()
@@ -149,7 +244,11 @@ export const SEO = ({
         <meta property="og:image_secure_url" content={imageUrl || undefined} />
         <meta property="og:type" content={contentType || 'website'} />
         <meta property="og:url" content={canonical} />
-        <meta name="robots" content="index, follow" />
+        {hidden === true ? (
+          <meta name="robots" content="noindex" />
+        ) : (
+          <meta name="robots" content="index, follow" />
+        )}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content={metaTitle || title || undefined} />
         <meta name="twitter:description" content={description || undefined} />
@@ -157,8 +256,22 @@ export const SEO = ({
         <link rel="canonical" href={canonical} />
       </Head>
 
+      {contentType === 'homepage' ? (
+        <HomeSEO defaultSeo={defaultSeo} phone={siteSettings?.phone} />
+      ) : null}
+
+      {contentType === 'about' ? <AboutSEO defaultSeo={defaultSeo} /> : null}
+
+      {contentType === 'contact' ? (
+        <ContactSEO defaultSeo={defaultSeo} />
+      ) : null}
+
       {contentType === 'product' && product ? (
-        <ProductSEO product={product} defaultSeo={defaultSeo} />
+        <ProductSEO
+          product={product}
+          defaultSeo={defaultSeo}
+          currentVariant={currentVariant}
+        />
       ) : null}
     </>
   )

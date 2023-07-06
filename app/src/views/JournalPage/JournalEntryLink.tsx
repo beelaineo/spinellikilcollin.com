@@ -68,6 +68,10 @@ const Wrapper = styled.divBox<WrapperProps>`
           text-align: center;
           max-width: 800px;
           padding-bottom: 8;
+
+          a {
+            margin: 0 auto;
+          }
         `
       : css`
           display: grid;
@@ -79,6 +83,16 @@ const Wrapper = styled.divBox<WrapperProps>`
 
     & + & {
       border-top: 1px solid;
+    }
+
+    a {
+      width: fit-content;
+      height: fit-content;
+
+      &:focus-visible {
+        ${theme.focus.bottom(0, -2)}
+        position: relative;
+      }
     }
 
     ${theme.mediaQueries.tablet} {
@@ -129,7 +143,7 @@ export const JournalEntryLink = ({
         <ImageContainer featured={featured}>
           <ImagePadding featured={featured} />
           <Link href={href} as={as}>
-            <a>
+            <a tabIndex={-1} aria-label={'Link to journal entry ' + title}>
               <Image image={thumbnail} />
             </a>
           </Link>
@@ -139,7 +153,7 @@ export const JournalEntryLink = ({
         {title}
       </Heading>
       <Link href={href} as={as}>
-        <a>
+        <a aria-label={'Link to read more of ' + title}>
           <Heading level={5} fontStyle="italic" textDecoration="underline">
             Read More
           </Heading>

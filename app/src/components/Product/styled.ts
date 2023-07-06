@@ -5,27 +5,41 @@ interface BackgroundImageProps {
 }
 
 export const ProductThumb = styled.div`
-  text-align: left;
-  width: 100%;
-  a {
-    text-decoration: none;
+  ${({ theme }) => css`
+    position: relative;
+    text-align: left;
+    width: 100%;
+    a {
+      text-decoration: none;
 
-    &:hover {
-      color: body.8;
+      &:focus-visible {
+        ${theme.focus.bottom(-50, -2)}
+      }
+      &:hover {
+        color: body.8;
+      }
     }
-  }
+
+    ${theme.mediaQueries.mobile} {
+      a:focus-visible {
+        ${theme.focus.bottom(-50, 12)}
+      }
+    }
+  `}
 `
 
 interface WithDisplayGrid {
   displayGrid?: boolean
+  hover?: boolean
 }
 
 export const ProductInfo = styled.div<WithDisplayGrid>`
-  ${({ theme, displayGrid }) => css`
+  ${({ theme, displayGrid, hover }) => css`
     padding: 3 0 5;
     text-align: center;
     text-transform: capitalize;
     color: body.7;
+    z-index: 1;
     ${displayGrid
       ? css`
           display: grid;
@@ -41,15 +55,83 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
       font-size: 16px;
     }
 
+    & > *:first-child,
+    & > *:nth-child(2) {
+      opacity: ${hover ? 0 : 1};
+    }
+
     ${theme.mediaQueries.mobile} {
       margin-top: 3;
-      padding: 0 0 4;
+      padding: 0px;
+      grid-row-gap: 1;
+      h3 {
+        font-size: ${theme.mobileFontSizes[5]};
+      }
+      h5 {
+        font-size: ${theme.mobileFontSizes[6]};
+      }
     }
   `}
 `
 
-export const ImageWrapper = styled.div`
-  position: relative;
+interface WithHide {
+  hide?: boolean
+  hover?: boolean
+}
+
+export const ImageWrapper = styled.div<WithHide>`
+  ${({ theme, hide, hover }) => css`
+    position: relative;
+    display: ${hide ? 'none' : 'flex'};
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  `}
+`
+
+export const HoverArea = styled.span`
+  position: absolute;
+  width: 87%;
+  height: 69%;
+  top: 6.5%;
+  left: 6.5%;
+  z-index: 1;
+  opacity: 0;
+`
+
+export const HoverThumb = styled.img`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`
+
+export const HoverThumbWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+`
+
+interface WithHideCarousel {
+  hide?: boolean
+  carousel?: boolean
+  hover?: boolean
+}
+
+export const VideoWrapper = styled.div<WithHideCarousel>`
+  ${({ theme, hide, carousel, hover }) => css`
+    position: relative;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    video {
+      transform: translate(0, 0);
+    }
+  `}
 `
 
 export const TagBadgeWrapper = styled.div`
@@ -60,22 +142,34 @@ export const TagBadgeWrapper = styled.div`
 `
 
 export const TagBadge = styled.div`
-  border: 1px solid;
-  border-color: body.6;
-  border-radius: 20px;
-  margin: 0 1;
-  height: 19px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1px 3 0;
+  ${({ theme }) => css`
+    border: 1px solid;
+    border-color: body.6;
+    border-radius: 20px;
+    margin: 0 1;
+    height: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1px 3 0;
+
+    ${theme.mediaQueries.mobile} {
+      height: unset;
+    }
+  `}
 `
 
 export const SwatchesWrapper = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 2;
+  ${({ theme }) => css`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2;
+
+    ${theme.mediaQueries.mobile} {
+      padding-bottom: 8px;
+    }
+  `}
 `
 
 export const SwatchLabel = styled.div`
@@ -95,7 +189,7 @@ interface WithClickable {
 }
 
 export const SwatchWrapper = styled.div<WithClickable>`
-  ${({ clickable, active }) => css`
+  ${({ theme, clickable, active }) => css`
     position: relative;
     width: 23px;
     margin: 0;
@@ -105,6 +199,12 @@ export const SwatchWrapper = styled.div<WithClickable>`
     border-bottom: ${active ? '1px solid' : 'none'};
     border-color: body.5;
 
+    img {
+      filter: drop-shadow(0.5px 0px 0px #f5f3f4)
+        drop-shadow(-0.5px 0px 0px #f5f3f4) drop-shadow(0px 0.5px 0px #f5f3f4)
+        drop-shadow(0px -0.5px 0px #f5f3f4);
+    }
+
     &:last-child {
       margin-right: 0;
     }
@@ -113,6 +213,14 @@ export const SwatchWrapper = styled.div<WithClickable>`
       ${SwatchLabel} {
         opacity: 1;
       }
+    }
+
+    &:focus-visible {
+      ${theme.focus.bottom()}
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding-bottom: 0px;
     }
   `}
 `

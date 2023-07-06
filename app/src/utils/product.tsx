@@ -1,4 +1,5 @@
 import { unwindEdges } from '@good-idea/unwind-edges'
+import { Sort } from '../constants'
 import {
   ShopifyProduct,
   ShopifyProductOptionValue,
@@ -9,11 +10,146 @@ import {
   ShopifyMoneyV2,
   Image,
 } from '../types'
-import { definitely } from '../utils'
+import { definitely } from './data'
 
 export interface SelectedProductOption {
   name: string
   currentValue: string
+}
+
+const variantOptions = {
+  metal: {
+    s: [
+      'Silver',
+      'silver',
+      'Core Silver',
+      'SG',
+      'Gris',
+      'Clara',
+      'Sirius Max MX',
+      'Sirius Max SG',
+      'Capricorn MX',
+      'Capricorn CCW',
+      'Cyllene MX',
+      'Acacia',
+      'Gemini',
+      'Libra',
+      'Cici MX',
+      'Aries SG',
+      'Aries Core Silver',
+      'Sagittarius',
+      'Leo MX',
+      'Leo Core',
+      'Nexus',
+      'Atlantis MX',
+      'Argo SG',
+      'Sirius SG Pavé',
+      'Janssen SG',
+    ],
+    yg: [
+      'Yellow Gold',
+      'yellow gold',
+      'YG',
+      'MX',
+      'Nexus',
+      'Vela Gold',
+      'Akoya Gold',
+      'Vega Gold',
+      'Sirius Max BG',
+      'Sirius Max MX',
+      'Sirius Max SG',
+      'Capricorn CCW',
+      'Libra MX',
+      'Libra',
+      'Sonny',
+      'Aries Core Gold',
+      'Sagittarius',
+      'Leo',
+      'Rhea',
+      'Casseus',
+      'Atlantis MX',
+      'Sirius SG Pavé',
+      'Janssen SG',
+    ],
+    rg: [
+      'Rose Gold',
+      'Rhea Gold',
+      'Aries Core Gold',
+      'Rhea MX',
+      'Capricorn MX',
+      'Solarium Gold',
+      'Solarium MX',
+      'Mercury MX',
+      'rose gold',
+      'Dua MX',
+      'Clara',
+      'RG',
+      'Rose',
+      'Acacia',
+      'Gemini SG',
+      'Libra MX',
+      'Sonny Gold',
+      'Sonny MX',
+      'Tigris MX Gris',
+      'Cici MX',
+      'Sagittarius MX',
+      'Leo',
+      'Casseus SP',
+      'Atlantis MX',
+      'Sirius SG Pavé',
+      'Acacia MX',
+      'Janssen MX',
+    ],
+    wg: [
+      'White Gold',
+      'Ceres Gold',
+      'white gold',
+      'Rhea MX',
+      'WG',
+      'Blanc',
+      'Sonny MX',
+    ],
+    bg: ['Black Gold', 'black gold', 'BG', 'Vega Gold'],
+    p: ['Platinum', 'platinum'],
+  },
+  stone: {
+    d: [
+      'Gris',
+      'Pavé',
+      'Sirius Max MX',
+      'Ovio',
+      'Sagittarius',
+      'Libra SP',
+      'Libra MX',
+      'Leo Blac',
+      'Scorpio SG',
+      'Sirius Max MX',
+      'Leo MX',
+      'Cancer Deux MX',
+      'Marigold',
+      'Sonny',
+      'Capricorn CCW',
+      'Janssen',
+    ],
+    am: [
+      'Aries Core Silver',
+      'Core',
+      'Sagittarius MX',
+      'Pisces SG',
+      'Scorpio SG',
+      'Cancer SG',
+      'Capricorn MX',
+      'Gemini SG',
+      'Aquarius YG',
+      'Libra SG Core',
+      'Atlantis MX Bracelet',
+      'Atlantis Silver Toggle Bracelet',
+      'Casseus SG',
+      'Sirius SG',
+    ],
+    g: ['Emerald', 'Petunia', 'Mini Mezzo'],
+    p: ['Pearl'],
+  },
 }
 
 export const isValidSwatchOption = (option: ShopifyProductOption): boolean =>
@@ -45,18 +181,33 @@ const optionHasVariant = (
   )
 }
 
+const optionHasAvailableVariant = (
+  variants: ShopifySourceProductVariant[],
+  optionName: string,
+  optionValue: ShopifyProductOptionValue,
+): boolean => {
+  const availableVariants = variants.filter((v) => v.selectedOptions)
+
+  return availableVariants.some((v) =>
+    definitely(v.selectedOptions).some(
+      (o) => o.name === optionName && o.value === optionValue.value,
+    ),
+  )
+}
+
 export const getValidProductOptions = (
   product: ShopifyProduct,
 ): ShopifyProductOption[] => {
   const options = definitely(product.options)
   const [variants] = unwindEdges(product?.sourceData?.variants)
+
   return options.map((option) => {
     const optionName = option?.name
     if (!optionName) {
       throw new Error('Option name was not supplied')
     }
     const values = definitely(option.values).filter((value) =>
-      optionHasVariant(variants, optionName, value),
+      optionHasAvailableVariant(variants, optionName, value),
     )
     return {
       ...option,
@@ -129,6 +280,25 @@ export const getVariantBySelectedOption = (
     )
   })
 
+/**
+ * Get the first variant that matches the selected options
+ */
+export const getVariantBySelectedOptions = (
+  variants: ShopifySourceProductVariant[],
+  currentOptions: any[],
+): ShopifySourceProductVariant | void =>
+  variants.find((variant) => {
+    if (!currentOptions) return
+    const { selectedOptions } = variant
+    return currentOptions.every((currentOption) =>
+      selectedOptions?.find(
+        (o) =>
+          o?.name === currentOption.name &&
+          o?.value === currentOption.currentValue,
+      ),
+    )
+  })
+
 export const getBestVariantByMatch = (
   variants: ShopifySourceProductVariant[],
   matches: string[],
@@ -137,6 +307,243 @@ export const getBestVariantByMatch = (
     matches.some((m) => v?.title?.includes(m)),
   )
   return bestVariant || variants[0]
+}
+
+export const getBestVariantBySort = (
+  variants: ShopifySourceProductVariant[],
+  sort?: Sort | null,
+  minVariantPrice?: number,
+  maxVariantPrice?: number,
+  initialVariant?: ShopifySourceProductVariant,
+): ShopifySourceProductVariant => {
+  if (sort == Sort.Default && initialVariant) return initialVariant
+
+  const bestVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+    if (sort == Sort.PriceAsc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == minVariantPrice)
+    } else if (sort == Sort.PriceDesc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == maxVariantPrice)
+    } else {
+      return undefined
+    }
+  })
+  return bestVariant || variants[0]
+}
+
+interface FilterProps {
+  name: string
+  value: string | boolean
+}
+
+export const getBestVariantByFilterMatch = (
+  variants: ShopifySourceProductVariant[],
+  filters: FilterProps[],
+  sort?: Sort | null,
+  minVariantPrice?: number,
+  maxVariantPrice?: number,
+  initialVariant?: ShopifySourceProductVariant,
+  minPrice?: number | null,
+  maxPrice?: number | null,
+): ShopifySourceProductVariant => {
+  const priceFilteredVariants = variants.filter((v) => {
+    if (!v?.priceV2?.amount) return false
+
+    const price = parseFloat(v.priceV2.amount)
+
+    if (!minPrice || !maxPrice) return false
+
+    return price >= minPrice && price <= maxPrice
+  })
+
+  const bestVariants = priceFilteredVariants.length
+    ? priceFilteredVariants
+    : variants
+
+  const bestColorVariant = bestVariants.find((v) => {
+    const colorMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'metal':
+          let keywords: string[] = []
+          switch (value) {
+            case 's':
+              keywords = variantOptions.metal.s
+              break
+            case 'yg':
+              keywords = variantOptions.metal.yg
+              break
+            case 'rg':
+              keywords = variantOptions.metal.rg
+              break
+            case 'wg':
+              keywords = variantOptions.metal.wg
+              break
+            case 'bg':
+              keywords = variantOptions.metal.bg
+              break
+            case 'p':
+              keywords = variantOptions.metal.p
+              break
+            default:
+              break
+          }
+          match = v?.selectedOptions?.some((o) =>
+            keywords.some((word) => {
+              if (o?.value?.includes(word)) {
+                return true
+              }
+            }),
+          )
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return colorMatches
+  })
+
+  const bestStoneVariant = bestVariants.find((v) => {
+    const stoneMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'stone':
+          let keywords: string[] = []
+          switch (value) {
+            case 'd':
+              keywords = variantOptions.stone.d
+              break
+            case 'am':
+              keywords = variantOptions.stone.am
+              break
+            case 'g':
+              keywords = variantOptions.stone.g
+              break
+            case 'p':
+              keywords = variantOptions.stone.p
+              break
+            default:
+              break
+          }
+          match = v?.selectedOptions?.some((o) =>
+            keywords.some((word) => {
+              if (o?.value?.includes(word)) {
+                return true
+              }
+            }),
+          )
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return stoneMatches
+  })
+
+  const inStockVariants = bestVariants.filter((v) => {
+    const stockMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'inventory':
+          if (value === true) match = !v?.currentlyNotInStock
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return stockMatches
+  })
+
+  const bestInStockColorVariant = inStockVariants.find((v) => {
+    const matchingPair = bestColorVariant?.selectedOptions?.filter((o1) =>
+      v.selectedOptions?.some((o2) => {
+        if (o2?.name === 'Color') {
+          return Boolean(o1?.value === o2?.value)
+        } else {
+          return false
+        }
+      }),
+    )
+    const variantMatchesColor = Boolean(
+      matchingPair && matchingPair?.length > 0,
+    )
+    return variantMatchesColor
+  })
+
+  const bestInStockStoneVariant = inStockVariants.find((v) => {
+    const matchingPair = bestStoneVariant?.selectedOptions?.filter((o1) =>
+      v.selectedOptions?.some((o2) => {
+        if (o2?.name === 'Color') {
+          return Boolean(o1?.value === o2?.value)
+        } else {
+          return false
+        }
+      }),
+    )
+    const variantMatchesStone = Boolean(
+      matchingPair && matchingPair?.length > 0,
+    )
+    return variantMatchesStone
+  })
+
+  const bestInStockVariant = inStockVariants.find((v) => {
+    const stockMatches = filters.some((m) => {
+      const { name, value } = m
+      let match: boolean | undefined = false
+      switch (name) {
+        case 'inventory':
+          if (value === true) match = !v?.currentlyNotInStock
+          break
+        default:
+          break
+      }
+      return match
+    })
+    return stockMatches
+  })
+
+  const bestSortVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+    if (sort == Sort.PriceAsc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == minVariantPrice)
+    } else if (sort == Sort.PriceDesc) {
+      const price = parseFloat(v.priceV2.amount)
+      return Boolean(price == maxVariantPrice)
+    } else {
+      return undefined
+    }
+  })
+
+  const bestPriceVariant = variants.find((v) => {
+    if (!v?.priceV2?.amount) return false
+
+    const price = parseFloat(v.priceV2.amount)
+
+    if (!minPrice || !maxPrice) return
+
+    if (price >= minPrice && price <= maxPrice) {
+      return true
+    } else return undefined
+  })
+
+  const bestMatches =
+    bestInStockColorVariant ||
+    bestInStockStoneVariant ||
+    bestInStockVariant ||
+    bestColorVariant ||
+    bestStoneVariant ||
+    bestPriceVariant
+
+  return bestMatches || variants[0]
 }
 
 export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
@@ -148,6 +555,7 @@ export const getVariantTitle = (
   product: ShopifyProduct,
   variant: ShopifyProductVariant | ShopifySourceProductVariant,
 ): string | null | undefined => {
+  if (product?.sourceData?.productType === 'Gift Card') return product?.title
   if (product?.variants?.length && product.variants.length < 2) {
     // If there is only one variant, its name will be "Default Title",
     // so we should return the product title instead.
@@ -159,6 +567,12 @@ export const getVariantTitle = (
       ? variant.sourceData
       : variant
 
+  const hasCarat = source?.selectedOptions?.some(
+    (option) => option?.name === 'Carat',
+  )
+  const hasColor = source?.selectedOptions?.some(
+    (option) => option?.name === 'Color',
+  )
   // Parse the product title by combining the selected option
   // values, omitting the "Size" option
   const titleByOptions = source?.selectedOptions?.length
@@ -170,6 +584,9 @@ export const getVariantTitle = (
         .filter(Boolean)
         .join(' | ')
     : undefined
+
+  if (titleByOptions?.length && hasCarat && !hasColor)
+    return product?.title + ' | ' + titleByOptions
 
   if (titleByOptions?.length) return titleByOptions
 
@@ -226,10 +643,17 @@ export const getProductUri = (
   const existingParams = matches && matches[1] ? matches[1] : undefined
   const newParams = new URLSearchParams(existingParams)
   const variantId = getVariantId(variant)
+  const convertedId =
+    variantId && /gid:\/\/shopify\//.test(variantId)
+      ? btoa(variantId)
+      : variantId
+  newParams.delete('stone')
+  newParams.delete('metal')
+  newParams.delete('pos')
   newParams.delete('search')
   newParams.delete('v')
-  if (variant && variantId) {
-    newParams.set('v', variantId)
+  if (variant && convertedId) {
+    newParams.set('v', convertedId)
   }
   if (params) {
     Object.entries(params).forEach(([k, v]) => newParams.set(k, v))
@@ -243,7 +667,7 @@ export const getProductUri = (
 const btoa = (str: string) => Buffer.from(str).toString('base64')
 const atob = (str: string) => Buffer.from(str, 'base64').toString('binary')
 
-type NodeType = 'Product' | 'Collection' | 'Order'
+type NodeType = 'Product' | 'Collection' | 'Order' | 'ProductVariant'
 
 /**
  * getStorefrontId
@@ -261,7 +685,9 @@ export const getStorefrontId = (
  * returns a numeric Shopify ID when given a storefrontId
  */
 export const getProductIdFromStorefrontId = (storefrontId: string): string => {
-  const converted = atob(storefrontId)
+  const converted = /gid:\/\/shopify\//.test(storefrontId)
+    ? storefrontId
+    : atob(storefrontId)
   if (!/gid:\/\/shopify\//.test(converted)) {
     throw new Error(`Converted ID "${converted}" is not a valid Shopify ID`)
   }

@@ -193,18 +193,48 @@ export const useSearchReducer = () => {
 
     startSearch(newSearchTerm)
     const term = searchTerm.trim()
+
+    const searchWithAdditionalMatches = (search) => {
+      const matches = {
+        rose: 'rg',
+        black: 'bg',
+        yellow: 'yg',
+      }
+
+      const additionalMatches = Object.entries(matches)
+        .map(([key, value]) => {
+          return search && search.includes(key) && value
+        })
+        .filter(Boolean)
+
+      return additionalMatches.length
+        ? search.concat(' ', additionalMatches.join(' '))
+        : search
+    }
+
+    const termWithMatches = searchWithAdditionalMatches(term)
+
     // const termSingular = term.replace(/s$/, '')
     // const params = { searchTerm: term, searchTermSingular: termSingular }
-    const { hits } = await algoliaIndex.search<SearchHit>(term, {
+    const { hits } = await algoliaIndex.search<SearchHit>(termWithMatches, {
       hitsPerPage: 100,
       typoTolerance: 'min',
       exactOnSingleWordQuery: 'word',
       filters: `hideFromSearch:false`,
     })
     const results = hits
-      .map((hit) => hit.document)
+      .map((hit) => {
+        const result = hit.document
+        // @ts-ignore
+        const optionDescriptions = hit?._highlightResult?.optionDescriptions
+        // @ts-ignore
+        const optionNames = hit?._highlightResult?.optionNames
+
+        return { ...result, matches: { optionDescriptions, optionNames } }
+      })
       .filter(Boolean)
       .filter((hit) => hit.hidden !== true)
+
     onSuccess(results || [])
   }
 

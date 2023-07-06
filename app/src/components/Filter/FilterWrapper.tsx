@@ -1,7 +1,13 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import { OpenButton, FilterSetWrapper } from './styled'
-import { PriceRangeFilter, FilterSet } from '../../types'
+import { FilterSetWrapper } from './styled'
+import {
+  Filter,
+  PriceRangeFilter,
+  FilterSet,
+  InventoryFilter,
+  Maybe,
+} from '../../types'
 
 const { useState } = React
 
@@ -12,19 +18,47 @@ interface WithOpen {
 interface WithType {
   type?: string
   rowSpan?: number
+  active: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
 const Wrapper = styled.div<WithType>`
-  ${({ theme, rowSpan, type }) => css`
+  ${({ theme, rowSpan, type, active, minimalDisplay }) => css`
     grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
+    ${minimalDisplay
+      ? css`
+          &:nth-child(1) > div > div > div {
+            margin-left: 0px;
+          }
+        `
+      : ''};
+
     ${theme.mediaQueries.tablet} {
-      grid-row: span 1;
     }
-    ${theme.mediaQueries.mobile} {
-      border-color: body.0;
-      border-bottom: 1px solid;
+    @media screen and (max-width: 960px) {
+      flex: ${minimalDisplay ? '0' : '49%'};
+      flex-grow: 0;
+      &:nth-last-child(2) {
+        min-width: unset;
+      }
+
+      ${minimalDisplay
+        ? css`
+            &:nth-child(1) > div > div > div {
+              margin-left: 0px;
+            }
+          `
+        : ''};
+
+      ${active && type !== 'InventoryFilter'
+        ? css`
+            flex: ${minimalDisplay ? '0' : '100%'};
+            order: ${minimalDisplay ? 'unset' : '-1'};
+            margin-bottom: ${minimalDisplay ? 'auto' : '4'};
+          `
+        : ''};
     }
 
     &:last-of-type {
@@ -43,42 +77,10 @@ const Wrapper = styled.div<WithType>`
   `}
 `
 
-const UpDown = styled.div<WithOpen>`
-  ${({ open }) => css`
-    width: 10px;
-    height: 10px;
-    border-color: currentColor;
-    border-top: 1px solid;
-    border-right: 1px solid;
-    transform: rotate(${open ? '-45deg' : '135deg'});
-    transform-origin: 50% 50%;
-    margin-right: 5px;
-  `}
-`
-
-const ButtonWrapper = styled.div`
-  ${({ theme }) => css`
-    display: none;
-
-    ${theme.mediaQueries.mobile} {
-      justify-content: space-between;
-      align-items: center;
-      display: flex;
-      padding: 0 0;
-    }
-  `}
-`
-
 const Inner = styled.div<WithOpen>`
-  ${({ theme, open }) => css`
-    ${theme.mediaQueries.mobile} {
-      display: ${open ? 'block' : 'none'};
-      padding-bottom: 4;
-
-      ${FilterSetWrapper} {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-      }
+  ${({ theme }) => css`
+    @media screen and (max-width: 960px) {
+      padding: 0;
     }
   `}
 `
@@ -87,7 +89,10 @@ interface FilterWrapperProps {
   heading?: string | null | void
   children: React.ReactNode
   type: string
-  filter: FilterSet | PriceRangeFilter
+  filter: Filter | FilterSet | PriceRangeFilter | InventoryFilter
+  onClick: () => void
+  active: boolean
+  minimalDisplay?: Maybe<boolean>
 }
 
 export const FilterWrapper = ({
@@ -95,10 +100,10 @@ export const FilterWrapper = ({
   heading,
   children,
   filter,
+  onClick,
+  active,
+  minimalDisplay,
 }: FilterWrapperProps) => {
-  const [open, setOpen] = useState(false)
-  const toggleOpen = () => setOpen(!open)
-
   const rowSpan =
     filter.__typename === 'FilterSet'
       ? filter && filter?.filters?.length
@@ -107,14 +112,14 @@ export const FilterWrapper = ({
       : undefined
 
   return (
-    <Wrapper rowSpan={rowSpan} type={type}>
-      <ButtonWrapper>
-        <OpenButton textTransform="upperCase" level={4} onClick={toggleOpen}>
-          {heading}
-          <UpDown open={open} />
-        </OpenButton>
-      </ButtonWrapper>
-      <Inner open={open}>{children}</Inner>
+    <Wrapper
+      rowSpan={rowSpan}
+      type={type}
+      onClick={onClick}
+      active={active}
+      minimalDisplay={minimalDisplay}
+    >
+      <Inner open={true}>{children}</Inner>
     </Wrapper>
   )
 }

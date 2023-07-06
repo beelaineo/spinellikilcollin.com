@@ -1,4 +1,5 @@
 import { Paginated } from '@good-idea/unwind-edges'
+// eslint-disable-next-line import/no-cycle
 import { Collection } from './collection'
 import { ShopifyImage } from './media'
 import { MoneyV2 } from './money'
@@ -11,6 +12,7 @@ interface SelectedOption {
 export interface Variant {
   id: string
   availableForSale: boolean
+  currentlyNotInStock: boolean
   image?: ShopifyImage
   priceV2: MoneyV2
   product?: Product

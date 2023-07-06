@@ -61,8 +61,8 @@ export const mailchimp: MailchimpService = {
       return {
         success: true,
       }
-    } catch (error) {
-      Sentry.captureException(error)
+    } catch (error: any | unknown) {
+      Sentry.captureException(error, 'mailchimp_error', { input })
       return {
         success: false,
         error,

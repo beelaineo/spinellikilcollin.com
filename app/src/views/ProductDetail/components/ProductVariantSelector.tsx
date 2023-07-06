@@ -3,8 +3,7 @@ import styled from '@xstyled/styled-components'
 import { Box } from '@xstyled/styled-components'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
-import { RingSizerButton } from './RingSizerButton'
-import { getValidProductOptions } from '../../../utils'
+import { getValidProductOptions, optionMatchesVariant } from '../../../utils'
 
 const OptionWrapper = styled.div`
   justify-content: space-between;
@@ -29,6 +28,7 @@ interface Props {
   variants: ShopifyProductVariant[] | null
   product: ShopifyProduct
   currentVariant: ShopifyProductVariant
+  disableStockIndication?: boolean
   changeValueForOption: (id: string) => (value: string) => void
 }
 
@@ -40,12 +40,19 @@ interface Props {
  */
 
 export const ProductVariantSelector = (props: Props) => {
-  const { variants, changeValueForOption, product, currentVariant } = props
+  const {
+    variants,
+    changeValueForOption,
+    product,
+    currentVariant,
+    disableStockIndication,
+  } = props
   if (!variants || !variants.length) return null
   const productType = product?.sourceData?.productType
   const { inquiryOnly } = product
 
   const options = getValidProductOptions(product)
+
   if (options.length < 1) return null
 
   return (
@@ -60,12 +67,12 @@ export const ProductVariantSelector = (props: Props) => {
               <ProductOptionSelector
                 changeValueForOption={changeValueForOption}
                 variants={variants}
+                product={product}
                 currentVariant={currentVariant}
                 option={option}
+                isInput={Boolean(productType === 'Gift Card')}
+                disableStockIndication={disableStockIndication}
               />
-              {productType === 'Ring' && option.name === 'Size' ? (
-                <RingSizerButton product={product} variant={currentVariant} />
-              ) : null}
             </OptionWrapper>
           ) : null,
         )}

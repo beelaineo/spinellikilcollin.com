@@ -33,6 +33,17 @@
 
 @font-face {
   font-family: 'Inferi';
+  font-weight: 200;
+  font-style: italic;
+  src: url('/static/fonts/Inferi-LightItalic.otf');
+  src: url('/static/fonts/Inferi-LightItalic.eot') format('embedded-opentype'),
+    url('/static/fonts/Inferi-LightItalic.woff2') format('woff2'),
+    url('/static/fonts/Inferi-LightItalic.woff') format('woff'),
+    url('/static/fonts/Inferi-LightItalic.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Inferi';
   font-weight: 300;
   font-style: italic;
   src: url('/static/fonts/Inferi-BookItalic.otf');

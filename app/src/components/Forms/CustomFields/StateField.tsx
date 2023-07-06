@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useFormikContext } from 'formik'
-import { FieldProps } from '../Fields'
+import { FieldProps } from '../Fields/types'
 import { Field } from '../Fields'
 import states from '../../../data/states.json'
 

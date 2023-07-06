@@ -17,7 +17,7 @@ export const JournalPage = ({ journalPage, entries }: JournalPageProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="journal" />
-      <PageWrapper px={{ xs: 4, lg: 7 }}>
+      <PageWrapper px={{ xs: 4, lg: 7 }} tabIndex={-1}>
         {entries.map((entry, index) => (
           <JournalEntryLink
             featured={index === 0}

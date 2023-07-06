@@ -35,6 +35,12 @@ export const GlobalStyles = createGlobalStyle`
   h6 { font-size: 6; }
 
   ${({ theme }) => css`
+    *:focus-visible {
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
+    }
+
     ${theme.mediaQueries.tablet} {
       h1 {
         font-size: ${theme.tabletFontSizes[1]};
@@ -78,6 +84,10 @@ export const GlobalStyles = createGlobalStyle`
         font-size: ${theme.mobileFontSizes[6]};
       }
     }
+
+    button {
+      color: ${theme.colors.body[8]};
+    }
   `}
 
 
@@ -91,23 +101,27 @@ export const GlobalStyles = createGlobalStyle`
 		line-height: normal;
 		padding: 0;
 		border-radius: 0;
-
+    
   }
 
 	img {
 		max-width: 100%;
 	}
 
-	button {
-		cursor: pointer;
+  button {
+    cursor: pointer;
     border: none;
     font-family: inherit;
     background-color: transparent;
-	}
+  }
 
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  .hbspt-form {
+    display: none !important;
   }
 
   ${hubspotStyles}

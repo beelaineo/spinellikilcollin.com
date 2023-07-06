@@ -1,3 +1,4 @@
+import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { ProductThumb, ProductInfo } from './styled'
 import { ProductThumbnail } from './ProductThumbnail'
@@ -6,12 +7,16 @@ import {
   ShopifyProduct,
   ShopifyCollection,
   CollectionBlock as CollectionBlockType,
+  FilterConfiguration,
 } from '../../types'
 import { CollectionThumbnail, CollectionBlock } from '../Collection'
+import { Sort } from '../Filter'
 import { definitely } from '../../utils'
+import { useRouter } from 'next/router'
 
 interface ProductGridWrapperProps {
   reduceColumnCount?: boolean | null
+  ref?: any
 }
 
 const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
@@ -41,6 +46,7 @@ const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
 
 interface WithFormat {
   format?: string | null
+  featured?: boolean | null
 }
 
 export const ProductGridItemPadding = styled.div<WithFormat>`
@@ -62,13 +68,17 @@ export const ProductGridItemPadding = styled.div<WithFormat>`
 `
 
 export const ProductGridItem = styled.div<WithFormat>`
-  ${({ theme, format }) => css`
+  ${({ theme, format, featured }) => css`
     grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
     grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     position: relative;
 
     ${theme.mediaQueries.tablet} {
-      grid-column: ${format === 'wide' ? 'span 2' : 'auto'};
+      grid-column: ${format === 'wide' && featured
+        ? 'span 1'
+        : format === 'wide' && !featured
+        ? 'span 2'
+        : 'auto'};
       grid-row: ${format === 'tall' ? 'span 2' : 'auto'};
     }
     ${theme.mediaQueries.mobile} {
@@ -93,19 +103,28 @@ export const ProductGridItem = styled.div<WithFormat>`
   `}
 `
 
-import * as React from 'react'
-
 interface ProductGridProps {
   items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
+  currentFilter?: FilterConfiguration | null
+  currentSort?: Sort | null
+  hideFilter?: boolean | null
   reduceColumnCount?: boolean | null
+  collectionId?: string | null
 }
 
 export const ProductGrid = ({
   preferredVariantMatches,
+  currentFilter,
+  currentSort,
+  hideFilter,
   items,
   reduceColumnCount,
+  collectionId,
 }: ProductGridProps) => {
+  const router = useRouter()
+  const featuredLayout = router.query.collectionSlug === '925-collection'
+
   return (
     <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
       {definitely(items).map((item) => {
@@ -114,6 +133,7 @@ export const ProductGrid = ({
             return (
               <ProductGridItem
                 format={item.format}
+                featured={featuredLayout}
                 key={item._key || 'some-key'}
               >
                 <ProductGridItemPadding format={item.format} />
@@ -129,6 +149,10 @@ export const ProductGrid = ({
                   displayPrice
                   imageRatio={1}
                   preferredVariantMatches={preferredVariantMatches}
+                  currentFilter={currentFilter}
+                  currentSort={currentSort}
+                  hideFilter={hideFilter}
+                  collectionId={collectionId}
                 />
               </ProductGridItem>
             )

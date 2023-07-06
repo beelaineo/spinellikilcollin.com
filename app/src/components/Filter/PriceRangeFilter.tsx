@@ -1,10 +1,19 @@
 import * as React from 'react'
 import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
-import { FilterSetState } from './reducer'
-import { PriceRangeFilterWrapper } from './styled'
+import { FilterSetState } from './types'
+import {
+  PriceRangeFilterWrapper,
+  HeadingWrapper,
+  Slider,
+  KnobHandle,
+  KnobDot,
+} from './styled'
 import { Span } from '../Text'
-import { HeadingWrapper, Slider, KnobHandle, KnobDot } from './styled'
 import { Label } from '../Forms/Fields/styled'
+import { theme } from '../../theme'
+import { useMedia } from '../../hooks'
+import { useRouter } from 'next/router'
+import { CountryCodeSelector } from '../Forms/CustomFields/PhoneField/CountryCodeSelector'
 
 const { useMemo, useEffect, useState } = React
 
@@ -28,10 +37,10 @@ const parsePriceString = (price: number): string => {
 
 interface KnobProps {
   position: number
-  amount: number
   upperLimit: number
   lowerLimit: number
   updatePosition: (pos: number) => void
+  scrollGridIntoView: () => void
   container?: HTMLDivElement | null
 }
 
@@ -41,12 +50,16 @@ const Knob = ({
   position,
   updatePosition,
   container,
+  scrollGridIntoView,
 }: KnobProps) => {
   const [mouseDown, setMouseDown] = useState(false)
 
   const handleMouseDown = () => setMouseDown(true)
 
-  const release = () => setMouseDown(false)
+  const release = () => {
+    setMouseDown(false)
+    scrollGridIntoView()
+  }
 
   const handleMouseMove = (e: MouseEvent | TouchEvent) => {
     const mouseX = 'touches' in e ? e.touches[0].clientX : e.clientX
@@ -95,7 +108,9 @@ interface PriceRangeFilterProps {
   filterSetState?: FilterSetState
   setValues: (matchKey: string, values: PriceRangeFilterValues) => void
   resetSet: () => void
+  scrollGridIntoView: () => void
   setKey: string
+  active: boolean
 }
 
 const getStep = (
@@ -112,6 +127,7 @@ const getSteps = (minPrice: number, maxPrice: number): number[] => {
     ...getStep(minPrice, 1000, 100),
     ...getStep(1000, Math.min(maxPrice, 9999), 500),
     ...getStep(10000, maxPrice, 1000),
+    maxPrice,
   ].reduce<number[]>((acc, i) => (acc.includes(i) ? acc : [...acc, i]), [])
   return steps
 }
@@ -119,21 +135,29 @@ const getSteps = (minPrice: number, maxPrice: number): number[] => {
 export function PriceRangeFilter({
   priceRangeFilter,
   filterSetState,
+  resetSet,
+  scrollGridIntoView,
   setValues,
+  active,
 }: PriceRangeFilterProps) {
   const { _key } = priceRangeFilter
+
   if (!filterSetState) return null
   const { minPrice: initialMinPrice, maxPrice: initialMaxPrice } =
     filterSetState.initialValues
   const { minPrice, maxPrice } = filterSetState.values
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
 
-  const [currentMinPrice, setCurrentMinPrice] = useState(
-    minPrice / initialMaxPrice,
-  )
+  const router = useRouter()
+
+  const [currentMinPrice, setCurrentMinPrice] = useState(100 / initialMaxPrice)
   const [currentMaxPrice, setCurrentMaxPrice] = useState(
     maxPrice / initialMaxPrice,
   )
+  const [applyFilter, setApplyFilter] = useState(false)
+  const [mouseEnter, setMouseEnter] = useState(false)
+  const handleMouseEnter = () => setMouseEnter(true)
+  const handleMouseLeave = () => setMouseEnter(false)
 
   const steps = useMemo(
     () => getSteps(initialMinPrice, initialMaxPrice),
@@ -145,6 +169,14 @@ export function PriceRangeFilter({
       Math.max(0, Math.min(steps.length - 1, steps.length * pos)),
     )
     return steps[index]
+  }
+
+  const getClosestIndex = (num: number) => {
+    const diffArr = steps.map((x) => Math.abs(num - x))
+    const minNumber = Math.min(...diffArr)
+    const index = diffArr.findIndex((x) => x === minNumber)
+
+    return index
   }
 
   if (minPrice === null || minPrice === undefined) {
@@ -163,6 +195,21 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
+    const resetUI = () => {
+      setApplyFilter(false)
+      updateMinPosition(0)
+      updateMaxPosition(1)
+    }
+    filterSetState.initialValues == filterSetState.values ? resetUI() : null
+  }, [filterSetState])
+
+  useEffect(() => {
+    setApplyFilter(
+      getClosestStep(currentMinPrice) == initialMinPrice &&
+        getClosestStep(currentMaxPrice) == initialMaxPrice
+        ? false
+        : true,
+    )
     const timeout = setTimeout(() => {
       setValues('', {
         minPrice: getClosestStep(currentMinPrice),
@@ -186,36 +233,68 @@ export function PriceRangeFilter({
   }
   const setContainer = (el: HTMLDivElement) => setContainerState(el)
 
-  const updateMinPosition = (pos: number) => setCurrentMinPrice(pos)
-  const updateMaxPosition = (pos: number) => setCurrentMaxPrice(pos)
+  const updateMinPosition = (pos: number) =>
+    setCurrentMinPrice(pos >= 1 ? 0 : pos)
+  const updateMaxPosition = (pos: number) =>
+    setCurrentMaxPrice(pos <= 0 ? 1 : pos)
+
+  const isMobile = useMedia({
+    maxWidth: `960px`,
+  })
+
+  const echoPriceString = () => {
+    return `${parsePriceString(
+      getClosestStep(currentMinPrice),
+    )}-${parsePriceString(getClosestStep(currentMaxPrice))}`
+  }
+
+  useEffect(() => {
+    if (!router.query.price) return
+
+    const range = (router?.query?.price as string)?.split(' ')
+
+    const minPos = getClosestIndex(parseFloat(range[0]))
+    const maxPos = getClosestIndex(parseFloat(range[1]))
+
+    updateMinPosition(minPos / steps.length)
+    updateMaxPosition(maxPos / steps.length)
+  }, [router.isReady])
 
   return (
-    <PriceRangeFilterWrapper>
+    <PriceRangeFilterWrapper
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      isApplied={applyFilter}
+    >
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>
           <Span textTransform="uppercase" mr={2} color="body.9">
-            Price Range:
+            Price:
           </Span>
-          From {parsePriceString(getClosestStep(currentMinPrice))} to{' '}
-          {parsePriceString(getClosestStep(currentMaxPrice))}
+          {echoPriceString()}
         </Label>
       </HeadingWrapper>
-      <Slider ref={setContainer}>
+      <Slider
+        ref={setContainer}
+        isHovered={
+          Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
+        }
+      >
         <Knob
-          amount={currentMinPrice}
           position={currentMinPrice}
           upperLimit={currentMaxPrice}
           lowerLimit={0}
           updatePosition={updateMinPosition}
           container={container}
+          scrollGridIntoView={scrollGridIntoView}
         />
         <Knob
-          amount={currentMaxPrice}
           position={currentMaxPrice}
           upperLimit={1}
           lowerLimit={currentMinPrice}
           updatePosition={updateMaxPosition}
           container={container}
+          scrollGridIntoView={scrollGridIntoView}
         />
       </Slider>
     </PriceRangeFilterWrapper>

@@ -61,6 +61,7 @@ interface ProductImagesProps {
   product: ShopifyProduct
   currentVariant: ShopifyProductVariant
   screen: string
+  hide?: boolean
 }
 
 const getKey = (image: ShopifySourceImage | RichImage): string => {
@@ -79,6 +80,7 @@ export const ProductImages = ({
   product,
   currentVariant,
   screen,
+  hide,
 }: ProductImagesProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
@@ -91,7 +93,7 @@ export const ProductImages = ({
   if (!images.length) return null
   const mainImage = images[currentImageIndex]
   return screen === 'desktop' ? (
-    <ProductGalleryWrapper>
+    <ProductGalleryWrapper hide={hide}>
       <DesktopWrapper>
         <MainImage>
           <Image ratio={1} image={mainImage} />
@@ -111,15 +113,11 @@ export const ProductImages = ({
       </DesktopWrapper>
     </ProductGalleryWrapper>
   ) : screen === 'mobile' ? (
-    <ProductGalleryWrapper>
+    <ProductGalleryWrapper product={product} hide={hide}>
       <MobileWrapper>
-        <CarouselProvider>
-          <ProductGalleryCarousel
-            images={images}
-            product={product}
-            currentVariant={currentVariant}
-          />
-        </CarouselProvider>
+        <MainImage>
+          <Image ratio={1} image={mainImage} />
+        </MainImage>
       </MobileWrapper>
     </ProductGalleryWrapper>
   ) : null

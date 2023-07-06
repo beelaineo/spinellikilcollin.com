@@ -5,7 +5,7 @@ interface WithHero {
 }
 
 /* padding: calc(${theme.space[8]}px + 4px) 6 7; */
-export const JournalPageWrapper = styled.div<WithHero>`
+export const JournalPageWrapper = styled.main<WithHero>`
   ${({ theme, withHero }) => css`
     padding: calc(${theme.navHeight} + ${theme.space[2]}px) 7 7;
 
@@ -51,6 +51,12 @@ export const LinkWrapper = styled.div`
       justify-content: flex-start;
       align-items: center;
     }
+
+    a:focus-visible {
+      ${theme.focus.bottom(0, 5)}
+      position: relative;
+    }
+
     svg {
       margin-right: 0.5em;
       height: 1em;

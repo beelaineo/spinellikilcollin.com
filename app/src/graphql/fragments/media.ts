@@ -19,6 +19,18 @@ export const sanityImageAssetFragment = gql`
     }
   }
 `
+export const sanityFileAssetFragment = gql`
+  fragment SanityFileAssetFragment on SanityFileAsset {
+    __typename
+    _id
+    _type
+    _key
+    label
+    extension
+    path
+    url
+  }
+`
 
 export const sanityImageFragment = gql`
   fragment SanityImageFragment on Image {

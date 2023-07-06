@@ -6,7 +6,7 @@ interface CartSidebarProps {
   open: boolean
 }
 
-export const CartSidebar = styled.div`
+export const CartSidebar = styled.aside`
   ${({ open }: CartSidebarProps) => css`
     position: fixed;
     z-index: cart;
@@ -91,9 +91,10 @@ export const CartInner = styled.div<CartInnerProps>`
     flex-grow: 1;
     max-width: calc(100vw + 1px);
     overflow: scroll;
-    padding-bottom: 90px;
-    padding: 7;
+    padding: 4 7;
+    padding-bottom: 0;
     transition: 0.2s;
+
     ${isLoading
       ? css`
           opacity: 0.7;
@@ -109,8 +110,16 @@ export const CartInner = styled.div<CartInnerProps>`
       : ''}
 
   ${theme.mediaQueries.mobile} {
-      padding: 3;
+      padding: 4;
       overflow: initial;
+    }
+
+    > button {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
     }
   `}
 `
@@ -119,8 +128,23 @@ export const SubtotalWrapper = styled.div`
   padding-top: 4;
   border-top: 1px solid black;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 150px 1fr;
+  grid-gap: 12px;
   margin-bottom: 3;
+`
+
+export const OptionsWrapper = styled.div`
+  padding-top: 0;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  column-gap: 12px;
+  margin-bottom: 4;
+  & > div > div {
+    margin: 0;
+    label {
+      margin-bottom: 0;
+    }
+  }
 `
 
 interface CartModalProps {
@@ -135,25 +159,86 @@ export const CartModal = styled.div`
 `
 
 export const CheckoutProductWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  grid-gap: 3;
-  border-color: body.7;
-  padding: 4 0;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    grid-gap: 3;
+    border-color: body.7;
+    padding: 4 0;
+    position: relative;
 
-  border-bottom: 1px solid;
+    border-bottom: 1px solid;
 
-  &:first-of-type {
-    padding-top: 0;
-  }
-  &:last-of-type {
-    border-bottom: none;
-  }
+    &:first-of-type {
+      padding-top: 0;
+    }
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    > a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
+    }
+  `}
+`
+export const CheckoutProductCloseButtonWrapper = styled.div`
+  ${({ theme }) => css`
+    position: absolute;
+    right: 0;
+    padding: 8px 4;
+    z-index: 2;
+    cursor: pointer;
+    button {
+      width: 20px;
+    }
+    ${theme.mediaQueries.tablet} {
+      margin-right: 8px;
+    }
+  `}
+`
+
+export const CheckoutProductCloseButton = styled.button`
+  ${({ theme }) => css`
+    position: absolute;
+    z-index: 20;
+    background-color: transparent;
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      top: 0px;
+      left: 50%;
+      width: 100%;
+      height: 1px;
+      background-color: grays.5;
+    }
+
+    &:before {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    &:after {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+  `}
 `
 
 export const CheckoutItemDetails = styled.div`
-  display: flex;
-  flex-direction: column;
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-right: 20px;
+    > div {
+      width: fit-content;
+    }
+    a {
+      position: relative;
+    }
+  `}
 `
 
 export const RemoveCart = styled.button`
@@ -164,19 +249,43 @@ export const RemoveCart = styled.button`
 
 export const QuantityWrapper = styled.div`
   display: flex;
-  margin-bottom: 2;
   align-items: center;
+  position: relative;
+`
+
+export const QuantityInputWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    &:has(input:focus-visible) {
+      ${theme.focus.bottom()}
+    }
+  `}
 `
 
 export const QuantityInput = styled(Input)`
-  margin-left: 2;
-  width: 32px;
-  height: 32px;
-  text-align: center;
-  -moz-appearance: textfield;
+  ${({ theme }) => css`
+    position: relative;
+    width: 24px;
+    height: 24px;
+    text-align: center;
+    -moz-appearance: textfield;
+    border: 1px solid ${theme.colors.grays[4]};
 
-  &::-webkit-outer-spin-button,
-  &::-webkit-inner-spin-button {
-    appearance: none;
-  }
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      appearance: none;
+    }
+  `}
+`
+
+export const QuantityAdjustButton = styled.button`
+  ${({ theme }) => css`
+    display: inline-block;
+    width: 24px;
+    position: relative;
+
+    &:focus-visible {
+      ${theme.focus.bottom(-30)}
+    }
+  `}
 `

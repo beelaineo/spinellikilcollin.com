@@ -8,10 +8,12 @@ import {
   seoFragment,
   carouselFragment,
   imageTextBlockFragment,
+  textBlockFragment,
   heroFragment,
   request,
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
+import { useRefetch } from '../../src/hooks'
 
 const pageQuery = gql`
   query PageQuery($slug: String!) {
@@ -35,6 +37,12 @@ const pageQuery = gql`
         linkedPage {
           __typename
           ... on Contact {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Faq {
             _id
             _type
             _key
@@ -112,9 +120,19 @@ const pageQuery = gql`
           __typename
           ...ImageTextBlockFragment
         }
+        ... on TextBlock {
+          __typename
+          ...TextBlockFragment
+        }
         ... on Carousel {
           __typename
           ...CarouselFragment
+        }
+        ... on EmbedBlock {
+          __typename
+          title
+          url
+          layout
         }
       }
 
@@ -127,21 +145,193 @@ const pageQuery = gql`
   ${seoFragment}
   ${carouselFragment}
   ${imageTextBlockFragment}
+  ${textBlockFragment}
+`
+
+const pageQueryById = gql`
+  query PageQuery($id: ID!) {
+    allDirectory(where: { _id: { eq: $id } }) {
+      __typename
+      introText
+      hero {
+        ...HeroFragment
+      }
+      seo {
+        ...SEOFragment
+      }
+      pageLinks {
+        _key
+        title
+        summary
+        ctaText
+        image {
+          ...RichImageFragment
+        }
+        linkedPage {
+          __typename
+          ... on Contact {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Faq {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Customize {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on JournalEntry {
+            _id
+            _type
+            _key
+            title
+            slug {
+              current
+            }
+          }
+          ... on JournalPage {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Magazine {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Page {
+            _id
+            _type
+            _key
+            title
+            slug {
+              current
+            }
+          }
+          ... on ShopifyProduct {
+            _id
+            _key
+            _type
+            title
+            handle
+          }
+          ... on ShopifyCollection {
+            _id
+            _key
+            _type
+            title
+            handle
+          }
+        }
+      }
+    }
+    allPage(where: { _id: { eq: $id } }) {
+      __typename
+      _id
+      title
+      subtitle
+      fullWidth
+      hideTitle
+      hero {
+        ...HeroFragment
+      }
+      slug {
+        current
+      }
+      bodyRaw
+      content {
+        ... on ImageTextBlock {
+          __typename
+          ...ImageTextBlockFragment
+        }
+        ... on TextBlock {
+          __typename
+          ...TextBlockFragment
+        }
+        ... on Carousel {
+          __typename
+          ...CarouselFragment
+        }
+        ... on EmbedBlock {
+          __typename
+          title
+          url
+          layout
+        }
+      }
+
+      seo {
+        ...SEOFragment
+      }
+    }
+  }
+  ${heroFragment}
+  ${seoFragment}
+  ${carouselFragment}
+  ${imageTextBlockFragment}
+  ${textBlockFragment}
 `
 
 interface PageResponse {
   allPage: PageType[]
-  allDirectory: Directory[]
+  // allDirectory: Directory[]
+}
+
+interface Response {
+  allPage: PageType[]
 }
 
 interface PageProps {
-  page?: PageType | Directory
+  page?: PageType
+}
+
+const getPageFromPreviewResponse = (response: PageResponse) => {
+  const pages = response?.allPage || []
+  const page = pages[0] || null
+  return page
 }
 
 const Page = ({ page }: PageProps) => {
-  if (!page) return <NotFound />
-  if (page.__typename === 'Directory') return <DirectoryView data={page} />
-  return <PageView page={page} />
+  const params =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : null
+  const token = params?.get('preview')
+  const preview = Boolean(params?.get('preview'))
+
+  const refetchConfig = {
+    listenQuery: `*[_type == "page" && _id == $id]`,
+    listenQueryParams: { id: 'drafts.' + page?._id },
+    refetchQuery: pageQueryById,
+    refetchQueryParams: { id: 'drafts.' + page?._id },
+    parseResponse: getPageFromPreviewResponse,
+    enabled: preview,
+    token: token,
+  }
+  const data = useRefetch<PageType, Response>(page, refetchConfig)
+
+  try {
+    if (preview === true) {
+      if (!page) return <NotFound />
+
+      if (!data) return <PageView page={page} />
+      return <PageView page={data} />
+    } else {
+      if (!page) return <NotFound />
+      return <PageView page={page} />
+    }
+  } catch (e) {
+    return <NotFound />
+  }
 }
 
 /**
@@ -159,9 +349,10 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   ])
 
   const pages = response?.allPage || []
-  const directories = response?.allDirectory || []
-  const page = [...pages, ...directories][0] || null
-  return { props: { page, shopData }, revalidate: 60 }
+  // const directories = response?.allDirectory || []
+  // const page = [...pages, ...directories][0] || null
+  const page = pages[0] || null
+  return { props: { page, shopData }, revalidate: 10 }
 }
 
 /**

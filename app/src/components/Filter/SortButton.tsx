@@ -1,16 +1,7 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { SelectElement } from '../Forms/Fields/styled'
-
-export enum Sort {
-  PriceAsc = 'Price, low to high',
-  PriceDesc = 'Price, high to low',
-  // DateAsc = 'Newest first',
-  // DateDesc = 'Oldest first',
-  Default = 'Default',
-  AlphaAsc = 'A - Z',
-  AlphaDesc = 'Z - A',
-}
+import { Sort } from '../../constants'
 
 const SelectField = styled(SelectElement)`
   color: body.8;
@@ -48,6 +39,7 @@ export const SortButton = ({ applySort }: SortButtonProps) => {
       color="body.8"
       defaultValue="label"
       onChange={handleChange}
+      aria-label="Sort"
     >
       <option disabled hidden value="label">
         Sort

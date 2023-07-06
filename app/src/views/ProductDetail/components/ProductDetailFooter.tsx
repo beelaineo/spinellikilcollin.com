@@ -13,7 +13,11 @@ const ContentGrid = styled.div`
     grid-template-columns: 1fr 1fr;
 
     ${theme.mediaQueries.tablet} {
-      display: none;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      grid-template-columns: 1fr;
     }
   `}
 `

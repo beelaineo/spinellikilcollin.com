@@ -1,11 +1,15 @@
 import {
   FilterMatch,
   PRICE_RANGE_FILTER,
+  INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
+  FILTER_SINGLE,
   FilterConfiguration,
   Document,
+  FilterMatchGroup,
 } from '../types'
-import { definitely } from './index'
+import { Sort } from '../constants'
+import { definitely } from './data'
 
 const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
   switch (type) {
@@ -17,38 +21,136 @@ const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
       return `title match "${match}"`
     case 'option':
       return `"${match}" in sourceData.options[].value`
+    case 'size':
+      return `"${match}" in sourceData.options[name == "Size"].values[]`
+    case 'subcategory':
+      return `variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
+    case 'metal':
+      return `variants[].sourceData.metafields.edges[node.key == "metal"].node.value match "*${match}*"`
+    case 'style':
+      return `variants[].sourceData.metafields.edges[node.key == "style"].node.value match "*${match}*"`
+    case 'stone':
+      return `variants[].sourceData.metafields.edges[node.key == "stone"].node.value match "*${match}*"`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
 }
 
-export const buildFilters = (filters: FilterConfiguration): string => {
-  return filters
+const parseFilterMatchDefaultSort = ({
+  type,
+  match,
+}: FilterMatch): string | null => {
+  switch (type) {
+    case 'type':
+      return `@->sourceData.productType == "${match}"`
+    case 'tag':
+      return `"${match}" in @->sourceData.tags`
+    case 'title':
+      return `@->title match "${match}"`
+    case 'option':
+      return `"${match}" in @->sourceData.options[].value`
+    case 'size':
+      return `"${match}" in @->sourceData.options[name == "Size"].values[]`
+    case 'subcategory':
+      return `@->variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
+    case 'metal':
+      return `@->variants[].sourceData.metafields.edges[node.key == "metal"].node.value match "*${match}*"`
+    case 'style':
+      return `@->variants[].sourceData.metafields.edges[node.key == "style"].node.value match "*${match}*"`
+    case 'stone':
+      return `@->variants[].sourceData.metafields.edges[node.key == "stone"].node.value match "*${match}*"`
+    default:
+      throw new Error(`"${type}" is not a valid filter type`)
+  }
+}
+
+interface filterProps {
+  filterString: string
+  filterSort?: string[]
+}
+
+export const buildFilters = (
+  filters: FilterConfiguration,
+  sort?: Sort,
+): filterProps => {
+  // console.log('filters', filters)
+  // console.log('sort', sort)
+
+  const filterSort: string[] = []
+
+  const filterString = filters
     .map((filterGroup) => {
       if (filterGroup.filterType === FILTER_MATCH_GROUP) {
-        return filterGroup.matches
-          .map(parseFilterMatch)
-          .filter(Boolean)
-          .join(' || ')
-          .replace(/(.*)/, '($1)')
+        if (filterGroup.matches.some((f) => f.type === 'size')) {
+          // console.log('size', filterGroup.matches)
+          filterGroup.matches.map((m) => filterSort.push(m.match || ''))
+          return null
+        } else if (sort == Sort.Default) {
+          return filterGroup.matches
+            .map(parseFilterMatchDefaultSort)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        } else {
+          return filterGroup.matches
+            .map(parseFilterMatch)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        }
+      } else if (filterGroup.filterType === FILTER_SINGLE) {
+        if (filterGroup.matches.some((f) => f.type === 'size')) {
+          // console.log('size', filterGroup.matches)
+          filterGroup.matches.map((m) => filterSort.push(m.match || ''))
+          return null
+        } else if (sort == Sort.Default) {
+          return filterGroup.matches
+            .map(parseFilterMatchDefaultSort)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        } else {
+          return filterGroup.matches
+            .map(parseFilterMatch)
+            .filter(Boolean)
+            .join(' || ')
+            .replace(/(.*)/, '($1)')
+        }
       } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
         const { minPrice, maxPrice } = filterGroup
         return [
           '(',
-          'maxVariantPrice',
+          sort == Sort.Default || (filterSort && filterSort.length > 0)
+            ? '@->maxVariantPrice'
+            : 'maxVariantPrice',
           ' >= ',
           Math.floor(minPrice),
           ' && ',
-          'minVariantPrice',
+          sort == Sort.Default || (filterSort && filterSort.length > 0)
+            ? '@->minVariantPrice'
+            : 'minVariantPrice',
           ' <= ',
           Math.ceil(maxPrice),
           ')',
         ].join('')
+      } else if (filterGroup.filterType === INVENTORY_FILTER) {
+        const rule =
+          sort == Sort.Default || (filterSort && filterSort.length > 0)
+            ? '(count(@->sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
+            : '(count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
+        const { applyFilter } = filterGroup
+        return applyFilter
+          ? rule
+          : sort == Sort.Default || (filterSort && filterSort.length > 0)
+          ? '(count(@->sourceData.variants.edges[]) > 0)'
+          : '(count(sourceData.variants.edges[]) > 0)'
       }
-      throw new Error('This kind of filter cannot be parsed')
+      throw new Error(`This kind of filter cannot be parsed`)
     })
-
+    .filter((s) => s)
     .join(' && ')
+
+  return { filterString, filterSort }
 }
 
 const toArray = <T>(i: T | T[]): T[] => (Array.isArray(i) ? i : [i])

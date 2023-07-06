@@ -1,20 +1,31 @@
 import { useRouter } from 'next/router'
 import { useEffect, useReducer } from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../../types'
+import {
+  ShopifyProduct,
+  ShopifyProductVariant,
+  ShopifySourceSelectedOption,
+} from '../../types'
+import { CheckoutLineItemInput } from '../ShopifyProvider/types'
 
 const CLOSE = 'CLOSE'
 const OPEN = 'OPEN'
 
 export enum ModalName {
   RING_SIZER = 'RING_SIZER',
+  SIZE_CONVERTER = 'SIZE_CONVERTER',
   CUSTOMIZATION = 'CUSTOMIZATION',
   CONTACT = 'CONTACT',
+  DIAMOND = 'DIAMOND',
+  WEDDING = 'WEDDING',
 }
 
 interface State {
   currentModal: ModalName | null
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
   formtype?: string
 }
 
@@ -28,6 +39,9 @@ interface OpenFormAction {
   formtype?: string
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
 }
 
 type Action = CloseAction | OpenFormAction
@@ -39,6 +53,9 @@ const reducer = (state: State, action: Action): State => {
         currentModal: action.currentModal,
         currentProduct: action.currentProduct,
         currentVariant: action.currentVariant,
+        currentDiamond: action.currentDiamond,
+        addLineItem: action.addLineItem,
+        openRingSizerModal: action.openRingSizerModal,
         formtype: action.formtype,
       }
     }
@@ -61,6 +78,9 @@ const initialState = {
 export interface OpenModalArgs {
   currentProduct?: ShopifyProduct
   currentVariant?: ShopifyProductVariant
+  currentDiamond?: ShopifySourceSelectedOption
+  addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
   formtype?: string
 }
 
@@ -82,10 +102,39 @@ export const useModalReducer = () => {
       currentVariant: args?.currentVariant,
     })
 
+  const openSizeConverterModal = (args?: OpenModalArgs) =>
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.SIZE_CONVERTER,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+      addLineItem: args?.addLineItem,
+      openRingSizerModal: args?.openRingSizerModal,
+    })
+
   const openCustomizationModal = (args?: OpenModalArgs) => {
     dispatch({
       type: OPEN,
       currentModal: ModalName.CUSTOMIZATION,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+    })
+  }
+
+  const openDiamondModal = (args?: OpenModalArgs) => {
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.DIAMOND,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+      currentDiamond: args?.currentDiamond,
+    })
+  }
+
+  const openWeddingModal = (args?: OpenModalArgs) => {
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.WEDDING,
       currentProduct: args?.currentProduct,
       currentVariant: args?.currentVariant,
     })
@@ -113,7 +162,10 @@ export const useModalReducer = () => {
     state,
     closeModal,
     openRingSizerModal,
+    openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
+    openWeddingModal,
   }
 }

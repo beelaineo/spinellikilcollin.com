@@ -1,16 +1,11 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
 import { ToastRootWrapper, ToastWrapper } from './styled'
-import {
-  Toast as IToast,
-  ToastType,
-  useToast,
-} from '../../providers/ToastProvider'
+import { useToast } from '../../providers/ToastProvider'
 import { CloseButton } from '../Modal/styled'
 import { Heading } from '../Text'
 import { useStatefulRef } from '../../utils/hooks'
 
-export { ToastType } from '../../providers/ToastProvider'
+import { Toast as IToast, ToastType, ToastDivState } from './types'
 
 const { useEffect, useState, useRef } = React
 
@@ -19,13 +14,6 @@ interface ToastProps {
   toastKey: string
   toast: IToast
   dismissToast: (key: string) => void
-}
-
-export enum ToastDivState {
-  Init = 'INIT',
-  Mounted = 'MOUNTED',
-  Displayed = 'DISPLAYED',
-  Hidden = 'HIDDEN',
 }
 
 const getStyles = (state: ToastDivState, elHeight: number | undefined) => {
@@ -79,16 +67,17 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   const styles = getStyles(divState, elHeight)
 
   return (
-    <ToastWrapper
-      style={styles}
-      ref={wrapperRef}
-      toastType={toast.type}
-      aria-hidden={divState === ToastDivState.Displayed}
-    >
+    <ToastWrapper style={styles} ref={wrapperRef} toastType={toast.type}>
       <Heading my={0} level={5}>
         {message}
       </Heading>
-      {dismissable ? <CloseButton type="button" onClick={clearToast} /> : null}
+      {dismissable ? (
+        <CloseButton
+          type="button"
+          onClick={clearToast}
+          aria-label="Clear Toast message"
+        />
+      ) : null}
     </ToastWrapper>
   )
 }

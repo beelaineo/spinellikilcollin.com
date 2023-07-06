@@ -40,53 +40,99 @@ interface ContactProps {
 }
 
 export const ContactView = ({ contact }: ContactProps) => {
-  const { seo, title } = contact
+  const { seo, title, _id } = contact
   const { openContactModal } = useModal()
   const defaultSeo = {
     title: 'Contact',
+    description: seo?.description,
+    image: seo?.image,
   }
   const handleModalClick = (formtype: string) => () =>
     openContactModal({ formtype })
 
   return (
     <>
-      <SEO seo={seo} defaultSeo={defaultSeo} path="about/contact" />
-      <PageWrapper>
+      <SEO
+        seo={seo}
+        defaultSeo={defaultSeo}
+        path="about/contact"
+        contentType={_id!}
+      />
+      <PageWrapper tabIndex={-1}>
         <Heading level={1} textAlign="center">
           {title || 'Contact'}
         </Heading>
         <Wrapper>
           <ContactLines>
-            <ContactLineWrapper>
-              <Heading level={4}>For order inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Order')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>For wholesale inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Wholesale')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>For press inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Press')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>Engagement Inquiries:</Heading>
-              <Button level={2} onClick={handleModalClick('Engagement')}>
-                Contact Us
-              </Button>
-            </ContactLineWrapper>
-            <ContactLineWrapper>
-              <Heading level={4}>Call Us</Heading>
-              <Heading level={3}>
-                <a href="tel:213.341.8244">213.341.8244</a>
-              </Heading>
-            </ContactLineWrapper>
+            {contact.contactLines?.map((line) => {
+              if (!line) return null
+              const { _key, label, contact } = line
+              switch (line.type) {
+                case 'Order':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Order')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Wholesale':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Wholesale')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Press':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Press')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Engagement':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Engagement')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
+                case 'Telephone':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Heading level={3}>
+                        <a href={'tel:' + contact}>{contact}</a>
+                      </Heading>
+                    </ContactLineWrapper>
+                  )
+                default:
+                  return null
+              }
+            })}
           </ContactLines>
 
           <ChatWrapper>

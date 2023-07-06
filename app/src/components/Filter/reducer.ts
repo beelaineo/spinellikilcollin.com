@@ -1,17 +1,15 @@
 import { useReducer } from 'react'
 import {
+  Filter as FilterSingleType,
   FilterSet as FilterSetType,
   PriceRangeFilter as PriceRangeFilterType,
+  InventoryFilter as InventoryFilterTypeSource,
 } from '../../types'
 import { unique } from '../../utils'
+import { FilterSetState, FilterValues } from './types'
 
-export type FilterValues = Record<string, any>
-
-export interface FilterSetState<FilterValueType = FilterValues> {
-  key: string
-  activeMatchKeys: string[]
-  values: FilterValueType
-  initialValues: FilterValueType
+interface InventoryFilterType extends InventoryFilterTypeSource {
+  applyFilter?: boolean
 }
 
 interface State {
@@ -23,6 +21,7 @@ const RESET_SET = 'RESET_SET'
 const ENABLE = 'ENABLE'
 const DISABLE = 'DISABLE'
 const TOGGLE = 'TOGGLE'
+const TOGGLE_SINGLE = 'TOGGLE_SINGLE'
 const SET_VALUES = 'SET_VALUES'
 
 interface ResetAllAction {
@@ -52,6 +51,12 @@ interface ToggleAction {
   matchKey: string
 }
 
+interface ToggleSingleAction {
+  type: typeof TOGGLE_SINGLE
+  setKey: string
+  matchKey: string
+}
+
 interface SetValuesAction {
   type: typeof SET_VALUES
   setKey: string
@@ -65,6 +70,7 @@ type Action =
   | EnableAction
   | DisableAction
   | ToggleAction
+  | ToggleSingleAction
   | SetValuesAction
 
 const arrayToggle = <T>(array: T[], item: T): T[] => {
@@ -139,6 +145,23 @@ const reducer = (state: State, action: Action): State => {
             : set,
         ),
       }
+    case TOGGLE_SINGLE:
+      return {
+        filterSetStates: state.filterSetStates.map((set) =>
+          set.key === action.setKey
+            ? {
+                ...set,
+                activeMatchKeys: arrayToggle(
+                  set.activeMatchKeys,
+                  action.matchKey,
+                ),
+              }
+            : {
+                ...set,
+                activeMatchKeys: [],
+              },
+        ),
+      }
     case SET_VALUES:
       return {
         filterSetStates: state.filterSetStates.map((set) =>
@@ -158,15 +181,18 @@ const reducer = (state: State, action: Action): State => {
   return state
 }
 
-type Filters = Array<FilterSetType | PriceRangeFilterType>
+type Filters = Array<
+  FilterSingleType | FilterSetType | PriceRangeFilterType | InventoryFilterType
+>
 
 interface UseFilterReducer {
   filterSetStates: FilterSetState[]
   resetAll: () => void
   resetSet: (setKey: string) => () => void
-  enable: (setKey: string) => (matchKey: string) => () => void
-  disable: (setKey: string) => (matchKey: string) => () => void
+  enable: (setKey: string, matchKey: string) => void
+  disable: (setKey: string, matchKey: string) => void
   toggle: (setKey: string) => (matchKey: string) => () => void
+  toggleSingle: (setKey: string) => (matchKey: string) => () => void
   setValues: (
     setKey: string,
   ) => (matchKey: string, values: FilterValues) => void
@@ -183,12 +209,22 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
             }
+          : filter.__typename === 'InventoryFilter'
+          ? {
+              label: filter?.label || 'Ready to Ship',
+              applyFilter: false,
+            }
           : {},
       values:
         filter.__typename === 'PriceRangeFilter'
           ? {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
+            }
+          : filter.__typename === 'InventoryFilter'
+          ? {
+              label: filter?.label || 'Ready to Ship',
+              applyFilter: filter?.applyFilter || false,
             }
           : {},
     })),
@@ -199,12 +235,14 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
   const resetAll = () => dispatch({ type: RESET_ALL })
   const resetSet = (setKey: string) => () =>
     dispatch({ type: RESET_SET, setKey })
-  const enable = (setKey: string) => (matchKey: string) => () =>
+  const enable = (setKey: string, matchKey: string) =>
     dispatch({ type: ENABLE, setKey, matchKey })
-  const disable = (setKey: string) => (matchKey: string) => () =>
+  const disable = (setKey: string, matchKey: string) =>
     dispatch({ type: DISABLE, setKey, matchKey })
   const toggle = (setKey: string) => (matchKey: string) => () =>
     dispatch({ type: TOGGLE, setKey, matchKey })
+  const toggleSingle = (setKey: string) => (matchKey: string) => () =>
+    dispatch({ type: TOGGLE_SINGLE, setKey, matchKey })
   const setValues =
     (setKey: string) => (matchKey: string, values: FilterValues) => {
       dispatch({ type: SET_VALUES, setKey, matchKey, values })
@@ -216,6 +254,7 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
     enable,
     disable,
     toggle,
+    toggleSingle,
     setValues,
   }
 }

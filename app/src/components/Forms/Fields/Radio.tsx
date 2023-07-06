@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
-import { Option, FieldProps } from './Field'
+import { Option, FieldProps } from './types'
 import { Label } from '../../Text'
 
 const OptionWrapper = styled.div`

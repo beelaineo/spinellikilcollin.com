@@ -1,7 +1,6 @@
 import React, { SyntheticEvent } from 'react'
 import RightArrow from '../../svg/RightArrow.svg'
-import { Heading } from '../../components/Text'
-import { Input } from '../../components/Text'
+import { Heading, Input } from '../../components/Text'
 import {
   MailerForm,
   MailerWrapper,
@@ -48,7 +47,7 @@ export const NewsletterSignup = ({
       <Heading mb={3} level={5}>
         {mailerSubtitle}
       </Heading>
-      <MailerForm id="newsletter-signup" onSubmit={handleSubmit}>
+      <MailerForm onSubmit={handleSubmit}>
         <SuccessWrapper visible={success}>
           <Heading my={0} color="body.6" textAlign="left" level={5}>
             Thank you! You have been subscribed.
@@ -62,7 +61,7 @@ export const NewsletterSignup = ({
             onChange={handleChange}
             placeholder="email address"
           />
-          <button type="submit">
+          <button type="submit" aria-label="subscribe to newsletter">
             <RightArrow />
           </button>
         </InputWrapper>

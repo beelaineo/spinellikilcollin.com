@@ -1,3 +1,6 @@
 export * from './Field'
+export * from './Checkbox'
+export * from './ProductPriceInput'
 export * from './HiddenField'
 export * from './TextArea'
+export * from './types'

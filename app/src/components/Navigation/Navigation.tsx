@@ -1,27 +1,34 @@
+/* eslint-disable prettier/prettier */
 import * as React from 'react'
 import Link from 'next/link'
 import { NextRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { useShopify } from '../../providers/ShopifyProvider'
 import { useNavigation } from '../../providers/NavigationProvider'
+import { useSearch } from '../../providers/SearchProvider'
 import { Heading } from '../../components/Text'
 import Cart from '../../svg/Cart.svg'
 import Logotype from '../../svg/Logotype.svg'
 import { Checkout } from '../Cart/Checkout'
 import { Hamburger } from '../Hamburger'
+import { SearchButton } from './SearchButton'
 import {
   Wrapper,
   Inner,
   CartBadge,
   CartButtonWrapper,
+  SearchButtonWrapper,
   SideNavigation,
   LogoWrapper,
   NavInnerBackground,
   ToolsWrapper,
+  SkipToMainContentButton,
 } from './styled'
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
+import { QuickLinks } from './QuickLinks'
+const { useEffect, useState, useRef, useCallback } = React
 
 export const Navigation = () => {
   const {
@@ -32,6 +39,7 @@ export const Navigation = () => {
     toggleMenu,
     openCart,
     router,
+    colorTheme,
   } = useNavigation()
   /* Parsing */
   const { loading, checkout } = useShopify()
@@ -42,34 +50,65 @@ export const Navigation = () => {
 
   const innerBorder = !/\/collections/.test(router.asPath)
 
+  const sideNav = useRef<any>(null)
+  const searchOpen = useSearch().open
+
+  useEffect(() => {
+    if (menuOpen) {
+      sideNav.current.focus()
+    }
+  }, [menuOpen])
+
+  const skipToMainContent = () => {
+    const content = document.querySelector('main') as HTMLElement | null
+    if (content != null) content.focus()
+  }
+
+  const showQuickLinks = (router) => {
+    const showLinks =
+      router.pathname.includes('collections') || searchOpen ? false : true
+    return showLinks
+  }
+
   return (
     <>
-      <NavInnerBackground
-        onClick={closeAll}
-        aria-hidden={!cartOpen && !menuOpen}
-        open={menuOpen || cartOpen}
-      />
-      <SideNavigation open={menuOpen}>
+      <SkipToMainContentButton onClick={skipToMainContent}>
+        Skip to Main Content
+      </SkipToMainContentButton>
+      <NavInnerBackground onClick={closeAll} open={menuOpen || cartOpen} />
+      <SideNavigation open={menuOpen} ref={sideNav} tabIndex={-1}>
         <NavigationInner closeMenu={closeMenu} />
       </SideNavigation>
 
       <Wrapper>
         <Backdrop />
-        <Inner withBorder={innerBorder}>
-          <Hamburger onClick={toggleMenu} open={false} />
+        <Inner withBorder={innerBorder} colorTheme={colorTheme}>
+          <Hamburger
+            onClick={toggleMenu}
+            open={false}
+            colorTheme={colorTheme}
+          />
 
-          <LogoWrapper>
+          <LogoWrapper colorTheme={colorTheme}>
             <Link href="/" as="/">
-              <a>
+              <a aria-label="Link to homepage">
                 <Logotype />
               </a>
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
-            <CurrencySelector />
-            <CartButtonWrapper isLoading={loading} onClick={openCartHandler}>
+            <CurrencySelector colorTheme={colorTheme} />
+            <SearchButtonWrapper colorTheme={colorTheme}>
+              <SearchButton />
+            </SearchButtonWrapper>
+            <CartButtonWrapper
+              isLoading={loading}
+              onClick={openCartHandler}
+              colorTheme={colorTheme}
+              aria-label="open cart"
+            >
               {cartCount ? (
-                <CartBadge>
+                <CartBadge colorTheme={colorTheme}>
                   <Heading m={0} fontWeight={4} level={5}>
                     {cartCount}
                   </Heading>
@@ -79,6 +118,7 @@ export const Navigation = () => {
             </CartButtonWrapper>
           </ToolsWrapper>
         </Inner>
+        {showQuickLinks(router) ? <QuickLinks colorTheme={colorTheme} /> : null}
       </Wrapper>
       <Checkout />
     </>

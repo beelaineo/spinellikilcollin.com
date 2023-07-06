@@ -65,15 +65,6 @@ type SanityShopifyDocument = GroqShopifyProduct | GroqShopifyCollection
 const parseDocument = (doc: SanityShopifyDocument) => {
   try {
     switch (doc._type) {
-      // case 'page':
-      //   return {
-      //     objectID: doc._id,
-      //     type: doc._type,
-      //     body: blocksToText(doc.body || []),
-      //     title: doc.title,
-      //     slug: doc.slug.current,
-      //   }
-
       case 'shopifyProduct':
         const [allVariants] = unwindEdges(doc?.sourceData?.variants)
         const [images] = unwindEdges(doc?.sourceData?.images)
@@ -91,7 +82,13 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                 })
                 if (!v) return acc
                 const picked = {
-                  ...pick(v, ['id', 'title', 'selectedOptions']),
+                  ...pick(v, [
+                    'id',
+                    'title',
+                    'selectedOptions',
+                    'priceV2',
+                    'compareAtPriceV2',
+                  ]),
                   image: pick(v.image, [
                     'id',
                     '__typename',
@@ -182,25 +179,16 @@ const parseDocument = (doc: SanityShopifyDocument) => {
           },
         }
 
-      // case 'shopifyCollection':
-      //   return {
-      //     objectID: doc._id,
-      //     type: doc._type,
-      //     description: doc?.sourceData?.description,
-      //     title: doc.title,
-      //     handle: doc.handle,
-      //     // document: doc,
-      //   }
       default:
         return null
     }
   } catch (e) {
-    Sentry.captureException(e)
+    Sentry.captureException(e, 'algolia_parse_error', { document: doc })
   }
 }
 
 const handler: NextApiHandler = (req, res) =>
-  new Promise((resolve, reject) => {
+  new Promise<void>((resolve, reject) => {
     try {
       const partialUpdateObjects = bindCallback((objects, done) => {
         algoliaIndex
@@ -215,7 +203,7 @@ const handler: NextApiHandler = (req, res) =>
             //   JSON.parse(err?.transporterStackTrace[0].request.data).requests[9]
             //     .body.document.sourceData.variants,
             // )
-            Sentry.captureException(err)
+            Sentry.captureException(err, 'algolia_index_error')
           })
       })
 
@@ -230,7 +218,7 @@ const handler: NextApiHandler = (req, res) =>
       })
 
       const errorCb = (error: Error) => {
-        Sentry.captureException(error)
+        Sentry.captureException(error, 'algolia_index_error')
       }
 
       streamToRx(request(sanityExportURL).pipe(ndjson.parse()))
@@ -270,18 +258,6 @@ const handler: NextApiHandler = (req, res) =>
             const results = batchResults.flat()
             const totalLength = results.length
 
-            // .reduce(
-            //   // @ts-ignore
-            //   (count, batchResult) => {
-            //     console.log(batchResult)
-            //
-            //     count + batchResult.objectIDs.length
-            //   },
-            //   0,
-            // )
-            // console.log(objectIds[1])
-            // console.log({ objectIds })
-            // console.log(results[0])
             debug(
               `Updated ${totalLength} documents in ${batchResults.length} batches`,
             )
@@ -324,7 +300,7 @@ const handler: NextApiHandler = (req, res) =>
           errorCb,
         )
     } catch (err) {
-      Sentry.captureException(err)
+      Sentry.captureException(err, 'algolia_index_error')
     }
   })
 

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css, Box } from '@xstyled/styled-components'
 import { Heading } from '../../../Text'
-import { CountryPhoneOption } from './utils'
+import { CountryPhoneOption } from './types'
 import { HiddenSelect } from './HiddenSelect'
 
 interface CountryCodeSelectorProps {

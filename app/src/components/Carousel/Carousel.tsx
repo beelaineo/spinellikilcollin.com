@@ -141,12 +141,9 @@ export const CarouselInner = ({
   return (
     <CarouselContainer single={single}>
       {children && buttons ? (
-        <ButtonWrapper
-          direction="previous"
-          aria-hidden={!Boolean(hasOverflow && !isAtFirst)}
-          visible={hasOverflow && !isAtFirst}
-        >
+        <ButtonWrapper direction="previous" visible={hasOverflow && !isAtFirst}>
           <CarouselButton
+            tabIndex={hasOverflow && !isAtFirst ? 0 : -1}
             aria-label="previous slide"
             direction="previous"
             onClick={goPrevious}
@@ -177,14 +174,11 @@ export const CarouselInner = ({
         </SlidesContainer>
       </CarouselMask>
       {children && buttons ? (
-        <ButtonWrapper
-          direction="next"
-          aria-hidden={!Boolean(hasOverflow && !isAtLast)}
-          visible={hasOverflow && !isAtLast}
-        >
+        <ButtonWrapper direction="next" visible={hasOverflow && !isAtLast}>
           <CarouselButton
             direction="next"
             aria-label="next slide"
+            tabIndex={hasOverflow && !isAtLast ? 0 : -1}
             onClick={goNext}
           >
             <CarouselButtonIcon />

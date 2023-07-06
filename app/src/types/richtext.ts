@@ -1,4 +1,10 @@
-import { Form, Block, RichImage } from './generated-sanity'
+import {
+  Form,
+  Block,
+  RichImage,
+  CloudinaryVideo,
+  Maybe,
+} from './generated-sanity'
 
 interface BlockNode<T> {
   node: T
@@ -7,6 +13,8 @@ interface BlockNode<T> {
 }
 
 export interface FormBlock extends Omit<Form, '_type'> {
+  formSubtitle: Maybe<string> | undefined
+  formTitle: Maybe<string> | undefined
   _type: 'form'
 }
 
@@ -18,10 +26,15 @@ interface ImageBlock extends Omit<RichImage, '_type'> {
   _type: 'richImage'
 }
 
+interface CloudinaryVideoBlock extends Omit<CloudinaryVideo, '_type'> {
+  _type: 'cloudinaryVideo'
+}
+
 export type RichTextBlock =
   | BlockNode<FormBlock>
   | BlockNode<TextBlock>
   | BlockNode<ImageBlock>
+  | BlockNode<CloudinaryVideoBlock>
 
 export interface ListBlock {
   type: 'bullet' | 'number'

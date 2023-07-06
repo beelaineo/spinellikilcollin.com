@@ -12,12 +12,14 @@ import {
   MagazineSignupArgs,
   quizSubmission,
   QuizSubmissionArgs,
+  vipSignup,
+  VIPSignupArgs,
+  weddingCustomizationInquiry,
+  WeddingCustomizationInquiryArgs,
 } from './emails'
 import { config } from '../../config'
 
 const debug = Debug('app:emails')
-
-export const DEAR = 'Spinelli Kilcollin dear@spinellikilcollin.com'
 
 /**
  * Client Setup
@@ -37,6 +39,7 @@ const { POSTMARK_KEY } = config
 
 interface PostmarkService {
   sendMagazineSignup: (args: MagazineSignupArgs) => Promise<PostmarkResponse>
+  sendVIPSignup: (args: VIPSignupArgs) => Promise<PostmarkResponse>
   sendRequestRingSizer: (
     args: RequestRingSizerArgs,
   ) => Promise<PostmarkResponse>
@@ -45,6 +48,9 @@ interface PostmarkService {
   ) => Promise<PostmarkResponse>
   sendContactInquiry: (args: ContactInquiryArgs) => Promise<PostmarkResponse>
   sendQuizSubmission: (args: QuizSubmissionArgs) => Promise<PostmarkResponse>
+  sendWeddingCustomizationInquiry: (
+    args: WeddingCustomizationInquiryArgs,
+  ) => Promise<PostmarkResponse>
 }
 
 if (!POSTMARK_KEY || !POSTMARK_KEY.length)
@@ -71,6 +77,19 @@ const send = async (message: Message): Promise<PostmarkResponse> => {
         message,
       }
     }
+    if (message.From.includes('example.com')) {
+      debug(
+        `Not sending mail. Sender email: ${message.From} (suspicious domain example.com)`,
+      )
+      Sentry.captureException(
+        `Not sending mail. Sender email: ${message.From} (suspicious domain example.com)`,
+        'postmark_error',
+      )
+      return {
+        success: false,
+        error: null,
+      }
+    }
     const response = await client.sendEmail(message)
     debug(
       `Sent email "${message.Subject} to ${message.To} - Postmark ID: ${response.MessageID}"`,
@@ -79,8 +98,8 @@ const send = async (message: Message): Promise<PostmarkResponse> => {
       success: true,
       message,
     }
-  } catch (error) {
-    Sentry.captureException(error)
+  } catch (error: any | unknown) {
+    Sentry.captureException(error, 'postmark_error')
     return {
       success: false,
       error,
@@ -104,6 +123,11 @@ export const postmark: PostmarkService = {
     return send(message)
   },
 
+  sendVIPSignup: async (args: VIPSignupArgs) => {
+    const message = vipSignup(args)
+    return send(message)
+  },
+
   sendContactInquiry: async (args: ContactInquiryArgs) => {
     const message = contactInquiry(args)
     return send(message)
@@ -111,6 +135,13 @@ export const postmark: PostmarkService = {
 
   sendQuizSubmission: async (args: QuizSubmissionArgs) => {
     const message = quizSubmission(args)
+    return send(message)
+  },
+
+  sendWeddingCustomizationInquiry: async (
+    args: WeddingCustomizationInquiryArgs,
+  ) => {
+    const message = weddingCustomizationInquiry(args)
     return send(message)
   },
 }

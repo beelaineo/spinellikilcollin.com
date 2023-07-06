@@ -38,15 +38,36 @@ export const BackdropFilter = styled.div`
 
 interface WithBorder {
   withBorder?: boolean
+  colorTheme?: 'light' | 'dark'
 }
 
+export const SkipToMainContentButton = styled.button`
+  ${({ theme }) => css`
+    z-index: 999;
+    position: fixed;
+    top: 4;
+    left: -500;
+    &:focus-visible {
+      top: 4;
+      left: 4;
+      outline-color: ${theme.colors.grays[5]};
+      outline-offset: 2px;
+      outline-style: auto;
+    }
+  `}
+`
+
 export const Inner = styled.div<WithBorder>`
-  ${({ theme, withBorder }) => css`
+  ${({ theme, withBorder, colorTheme }) => css`
     position: relative;
     z-index: 10;
     display: grid;
     border-bottom: 1px solid;
-    border-color: ${withBorder ? 'currentColor' : 'transparent'};
+    border-color: ${colorTheme == 'light' && withBorder
+      ? theme.colors.grays[1]
+      : withBorder
+      ? 'currentColor'
+      : 'transparent'};
     grid-template-columns: 1fr 267px 1fr;
     align-items: center;
     padding: 6 0 16px;
@@ -56,14 +77,53 @@ export const Inner = styled.div<WithBorder>`
 
     ${theme.mediaQueries.tablet} {
       padding: 5 0 3;
-
       grid-template-columns: 1fr 230px 1fr;
       max-width: calc(100% - (${theme.space[7]}px * 2));
     }
 
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 50px 1fr 50px;
+      grid-template-columns: 80px 1fr 80px;
       max-width: calc(100% - (${theme.space[4]}px * 2));
+    }
+  `}
+`
+
+interface WithColorTheme {
+  colorTheme?: 'light' | 'dark'
+}
+
+export const QuickLinksWrapper = styled.nav<WithColorTheme>`
+  ${({ theme, colorTheme }) => css`
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: absolute;
+    right: ${theme.space[7]}px;
+    margin: 0 auto;
+    color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
+    padding: 4 0 0 0;
+    ${theme.mediaQueries.tablet} {
+      display: none;
+    }
+
+    button {
+      position: relative;
+      margin-left: 4;
+      padding: 2 3;
+      border: 1px solid;
+      border-radius: 3rem;
+      text-transform: uppercase;
+      font-size: 5;
+      color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
+      &:hover {
+        background-color: white;
+        color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
+      }
+      &:focus-visible {
+        ${theme.focus.bottom()}
+        background-color: white;
+        color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
+      }
     }
   `}
 `
@@ -101,11 +161,26 @@ interface WithActive {
   active?: boolean
 }
 
+interface WithColor {
+  theme: DefaultTheme
+  colorTheme?: 'light' | 'dark'
+}
+
 export const LogoWrapper = styled.div`
-  ${({ theme }) => css`
+  ${({ theme, colorTheme }: WithColor) => css`
+    position: relative;
     margin: 0 auto;
     svg {
       width: 100%;
+      ${colorTheme == 'light'
+        ? `path {
+          fill: ${theme.colors.grays[1]};
+        }
+        `
+        : ''};
+    }
+    a:focus-visible {
+      ${theme.focus.bottom(0, 0)}
     }
     ${theme.mediaQueries.mobile} {
       width: 170px;
@@ -113,6 +188,9 @@ export const LogoWrapper = styled.div`
       svg {
         width: 100%;
       }
+    }
+    @media screen and (max-width: 360px) {
+      width: 100%;
     }
   `}
 `
@@ -144,14 +222,53 @@ export const HamburgerWrapper = styled.div`
     }
   `}
 `
+interface ColorThemeProps {
+  theme: DefaultTheme
+  colorTheme?: 'light' | 'dark'
+}
+
+export const SearchButtonWrapper = styled.div`
+  ${({ theme, colorTheme }: ColorThemeProps) => css`
+    position: relative;
+    transition: 250ms ease;
+    display: flex;
+    align-items: center;
+    justify-self: start;
+    width: 24px;
+    height: 20px;
+    margin-right: 19px;
+    svg {
+      display: inline-block;
+      width: 100%;
+      ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
+    }
+    ${theme.mediaQueries.mobile} {
+      width: 18px;
+      height: 16px;
+      margin-right: 3;
+    }
+    button:focus-visible {
+      ${theme.focus.bottom()}
+    }
+  `}
+`
 
 export const CurrencySelectorWrapper = styled.div`
-  ${({ theme }) => css`
-    margin-right: 3;
-
+  ${({ theme, colorTheme }: ColorThemeProps) => css`
+    margin-right: 2px;
+    position: relative;
+    ${colorTheme == 'light' ? `select {color: ${theme.colors.grays[3]};}` : ''}
     ${theme.mediaQueries.mobile} {
       width: 24px;
-      overflow: hidden;
+      margin-right: 4px;
+    }
+
+    select:focus-visible {
+      outline: none;
+    }
+
+    &:has(select:focus-visible) {
+      ${theme.focus.bottom(-40)}
     }
   `}
 `
@@ -171,7 +288,7 @@ export const NavHeaderWrapper = styled.div`
     margin-right: 0;
   }
 
-  &:focus ${NavHeader}, &:hover > ${NavHeader} {
+  &:focus-visible ${NavHeader}, &:hover > ${NavHeader} {
     border-bottom-color: black;
   }
 `
@@ -189,10 +306,11 @@ interface WithVisible {
 interface LoadingProps {
   theme: DefaultTheme
   isLoading?: boolean
+  colorTheme?: 'light' | 'dark'
 }
 
 export const CartButtonWrapper = styled.button`
-  ${({ theme, isLoading }: LoadingProps) => css`
+  ${({ theme, isLoading, colorTheme }: LoadingProps) => css`
     opacity: ${isLoading ? '0.5' : '1'};
     position: relative;
     transition: 250ms ease;
@@ -204,16 +322,20 @@ export const CartButtonWrapper = styled.button`
     svg {
       display: inline-block;
       width: 100%;
+      ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
     ${theme.mediaQueries.mobile} {
       width: 16px;
       height: 16px;
     }
+    &:focus-visible {
+      ${theme.focus.bottom(0)}
+    }
   `}
 `
 
 export const CartBadge = styled.div`
-  ${({ theme }) => css`
+  ${({ theme, colorTheme }: ColorThemeProps) => css`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -223,7 +345,8 @@ export const CartBadge = styled.div`
     padding-top: 1px;
     width: 15px;
     height: 15px;
-    background-color: body.2;
+    background-color: ${colorTheme == 'light' ? 'body.8' : 'body.2'};
+    color: ${colorTheme == 'light' ? 'body.2' : 'inherit'};
     border: 1px solid;
     border-radius: 20px;
 
@@ -252,7 +375,7 @@ interface SideNavigation {
   open?: boolean
 }
 
-export const SideNavigation = styled.div`
+export const SideNavigation = styled.aside`
   ${({ open }: SideNavigation) => css`
     transform: ${open ? 'translateX(0px)' : 'translateX(-520px)'};
     z-index: cart;
@@ -315,10 +438,34 @@ export const NavInnerBackground = styled.div`
 `
 
 export const NavItemWrapper = styled.div`
-  display: block;
-  padding: 3 0;
+  ${({ theme }) => css`
+    display: block;
+    position: relative;
+    padding: 3 0;
 
-  & + & {
-    border-top: 1px solid black;
-  }
+    a,
+    button {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.left(30)}
+      }
+    }
+
+    & + & {
+      border-top: 1px solid black;
+    }
+  `}
+`
+
+export const InStockDot = styled('span')`
+  ${({ theme }) => css`
+    display: inline-block;
+    background-color: #00d009;
+    width: 10px;
+    height: 10px;
+    margin-left: 6px;
+    border-radius: 100%;
+    border: 1px solid #f5f3f3;
+  `}
 `

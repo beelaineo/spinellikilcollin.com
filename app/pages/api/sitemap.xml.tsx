@@ -22,6 +22,7 @@ const paths = [
   '/925',
   '/about',
   '/about/contact',
+  '/about/faq',
   '/about/team',
   '/about/[pageSlug]',
   '/collections/[collectionSlug]',
@@ -44,9 +45,9 @@ const getPageInfo = async (
     const pathMatch = dir.match(/(.*)\/\[(.*)\]/)
     if (!pathMatch) return
     const [_, uri, paramName] = pathMatch
-    const module = moduleMap.get(paramName)
-    if (!module || !module.getStaticPaths) return
-    const { paths } = await module.getStaticPaths()
+    const pageModule = moduleMap.get(paramName)
+    if (!pageModule || !pageModule.getStaticPaths) return
+    const { paths } = await pageModule.getStaticPaths()
     const pages = paths.map((path) => ({
       url: [uri, path.params[paramName]].join('/'),
       lastmod: path.params.updatedAt,
@@ -103,7 +104,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     })
   } catch (e) {
     console.error(e)
-    Sentry.captureException(e)
+    Sentry.captureException(e, 'sitemap_gen_error')
     res.status(500).end()
   }
 }

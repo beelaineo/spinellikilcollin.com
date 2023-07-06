@@ -10,12 +10,14 @@ import { useCart } from '../../providers/CartProvider'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { LinkInfo } from '../../utils'
 import { EmbeddedForm } from './EmbeddedForm'
+import { CloudinaryVideo } from '../CloudinaryVideo'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
   imageSizes?: string
   openCustomizationModal: () => void
   openRingSizerModal: () => void
+  openHubspotChat: () => void
   openCart: () => void
   getLinkByRef: (ref: string) => LinkInfo | null
   weight?: number
@@ -46,6 +48,71 @@ const RichTextWrapper = styled.div<WithArticle>`
       margin: 80px auto;
     }
 
+    h2:has(a) {
+      width: fit-content;
+      margin: 2 auto 0.5em;
+
+      a:focus-visible {
+        ${theme.focus.left(0)}
+        position: relative;
+      }
+    }
+
+    h4:has(a) {
+      margin: 2 auto 0.5em;
+
+      a:focus-visible {
+        ${theme.focus.bottom(0, 4)}
+        position: relative;
+      }
+    }
+
+    h3:has(a) {
+      a:focus-visible {
+        ${theme.focus.left(0)}
+        position: relative;
+      }
+    }
+
+    h3:has(span) {
+      a:focus-visible {
+        ${theme.focus.bottom(0, 5)}
+        position: relative;
+      }
+    }
+
+    p:has(span) {
+      a:focus-visible {
+        ${theme.focus.left(0)}
+        position: relative;
+      }
+    }
+
+    h3:has(span) {
+      span:focus-visible {
+        ${theme.focus.bottom(0, 5)}
+        position: relative;
+      }
+    }
+
+    p:has(span) {
+      margin: 2 auto 0.5em;
+
+      span:focus-visible {
+        ${theme.focus.bottom(0, 5)}
+        position: relative;
+      }
+    }
+
+    p:has(a) {
+      margin: 2 auto 0.5em;
+
+      > a:focus-visible {
+        ${theme.focus.bottom(0, 5)}
+        position: relative;
+      }
+    }
+
     ${theme.mediaQueries.tablet} {
       picture {
         max-width: 80%;
@@ -66,6 +133,7 @@ const serializers = ({
   imageSizes,
   openCustomizationModal,
   openRingSizerModal,
+  openHubspotChat,
   openCart,
   getLinkByRef,
   weight: customWeight,
@@ -85,14 +153,16 @@ const serializers = ({
     internalLink: ({ children, mark }) => {
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
-      const { as } = linkData
-      return <a href={as}>{children}</a>
+      const { as, href } = linkData
+      return <a href={href || as}>{children}</a>
     },
     action: ({ children, mark }) => {
       const { actionType } = mark
       const onClick =
         actionType === 'openCart'
           ? openCart
+          : actionType === 'launchHubspot'
+          ? () => openHubspotChat()
           : actionType === 'launchCustomizationModal'
           ? () => openCustomizationModal()
           : actionType === 'launchRingSizerModal'
@@ -102,17 +172,22 @@ const serializers = ({
         return <>{children}</>
       }
       return (
-        <Span role="button" cursor="pointer" onClick={onClick}>
+        <Span role="button" tabIndex={0} cursor="pointer" onClick={onClick}>
           {children}
         </Span>
       )
     },
   },
   listItem: (props) => <Li weight={3} {...props} />,
+  cloudinaryVideo: (props) => {
+    const { node } = props
+    return <CloudinaryVideo video={node} />
+  },
   block: (props: RichTextBlock): React.ReactNode => {
     const { node } = props
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
+    // @ts-ignore
     if (Wrapper) return <Wrapper {...props} />
     const weight = customWeight ?? 4
 
@@ -120,7 +195,12 @@ const serializers = ({
       return <Image image={node} sizes={imageSizes} />
     }
     if (node._type === 'form') {
-      return <EmbeddedForm block={node} />
+      return (
+        <EmbeddedForm block={node} openRingSizerModal={openRingSizerModal} />
+      )
+    }
+    if (node._type === 'cloudinaryVideo') {
+      return <CloudinaryVideo video={node} />
     }
     const style = node.style || 'normal'
     // if (props.node._type === 'videoEmbed') return <VideoEmbed video={props.node} />
@@ -170,6 +250,13 @@ export const RichText = ({
   const currentVariant = currentProductContext?.currentVariant
   const { openCart } = useCart()
   const { openCustomizationModal, openRingSizerModal } = useModal()
+  const openHubspotChat = () => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
+      // @ts-ignore
+      window.HubSpotConversations.widget.open()
+    }
+  }
   const { getLinkByRef } = useShopData()
   const openCustomizationModalWithProduct = () =>
     openCustomizationModal({ currentProduct, currentVariant })
@@ -188,6 +275,7 @@ export const RichText = ({
           openRingSizerModal: openRingSizerModalWithProduct,
           getLinkByRef,
           openCart,
+          openHubspotChat,
           weight,
         })}
       />

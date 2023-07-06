@@ -1,12 +1,20 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
-import { arrayify, reportFBViewContent, isShopifyProduct } from '../../utils'
+import {
+  arrayify,
+  reportFBViewContent,
+  reportFBAddToCart,
+  reportTTViewContent,
+  reportTTAddToCart,
+  isShopifyProduct,
+} from '../../utils'
 import { parseProduct } from './utils'
 import { SelectedProduct, EventType, GTagEvent } from './types'
 
 const { useEffect } = React
 
 interface AnalyticsContextValue {
+  sendFilterClick: () => void
   sendProductImpression: (
     products: SelectedProduct | SelectedProduct[],
     list?: string,
@@ -64,6 +72,12 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
 
   useEffect(() => sendPageView(asPath), [asPath])
 
+  const sendFilterClick: AnalyticsContextValue['sendFilterClick'] = () => {
+    sendEvent({
+      event: EventType.FilterClick,
+    })
+  }
+
   const sendProductImpression: AnalyticsContextValue['sendProductImpression'] =
     (selected, list) => {
       const impressions = arrayify(selected).map((s, i) =>
@@ -97,6 +111,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
         const selectedProduct = s?.product
         if (isShopifyProduct(selectedProduct)) {
           reportFBViewContent(selectedProduct)
+          reportTTViewContent(selectedProduct)
         }
       })
       sendEvent({
@@ -109,6 +124,14 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     const products = arrayify(selected).map((s, i) =>
       parseProduct(s, { position: i + 1 }),
     )
+
+    arrayify(selected).forEach((s) => {
+      const selectedProduct = s?.product
+      if (isShopifyProduct(selectedProduct)) {
+        reportFBAddToCart(selectedProduct)
+        reportTTAddToCart(selectedProduct)
+      }
+    })
     sendEvent({
       event: EventType.AddToCart,
       ecommerce: { add: { products } },
@@ -139,6 +162,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
   }
 
   const value = {
+    sendFilterClick,
     sendProductImpression,
     sendProductClick,
     sendProductDetailView,

@@ -4,10 +4,11 @@ import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 export interface HamburgerWrapperProps {
   theme: DefaultTheme
   open?: boolean
+  colorTheme?: 'light' | 'dark'
 }
 
 const HamburgerWrapper = styled.button`
-  ${({ open, theme }: HamburgerWrapperProps) => css`
+  ${({ open, theme, colorTheme }: HamburgerWrapperProps) => css`
     cursor: pointer;
     transition: 250ms ease;
     position: relative;
@@ -19,13 +20,18 @@ const HamburgerWrapper = styled.button`
     &:hover {
       opacity: 0.5;
     }
+    &:focus-visible {
+      ${theme.focus.left(50)}
+    }
 
     span {
       position: absolute;
       left: 0;
       width: 100%;
       height: 1px;
-      background-color: black;
+      background-color: ${colorTheme == 'light'
+        ? theme.colors.grays[1]
+        : 'black'};
       display: block;
       margin: 0;
       transition: 50ms ease;
@@ -72,12 +78,18 @@ const HamburgerWrapper = styled.button`
 interface HamburgerProps {
   open: boolean
   onClick?: () => void
+  colorTheme?: 'light' | 'dark'
   /* */
 }
 
-export const Hamburger = ({ open, onClick }: HamburgerProps) => {
+export const Hamburger = ({ open, onClick, colorTheme }: HamburgerProps) => {
   return (
-    <HamburgerWrapper open={open} onClick={onClick}>
+    <HamburgerWrapper
+      open={open}
+      onClick={onClick}
+      colorTheme={colorTheme}
+      aria-label={open ? 'Close' : 'Open'}
+    >
       <span />
       <span />
       <span />

@@ -1,8 +1,12 @@
 import * as React from 'react'
+// eslint-disable-next-line import/no-cycle
 import {
   ContactFormModal,
   CustomizationModal,
   RingSizerModal,
+  SizeConverterModal,
+  DiamondModal,
+  WeddingModal,
 } from '../../components/Modals'
 import { useLockScroll } from '../../components/LockScroll'
 import { ModalName, useModalReducer } from './reducer'
@@ -33,8 +37,11 @@ export const ModalProvider = ({ children }: ModalProps) => {
     state,
     closeModal,
     openRingSizerModal,
+    openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
+    openWeddingModal,
   } = useModalReducer()
   const { lockScroll, unlockScroll } = useLockScroll()
 
@@ -60,10 +67,20 @@ export const ModalProvider = ({ children }: ModalProps) => {
   const value = {
     closeModal,
     openRingSizerModal,
+    openSizeConverterModal,
     openCustomizationModal,
     openContactModal,
+    openDiamondModal,
+    openWeddingModal,
   }
-  const { formtype, currentModal, currentProduct, currentVariant } = state
+  const {
+    formtype,
+    currentModal,
+    currentProduct,
+    currentVariant,
+    currentDiamond,
+    addLineItem,
+  } = state
 
   return (
     <ModalContext.Provider value={value}>
@@ -76,6 +93,27 @@ export const ModalProvider = ({ children }: ModalProps) => {
         />
       ) : currentModal === ModalName.RING_SIZER ? (
         <RingSizerModal
+          product={currentProduct}
+          variant={currentVariant}
+          closeModal={closeModal}
+        />
+      ) : currentModal === ModalName.SIZE_CONVERTER ? (
+        <SizeConverterModal
+          product={currentProduct}
+          variant={currentVariant}
+          closeModal={closeModal}
+          addLineItem={addLineItem}
+          openRingSizerModal={openRingSizerModal}
+        />
+      ) : currentModal === ModalName.DIAMOND ? (
+        <DiamondModal
+          product={currentProduct}
+          variant={currentVariant}
+          diamond={currentDiamond}
+          closeModal={closeModal}
+        />
+      ) : currentModal === ModalName.WEDDING ? (
+        <WeddingModal
           product={currentProduct}
           variant={currentVariant}
           closeModal={closeModal}

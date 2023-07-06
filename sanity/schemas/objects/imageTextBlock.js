@@ -48,6 +48,12 @@ export const imageTextBlock = {
       description: 'Tip: Use shift+return for a soft-wrapping line',
     },
     {
+      name: 'body_mobile',
+      title: 'Text (Mobile)',
+      description: 'Text substitute shown on mobile devices (optional)',
+      type: 'richText',
+    },
+    {
       name: 'ctaText',
       title: 'CTA Text',
       type: 'string',
@@ -55,7 +61,11 @@ export const imageTextBlock = {
     {
       name: 'link',
       type: 'array',
-      of: [{ type: 'internalLink' }, { type: 'externalLink' }],
+      of: [
+        { type: 'internalLink' },
+        { type: 'externalLink' },
+        { type: 'pdfLink' },
+      ],
     },
     {
       name: 'textPosition',

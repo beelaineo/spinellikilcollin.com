@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 import { useCurrency } from '../../providers/CurrencyProvider'
 import { Form } from '../Forms'
 import { SelectElement } from '../Forms/Fields/styled'
@@ -7,11 +7,13 @@ import { CurrencySelectorWrapper } from './styled'
 import { ShopifyStorefrontCurrencyCode } from '../../types/generated-shopify'
 
 const SelectField = styled(SelectElement)`
-  color: body.8;
-  border: none;
-  min-width: initial;
-  padding: 0 4 0 3;
-  height: auto;
+  ${({ theme }: any) => css`
+    color: body.8;
+    border: none;
+    min-width: initial;
+    padding: 0 4 0 3;
+    height: auto;
+  `}
 `
 
 /* prettier-ignore */
@@ -23,7 +25,11 @@ const currencyOptions = Object.values(ShopifyStorefrontCurrencyCode)
   .filter((v) => !invalidOptions.includes(v))
   .map((value) => ({ label: value, value, id: value }))
 
-export const CurrencySelector = () => {
+interface CurrencySelectorProps {
+  colorTheme?: 'light' | 'dark'
+}
+
+export const CurrencySelector = ({ colorTheme }: CurrencySelectorProps) => {
   const { loading, currentCurrency, updateCurrency } = useCurrency()
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { value } = e.target
@@ -38,20 +44,21 @@ export const CurrencySelector = () => {
   }
 
   return (
-    <CurrencySelectorWrapper>
+    <CurrencySelectorWrapper colorTheme={colorTheme}>
       <Form
         disabled={loading}
         onSubmit={handleSubmit}
         initialValues={initialValues}
       >
-        <SelectField name="currency" color="body.8" onChange={handleChange}>
+        <SelectField
+          name="currency"
+          color="body.8"
+          onChange={handleChange}
+          aria-label="Select Currency"
+          value={currentCurrency}
+        >
           {currencyOptions.map(({ id, value, label }) => (
-            <option
-              key={id}
-              id={id}
-              selected={value === currentCurrency}
-              value={value}
-            >
+            <option key={id} id={id} value={value}>
               {label}
             </option>
           ))}

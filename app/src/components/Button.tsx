@@ -20,6 +20,11 @@ export const Button = styled.buttonBox<ButtonProps>`
     cursor: pointer;
     font-weight: 300;
     line-height: 42px;
+    position: relative;
+
+    &:focus-visible {
+      ${theme.focus.left()}
+    }
 
     svg {
       display: inline-block;

@@ -14,6 +14,11 @@ const CarouselBlockStyled = styled.div`
 
     a {
       text-decoration: none;
+
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
     }
 
     ${theme.mediaQueries.mobile} {
@@ -48,7 +53,7 @@ export const CarouselBlock = ({ content }: CarouselBlockProps) => {
       {collection ? (
         <Heading level={4}>
           <Link href="/collections/[collectionSlug]" as={linkAs}>
-            <a>{title}</a>
+            <a aria-label={'Link to ' + title + ' collection'}>{title}</a>
           </Link>
         </Heading>
       ) : (

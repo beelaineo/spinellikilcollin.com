@@ -2,8 +2,23 @@ import { getCookie } from '../utils'
 import { Sentry } from '../services/sentry'
 import { config } from '../config'
 import Debug from 'debug'
+import publicIp from 'public-ip'
 
 const debug = Debug('dev:hubspot')
+
+interface CommunicationsOption {
+  value: boolean
+  subscriptionTypeId: string
+  text: string
+}
+
+interface LegalConsentOptions {
+  consent: {
+    consentToProcess: boolean
+    text: string
+    communications: CommunicationsOption[]
+  }
+}
 
 type Values = Record<string, string | number | boolean | undefined>
 
@@ -14,6 +29,12 @@ const PORTAL_ID = '7668999'
 interface ValueObject {
   name: string
   value: string | number | boolean | undefined
+}
+
+const formatPhoneField = function (values: Values) {
+  values.phone = '+' + values.dialingCode + ' ' + values.phone
+  const { dialingCode, phoneCountryCode, ...hubspotValues } = values
+  return hubspotValues
 }
 
 const parseValues = (values: Values): ValueObject[] =>
@@ -36,15 +57,37 @@ export const submitToHubspot = async (
   const hutk = getCookie('hubspotutk')
   const pageUri = window.location.href.replace(/https?:\/\//, '')
   const pageName = document.title
+  const ipAddress = await publicIp.v4()
   const context = {
     hutk,
     pageUri,
     pageName,
+    ipAddress,
+  }
+  const legalConsentOptions = values.communicationsConsent && {
+    consent: {
+      consentToProcess: true,
+      text: 'I agree to allow Spinelli Kilcollin to store and process my personal data.',
+      communications: [
+        {
+          value: values.communicationsConsent,
+          subscriptionTypeId: '9286953',
+          text: 'I agree to receive marketing communications from Spinelli Kilcollin.',
+        },
+        {
+          value: values.communicationsConsent,
+          subscriptionTypeId: '9532507',
+          text: 'I agree to receive one to one emails from Spinelli Kilcollin.',
+        },
+      ],
+    },
   }
   const body = {
-    fields: parseValues(values),
+    fields: parseValues(formatPhoneField(values)),
     context,
+    legalConsentOptions,
   }
+  console.log('HUSBPOT FORM BODY SUBMITTED:', body)
   if (config.STOREFRONT_ENV !== 'production') {
     debug('Not currently in production. Mocking Hubpsot form submission:')
     debug(body)
@@ -59,11 +102,10 @@ export const submitToHubspot = async (
         'Content-Type': 'application/json',
       },
     }).then((r) => r.json())
-    if (response.status === 'error') throw response
-  } catch (err) {
-    Sentry.setContext('hubspotResponse', err)
-    Sentry.setContext('hubspotFormData', { body })
-    Sentry.configureScope((scope) => scope.setTag('integration', 'hubspot'))
-    Sentry.captureException(err)
+    if (response.status === 'error') {
+      throw response
+    }
+  } catch (err: any | unknown) {
+    Sentry.captureException(err, 'hubspot_error', { hubspotFormData: body })
   }
 }

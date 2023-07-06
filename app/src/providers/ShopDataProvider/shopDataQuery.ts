@@ -13,6 +13,7 @@ import {
   ctaFragment,
   filterSetFragment,
   priceRangeFilterFragment,
+  inventoryFilterFragment,
   seoFragment,
 } from '../../graphql/fragments'
 import { request } from '../../graphql'
@@ -35,9 +36,15 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         ... on MenuLink {
           _key
           _type
+          label
+          linkType
           link {
             ...InternalLinkFragment
           }
+          link_external {
+            ...ExternalLinkFragment
+          }
+          action
         }
         ... on SubMenu {
           _key
@@ -57,21 +64,51 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
                 ... on Cta {
                   ...CTAFragment
                 }
+                ... on SubMenu {
+                  _key
+                  _type
+                  title
+                  links {
+                    __typename
+                    ... on Cta {
+                      ...CTAFragment
+                    }
+                  }
+                }
               }
             }
           }
+        }
+      }
+      footerMenuItems {
+        __typename
+        ... on MenuLink {
+          _key
+          _type
+          label
+          linkType
+          link {
+            ...InternalLinkFragment
+          }
+          link_external {
+            ...ExternalLinkFragment
+          }
+          action
         }
       }
     }
     ProductListingSettings(id: "productListingSettings") {
       _id
       _type
-      defaultFilter {
+      newDefaultFilter {
         ... on FilterSet {
           ...FilterSetFragment
         }
         ... on PriceRangeFilter {
           ...PriceRangeFilterFragment
+        }
+        ... on InventoryFilter {
+          ...InventoryFilterFragment
         }
       }
     }
@@ -100,6 +137,10 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         tag
         label
       }
+      excludeFromStockIndication {
+        _id
+        handle
+      }
     }
     SiteSettings(id: "site-settings") {
       _id
@@ -115,6 +156,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       seo {
         ...SEOFragment
       }
+      phone
       mailerTitle
       mailerSubtitle
     }
@@ -126,6 +168,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   ${ctaFragment}
   ${filterSetFragment}
   ${priceRangeFilterFragment}
+  ${inventoryFilterFragment}
 `
 
 export interface ShopDataResponse {

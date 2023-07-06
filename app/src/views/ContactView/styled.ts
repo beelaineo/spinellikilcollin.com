@@ -29,24 +29,44 @@ export const ContactLines = styled.div`
 `
 
 export const ContactLineWrapper = styled.div`
-  padding: 2 0 5;
-  border-bottom: 1px solid;
-  border-color: body.5;
-  margin-bottom: 6;
+  ${({ theme }) => css`
+    padding: 2 0 5;
+    border-bottom: 1px solid;
+    border-color: body.5;
+    margin-bottom: 6;
 
-  &:last-of-type {
-    margin-bottom: 0;
-  }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    button,
+    a {
+      position: relative;
+
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
+    }
+  `}
 `
 
 export const ChatWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  svg {
-    margin: 0 auto;
-    max-width: 180px;
-  }
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    button {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.left()}
+      }
+    }
+    svg {
+      margin: 0 auto;
+      max-width: 180px;
+    }
+  `}
 `

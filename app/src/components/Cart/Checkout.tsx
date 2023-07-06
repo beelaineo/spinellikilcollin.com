@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Button } from '../Button'
 import { useAnalytics, useCart } from '../../providers'
@@ -14,10 +15,15 @@ import {
   CartInner,
   CartHeading,
   SubtotalWrapper,
+  OptionsWrapper,
 } from './styled'
 import { CheckoutProduct } from './CheckoutProduct'
+import { BooleanCheckbox } from './BooleanCheckbox'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
+import { StringValueNode } from 'graphql'
+
+const { useState, useRef, useEffect } = React
 
 /**
  * Main Checkout view
@@ -25,6 +31,7 @@ import { Price } from '../Price'
 
 interface FormValues {
   notes?: string
+  notesBool?: boolean
   giftWrap?: boolean
 }
 
@@ -34,11 +41,30 @@ export const Checkout = () => {
   /* State */
   const { message, open: cartOpen, closeCart } = useCart()
   const { goToCheckout, checkout, loading, addNote } = useShopify()
+  const router = useRouter()
 
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
-
   const title = message || 'Your Cart'
+
+  const [notesVisible, setNotesVisible] = useState(false)
+
+  const handleNotesToggle = (e) => {
+    setNotesVisible(e.target.checked)
+    console.log('notesVisible:', notesVisible)
+  }
+
+  const sideCart = useRef<any>(null)
+
+  useEffect(() => {
+    if (cartOpen) {
+      sideCart.current.focus()
+    }
+  }, [cartOpen])
+
+  useEffect(() => {
+    cartOpen && closeCart()
+  }, [router])
 
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
@@ -54,14 +80,16 @@ export const Checkout = () => {
   }
 
   return (
-    <CartSidebar open={cartOpen}>
+    <CartSidebar open={cartOpen} ref={sideCart} tabIndex={-1}>
       <CartHeading>
-        <CloseButtonWrapper>
-          <Hamburger open={true} onClick={closeCart} />
-        </CloseButtonWrapper>
+        {cartOpen ? (
+          <CloseButtonWrapper>
+            <Hamburger open={true} onClick={closeCart} />
+          </CloseButtonWrapper>
+        ) : null}
 
         <Heading my={0} level={3} color="dark" textAlign="center">
-          {title}
+          <span role="status">{title}</span>
         </Heading>
       </CartHeading>
       {lineItems.length === 0 ? (
@@ -69,25 +97,25 @@ export const Checkout = () => {
           <Heading
             fontStyle="italic"
             textAlign="center"
-            color="body.6"
+            color="body.7"
             my={6}
             level={4}
           >
             Your cart is empty
           </Heading>
-          <Button level={2} mx="auto" onClick={closeCart}>
+          <Button level={2} mx="auto" onClick={closeCart} hidden={!cartOpen}>
             Continue Shopping
           </Button>
         </CartInner>
       ) : (
         <>
-          <CartInner isLoading={loading}>
+          <CartInner isLoading={loading} hidden={!cartOpen}>
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
           </CartInner>
 
-          <CartBottom>
+          <CartBottom hidden={!cartOpen}>
             {checkout && checkout?.paymentDueV2?.amount ? (
               <SubtotalWrapper>
                 <Heading level={4} weight={2}>
@@ -95,24 +123,41 @@ export const Checkout = () => {
                 </Heading>
                 <div>
                   <Heading level={4} textTransform="uppercase" weight={2}>
-                    {/* @ts-ignore */}
-                    <Price price={checkout.paymentDueV2} />
+                    <Price price={checkout.paymentDueV2} style={'full'} />
                   </Heading>
-                  <Affirm price={checkout.paymentDueV2} />
+                  {lineItems?.some(
+                    (item) =>
+                      item.variant?.product?.productType === 'Gift Card',
+                  ) ? null : (
+                    <Affirm price={checkout.paymentDueV2} />
+                  )}
                 </div>
               </SubtotalWrapper>
             ) : null}
             <Form<FormValues> onSubmit={handleSubmit} initialValues={{}}>
-              <Heading level={5} textAlign="center">
-                Please leave special instructions below
-              </Heading>
-              <Field type="textarea" name="notes" />
-              <Checkbox label="Gift Wrap" name="giftWrap" />
+              <OptionsWrapper>
+                <div></div>
+                <div>
+                  <BooleanCheckbox
+                    onChange={handleNotesToggle}
+                    label="Special Instructions"
+                    name="notesBool"
+                  />
+                  <Checkbox label="Gift Wrap" name="giftWrap" />
+                </div>
+              </OptionsWrapper>
+              {notesVisible ? (
+                <Field
+                  type="textarea"
+                  name="notes"
+                  placeholder="Please leave special instructions here"
+                />
+              ) : null}
               <Button
                 type="submit"
                 mt={4}
                 mb={0}
-                width="100%"
+                w="100%"
                 level={1}
                 disabled={loading}
               >

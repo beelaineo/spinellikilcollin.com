@@ -1,7 +1,12 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { FormBlock } from '../../types'
-import { CustomizationForm, RingSizerForm } from '../Forms'
+import {
+  CustomizationForm,
+  RingSizerForm,
+  VIPSignupForm,
+  SizeConverterForm,
+} from '../Forms'
 
 const Wrapper = styled.div`
   margin: 9 auto;
@@ -13,9 +18,13 @@ const Wrapper = styled.div`
 
 interface EmbeddedFormProps {
   block: FormBlock
+  openRingSizerModal?: ({ currentProduct, currentVariant }) => void
 }
 
-export const EmbeddedForm = ({ block }: EmbeddedFormProps) => {
+export const EmbeddedForm = ({
+  block,
+  openRingSizerModal,
+}: EmbeddedFormProps) => {
   switch (block.formType) {
     case 'customizationInquiry':
       return (
@@ -27,6 +36,23 @@ export const EmbeddedForm = ({ block }: EmbeddedFormProps) => {
       return (
         <Wrapper>
           <RingSizerForm />
+        </Wrapper>
+      )
+    case 'vipSignup':
+      return (
+        <Wrapper>
+          <VIPSignupForm />
+        </Wrapper>
+      )
+    case 'sizeConverter':
+      return (
+        <Wrapper>
+          {/* @ts-ignore */}
+          <SizeConverterForm
+            title={block.formTitle}
+            subtitle={block.formSubtitle}
+            openRingSizerModal={openRingSizerModal}
+          />
         </Wrapper>
       )
     default:

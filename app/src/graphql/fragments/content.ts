@@ -1,5 +1,9 @@
-import gql from 'graphql-tag'
-import { sanityImageFragment, richImageFragment } from './media'
+import { gql } from 'graphql-tag'
+import {
+  sanityImageFragment,
+  sanityFileAssetFragment,
+  richImageFragment,
+} from './media'
 
 export const seoFragment = gql`
   fragment SEOFragment on Seo {
@@ -35,7 +39,9 @@ export const shopifySourceProductVariantFragment = gql`
     _key
     _type
     availableForSale
+    currentlyNotInStock
     id
+    sku
     title
     image {
       ...ShopifySourceImageFragment
@@ -83,6 +89,12 @@ export const internalLinkFragment = gql`
         _key
         title
       }
+      ... on Faq {
+        _id
+        _type
+        _key
+        title
+      }
       ... on Customize {
         _id
         _type
@@ -121,6 +133,7 @@ export const internalLinkFragment = gql`
           current
         }
       }
+
       ... on ShopifyProduct {
         _id
         _key
@@ -136,6 +149,16 @@ export const internalLinkFragment = gql`
         handle
       }
     }
+  }
+`
+
+export const externalLinkFragment = gql`
+  fragment ExternalLinkFragment on ExternalLink {
+    __typename
+    _key
+    _type
+    url
+    newTab
   }
 `
 
@@ -168,27 +191,79 @@ export const priceRangeFilterFragment = gql`
   }
 `
 
+export const inventoryFilterFragment = gql`
+  fragment InventoryFilterFragment on InventoryFilter {
+    __typename
+    _key
+    label
+  }
+`
+
+export const customFilterFragment = gql`
+  fragment CustomFilterFragment on FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter {
+    ... on FilterSet {
+      __typename
+      _key
+      heading
+      searchOnly
+      filters {
+        __typename
+        _key
+        label
+        matches {
+          __typename
+          _key
+          type
+          match
+        }
+      }
+    }
+    ... on InventoryFilter {
+      __typename
+      _key
+      label
+    }
+    ... on PriceRangeFilter {
+      __typename
+      _key
+      minPrice
+      maxPrice
+    }
+  }
+`
+
 export const ctaFragment = gql`
   fragment CTAFragment on Cta {
     __typename
     _key
     _type
+    action
     label
+    linkType
     link {
       ...InternalLinkFragment
     }
+    link_external {
+      ...ExternalLinkFragment
+    }
   }
   ${internalLinkFragment}
+  ${externalLinkFragment}
 `
 
-export const externalLinkFragment = gql`
-  fragment ExternalLinkFragment on ExternalLink {
+export const pdfLinkFragment = gql`
+  fragment PdfLinkFragment on PdfLink {
     __typename
     _key
     _type
-    url
-    newTab
+    title
+    pdf {
+      asset {
+        ...SanityFileAssetFragment
+      }
+    }
   }
+  ${sanityFileAssetFragment}
 `
 
 export const cloudinaryVideoFragment = gql`
@@ -205,6 +280,7 @@ export const imageTextBlockFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     ctaText
     textPosition
     textColor
@@ -225,12 +301,48 @@ export const imageTextBlockFragment = gql`
       ... on ExternalLink {
         ...ExternalLinkFragment
       }
+      ... on PdfLink {
+        ...PdfLinkFragment
+      }
     }
   }
   ${internalLinkFragment}
   ${externalLinkFragment}
+  ${pdfLinkFragment}
   ${richImageFragment}
   ${cloudinaryVideoFragment}
+`
+
+export const textBlockFragment = gql`
+  fragment TextBlockFragment on TextBlock {
+    __typename
+    _key
+    _type
+    bodyRaw
+    body_mobileRaw
+    alignment
+    textColor
+    layout
+    backgroundImage {
+      ...RichImageFragment
+    }
+  }
+  ${richImageFragment}
+`
+
+export const stoneFragment = gql`
+  fragment StoneFragment on Stone {
+    _id
+    _type
+    _key
+    gia_number
+    gia_link
+    carat
+    cut
+    color
+    precision
+    clarity
+  }
 `
 
 export const shopifySourceProductFragment = gql`
@@ -239,6 +351,7 @@ export const shopifySourceProductFragment = gql`
     id
     title
     handle
+    vendor
     tags
     productType
     description
@@ -323,6 +436,41 @@ export const shopifyProductFragment = gql`
   ${imageTextBlockFragment}
 `
 
+export const shopifySourceCollectionFragment = gql`
+  fragment ShopifySourceCollectionFragment on ShopifySourceCollection {
+    __typename
+    title
+    handle
+    description
+    descriptionHtml
+    image {
+      ...ShopifySourceImageFragment
+    }
+    products {
+      _key
+      __typename
+      pageInfo {
+        _key
+        __typename
+        hasNextPage
+        hasPreviousPage
+      }
+      edges {
+        _key
+        __typename
+        cursor
+        node {
+          __typename
+          _key
+          handle
+          id
+        }
+      }
+    }
+  }
+  ${shopifySourceImageFragment}
+`
+
 export const shopifyCollectionFragment = gql`
   fragment ShopifyCollectionFragment on ShopifyCollection {
     __typename
@@ -339,6 +487,29 @@ export const shopifyCollectionFragment = gql`
   }
   ${shopifyProductFragment}
 `
+
+export const collectionBlockFragment = gql`
+  fragment CollectionBlockFragment on CollectionBlock {
+    __typename
+    _key
+    position
+    format
+    bodyRaw
+    body_mobileRaw
+    textPosition
+    textColor
+    cloudinaryVideo {
+      ...CloudinaryVideoFragment
+    }
+    backgroundImage {
+      ...RichImageFragment
+    }
+    backgroundColor
+  }
+  ${cloudinaryVideoFragment}
+  ${richImageFragment}
+`
+
 export const shopifyProductThumbnailFragment = gql`
   fragment ShopifyProductThumbnailFragment on ShopifyProduct {
     __typename
@@ -363,6 +534,10 @@ export const shopifyProductThumbnailFragment = gql`
         swatch {
           ...SanityImageFragment
         }
+        animation
+        stone {
+          ...StoneFragment
+        }
       }
     }
     sourceData {
@@ -373,6 +548,7 @@ export const shopifyProductThumbnailFragment = gql`
   ${sanityImageFragment}
   ${shopifySourceImageFragment}
   ${shopifySourceProductFragment}
+  ${stoneFragment}
 `
 
 export const richPageLinkFragment = gql`
@@ -426,12 +602,70 @@ export const carouselFragment = gql`
       handle
       archived
       shopifyId
+      products {
+        __typename
+        _id
+        _key
+        title
+        hidden
+        hideFromSearch
+        handle
+        archived
+        shopifyId
+        minVariantPrice
+        maxVariantPrice
+        sourceData {
+          __typename
+          id
+          title
+          handle
+          tags
+          productType
+          images {
+            __typename
+            edges {
+              __typename
+              cursor
+              node {
+                ...ShopifySourceImageFragment
+              }
+            }
+          }
+        }
+      }
     }
     items {
       ...RichPageLinkFragment
     }
   }
   ${richPageLinkFragment}
+  ${shopifySourceImageFragment}
+`
+
+export const colorFragment = gql`
+  fragment ColorFragment on Color {
+    _key
+    hex
+    alpha
+    hsl {
+      h
+      s
+      l
+      a
+    }
+    hsv {
+      h
+      s
+      v
+      a
+    }
+    rgb {
+      r
+      g
+      b
+      a
+    }
+  }
 `
 
 export const heroFragment = gql`
@@ -440,12 +674,29 @@ export const heroFragment = gql`
     _key
     _type
     bodyRaw
+    body_mobileRaw
     textColor
+    textColorCustom {
+      ...ColorFragment
+    }
+    textColorMobile
+    textColorMobileCustom {
+      ...ColorFragment
+    }
+    textContainer
     textPosition
     textPositionMobile
     backgroundColor
+    backgroundColorCustom {
+      ...ColorFragment
+    }
     mobileBackgroundColor
+    mobileBackgroundColorCustom {
+      ...ColorFragment
+    }
     aspectRatio
+    layout
+    header_color
     cta {
       ...CTAFragment
     }
@@ -469,4 +720,5 @@ export const heroFragment = gql`
   ${richImageFragment}
   ${internalLinkFragment}
   ${ctaFragment}
+  ${colorFragment}
 `

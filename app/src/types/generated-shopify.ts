@@ -2,10 +2,12 @@ export type Maybe<T> = T | null
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K]
 }
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> }
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> }
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>
+}
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>
+}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string
@@ -13,37 +15,69 @@ export type Scalars = {
   Boolean: boolean
   Int: number
   Float: number
-  /** A monetary value string. Example value: `"100.57"`. */
-  Money: any
-  /** A signed decimal number, which supports arbitrary precision and is serialized as a string. Example value: `"29.99"`. */
-  Decimal: any
-  /** An ISO-8601 encoded UTC date time string. Example value: `"2019-07-03T20:47:55Z"`. */
+  /**
+   * Represents an [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)-encoded date and time string.
+   * For example, 3:50 pm on September 7, 2019 in the time zone of UTC (Coordinated Universal Time) is
+   * represented as `"2019-09-07T15:50:00Z`".
+   *
+   */
   DateTime: Date
   /**
-   * An RFC 3986 and RFC 3987 compliant URI string.
+   * A signed decimal number, which supports arbitrary precision and is serialized as a string.
    *
-   * Example value: `"https://johns-apparel.myshopify.com"`.
+   * Example values: `"29.99"`, `"29.999"`.
+   *
+   */
+  Decimal: any
+  /**
+   * A string containing HTML code. Refer to the [HTML spec](https://html.spec.whatwg.org/#elements-3) for a
+   * complete list of HTML elements.
+   *
+   * Example value: `"<p>Grey cotton knit sweater.</p>"`
+   *
+   */
+  HTML: any
+  /**
+   * A [JSON](https://www.json.org/json-en.html) object.
+   *
+   * Example value:
+   * `{
+   *   "product": {
+   *     "id": "gid://shopify/Product/1346443542550",
+   *     "title": "White T-shirt",
+   *     "options": [{
+   *       "name": "Size",
+   *       "values": ["M", "L"]
+   *     }]
+   *   }
+   * }`
+   *
+   */
+  JSON: { [key: string]: any }
+  /** A monetary value string without a currency symbol or code. Example value: `"100.57"`. */
+  Money: any
+  /**
+   * Represents an [RFC 3986](https://datatracker.ietf.org/doc/html/rfc3986) and
+   * [RFC 3987](https://datatracker.ietf.org/doc/html/rfc3987)-compliant URI string.
+   *
+   * For example, `"https://johns-apparel.myshopify.com"` is a valid URL. It includes a scheme (`https`) and a host
+   * (`johns-apparel.myshopify.com`).
    *
    */
   URL: any
-  /** A string containing HTML code. Example value: `"<p>Grey cotton knit sweater.</p>"`. */
-  HTML: any
 }
 
-/** A version of the API. */
+/**
+ * A version of the API, as defined by [Shopify API versioning](https://shopify.dev/api/usage/versioning).
+ * Versions are commonly referred to by their handle (for example, `2021-10`).
+ */
 export interface ShopifyStorefrontApiVersion {
   __typename: 'ApiVersion'
   /** The human-readable name of the version. */
   displayName: Scalars['String']
   /** The unique identifier of an ApiVersion. All supported API versions have a date-based (YYYY-MM) or `unstable` handle. */
   handle: Scalars['String']
-  /**
-   * Whether the version is actively supported by Shopify. Supported API versions
-   * are guaranteed to be stable. Unsupported API versions include unstable,
-   * release candidate, and end-of-life versions that are marked as unsupported.
-   * For more information, refer to
-   * [Versioning](https://shopify.dev/concepts/about-apis/versioning).
-   */
+  /** Whether the version is actively supported by Shopify. Supported API versions are guaranteed to be stable. Unsupported API versions include unstable, release candidate, and end-of-life versions that are marked as unsupported. For more information, refer to [Versioning](https://shopify.dev/api/usage/versioning). */
   supported: Scalars['Boolean']
 }
 
@@ -53,19 +87,19 @@ export interface ShopifyStorefrontAppliedGiftCard
   __typename: 'AppliedGiftCard'
   /**
    * The amount that was taken from the gift card by applying it.
-   * @deprecated Use `amountUsedV2` instead
+   * @deprecated Use `amountUsedV2` instead.
    */
   amountUsed: Scalars['Money']
   /** The amount that was taken from the gift card by applying it. */
   amountUsedV2: ShopifyStorefrontMoneyV2
   /**
    * The amount left on the gift card.
-   * @deprecated Use `balanceV2` instead
+   * @deprecated Use `balanceV2` instead.
    */
   balance: Scalars['Money']
   /** The amount left on the gift card. */
   balanceV2: ShopifyStorefrontMoneyV2
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The last characters of the gift card. */
   lastCharacters: Scalars['String']
@@ -74,11 +108,14 @@ export interface ShopifyStorefrontAppliedGiftCard
 }
 
 /** An article in an online store blog. */
-export interface ShopifyStorefrontArticle extends ShopifyStorefrontNode {
+export interface ShopifyStorefrontArticle
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Article'
   /**
    * The article's author.
-   * @deprecated Use `authorV2` instead
+   * @deprecated Use `authorV2` instead.
    */
   author: ShopifyStorefrontArticleAuthor
   /** The article's author. */
@@ -97,10 +134,20 @@ export interface ShopifyStorefrontArticle extends ShopifyStorefrontNode {
   excerptHtml?: Maybe<Scalars['HTML']>
   /** A human-friendly unique string for the Article automatically generated from its title. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The image associated with the article. */
   image?: Maybe<ShopifyStorefrontImage>
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
+  metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
   /** The date and time when the article was published. */
   publishedAt: Scalars['DateTime']
   /** The article’s SEO information. */
@@ -109,7 +156,10 @@ export interface ShopifyStorefrontArticle extends ShopifyStorefrontNode {
   tags: Array<Scalars['String']>
   /** The article’s name. */
   title: Scalars['String']
-  /** The url pointing to the article accessible from the web. */
+  /**
+   * The url pointing to the article accessible from the web.
+   * @deprecated Use `onlineStoreUrl` instead.
+   */
   url: Scalars['URL']
 }
 
@@ -138,6 +188,22 @@ export type ShopifyStorefrontArticleImageArgs = {
   maxHeight?: Maybe<Scalars['Int']>
   crop?: Maybe<ShopifyStorefrontCropRegion>
   scale?: Maybe<Scalars['Int']>
+}
+
+/** An article in an online store blog. */
+export type ShopifyStorefrontArticleMetafieldArgs = {
+  namespace: Scalars['String']
+  key: Scalars['String']
+}
+
+/** An article in an online store blog. */
+export type ShopifyStorefrontArticleMetafieldsArgs = {
+  namespace?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
 }
 
 /** The author of an article. */
@@ -188,9 +254,8 @@ export enum ShopifyStorefrontArticleSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -204,7 +269,7 @@ export interface ShopifyStorefrontAttribute {
   value?: Maybe<Scalars['String']>
 }
 
-/** Specifies the input fields required for an attribute. */
+/** The input fields for an attribute. */
 export type ShopifyStorefrontAttributeInput = {
   /** Key or name of the attribute. */
   key: Scalars['String']
@@ -242,7 +307,10 @@ export interface ShopifyStorefrontAvailableShippingRates {
 }
 
 /** An online store blog. */
-export interface ShopifyStorefrontBlog extends ShopifyStorefrontNode {
+export interface ShopifyStorefrontBlog
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Blog'
   /** Find an article by its handle. */
   articleByHandle?: Maybe<ShopifyStorefrontArticle>
@@ -252,11 +320,26 @@ export interface ShopifyStorefrontBlog extends ShopifyStorefrontNode {
   authors: Array<ShopifyStorefrontArticleAuthor>
   /** A human-friendly unique string for the Blog automatically generated from its title. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
+  metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
+  /** The blog's SEO information. */
+  seo?: Maybe<ShopifyStorefrontSeo>
   /** The blogs’s title. */
   title: Scalars['String']
-  /** The url pointing to the blog accessible from the web. */
+  /**
+   * The url pointing to the blog accessible from the web.
+   * @deprecated Use `onlineStoreUrl` instead.
+   */
   url: Scalars['URL']
 }
 
@@ -274,6 +357,22 @@ export type ShopifyStorefrontBlogArticlesArgs = {
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontArticleSortKeys>
   query?: Maybe<Scalars['String']>
+}
+
+/** An online store blog. */
+export type ShopifyStorefrontBlogMetafieldArgs = {
+  namespace: Scalars['String']
+  key: Scalars['String']
+}
+
+/** An online store blog. */
+export type ShopifyStorefrontBlogMetafieldsArgs = {
+  namespace?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
 }
 
 /** An auto-generated type for paginating through multiple Blogs. */
@@ -303,9 +402,8 @@ export enum ShopifyStorefrontBlogSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -326,6 +424,331 @@ export enum ShopifyStorefrontCardBrand {
   Jcb = 'JCB',
 }
 
+/**
+ * A cart represents the merchandise that a buyer intends to purchase,
+ * and the estimated cost associated with the cart. Learn how to
+ * [interact with a cart](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+ * during a customer's session.
+ */
+export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
+  __typename: 'Cart'
+  /** The attributes associated with the cart. Attributes are represented as key-value pairs. */
+  attributes: Array<ShopifyStorefrontAttribute>
+  /** Information about the buyer that is interacting with the cart. */
+  buyerIdentity: ShopifyStorefrontCartBuyerIdentity
+  /** The URL of the checkout for the cart. */
+  checkoutUrl: Scalars['URL']
+  /** The date and time when the cart was created. */
+  createdAt: Scalars['DateTime']
+  /** The case-insensitive discount codes that the customer added at checkout. */
+  discountCodes: Array<ShopifyStorefrontCartDiscountCode>
+  /**
+   * The estimated costs that the buyer will pay at checkout.
+   * The estimated costs are subject to change and changes will be reflected at checkout.
+   * The `estimatedCost` field uses the `buyerIdentity` field to determine
+   * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
+   * @deprecated Use `cost` instead.
+   */
+  estimatedCost: ShopifyStorefrontCartEstimatedCost
+  /** A globally-unique ID. */
+  id: Scalars['ID']
+  /** A list of lines containing information about the items the customer intends to purchase. */
+  lines: ShopifyStorefrontCartLineConnection
+  /** A note that is associated with the cart. For example, the note can be a personalized message to the buyer. */
+  note?: Maybe<Scalars['String']>
+  /** The date and time when the cart was updated. */
+  updatedAt: Scalars['DateTime']
+}
+
+/**
+ * A cart represents the merchandise that a buyer intends to purchase,
+ * and the estimated cost associated with the cart. Learn how to
+ * [interact with a cart](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+ * during a customer's session.
+ */
+export type ShopifyStorefrontCartLinesArgs = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** Return type for `cartAttributesUpdate` mutation. */
+export interface ShopifyStorefrontCartAttributesUpdatePayload {
+  __typename: 'CartAttributesUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** The discounts automatically applied to the cart line based on prerequisites that have been met. */
+export interface ShopifyStorefrontCartAutomaticDiscountAllocation
+  extends ShopifyStorefrontCartDiscountAllocation {
+  __typename: 'CartAutomaticDiscountAllocation'
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: ShopifyStorefrontMoneyV2
+  /** The title of the allocated discount. */
+  title: Scalars['String']
+}
+
+/** Represents information about the buyer that is interacting with the cart. */
+export interface ShopifyStorefrontCartBuyerIdentity {
+  __typename: 'CartBuyerIdentity'
+  /** The country where the buyer is located. */
+  countryCode?: Maybe<ShopifyStorefrontCountryCode>
+  /** The customer account associated with the cart. */
+  customer?: Maybe<ShopifyStorefrontCustomer>
+  /** The email address of the buyer that is interacting with the cart. */
+  email?: Maybe<Scalars['String']>
+  /** The phone number of the buyer that is interacting with the cart. */
+  phone?: Maybe<Scalars['String']>
+}
+
+/**
+ * Specifies the input fields to update the buyer information associated with a cart.
+ * Buyer identity is used to determine
+ * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+ * and should match the customer's shipping address.
+ */
+export type ShopifyStorefrontCartBuyerIdentityInput = {
+  /** The email address of the buyer that is interacting with the cart. */
+  email?: Maybe<Scalars['String']>
+  /** The phone number of the buyer that is interacting with the cart. */
+  phone?: Maybe<Scalars['String']>
+  /** The country where the buyer is located. */
+  countryCode?: Maybe<ShopifyStorefrontCountryCode>
+  /** The access token used to identify the customer associated with the cart. */
+  customerAccessToken?: Maybe<Scalars['String']>
+}
+
+/** Return type for `cartBuyerIdentityUpdate` mutation. */
+export interface ShopifyStorefrontCartBuyerIdentityUpdatePayload {
+  __typename: 'CartBuyerIdentityUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** The discount that has been applied to the cart line using a discount code. */
+export interface ShopifyStorefrontCartCodeDiscountAllocation
+  extends ShopifyStorefrontCartDiscountAllocation {
+  __typename: 'CartCodeDiscountAllocation'
+  /** The code used to apply the discount. */
+  code: Scalars['String']
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: ShopifyStorefrontMoneyV2
+}
+
+/** Return type for `cartCreate` mutation. */
+export interface ShopifyStorefrontCartCreatePayload {
+  __typename: 'CartCreatePayload'
+  /** The new cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** The discounts that have been applied to the cart line. */
+export type ShopifyStorefrontCartDiscountAllocation = {
+  /** The discounted amount that has been applied to the cart line. */
+  discountedAmount: ShopifyStorefrontMoneyV2
+}
+
+/** The discount codes applied to the cart. */
+export interface ShopifyStorefrontCartDiscountCode {
+  __typename: 'CartDiscountCode'
+  /** Whether the discount code is applicable to the cart's current contents. */
+  applicable: Scalars['Boolean']
+  /** The code for the discount. */
+  code: Scalars['String']
+}
+
+/** Return type for `cartDiscountCodesUpdate` mutation. */
+export interface ShopifyStorefrontCartDiscountCodesUpdatePayload {
+  __typename: 'CartDiscountCodesUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Possible error codes that can be returned by `CartUserError`. */
+export enum ShopifyStorefrontCartErrorCode {
+  /** The input value is invalid. */
+  Invalid = 'INVALID',
+  /** The input value should be less than the maximum value allowed. */
+  LessThan = 'LESS_THAN',
+  /** Merchandise line was not found in cart. */
+  InvalidMerchandiseLine = 'INVALID_MERCHANDISE_LINE',
+  /** Missing discount code. */
+  MissingDiscountCode = 'MISSING_DISCOUNT_CODE',
+  /** Missing note. */
+  MissingNote = 'MISSING_NOTE',
+}
+
+/**
+ * The estimated costs that the buyer will pay at checkout.
+ * The estimated cost uses
+ * [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity)
+ * to determine
+ * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
+ */
+export interface ShopifyStorefrontCartEstimatedCost {
+  __typename: 'CartEstimatedCost'
+  /** The estimated amount, before taxes and discounts, for the customer to pay. */
+  subtotalAmount: ShopifyStorefrontMoneyV2
+  /** The estimated total amount for the customer to pay. */
+  totalAmount: ShopifyStorefrontMoneyV2
+  /** The estimated duty amount for the customer to pay at checkout. */
+  totalDutyAmount?: Maybe<ShopifyStorefrontMoneyV2>
+  /** The estimated tax amount for the customer to pay at checkout. */
+  totalTaxAmount?: Maybe<ShopifyStorefrontMoneyV2>
+}
+
+/** The input fields to create a cart. */
+export type ShopifyStorefrontCartInput = {
+  /** An array of key-value pairs that contains additional information about the cart. */
+  attributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
+  /** A list of merchandise lines to add to the cart. */
+  lines?: Maybe<Array<ShopifyStorefrontCartLineInput>>
+  /** The case-insensitive discount codes that the customer added at checkout. */
+  discountCodes?: Maybe<Array<Scalars['String']>>
+  /** A note that is associated with the cart. For example, the note can be a personalized message to the buyer. */
+  note?: Maybe<Scalars['String']>
+  /**
+   * The customer associated with the cart. Used to determine [international pricing]
+   * (https://shopify.dev/custom-storefronts/internationalization/international-pricing).
+   * Buyer identity should match the customer's shipping address.
+   */
+  buyerIdentity?: Maybe<ShopifyStorefrontCartBuyerIdentityInput>
+}
+
+/** Represents information about the merchandise in the cart. */
+export interface ShopifyStorefrontCartLine extends ShopifyStorefrontNode {
+  __typename: 'CartLine'
+  /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
+  attributes: Array<ShopifyStorefrontAttribute>
+  /** The discounts that have been applied to the cart line. */
+  discountAllocations: Array<ShopifyStorefrontCartDiscountAllocation>
+  /**
+   * The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout.
+   * @deprecated Use `cost` instead.
+   */
+  estimatedCost: ShopifyStorefrontCartLineEstimatedCost
+  /** A globally-unique ID. */
+  id: Scalars['ID']
+  /** The merchandise that the buyer intends to purchase. */
+  merchandise: ShopifyStorefrontMerchandise
+  /** The quantity of the merchandise that the customer intends to purchase. */
+  quantity: Scalars['Int']
+  /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
+  sellingPlanAllocation?: Maybe<ShopifyStorefrontSellingPlanAllocation>
+}
+
+/** An auto-generated type for paginating through multiple CartLines. */
+export interface ShopifyStorefrontCartLineConnection {
+  __typename: 'CartLineConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontCartLineEdge>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/** An auto-generated type which holds one CartLine and a cursor during pagination. */
+export interface ShopifyStorefrontCartLineEdge {
+  __typename: 'CartLineEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+  /** The item at the end of CartLineEdge. */
+  node: ShopifyStorefrontCartLine
+}
+
+/** The estimated cost of the merchandise line that the buyer will pay at checkout. */
+export interface ShopifyStorefrontCartLineEstimatedCost {
+  __typename: 'CartLineEstimatedCost'
+  /** The estimated cost of the merchandise line before discounts. */
+  subtotalAmount: ShopifyStorefrontMoneyV2
+  /** The estimated total cost of the merchandise line. */
+  totalAmount: ShopifyStorefrontMoneyV2
+}
+
+/** The input fields to create a merchandise line on a cart. */
+export type ShopifyStorefrontCartLineInput = {
+  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  attributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
+  /** The quantity of the merchandise. */
+  quantity?: Maybe<Scalars['Int']>
+  /** The ID of the merchandise that the buyer intends to purchase. */
+  merchandiseId: Scalars['ID']
+  /** The ID of the selling plan that the merchandise is being purchased with. */
+  sellingPlanId?: Maybe<Scalars['ID']>
+}
+
+/** The input fields to update a line item on a cart. */
+export type ShopifyStorefrontCartLineUpdateInput = {
+  /** The ID of the merchandise line. */
+  id: Scalars['ID']
+  /** The quantity of the line item. */
+  quantity?: Maybe<Scalars['Int']>
+  /** The ID of the merchandise for the line item. */
+  merchandiseId?: Maybe<Scalars['ID']>
+  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  attributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
+  /** The ID of the selling plan that the merchandise is being purchased with. */
+  sellingPlanId?: Maybe<Scalars['ID']>
+}
+
+/** Return type for `cartLinesAdd` mutation. */
+export interface ShopifyStorefrontCartLinesAddPayload {
+  __typename: 'CartLinesAddPayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Return type for `cartLinesRemove` mutation. */
+export interface ShopifyStorefrontCartLinesRemovePayload {
+  __typename: 'CartLinesRemovePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Return type for `cartLinesUpdate` mutation. */
+export interface ShopifyStorefrontCartLinesUpdatePayload {
+  __typename: 'CartLinesUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Return type for `cartNoteUpdate` mutation. */
+export interface ShopifyStorefrontCartNoteUpdatePayload {
+  __typename: 'CartNoteUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** Represents an error that happens during execution of a cart mutation. */
+export interface ShopifyStorefrontCartUserError
+  extends ShopifyStorefrontDisplayableError {
+  __typename: 'CartUserError'
+  /** The error code. */
+  code?: Maybe<ShopifyStorefrontCartErrorCode>
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']>>
+  /** The error message. */
+  message: Scalars['String']
+}
+
 /** A container for all the information required to checkout items and pay. */
 export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   __typename: 'Checkout'
@@ -337,11 +760,13 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
    * the shipping address is valid.
    */
   availableShippingRates?: Maybe<ShopifyStorefrontAvailableShippingRates>
+  /** The identity of the customer associated with the checkout. */
+  buyerIdentity: ShopifyStorefrontCheckoutBuyerIdentity
   /** The date and time when the checkout was completed. */
   completedAt?: Maybe<Scalars['DateTime']>
   /** The date and time when the checkout was created. */
   createdAt: Scalars['DateTime']
-  /** The currency code for the Checkout. */
+  /** The currency code for the checkout. */
   currencyCode: ShopifyStorefrontCurrencyCode
   /** A list of extra information that is added to the checkout. */
   customAttributes: Array<ShopifyStorefrontAttribute>
@@ -354,7 +779,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   discountApplications: ShopifyStorefrontDiscountApplicationConnection
   /** The email attached to this checkout. */
   email?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** A list of line item objects, each one containing information about an item in the checkout. */
   lineItems: ShopifyStorefrontCheckoutLineItemConnection
@@ -367,15 +792,11 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   /** The Order Status Page for this Checkout, null when checkout is not completed. */
   orderStatusUrl?: Maybe<Scalars['URL']>
   /**
-   * The amount left to be paid. This is equal to the cost of the line items, taxes
-   * and shipping minus discounts and gift cards.
-   * @deprecated Use `paymentDueV2` instead
+   * The amount left to be paid. This is equal to the cost of the line items, taxes and shipping minus discounts and gift cards.
+   * @deprecated Use `paymentDueV2` instead.
    */
   paymentDue: Scalars['Money']
-  /**
-   * The amount left to be paid. This is equal to the cost of the line items,
-   * duties, taxes and shipping minus discounts and gift cards.
-   */
+  /** The amount left to be paid. This is equal to the cost of the line items, duties, taxes, and shipping, minus discounts and gift cards. */
   paymentDueV2: ShopifyStorefrontMoneyV2
   /**
    * Whether or not the Checkout is ready and can be completed. Checkouts may
@@ -394,25 +815,27 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   shippingLine?: Maybe<ShopifyStorefrontShippingRate>
   /**
    * Price of the checkout before shipping and taxes.
-   * @deprecated Use `subtotalPriceV2` instead
+   * @deprecated Use `subtotalPriceV2` instead.
    */
   subtotalPrice: Scalars['Money']
-  /** Price of the checkout before duties, shipping and taxes. */
+  /** The price at checkout before duties, shipping, and taxes. */
   subtotalPriceV2: ShopifyStorefrontMoneyV2
-  /** Specifies if the Checkout is tax exempt. */
+  /** Whether the checkout is tax exempt. */
   taxExempt: Scalars['Boolean']
-  /** Specifies if taxes are included in the line item and shipping line prices. */
+  /** Whether taxes are included in the line item and shipping line prices. */
   taxesIncluded: Scalars['Boolean']
+  /** The sum of all the duties applied to the line items in the checkout. */
+  totalDuties?: Maybe<ShopifyStorefrontMoneyV2>
   /**
    * The sum of all the prices of all the items in the checkout, taxes and discounts included.
-   * @deprecated Use `totalPriceV2` instead
+   * @deprecated Use `totalPriceV2` instead.
    */
   totalPrice: Scalars['Money']
-  /** The sum of all the prices of all the items in the checkout, duties, taxes and discounts included. */
+  /** The sum of all the prices of all the items in the checkout, including duties, taxes, and discounts. */
   totalPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The sum of all the taxes applied to the line items and shipping lines in the checkout.
-   * @deprecated Use `totalTaxV2` instead
+   * @deprecated Use `totalTaxV2` instead.
    */
   totalTax: Scalars['Money']
   /** The sum of all the taxes applied to the line items and shipping lines in the checkout. */
@@ -441,7 +864,7 @@ export type ShopifyStorefrontCheckoutLineItemsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-/** Specifies the fields required to update a checkout's attributes. */
+/** The input fields required to update a checkout's attributes. */
 export type ShopifyStorefrontCheckoutAttributesUpdateInput = {
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: Maybe<Scalars['String']>
@@ -465,12 +888,12 @@ export interface ShopifyStorefrontCheckoutAttributesUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Specifies the fields required to update a checkout's attributes. */
+/** The input fields required to update a checkout's attributes. */
 export type ShopifyStorefrontCheckoutAttributesUpdateV2Input = {
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: Maybe<Scalars['String']>
@@ -494,9 +917,26 @@ export interface ShopifyStorefrontCheckoutAttributesUpdateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
+}
+
+/** The identity of the customer associated with the checkout. */
+export interface ShopifyStorefrontCheckoutBuyerIdentity {
+  __typename: 'CheckoutBuyerIdentity'
+  /** The country code for the checkout. For example, `CA`. */
+  countryCode?: Maybe<ShopifyStorefrontCountryCode>
+}
+
+/** The input fields for the identity of the customer associated with the checkout. */
+export type ShopifyStorefrontCheckoutBuyerIdentityInput = {
+  /**
+   * The country code of one of the shop's
+   * [enabled countries](https://help.shopify.com/en/manual/payments/shopify-payments/multi-currency/setup).
+   * For example, `CA`. Including this field creates a checkout in the specified country's currency.
+   */
+  countryCode: ShopifyStorefrontCountryCode
 }
 
 /** Return type for `checkoutCompleteFree` mutation. */
@@ -508,7 +948,7 @@ export interface ShopifyStorefrontCheckoutCompleteFreePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -524,7 +964,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithCreditCardPayload {
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -540,7 +980,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload {
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -556,7 +996,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentPayload {
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -572,7 +1012,7 @@ export interface ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV2Payload 
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -588,12 +1028,12 @@ export interface ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV3Payload 
   payment?: Maybe<ShopifyStorefrontPayment>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Specifies the fields required to create a checkout. */
+/** The input fields required to create a checkout. */
 export type ShopifyStorefrontCheckoutCreateInput = {
   /** The email with which the customer wants to checkout. */
   email?: Maybe<Scalars['String']>
@@ -615,9 +1055,11 @@ export type ShopifyStorefrontCheckoutCreateInput = {
    * The three-letter currency code of one of the shop's enabled presentment currencies.
    * Including this field creates a checkout in the specified currency. By default, new
    * checkouts are created in the shop's primary currency.
-   *  This argument is deprecated: Use `country` field instead.
+   *  This argument is deprecated: Use the `buyerIdentity.countryCode` field instead.
    */
   presentmentCurrencyCode?: Maybe<ShopifyStorefrontCurrencyCode>
+  /** The identity of the customer associated with the checkout. */
+  buyerIdentity?: Maybe<ShopifyStorefrontCheckoutBuyerIdentityInput>
 }
 
 /** Return type for `checkoutCreate` mutation. */
@@ -627,9 +1069,11 @@ export interface ShopifyStorefrontCheckoutCreatePayload {
   checkout?: Maybe<ShopifyStorefrontCheckout>
   /** The list of errors that occurred from executing the mutation. */
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
+  /** The checkout queue token. Available only to selected stores. */
+  queueToken?: Maybe<Scalars['String']>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -656,7 +1100,7 @@ export interface ShopifyStorefrontCheckoutCustomerAssociateV2Payload {
   customer?: Maybe<ShopifyStorefrontCustomer>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -670,7 +1114,7 @@ export interface ShopifyStorefrontCheckoutCustomerDisassociatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -684,7 +1128,7 @@ export interface ShopifyStorefrontCheckoutCustomerDisassociateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -698,7 +1142,7 @@ export interface ShopifyStorefrontCheckoutDiscountCodeApplyPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -712,7 +1156,7 @@ export interface ShopifyStorefrontCheckoutDiscountCodeApplyV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -726,7 +1170,7 @@ export interface ShopifyStorefrontCheckoutDiscountCodeRemovePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -740,7 +1184,7 @@ export interface ShopifyStorefrontCheckoutEmailUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -754,12 +1198,12 @@ export interface ShopifyStorefrontCheckoutEmailUpdateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Possible error codes that could be returned by CheckoutUserError. */
+/** Possible error codes that can be returned by `CheckoutUserError`. */
 export enum ShopifyStorefrontCheckoutErrorCode {
   /** The input value is blank. */
   Blank = 'BLANK',
@@ -819,10 +1263,16 @@ export enum ShopifyStorefrontCheckoutErrorCode {
   DiscountDisabled = 'DISCOUNT_DISABLED',
   /** Discount limit reached. */
   DiscountLimitReached = 'DISCOUNT_LIMIT_REACHED',
+  /** Higher value discount applied. */
+  HigherValueDiscountApplied = 'HIGHER_VALUE_DISCOUNT_APPLIED',
+  /** Maximum number of discount codes limit reached. */
+  MaximumDiscountCodeLimitReached = 'MAXIMUM_DISCOUNT_CODE_LIMIT_REACHED',
   /** Discount not found. */
   DiscountNotFound = 'DISCOUNT_NOT_FOUND',
   /** Customer already used once per customer discount notice. */
   CustomerAlreadyUsedOncePerCustomerDiscountNotice = 'CUSTOMER_ALREADY_USED_ONCE_PER_CUSTOMER_DISCOUNT_NOTICE',
+  /** Discount code isn't working right now. Please contact us for help. */
+  DiscountCodeApplicationFailed = 'DISCOUNT_CODE_APPLICATION_FAILED',
   /** Checkout is already completed. */
   Empty = 'EMPTY',
   /** Not enough in stock. */
@@ -837,6 +1287,14 @@ export enum ShopifyStorefrontCheckoutErrorCode {
   UnableToApply = 'UNABLE_TO_APPLY',
   /** Discount already applied. */
   DiscountAlreadyApplied = 'DISCOUNT_ALREADY_APPLIED',
+  /** Throttled during checkout. */
+  ThrottledDuringCheckout = 'THROTTLED_DURING_CHECKOUT',
+  /** Queue token has expired. */
+  ExpiredQueueToken = 'EXPIRED_QUEUE_TOKEN',
+  /** Queue token is invalid. */
+  InvalidQueueToken = 'INVALID_QUEUE_TOKEN',
+  /** Cannot specify country and presentment currency code. */
+  InvalidCountryAndCurrency = 'INVALID_COUNTRY_AND_CURRENCY',
 }
 
 /** Return type for `checkoutGiftCardApply` mutation. */
@@ -848,7 +1306,7 @@ export interface ShopifyStorefrontCheckoutGiftCardApplyPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -862,7 +1320,7 @@ export interface ShopifyStorefrontCheckoutGiftCardRemovePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -876,7 +1334,7 @@ export interface ShopifyStorefrontCheckoutGiftCardRemoveV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -890,7 +1348,7 @@ export interface ShopifyStorefrontCheckoutGiftCardsAppendPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -903,7 +1361,7 @@ export interface ShopifyStorefrontCheckoutLineItem
   customAttributes: Array<ShopifyStorefrontAttribute>
   /** The discounts that have been allocated onto the checkout line item by discount applications. */
   discountAllocations: Array<ShopifyStorefrontDiscountAllocation>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The quantity of the line item. */
   quantity: Scalars['Int']
@@ -933,14 +1391,26 @@ export interface ShopifyStorefrontCheckoutLineItemEdge {
   node: ShopifyStorefrontCheckoutLineItem
 }
 
-/** Specifies the input fields to create a line item on a checkout. */
+/** The input fields to create a line item on a checkout. */
 export type ShopifyStorefrontCheckoutLineItemInput = {
   /** Extra information in the form of an array of Key-Value pairs about the line item. */
   customAttributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
   /** The quantity of the line item. */
   quantity: Scalars['Int']
-  /** The identifier of the product variant for the line item. */
+  /** The ID of the product variant for the line item. */
   variantId: Scalars['ID']
+}
+
+/** The input fields to update a line item on the checkout. */
+export type ShopifyStorefrontCheckoutLineItemUpdateInput = {
+  /** The ID of the line item. */
+  id?: Maybe<Scalars['ID']>
+  /** The variant ID of the line item. */
+  variantId?: Maybe<Scalars['ID']>
+  /** The quantity of the line item. */
+  quantity?: Maybe<Scalars['Int']>
+  /** Extra information in the form of an array of Key-Value pairs about the line item. */
+  customAttributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
 }
 
 /** Return type for `checkoutLineItemsAdd` mutation. */
@@ -952,7 +1422,7 @@ export interface ShopifyStorefrontCheckoutLineItemsAddPayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -966,7 +1436,7 @@ export interface ShopifyStorefrontCheckoutLineItemsRemovePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -989,21 +1459,9 @@ export interface ShopifyStorefrontCheckoutLineItemsUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
-}
-
-/** Specifies the input fields to update a line item on the checkout. */
-export type ShopifyStorefrontCheckoutLineItemUpdateInput = {
-  /** The identifier of the line item. */
-  id?: Maybe<Scalars['ID']>
-  /** The variant identifier of the line item. */
-  variantId?: Maybe<Scalars['ID']>
-  /** The quantity of the line item. */
-  quantity?: Maybe<Scalars['Int']>
-  /** Extra information in the form of an array of Key-Value pairs about the line item. */
-  customAttributes?: Maybe<Array<ShopifyStorefrontAttributeInput>>
 }
 
 /** Return type for `checkoutShippingAddressUpdate` mutation. */
@@ -1015,7 +1473,7 @@ export interface ShopifyStorefrontCheckoutShippingAddressUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1029,7 +1487,7 @@ export interface ShopifyStorefrontCheckoutShippingAddressUpdateV2Payload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1043,7 +1501,7 @@ export interface ShopifyStorefrontCheckoutShippingLineUpdatePayload {
   checkoutUserErrors: Array<ShopifyStorefrontCheckoutUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `checkoutUserErrors` instead
+   * @deprecated Use `checkoutUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -1060,11 +1518,11 @@ export interface ShopifyStorefrontCheckoutUserError
   message: Scalars['String']
 }
 
-/**
- * A collection represents a grouping of products that a shop owner can create to
- * organize them or make their shops easier to browse.
- */
-export interface ShopifyStorefrontCollection extends ShopifyStorefrontNode {
+/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
+export interface ShopifyStorefrontCollection
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Collection'
   /** Stripped description of the collection, single line with HTML tags removed. */
   description: Scalars['String']
@@ -1075,10 +1533,20 @@ export interface ShopifyStorefrontCollection extends ShopifyStorefrontNode {
    * Limit of 255 characters.
    */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** Image associated with the collection. */
   image?: Maybe<ShopifyStorefrontImage>
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
+  metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
   /** List of products in the collection. */
   products: ShopifyStorefrontProductConnection
   /** The collection’s name. Limit of 255 characters. */
@@ -1087,18 +1555,12 @@ export interface ShopifyStorefrontCollection extends ShopifyStorefrontNode {
   updatedAt: Scalars['DateTime']
 }
 
-/**
- * A collection represents a grouping of products that a shop owner can create to
- * organize them or make their shops easier to browse.
- */
+/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
 export type ShopifyStorefrontCollectionDescriptionArgs = {
   truncateAt?: Maybe<Scalars['Int']>
 }
 
-/**
- * A collection represents a grouping of products that a shop owner can create to
- * organize them or make their shops easier to browse.
- */
+/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
 export type ShopifyStorefrontCollectionImageArgs = {
   maxWidth?: Maybe<Scalars['Int']>
   maxHeight?: Maybe<Scalars['Int']>
@@ -1106,10 +1568,23 @@ export type ShopifyStorefrontCollectionImageArgs = {
   scale?: Maybe<Scalars['Int']>
 }
 
-/**
- * A collection represents a grouping of products that a shop owner can create to
- * organize them or make their shops easier to browse.
- */
+/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
+export type ShopifyStorefrontCollectionMetafieldArgs = {
+  namespace: Scalars['String']
+  key: Scalars['String']
+}
+
+/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
+export type ShopifyStorefrontCollectionMetafieldsArgs = {
+  namespace?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** A collection represents a grouping of products that a shop owner can create to organize them or make their shops easier to browse. */
 export type ShopifyStorefrontCollectionProductsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -1117,6 +1592,7 @@ export type ShopifyStorefrontCollectionProductsArgs = {
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontProductCollectionSortKeys>
+  filters?: Maybe<Array<ShopifyStorefrontProductFilter>>
 }
 
 /** An auto-generated type for paginating through multiple Collections. */
@@ -1146,9 +1622,8 @@ export enum ShopifyStorefrontCollectionSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -1162,7 +1637,7 @@ export interface ShopifyStorefrontComment extends ShopifyStorefrontNode {
   content: Scalars['String']
   /** The content of the comment, complete with HTML formatting. */
   contentHtml: Scalars['HTML']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
 }
 
@@ -1198,7 +1673,25 @@ export interface ShopifyStorefrontCommentEdge {
   node: ShopifyStorefrontComment
 }
 
-/** ISO 3166-1 alpha-2 country codes with some differences. */
+/** A country. */
+export interface ShopifyStorefrontCountry {
+  __typename: 'Country'
+  /** The currency of the country. */
+  currency: ShopifyStorefrontCurrency
+  /** The ISO code of the country. */
+  isoCode: ShopifyStorefrontCountryCode
+  /** The name of the country. */
+  name: Scalars['String']
+  /** The unit system used in the country. */
+  unitSystem: ShopifyStorefrontUnitSystem
+}
+
+/**
+ * The code designating a country/region, which generally follows ISO 3166-1 alpha-2 guidelines.
+ * If a territory doesn't have a country code value in the `CountryCode` enum, then it might be considered a subdivision
+ * of another country. For example, the territories associated with Spain are represented by the country code `ES`,
+ * and the territories associated with the United States of America are represented by the country code `US`.
+ */
 export enum ShopifyStorefrontCountryCode {
   /** Afghanistan. */
   Af = 'AF',
@@ -1688,6 +2181,8 @@ export enum ShopifyStorefrontCountryCode {
   Zm = 'ZM',
   /** Zimbabwe. */
   Zw = 'ZW',
+  /** Unknown Region. */
+  Zz = 'ZZ',
 }
 
 /** Credit card information used for a payment. */
@@ -1718,12 +2213,7 @@ export interface ShopifyStorefrontCreditCard {
 export type ShopifyStorefrontCreditCardPaymentInput = {
   /** The amount of the payment. */
   amount: Scalars['Money']
-  /**
-   * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new
-   * one. For more information, refer to [Idempotent
-   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
-   */
+  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests). */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
@@ -1740,12 +2230,7 @@ export type ShopifyStorefrontCreditCardPaymentInput = {
 export type ShopifyStorefrontCreditCardPaymentInputV2 = {
   /** The amount and currency of the payment. */
   paymentAmount: ShopifyStorefrontMoneyInput
-  /**
-   * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new
-   * one. For more information, refer to [Idempotent
-   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
-   */
+  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests). */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
@@ -1769,7 +2254,21 @@ export enum ShopifyStorefrontCropRegion {
   Right = 'RIGHT',
 }
 
-/** Currency codes. */
+/** A currency. */
+export interface ShopifyStorefrontCurrency {
+  __typename: 'Currency'
+  /** The ISO code of the currency. */
+  isoCode: ShopifyStorefrontCurrencyCode
+  /** The name of the currency. */
+  name: Scalars['String']
+  /** The symbol of the currency. */
+  symbol: Scalars['String']
+}
+
+/**
+ * The three-letter currency codes that represent the world currencies used in stores. These include standard ISO 4217 codes, legacy codes,
+ * and non-standard codes.
+ */
 export enum ShopifyStorefrontCurrencyCode {
   /** United States Dollars (USD). */
   Usd = 'USD',
@@ -1987,8 +2486,6 @@ export enum ShopifyStorefrontCurrencyCode {
   Wst = 'WST',
   /** Saudi Riyal (SAR). */
   Sar = 'SAR',
-  /** Sao Tome And Principe Dobra (STD). */
-  Std = 'STD',
   /** Serbian dinar (RSD). */
   Rsd = 'RSD',
   /** Seychellois Rupee (SCR). */
@@ -2051,6 +2548,8 @@ export enum ShopifyStorefrontCurrencyCode {
   Yer = 'YER',
   /** Zambian Kwacha (ZMW). */
   Zmw = 'ZMW',
+  /** Belarusian Ruble (BYN). */
+  Byn = 'BYN',
   /** Belarusian Ruble (BYR). */
   Byr = 'BYR',
   /** Djiboutian Franc (DJF). */
@@ -2077,6 +2576,8 @@ export enum ShopifyStorefrontCurrencyCode {
   Shp = 'SHP',
   /** Somali Shilling (SOS). */
   Sos = 'SOS',
+  /** Sao Tome And Principe Dobra (STD). */
+  Std = 'STD',
   /** Tajikistani Somoni (TJS). */
   Tjs = 'TJS',
   /** Tongan Pa'anga (TOP). */
@@ -2085,14 +2586,13 @@ export enum ShopifyStorefrontCurrencyCode {
   Vef = 'VEF',
   /** Venezuelan Bolivares (VES). */
   Ves = 'VES',
+  /** Unrecognized currency. */
+  Xxx = 'XXX',
 }
 
-/**
- * A customer represents a customer account with the shop. Customer accounts store
- * contact information for the customer, saving logged-in customers the trouble of
- * having to provide it at every checkout.
- */
-export interface ShopifyStorefrontCustomer {
+/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
+export interface ShopifyStorefrontCustomer
+  extends ShopifyStorefrontHasMetafields {
   __typename: 'Customer'
   /** Indicates whether the customer has consented to be sent marketing material via email. */
   acceptsMarketing: Scalars['Boolean']
@@ -2108,12 +2608,20 @@ export interface ShopifyStorefrontCustomer {
   email?: Maybe<Scalars['String']>
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
-  /** A unique identifier for the customer. */
+  /** A unique ID for the customer. */
   id: Scalars['ID']
   /** The customer's most recently updated, incomplete checkout. */
   lastIncompleteCheckout?: Maybe<ShopifyStorefrontCheckout>
   /** The customer’s last name. */
   lastName?: Maybe<Scalars['String']>
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
+  metafields: ShopifyStorefrontMetafieldConnection
   /** The orders associated with the customer. */
   orders: ShopifyStorefrontOrderConnection
   /** The customer’s phone number. */
@@ -2127,11 +2635,7 @@ export interface ShopifyStorefrontCustomer {
   updatedAt: Scalars['DateTime']
 }
 
-/**
- * A customer represents a customer account with the shop. Customer accounts store
- * contact information for the customer, saving logged-in customers the trouble of
- * having to provide it at every checkout.
- */
+/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type ShopifyStorefrontCustomerAddressesArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -2140,11 +2644,23 @@ export type ShopifyStorefrontCustomerAddressesArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-/**
- * A customer represents a customer account with the shop. Customer accounts store
- * contact information for the customer, saving logged-in customers the trouble of
- * having to provide it at every checkout.
- */
+/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
+export type ShopifyStorefrontCustomerMetafieldArgs = {
+  namespace: Scalars['String']
+  key: Scalars['String']
+}
+
+/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
+export type ShopifyStorefrontCustomerMetafieldsArgs = {
+  namespace?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type ShopifyStorefrontCustomerOrdersArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -2164,7 +2680,7 @@ export interface ShopifyStorefrontCustomerAccessToken {
   expiresAt: Scalars['DateTime']
 }
 
-/** Specifies the input fields required to create a customer access token. */
+/** The input fields required to create a customer access token. */
 export type ShopifyStorefrontCustomerAccessTokenCreateInput = {
   /** The email associated to the customer. */
   email: Scalars['String']
@@ -2181,7 +2697,7 @@ export interface ShopifyStorefrontCustomerAccessTokenCreatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2226,7 +2742,7 @@ export interface ShopifyStorefrontCustomerActivateByUrlPayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
 }
 
-/** Specifies the input fields required to activate a customer. */
+/** The input fields to activate a customer. */
 export type ShopifyStorefrontCustomerActivateInput = {
   /** The activation token required to activate the customer. */
   activationToken: Scalars['String']
@@ -2245,7 +2761,7 @@ export interface ShopifyStorefrontCustomerActivatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2259,7 +2775,7 @@ export interface ShopifyStorefrontCustomerAddressCreatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2273,7 +2789,7 @@ export interface ShopifyStorefrontCustomerAddressDeletePayload {
   deletedCustomerAddressId?: Maybe<Scalars['String']>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2287,12 +2803,12 @@ export interface ShopifyStorefrontCustomerAddressUpdatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Specifies the fields required to create a new customer. */
+/** The input fields to create a new customer. */
 export type ShopifyStorefrontCustomerCreateInput = {
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
@@ -2321,7 +2837,7 @@ export interface ShopifyStorefrontCustomerCreatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2335,12 +2851,12 @@ export interface ShopifyStorefrontCustomerDefaultAddressUpdatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Possible error codes that could be returned by CustomerUserError. */
+/** Possible error codes that can be returned by `CustomerUserError`. */
 export enum ShopifyStorefrontCustomerErrorCode {
   /** The input value is blank. */
   Blank = 'BLANK',
@@ -2381,7 +2897,7 @@ export interface ShopifyStorefrontCustomerRecoverPayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2397,12 +2913,12 @@ export interface ShopifyStorefrontCustomerResetByUrlPayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Specifies the fields required to reset a customer’s password. */
+/** The input fields to reset a customer's password. */
 export type ShopifyStorefrontCustomerResetInput = {
   /** The reset token required to reset the customer’s password. */
   resetToken: Scalars['String']
@@ -2421,12 +2937,12 @@ export interface ShopifyStorefrontCustomerResetPayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
 
-/** Specifies the fields required to update the Customer information. */
+/** The input fields to update the Customer information. */
 export type ShopifyStorefrontCustomerUpdateInput = {
   /** The customer’s first name. */
   firstName?: Maybe<Scalars['String']>
@@ -2460,7 +2976,7 @@ export interface ShopifyStorefrontCustomerUpdatePayload {
   customerUserErrors: Array<ShopifyStorefrontCustomerUserError>
   /**
    * The list of errors that occurred from executing the mutation.
-   * @deprecated Use `customerUserErrors` instead
+   * @deprecated Use `customerUserErrors` instead.
    */
   userErrors: Array<ShopifyStorefrontUserError>
 }
@@ -2542,13 +3058,15 @@ export interface ShopifyStorefrontDiscountApplicationEdge {
 }
 
 /**
- * Which lines on the order that the discount is allocated over, of the type
- * defined by the Discount Application's target_type.
+ * The lines on the order to which the discount is applied, of the type defined by
+ * the discount application's `targetType`. For example, the value `ENTITLED`, combined with a `targetType` of
+ * `LINE_ITEM`, applies the discount on all line items that are entitled to the discount.
+ * The value `ALL`, combined with a `targetType` of `SHIPPING_LINE`, applies the discount on all shipping lines.
  */
 export enum ShopifyStorefrontDiscountApplicationTargetSelection {
   /** The discount is allocated onto all the lines. */
   All = 'ALL',
-  /** The discount is allocated onto only the lines it is entitled for. */
+  /** The discount is allocated onto only the lines that it's entitled for. */
   Entitled = 'ENTITLED',
   /** The discount is allocated onto explicitly chosen lines. */
   Explicit = 'EXPLICIT',
@@ -2604,19 +3122,67 @@ export interface ShopifyStorefrontDomain {
 
 /** Represents a video hosted outside of Shopify. */
 export interface ShopifyStorefrontExternalVideo
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'ExternalVideo'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
-  /** The URL. */
+  /**
+   * The URL.
+   * @deprecated Use `originUrl` instead.
+   */
   embeddedUrl: Scalars['URL']
-  /** Globally unique identifier. */
+  /** The host of the external video. */
+  host: ShopifyStorefrontMediaHost
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
   /** The preview image for the media. */
   previewImage?: Maybe<ShopifyStorefrontImage>
+}
+
+/** A filter that is supported on the parent field. */
+export interface ShopifyStorefrontFilter {
+  __typename: 'Filter'
+  /** A unique identifier. */
+  id: Scalars['String']
+  /** A human-friendly string for this filter. */
+  label: Scalars['String']
+  /** An enumeration that denotes the type of data this filter represents. */
+  type: ShopifyStorefrontFilterType
+  /** The list of values for this filter. */
+  values: Array<ShopifyStorefrontFilterValue>
+}
+
+/**
+ * The type of data that the filter group represents.
+ *
+ * For more information, refer to [Filter products in a collection with the Storefront API]
+ * (https://shopify.dev/custom-storefronts/products-collections/filter-products).
+ */
+export enum ShopifyStorefrontFilterType {
+  /** A list of selectable values. */
+  List = 'LIST',
+  /** A range of prices. */
+  PriceRange = 'PRICE_RANGE',
+}
+
+/** A selectable value within a filter. */
+export interface ShopifyStorefrontFilterValue {
+  __typename: 'FilterValue'
+  /** The number of results that match this filter value. */
+  count: Scalars['Int']
+  /** A unique identifier. */
+  id: Scalars['String']
+  /**
+   * An input object that can be used to filter by this value on the parent field.
+   *
+   * The value is provided as a helper for building dynamic filtering UI. For example, if you have a list of selected `FilterValue` objects, you can combine their respective `input` values to use in a subsequent query.
+   */
+  input: Scalars['JSON']
+  /** A human-friendly string for this filter value. */
+  label: Scalars['String']
 }
 
 /** Represents a single fulfillment in an order. */
@@ -2683,11 +3249,23 @@ export interface ShopifyStorefrontFulfillmentTrackingInfo {
   url?: Maybe<Scalars['URL']>
 }
 
+/** The input fields used to specify a geographical location. */
+export type ShopifyStorefrontGeoCoordinateInput = {
+  /** The coordinate's latitude value. */
+  latitude: Scalars['Float']
+  /** The coordinate's longitude value. */
+  longitude: Scalars['Float']
+}
+
 /** Represents information about the metafields associated to the specified resource. */
 export type ShopifyStorefrontHasMetafields = {
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<ShopifyStorefrontMetafield>
-  /** A paginated list of metafields associated with the resource. */
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
   metafields: ShopifyStorefrontMetafieldConnection
 }
 
@@ -2712,58 +3290,20 @@ export interface ShopifyStorefrontImage {
   __typename: 'Image'
   /** A word or phrase to share the nature or contents of an image. */
   altText?: Maybe<Scalars['String']>
-  /** A unique identifier for the image. */
+  /** The original height of the image in pixels. Returns `null` if the image is not hosted by Shopify. */
+  height?: Maybe<Scalars['Int']>
+  /** A unique ID for the image. */
   id?: Maybe<Scalars['ID']>
   /**
    * The location of the original image as a URL.
    *
    * If there are any existing transformations in the original source URL, they will remain and not be stripped.
+   * @deprecated Use `url` instead.
    */
   originalSrc: Scalars['URL']
   /**
    * The location of the image as a URL.
-   * @deprecated Previously an image had a single `src` field. This could either return the original image
-   * location or a URL that contained transformations such as sizing or scale.
-   *
-   * These transformations were specified by arguments on the parent field.
-   *
-   * Now an image has two distinct URL fields: `originalSrc` and `transformedSrc`.
-   *
-   * * `originalSrc` - the original unmodified image URL
-   * * `transformedSrc` - the image URL with the specified transformations included
-   *
-   * To migrate to the new fields, image transformations should be moved from the parent field to `transformedSrc`.
-   *
-   * Before:
-   * ```graphql
-   * {
-   *   shop {
-   *     productImages(maxWidth: 200, scale: 2) {
-   *       edges {
-   *         node {
-   *           src
-   *         }
-   *       }
-   *     }
-   *   }
-   * }
-   * ```
-   *
-   * After:
-   * ```graphql
-   * {
-   *   shop {
-   *     productImages {
-   *       edges {
-   *         node {
-   *           transformedSrc(maxWidth: 200, scale: 2)
-   *         }
-   *       }
-   *     }
-   *   }
-   * }
-   * ```
-   *
+   * @deprecated Use `url` instead.
    */
   src: Scalars['URL']
   /**
@@ -2771,8 +3311,21 @@ export interface ShopifyStorefrontImage {
    *
    * All transformation arguments are considered "best-effort". If they can be applied to an image, they will be.
    * Otherwise any transformations which an image type does not support will be ignored.
+   * @deprecated Use `url(transform:)` instead
    */
   transformedSrc: Scalars['URL']
+  /**
+   * The location of the image as a URL.
+   *
+   * If no transform options are specified, then the original image will be preserved including any pre-applied transforms.
+   *
+   * All transformation options are considered "best-effort". Any transformation that the original image type doesn't support will be ignored.
+   *
+   * If you need multiple variations of the same image, then you can use [GraphQL aliases](https://graphql.org/learn/queries/#aliases).
+   */
+  url: Scalars['URL']
+  /** The original width of the image in pixels. Returns `null` if the image is not hosted by Shopify. */
+  width?: Maybe<Scalars['Int']>
 }
 
 /** Represents an image resource. */
@@ -2782,6 +3335,11 @@ export type ShopifyStorefrontImageTransformedSrcArgs = {
   crop?: Maybe<ShopifyStorefrontCropRegion>
   scale?: Maybe<Scalars['Int']>
   preferredContentType?: Maybe<ShopifyStorefrontImageContentType>
+}
+
+/** Represents an image resource. */
+export type ShopifyStorefrontImageUrlArgs = {
+  transform?: Maybe<ShopifyStorefrontImageTransformInput>
 }
 
 /** An auto-generated type for paginating through multiple Images. */
@@ -2812,6 +3370,112 @@ export interface ShopifyStorefrontImageEdge {
   node: ShopifyStorefrontImage
 }
 
+/**
+ * The available options for transforming an image.
+ *
+ * All transformation options are considered best effort. Any transformation that the original image type doesn't support will be ignored.
+ */
+export type ShopifyStorefrontImageTransformInput = {
+  /**
+   * The region of the image to remain after cropping.
+   * Must be used in conjunction with the `maxWidth` and/or `maxHeight` fields, where the `maxWidth` and `maxHeight` aren't equal.
+   * The `crop` argument should coincide with the smaller value. A smaller `maxWidth` indicates a `LEFT` or `RIGHT` crop, while
+   * a smaller `maxHeight` indicates a `TOP` or `BOTTOM` crop. For example, `{ maxWidth: 5, maxHeight: 10, crop: LEFT }` will result
+   * in an image with a width of 5 and height of 10, where the right side of the image is removed.
+   */
+  crop?: Maybe<ShopifyStorefrontCropRegion>
+  /** Image width in pixels between 1 and 5760. */
+  maxWidth?: Maybe<Scalars['Int']>
+  /** Image height in pixels between 1 and 5760. */
+  maxHeight?: Maybe<Scalars['Int']>
+  /** Image size multiplier for high-resolution retina displays. Must be within 1..3. */
+  scale?: Maybe<Scalars['Int']>
+  /**
+   * Convert the source image into the preferred content type.
+   * Supported conversions: `.svg` to `.png`, any file type to `.jpg`, and any file type to `.webp`.
+   */
+  preferredContentType?: Maybe<ShopifyStorefrontImageContentType>
+}
+
+/** Information about the localized experiences configured for the shop. */
+export interface ShopifyStorefrontLocalization {
+  __typename: 'Localization'
+  /** The list of countries with enabled localized experiences. */
+  availableCountries: Array<ShopifyStorefrontCountry>
+  /** The country of the active localized experience. Use the `@inContext` directive to change this value. */
+  country: ShopifyStorefrontCountry
+}
+
+/** Represents a location where product inventory is held. */
+export interface ShopifyStorefrontLocation extends ShopifyStorefrontNode {
+  __typename: 'Location'
+  /** The address of the location. */
+  address: ShopifyStorefrontLocationAddress
+  /** A globally-unique ID. */
+  id: Scalars['ID']
+  /** The name of the location. */
+  name: Scalars['String']
+}
+
+/** Represents the address of a location. */
+export interface ShopifyStorefrontLocationAddress {
+  __typename: 'LocationAddress'
+  /** The first line of the address for the location. */
+  address1?: Maybe<Scalars['String']>
+  /** The second line of the address for the location. */
+  address2?: Maybe<Scalars['String']>
+  /** The city of the location. */
+  city?: Maybe<Scalars['String']>
+  /** The country of the location. */
+  country?: Maybe<Scalars['String']>
+  /** The country code of the location. */
+  countryCode?: Maybe<Scalars['String']>
+  /** A formatted version of the address for the location. */
+  formatted: Array<Scalars['String']>
+  /** The latitude coordinates of the location. */
+  latitude?: Maybe<Scalars['Float']>
+  /** The longitude coordinates of the location. */
+  longitude?: Maybe<Scalars['Float']>
+  /** The phone number of the location. */
+  phone?: Maybe<Scalars['String']>
+  /** The province of the location. */
+  province?: Maybe<Scalars['String']>
+  /** The code for the province, state, or district of the address of the location. */
+  provinceCode?: Maybe<Scalars['String']>
+  /** The ZIP code of the location. */
+  zip?: Maybe<Scalars['String']>
+}
+
+/** An auto-generated type for paginating through multiple Locations. */
+export interface ShopifyStorefrontLocationConnection {
+  __typename: 'LocationConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontLocationEdge>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/** An auto-generated type which holds one Location and a cursor during pagination. */
+export interface ShopifyStorefrontLocationEdge {
+  __typename: 'LocationEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+  /** The item at the end of LocationEdge. */
+  node: ShopifyStorefrontLocation
+}
+
+/** The set of valid sort keys for the Location query. */
+export enum ShopifyStorefrontLocationSortKeys {
+  /** Sort by the `id` value. */
+  Id = 'ID',
+  /** Sort by the `name` value. */
+  Name = 'NAME',
+  /** Sort by the `city` value. */
+  City = 'CITY',
+  /** Sort by the `distance` value. */
+  Distance = 'DISTANCE',
+}
+
 /** Represents a mailing address for customers and shipping. */
 export interface ShopifyStorefrontMailingAddress extends ShopifyStorefrontNode {
   __typename: 'MailingAddress'
@@ -2829,7 +3493,7 @@ export interface ShopifyStorefrontMailingAddress extends ShopifyStorefrontNode {
    * The two-letter code for the country of the address.
    *
    * For example, US.
-   * @deprecated Use `countryCodeV2` instead
+   * @deprecated Use `countryCodeV2` instead.
    */
   countryCode?: Maybe<Scalars['String']>
   /**
@@ -2844,7 +3508,7 @@ export interface ShopifyStorefrontMailingAddress extends ShopifyStorefrontNode {
   formatted: Array<Scalars['String']>
   /** A comma-separated list of the values for city, province, and country. */
   formattedArea?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The last name of the customer. */
   lastName?: Maybe<Scalars['String']>
@@ -2896,7 +3560,7 @@ export interface ShopifyStorefrontMailingAddressEdge {
   node: ShopifyStorefrontMailingAddress
 }
 
-/** Specifies the fields accepted to create or update a mailing address. */
+/** The input fields to create or update a mailing address. */
 export type ShopifyStorefrontMailingAddressInput = {
   /** The first line of the address. Typically the street address or PO Box number. */
   address1?: Maybe<Scalars['String']>
@@ -2982,14 +3646,22 @@ export interface ShopifyStorefrontMediaEdge {
   node: ShopifyStorefrontMedia
 }
 
+/** Host for a Media Resource. */
+export enum ShopifyStorefrontMediaHost {
+  /** Host for YouTube embedded videos. */
+  Youtube = 'YOUTUBE',
+  /** Host for Vimeo embedded videos. */
+  Vimeo = 'VIMEO',
+}
+
 /** Represents a Shopify hosted image. */
 export interface ShopifyStorefrontMediaImage
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'MediaImage'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The image for the media. */
   image?: Maybe<ShopifyStorefrontImage>
@@ -2998,6 +3670,9 @@ export interface ShopifyStorefrontMediaImage
   /** The preview image for the media. */
   previewImage?: Maybe<ShopifyStorefrontImage>
 }
+
+/** The merchandise to be purchased at checkout. */
+export type ShopifyStorefrontMerchandise = ShopifyStorefrontProductVariant
 
 /**
  * Metafields represent custom metadata attached to a resource. Metafields can be sorted into namespaces and are
@@ -3009,17 +3684,24 @@ export interface ShopifyStorefrontMetafield extends ShopifyStorefrontNode {
   createdAt: Scalars['DateTime']
   /** The description of a metafield. */
   description?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
-  /** The key name for a metafield. */
+  /** The unique identifier for the metafield within its namespace. */
   key: Scalars['String']
-  /** The namespace for a metafield. */
+  /** The container for a group of metafields that the metafield is associated with. */
   namespace: Scalars['String']
-  /** The parent object that the metafield belongs to. */
+  /** The type of resource that the metafield is attached to. */
   parentResource: ShopifyStorefrontMetafieldParentResource
-  /** The date and time when the storefront metafield was updated. */
+  /** Returns a reference object if the metafield's type is a resource reference. */
+  reference?: Maybe<ShopifyStorefrontMetafieldReference>
+  /**
+   * The type name of the metafield.
+   * Refer to the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
+   */
+  type: Scalars['String']
+  /** The date and time when the metafield was last updated. */
   updatedAt: Scalars['DateTime']
-  /** The value of a metafield. */
+  /** The data stored in the metafield. Always stored as a string, regardless of the metafield's type. */
   value: Scalars['String']
   /**
    * Represents the metafield value type.
@@ -3046,8 +3728,40 @@ export interface ShopifyStorefrontMetafieldEdge {
   node: ShopifyStorefrontMetafield
 }
 
+/**
+ * A filter used to view a subset of products in a collection matching a specific metafield value.
+ *
+ * Only the following metafield types are currently supported:
+ * - `number_integer`
+ * - `number_decimal`
+ * - `single_line_text_field`
+ * - `boolean` as of 2022-04.
+ */
+export type ShopifyStorefrontMetafieldFilter = {
+  /** The namespace of the metafield to filter on. */
+  namespace: Scalars['String']
+  /** The key of the metafield to filter on. */
+  key: Scalars['String']
+  /** The value of the metafield. */
+  value: Scalars['String']
+}
+
 /** A resource that the metafield belongs to. */
 export type ShopifyStorefrontMetafieldParentResource =
+  | ShopifyStorefrontArticle
+  | ShopifyStorefrontBlog
+  | ShopifyStorefrontCollection
+  | ShopifyStorefrontCustomer
+  | ShopifyStorefrontOrder
+  | ShopifyStorefrontPage
+  | ShopifyStorefrontProduct
+  | ShopifyStorefrontProductVariant
+  | ShopifyStorefrontShop
+
+/** Returns the resource which is being referred to by a metafield. */
+export type ShopifyStorefrontMetafieldReference =
+  | ShopifyStorefrontMediaImage
+  | ShopifyStorefrontPage
   | ShopifyStorefrontProduct
   | ShopifyStorefrontProductVariant
 
@@ -3059,16 +3773,18 @@ export enum ShopifyStorefrontMetafieldValueType {
   Integer = 'INTEGER',
   /** A json string metafield. */
   JsonString = 'JSON_STRING',
+  /** A boolean metafield. */
+  Boolean = 'BOOLEAN',
 }
 
 /** Represents a Shopify hosted 3D model. */
 export interface ShopifyStorefrontModel3d
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'Model3d'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
@@ -3091,7 +3807,7 @@ export interface ShopifyStorefrontModel3dSource {
   url: Scalars['String']
 }
 
-/** Specifies the fields for a monetary value with currency. */
+/** The input fields for a monetary value with currency. */
 export type ShopifyStorefrontMoneyInput = {
   /** Decimal money amount. */
   amount: Scalars['Decimal']
@@ -3129,37 +3845,51 @@ export interface ShopifyStorefrontMoneyV2Edge {
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export interface ShopifyStorefrontMutation {
   __typename: 'Mutation'
+  /** Updates the attributes on a cart. */
+  cartAttributesUpdate?: Maybe<ShopifyStorefrontCartAttributesUpdatePayload>
+  /**
+   * Updates customer information associated with a cart.
+   * Buyer identity is used to determine
+   * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+   * and should match the customer's shipping address.
+   */
+  cartBuyerIdentityUpdate?: Maybe<ShopifyStorefrontCartBuyerIdentityUpdatePayload>
+  /** Creates a new cart. */
+  cartCreate?: Maybe<ShopifyStorefrontCartCreatePayload>
+  /** Updates the discount codes applied to the cart. */
+  cartDiscountCodesUpdate?: Maybe<ShopifyStorefrontCartDiscountCodesUpdatePayload>
+  /** Adds a merchandise line to the cart. */
+  cartLinesAdd?: Maybe<ShopifyStorefrontCartLinesAddPayload>
+  /** Removes one or more merchandise lines from the cart. */
+  cartLinesRemove?: Maybe<ShopifyStorefrontCartLinesRemovePayload>
+  /** Updates one or more merchandise lines on a cart. */
+  cartLinesUpdate?: Maybe<ShopifyStorefrontCartLinesUpdatePayload>
+  /** Updates the note on the cart. */
+  cartNoteUpdate?: Maybe<ShopifyStorefrontCartNoteUpdatePayload>
   /**
    * Updates the attributes of a checkout if `allowPartialAddresses` is `true`.
-   * @deprecated Use `checkoutAttributesUpdateV2` instead
+   * @deprecated Use `checkoutAttributesUpdateV2` instead.
    */
   checkoutAttributesUpdate?: Maybe<ShopifyStorefrontCheckoutAttributesUpdatePayload>
   /** Updates the attributes of a checkout if `allowPartialAddresses` is `true`. */
   checkoutAttributesUpdateV2?: Maybe<ShopifyStorefrontCheckoutAttributesUpdateV2Payload>
-  /**
-   * Completes a checkout without providing payment information. You can use this
-   * mutation for free items or items whose purchase price is covered by a gift card.
-   */
+  /** Completes a checkout without providing payment information. You can use this mutation for free items or items whose purchase price is covered by a gift card. */
   checkoutCompleteFree?: Maybe<ShopifyStorefrontCheckoutCompleteFreePayload>
   /**
    * Completes a checkout using a credit card token from Shopify's Vault.
-   * @deprecated Use `checkoutCompleteWithCreditCardV2` instead
+   * @deprecated Use `checkoutCompleteWithCreditCardV2` instead.
    */
   checkoutCompleteWithCreditCard?: Maybe<ShopifyStorefrontCheckoutCompleteWithCreditCardPayload>
-  /**
-   * Completes a checkout using a credit card token from Shopify's card vault.
-   * Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you
-   * need to  [_request payment processing_](https://help.shopify.com/api/guides/sales-channel-sdk/getting-started#request-payment-processing).
-   */
+  /** Completes a checkout using a credit card token from Shopify's card vault. Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you need to  [_request payment processing_](https://shopify.dev/apps/channels/getting-started#request-payment-processing). */
   checkoutCompleteWithCreditCardV2?: Maybe<ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload>
   /**
    * Completes a checkout with a tokenized payment.
-   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV2` instead
+   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV2` instead.
    */
   checkoutCompleteWithTokenizedPayment?: Maybe<ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentPayload>
   /**
    * Completes a checkout with a tokenized payment.
-   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV3` instead
+   * @deprecated Use `checkoutCompleteWithTokenizedPaymentV3` instead.
    */
   checkoutCompleteWithTokenizedPaymentV2?: Maybe<ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV2Payload>
   /** Completes a checkout with a tokenized payment. */
@@ -3168,42 +3898,42 @@ export interface ShopifyStorefrontMutation {
   checkoutCreate?: Maybe<ShopifyStorefrontCheckoutCreatePayload>
   /**
    * Associates a customer to the checkout.
-   * @deprecated Use `checkoutCustomerAssociateV2` instead
+   * @deprecated Use `checkoutCustomerAssociateV2` instead.
    */
   checkoutCustomerAssociate?: Maybe<ShopifyStorefrontCheckoutCustomerAssociatePayload>
   /** Associates a customer to the checkout. */
   checkoutCustomerAssociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerAssociateV2Payload>
   /**
    * Disassociates the current checkout customer from the checkout.
-   * @deprecated Use `checkoutCustomerDisassociateV2` instead
+   * @deprecated Use `checkoutCustomerDisassociateV2` instead.
    */
   checkoutCustomerDisassociate?: Maybe<ShopifyStorefrontCheckoutCustomerDisassociatePayload>
   /** Disassociates the current checkout customer from the checkout. */
   checkoutCustomerDisassociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerDisassociateV2Payload>
   /**
    * Applies a discount to an existing checkout using a discount code.
-   * @deprecated Use `checkoutDiscountCodeApplyV2` instead
+   * @deprecated Use `checkoutDiscountCodeApplyV2` instead.
    */
   checkoutDiscountCodeApply?: Maybe<ShopifyStorefrontCheckoutDiscountCodeApplyPayload>
   /** Applies a discount to an existing checkout using a discount code. */
   checkoutDiscountCodeApplyV2?: Maybe<ShopifyStorefrontCheckoutDiscountCodeApplyV2Payload>
-  /** Removes the applied discount from an existing checkout. */
+  /** Removes the applied discounts from an existing checkout. */
   checkoutDiscountCodeRemove?: Maybe<ShopifyStorefrontCheckoutDiscountCodeRemovePayload>
   /**
    * Updates the email on an existing checkout.
-   * @deprecated Use `checkoutEmailUpdateV2` instead
+   * @deprecated Use `checkoutEmailUpdateV2` instead.
    */
   checkoutEmailUpdate?: Maybe<ShopifyStorefrontCheckoutEmailUpdatePayload>
   /** Updates the email on an existing checkout. */
   checkoutEmailUpdateV2?: Maybe<ShopifyStorefrontCheckoutEmailUpdateV2Payload>
   /**
    * Applies a gift card to an existing checkout using a gift card code. This will replace all currently applied gift cards.
-   * @deprecated Use `checkoutGiftCardsAppend` instead
+   * @deprecated Use `checkoutGiftCardsAppend` instead.
    */
   checkoutGiftCardApply?: Maybe<ShopifyStorefrontCheckoutGiftCardApplyPayload>
   /**
    * Removes an applied gift card from the checkout.
-   * @deprecated Use `checkoutGiftCardRemoveV2` instead
+   * @deprecated Use `checkoutGiftCardRemoveV2` instead.
    */
   checkoutGiftCardRemove?: Maybe<ShopifyStorefrontCheckoutGiftCardRemovePayload>
   /** Removes an applied gift card from the checkout. */
@@ -3220,7 +3950,7 @@ export interface ShopifyStorefrontMutation {
   checkoutLineItemsUpdate?: Maybe<ShopifyStorefrontCheckoutLineItemsUpdatePayload>
   /**
    * Updates the shipping address of an existing checkout.
-   * @deprecated Use `checkoutShippingAddressUpdateV2` instead
+   * @deprecated Use `checkoutShippingAddressUpdateV2` instead.
    */
   checkoutShippingAddressUpdate?: Maybe<ShopifyStorefrontCheckoutShippingAddressUpdatePayload>
   /** Updates the shipping address of an existing checkout. */
@@ -3233,9 +3963,10 @@ export interface ShopifyStorefrontMutation {
    */
   customerAccessTokenCreate?: Maybe<ShopifyStorefrontCustomerAccessTokenCreatePayload>
   /**
-   * Creates a customer access token using a multipass token instead of email and password.
-   * A customer record is created if customer does not exist. If a customer record already
-   * exists but the record is disabled, then it's enabled.
+   * Creates a customer access token using a
+   * [multipass token](https://shopify.dev/api/multipass) instead of email and
+   * password. A customer record is created if the customer doesn't exist. If a customer
+   * record already exists but the record is disabled, then the customer record is enabled.
    */
   customerAccessTokenCreateWithMultipass?: Maybe<ShopifyStorefrontCustomerAccessTokenCreateWithMultipassPayload>
   /** Permanently destroys a customer access token. */
@@ -3261,14 +3992,73 @@ export interface ShopifyStorefrontMutation {
   customerCreate?: Maybe<ShopifyStorefrontCustomerCreatePayload>
   /** Updates the default address of an existing customer. */
   customerDefaultAddressUpdate?: Maybe<ShopifyStorefrontCustomerDefaultAddressUpdatePayload>
-  /** Sends a reset password email to the customer, as the first step in the reset password process. */
+  /**
+   * Sends a reset password email to the customer. The reset password
+   * email contains a reset password URL and token that you can pass to
+   * the [`customerResetByUrl`](https://shopify.dev/api/storefront/latest/mutations/customerResetByUrl) or
+   * [`customerReset`](https://shopify.dev/api/storefront/latest/mutations/customerReset) mutation to reset the
+   * customer password.
+   *
+   * This mutation is throttled by IP. With authenticated access,
+   * you can provide a [`Shopify-Storefront-Buyer-IP`](https://shopify.dev/api/usage/authentication#optional-ip-header) instead of the request IP.
+   *
+   * Make sure that the value provided to `Shopify-Storefront-Buyer-IP` is trusted. Unthrottled access to this
+   * mutation presents a security risk.
+   */
   customerRecover?: Maybe<ShopifyStorefrontCustomerRecoverPayload>
-  /** Resets a customer’s password with a token received from `CustomerRecover`. */
+  /** "Resets a customer’s password with the token received from a reset password email. You can send a reset password email with the [`customerRecover`](https://shopify.dev/api/storefront/latest/mutations/customerRecover) mutation." */
   customerReset?: Maybe<ShopifyStorefrontCustomerResetPayload>
-  /** Resets a customer’s password with the reset password url received from `CustomerRecover`. */
+  /** "Resets a customer’s password with the reset password URL received from a reset password email. You can send a reset password email with the [`customerRecover`](https://shopify.dev/api/storefront/latest/mutations/customerRecover) mutation." */
   customerResetByUrl?: Maybe<ShopifyStorefrontCustomerResetByUrlPayload>
   /** Updates an existing customer. */
   customerUpdate?: Maybe<ShopifyStorefrontCustomerUpdatePayload>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartAttributesUpdateArgs = {
+  attributes: Array<ShopifyStorefrontAttributeInput>
+  cartId: Scalars['ID']
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartBuyerIdentityUpdateArgs = {
+  cartId: Scalars['ID']
+  buyerIdentity: ShopifyStorefrontCartBuyerIdentityInput
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartCreateArgs = {
+  input?: Maybe<ShopifyStorefrontCartInput>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartDiscountCodesUpdateArgs = {
+  cartId: Scalars['ID']
+  discountCodes?: Maybe<Array<Scalars['String']>>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartLinesAddArgs = {
+  lines: Array<ShopifyStorefrontCartLineInput>
+  cartId: Scalars['ID']
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartLinesRemoveArgs = {
+  cartId: Scalars['ID']
+  lineIds: Array<Scalars['ID']>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartLinesUpdateArgs = {
+  cartId: Scalars['ID']
+  lines: Array<ShopifyStorefrontCartLineUpdateInput>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartNoteUpdateArgs = {
+  cartId: Scalars['ID']
+  note?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
@@ -3324,6 +4114,7 @@ export type ShopifyStorefrontMutationCheckoutCompleteWithTokenizedPaymentV3Args 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type ShopifyStorefrontMutationCheckoutCreateArgs = {
   input: ShopifyStorefrontCheckoutCreateInput
+  queueToken?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
@@ -3529,18 +4320,27 @@ export type ShopifyStorefrontMutationCustomerUpdateArgs = {
   customer: ShopifyStorefrontCustomerUpdateInput
 }
 
-/** An object with an ID to support global identification. */
+/**
+ * An object with an ID field to support global identification, in accordance with the
+ * [Relay specification](https://relay.dev/graphql/objectidentification.htm#sec-Node-Interface).
+ * This interface is used by the [node](https://shopify.dev/api/admin-graphql/unstable/queries/node)
+ * and [nodes](https://shopify.dev/api/admin-graphql/unstable/queries/nodes) queries.
+ */
 export type ShopifyStorefrontNode = {
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
 }
 
-/**
- * An order is a customer’s completed request to purchase one or more products from
- * a shop. An order is created when a customer completes the checkout process,
- * during which time they provides an email address, billing address and payment information.
- */
-export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
+/** Represents a resource that can be published to the Online Store sales channel. */
+export type ShopifyStorefrontOnlineStorePublishable = {
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
+}
+
+/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
+export interface ShopifyStorefrontOrder
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'Order'
   /** The reason for the order's cancellation. Returns `null` if the order wasn't canceled. */
   cancelReason?: Maybe<ShopifyStorefrontOrderCancelReason>
@@ -3548,13 +4348,10 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   canceledAt?: Maybe<Scalars['DateTime']>
   /** The code of the currency used for the payment. */
   currencyCode: ShopifyStorefrontCurrencyCode
-  /**
-   * The subtotal of line items and their discounts, excluding line items that have
-   * been removed. Does not contain order-level discounts, duties, shipping costs,
-   * or shipping discounts. Taxes are not included unless the order is a
-   * taxes-included order.
-   */
+  /** The subtotal of line items and their discounts, excluding line items that have been removed. Does not contain order-level discounts, duties, shipping costs, or shipping discounts. Taxes are not included unless the order is a taxes-included order. */
   currentSubtotalPrice: ShopifyStorefrontMoneyV2
+  /** The total cost of duties for the order, including refunds. */
+  currentTotalDuties?: Maybe<ShopifyStorefrontMoneyV2>
   /** The total amount of the order, including duties, taxes and discounts, minus amounts for line items that have been removed. */
   currentTotalPrice: ShopifyStorefrontMoneyV2
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
@@ -3573,10 +4370,18 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   financialStatus?: Maybe<ShopifyStorefrontOrderFinancialStatus>
   /** The fulfillment status for the order. */
   fulfillmentStatus: ShopifyStorefrontOrderFulfillmentStatus
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** List of the order’s line items. */
   lineItems: ShopifyStorefrontOrderLineItemConnection
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
+  metafields: ShopifyStorefrontMetafieldConnection
   /**
    * Unique identifier for the order that appears on the order.
    * For example, _#1000_ or _Store1001.
@@ -3584,6 +4389,8 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   name: Scalars['String']
   /** A unique numeric identifier for the order for use by shop owner and customer. */
   orderNumber: Scalars['Int']
+  /** The total cost of duties charged at checkout. */
+  originalTotalDuties?: Maybe<ShopifyStorefrontMoneyV2>
   /** The total price of the order before any applied edits. */
   originalTotalPrice: ShopifyStorefrontMoneyV2
   /** The customer's phone number for receiving SMS notifications. */
@@ -3602,7 +4409,7 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   statusUrl: Scalars['URL']
   /**
    * Price of the order before shipping and taxes.
-   * @deprecated Use `subtotalPriceV2` instead
+   * @deprecated Use `subtotalPriceV2` instead.
    */
   subtotalPrice?: Maybe<Scalars['Money']>
   /** Price of the order before duties, shipping and taxes. */
@@ -3611,39 +4418,35 @@ export interface ShopifyStorefrontOrder extends ShopifyStorefrontNode {
   successfulFulfillments?: Maybe<Array<ShopifyStorefrontFulfillment>>
   /**
    * The sum of all the prices of all the items in the order, taxes and discounts included (must be positive).
-   * @deprecated Use `totalPriceV2` instead
+   * @deprecated Use `totalPriceV2` instead.
    */
   totalPrice: Scalars['Money']
   /** The sum of all the prices of all the items in the order, duties, taxes and discounts included (must be positive). */
   totalPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The total amount that has been refunded.
-   * @deprecated Use `totalRefundedV2` instead
+   * @deprecated Use `totalRefundedV2` instead.
    */
   totalRefunded: Scalars['Money']
   /** The total amount that has been refunded. */
   totalRefundedV2: ShopifyStorefrontMoneyV2
   /**
    * The total cost of shipping.
-   * @deprecated Use `totalShippingPriceV2` instead
+   * @deprecated Use `totalShippingPriceV2` instead.
    */
   totalShippingPrice: Scalars['Money']
   /** The total cost of shipping. */
   totalShippingPriceV2: ShopifyStorefrontMoneyV2
   /**
    * The total cost of taxes.
-   * @deprecated Use `totalTaxV2` instead
+   * @deprecated Use `totalTaxV2` instead.
    */
   totalTax?: Maybe<Scalars['Money']>
   /** The total cost of taxes. */
   totalTaxV2?: Maybe<ShopifyStorefrontMoneyV2>
 }
 
-/**
- * An order is a customer’s completed request to purchase one or more products from
- * a shop. An order is created when a customer completes the checkout process,
- * during which time they provides an email address, billing address and payment information.
- */
+/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type ShopifyStorefrontOrderDiscountApplicationsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -3652,11 +4455,7 @@ export type ShopifyStorefrontOrderDiscountApplicationsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-/**
- * An order is a customer’s completed request to purchase one or more products from
- * a shop. An order is created when a customer completes the checkout process,
- * during which time they provides an email address, billing address and payment information.
- */
+/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type ShopifyStorefrontOrderLineItemsArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
@@ -3665,11 +4464,23 @@ export type ShopifyStorefrontOrderLineItemsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
 }
 
-/**
- * An order is a customer’s completed request to purchase one or more products from
- * a shop. An order is created when a customer completes the checkout process,
- * during which time they provides an email address, billing address and payment information.
- */
+/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
+export type ShopifyStorefrontOrderMetafieldArgs = {
+  namespace: Scalars['String']
+  key: Scalars['String']
+}
+
+/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
+export type ShopifyStorefrontOrderMetafieldsArgs = {
+  namespace?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type ShopifyStorefrontOrderSuccessfulFulfillmentsArgs = {
   first?: Maybe<Scalars['Int']>
 }
@@ -3678,12 +4489,12 @@ export type ShopifyStorefrontOrderSuccessfulFulfillmentsArgs = {
 export enum ShopifyStorefrontOrderCancelReason {
   /** The customer wanted to cancel the order. */
   Customer = 'CUSTOMER',
+  /** Payment was declined. */
+  Declined = 'DECLINED',
   /** The order was fraudulent. */
   Fraud = 'FRAUD',
   /** There was insufficient inventory. */
   Inventory = 'INVENTORY',
-  /** Payment was declined. */
-  Declined = 'DECLINED',
   /** The order was canceled for an unlisted reason. */
   Other = 'OTHER',
 }
@@ -3724,22 +4535,26 @@ export enum ShopifyStorefrontOrderFinancialStatus {
   Refunded = 'REFUNDED',
 }
 
-/** Represents the order's current fulfillment status. */
+/** Represents the order's aggregated fulfillment status for display purposes. */
 export enum ShopifyStorefrontOrderFulfillmentStatus {
-  /** Displayed as **Unfulfilled**. */
+  /** Displayed as **Unfulfilled**. None of the items in the order have been fulfilled. */
   Unfulfilled = 'UNFULFILLED',
-  /** Displayed as **Partially fulfilled**. */
+  /** Displayed as **Partially fulfilled**. Some of the items in the order have been fulfilled. */
   PartiallyFulfilled = 'PARTIALLY_FULFILLED',
-  /** Displayed as **Fulfilled**. */
+  /** Displayed as **Fulfilled**. All of the items in the order have been fulfilled. */
   Fulfilled = 'FULFILLED',
-  /** Displayed as **Restocked**. */
+  /** Displayed as **Restocked**. All of the items in the order have been restocked. Replaced by "UNFULFILLED" status. */
   Restocked = 'RESTOCKED',
-  /** Displayed as **Pending fulfillment**. */
+  /** Displayed as **Pending fulfillment**. A request for fulfillment of some items awaits a response from the fulfillment service. Replaced by "IN_PROGRESS" status. */
   PendingFulfillment = 'PENDING_FULFILLMENT',
-  /** Displayed as **Open**. */
+  /** Displayed as **Open**. None of the items in the order have been fulfilled. Replaced by "UNFULFILLED" status. */
   Open = 'OPEN',
-  /** Displayed as **In progress**. */
+  /** Displayed as **In progress**. Some of the items in the order have been fulfilled, or a request for fulfillment has been sent to the fulfillment service. */
   InProgress = 'IN_PROGRESS',
+  /** Displayed as **On hold**. All of the unfulfilled items in this order are on hold. */
+  OnHold = 'ON_HOLD',
+  /** Displayed as **Scheduled**. All of the unfulfilled items in this order are scheduled for fulfillment at later time. */
+  Scheduled = 'SCHEDULED',
 }
 
 /** Represents a single line in an order. There is one line item for each distinct product variant. */
@@ -3753,11 +4568,7 @@ export interface ShopifyStorefrontOrderLineItem {
   discountAllocations: Array<ShopifyStorefrontDiscountAllocation>
   /** The total price of the line item, including discounts, and displayed in the presentment currency. */
   discountedTotalPrice: ShopifyStorefrontMoneyV2
-  /**
-   * The total price of the line item, not including any discounts. The total price
-   * is calculated using the original unit price multiplied by the quantity, and it
-   * is displayed in the presentment currency.
-   */
+  /** The total price of the line item, not including any discounts. The total price is calculated using the original unit price multiplied by the quantity, and it is displayed in the presentment currency. */
   originalTotalPrice: ShopifyStorefrontMoneyV2
   /** The number of products variants associated to the line item. */
   quantity: Scalars['Int']
@@ -3794,18 +4605,17 @@ export enum ShopifyStorefrontOrderSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
 
-/**
- * Shopify merchants can create pages to hold static HTML content. Each Page object
- * represents a custom page on the online store.
- */
-export interface ShopifyStorefrontPage extends ShopifyStorefrontNode {
+/** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
+export interface ShopifyStorefrontPage
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Page'
   /** The description of the page, complete with HTML formatting. */
   body: Scalars['HTML']
@@ -3815,14 +4625,45 @@ export interface ShopifyStorefrontPage extends ShopifyStorefrontNode {
   createdAt: Scalars['DateTime']
   /** A human-friendly unique string for the page automatically generated from its title. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
+  metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  onlineStoreUrl?: Maybe<Scalars['URL']>
+  /** The page's SEO information. */
+  seo?: Maybe<ShopifyStorefrontSeo>
   /** The title of the page. */
   title: Scalars['String']
   /** The timestamp of the latest page update. */
   updatedAt: Scalars['DateTime']
-  /** The url pointing to the page accessible from the web. */
+  /**
+   * The url pointing to the page accessible from the web.
+   * @deprecated Use `onlineStoreUrl` instead.
+   */
   url: Scalars['URL']
+}
+
+/** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
+export type ShopifyStorefrontPageMetafieldArgs = {
+  namespace: Scalars['String']
+  key: Scalars['String']
+}
+
+/** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
+export type ShopifyStorefrontPageMetafieldsArgs = {
+  namespace?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
 }
 
 /** An auto-generated type for paginating through multiple Pages. */
@@ -3843,12 +4684,16 @@ export interface ShopifyStorefrontPageEdge {
   node: ShopifyStorefrontPage
 }
 
-/** Information about pagination in a connection. */
+/**
+ * Returns information about pagination in a connection, in accordance with the
+ * [Relay specification](https://relay.dev/graphql/connections.htm#sec-undefined.PageInfo).
+ * For more information, please read our [GraphQL Pagination Usage Guide](https://shopify.dev/api/usage/pagination-graphql).
+ */
 export interface ShopifyStorefrontPageInfo {
   __typename: 'PageInfo'
-  /** Indicates if there are more pages to fetch. */
+  /** Whether there are more pages to fetch following the current page. */
   hasNextPage: Scalars['Boolean']
-  /** Indicates if there are any pages prior to the current page. */
+  /** Whether there are any pages prior to the current page. */
   hasPreviousPage: Scalars['Boolean']
 }
 
@@ -3861,9 +4706,8 @@ export enum ShopifyStorefrontPageSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -3873,7 +4717,7 @@ export interface ShopifyStorefrontPayment extends ShopifyStorefrontNode {
   __typename: 'Payment'
   /**
    * The amount of the payment.
-   * @deprecated Use `amountV2` instead
+   * @deprecated Use `amountV2` instead.
    */
   amount: Scalars['Money']
   /** The amount of the payment. */
@@ -3886,17 +4730,17 @@ export interface ShopifyStorefrontPayment extends ShopifyStorefrontNode {
   creditCard?: Maybe<ShopifyStorefrontCreditCard>
   /** A message describing a processing error during asynchronous processing. */
   errorMessage?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /**
    * A client-side generated token to identify a payment and perform idempotent operations.
    * For more information, refer to
-   * [Idempotent requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
+   * [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests).
    */
   idempotencyKey?: Maybe<Scalars['String']>
   /** The URL where the customer needs to be redirected so they can complete the 3D Secure payment flow. */
   nextActionUrl?: Maybe<Scalars['URL']>
-  /** Whether or not the payment is still processing asynchronously. */
+  /** Whether the payment is still processing asynchronously. */
   ready: Scalars['Boolean']
   /** A flag to indicate if the payment is to be done in test mode for gateways that support it. */
   test: Scalars['Boolean']
@@ -3915,12 +4759,9 @@ export interface ShopifyStorefrontPaymentSettings {
   countryCode: ShopifyStorefrontCountryCode
   /** The three-letter code for the shop's primary currency. */
   currencyCode: ShopifyStorefrontCurrencyCode
-  /**
-   * A list of enabled currencies (ISO 4217 format) that the shop accepts.
-   * Merchants can enable currencies from their Shopify Payments settings in the Shopify admin.
-   */
+  /** A list of enabled currencies (ISO 4217 format) that the shop accepts. Merchants can enable currencies from their Shopify Payments settings in the Shopify admin. */
   enabledPresentmentCurrencies: Array<ShopifyStorefrontCurrencyCode>
-  /** The shop’s Shopify Payments account id. */
+  /** The shop’s Shopify Payments account ID. */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>
   /** List of the digital wallets which the shop supports. */
   supportedDigitalWallets: Array<ShopifyStorefrontDigitalWallet>
@@ -3936,6 +4777,16 @@ export enum ShopifyStorefrontPaymentTokenType {
   ShopifyPay = 'SHOPIFY_PAY',
   /** Google Pay token type. */
   GooglePay = 'GOOGLE_PAY',
+  /** Stripe token type. */
+  StripeVaultToken = 'STRIPE_VAULT_TOKEN',
+}
+
+/** The input fields for a filter used to view a subset of products in a collection matching a specific price range. */
+export type ShopifyStorefrontPriceRangeFilter = {
+  /** The minimum price in the range. Defaults to zero. */
+  min?: Maybe<Scalars['Float']>
+  /** The maximum price in the range. Empty indicates no max price. */
+  max?: Maybe<Scalars['Float']>
 }
 
 /** The value of the percentage pricing object. */
@@ -3952,13 +4803,12 @@ export type ShopifyStorefrontPricingValue =
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export interface ShopifyStorefrontProduct
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontHasMetafields {
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Product'
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']
@@ -3973,11 +4823,17 @@ export interface ShopifyStorefrontProduct
   /** The description of the product, complete with HTML formatting. */
   descriptionHtml: Scalars['HTML']
   /**
+   * The featured image for the product.
+   *
+   * This field is functionally equivalent to `images(first: 1)`.
+   */
+  featuredImage?: Maybe<ShopifyStorefrontImage>
+  /**
    * A human-friendly unique string for the Product automatically generated from its title.
    * They are used by the Liquid templating language to refer to objects.
    */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** List of images associated with the product. */
   images: ShopifyStorefrontImageConnection
@@ -3985,12 +4841,13 @@ export interface ShopifyStorefrontProduct
   media: ShopifyStorefrontMediaConnection
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<ShopifyStorefrontMetafield>
-  /** A paginated list of metafields associated with the resource. */
-  metafields: ShopifyStorefrontMetafieldConnection
   /**
-   * The online store URL for the product.
-   * A value of `null` indicates that the product is not published to the Online Store sales channel.
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
    */
+  metafields: ShopifyStorefrontMetafieldConnection
+  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
   onlineStoreUrl?: Maybe<Scalars['URL']>
   /** List of product options. */
   options: Array<ShopifyStorefrontProductOption>
@@ -4005,6 +4862,12 @@ export interface ShopifyStorefrontProduct
   productType: Scalars['String']
   /** The date and time when the product was published to the channel. */
   publishedAt: Scalars['DateTime']
+  /** Whether the product can only be purchased with a selling plan. */
+  requiresSellingPlan: Scalars['Boolean']
+  /** A list of a product's available selling plan groups. A selling plan group represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
+  sellingPlanGroups: ShopifyStorefrontSellingPlanGroupConnection
+  /** The product's SEO information. */
+  seo: ShopifyStorefrontSeo
   /**
    * A comma separated list of tags that have been added to the product.
    * Additional access scope required for private apps: unauthenticated_read_product_tags.
@@ -4035,9 +4898,7 @@ export interface ShopifyStorefrontProduct
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductCollectionsArgs = {
   first?: Maybe<Scalars['Int']>
@@ -4049,9 +4910,7 @@ export type ShopifyStorefrontProductCollectionsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductDescriptionArgs = {
   truncateAt?: Maybe<Scalars['Int']>
@@ -4059,28 +4918,24 @@ export type ShopifyStorefrontProductDescriptionArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductImagesArgs = {
+  maxWidth?: Maybe<Scalars['Int']>
+  maxHeight?: Maybe<Scalars['Int']>
+  crop?: Maybe<ShopifyStorefrontCropRegion>
+  scale?: Maybe<Scalars['Int']>
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontProductImageSortKeys>
-  maxWidth?: Maybe<Scalars['Int']>
-  maxHeight?: Maybe<Scalars['Int']>
-  crop?: Maybe<ShopifyStorefrontCropRegion>
-  scale?: Maybe<Scalars['Int']>
 }
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductMediaArgs = {
   first?: Maybe<Scalars['Int']>
@@ -4088,13 +4943,12 @@ export type ShopifyStorefrontProductMediaArgs = {
   last?: Maybe<Scalars['Int']>
   before?: Maybe<Scalars['String']>
   reverse?: Maybe<Scalars['Boolean']>
+  sortKey?: Maybe<ShopifyStorefrontProductMediaSortKeys>
 }
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductMetafieldArgs = {
   namespace: Scalars['String']
@@ -4103,9 +4957,7 @@ export type ShopifyStorefrontProductMetafieldArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductMetafieldsArgs = {
   namespace?: Maybe<Scalars['String']>
@@ -4118,9 +4970,7 @@ export type ShopifyStorefrontProductMetafieldsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductOptionsArgs = {
   first?: Maybe<Scalars['Int']>
@@ -4128,9 +4978,7 @@ export type ShopifyStorefrontProductOptionsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductPresentmentPriceRangesArgs = {
   presentmentCurrencies?: Maybe<Array<ShopifyStorefrontCurrencyCode>>
@@ -4143,9 +4991,19 @@ export type ShopifyStorefrontProductPresentmentPriceRangesArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
+ */
+export type ShopifyStorefrontProductSellingPlanGroupsArgs = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/**
+ * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductVariantBySelectedOptionsArgs = {
   selectedOptions: Array<ShopifyStorefrontSelectedOptionInput>
@@ -4153,9 +5011,7 @@ export type ShopifyStorefrontProductVariantBySelectedOptionsArgs = {
 
 /**
  * A product represents an individual item for sale in a Shopify store. Products are often physical, but they don't have to be.
- * For example, a digital download (such as a movie, music or ebook file) also
- * qualifies as a product, as do services (such as equipment rental, work for hire,
- * customization of another product or an extended warranty).
+ * For example, a digital download (such as a movie, music or ebook file) also qualifies as a product, as do services (such as equipment rental, work for hire, customization of another product or an extended warranty).
  */
 export type ShopifyStorefrontProductVariantsArgs = {
   first?: Maybe<Scalars['Int']>
@@ -4183,9 +5039,8 @@ export enum ShopifyStorefrontProductCollectionSortKeys {
   /** Sort by the `collection-default` value. */
   CollectionDefault = 'COLLECTION_DEFAULT',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4195,6 +5050,8 @@ export interface ShopifyStorefrontProductConnection {
   __typename: 'ProductConnection'
   /** A list of edges. */
   edges: Array<ShopifyStorefrontProductEdge>
+  /** A list of available filters. */
+  filters: Array<ShopifyStorefrontFilter>
   /** Information to aid in pagination. */
   pageInfo: ShopifyStorefrontPageInfo
 }
@@ -4208,6 +5065,28 @@ export interface ShopifyStorefrontProductEdge {
   node: ShopifyStorefrontProduct
 }
 
+/**
+ * The input fields for a filter used to view a subset of products in a collection.
+ * By default, the `available` and `price` filters are enabled. Filters are customized with the Shopify Search & Discovery app.
+ * Learn more about [customizing storefront filtering](https://help.shopify.com/manual/online-store/themes/customizing-themes/storefront-filters).
+ */
+export type ShopifyStorefrontProductFilter = {
+  /** Filter on if the product is available for sale. */
+  available?: Maybe<Scalars['Boolean']>
+  /** A variant option to filter on. */
+  variantOption?: Maybe<ShopifyStorefrontVariantOptionFilter>
+  /** The product type to filter on. */
+  productType?: Maybe<Scalars['String']>
+  /** The product vendor to filter on. */
+  productVendor?: Maybe<Scalars['String']>
+  /** A range of prices to filter with-in. */
+  price?: Maybe<ShopifyStorefrontPriceRangeFilter>
+  /** A product metafield to filter on. */
+  productMetafield?: Maybe<ShopifyStorefrontMetafieldFilter>
+  /** A variant metafield to filter on. */
+  variantMetafield?: Maybe<ShopifyStorefrontMetafieldFilter>
+}
+
 /** The set of valid sort keys for the ProductImage query. */
 export enum ShopifyStorefrontProductImageSortKeys {
   /** Sort by the `created_at` value. */
@@ -4217,9 +5096,21 @@ export enum ShopifyStorefrontProductImageSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
+   */
+  Relevance = 'RELEVANCE',
+}
+
+/** The set of valid sort keys for the ProductMedia query. */
+export enum ShopifyStorefrontProductMediaSortKeys {
+  /** Sort by the `position` value. */
+  Position = 'POSITION',
+  /** Sort by the `id` value. */
+  Id = 'ID',
+  /**
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4231,7 +5122,7 @@ export enum ShopifyStorefrontProductImageSortKeys {
  */
 export interface ShopifyStorefrontProductOption extends ShopifyStorefrontNode {
   __typename: 'ProductOption'
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The product option’s name. */
   name: Scalars['String']
@@ -4285,45 +5176,46 @@ export enum ShopifyStorefrontProductSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
 
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
 export interface ShopifyStorefrontProductVariant
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontHasMetafields {
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'ProductVariant'
   /**
    * Indicates if the product variant is in stock.
-   * @deprecated Use `availableForSale` instead
+   * @deprecated Use `availableForSale` instead.
    */
   available?: Maybe<Scalars['Boolean']>
   /** Indicates if the product variant is available for sale. */
   availableForSale: Scalars['Boolean']
+  /** The barcode (for example, ISBN, UPC, or GTIN) associated with the variant. */
+  barcode?: Maybe<Scalars['String']>
   /**
-   * The compare at price of the variant. This can be used to mark a variant as on
-   * sale, when `compareAtPrice` is higher than `price`.
-   * @deprecated Use `compareAtPriceV2` instead
+   * The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPrice` is higher than `price`.
+   * @deprecated Use `compareAtPriceV2` instead.
    */
   compareAtPrice?: Maybe<Scalars['Money']>
-  /**
-   * The compare at price of the variant. This can be used to mark a variant as on
-   * sale, when `compareAtPriceV2` is higher than `priceV2`.
-   */
+  /** The compare at price of the variant. This can be used to mark a variant as on sale, when `compareAtPriceV2` is higher than `priceV2`. */
   compareAtPriceV2?: Maybe<ShopifyStorefrontMoneyV2>
   /** Whether a product is out of stock but still available for purchase (used for backorders). */
   currentlyNotInStock: Scalars['Boolean']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** Image associated with the product variant. This field falls back to the product image if no image is available. */
   image?: Maybe<ShopifyStorefrontImage>
   /** Returns a metafield found by namespace and key. */
   metafield?: Maybe<ShopifyStorefrontMetafield>
-  /** A paginated list of metafields associated with the resource. */
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
   metafields: ShopifyStorefrontMetafieldConnection
   /**
    * List of prices and compare-at prices in the presentment currencies for this shop.
@@ -4337,7 +5229,7 @@ export interface ShopifyStorefrontProductVariant
   presentmentUnitPrices: ShopifyStorefrontMoneyV2Connection
   /**
    * The product variant’s price.
-   * @deprecated Use `priceV2` instead
+   * @deprecated Use `priceV2` instead.
    */
   price: Scalars['Money']
   /** The product variant’s price. */
@@ -4350,8 +5242,12 @@ export interface ShopifyStorefrontProductVariant
   requiresShipping: Scalars['Boolean']
   /** List of product options applied to the variant. */
   selectedOptions: Array<ShopifyStorefrontSelectedOption>
+  /** Represents an association between a variant and a selling plan. Selling plan allocations describe which selling plans are available for each variant, and what their impact is on pricing. */
+  sellingPlanAllocations: ShopifyStorefrontSellingPlanAllocationConnection
   /** The SKU (stock keeping unit) associated with the variant. */
   sku?: Maybe<Scalars['String']>
+  /** The in-store pickup availability of this variant by location. */
+  storeAvailability: ShopifyStorefrontStoreAvailabilityConnection
   /** The product variant’s title. */
   title: Scalars['String']
   /** The unit price value for the variant based on the variant's measurement. */
@@ -4401,6 +5297,24 @@ export type ShopifyStorefrontProductVariantPresentmentPricesArgs = {
 /** A product variant represents a different version of a product, such as differing sizes or differing colors. */
 export type ShopifyStorefrontProductVariantPresentmentUnitPricesArgs = {
   presentmentCurrencies?: Maybe<Array<ShopifyStorefrontCurrencyCode>>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
+export type ShopifyStorefrontProductVariantSellingPlanAllocationsArgs = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** A product variant represents a different version of a product, such as differing sizes or differing colors. */
+export type ShopifyStorefrontProductVariantStoreAvailabilityArgs = {
   first?: Maybe<Scalars['Int']>
   after?: Maybe<Scalars['String']>
   last?: Maybe<Scalars['Int']>
@@ -4464,9 +5378,8 @@ export enum ShopifyStorefrontProductVariantSortKeys {
   /** Sort by the `id` value. */
   Id = 'ID',
   /**
-   * During a search (i.e. when the `query` parameter has been specified on the connection) this sorts the
-   * results by relevance to the search term(s). When no search query is specified, this sort key is not
-   * deterministic and should not be used.
+   * Sort by relevance to the search terms when the `query` parameter is specified on the connection.
+   * Don't use this sort key when no search query is specified.
    */
   Relevance = 'RELEVANCE',
 }
@@ -4476,25 +5389,61 @@ export interface ShopifyStorefrontQueryRoot {
   __typename: 'QueryRoot'
   /** List of the shop's articles. */
   articles: ShopifyStorefrontArticleConnection
-  /** Find a blog by its handle. */
+  /** Fetch a specific `Blog` by one of its unique attributes. */
+  blog?: Maybe<ShopifyStorefrontBlog>
+  /**
+   * Find a blog by its handle.
+   * @deprecated Use `blog` instead.
+   */
   blogByHandle?: Maybe<ShopifyStorefrontBlog>
   /** List of the shop's blogs. */
   blogs: ShopifyStorefrontBlogConnection
-  /** Find a collection by its handle. */
+  /**
+   * Retrieve a cart by its ID. For more information, refer to
+   * [Manage a cart with the Storefront API](https://shopify.dev/custom-storefronts/cart/manage).
+   */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** Fetch a specific `Collection` by one of its unique attributes. */
+  collection?: Maybe<ShopifyStorefrontCollection>
+  /**
+   * Find a collection by its handle.
+   * @deprecated Use `collection` instead.
+   */
   collectionByHandle?: Maybe<ShopifyStorefrontCollection>
   /** List of the shop’s collections. */
   collections: ShopifyStorefrontCollectionConnection
-  /** Find a customer by its access token. */
+  /**
+   * The customer associated with the given access token. Tokens are obtained by using the
+   * [`customerAccessTokenCreate` mutation](https://shopify.dev/docs/api/storefront/latest/mutations/customerAccessTokenCreate).
+   */
   customer?: Maybe<ShopifyStorefrontCustomer>
+  /** Returns the localized experiences configured for the shop. */
+  localization: ShopifyStorefrontLocalization
+  /**
+   * List of the shop's locations that support in-store pickup.
+   *
+   * When sorting by distance, you must specify a location via the `near` argument.
+   */
+  locations: ShopifyStorefrontLocationConnection
   /** Returns a specific node by ID. */
   node?: Maybe<ShopifyStorefrontNode>
   /** Returns the list of nodes with the given IDs. */
   nodes: Array<Maybe<ShopifyStorefrontNode>>
-  /** Find a page by its handle. */
+  /** Fetch a specific `Page` by one of its unique attributes. */
+  page?: Maybe<ShopifyStorefrontPage>
+  /**
+   * Find a page by its handle.
+   * @deprecated Use `page` instead.
+   */
   pageByHandle?: Maybe<ShopifyStorefrontPage>
   /** List of the shop's pages. */
   pages: ShopifyStorefrontPageConnection
-  /** Find a product by its handle. */
+  /** Fetch a specific `Product` by one of its unique attributes. */
+  product?: Maybe<ShopifyStorefrontProduct>
+  /**
+   * Find a product by its handle.
+   * @deprecated Use `product` instead.
+   */
   productByHandle?: Maybe<ShopifyStorefrontProduct>
   /**
    * Find recommended products related to a given `product_id`.
@@ -4529,6 +5478,12 @@ export type ShopifyStorefrontQueryRootArticlesArgs = {
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootBlogArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootBlogByHandleArgs = {
   handle: Scalars['String']
 }
@@ -4542,6 +5497,17 @@ export type ShopifyStorefrontQueryRootBlogsArgs = {
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontBlogSortKeys>
   query?: Maybe<Scalars['String']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootCartArgs = {
+  id: Scalars['ID']
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootCollectionArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -4566,6 +5532,17 @@ export type ShopifyStorefrontQueryRootCustomerArgs = {
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootLocationsArgs = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+  sortKey?: Maybe<ShopifyStorefrontLocationSortKeys>
+  near?: Maybe<ShopifyStorefrontGeoCoordinateInput>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootNodeArgs = {
   id: Scalars['ID']
 }
@@ -4573,6 +5550,12 @@ export type ShopifyStorefrontQueryRootNodeArgs = {
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootNodesArgs = {
   ids: Array<Scalars['ID']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootPageArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -4589,6 +5572,12 @@ export type ShopifyStorefrontQueryRootPagesArgs = {
   reverse?: Maybe<Scalars['Boolean']>
   sortKey?: Maybe<ShopifyStorefrontPageSortKeys>
   query?: Maybe<Scalars['String']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootProductArgs = {
+  id?: Maybe<Scalars['ID']>
+  handle?: Maybe<Scalars['String']>
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -4622,6 +5611,15 @@ export type ShopifyStorefrontQueryRootProductsArgs = {
   query?: Maybe<Scalars['String']>
 }
 
+/** SEO information. */
+export interface ShopifyStorefrontSeo {
+  __typename: 'SEO'
+  /** The meta description. */
+  description?: Maybe<Scalars['String']>
+  /** The SEO title. */
+  title?: Maybe<Scalars['String']>
+}
+
 /**
  * Script discount applications capture the intentions of a discount that
  * was created by a Shopify Script.
@@ -4633,7 +5631,7 @@ export interface ShopifyStorefrontScriptDiscountApplication
   allocationMethod: ShopifyStorefrontDiscountApplicationAllocationMethod
   /**
    * The description of the application as defined by the Script.
-   * @deprecated Use `title` instead
+   * @deprecated Use `title` instead.
    */
   description: Scalars['String']
   /** Which lines of targetType that the discount is allocated over. */
@@ -4658,7 +5656,7 @@ export interface ShopifyStorefrontSelectedOption {
   value: Scalars['String']
 }
 
-/** Specifies the input fields required for a selected option. */
+/** The input fields required for a selected option. */
 export type ShopifyStorefrontSelectedOptionInput = {
   /** The product option’s name. */
   name: Scalars['String']
@@ -4666,14 +5664,178 @@ export type ShopifyStorefrontSelectedOptionInput = {
   value: Scalars['String']
 }
 
-/** SEO information. */
-export interface ShopifyStorefrontSeo {
-  __typename: 'SEO'
-  /** The meta description. */
+/** Represents how products and variants can be sold and purchased. */
+export interface ShopifyStorefrontSellingPlan {
+  __typename: 'SellingPlan'
+  /** The description of the selling plan. */
   description?: Maybe<Scalars['String']>
-  /** The SEO title. */
-  title?: Maybe<Scalars['String']>
+  /** A globally-unique ID. */
+  id: Scalars['ID']
+  /** The name of the selling plan. For example, '6 weeks of prepaid granola, delivered weekly'. */
+  name: Scalars['String']
+  /** The selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product. Individual selling plans contribute their options to the associated selling plan group. For example, a selling plan group might have an option called `option1: Delivery every`. One selling plan in that group could contribute `option1: 2 weeks` with the pricing for that option, and another selling plan could contribute `option1: 4 weeks`, with different pricing. */
+  options: Array<ShopifyStorefrontSellingPlanOption>
+  /** The price adjustments that a selling plan makes when a variant is purchased with a selling plan. */
+  priceAdjustments: Array<ShopifyStorefrontSellingPlanPriceAdjustment>
+  /** Whether purchasing the selling plan will result in multiple deliveries. */
+  recurringDeliveries: Scalars['Boolean']
 }
+
+/** Represents an association between a variant and a selling plan. Selling plan allocations describe the options offered for each variant, and the price of the variant when purchased with a selling plan. */
+export interface ShopifyStorefrontSellingPlanAllocation {
+  __typename: 'SellingPlanAllocation'
+  /** A list of price adjustments, with a maximum of two. When there are two, the first price adjustment goes into effect at the time of purchase, while the second one starts after a certain number of orders. A price adjustment represents how a selling plan affects pricing when a variant is purchased with a selling plan. Prices display in the customer's currency if the shop is configured for it. */
+  priceAdjustments: Array<ShopifyStorefrontSellingPlanAllocationPriceAdjustment>
+  /** A representation of how products and variants can be sold and purchased. For example, an individual selling plan could be '6 weeks of prepaid granola, delivered weekly'. */
+  sellingPlan: ShopifyStorefrontSellingPlan
+}
+
+/** An auto-generated type for paginating through multiple SellingPlanAllocations. */
+export interface ShopifyStorefrontSellingPlanAllocationConnection {
+  __typename: 'SellingPlanAllocationConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontSellingPlanAllocationEdge>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/** An auto-generated type which holds one SellingPlanAllocation and a cursor during pagination. */
+export interface ShopifyStorefrontSellingPlanAllocationEdge {
+  __typename: 'SellingPlanAllocationEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+  /** The item at the end of SellingPlanAllocationEdge. */
+  node: ShopifyStorefrontSellingPlanAllocation
+}
+
+/** The resulting prices for variants when they're purchased with a specific selling plan. */
+export interface ShopifyStorefrontSellingPlanAllocationPriceAdjustment {
+  __typename: 'SellingPlanAllocationPriceAdjustment'
+  /** The price of the variant when it's purchased without a selling plan for the same number of deliveries. For example, if a customer purchases 6 deliveries of $10.00 granola separately, then the price is 6 x $10.00 = $60.00. */
+  compareAtPrice: ShopifyStorefrontMoneyV2
+  /** The effective price for a single delivery. For example, for a prepaid subscription plan that includes 6 deliveries at the price of $48.00, the per delivery price is $8.00. */
+  perDeliveryPrice: ShopifyStorefrontMoneyV2
+  /** The price of the variant when it's purchased with a selling plan For example, for a prepaid subscription plan that includes 6 deliveries of $10.00 granola, where the customer gets 20% off, the price is 6 x $10.00 x 0.80 = $48.00. */
+  price: ShopifyStorefrontMoneyV2
+  /** The resulting price per unit for the variant associated with the selling plan. If the variant isn't sold by quantity or measurement, then this field returns `null`. */
+  unitPrice?: Maybe<ShopifyStorefrontMoneyV2>
+}
+
+/** An auto-generated type for paginating through multiple SellingPlans. */
+export interface ShopifyStorefrontSellingPlanConnection {
+  __typename: 'SellingPlanConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontSellingPlanEdge>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/** An auto-generated type which holds one SellingPlan and a cursor during pagination. */
+export interface ShopifyStorefrontSellingPlanEdge {
+  __typename: 'SellingPlanEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+  /** The item at the end of SellingPlanEdge. */
+  node: ShopifyStorefrontSellingPlan
+}
+
+/** A fixed amount that's deducted from the original variant price. For example, $10.00 off. */
+export interface ShopifyStorefrontSellingPlanFixedAmountPriceAdjustment {
+  __typename: 'SellingPlanFixedAmountPriceAdjustment'
+  /** The money value of the price adjustment. */
+  adjustmentAmount: ShopifyStorefrontMoneyV2
+}
+
+/** A fixed price adjustment for a variant that's purchased with a selling plan. */
+export interface ShopifyStorefrontSellingPlanFixedPriceAdjustment {
+  __typename: 'SellingPlanFixedPriceAdjustment'
+  /** A new price of the variant when it's purchased with the selling plan. */
+  price: ShopifyStorefrontMoneyV2
+}
+
+/** Represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
+export interface ShopifyStorefrontSellingPlanGroup {
+  __typename: 'SellingPlanGroup'
+  /** A display friendly name for the app that created the selling plan group. */
+  appName?: Maybe<Scalars['String']>
+  /** The name of the selling plan group. */
+  name: Scalars['String']
+  /** Represents the selling plan options available in the drop-down list in the storefront. For example, 'Delivery every week' or 'Delivery every 2 weeks' specifies the delivery frequency options for the product. */
+  options: Array<ShopifyStorefrontSellingPlanGroupOption>
+  /** A list of selling plans in a selling plan group. A selling plan is a representation of how products and variants can be sold and purchased. For example, an individual selling plan could be '6 weeks of prepaid granola, delivered weekly'. */
+  sellingPlans: ShopifyStorefrontSellingPlanConnection
+}
+
+/** Represents a selling method. For example, 'Subscribe and save' is a selling method where customers pay for goods or services per delivery. A selling plan group contains individual selling plans. */
+export type ShopifyStorefrontSellingPlanGroupSellingPlansArgs = {
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** An auto-generated type for paginating through multiple SellingPlanGroups. */
+export interface ShopifyStorefrontSellingPlanGroupConnection {
+  __typename: 'SellingPlanGroupConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontSellingPlanGroupEdge>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/** An auto-generated type which holds one SellingPlanGroup and a cursor during pagination. */
+export interface ShopifyStorefrontSellingPlanGroupEdge {
+  __typename: 'SellingPlanGroupEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+  /** The item at the end of SellingPlanGroupEdge. */
+  node: ShopifyStorefrontSellingPlanGroup
+}
+
+/**
+ * Represents an option on a selling plan group that's available in the drop-down list in the storefront.
+ *
+ * Individual selling plans contribute their options to the associated selling plan group. For example, a selling plan group might have an option called `option1: Delivery every`. One selling plan in that group could contribute `option1: 2 weeks` with the pricing for that option, and another selling plan could contribute `option1: 4 weeks`, with different pricing.
+ */
+export interface ShopifyStorefrontSellingPlanGroupOption {
+  __typename: 'SellingPlanGroupOption'
+  /** The name of the option. For example, 'Delivery every'. */
+  name: Scalars['String']
+  /** The values for the options specified by the selling plans in the selling plan group. For example, '1 week', '2 weeks', '3 weeks'. */
+  values: Array<Scalars['String']>
+}
+
+/** An option provided by a Selling Plan. */
+export interface ShopifyStorefrontSellingPlanOption {
+  __typename: 'SellingPlanOption'
+  /** The name of the option (ie "Delivery every"). */
+  name?: Maybe<Scalars['String']>
+  /** The value of the option (ie "Month"). */
+  value?: Maybe<Scalars['String']>
+}
+
+/** A percentage amount that's deducted from the original variant price. For example, 10% off. */
+export interface ShopifyStorefrontSellingPlanPercentagePriceAdjustment {
+  __typename: 'SellingPlanPercentagePriceAdjustment'
+  /** The percentage value of the price adjustment. */
+  adjustmentPercentage: Scalars['Int']
+}
+
+/** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. If a variant has multiple price adjustments, then the first price adjustment applies when the variant is initially purchased. The second price adjustment applies after a certain number of orders (specified by the `orderCount` field) are made. If a selling plan doesn't have any price adjustments, then the unadjusted price of the variant is the effective price. */
+export interface ShopifyStorefrontSellingPlanPriceAdjustment {
+  __typename: 'SellingPlanPriceAdjustment'
+  /** The type of price adjustment. An adjustment value can have one of three types: percentage, amount off, or a new price. */
+  adjustmentValue: ShopifyStorefrontSellingPlanPriceAdjustmentValue
+  /** The number of orders that the price adjustment applies to. If the price adjustment always applies, then this field is `null`. */
+  orderCount?: Maybe<Scalars['Int']>
+}
+
+/** Represents by how much the price of a variant associated with a selling plan is adjusted. Each variant can have up to two price adjustments. */
+export type ShopifyStorefrontSellingPlanPriceAdjustmentValue =
+  | ShopifyStorefrontSellingPlanFixedAmountPriceAdjustment
+  | ShopifyStorefrontSellingPlanFixedPriceAdjustment
+  | ShopifyStorefrontSellingPlanPercentagePriceAdjustment
 
 /** A shipping rate to be applied to a checkout. */
 export interface ShopifyStorefrontShippingRate {
@@ -4682,7 +5844,7 @@ export interface ShopifyStorefrontShippingRate {
   handle: Scalars['String']
   /**
    * Price of this shipping rate.
-   * @deprecated Use `priceV2` instead
+   * @deprecated Use `priceV2` instead.
    */
   price: Scalars['Money']
   /** Price of this shipping rate. */
@@ -4692,7 +5854,7 @@ export interface ShopifyStorefrontShippingRate {
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
-export interface ShopifyStorefrontShop {
+export interface ShopifyStorefrontShop extends ShopifyStorefrontHasMetafields {
   __typename: 'Shop'
   /**
    * List of the shop' articles.
@@ -4716,18 +5878,26 @@ export interface ShopifyStorefrontShop {
   collections: ShopifyStorefrontCollectionConnection
   /**
    * The three-letter code for the currency that the shop accepts.
-   * @deprecated Use `paymentSettings` instead
+   * @deprecated Use `paymentSettings` instead.
    */
   currencyCode: ShopifyStorefrontCurrencyCode
   /** A description of the shop. */
   description?: Maybe<Scalars['String']>
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /**
+   * A paginated list of metafields associated with the resource.
+   * @deprecated As of 2022-07, the paginated `metafields` field has been repurposed to require a list of metafield identifiers.
+   *
+   */
+  metafields: ShopifyStorefrontMetafieldConnection
   /** A string representing the way currency is formatted when the currency isn’t specified. */
   moneyFormat: Scalars['String']
   /** The shop’s name. */
   name: Scalars['String']
   /** Settings related to payments. */
   paymentSettings: ShopifyStorefrontPaymentSettings
-  /** The shop’s primary domain. */
+  /** The primary domain of the shop’s Online Store. */
   primaryDomain: ShopifyStorefrontDomain
   /** The shop’s privacy policy. */
   privacyPolicy?: Maybe<ShopifyStorefrontShopPolicy>
@@ -4759,10 +5929,12 @@ export interface ShopifyStorefrontShop {
   /** Countries that the shop ships to. */
   shipsToCountries: Array<ShopifyStorefrontCountryCode>
   /**
-   * The shop’s Shopify Payments account id.
-   * @deprecated Use `paymentSettings` instead
+   * The shop’s Shopify Payments account ID.
+   * @deprecated Use `paymentSettings` instead.
    */
   shopifyPaymentsAccountId?: Maybe<Scalars['String']>
+  /** The shop’s subscription policy. */
+  subscriptionPolicy?: Maybe<ShopifyStorefrontShopPolicyWithDefault>
   /** The shop’s terms of service. */
   termsOfService?: Maybe<ShopifyStorefrontShopPolicy>
 }
@@ -4806,6 +5978,22 @@ export type ShopifyStorefrontShopCollectionsArgs = {
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
+export type ShopifyStorefrontShopMetafieldArgs = {
+  namespace: Scalars['String']
+  key: Scalars['String']
+}
+
+/** Shop represents a collection of the general settings and information about the shop. */
+export type ShopifyStorefrontShopMetafieldsArgs = {
+  namespace?: Maybe<Scalars['String']>
+  first?: Maybe<Scalars['Int']>
+  after?: Maybe<Scalars['String']>
+  last?: Maybe<Scalars['Int']>
+  before?: Maybe<Scalars['String']>
+  reverse?: Maybe<Scalars['Boolean']>
+}
+
+/** Shop represents a collection of the general settings and information about the shop. */
 export type ShopifyStorefrontShopProductByHandleArgs = {
   handle: Scalars['String']
 }
@@ -4838,7 +6026,7 @@ export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
   body: Scalars['String']
   /** Policy’s handle. */
   handle: Scalars['String']
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** Policy’s title. */
   title: Scalars['String']
@@ -4846,7 +6034,58 @@ export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
   url: Scalars['URL']
 }
 
-/** An auto-generated type for paginating through multiple Strings. */
+/**
+ * A policy for the store that comes with a default value, such as a subscription policy.
+ * If the merchant hasn't configured a policy for their store, then the policy will return the default value.
+ * Otherwise, the policy will return the merchant-configured value.
+ */
+export interface ShopifyStorefrontShopPolicyWithDefault {
+  __typename: 'ShopPolicyWithDefault'
+  /** The text of the policy. Maximum size: 64KB. */
+  body: Scalars['String']
+  /** The handle of the policy. */
+  handle: Scalars['String']
+  /** The unique ID of the policy. A default policy doesn't have an ID. */
+  id?: Maybe<Scalars['ID']>
+  /** The title of the policy. */
+  title: Scalars['String']
+  /** Public URL to the policy. */
+  url: Scalars['URL']
+}
+
+/**
+ * The availability of a product variant at a particular location.
+ * Local pick-up must be enabled in the  store's shipping settings, otherwise this will return an empty result.
+ */
+export interface ShopifyStorefrontStoreAvailability {
+  __typename: 'StoreAvailability'
+  /** Whether the product variant is in-stock at this location. */
+  available: Scalars['Boolean']
+  /** The location where this product variant is stocked at. */
+  location: ShopifyStorefrontLocation
+  /** Returns the estimated amount of time it takes for pickup to be ready (Example: Usually ready in 24 hours). */
+  pickUpTime: Scalars['String']
+}
+
+/** An auto-generated type for paginating through multiple StoreAvailabilities. */
+export interface ShopifyStorefrontStoreAvailabilityConnection {
+  __typename: 'StoreAvailabilityConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontStoreAvailabilityEdge>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/** An auto-generated type which holds one StoreAvailability and a cursor during pagination. */
+export interface ShopifyStorefrontStoreAvailabilityEdge {
+  __typename: 'StoreAvailabilityEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']
+  /** The item at the end of StoreAvailabilityEdge. */
+  node: ShopifyStorefrontStoreAvailability
+}
+
+/** An auto-generated type for paginating through a list of Strings. */
 export interface ShopifyStorefrontStringConnection {
   __typename: 'StringConnection'
   /** A list of edges. */
@@ -4871,12 +6110,7 @@ export interface ShopifyStorefrontStringEdge {
 export type ShopifyStorefrontTokenizedPaymentInput = {
   /** The amount of the payment. */
   amount: Scalars['Money']
-  /**
-   * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new
-   * one. For more information, refer to [Idempotent
-   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
-   */
+  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests). */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
@@ -4897,21 +6131,13 @@ export type ShopifyStorefrontTokenizedPaymentInput = {
 export type ShopifyStorefrontTokenizedPaymentInputV2 = {
   /** The amount and currency of the payment. */
   paymentAmount: ShopifyStorefrontMoneyInput
-  /**
-   * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new
-   * one. For more information, refer to [Idempotent
-   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
-   */
+  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests). */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
   /** A simple string or JSON containing the required payment data for the tokenized payment. */
   paymentData: Scalars['String']
-  /**
-   * Whether to execute the payment in test mode, if possible. Test mode is not
-   * supported in production stores. Defaults to `false`.
-   */
+  /** Whether to execute the payment in test mode, if possible. Test mode is not supported in production stores. Defaults to `false`. */
   test?: Maybe<Scalars['Boolean']>
   /** Public Hash Key used for AndroidPay payments only. */
   identifier?: Maybe<Scalars['String']>
@@ -4926,21 +6152,13 @@ export type ShopifyStorefrontTokenizedPaymentInputV2 = {
 export type ShopifyStorefrontTokenizedPaymentInputV3 = {
   /** The amount and currency of the payment. */
   paymentAmount: ShopifyStorefrontMoneyInput
-  /**
-   * A unique client generated key used to avoid duplicate charges. When a
-   * duplicate payment is found, the original is returned instead of creating a new
-   * one. For more information, refer to [Idempotent
-   * requests](https://shopify.dev/concepts/about-apis/idempotent-requests).
-   */
+  /** A unique client generated key used to avoid duplicate charges. When a duplicate payment is found, the original is returned instead of creating a new one. For more information, refer to [Idempotent requests](https://shopify.dev/api/usage/idempotent-requests). */
   idempotencyKey: Scalars['String']
   /** The billing address for the payment. */
   billingAddress: ShopifyStorefrontMailingAddressInput
   /** A simple string or JSON containing the required payment data for the tokenized payment. */
   paymentData: Scalars['String']
-  /**
-   * Whether to execute the payment in test mode, if possible. Test mode is not
-   * supported in production stores. Defaults to `false`.
-   */
+  /** Whether to execute the payment in test mode, if possible. Test mode is not supported in production stores. Defaults to `false`. */
   test?: Maybe<Scalars['Boolean']>
   /** Public Hash Key used for AndroidPay payments only. */
   identifier?: Maybe<Scalars['String']>
@@ -4953,7 +6171,7 @@ export interface ShopifyStorefrontTransaction {
   __typename: 'Transaction'
   /**
    * The amount of money that the transaction was for.
-   * @deprecated Use `amountV2` instead
+   * @deprecated Use `amountV2` instead.
    */
   amount: Scalars['Money']
   /** The amount of money that the transaction was for. */
@@ -4962,7 +6180,7 @@ export interface ShopifyStorefrontTransaction {
   kind: ShopifyStorefrontTransactionKind
   /**
    * The status of the transaction.
-   * @deprecated Use `statusV2` instead
+   * @deprecated Use `statusV2` instead.
    */
   status: ShopifyStorefrontTransactionStatus
   /** The status of the transaction. */
@@ -5053,6 +6271,14 @@ export enum ShopifyStorefrontUnitPriceMeasurementMeasuredUnit {
   M2 = 'M2',
 }
 
+/** Systems of weights and measures. */
+export enum ShopifyStorefrontUnitSystem {
+  /** Imperial system of weights and measures. */
+  ImperialSystem = 'IMPERIAL_SYSTEM',
+  /** Metric system of weights and measures. */
+  MetricSystem = 'METRIC_SYSTEM',
+}
+
 /** Represents an error in the input of a mutation. */
 export interface ShopifyStorefrontUserError
   extends ShopifyStorefrontDisplayableError {
@@ -5063,14 +6289,22 @@ export interface ShopifyStorefrontUserError
   message: Scalars['String']
 }
 
+/** The input fields for a filter used to view a subset of products in a collection matching a specific variant option. */
+export type ShopifyStorefrontVariantOptionFilter = {
+  /** The name of the variant option to filter on. */
+  name: Scalars['String']
+  /** The value of the variant option to filter on. */
+  value: Scalars['String']
+}
+
 /** Represents a Shopify hosted video. */
 export interface ShopifyStorefrontVideo
-  extends ShopifyStorefrontNode,
-    ShopifyStorefrontMedia {
+  extends ShopifyStorefrontMedia,
+    ShopifyStorefrontNode {
   __typename: 'Video'
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']>
-  /** Globally unique identifier. */
+  /** A globally-unique ID. */
   id: Scalars['ID']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
