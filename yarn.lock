@@ -6978,6 +6978,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node-fetch@npm:^2.6.4":
+  version: 2.6.4
+  resolution: "@types/node-fetch@npm:2.6.4"
+  dependencies:
+    "@types/node": "*"
+    form-data: ^3.0.0
+  checksum: f3e1d881bb42269e676ecaf49f0e096ab345e22823a2b2d071d60619414817fe02df48a31a8d05adb23054028a2a65521bdb3906ceb763ab6d3339c8d8775058
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*":
   version: 18.11.18
   resolution: "@types/node@npm:18.11.18"
@@ -20842,6 +20852,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"node-fetch@npm:2":
+  version: 2.6.12
+  resolution: "node-fetch@npm:2.6.12"
+  dependencies:
+    whatwg-url: ^5.0.0
+  peerDependencies:
+    encoding: ^0.1.0
+  peerDependenciesMeta:
+    encoding:
+      optional: true
+  checksum: 3bc1655203d47ee8e313c0d96664b9673a3d4dd8002740318e9d27d14ef306693a4b2ef8d6525775056fd912a19e23f3ac0d7111ad8925877b7567b29a625592
+  languageName: node
+  linkType: hard
+
 "node-fetch@npm:2.6.1":
   version: 2.6.1
   resolution: "node-fetch@npm:2.6.1"
@@ -26573,6 +26597,7 @@ __metadata:
     "@types/js-cookie": ^2.2.7
     "@types/json2csv": ^5.0.3
     "@types/ndjson": ^2.0.1
+    "@types/node-fetch": ^2.6.4
     "@types/prettier": ^2.7.2
     "@types/react": ^18.0.26
     "@types/react-dom": ^18.0.10
@@ -26618,6 +26643,7 @@ __metadata:
     mailchimp-api-v3: ^1.15.0
     ndjson: ^2.0.0
     next: ^12.3.4
+    node-fetch: 2
     node-html-parser: ^5.4.2
     node-watch: ^0.7.3
     postmark: ^2.9.5
