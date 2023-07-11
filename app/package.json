@@ -20,7 +20,10 @@
 		"lint": "yarn eslint src",
 		"lint:watch": "yarn eslint-watch src",
 		"test": "jest",
-		"test:watch": "jest --watch"
+		"test:watch": "jest --watch",
+		"webhooks:list": "ts-node --project tsconfig.scripts.json ./scripts/registerWebhooks.ts list",
+		"webhooks:clear": "ts-node --project tsconfig.scripts.json ./scripts/registerWebhooks.ts clear",
+		"webhooks:register": "ts-node --project tsconfig.scripts.json ./scripts/registerWebhooks.ts register"
 	},
 	"devDependencies": {
 		"@axe-core/react": "^4.7.3",
@@ -37,6 +40,7 @@
 		"@types/js-cookie": "^3.0.3",
 		"@types/json2csv": "^5.0.3",
 		"@types/ndjson": "^2.0.1",
+		"@types/node-fetch": "^2.6.4",
 		"@types/prettier": "^2.7.3",
 		"@types/react": "^18.2.14",
 		"@types/react-dom": "^18.2.6",
@@ -58,6 +62,7 @@
 		"graphql-cli": "^4.1.0",
 		"gsheets": "^3.0.1",
 		"jest": "^29.6.0",
+		"node-fetch": "2",
 		"node-watch": "^0.7.3",
 		"react-hot-loader": "^4.13.1",
 		"ts-jest": "^29.1.1",
@@ -98,6 +103,7 @@
 		"html-parser-lite": "^1.1.0",
 		"htmlparser2": "^9.0.0",
 		"husky": "^8.0.3",
+		"isomorphic-unfetch": "^3.1.0",
 		"js-cookie": "^3.0.5",
 		"json2csv": "^6.0.0-alpha.2",
 		"lint-staged": "^13.2.3",
@@ -131,6 +137,7 @@
 		"zod": "^3.21.4"
 	},
 	"resolutions": {
+		"graphql": "^15.5.1",
 		"styled-components": "^5"
 	}
 }
