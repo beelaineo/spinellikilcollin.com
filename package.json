@@ -54,6 +54,9 @@
 		"graphql": "^16.7.1",
 		"react-icons": "^4.10.1"
 	},
+	"resolutions": {
+		"graphql": "^15.5.1"
+	},
 	"version": "1.22.15",
 	"packageManager": "yarn@3.3.1"
 }
