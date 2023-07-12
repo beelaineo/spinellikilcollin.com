@@ -563,7 +563,7 @@ export const ProductThumbnail = ({
   const [imageHover, setImageHover] = useState(false)
 
   useEffect(() => {
-    console.log('currentSwatchOption', currentSwatchOption)
+    // console.log('currentSwatchOption', currentSwatchOption)
   }, [currentSwatchOption, imageHover])
 
   return (

@@ -44,6 +44,41 @@ const SubmenuInner = styled.div`
   `}
 `
 
+type Maybe<T> = T | null | undefined
+
+type QueryParam = {
+  key?: Maybe<string>
+  value?: Maybe<string | number | boolean>
+}
+
+type QueryParams = Maybe<QueryParam>[] | undefined
+
+function transformQueryParams(
+  queryParams: QueryParams,
+): Record<string, string | number | boolean> | undefined {
+  if (!queryParams) {
+    return undefined
+  }
+
+  return queryParams.reduce(
+    (acc: Record<string, string | number | boolean>, maybeParam) => {
+      if (
+        !maybeParam ||
+        !maybeParam.key ||
+        maybeParam.value === null ||
+        maybeParam.value === undefined
+      ) {
+        return acc
+      }
+
+      acc[maybeParam.key] = maybeParam.value
+
+      return acc
+    },
+    {},
+  )
+}
+
 export const SubMenu = ({ closeMenu, subMenu }: SubMenuProps) => {
   const { menuOpen } = useNavigation()
   const [open, setOpen] = useState(false)
@@ -69,9 +104,17 @@ export const SubMenu = ({ closeMenu, subMenu }: SubMenuProps) => {
         {definitely(links).map((link) => {
           switch (link.__typename) {
             case 'Cta':
+              const linkParams =
+                link.link?.queryParams && link.link?.queryParams.length > 0
+                  ? transformQueryParams(link.link.queryParams)
+                  : undefined
               return (
                 <div key={link._key || 'some-key'}>
-                  <PageLink onClick={closeMenu} link={link.link}>
+                  <PageLink
+                    onClick={closeMenu}
+                    link={link.link}
+                    linkParams={linkParams}
+                  >
                     <Heading level={4} fontStyle="italic">
                       {link.label || ''}
                     </Heading>
