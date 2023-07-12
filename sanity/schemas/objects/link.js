@@ -69,6 +69,38 @@ export const externalLink = {
   },
 }
 
+export const queryParam = {
+  type: 'object',
+  name: 'queryParam',
+  title: 'Query Parameter',
+  description: 'e.g. "stone=am" / "{KEY}={VALUE}"',
+  fields: [
+    {
+      name: 'key',
+      type: 'string',
+      title: 'KEY',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'value',
+      type: 'string',
+      title: 'VALUE',
+      validation: (Rule) => Rule.required(),
+    },
+  ],
+  preview: {
+    select: {
+      key: 'key',
+      value: 'value',
+    },
+    prepare: ({ key, value }) => {
+      return {
+        title: `${key}=${value}`,
+      }
+    },
+  },
+}
+
 export const internalLink = {
   title: 'Page, Product, or Collection',
   description: 'Link to a Page, Product, or Collection',
@@ -99,6 +131,13 @@ export const internalLink = {
         { type: 'about' },
         { type: 'page' },
       ],
+    },
+    {
+      title: 'Route Query Parameters (optional)',
+      name: 'queryParams',
+      description: 'Add query parameter(s) to the link route.',
+      type: 'array',
+      of: [{ type: 'queryParam' }],
     },
   ],
   preview: {
