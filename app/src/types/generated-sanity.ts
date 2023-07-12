@@ -1327,6 +1327,7 @@ export interface InternalLink {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   document?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
+  queryParams?: Maybe<Array<Maybe<QueryParam>>>
 }
 
 export type InternalLinkFilter = {
@@ -1944,6 +1945,28 @@ export type ProductListingSettingsSorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   helpText?: Maybe<SortOrder>
+}
+
+export interface QueryParam {
+  __typename: 'QueryParam'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  key?: Maybe<Scalars['String']>
+  value?: Maybe<Scalars['String']>
+}
+
+export type QueryParamFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  key?: Maybe<StringFilter>
+  value?: Maybe<StringFilter>
+}
+
+export type QueryParamSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  key?: Maybe<SortOrder>
+  value?: Maybe<SortOrder>
 }
 
 export interface QuizBlock {
