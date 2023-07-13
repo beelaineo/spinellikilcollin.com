@@ -39,7 +39,8 @@
 	},
 	"workspaces": [
 		"app",
-		"sanity"
+		"sanity",
+		"queue-server"
 	],
 	"lint-staged": {
 		"*.(json|js|jsx|ts|tsx|html|css|md)": [
