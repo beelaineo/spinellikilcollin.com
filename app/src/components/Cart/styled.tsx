@@ -190,9 +190,9 @@ export const CheckoutProductCloseButtonWrapper = styled.div`
     right: 0;
     padding: 8px 4;
     z-index: 2;
-    cursor: pointer;
     button {
       width: 20px;
+      height: 20px;
     }
     ${theme.mediaQueries.tablet} {
       margin-right: 8px;
@@ -205,12 +205,13 @@ export const CheckoutProductCloseButton = styled.button`
     position: absolute;
     z-index: 20;
     background-color: transparent;
+    cursor: pointer;
 
     &:before,
     &:after {
       content: '';
       position: absolute;
-      top: 0px;
+      top: 10px;
       left: 50%;
       width: 100%;
       height: 1px;
