@@ -270,6 +270,14 @@ export const ProductThumbnail = ({
       (o) => o?.name === 'Carat',
     )[0]?.value
 
+    const currentSwatchStyleValue = currentVariant?.selectedOptions?.filter(
+      (o) => o?.name === 'Style',
+    )[0]?.value
+
+    const currentSwatchMaterialValue = currentVariant?.selectedOptions?.filter(
+      (o) => o?.name === 'Material',
+    )[0]?.value
+
     const currentSwatchDefaultValue = currentVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Title',
     )[0]?.value
@@ -286,7 +294,7 @@ export const ProductThumbnail = ({
     )
 
     const currentStyleOption = styleOption?.[0]?.values?.filter(
-      (o) => o?.animation,
+      (o) => o?.value == currentSwatchStyleValue,
     )[0]
 
     const materialOption = product.options?.filter(
@@ -294,7 +302,7 @@ export const ProductThumbnail = ({
     )
 
     const currentMaterialOption = materialOption?.[0]?.values?.filter(
-      (o) => o?.animation,
+      (o) => o?.value == currentSwatchMaterialValue,
     )[0]
 
     const caratOption = product.options?.filter(
@@ -592,10 +600,6 @@ export const ProductThumbnail = ({
   })
 
   const [imageHover, setImageHover] = useState(false)
-
-  useEffect(() => {
-    // console.log('currentSwatchOption', currentSwatchOption)
-  }, [currentSwatchOption, imageHover])
 
   return (
     <ProductThumb ref={containerRef}>
