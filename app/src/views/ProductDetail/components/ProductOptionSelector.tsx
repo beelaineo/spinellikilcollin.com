@@ -152,7 +152,10 @@ export const ProductOptionSelector = ({
   const stockedColorOptions = stockedVariants
     ?.map((variant) => {
       return variant?.selectedOptions?.find(
-        (option) => option?.name === 'Color',
+        (option) =>
+          option?.name === 'Color' ||
+          option?.name === 'Style' ||
+          option?.name === 'Material',
       )
     })
     .map((option) => slugify(option?.value))
@@ -160,6 +163,16 @@ export const ProductOptionSelector = ({
   const currentSelectedColor =
     currentVariant?.sourceData?.selectedOptions?.find(
       (option) => option?.name === 'Color',
+    )
+
+  const currentSelectedStyle =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Style',
+    )
+
+  const currentSelectedMaterial =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Material',
     )
 
   const currentSelectedDiamond =
@@ -233,6 +246,20 @@ export const ProductOptionSelector = ({
           ) {
             i++
           }
+        } else if (currentSelectedStyle) {
+          if (
+            Object.values(v).includes(value) &&
+            Object.values(v).includes(currentSelectedStyle?.value)
+          ) {
+            i++
+          }
+        } else if (currentSelectedMaterial) {
+          if (
+            Object.values(v).includes(value) &&
+            Object.values(v).includes(currentSelectedMaterial?.value)
+          ) {
+            i++
+          }
         } else {
           if (Object.values(v).includes(value)) {
             i++
@@ -288,15 +315,6 @@ export const ProductOptionSelector = ({
   }
 
   useEffect(() => {
-    if (disableStockIndication == true) {
-      const includedVariantsArray = getIncludedVariants(product)
-      includedVariantsArray.then((variants) => {
-        setIncludedVariants(variants)
-      })
-    }
-  }, [product])
-
-  useEffect(() => {
     const d = currentSelectedDiamond?.value
     const stones = product?.options?.find((o) => o?.name === 'Carat')?.values
     const stone = stones?.find((s) => s?.value === d)
@@ -304,12 +322,21 @@ export const ProductOptionSelector = ({
   }, [currentVariant])
 
   useEffect(() => {
+    if (disableStockIndication == true) {
+      const includedVariantsArray = getIncludedVariants(product)
+      includedVariantsArray.then((variants) => {
+        setIncludedVariants(variants)
+      })
+    }
     const colorOptions =
       disableStockIndication == true
         ? includedVariants
             ?.map((variant) => {
               return variant?.sourceData?.selectedOptions?.find(
-                (option) => option?.name === 'Color',
+                (option) =>
+                  option?.name === 'Color' ||
+                  option?.name === 'Style' ||
+                  option?.name === 'Material',
               )
             })
             .map((option) => slugify(option?.value))
