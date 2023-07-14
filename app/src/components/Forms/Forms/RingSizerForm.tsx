@@ -203,8 +203,17 @@ export const RingSizerForm = ({
               placeholder=""
               required
             />
-            <Field name="address1" label="Mailing Address Line 1" required />
-            <Field name="address2" label="Mailing Address Line 2" />
+            <Field
+              name="address1"
+              label="Mailing Address Line 1"
+              placeholder={'Street address, P.O. Box, company name, c/o'}
+              required
+            />
+            <Field
+              name="address2"
+              label="Mailing Address Line 2"
+              placeholder="Apartment, suite, unit, building, floor, etc."
+            />
             <Field label="City" name="city" required />
             <StateField label="State" name="state" required />
             <Field label="Postal Code" name="zip" required />

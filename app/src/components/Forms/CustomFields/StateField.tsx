@@ -22,5 +22,5 @@ export const StateField = (props: StateFieldProps) => {
   if (values?.country === 'United States') {
     return <Field type="select" {...props} options={options} />
   }
-  return <Field {...props} label="State/Region" placeholder="Region" />
+  return <Field {...props} label="State/Province/Region" placeholder="Region" />
 }
