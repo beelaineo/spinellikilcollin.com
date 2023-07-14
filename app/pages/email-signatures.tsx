@@ -140,7 +140,7 @@ const Signature = ({
   }
 
   const updateText = () => {
-    console.log(renderEmailSignature(signatureHTML.current?.outerHTML))
+    // console.log(renderEmailSignature(signatureHTML.current?.outerHTML))
     setClipboardText(renderEmailSignature(signatureHTML.current?.outerHTML))
   }
 
@@ -308,7 +308,7 @@ const Signature = ({
         text={clipboardText}
         options={{ asHtml: true }}
         onCopy={(text, result) => {
-          console.log(`on copied: ${result}`, text)
+          // console.log(`on copied: ${result}`, text)
         }}
       >
         {/* <button className="copy btn btn-primary float-right">Copy to clipboard</button> */}

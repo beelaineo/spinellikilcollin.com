@@ -202,10 +202,13 @@ export const ProductThumbnail = ({
     | undefined
   >(null)
 
+  const optionsArray = ['Color', 'Style', 'Material']
+
   useEffect(() => {
-    const initialSwatchValue = initialVariant?.selectedOptions?.filter(
-      (o) => o?.name === 'Color',
-    )[0]?.value
+    const initialSwatchValue = initialVariant?.selectedOptions?.filter((o) => {
+      if (!o?.name) return false
+      return optionsArray.includes(o?.name)
+    })[0]?.value
 
     const colorOption = product.options?.filter(
       (option) => option?.name == 'Color',
@@ -222,8 +225,18 @@ export const ProductThumbnail = ({
       (o) => o?.animation,
     )[0]
 
+    const materialOption = product.options?.filter(
+      (option) => option?.name == 'Material',
+    )
+
+    const initialMaterialOption = materialOption?.[0]?.values?.filter(
+      (o) => o?.animation,
+    )[0]
+
     const initialAnimation =
-      initialColorOption?.animation || initialStyleOption?.animation
+      initialColorOption?.animation ||
+      initialStyleOption?.animation ||
+      initialMaterialOption?.animation
 
     if (initialAnimation) {
       const variantAnimation: VariantAnimation = {
@@ -248,9 +261,10 @@ export const ProductThumbnail = ({
   }, [product])
 
   useEffect(() => {
-    const currentSwatchValue = currentVariant?.selectedOptions?.filter(
-      (o) => o?.name === 'Color',
-    )[0]?.value
+    const currentSwatchValue = currentVariant?.selectedOptions?.filter((o) => {
+      if (!o?.name) return false
+      return optionsArray.includes(o?.name)
+    })[0]?.value
 
     const currentSwatchCaratValue = currentVariant?.selectedOptions?.filter(
       (o) => o?.name === 'Carat',
@@ -275,6 +289,14 @@ export const ProductThumbnail = ({
       (o) => o?.animation,
     )[0]
 
+    const materialOption = product.options?.filter(
+      (option) => option?.name == 'Material',
+    )
+
+    const currentMaterialOption = materialOption?.[0]?.values?.filter(
+      (o) => o?.animation,
+    )[0]
+
     const caratOption = product.options?.filter(
       (option) => option?.name == 'Carat',
     )
@@ -295,11 +317,14 @@ export const ProductThumbnail = ({
       currentColorOption ||
         currentCaratOption ||
         currentStyleOption ||
+        currentMaterialOption ||
         currentDefaultOption,
     )
 
     const currentAnimation =
-      currentColorOption?.animation || currentStyleOption?.animation
+      currentColorOption?.animation ||
+      currentStyleOption?.animation ||
+      currentMaterialOption?.animation
 
     if (currentAnimation) {
       const variantAnimation: VariantAnimation = {
@@ -339,7 +364,13 @@ export const ProductThumbnail = ({
       if (!value.value) return
       if (!currentVariant?.selectedOptions) return
       const currentOptions = currentVariant.selectedOptions
-        .filter((v) => v?.name === 'Color' || v?.name === 'Carat')
+        .filter(
+          (v) =>
+            v?.name === 'Color' ||
+            v?.name === 'Carat' ||
+            v?.name === 'Style' ||
+            v?.name === 'Material',
+        )
         .map((v) => {
           if (v?.name === option.name) {
             return {
