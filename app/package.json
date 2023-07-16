@@ -4,6 +4,9 @@
 	"description": "Frontend build for spinellikilcollin.com",
 	"author": "Joseph Thomas <joseph@good-idea.studio>",
 	"homepage": "https://www.spinellikilcollin.com",
+	"engines": {
+		"node": "^18.x"
+	},
 	"license": "NONE",
 	"scripts": {
 		"dev": "NODE_ENV=development next dev",

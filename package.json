@@ -1,6 +1,9 @@
 {
 	"name": "spinellikilcollin-root",
 	"private": true,
+	"engines": {
+		"node": "^18.x"
+	},
 	"scripts": {
 		"setup": "yarn install",
 		"test": "yarn workspace spinellikilcollin-app test",

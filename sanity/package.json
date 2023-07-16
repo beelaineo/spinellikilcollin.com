@@ -4,6 +4,9 @@
   "description": "Sanity configuration for spinellikilcollin.com",
   "author": "Joseph Thomas <joseph@good-idea.studio>",
   "private": true,
+  "engines": {
+    "node": "^18.x"
+  },
   "license": "ISC",
   "main": "lib/sanity.js",
   "directories": {
