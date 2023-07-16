@@ -81,6 +81,12 @@ export const internalLinkFragment = gql`
     __typename
     _key
     _type
+    queryParams {
+      _key
+      _type
+      key
+      value
+    }
     document {
       __typename
       ... on Contact {
