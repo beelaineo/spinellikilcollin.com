@@ -81,7 +81,7 @@
 		"@good-idea/unwind-edges": "^1.5.3",
 		"@sane-shopify/server": "^0.24.0",
 		"@sanity/block-content-to-react": "^3.0.0",
-		"@sanity/client": "^6.1.6",
+		"@sanity/client": "^3.4.1",
 		"@sanity/image-url": "^1.0.2",
 		"@sentry/browser": "^7.57.0",
 		"@sentry/integrations": "^7.57.0",

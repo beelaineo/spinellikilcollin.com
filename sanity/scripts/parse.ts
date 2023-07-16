@@ -1,14 +1,14 @@
 import { isMatch, pick } from 'lodash'
 
-import { createClient } from '@sanity/client'
+import createSanityClient from '@sanity/client'
 
-const stagingClient = createClient({
+const stagingClient = createSanityClient({
   projectId: 'i21fjdbi',
   dataset: 'staging',
   useCdn: false,
 })
 
-const prodClient = createClient({
+const prodClient = createSanityClient({
   projectId: 'i21fjdbi',
   dataset: 'production',
   useCdn: false,
