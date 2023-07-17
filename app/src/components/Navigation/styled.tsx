@@ -469,6 +469,9 @@ export const BreadcrumbsWrapper = styled.div`
     ${theme.mediaQueries.tablet} {
       padding: 0 0 0 5;
     }
+    ${theme.mediaQueries.mobile} {
+      margin-left: -2;
+    }
   `}
 `
 
