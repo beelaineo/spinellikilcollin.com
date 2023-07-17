@@ -10,6 +10,7 @@ interface CustomizeButtonProps {
   mobile?: boolean
   product: ShopifyProduct
   variant: ShopifyProductVariant
+  wedding?: boolean
 }
 
 interface WithMobile {
@@ -42,8 +43,9 @@ export const CustomizeButton = ({
   mobile,
   product,
   variant,
+  wedding,
 }: CustomizeButtonProps) => {
-  const { openWeddingModal } = useModal()
+  const { openWeddingModal, openCustomizationModal } = useModal()
 
   return (
     <Wrapper mobile={mobile}>
@@ -51,10 +53,15 @@ export const CustomizeButton = ({
       <Heading m={0} level={5} textDecoration="underline">
         <span
           onClick={() =>
-            openWeddingModal({
-              currentProduct: product,
-              currentVariant: variant,
-            })
+            wedding
+              ? openWeddingModal({
+                  currentProduct: product,
+                  currentVariant: variant,
+                })
+              : openCustomizationModal({
+                  currentProduct: product,
+                  currentVariant: variant,
+                })
           }
         >
           Customize

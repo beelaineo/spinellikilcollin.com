@@ -501,15 +501,12 @@ export const ProductDetail = ({ product }: Props) => {
                         variant={currentVariant}
                         addLineItem={addLineItem}
                       />
-                      {weddingMatch ? (
-                        <>
-                          <AppointmentsButton />
-                          <CustomizeButton
-                            product={product}
-                            variant={currentVariant}
-                          />
-                        </>
-                      ) : null}
+                      <AppointmentsButton />
+                      <CustomizeButton
+                        product={product}
+                        variant={currentVariant}
+                        wedding={weddingMatch}
+                      />
                     </RingToolsWrapper>
                   ) : null}
                   <BuyButton
