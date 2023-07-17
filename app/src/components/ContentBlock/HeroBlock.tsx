@@ -122,7 +122,7 @@ const HeroText = styled.div`
     .text-container {
       ${
         textXL
-          ? 'max-width: none;'
+          ? 'max-width: 90vw;'
           : textContainer == 'full'
           ? 'max-width: 720px;'
           : textContainer == 'half-left' || textContainer == 'half-right'
@@ -189,11 +189,6 @@ const HeroText = styled.div`
       }
     }
 
-    ${
-      textXL &&
-      `h1 {
-      font-size: 100px;
-    }`
     }
     h1 {
       font-size: ${
