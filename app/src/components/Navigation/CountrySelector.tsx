@@ -112,7 +112,7 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
   useEffect(() => {
     countryOptions().then((options) => {
       setOptions(options)
-      setCountry(options[1].value)
+      setCountry('US')
     })
   }, [])
 
