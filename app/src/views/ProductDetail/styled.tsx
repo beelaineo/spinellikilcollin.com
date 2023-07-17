@@ -69,7 +69,7 @@ export const InfoWrapper = styled.div<WithProduct>`
       display: block;
       padding: ${product?.sourceData?.productType === 'Gift Card'
         ? '0 0 7'
-        : '6 0 7'};
+        : '96px 0 7'};
     }
   `}
 `
