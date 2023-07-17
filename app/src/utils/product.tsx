@@ -573,6 +573,12 @@ export const getVariantTitle = (
       ? variant.sourceData
       : variant
 
+  const hasCarat = source?.selectedOptions?.some(
+    (option) => option?.name === 'Carat',
+  )
+  const hasColor = source?.selectedOptions?.some(
+    (option) => option?.name === 'Color',
+  )
   // Parse the product title by combining the selected option
   // values, omitting the "Size" option
   const titleByOptions = source?.selectedOptions?.length
@@ -584,6 +590,9 @@ export const getVariantTitle = (
         .filter(Boolean)
         .join(' | ')
     : undefined
+
+  if (titleByOptions?.length && hasCarat && !hasColor)
+    return product?.title + ' | ' + titleByOptions
 
   if (titleByOptions?.length) return titleByOptions
 

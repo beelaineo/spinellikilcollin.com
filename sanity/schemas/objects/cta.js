@@ -26,7 +26,16 @@ const getPreviewValues = async (values) => {
       subtitles: [getActionTitle(action)],
     }
   }
+  if (values.link_external) {
+    const subtitles = [`🔗 External Link: ${values.link_external.url}`].filter(
+      Boolean,
+    )
 
+    return {
+      title: label,
+      subtitles,
+    }
+  }
   if (values.link) {
     const { document } = values.link
     if (!document || !document._ref) {
@@ -74,8 +83,29 @@ export const cta = {
       validation: (Rule) => Rule.required().max(25),
     },
     {
+      name: 'linkType',
+      type: 'string',
+      title: 'Link Type',
+      initialValue: 'internal',
+      options: {
+        list: [
+          { title: 'Internal', value: 'internal' },
+          { title: 'External', value: 'external' },
+          { title: 'Action', value: 'action' },
+        ],
+      },
+    },
+    {
       type: 'internalLink',
       name: 'link',
+      title: 'Internal Link',
+      hidden: ({ parent }) => parent.linkType !== 'internal',
+    },
+    {
+      type: 'externalLink',
+      name: 'link_external',
+      title: 'External Link',
+      hidden: ({ parent }) => parent.linkType !== 'external',
     },
     {
       name: 'action',
@@ -86,17 +116,20 @@ export const cta = {
       options: {
         list: actionTypes,
       },
+      hidden: ({ parent }) => parent.linkType !== 'action',
     },
     {
       name: 'bambuser',
       type: 'bambuserSettings',
       title: 'Bambuser Action settings',
+      hidden: true,
     },
   ],
 
   preview: {
     select: {
       link: 'link',
+      link_external: 'link_external',
       label: 'label',
       action: 'action',
     },

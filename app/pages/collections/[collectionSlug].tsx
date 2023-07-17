@@ -72,18 +72,6 @@ const collectionQueryById = gql`
       }
       descriptionRaw
       preferredVariantMatches
-      bambuser {
-        _key
-        __typename
-        slug
-        liveSettings {
-          _key
-          __typename
-          startDate
-          endDate
-          liveCTALabel
-        }
-      }
       seo {
         ...SEOFragment
       }

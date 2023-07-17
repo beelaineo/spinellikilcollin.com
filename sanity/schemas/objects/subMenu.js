@@ -1,14 +1,17 @@
 import * as React from 'react'
 import { groupBy, prop } from 'ramda'
-import { IoIosListBox } from 'react-icons/io'
+import { IoIosListBox, IoIosLink } from 'react-icons/io'
 import { BlockPreview } from '../components/BlockPreview'
 import { getReferencedDocument, getShopifyThumbnail } from '../utils'
+import { actionTypes } from './shared'
 
 const getPreviewValues = async (values) => {
-  const { link, label } = values
-  if (!link || !link.document || !link.document._ref)
-    return { title: 'Missing Link' }
-  const linkedDoc = await getReferencedDocument(link.document._ref)
+  const { link, label, link_external, action, linkType } = values
+  if (!link && !link_external && !action) return { title: 'Missing Link' }
+
+  const linkedDoc = !(!link || !link.document || !link.document._ref)
+    ? await getReferencedDocument(link.document._ref)
+    : undefined
 
   const shopifyThumbnail =
     linkedDoc &&
@@ -18,6 +21,8 @@ const getPreviewValues = async (values) => {
       : undefined
 
   const subtitles = [
+    action ? `🔗 Action: ${action}` : null,
+    link_external ? `🔗 External Link: ${link_external.url}` : null,
     linkedDoc ? `🔗${linkedDoc.title}` : null,
     linkedDoc && linkedDoc.archived === true
       ? `🛑 This collection is archived and will not be displayed on the site.`
@@ -42,18 +47,50 @@ export const MenuLink = {
       type: 'string',
     },
     {
-      title: 'Link',
-      name: 'link',
-      type: 'internalLink',
+      name: 'linkType',
+      type: 'string',
+      title: 'Link Type',
+      initialValue: 'internal',
       options: {
         required: true,
+        list: [
+          { title: 'Internal', value: 'internal' },
+          { title: 'External', value: 'external' },
+          { title: 'Action', value: 'action' },
+        ],
       },
+    },
+    {
+      type: 'internalLink',
+      name: 'link',
+      title: 'Internal Link',
+      hidden: ({ parent }) => parent.linkType !== 'internal',
+    },
+    {
+      type: 'externalLink',
+      name: 'link_external',
+      title: 'External Link',
+      hidden: ({ parent }) => parent.linkType !== 'external',
+    },
+    {
+      name: 'action',
+      title: 'Action',
+      description:
+        'Have this link launch an action instead of linking to a page. (If selected, this will override any linked document)',
+      type: 'string',
+      options: {
+        list: actionTypes,
+      },
+      hidden: ({ parent }) => parent.linkType !== 'action',
     },
   ],
   preview: {
     select: {
       link: 'link',
       label: 'label',
+      link_external: 'link_external',
+      action: 'action',
+      linkType: 'linkType',
     },
     prepare: (val) => val,
     component: (props) => (

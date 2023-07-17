@@ -130,6 +130,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   const [sort, setSort] = useState<Sort>(Sort.Default)
   const [selectedSizes, setSelectedSizes] = useState<(string | undefined)[]>([])
   const [loading, setLoading] = useState(false)
+  const [isReady, setIsReady] = useState(false)
+
   const [resetFilters, doResetFilters] = useState(0)
   const [filters, setFilters] = useState<
     | (
@@ -178,6 +180,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         filters.push(filters.splice(filters.indexOf(filter), 1)[0])
     })
     setFilters(filters)
+    setIsReady(true)
   }, [])
 
   const descriptionPrimary = descriptionRaw ? descriptionRaw.slice(0, 1) : null
@@ -278,7 +281,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   useEffect(() => {
     setProductResults(filterResults(currentFilters))
-    console.log('currentFilters', currentFilters)
     if (
       currentFilters?.some((filter) => {
         return (
@@ -287,7 +289,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         )
       })
     ) {
-      console.log('size filter applied')
       const getSelectedSizes: (string | undefined)[] = currentFilters
         .map((filter) => {
           if (
@@ -301,10 +302,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         })
         .flat()
         .filter((n) => n)
-      console.log('selectedSizes', getSelectedSizes)
       setSelectedSizes(getSelectedSizes)
     } else {
-      console.log('size filter not applied')
       setSelectedSizes([])
     }
   }, [currentFilters])
@@ -348,7 +347,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         sortIndex,
         ...p,
       }))
-      if (!priceRange) return
 
       switch (sort) {
         case Sort.Default:
@@ -540,6 +538,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         isLightTheme={Boolean(lightTheme)}
         tabIndex={-1}
         ref={gridRef}
+        isReady={isReady}
       >
         {filters && filters.length ? (
           <Filter

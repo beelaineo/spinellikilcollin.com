@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
-import { Heading } from '../../Text'
+import { Heading, P } from '../../Text'
 import { Button } from '../../Button'
 import { Form } from '../Form'
 import { Field } from '../Fields/Field'
@@ -29,8 +29,8 @@ type FormValues = {
   phone: string
   product: string
   variant: string
-  customization_details: string
-  customization_budget: string
+  customization_wedding_details: string
+  customization_wedding_budget: string
   phoneCountryCode?: string
   dialingCode?: string
   communicationsConsent: boolean
@@ -42,7 +42,7 @@ interface ProductBadgeProps {
   title?: string
 }
 
-const formId = '6975f0f0-b2b4-4570-acdc-b77c8fe9c151'
+const formId = '7c315eff-33a3-4d1c-975a-c01e0a87e2e1'
 
 {
   /* <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/embed/v2.js"></script>
@@ -50,7 +50,7 @@ const formId = '6975f0f0-b2b4-4570-acdc-b77c8fe9c151'
   hbspt.forms.create({
     region: "na1",
     portalId: "7668999",
-    formId: "6975f0f0-b2b4-4570-acdc-b77c8fe9c151"
+    formId: "7c315eff-33a3-4d1c-975a-c01e0a87e2e1"
   });
 </script> */
 }
@@ -79,23 +79,23 @@ const ProductBadge = ({ product, variant, title }: ProductBadgeProps) =>
     </ProductBadgeWrapper>
   ) : null
 
-interface CustomizationFormProps {
+interface WeddingCustomizationFormProps {
   product?: ShopifyProduct
   variant?: ShopifyProductVariant
   onContinue?: () => void
 }
 
-export const CustomizationForm = ({
+export const WeddingCustomizationForm = ({
   product,
   variant,
   onContinue,
-}: CustomizationFormProps) => {
+}: WeddingCustomizationFormProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
   const handleSubmit = async (values: FormValues) => {
     setSubmitting(true)
-    await fetch('/api/customizationInquiry', {
+    await fetch('/api/weddingCustomizationInquiry', {
       method: 'POST',
       body: JSON.stringify(values),
     }).then((r) => r.json())
@@ -134,15 +134,15 @@ export const CustomizationForm = ({
     { value: '$20,000+', id: '20000+', label: '$20,000+' },
   ]
 
-  const initialValues = {
+  const initialValues: FormValues = {
     name: '',
     email: '',
     location: '',
     phone: '',
     product: product?.title || '(no product specified)',
     variant: weddingTitle || variant?.title || '',
-    customization_details: '',
-    customization_budget: '',
+    customization_wedding_details: '',
+    customization_wedding_budget: '',
     phoneCountryCode: 'US',
     dialingCode: '',
     communicationsConsent: true,
@@ -159,14 +159,14 @@ export const CustomizationForm = ({
     <>
       <Script id="hubspot-custom-widget">
         {`hbspt.forms.create({
-          region: "na1",
-          portalId: "7668999",
-          formId: "6975f0f0-b2b4-4570-acdc-b77c8fe9c151"
-        });`}
+        region: "na1",
+        portalId: "7668999",
+        formId: "7c315eff-33a3-4d1c-975a-c01e0a87e2e1"
+      });`}
       </Script>
       <MainWrapper>
         <Heading mt={0} level={3}>
-          Customization Inquiry
+          Wedding Customization Inquiry
         </Heading>
         {product ? (
           <ProductBadge
@@ -218,14 +218,14 @@ export const CustomizationForm = ({
             <Field name="product" label="Product Name" type="hidden" />
             <Field name="variant" label="Variant Name" type="hidden" />
             <Field
-              name="customization_details"
+              name="customization_wedding_details"
               type="textarea"
               label="What did you have in mind for the customization?"
               placeholder="I'm interested in..."
               required
             />
             <Field
-              name="customization_budget"
+              name="customization_wedding_budget"
               type="select"
               label="Did you have a budget in mind?"
               placeholder="Please Select"

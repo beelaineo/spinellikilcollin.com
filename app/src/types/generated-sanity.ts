@@ -432,7 +432,9 @@ export interface Cta {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  linkType?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
+  link_external?: Maybe<ExternalLink>
   /** Have this CTA launch an action instead of linking to a page. For launching Bambuser, make sure you fill out the Bambuser Settings below. (If selected, this will override any linked document) */
   action?: Maybe<Scalars['String']>
   bambuser?: Maybe<BambuserSettings>
@@ -442,7 +444,9 @@ export type CtaFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
+  linkType?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
+  link_external?: Maybe<ExternalLinkFilter>
   action?: Maybe<StringFilter>
   bambuser?: Maybe<BambuserSettingsFilter>
 }
@@ -453,7 +457,9 @@ export type CtaSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
+  linkType?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+  link_external?: Maybe<ExternalLinkSorting>
   action?: Maybe<SortOrder>
   bambuser?: Maybe<BambuserSettingsSorting>
 }
@@ -1321,6 +1327,7 @@ export interface InternalLink {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   document?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
+  queryParams?: Maybe<Array<Maybe<QueryParam>>>
 }
 
 export type InternalLinkFilter = {
@@ -1589,14 +1596,21 @@ export interface MenuLink {
   _key?: Maybe<Scalars['String']>
   _type?: Maybe<Scalars['String']>
   label?: Maybe<Scalars['String']>
+  linkType?: Maybe<Scalars['String']>
   link?: Maybe<InternalLink>
+  link_external?: Maybe<ExternalLink>
+  /** Have this link launch an action instead of linking to a page. (If selected, this will override any linked document) */
+  action?: Maybe<Scalars['String']>
 }
 
 export type MenuLinkFilter = {
   _key?: Maybe<StringFilter>
   _type?: Maybe<StringFilter>
   label?: Maybe<StringFilter>
+  linkType?: Maybe<StringFilter>
   link?: Maybe<InternalLinkFilter>
+  link_external?: Maybe<ExternalLinkFilter>
+  action?: Maybe<StringFilter>
 }
 
 export type MenuLinkOrSubMenu = MenuLink | SubMenu
@@ -1605,7 +1619,10 @@ export type MenuLinkSorting = {
   _key?: Maybe<SortOrder>
   _type?: Maybe<SortOrder>
   label?: Maybe<SortOrder>
+  linkType?: Maybe<SortOrder>
   link?: Maybe<InternalLinkSorting>
+  link_external?: Maybe<ExternalLinkSorting>
+  action?: Maybe<SortOrder>
 }
 
 export type MenuSorting = {
@@ -1928,6 +1945,28 @@ export type ProductListingSettingsSorting = {
   _rev?: Maybe<SortOrder>
   _key?: Maybe<SortOrder>
   helpText?: Maybe<SortOrder>
+}
+
+export interface QueryParam {
+  __typename: 'QueryParam'
+  _key?: Maybe<Scalars['String']>
+  _type?: Maybe<Scalars['String']>
+  key?: Maybe<Scalars['String']>
+  value?: Maybe<Scalars['String']>
+}
+
+export type QueryParamFilter = {
+  _key?: Maybe<StringFilter>
+  _type?: Maybe<StringFilter>
+  key?: Maybe<StringFilter>
+  value?: Maybe<StringFilter>
+}
+
+export type QueryParamSorting = {
+  _key?: Maybe<SortOrder>
+  _type?: Maybe<SortOrder>
+  key?: Maybe<SortOrder>
+  value?: Maybe<SortOrder>
 }
 
 export interface QuizBlock {
@@ -2982,6 +3021,7 @@ export interface ShopifyProductOptionValue {
   value?: Maybe<Scalars['String']>
   descriptionRaw?: Maybe<Scalars['JSON']>
   swatch?: Maybe<Image>
+  hover_image?: Maybe<Image>
   /** Cloudinary Video ID (looping render) */
   animation?: Maybe<Scalars['String']>
   /** If Karat swatch, link to associated stone. */
@@ -2993,6 +3033,7 @@ export type ShopifyProductOptionValueFilter = {
   _type?: Maybe<StringFilter>
   value?: Maybe<StringFilter>
   swatch?: Maybe<ImageFilter>
+  hover_image?: Maybe<ImageFilter>
   animation?: Maybe<StringFilter>
   stone?: Maybe<StoneFilter>
 }
@@ -3002,6 +3043,7 @@ export type ShopifyProductOptionValueSorting = {
   _type?: Maybe<SortOrder>
   value?: Maybe<SortOrder>
   swatch?: Maybe<ImageSorting>
+  hover_image?: Maybe<ImageSorting>
   animation?: Maybe<SortOrder>
 }
 

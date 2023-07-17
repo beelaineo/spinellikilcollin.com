@@ -82,6 +82,12 @@ export const internalLinkFragment = gql`
     __typename
     _key
     _type
+    queryParams {
+      _key
+      _type
+      key
+      value
+    }
     document {
       __typename
       ... on Contact {
@@ -150,6 +156,16 @@ export const internalLinkFragment = gql`
         handle
       }
     }
+  }
+`
+
+export const externalLinkFragment = gql`
+  fragment ExternalLinkFragment on ExternalLink {
+    __typename
+    _key
+    _type
+    url
+    newTab
   }
 `
 
@@ -230,21 +246,16 @@ export const ctaFragment = gql`
     _type
     action
     label
+    linkType
     link {
       ...InternalLinkFragment
     }
+    link_external {
+      ...ExternalLinkFragment
+    }
   }
   ${internalLinkFragment}
-`
-
-export const externalLinkFragment = gql`
-  fragment ExternalLinkFragment on ExternalLink {
-    __typename
-    _key
-    _type
-    url
-    newTab
-  }
+  ${externalLinkFragment}
 `
 
 export const pdfLinkFragment = gql`

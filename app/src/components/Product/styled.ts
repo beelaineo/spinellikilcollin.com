@@ -30,14 +30,16 @@ export const ProductThumb = styled.div`
 
 interface WithDisplayGrid {
   displayGrid?: boolean
+  hover?: boolean
 }
 
 export const ProductInfo = styled.div<WithDisplayGrid>`
-  ${({ theme, displayGrid }) => css`
+  ${({ theme, displayGrid, hover }) => css`
     padding: 3 0 5;
     text-align: center;
     text-transform: capitalize;
     color: body.7;
+    z-index: 1;
     ${displayGrid
       ? css`
           display: grid;
@@ -51,6 +53,11 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
     }
     h3 {
       font-size: 16px;
+    }
+
+    & > *:first-child,
+    & > *:nth-child(2) {
+      opacity: ${hover ? 0 : 1};
     }
 
     ${theme.mediaQueries.mobile} {
@@ -69,23 +76,54 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
 
 interface WithHide {
   hide?: boolean
+  hover?: boolean
 }
 
 export const ImageWrapper = styled.div<WithHide>`
-  ${({ theme, hide }) => css`
+  ${({ theme, hide, hover }) => css`
     position: relative;
-    display: ${hide ? 'none' : 'block'};
+    display: ${hide ? 'none' : 'flex'};
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
   `}
+`
+
+export const HoverArea = styled.span`
+  position: absolute;
+  width: 87%;
+  height: 69%;
+  top: 6.5%;
+  left: 6.5%;
+  z-index: 1;
+  opacity: 0;
+`
+
+export const HoverThumb = styled.img`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+`
+
+export const HoverThumbWrapper = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 `
 
 interface WithHideCarousel {
   hide?: boolean
   carousel?: boolean
+  hover?: boolean
 }
 
 export const VideoWrapper = styled.div<WithHideCarousel>`
-  ${({ theme, hide, carousel }) => css`
+  ${({ theme, hide, carousel, hover }) => css`
     position: relative;
+    width: 100%;
+    height: 100%;
     top: 0;
     bottom: 0;
     right: 0;
@@ -160,6 +198,12 @@ export const SwatchWrapper = styled.div<WithClickable>`
     cursor: ${clickable ? 'pointer' : 'inherit'};
     border-bottom: ${active ? '1px solid' : 'none'};
     border-color: body.5;
+
+    img {
+      filter: drop-shadow(0.5px 0px 0px #f5f3f4)
+        drop-shadow(-0.5px 0px 0px #f5f3f4) drop-shadow(0px 0.5px 0px #f5f3f4)
+        drop-shadow(0px -0.5px 0px #f5f3f4);
+    }
 
     &:last-child {
       margin-right: 0;

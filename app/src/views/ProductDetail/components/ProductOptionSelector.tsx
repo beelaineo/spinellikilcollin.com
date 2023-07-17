@@ -68,13 +68,6 @@ const SwatchesWrapper = styled.div`
   display: flex;
 `
 
-const DiamondInfoSpan = styled.span`
-  display: inline-block;
-  padding-left: 5;
-  text-decoration: underline;
-  cursor: pointer;
-`
-
 const SelectWrapper = styled.div<SelectWrapperProps>`
   ${({ theme, isInput }) => css`
     position: relative;
@@ -159,7 +152,10 @@ export const ProductOptionSelector = ({
   const stockedColorOptions = stockedVariants
     ?.map((variant) => {
       return variant?.selectedOptions?.find(
-        (option) => option?.name === 'Color',
+        (option) =>
+          option?.name === 'Color' ||
+          option?.name === 'Style' ||
+          option?.name === 'Material',
       )
     })
     .map((option) => slugify(option?.value))
@@ -167,6 +163,16 @@ export const ProductOptionSelector = ({
   const currentSelectedColor =
     currentVariant?.sourceData?.selectedOptions?.find(
       (option) => option?.name === 'Color',
+    )
+
+  const currentSelectedStyle =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Style',
+    )
+
+  const currentSelectedMaterial =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Material',
     )
 
   const currentSelectedDiamond =
@@ -240,6 +246,20 @@ export const ProductOptionSelector = ({
           ) {
             i++
           }
+        } else if (currentSelectedStyle) {
+          if (
+            Object.values(v).includes(value) &&
+            Object.values(v).includes(currentSelectedStyle?.value)
+          ) {
+            i++
+          }
+        } else if (currentSelectedMaterial) {
+          if (
+            Object.values(v).includes(value) &&
+            Object.values(v).includes(currentSelectedMaterial?.value)
+          ) {
+            i++
+          }
         } else {
           if (Object.values(v).includes(value)) {
             i++
@@ -295,15 +315,6 @@ export const ProductOptionSelector = ({
   }
 
   useEffect(() => {
-    if (disableStockIndication == true) {
-      const includedVariantsArray = getIncludedVariants(product)
-      includedVariantsArray.then((variants) => {
-        setIncludedVariants(variants)
-      })
-    }
-  }, [product])
-
-  useEffect(() => {
     const d = currentSelectedDiamond?.value
     const stones = product?.options?.find((o) => o?.name === 'Carat')?.values
     const stone = stones?.find((s) => s?.value === d)
@@ -311,20 +322,27 @@ export const ProductOptionSelector = ({
   }, [currentVariant])
 
   useEffect(() => {
+    if (disableStockIndication == true) {
+      const includedVariantsArray = getIncludedVariants(product)
+      includedVariantsArray.then((variants) => {
+        setIncludedVariants(variants)
+      })
+    }
     const colorOptions =
       disableStockIndication == true
         ? includedVariants
             ?.map((variant) => {
               return variant?.sourceData?.selectedOptions?.find(
-                (option) => option?.name === 'Color',
+                (option) =>
+                  option?.name === 'Color' ||
+                  option?.name === 'Style' ||
+                  option?.name === 'Material',
               )
             })
             .map((option) => slugify(option?.value))
         : null
     setStockedColorOptionsIncluded(colorOptions)
   }, [disableStockIndication, includedVariants, product])
-
-  const { openDiamondModal } = useModal()
 
   const handleSubmit = (values: any) => {
     //
@@ -333,26 +351,6 @@ export const ProductOptionSelector = ({
     <Wrapper>
       <Heading level={5} mb={2}>
         {isInput ? null : option.name}
-        {option.name === 'Carat' ? (
-          <>
-            {activeStone ? (
-              <DiamondInfoSpan
-                onClick={() =>
-                  openDiamondModal({
-                    currentProduct: product,
-                    currentVariant: currentVariant || undefined,
-                    currentDiamond: currentSelectedDiamond || undefined,
-                  })
-                }
-              >
-                Diamond Info
-              </DiamondInfoSpan>
-            ) : null}
-            <Link href={'/about/appointments'}>
-              <a target={'_blank'}>Appointments</a>
-            </Link>
-          </>
-        ) : null}
       </Heading>
       <SelectWrapper isInput={isInput}>
         {isValidSwatchOption(option) ? (

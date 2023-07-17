@@ -108,6 +108,11 @@ export const NavigationProvider = ({ children }: NavigationProps) => {
 
   useEffect(() => {
     closeMenu()
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
+      // @ts-ignore
+      window.HubSpotConversations.widget.refresh()
+    }
   }, [router.asPath])
 
   useEffect(() => {

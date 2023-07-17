@@ -21,6 +21,7 @@ import {
   SideNavigation,
   LogoWrapper,
   NavInnerBackground,
+  BreadcrumbsWrapper,
   ToolsWrapper,
   SkipToMainContentButton,
 } from './styled'
@@ -29,6 +30,7 @@ import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
 import { CountrySelector } from './CountrySelector'
 import { QuickLinks } from './QuickLinks'
+import { Breadcrumbs } from '../Footer/Breadcrumbs'
 const { useEffect, useState, useRef, useCallback } = React
 
 export const Navigation = () => {
@@ -119,6 +121,9 @@ export const Navigation = () => {
             </CartButtonWrapper>
           </ToolsWrapper>
         </Inner>
+        <BreadcrumbsWrapper>
+          <Breadcrumbs display={'header'} />
+        </BreadcrumbsWrapper>
         {showQuickLinks(router) ? <QuickLinks colorTheme={colorTheme} /> : null}
       </Wrapper>
       <Checkout />

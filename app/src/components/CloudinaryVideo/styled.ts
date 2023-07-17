@@ -57,6 +57,9 @@ export const AnimationWrapper = styled.div`
       &::-webkit-media-controls {
         opacity: 0;
       }
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      -webkit-backface-visibility: hidden;
+      -moz-backface-visibility: hidden;
     }
     img {
       max-width: 100%;

@@ -146,21 +146,23 @@ export const ProductSwatches = ({
       .replace(/^-+/, '')
       .replace(/-+$/, '')
   }
+  const optionsArray = ['Color', 'Style', 'Material']
   const stockedColorOptions =
     disableStockIndication && includedVariants
       ? includedVariants
           ?.map((variant) => {
-            console.log('VARIANT', variant)
-            return variant?.sourceData?.selectedOptions?.find(
-              (option) => option?.name === 'Color',
-            )
+            return variant?.sourceData?.selectedOptions?.find((option) => {
+              if (!option?.name) return false
+              return optionsArray.includes(option?.name)
+            })
           })
           .map((option) => slugify(option?.value))
       : stockedVariants
           ?.map((variant) => {
-            return variant?.node?.selectedOptions?.find(
-              (option) => option?.name === 'Color',
-            )
+            return variant?.node?.selectedOptions?.find((option) => {
+              if (!option?.name) return false
+              return optionsArray.includes(option?.name)
+            })
           })
           .map((option) => slugify(option?.value))
 

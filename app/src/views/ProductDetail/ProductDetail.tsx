@@ -31,6 +31,8 @@ import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { Affirm } from '../../components/Affirm'
 import { Heading } from '../../components/Text'
+import { AppointmentsButton } from './components/AppointmentsButton'
+
 import {
   ProductVariantSelector,
   BuyButton,
@@ -60,6 +62,7 @@ import { configureScope } from '@sentry/node'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { sanityClient } from '../../services/sanity'
+import { CustomizeButton } from './components/CustomizeButton'
 
 const { useEffect, useState } = React
 
@@ -402,6 +405,10 @@ export const ProductDetail = ({ product }: Props) => {
     ? basePath.concat('?v=').concat(currentVariant.shopifyVariantID)
     : basePath
 
+  const weddingMatch = product.sourceData?.tags?.some(
+    (tag) => tag === 'wedding',
+  )
+
   return (
     <>
       <SEO
@@ -496,6 +503,12 @@ export const ProductDetail = ({ product }: Props) => {
                         variant={currentVariant}
                         addLineItem={addLineItem}
                       />
+                      <AppointmentsButton />
+                      <CustomizeButton
+                        product={product}
+                        variant={currentVariant}
+                        wedding={weddingMatch}
+                      />
                     </RingToolsWrapper>
                   ) : null}
                   <BuyButton
@@ -524,6 +537,16 @@ export const ProductDetail = ({ product }: Props) => {
                           addLineItem={addLineItem}
                           mobile
                         />
+                        {weddingMatch ? (
+                          <>
+                            <AppointmentsButton mobile />
+                            <CustomizeButton
+                              product={product}
+                              variant={currentVariant}
+                              mobile
+                            />
+                          </>
+                        ) : null}
                       </RingToolsWrapper>
                     ) : null}
                     {description || optionDescriptions.length ? (

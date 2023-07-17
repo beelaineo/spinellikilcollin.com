@@ -44,7 +44,7 @@ const deduplicateFragments = (queryString?: string) =>
         .join('\n\n')
     : ''
 
-async function shopifyQuery<Response>(
+export async function shopifyQuery<Response>(
   query: string | DocumentNode,
   variables?: Record<string, unknown>,
 ): Promise<Response> {

@@ -8,6 +8,7 @@ export interface VIPSignupArgs {
   phone?: string
   special_date_1_?: string
   special_date_2_?: string
+  communicationsConsent: boolean
 }
 
 const Subject = 'New VIP Signup'
@@ -17,6 +18,8 @@ const textTemplate = (args: VIPSignupArgs): string => stripIndents`
 
   ${args.email}
   ${args.phone}
+
+  Consent to receive communications: ${args.communicationsConsent}
 
   DOB: ${args.date_of_birth} 
   Special Date 1: ${args.special_date_1_}

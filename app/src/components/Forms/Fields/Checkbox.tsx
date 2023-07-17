@@ -1,8 +1,11 @@
 import * as React from 'react'
+import { useFormikContext } from 'formik'
 import styled from '@xstyled/styled-components'
 import { Field as FormikField } from 'formik'
 import { FieldProps } from './types'
 import { Label } from './styled'
+
+const { useState, useEffect } = React
 
 export const CheckboxElement = styled.input`
   -webkit-appearance: none;
@@ -50,6 +53,7 @@ export const Checkbox = ({
   disabled,
   name,
   label,
+  type,
 }: CheckboxProps) => {
   return (
     <FormikField type="checkbox" name={name}>
