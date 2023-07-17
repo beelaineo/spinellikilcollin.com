@@ -1,14 +1,14 @@
 import { isMatch, pick } from 'lodash'
 
-import createSanityClient from '@sanity/client'
+const createClient = require('@sanity/client')
 
-const stagingClient = createSanityClient({
+const stagingClient = createClient({
   projectId: 'i21fjdbi',
   dataset: 'staging',
   useCdn: false,
 })
 
-const prodClient = createSanityClient({
+const prodClient = createClient({
   projectId: 'i21fjdbi',
   dataset: 'production',
   useCdn: false,
