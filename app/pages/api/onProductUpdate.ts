@@ -1,3 +1,24 @@
-import { webhooks } from '../../src/services/webhooks'
+import { NextApiHandler } from 'next'
 
-export default webhooks.onProductUpdate
+import { webhooks } from '../../src/services/webhooks'
+import { Sentry } from '../../src/services/sentry'
+
+const handler: NextApiHandler = async (req, res) => {
+  try {
+    console.log(`onProductUpdate: ${req.body.id}`)
+    const timeout = setTimeout(() => {
+      throw new Error('Timeout: onProductUpdate')
+    }, 55000)
+    await webhooks.onProductUpdate(req, res)
+    clearTimeout(timeout)
+  } catch (e) {
+    const error =
+      e instanceof Error ? e : new Error('An unknown syncing error occurred')
+    Sentry.captureException(error, 'sync_webhook_error', {
+      body: req.body,
+    })
+    res.status(500).json({ message: error.message })
+  }
+}
+
+export default handler

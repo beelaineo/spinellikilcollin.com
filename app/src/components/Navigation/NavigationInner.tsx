@@ -17,6 +17,41 @@ interface NavigationInnerProps {
   closeMenu: () => void
 }
 
+type Maybe<T> = T | null | undefined
+
+type QueryParam = {
+  key?: Maybe<string>
+  value?: Maybe<string | number | boolean>
+}
+
+type QueryParams = Maybe<QueryParam>[] | undefined
+
+function transformQueryParams(
+  queryParams: QueryParams,
+): Record<string, string | number | boolean> | undefined {
+  if (!queryParams) {
+    return undefined
+  }
+
+  return queryParams.reduce(
+    (acc: Record<string, string | number | boolean>, maybeParam) => {
+      if (
+        !maybeParam ||
+        !maybeParam.key ||
+        maybeParam.value === null ||
+        maybeParam.value === undefined
+      ) {
+        return acc
+      }
+
+      acc[maybeParam.key] = maybeParam.value
+
+      return acc
+    },
+    {},
+  )
+}
+
 export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
   const { menu } = useShopData()
   if (!menu) return null
@@ -43,11 +78,18 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
               )
             case 'MenuLink':
               if (menuItem.linkType === 'internal' && menuItem.link?.document) {
+                const linkParams =
+                  menuItem.link?.queryParams &&
+                  menuItem.link?.queryParams.length > 0
+                    ? transformQueryParams(menuItem.link.queryParams)
+                    : undefined
+
                 return (
                   <NavItemWrapper key={menuItem._key || 'some-key'}>
                     <PageLink
                       onClick={closeMenu}
                       link={menuItem.link}
+                      linkParams={linkParams}
                       render={(inferredLabel) => (
                         <Heading m={0} level={4}>
                           {menuItem.label

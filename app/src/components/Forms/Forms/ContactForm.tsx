@@ -8,6 +8,7 @@ import { Field } from '../Fields/Field'
 import { submitToHubspot } from '../../../services'
 import Script from 'next/script'
 import Link from 'next/link'
+import * as Yup from 'yup'
 
 import {
   MainWrapper,
@@ -82,8 +83,15 @@ export const ContactForm = ({ formtype, onContinue }: ContactFormProps) => {
     formtype,
     phoneCountryCode: 'US',
     dialingCode: '',
-    communicationsConsent: false,
+    communicationsConsent: true,
   }
+
+  const validationSchema = Yup.object().shape({
+    communicationsConsent: Yup.boolean().oneOf(
+      [true],
+      'You must consent to communications to submit this form.',
+    ),
+  })
 
   return (
     <>
@@ -119,6 +127,7 @@ export const ContactForm = ({ formtype, onContinue }: ContactFormProps) => {
           disabled={submitting}
           onSubmit={handleSubmit}
           initialValues={initialValues}
+          validationSchema={validationSchema}
         >
           <FieldsWrapper visible={!success}>
             <Field
