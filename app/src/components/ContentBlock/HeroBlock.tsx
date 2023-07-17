@@ -78,6 +78,7 @@ interface HeroTextProps {
   textPositionMobile?: string | null
   textColorMobile?: string | null
   textContainer?: string | null
+  textXL?: boolean | null
 }
 
 const HeroText = styled.div`
@@ -88,6 +89,7 @@ const HeroText = styled.div`
     textPosition,
     textColor,
     textPositionMobile,
+    textXL,
     textColorMobile,
     textContainer,
   }: HeroTextProps) => css`
@@ -119,12 +121,15 @@ const HeroText = styled.div`
 
     .text-container {
       ${
-        textContainer == 'full'
+        textXL
+          ? 'max-width: 90vw;'
+          : textContainer == 'full'
           ? 'max-width: 720px;'
           : textContainer == 'half-left' || textContainer == 'half-right'
           ? 'max-width: 60%;'
           : 'max-width: 400px'
       };
+
 
       ${
         textContainer == 'half-top' || textContainer == 'half-bottom'
@@ -184,6 +189,13 @@ const HeroText = styled.div`
       }
     }
 
+    }
+    h1 {
+      font-size: ${
+        textContainer == 'full' && textXL ? '14vw' : theme.fontSizes[1]
+      };
+
+    }
     ${theme.mediaQueries.tablet} {
       ${
         minimalDisplay
@@ -194,7 +206,7 @@ const HeroText = styled.div`
       ${
         textContainer == 'full'
           ? `h1 {
-              font-size: ${theme.mobileFontSizes[1]};
+              font-size: ${textXL ? '14vw' : theme.mobileFontSizes[1]};
             }
             h2 {
               font-size: ${theme.mobileFontSizes[2]};
@@ -310,6 +322,7 @@ export const HeroBlock = React.forwardRef(
       textPosition,
       textColor,
       textContainer,
+      textXL,
       heroLink,
       bodyRaw,
       body_mobileRaw,
@@ -344,6 +357,8 @@ export const HeroBlock = React.forwardRef(
       }
     }, [])
 
+    console.log('textXL', textXL)
+
     return (
       <HeroWrapper hero={hero} ref={ref} minimalDisplay={minimalDisplay}>
         <DocumentLink document={heroLink?.document ?? undefined}>
@@ -362,6 +377,7 @@ export const HeroBlock = React.forwardRef(
           )}
           <HeroText
             textPosition={textPosition}
+            textXL={textXL}
             textColor={textColor}
             textPositionMobile={textPositionMobile}
             textColorMobile={textColorMobile}
