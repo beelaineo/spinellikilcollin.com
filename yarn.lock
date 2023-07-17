@@ -4709,13 +4709,13 @@ __metadata:
   linkType: hard
 
 "@octokit/endpoint@npm:^7.0.0":
-  version: 7.0.3
-  resolution: "@octokit/endpoint@npm:7.0.3"
+  version: 7.0.4
+  resolution: "@octokit/endpoint@npm:7.0.4"
   dependencies:
-    "@octokit/types": ^8.0.0
+    "@octokit/types": ^9.0.0
     is-plain-object: ^5.0.0
     universal-user-agent: ^6.0.0
-  checksum: c36b1577062e51d1683779a59c75d046d59f9a5c3a0f046d465e6c4c39f64bfc3a3052b42fa91a4552c7903ec382c604b4a2e1aadebdf7458191849ede5d4978
+  checksum: bc2d8075d971c6ead8e02f5910abeda72c03d67e3823a92c50eafac7f58a1cd628190b230bc4e6d75c2e8d394d4857df383adcc36de183ddef874b3e85124792
   languageName: node
   linkType: hard
 
@@ -23637,6 +23637,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:^2.8.4":
+  version: 2.8.4
+  resolution: "prettier@npm:2.8.4"
+  bin:
+    prettier: bin-prettier.js
+  checksum: c173064bf3df57b6d93d19aa98753b9b9dd7657212e33b41ada8e2e9f9884066bb9ca0b4005b89b3ab137efffdf8fbe0b462785aba20364798ff4303aadda57e
+  languageName: node
+  linkType: hard
+
 "pretty-bytes@npm:5.6.0":
   version: 5.6.0
   resolution: "pretty-bytes@npm:5.6.0"
@@ -26647,6 +26656,7 @@ __metadata:
     node-html-parser: ^5.4.2
     node-watch: ^0.7.3
     postmark: ^2.9.5
+    prettier: ^2.8.4
     public-ip: ^4.0.4
     react: ^18.2.0
     react-copy-html-to-clipboard: ^6.0.4

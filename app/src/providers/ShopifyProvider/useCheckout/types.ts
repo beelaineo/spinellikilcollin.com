@@ -69,5 +69,6 @@ export interface UseCheckoutValues extends CheckoutState {
   addLineItem: (lineItem: CheckoutLineItemInput) => Promise<void>
   updateLineItem: (lineItem: CheckoutLineItemUpdateInput) => Promise<void>
   clearCheckout: () => Promise<void>
+  refetchCheckout: () => Promise<void>
   addNote: (note: string) => Promise<void>
 }

@@ -4,25 +4,61 @@ import { CloseButton } from '../Modal/styled'
 
 interface ToastWrapperProps {
   toastType: ToastType
+  colorTheme?: 'light' | 'dark'
 }
 
 export const ToastWrapper = styled.div<ToastWrapperProps>`
-  ${({ toastType }) => css`
+  ${({ toastType, theme, colorTheme }) => css`
     pointer-events: initial;
-    border: 1px solid currentColor;
-    background-color: body.0;
+    border: none;
+    background-color: ${colorTheme === 'light' ? 'body.9' : 'body.0'};
+    color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
-    padding: 3 18px;
     max-width: 400px;
     width: calc(100vw - 20px);
     text-align: center;
+
     position: relative;
     margin-bottom: 3;
     transition: 0.5s;
+    border-radius: 50px;
+    text-align: left;
+    padding: 3 8 3 5;
+
+    h5 {
+      font-size: 4;
+    }
+    h6 {
+      font-size: 13px;
+
+      button {
+        text-decoration: underline;
+        z-index: 1;
+        position: relative;
+      }
+    }
+
+    ${theme.mediaQueries.tablet} {
+      max-width: 21rem;
+
+      h5,
+      h6 {
+        font-size: 12px;
+      }
+    }
 
     & ${CloseButton} {
-      top: 7px;
-      right: 8px;
+      color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
+
+      :after,
+      :before {
+        background-color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
+      }
+
+      top: 50%;
+      transform: translateY(-50%);
+      right: 6%;
+      width: 20px;
     }
 
     &:after {
@@ -32,6 +68,7 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
       top: 0;
       width: 100%;
       height: 100%;
+      border-radius: 50px;
       box-shadow: ${toastType === ToastType.Warning
         ? 'inset 0 -3px 15px -7px orange'
         : toastType === ToastType.Error
@@ -43,11 +80,16 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
 
 export const ToastRootWrapper = styled.div`
   ${({ theme }) => css`
+    ${theme.mediaQueries.tablet} {
+      top: 7rem;
+      bottom: auto;
+    }
+
     position: fixed;
-    z-index: ${theme.zIndices.alert};
+    z-index: 9;
     pointer-events: none;
-    bottom: 0;
-    left: 0;
+    top: 'auto';
+    bottom: 1rem;
     width: 100%;
     display: flex;
     flex-direction: column;

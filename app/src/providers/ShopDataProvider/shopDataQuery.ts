@@ -139,6 +139,9 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       }
       excludeFromStockIndication {
         _id
+        _key
+        _type
+        title
         handle
       }
     }

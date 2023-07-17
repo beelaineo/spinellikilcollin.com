@@ -6,17 +6,23 @@ import { ShopDataResponse } from './ShopDataProvider/shopDataQuery'
 import { config } from '../config'
 import { theme, GlobalStyles } from '../theme'
 import { ShopDataProvider } from './ShopDataProvider'
+import { ShopifyPriceProvider } from './ShopifyPriceProvider'
 import { CartProvider } from './CartProvider'
 import { ModalProvider } from './ModalProvider'
 import { SearchProvider } from './SearchProvider'
 import { CurrencyProvider } from './CurrencyProvider'
+import { CountryProvider } from './CountryProvider'
 import { ErrorDisplay, ErrorProvider } from './ErrorProvider'
 import { NavigationProvider } from './NavigationProvider'
 import { AnalyticsProvider } from './AnalyticsProvider'
 import { ShopifyProvider } from './ShopifyProvider'
 import { ToastProvider } from './ToastProvider'
 
-const { SHOPIFY_STOREFRONT_URL, SHOPIFY_STOREFRONT_TOKEN } = config
+const {
+  NEW_SHOPIFY_STOREFRONT_URL,
+  SHOPIFY_STOREFRONT_URL,
+  SHOPIFY_STOREFRONT_TOKEN,
+} = config
 
 /**
  * App
@@ -46,7 +52,7 @@ export async function shopifyQuery<Response>(
     typeof query === 'string'
       ? query
       : deduplicateFragments(query?.loc?.source.body)
-  const result = await fetch(SHOPIFY_STOREFRONT_URL, {
+  const result = await fetch(NEW_SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -66,25 +72,29 @@ export const Providers = ({ shopData, children }: Props) => {
   return (
     <ErrorProvider>
       <AnalyticsProvider>
-        <ShopifyProvider query={shopifyQuery}>
-          <ShopDataProvider shopData={shopData}>
-            <ThemeProvider theme={theme}>
-              <ToastProvider>
+        <ToastProvider>
+          <CurrencyProvider>
+            <CountryProvider>
+              <ShopifyProvider query={shopifyQuery}>
                 <CartProvider>
                   <NavigationProvider>
-                    <CurrencyProvider>
-                      <SearchProvider>
-                        <ErrorDisplay />
-                        <GlobalStyles />
-                        <ModalProvider>{children}</ModalProvider>\{' '}
-                      </SearchProvider>
-                    </CurrencyProvider>
+                    <SearchProvider>
+                      <ShopifyPriceProvider query={shopifyQuery}>
+                        <ShopDataProvider shopData={shopData}>
+                          <ThemeProvider theme={theme}>
+                            <ErrorDisplay />
+                            <GlobalStyles />
+                            <ModalProvider>{children}</ModalProvider>\{' '}
+                          </ThemeProvider>
+                        </ShopDataProvider>
+                      </ShopifyPriceProvider>
+                    </SearchProvider>
                   </NavigationProvider>
                 </CartProvider>
-              </ToastProvider>
-            </ThemeProvider>
-          </ShopDataProvider>
-        </ShopifyProvider>
+              </ShopifyProvider>
+            </CountryProvider>
+          </CurrencyProvider>
+        </ToastProvider>
       </AnalyticsProvider>
     </ErrorProvider>
   )

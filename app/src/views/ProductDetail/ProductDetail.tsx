@@ -44,6 +44,7 @@ import {
   SizeConverterButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useCountry } from '../../providers/CountryProvider'
 import { useModal } from '../../providers/ModalProvider'
 import {
   ProductPageWrapper,
@@ -107,6 +108,7 @@ export const ProductDetail = ({ product }: Props) => {
     : undefined
   /* get additional info blocks from Sanity */
   const { sendProductDetailView } = useAnalytics()
+  const { currentCountry } = useCountry()
   const { getProductInfoBlocks, productInfoSettings } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
@@ -567,7 +569,12 @@ export const ProductDetail = ({ product }: Props) => {
                               key={a._key || 'some-key'}
                               label={a.title}
                             >
-                              <RichText body={a.bodyRaw} />
+                              {a.title == 'Shipping' &&
+                              currentCountry != 'US' ? (
+                                <RichText body={a.body_intlRaw} />
+                              ) : (
+                                <RichText body={a.bodyRaw} />
+                              )}
                             </Accordion>
                           ) : null,
                         )

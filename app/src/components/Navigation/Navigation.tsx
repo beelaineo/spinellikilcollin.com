@@ -28,6 +28,7 @@ import {
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
+import { CountrySelector } from './CountrySelector'
 import { QuickLinks } from './QuickLinks'
 import { Breadcrumbs } from '../Footer/Breadcrumbs'
 const { useEffect, useState, useRef, useCallback } = React
@@ -99,7 +100,7 @@ export const Navigation = () => {
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
-            <CurrencySelector colorTheme={colorTheme} />
+            <CountrySelector colorTheme={colorTheme} />
             <SearchButtonWrapper colorTheme={colorTheme}>
               <SearchButton />
             </SearchButtonWrapper>

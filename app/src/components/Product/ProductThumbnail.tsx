@@ -11,6 +11,7 @@ import {
   FilterConfiguration,
   Maybe,
   Scalars,
+  ShopifyStorefrontMoneyV2,
   ShopifySourceSelectedOption,
 } from '../../types'
 import { Heading, Span } from '../Text'
@@ -29,7 +30,7 @@ import {
   getBestVariantBySort,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
-import { useAnalytics } from '../../providers'
+import { Money, useAnalytics } from '../../providers'
 import {
   ImageWrapper,
   VideoWrapper,
@@ -44,6 +45,8 @@ import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { Sort } from '../Filter'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useShopifyPrice } from '../../providers/ShopifyPriceProvider'
+import { useCountry } from '../../providers/CountryProvider'
 import { sanityClient } from '../../services/sanity'
 import { ShopifyStorefrontProductVariant } from '../../types/generated-shopify'
 
@@ -148,12 +151,21 @@ export const ProductThumbnail = ({
   collectionId,
   carousel,
 }: ProductThumbnailProps) => {
+  const router = useRouter()
   const { asPath } = useRouter()
   const { inquiryOnly } = product
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
   const { sendProductImpression, sendProductClick } = useAnalytics()
   const { productInfoSettings, productListingSettings } = useShopData()
+  const {
+    getVariantPriceByCollection,
+    currentCollectionPrices,
+    getVariantPriceBySearchResults,
+    currentSearchResultPrices,
+    getProductPriceById,
+  } = useShopifyPrice()
+  const { currentCountry } = useCountry()
 
   const productImages = product.sourceData?.images
     ? unwindEdges(product.sourceData.images)[0]
@@ -186,6 +198,11 @@ export const ProductThumbnail = ({
     ShopifySourceProductVariant | undefined
   >(initialVariant)
 
+  const [currentPrice, setCurrentPrice] =
+    useState<null | ShopifyStorefrontMoneyV2>(null)
+
+  const [currentCompareAtPrice, setCurrentCompareAtPrice] =
+    useState<null | ShopifyStorefrontMoneyV2>(null)
   const [currentSwatchOption, setCurrentSwatchOption] = useState<
     Maybe<ShopifyProductOptionValue> | undefined
   >(undefined)
@@ -205,6 +222,11 @@ export const ProductThumbnail = ({
   const optionsArray = ['Color', 'Style', 'Material']
 
   useEffect(() => {
+    console.log('title', product.title)
+    console.log(
+      initialVariant === undefined ? 'PRODUCT INITIAL VARIANT UNDEFINED' : null,
+    )
+
     const initialSwatchValue = initialVariant?.selectedOptions?.filter((o) => {
       if (!o?.name) return false
       return optionsArray.includes(o?.name)
@@ -246,6 +268,44 @@ export const ProductThumbnail = ({
       setVariantAnimation(variantAnimation)
     } else {
       setVariantAnimation(undefined)
+    }
+    const collectionHandle = router.query.collectionSlug
+    const currentVariantId = currentVariant?.id
+    if (collectionHandle && currentVariantId) {
+      const variantPriceInfo = getVariantPriceByCollection(
+        collectionHandle as string,
+        currentVariantId,
+      )
+      if (variantPriceInfo?.priceV2) {
+        setCurrentPrice(variantPriceInfo?.priceV2)
+      } else {
+        setCurrentPrice(null)
+      }
+      if (variantPriceInfo?.compareAtPriceV2) {
+        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+      } else {
+        setCurrentCompareAtPrice(null)
+      }
+    }
+    if (currentSearchResultPrices && currentVariantId) {
+      const variantPriceInfo = getVariantPriceBySearchResults(currentVariantId)
+      if (variantPriceInfo?.priceV2) {
+        setCurrentPrice(variantPriceInfo?.priceV2)
+      }
+      if (variantPriceInfo?.compareAtPriceV2) {
+        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+      }
+    }
+    if (currentSearchResultPrices && !currentVariantId && product.shopifyId) {
+      getProductPriceById(product?.shopifyId).then((price) => {
+        console.log('productPriceInfo', price)
+        if (price?.priceV2) {
+          setCurrentPrice(price?.priceV2)
+        }
+        if (price?.compareAtPriceV2) {
+          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        }
+      })
     }
   }, [])
 
@@ -344,6 +404,60 @@ export const ProductThumbnail = ({
       setVariantAnimation(undefined)
     }
   }, [currentVariant])
+
+  useEffect(() => {
+    const collectionHandle = router.query.collectionSlug
+    const currentVariantId = currentVariant?.id
+    if (!currentVariantId) return
+
+    const variantPriceInfo = getVariantPriceByCollection(
+      collectionHandle as string,
+      currentVariantId,
+    )
+    if (variantPriceInfo?.priceV2) {
+      setCurrentPrice(variantPriceInfo?.priceV2)
+    } else {
+      setCurrentPrice(null)
+    }
+    if (variantPriceInfo?.compareAtPriceV2) {
+      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+    } else {
+      setCurrentCompareAtPrice(null)
+    }
+    const variantSearchPriceInfo =
+      getVariantPriceBySearchResults(currentVariantId)
+    if (variantSearchPriceInfo?.priceV2) {
+      setCurrentPrice(variantSearchPriceInfo?.priceV2)
+    }
+    if (variantSearchPriceInfo?.compareAtPriceV2) {
+      setCurrentCompareAtPrice(variantSearchPriceInfo?.compareAtPriceV2)
+    }
+    if (!currentVariantId && product.shopifyId) {
+      getProductPriceById(product?.shopifyId).then((price) => {
+        console.log('productPriceInfo', price)
+        if (price?.priceV2) {
+          setCurrentPrice(price?.priceV2)
+          console.log('SET PRICE TO PRODUCT PRICE (NO VARIANTS)', price)
+        } else {
+          setCurrentCompareAtPrice(null)
+          console.log('SET PRICE TO NULL (NO VARIANTS)')
+        }
+        if (price?.compareAtPriceV2) {
+          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        } else {
+          setCurrentCompareAtPrice(null)
+        }
+      })
+    }
+  }, [
+    currentVariant,
+    currentCountry,
+    router.query,
+    getVariantPriceByCollection,
+    getVariantPriceBySearchResults,
+    product.shopifyId,
+    getProductPriceById,
+  ])
 
   const handleClick = () => {
     // @ts-ignore
@@ -688,12 +802,20 @@ export const ProductThumbnail = ({
                 <PriceWrapper>
                   <Price
                     price={
-                      currentVariant?.priceV2 ||
-                      product?.sourceData?.priceRange?.minVariantPrice
+                      currentPrice && currentPrice != null
+                        ? currentPrice
+                        : currentVariant?.priceV2 ||
+                          product?.sourceData?.priceRange?.minVariantPrice
                     }
                   />
                   <Span ml={2} color="body.6" textDecoration="line-through">
-                    <Price price={currentVariant?.compareAtPriceV2} />
+                    <Price
+                      price={
+                        currentCompareAtPrice && currentCompareAtPrice != null
+                          ? currentCompareAtPrice
+                          : currentVariant?.compareAtPriceV2
+                      }
+                    />
                   </Span>
                 </PriceWrapper>
               </TitleHeading>

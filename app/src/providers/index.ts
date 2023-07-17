@@ -1,5 +1,6 @@
 export * from './AnalyticsProvider'
 export * from './CurrencyProvider'
+export * from './CountryProvider'
 export * from './ErrorProvider'
 export * from './ModalProvider'
 export * from './SearchProvider'
@@ -8,3 +9,5 @@ export * from './CartProvider'
 export * from './CurrentProductProvider'
 export * from './NavigationProvider'
 export * from './ShopifyProvider'
+// eslint-disable-next-line import/export
+export * from './ShopifyPriceProvider'
