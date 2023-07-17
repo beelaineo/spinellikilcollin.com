@@ -659,6 +659,7 @@ export const ProductThumbnail = ({
               preload
               altText={altText}
               preloadImages={allImages}
+              placeholder="shadow"
             />
           </ImageWrapper>
           <HoverArea

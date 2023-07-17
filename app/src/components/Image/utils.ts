@@ -99,6 +99,19 @@ const defaultCrop = {
   top: 0,
 }
 
+export const getImageLQIP = (
+  image?: ImageType | null | void,
+): string | void => {
+  if (!image) return undefined
+  if (isSanityImage(image)) {
+    const lqip = image.asset?.metadata?.lqip
+    if (!lqip) return undefined
+
+    return lqip
+  }
+  return undefined
+}
+
 export const getAspectRatio = (
   image?: ImageType | null | void,
 ): number | void => {
