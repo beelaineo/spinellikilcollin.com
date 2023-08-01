@@ -24,6 +24,42 @@ export const CartSidebar = styled.aside`
   `}
 `
 
+export const FreeShippingIndicator = styled.div`
+  ${({ theme }) => css``}
+
+  display: flex;
+  flex-direction: column;
+
+  button {
+    text-underline-offset: 5px;
+    text-align: center;
+  }
+`
+
+export const ProgressBarWrapper = styled.span`
+width: 100%;
+height: 100%;
+position: relative;
+display: flex;
+
+border: 1px solid black;
+border-radius: 20px;
+}
+`
+
+export const ProgressBar = styled.span`
+    width: 100%;
+    background-color: grays.4;
+    border-radius: 10px;
+    transition: clip-path 3s ease-in-out;
+    // clip-path: inset(0 100% 0 0);
+    position: relative;
+    display: flex;
+    height: 20px;
+    margin: 5px;
+}
+`
+
 export const CartHeading = styled.div`
   ${({ theme }) => css`
     min-height: ${theme.navHeight};
@@ -94,6 +130,10 @@ export const CartInner = styled.div<CartInnerProps>`
     padding: 4 7;
     padding-bottom: 0;
     transition: 0.2s;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     ${isLoading
       ? css`

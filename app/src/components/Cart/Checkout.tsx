@@ -16,6 +16,9 @@ import {
   CartHeading,
   SubtotalWrapper,
   OptionsWrapper,
+  FreeShippingIndicator,
+  ProgressBar,
+  ProgressBarWrapper,
 } from './styled'
 import { CheckoutProduct } from './CheckoutProduct'
 import { BooleanCheckbox } from './BooleanCheckbox'
@@ -43,6 +46,8 @@ export const Checkout = () => {
   const { goToCheckout, checkout, loading, addNote } = useShopify()
   const router = useRouter()
 
+  const [progress, setProgress] = useState(100)
+
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
@@ -56,11 +61,19 @@ export const Checkout = () => {
 
   const sideCart = useRef<any>(null)
 
+  const freeShippingValue = 400 - checkout?.paymentDueV2?.amount
+
   useEffect(() => {
     if (cartOpen) {
       sideCart.current.focus()
     }
   }, [cartOpen])
+
+  useEffect(() => {
+    if (cartOpen) {
+      setProgress((freeShippingValue / 400) * 100)
+    }
+  }, [cartOpen, checkout?.paymentDueV2?.amount])
 
   useEffect(() => {
     cartOpen && closeCart()
@@ -113,6 +126,31 @@ export const Checkout = () => {
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
+            <FreeShippingIndicator>
+              <Heading textAlign="left" color="body.7" my={3} level={4}>
+                {freeShippingValue <= 0
+                  ? `Your order qualifies for free shipping`
+                  : `You're only $${freeShippingValue} away from free shipping!`}
+              </Heading>
+
+              <ProgressBarWrapper>
+                <ProgressBar
+                  style={{ clipPath: `inset(0 ${progress}% 0 0)` }}
+                />
+              </ProgressBarWrapper>
+
+              <Button
+                onClick={closeCart}
+                hidden={!cartOpen}
+                type="button"
+                textDecoration="underline"
+                mt={2}
+                mb={2}
+                level={3}
+              >
+                Continue shopping
+              </Button>
+            </FreeShippingIndicator>
           </CartInner>
 
           <CartBottom hidden={!cartOpen}>
