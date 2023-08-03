@@ -25,8 +25,13 @@ import { BooleanCheckbox } from './BooleanCheckbox'
 import { Affirm } from '../Affirm'
 import { Price } from '../Price'
 import { StringValueNode } from 'graphql'
+import { CSSTransition } from 'react-transition-group'
+import { render } from '@testing-library/react'
 
 const { useState, useRef, useEffect } = React
+
+const clamp = (num: number, min: number, max: number) =>
+  Math.min(Math.max(num, min), max)
 
 /**
  * Main Checkout view
@@ -45,7 +50,7 @@ export const Checkout = () => {
   const { message, open: cartOpen, closeCart } = useCart()
   const { goToCheckout, checkout, loading, addNote } = useShopify()
   const router = useRouter()
-
+  const [freeShippingMessage, setFreeShippingMessage] = useState('')
   const [progress, setProgress] = useState(100)
 
   const lineItems =
@@ -56,12 +61,14 @@ export const Checkout = () => {
 
   const handleNotesToggle = (e) => {
     setNotesVisible(e.target.checked)
-    console.log('notesVisible:', notesVisible)
   }
 
   const sideCart = useRef<any>(null)
 
-  const freeShippingValue = 400 - checkout?.paymentDueV2?.amount
+  const freeShippingThreshold = 500
+
+  const freeShippingPosition =
+    freeShippingThreshold - checkout?.paymentDueV2?.amount || 0
 
   useEffect(() => {
     if (cartOpen) {
@@ -71,9 +78,22 @@ export const Checkout = () => {
 
   useEffect(() => {
     if (cartOpen) {
-      setProgress((freeShippingValue / 400) * 100)
+      setProgress(
+        clamp((freeShippingPosition / freeShippingThreshold) * 100, 0, 100),
+      )
     }
-  }, [cartOpen, checkout?.paymentDueV2?.amount])
+  }, [cartOpen, checkout?.paymentDueV2.amount, freeShippingPosition])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFreeShippingMessage(
+        freeShippingPosition <= 0
+          ? `Your order qualifies for free shipping!`
+          : `You're only $${freeShippingPosition} away from free shipping!`,
+      )
+    }, 500)
+    return () => clearTimeout(timeout)
+  }, [freeShippingPosition])
 
   useEffect(() => {
     cartOpen && closeCart()
@@ -126,31 +146,35 @@ export const Checkout = () => {
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
-            <FreeShippingIndicator>
-              <Heading textAlign="left" color="body.7" my={3} level={4}>
-                {freeShippingValue <= 0
-                  ? `Your order qualifies for free shipping`
-                  : `You're only $${freeShippingValue} away from free shipping!`}
-              </Heading>
+            <CSSTransition
+              in={progress > 0}
+              classNames="free-shipping"
+              timeout={500}
+            >
+              <FreeShippingIndicator>
+                <Heading textAlign="left" color="body.7" my={3} level={4}>
+                  {freeShippingMessage}
+                </Heading>
 
-              <ProgressBarWrapper>
-                <ProgressBar
-                  style={{ clipPath: `inset(0 ${progress}% 0 0)` }}
-                />
-              </ProgressBarWrapper>
+                <ProgressBarWrapper>
+                  <ProgressBar
+                    style={{ clipPath: `inset(0 ${progress}% 0 0)` }}
+                  />
+                </ProgressBarWrapper>
 
-              <Button
-                onClick={closeCart}
-                hidden={!cartOpen}
-                type="button"
-                textDecoration="underline"
-                mt={2}
-                mb={2}
-                level={3}
-              >
-                Continue shopping
-              </Button>
-            </FreeShippingIndicator>
+                <Button
+                  onClick={closeCart}
+                  hidden={!cartOpen}
+                  type="button"
+                  textDecoration="underline"
+                  mt={2}
+                  mb={2}
+                  level={3}
+                >
+                  Continue shopping
+                </Button>
+              </FreeShippingIndicator>
+            </CSSTransition>
           </CartInner>
 
           <CartBottom hidden={!cartOpen}>

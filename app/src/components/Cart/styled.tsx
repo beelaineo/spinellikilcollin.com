@@ -34,6 +34,81 @@ export const FreeShippingIndicator = styled.div`
     text-underline-offset: 5px;
     text-align: center;
   }
+
+  &.free-shipping-enter {
+    > span,
+    > button {
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+  }
+
+  &.free-shipping-enter-active {
+    > span,
+    > button {
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+
+    h4 {
+      opacity: 0;
+      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+  }
+
+  &.free-shipping-enter-done {
+    > span,
+    > button {
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+    h4 {
+      opacity: 1;
+      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895) 0s;
+    }
+  }
+
+  &.free-shipping-exit {
+    > span,
+    > button {
+      max-height: 100px;
+      opacity: 1;
+      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+    h4 {
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+  }
+
+  &.free-shipping-exit-active {
+    > span,
+    > button {
+      max-height: 100px;
+      opacity: 1;
+      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+    h4 {
+      opacity: 0;
+      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+  }
+
+  &.free-shipping-exit-done {
+    > span,
+    > button {
+      max-height: 0;
+      opacity: 0;
+      transition: all 1.25s cubic-bezier(0.82, 0.085, 0.395, 0.895) 1s;
+    }
+    h4 {
+      opacity: 1;
+      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+    }
+  }
 `
 
 export const ProgressBarWrapper = styled.span`
@@ -51,7 +126,7 @@ export const ProgressBar = styled.span`
     width: 100%;
     background-color: grays.4;
     border-radius: 10px;
-    transition: clip-path 3s ease-in-out;
+    transition: clip-path 2s ease-in-out;
     // clip-path: inset(0 100% 0 0);
     position: relative;
     display: flex;
@@ -135,21 +210,28 @@ export const CartInner = styled.div<CartInnerProps>`
     flex-direction: column;
     justify-content: space-between;
 
-    ${isLoading
-      ? css`
-          opacity: 0.7;
-          pointer-events: none;
-        `
-      : ''}
-    ${center
-      ? css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        `
-      : ''}
+    ${
+      isLoading
+        ? css`
+            opacity: 0.7;
+            pointer-events: none;
+          `
+        : ''
+    }
+    ${
+      center
+        ? css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          `
+        : ''
+    }
 
-  ${theme.mediaQueries.mobile} {
+     
+    }
+
+    ${theme.mediaQueries.mobile} {
       padding: 4;
       overflow: initial;
     }
