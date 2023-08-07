@@ -40,7 +40,7 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 100px;
       opacity: 1;
-      transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
+      transition: opacity 0.5s ease-in-out 0.5s, max-height 1s ease-in-out;
     }
   }
 
@@ -49,7 +49,7 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 100px;
       opacity: 1;
-      transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
+      transition: opacity 0.5s ease-in-out 0.5s, max-height 1s ease-in-out;
     }
 
     h4 {
@@ -67,7 +67,7 @@ export const FreeShippingIndicator = styled.div`
     }
     h4 {
       opacity: 1;
-      transition: opacity 0.5s ease-in-out;
+      transition: opacity 0.5s ease-in-out 0.25s;
     }
   }
 
