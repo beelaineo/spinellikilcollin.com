@@ -14,11 +14,6 @@ export const SearchInput = () => {
     search()
   }
 
-  const handleChange = (val) => {
-    search()
-    setSearchTerm(val)
-  }
-
   useEffect(() => {
     if (open && inputRef.current) inputRef.current.focus()
   }, [open])
@@ -30,7 +25,7 @@ export const SearchInput = () => {
           name="searchTerm"
           aria-label="search term"
           value={searchTerm}
-          onChange={(val) => handleChange(val)}
+          onChange={setSearchTerm}
           ref={inputRef}
           autoFocus
         />
