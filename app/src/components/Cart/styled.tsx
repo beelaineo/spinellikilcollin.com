@@ -40,7 +40,7 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 100px;
       opacity: 1;
-      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
     }
   }
 
@@ -49,12 +49,12 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 100px;
       opacity: 1;
-      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
     }
 
     h4 {
       opacity: 0;
-      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out;
     }
   }
 
@@ -63,11 +63,11 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 100px;
       opacity: 1;
-      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
     }
     h4 {
       opacity: 1;
-      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895) 0s;
+      transition: opacity 0.5s ease-in-out;
     }
   }
 
@@ -76,11 +76,11 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 100px;
       opacity: 1;
-      transition: all 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
     }
     h4 {
       opacity: 0;
-      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out;
     }
   }
 
@@ -89,11 +89,11 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 100px;
       opacity: 1;
-      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
     }
     h4 {
       opacity: 0;
-      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out;
     }
   }
 
@@ -102,11 +102,11 @@ export const FreeShippingIndicator = styled.div`
     > button {
       max-height: 0;
       opacity: 0;
-      transition: all 1.25s cubic-bezier(0.82, 0.085, 0.395, 0.895) 1s;
+      transition: opacity 1s ease-in-out 1.25s, max-height 1s ease-in-out 1.25s;
     }
     h4 {
       opacity: 1;
-      transition: opacity 0.5s cubic-bezier(0.82, 0.085, 0.395, 0.895);
+      transition: opacity 0.5s ease-in-out;
     }
   }
 `
@@ -123,11 +123,9 @@ border-radius: 20px;
 `
 
 export const ProgressBar = styled.span`
-    width: 100%;
     background-color: grays.4;
     border-radius: 10px;
-    transition: clip-path 2s ease-in-out;
-    // clip-path: inset(0 100% 0 0);
+    transition: width 2.5s ease-in-out;
     position: relative;
     display: flex;
     height: 20px;

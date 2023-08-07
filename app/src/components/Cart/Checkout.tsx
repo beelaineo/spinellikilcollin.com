@@ -51,7 +51,7 @@ export const Checkout = () => {
   const { goToCheckout, checkout, loading, addNote } = useShopify()
   const router = useRouter()
   const [freeShippingMessage, setFreeShippingMessage] = useState('')
-  const [progress, setProgress] = useState(100)
+  const [progress, setProgress] = useState(0)
 
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
@@ -79,7 +79,11 @@ export const Checkout = () => {
   useEffect(() => {
     if (cartOpen) {
       setProgress(
-        clamp((freeShippingPosition / freeShippingThreshold) * 100, 0, 100),
+        clamp(
+          100 - (freeShippingPosition / freeShippingThreshold) * 100,
+          0,
+          100,
+        ),
       )
     }
   }, [cartOpen, checkout?.paymentDueV2.amount, freeShippingPosition])
@@ -147,7 +151,7 @@ export const Checkout = () => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
             <CSSTransition
-              in={progress > 0}
+              in={progress < 100}
               classNames="free-shipping"
               timeout={500}
             >
@@ -157,9 +161,7 @@ export const Checkout = () => {
                 </Heading>
 
                 <ProgressBarWrapper>
-                  <ProgressBar
-                    style={{ clipPath: `inset(0 ${progress}% 0 0)` }}
-                  />
+                  <ProgressBar style={{ width: `${progress}%` }} />
                 </ProgressBarWrapper>
 
                 <Button
