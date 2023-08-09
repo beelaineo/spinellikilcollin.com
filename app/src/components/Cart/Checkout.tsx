@@ -54,6 +54,8 @@ export const Checkout = () => {
   const [freeShippingMessage, setFreeShippingMessage] = useState('')
   const [progress, setProgress] = useState(0)
 
+  const showFreeShippingIndicator = false
+
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
@@ -153,33 +155,35 @@ export const Checkout = () => {
                 return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
               })}
             </CartItems>
-            <CSSTransition
-              in={progress < 100}
-              classNames="free-shipping"
-              timeout={500}
-            >
-              <FreeShippingIndicator>
-                <Heading textAlign="left" color="body.7" my={3} level={4}>
-                  {freeShippingMessage}
-                </Heading>
+            {showFreeShippingIndicator && (
+              <CSSTransition
+                in={progress < 100}
+                classNames="free-shipping"
+                timeout={500}
+              >
+                <FreeShippingIndicator>
+                  <Heading textAlign="left" color="body.7" my={3} level={4}>
+                    {freeShippingMessage}
+                  </Heading>
 
-                <ProgressBarWrapper>
-                  <ProgressBar style={{ width: `${progress}%` }} />
-                </ProgressBarWrapper>
+                  <ProgressBarWrapper>
+                    <ProgressBar style={{ width: `${progress}%` }} />
+                  </ProgressBarWrapper>
 
-                <Button
-                  onClick={closeCart}
-                  hidden={!cartOpen}
-                  type="button"
-                  textDecoration="underline"
-                  mt={2}
-                  mb={2}
-                  level={3}
-                >
-                  Continue shopping
-                </Button>
-              </FreeShippingIndicator>
-            </CSSTransition>
+                  <Button
+                    onClick={closeCart}
+                    hidden={!cartOpen}
+                    type="button"
+                    textDecoration="underline"
+                    mt={2}
+                    mb={2}
+                    level={3}
+                  >
+                    Continue shopping
+                  </Button>
+                </FreeShippingIndicator>
+              </CSSTransition>
+            )}
           </CartInner>
 
           <CartBottom hidden={!cartOpen}>
