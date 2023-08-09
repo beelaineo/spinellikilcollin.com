@@ -357,8 +357,6 @@ export const HeroBlock = React.forwardRef(
       }
     }, [])
 
-    console.log('textXL', textXL)
-
     return (
       <HeroWrapper hero={hero} ref={ref} minimalDisplay={minimalDisplay}>
         <DocumentLink document={heroLink?.document ?? undefined}>
