@@ -1043,6 +1043,8 @@ export interface Hero {
   layout?: Maybe<Scalars['String']>
   /** Limit the size of the text container. (Default: Full Width) */
   textContainer?: Maybe<Scalars['String']>
+  /** Extra-large heading text size for banners (for use with H1) */
+  textXL?: Maybe<Scalars['Boolean']>
   textPosition?: Maybe<Scalars['String']>
   textPositionMobile?: Maybe<Scalars['String']>
   textColor?: Maybe<Scalars['String']>
@@ -1067,6 +1069,7 @@ export type HeroFilter = {
   header_color?: Maybe<StringFilter>
   layout?: Maybe<StringFilter>
   textContainer?: Maybe<StringFilter>
+  textXL?: Maybe<BooleanFilter>
   textPosition?: Maybe<StringFilter>
   textPositionMobile?: Maybe<StringFilter>
   textColor?: Maybe<StringFilter>
@@ -1091,6 +1094,7 @@ export type HeroSorting = {
   header_color?: Maybe<SortOrder>
   layout?: Maybe<SortOrder>
   textContainer?: Maybe<SortOrder>
+  textXL?: Maybe<SortOrder>
   textPosition?: Maybe<SortOrder>
   textPositionMobile?: Maybe<SortOrder>
   textColor?: Maybe<SortOrder>

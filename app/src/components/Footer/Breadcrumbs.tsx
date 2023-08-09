@@ -91,6 +91,9 @@ interface Response {
   allPage: Page[]
   allJournalEntry: JournalEntry[]
 }
+interface BreadcrumbsProps {
+  display?: string
+}
 
 interface BreadcrumbProps {
   route: string
@@ -115,7 +118,7 @@ const Route2LabelMap = {
   '/customize/quiz': 'Quiz',
 }
 
-export const Breadcrumbs = () => {
+export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
   const router = useRouter()
   const [crumbs, setCrumbs] = useState([])
   const storage = globalThis?.sessionStorage
@@ -173,9 +176,10 @@ export const Breadcrumbs = () => {
           ) {
             const segmentsPrevPath = storage.prevPath.split('/')
             const productCollection = await getCollection(segmentsPrevPath[2])
+            console.log('productCollection', productCollection)
             const collectionLink =
               `/collections/${segmentsPrevPath[2]}` ||
-              '/collections/new-arrivals'
+              '/collections/newarrivals'
             const collectionLabel = productCollection?.title || 'Collection'
             crumbLinks.splice(1, 1, collectionLink)
             crumbLabels.splice(1, 1, collectionLabel)
@@ -187,7 +191,7 @@ export const Breadcrumbs = () => {
             const collectionLink =
               collection !== null
                 ? `/collections/${collection.handle}`
-                : '/collections/new-arrivals'
+                : '/collections/newarrivals'
             const collectionLabel =
               collection !== null ? collection.title : 'Collection'
             crumbLinks.splice(1, 1, collectionLink)
@@ -249,7 +253,10 @@ export const Breadcrumbs = () => {
     }
     fetchCrumbs()
   }, [router.asPath])
-  if (router.route === '/') {
+  if (
+    router.route === '/' ||
+    (display == 'header' && router.route.includes('collections'))
+  ) {
     return null
   } else {
     return (
@@ -264,7 +271,7 @@ export const Breadcrumbs = () => {
             </div>
           )
         })}
-        <div className={'border'} />
+        {display != 'header' && <div className={'border'} />}
       </BreadcrumbWrapper>
     )
   }

@@ -120,6 +120,13 @@ export const hero = {
       },
     },
     {
+      name: 'textXL',
+      label: 'Text Oversized',
+      type: 'boolean',
+      description:
+        'Extra-large heading text size for banners (for use with H1)',
+    },
+    {
       name: 'textPosition',
       title: 'Text Position',
       type: 'position',
