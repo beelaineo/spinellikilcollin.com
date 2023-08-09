@@ -246,6 +246,10 @@ export const CartInner = styled.div<CartInnerProps>`
   `}
 `
 
+export const CartItems = styled.div`
+  position: relative;
+`
+
 export const SubtotalWrapper = styled.div`
   padding-top: 4;
   border-top: 1px solid black;
@@ -296,6 +300,10 @@ export const CheckoutProductWrapper = styled.div`
     }
     &:last-of-type {
       border-bottom: none;
+    }
+
+    picture {
+      position: unset;
     }
 
     > a {

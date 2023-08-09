@@ -19,6 +19,7 @@ import {
   FreeShippingIndicator,
   ProgressBar,
   ProgressBarWrapper,
+  CartItems,
 } from './styled'
 import { CheckoutProduct } from './CheckoutProduct'
 import { BooleanCheckbox } from './BooleanCheckbox'
@@ -147,9 +148,11 @@ export const Checkout = () => {
       ) : (
         <>
           <CartInner isLoading={loading} hidden={!cartOpen}>
+            <CartItems>
             {lineItems.map((lineItem) => {
               return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
             })}
+            </CartItems>
             <CSSTransition
               in={progress < 100}
               classNames="free-shipping"
