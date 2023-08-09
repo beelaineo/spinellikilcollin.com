@@ -87,7 +87,7 @@ const transform = (node, index) => {
             const { href: aHref, as } = getLinkFromHref(href)
             return (
               <Link key={index} href={aHref} as={as}>
-                <a>{node.children.map(transform)}</a>
+                {node.children.map(transform)}
               </Link>
             )
           }

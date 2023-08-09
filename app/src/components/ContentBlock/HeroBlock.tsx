@@ -17,6 +17,7 @@ import { definitely } from '../../utils'
 import { useInViewport, useMedia } from '../../hooks'
 import { theme } from '../../theme'
 import { useNavigation, useSearch } from '../../providers'
+import { Heading } from '../Text'
 
 const { useEffect, useRef } = React
 
@@ -118,6 +119,8 @@ const HeroText = styled.div`
         ? getColor(textColor)
         : 'inherit'
     };
+
+    
 
     .text-container {
       ${
@@ -259,6 +262,21 @@ const HeroText = styled.div`
   `}
 `
 
+const CtaOuter = styled.div`
+  margin: 2 0 0 0;
+  color: inherit;
+`
+
+const CtaWrapper = styled.span`
+  color: inherit;
+  text-decoration: none;
+  padding-top: 3;
+  padding-bottom: 0px;
+  border-bottom: 1px solid;
+  display: inline-block;
+  cursor: pointer;
+`
+
 interface HeroImageWrapperProps {
   hero: Hero
   ref?: React.ForwardedRef<HTMLDivElement>
@@ -387,7 +405,15 @@ export const HeroBlock = React.forwardRef(
               <RichText
                 body={isMobile && body_mobileRaw ? body_mobileRaw : bodyRaw}
               />
-              {cta ? <CTA cta={cta} /> : null}
+              {cta ? (
+                <CtaOuter>
+                  <CtaWrapper>
+                    <Heading level={4} my={0} fontStyle="italic">
+                      {cta.label}
+                    </Heading>
+                  </CtaWrapper>
+                </CtaOuter>
+              ) : null}
             </div>
           </HeroText>
         </DocumentLink>

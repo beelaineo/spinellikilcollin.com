@@ -266,9 +266,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
             <div key={i}>
               {i > 0 ? <div className={'separator'}>{'→'}</div> : null}
               <div className={i == crumbs.length - 1 ? 'active ' : ''}>
-                <Link href={c.link}>
-                  <a>{c.label}</a>
-                </Link>
+                <Link href={c.link}>{c.label}</Link>
               </div>
             </div>
           )
