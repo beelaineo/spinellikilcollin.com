@@ -149,9 +149,9 @@ export const Checkout = () => {
         <>
           <CartInner isLoading={loading} hidden={!cartOpen}>
             <CartItems>
-            {lineItems.map((lineItem) => {
-              return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
-            })}
+              {lineItems.map((lineItem) => {
+                return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />
+              })}
             </CartItems>
             <CSSTransition
               in={progress < 100}
