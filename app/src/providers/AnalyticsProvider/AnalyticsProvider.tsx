@@ -15,6 +15,7 @@ const { useEffect } = React
 
 interface AnalyticsContextValue {
   sendFilterClick: () => void
+  sendQuickLinkClick: () => void
   sendProductImpression: (
     products: SelectedProduct | SelectedProduct[],
     list?: string,
@@ -77,6 +78,13 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
       event: EventType.FilterClick,
     })
   }
+
+  const sendQuickLinkClick: AnalyticsContextValue['sendQuickLinkClick'] =
+    () => {
+      sendEvent({
+        event: EventType.QuickLinkClick,
+      })
+    }
 
   const sendProductImpression: AnalyticsContextValue['sendProductImpression'] =
     (selected, list) => {
@@ -163,6 +171,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
 
   const value = {
     sendFilterClick,
+    sendQuickLinkClick,
     sendProductImpression,
     sendProductClick,
     sendProductDetailView,
