@@ -1,4 +1,4 @@
-import { getLocationSearchHash } from './links'
+import { getLocationSearchHash, getLocationSearchVariantId } from './links'
 import { getIdFromBase64 } from './shopify'
 import { ShopifyProduct } from '../types'
 
@@ -31,7 +31,9 @@ export const reportTTAddToCart = (product: ShopifyProduct): void => {
   let contentName
   let template: TT_VIEW_CONTENT
   const hash = getLocationSearchHash(window.location.search)
+  const variantId = getLocationSearchVariantId(window.location.search)
   const productId = getIdFromBase64(hash)
+
   if (productId) {
     template = {
       content_type: 'product',
@@ -40,7 +42,7 @@ export const reportTTAddToCart = (product: ShopifyProduct): void => {
 
     const variants = product.variants
     const variant = variants?.find((v) => {
-      return v?.shopifyVariantID === hash
+      return v?.shopifyVariantID === variantId
     })
 
     if (variant && variant.sourceData) {
@@ -76,6 +78,7 @@ export const reportTTViewContent = (product: ShopifyProduct): void => {
   let contentName
   let template: TT_VIEW_CONTENT
   const hash = getLocationSearchHash(window.location.search)
+  const variantId = getLocationSearchVariantId(window.location.search)
   const productId = getIdFromBase64(hash)
   if (productId) {
     template = {
@@ -85,7 +88,7 @@ export const reportTTViewContent = (product: ShopifyProduct): void => {
 
     const variants = product.variants
     const variant = variants?.find((v) => {
-      return v?.shopifyVariantID === hash
+      return v?.shopifyVariantID === variantId
     })
 
     if (variant && variant.sourceData) {
