@@ -43,11 +43,7 @@ export const SearchInputWrapper = styled.div`
   border-bottom: body.3;
 `
 
-interface WithDisabled {
-  disabled: boolean
-}
-
-export const SearchForm = styled.form<WithDisabled>`
+export const SearchForm = styled.form<any>`
   ${({ theme, disabled }) => css`
     display: flex;
     flex-direction: column;
@@ -95,12 +91,14 @@ export const Results = styled.div`
   padding: 3 0 8;
 `
 
+export const AutocompleteItem = styled.li<any>``
+
 export const ResultsInner = styled.div`
   margin: 0 auto;
   padding: 0;
 `
 
-export const StyledSearchInput = styled(Input)`
+export const StyledSearchInput = styled(Input)<any>`
   ${({ theme }) => css`
     font-size: 2;
     height: auto;
