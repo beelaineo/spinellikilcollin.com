@@ -36,11 +36,26 @@ export const SearchInput = () => {
 
     const [autocompleteState, setAutocompleteState] = useState<any>({})
 
-    useEffect(() => {
-      if (autocompleteState.isOpen === false) return
+    function debouncePromise(fn, time) {
+      let timerId = undefined
 
-      // setSearchTerm(autocompleteState.query)
-    }, [autocompleteState])
+      return function debounced(...args) {
+        if (timerId) {
+          clearTimeout(timerId)
+        }
+
+        return new Promise((resolve) => {
+          //@ts-ignore
+          timerId = setTimeout(() => resolve(fn(...args)), time)
+        })
+      }
+    }
+
+    const debounced = debouncePromise((items) => Promise.resolve(items), 300)
+
+    useEffect(() => {
+      if (open && inputRef.current && !loading) inputRef.current.focus()
+    }, [autocompleteState, loading, open])
 
     const autocomplete = useMemo(
       () =>
@@ -67,10 +82,11 @@ export const SearchInput = () => {
           },
           //@ts-ignore
           getSources({ query }) {
-            return [
+            return debounced([
               // (3) Use an Algolia index source.
               {
                 sourceId: 'products',
+
                 getItems() {
                   return getAlgoliaResults({
                     searchClient: algoliaClient,
@@ -89,7 +105,7 @@ export const SearchInput = () => {
                   return item.title
                 },
               },
-            ]
+            ])
           },
         }),
       [],
@@ -107,49 +123,52 @@ export const SearchInput = () => {
         >
           <StyledSearchInput
             ref={inputRef}
-            onMouseMove={() => null}
             name="searchTerm"
             aria-label="search term"
             className="aa-Input"
             //@ts-ignore
             {...autocomplete.getInputProps({})}
-            autoFocus={true}
           />
 
           <div className="aa-Panel">
-            {autocompleteState.isOpen &&
-              autocompleteState.collections.map((collection, index) => {
-                const { source, items } = collection
-                console.log('items', items, source)
-                return (
-                  <div key={`source-${index}`} className="aa-Source">
-                    {items.length > 0 && (
-                      <ul className="aa-List" {...autocomplete.getListProps()}>
-                        {items.map((item: any) => {
-                          return (
-                            <AutocompleteItem
-                              key={item.objectID}
-                              className="aa-Item"
-                              {...autocomplete.getItemProps({
-                                item,
-                                source,
-                              })}
-                            >
-                              {item.__autocomplete_indexName ===
-                              'Storefront Search Query Suggestions'
-                                ? item.query
-                                : item.__autocomplete_indexName ===
-                                  'Storefront Search'
-                                ? item.title
-                                : item.label}
-                            </AutocompleteItem>
-                          )
-                        })}
-                      </ul>
-                    )}
-                  </div>
-                )
-              })}
+            {!loading &&
+              autocompleteState?.collections?.map(
+                (collection: any, index: number) => {
+                  const { source, items } = collection
+
+                  return (
+                    <div key={`source-${index}`} className="aa-Source">
+                      {items.length > 0 && (
+                        <ul
+                          className="aa-List"
+                          {...autocomplete.getListProps()}
+                        >
+                          {items.map((item: any) => {
+                            return (
+                              <AutocompleteItem
+                                key={item.objectID}
+                                className="aa-Item"
+                                {...autocomplete.getItemProps({
+                                  item,
+                                  source,
+                                })}
+                              >
+                                {item.__autocomplete_indexName ===
+                                'Storefront Search Query Suggestions'
+                                  ? item.query
+                                  : item.__autocomplete_indexName ===
+                                    'Storefront Search'
+                                  ? item.title
+                                  : item.label}
+                              </AutocompleteItem>
+                            )
+                          })}
+                        </ul>
+                      )}
+                    </div>
+                  )
+                },
+              )}
           </div>
           <Button level={1} type="submit">
             Search
