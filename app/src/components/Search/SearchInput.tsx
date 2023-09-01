@@ -14,6 +14,7 @@ import { useRouter } from 'next/router'
 
 import { createAutocomplete } from '@algolia/autocomplete-core'
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia'
+import { debounced, uniqBy } from './utlis'
 
 const { useRef, useEffect, useState, useMemo } = React
 
@@ -32,30 +33,21 @@ export const SearchInput = () => {
       searchClient: algoliaClient,
       indexName: 'Storefront Search Query Suggestions',
     })
-    const inputRef = useRef(null)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const [autocompleteState, setAutocompleteState] = useState<any>({})
-
-    function debouncePromise(fn, time) {
-      let timerId = undefined
-
-      return function debounced(...args) {
-        if (timerId) {
-          clearTimeout(timerId)
-        }
-
-        return new Promise((resolve) => {
-          //@ts-ignore
-          timerId = setTimeout(() => resolve(fn(...args)), time)
-        })
-      }
-    }
-
-    const debounced = debouncePromise((items) => Promise.resolve(items), 300)
 
     useEffect(() => {
       if (open && inputRef.current && !loading) inputRef.current.focus()
     }, [autocompleteState, loading, open])
+
+    const removeDuplicates = uniqBy(({ source, item }) =>
+      source.sourceId === 'querySuggestionsPlugin'
+        ? item.query
+        : source.sourceId === 'products'
+        ? item.title
+        : item.label,
+    )
 
     const autocomplete = useMemo(
       () =>
@@ -65,6 +57,19 @@ export const SearchInput = () => {
             setAutocompleteState(state)
           },
           plugins: [recentSearchesPlugin, querySuggestionsPlugin],
+          //@ts-ignore
+          reshape({ sourcesBySourceId }) {
+            const { recentSearchesPlugin, querySuggestionsPlugin, products } =
+              sourcesBySourceId
+
+            return [
+              removeDuplicates(
+                recentSearchesPlugin,
+                querySuggestionsPlugin,
+                products,
+              ),
+            ]
+          },
           openOnFocus: true,
           initialState: {
             // This uses the `search` query parameter as the initial query
@@ -153,11 +158,9 @@ export const SearchInput = () => {
                                   source,
                                 })}
                               >
-                                {item.__autocomplete_indexName ===
-                                'Storefront Search Query Suggestions'
+                                {source.sourceId === 'querySuggestionsPlugin'
                                   ? item.query
-                                  : item.__autocomplete_indexName ===
-                                    'Storefront Search'
+                                  : source.sourceId === 'products'
                                   ? item.title
                                   : item.label}
                               </AutocompleteItem>
