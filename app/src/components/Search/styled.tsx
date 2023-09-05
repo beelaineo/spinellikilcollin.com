@@ -91,7 +91,17 @@ export const Results = styled.div`
   padding: 3 0 8;
 `
 
-export const AutocompleteItem = styled.li<any>``
+export const AutocompleteItem = styled.li<any>`
+  list-style: none;
+  cursor: pointer;
+
+  text-transform: capitalize;
+  opacity: 0.5;
+
+  &:hover {
+    opacity: 1;
+  }
+`
 
 export const ResultsInner = styled.div`
   margin: 0 auto;
@@ -109,6 +119,27 @@ export const StyledSearchInput = styled(Input)<any>`
     border-color: body.4;
     margin-bottom: 6;
     height: 55px;
+    width: fit-content;
+
+    ${theme.mediaQueries.mobile} {
+      height: 45px;
+      font-size: 3;
+    }
+  `}
+`
+
+export const StyledSearchAutoComplete = styled.div<any>`
+  ${({ theme }) => css`
+    font-size: 2;
+    height: auto;
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid;
+    background-color: transparent;
+    border-color: body.4;
+    margin-bottom: 6;
+    height: 55px;
+    width: fit-content;
 
     ${theme.mediaQueries.mobile} {
       height: 45px;

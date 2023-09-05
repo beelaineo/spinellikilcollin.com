@@ -3,10 +3,11 @@ import { Wrapper as ImageWrapper } from '../Image/styled'
 
 interface WithSingle {
   single?: boolean
+  autocomplete?: boolean
 }
 
 export const CarouselContainer = styled.div<WithSingle>`
-  ${({ theme, single }) => css`
+  ${({ theme, single, autocomplete }) => css`
     position: relative;
     height: 100%;
     width: 100%;
@@ -15,13 +16,18 @@ export const CarouselContainer = styled.div<WithSingle>`
     picture {
       pointer-events: none;
     }
+
+    ${autocomplete && 'width: 70vw;'}
+
     padding: 0 11;
-    ${theme.mediaQueries.desktop} {
-      padding: 0 11;
+
+    ${theme.mediaQueries.tablet} {
+      ${autocomplete && 'width: 100%;'}
     }
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
       padding: ${single ? '0' : '0 32vw'};
+      ${autocomplete && 'width: 100%; padding: 0 10vw;'}
     }
   `}
 `
@@ -44,6 +50,8 @@ interface SlidesContainerProps {
   left: number
   isSwiping: boolean
   theme: DefaultTheme
+  autocomplete?: boolean
+  isDragging?: boolean
 }
 
 export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
@@ -53,13 +61,17 @@ export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
     },
   }),
 )`
-  ${({ theme, isSwiping }: SlidesContainerProps) => css`
+  ${({ theme, isSwiping, isDragging }: SlidesContainerProps) => css`
     position: relative;
     height: 100%;
     width: 100%;
     top: 0;
     white-space: nowrap;
     transition: ${isSwiping ? 0 : '0.4s cubic-bezier(0.57, 0.06, 0.05, 0.95)'};
+
+    > div {
+      ${isDragging && 'pointer-events: none;'}
+    }
 
     & > * {
       white-space: initial;
@@ -75,16 +87,16 @@ interface WithColumnCount {
   theme: DefaultTheme
   columnCount?: number
   single?: boolean
+  autocomplete?: boolean
 }
 
 export const SlideContainer = styled.div`
-  ${({ theme, columnCount, single }: WithColumnCount) => css`
+  ${({ theme, columnCount, single, autocomplete }: WithColumnCount) => css`
     height: 100%;
     text-align: center;
     padding-right: 5;
     display: inline-flex;
     vertical-align: top;
-
     &:last-of-type {
       margin-right: 0;
     }
@@ -128,6 +140,29 @@ export const SlideContainer = styled.div`
             width: calc(((100%) / 1) + 35px);
           }
         `}
+
+    ${autocomplete &&
+    css`
+      width: fit-content;
+      padding: 0 4;
+
+      ${theme.mediaQueries.desktop} {
+        width: fit-content;
+
+        padding: 0 4;
+      }
+
+      ${theme.mediaQueries.tablet} {
+        width: fit-content;
+
+        padding: 0 4;
+      }
+      ${theme.mediaQueries.mobile} {
+        width: fit-content;
+
+        padding: 0 4;
+      }
+    `}
   `}
 `
 
@@ -146,6 +181,7 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
     justify-content: center;
     align-items: center;
     height: 77%;
+    z-index: 15;
     width: ${theme.space[11]}px;
     top: 0;
     ${direction === 'next'
