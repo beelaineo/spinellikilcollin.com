@@ -38,6 +38,7 @@ import {
   NoResultsWrapper,
   FooterGrid,
 } from './styled'
+import { useSearch } from '../../providers'
 
 const { useRef, useEffect, useState } = React
 
@@ -95,6 +96,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
+
+  const search = useSearch()
 
   const collectionProductsWithPrices = [...definitely(collection.products)].map(
     (product) => {
@@ -540,7 +543,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         ref={gridRef}
         isReady={isReady}
       >
-        {filters && filters.length ? (
+        {!search.open && filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}
