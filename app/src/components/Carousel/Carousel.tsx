@@ -105,16 +105,19 @@ export const CarouselInner = ({
     const lastSlideRight =
       slides[slides.length - 1].ref.getBoundingClientRect().right
 
-    if (lastSlideRight < containerWidth) return
-    /* If swiping, snap to the next slide in the direction of the swipe */
-    const slideThreshhold = state.xDirection === 'left' ? 0.2 : 0.8
-    const newSlide = slides.findIndex(
-      (slide) =>
-        slide.ref.offsetLeft + slide.ref.offsetWidth * slideThreshhold >
-        -state.diff,
-    )
+    if (lastSlideRight < containerWidth) {
+      setCurrentSlide(slides.length - 1)
+    } else {
+      /* If swiping, snap to the next slide in the direction of the swipe */
+      const slideThreshhold = state.xDirection === 'left' ? 0.2 : 0.8
+      const newSlide = slides.findIndex(
+        (slide) =>
+          slide.ref.offsetLeft + slide.ref.offsetWidth * slideThreshhold >
+          -state.diff,
+      )
 
-    setCurrentSlide(Math.max(0, newSlide || 0))
+      setCurrentSlide(Math.max(0, newSlide || 0))
+    }
   }, [state.active, state.diff])
 
   /* Only show the next button if there is carousel overflow */
@@ -194,7 +197,6 @@ export const CarouselInner = ({
           autocomplete={autocomplete}
         >
           {React.Children.map(children, (child, index) => {
-            console.log('child', child)
             return (
               <Slide
                 addSlide={addSlide}

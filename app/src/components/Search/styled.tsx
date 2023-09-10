@@ -94,7 +94,7 @@ export const Results = styled.div`
 export const AutocompleteItem = styled.li<any>`
   list-style: none;
   cursor: pointer;
-
+  position: relative;
   text-transform: capitalize;
   opacity: 0.5;
 

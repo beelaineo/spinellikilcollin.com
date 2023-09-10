@@ -29,7 +29,7 @@ export const SearchInput = () => {
 
     const router = useRouter()
 
-    const { open, loading, search, searchTerm, setSearchTerm } = useSearch()
+    const { open, loading, searchTerm, setSearchTerm } = useSearch()
 
     const querySuggestionsPlugin = createQuerySuggestionsPlugin({
       searchClient: algoliaClient,
@@ -38,7 +38,38 @@ export const SearchInput = () => {
     const inputRef = useRef<HTMLInputElement>(null)
 
     const [autocompleteState, setAutocompleteState] = useState<any>({})
-    const [placeholder, setPlaceholder] = useState<any>(null)
+    const [resetCount, setResetCount] = useState(0)
+
+    const predefinedItems = [
+      {
+        label: 'Solarium',
+      },
+      {
+        label: 'Sonny',
+      },
+      {
+        label: 'Diamonds',
+      },
+      {
+        label: 'Rose Gold Chains',
+      },
+    ]
+
+    const predefinedItemsPlugin = {
+      getSources() {
+        return [
+          {
+            sourceId: 'predefinedItemsPlugin',
+            getItems({ query }) {
+              return predefinedItems
+            },
+            getItemInputValue({ item }) {
+              return item.label
+            },
+          },
+        ]
+      },
+    }
 
     const sourceList = autocompleteState?.collections
       ?.map((collection, index) => {
@@ -48,8 +79,6 @@ export const SearchInput = () => {
         return items
       })
       .flat()
-
-    const [resetCount, setResetCount] = useState(0)
 
     useEffect(() => {
       if (open && inputRef.current && !loading) inputRef.current.focus()
@@ -70,17 +99,26 @@ export const SearchInput = () => {
             // (2) Synchronize the Autocomplete state with the React state.
             setAutocompleteState(state)
           },
-          plugins: [recentSearchesPlugin, querySuggestionsPlugin],
+          plugins: [
+            recentSearchesPlugin,
+            querySuggestionsPlugin,
+            predefinedItemsPlugin,
+          ],
           //@ts-ignore
           reshape({ sourcesBySourceId }) {
-            const { recentSearchesPlugin, querySuggestionsPlugin, products } =
-              sourcesBySourceId
+            const {
+              recentSearchesPlugin,
+              predefinedItemsPlugin,
+              querySuggestionsPlugin,
+              products,
+            } = sourcesBySourceId
 
             return [
               removeDuplicates(
                 recentSearchesPlugin,
                 querySuggestionsPlugin,
                 products,
+                predefinedItemsPlugin,
               ),
             ]
           },
@@ -102,6 +140,10 @@ export const SearchInput = () => {
           //@ts-ignore
           getSources({ query, setContext }) {
             setResetCount((resetCount) => resetCount + 1)
+
+            if (!query) {
+              return []
+            }
 
             return debounced([
               // (3) Use an Algolia index source.

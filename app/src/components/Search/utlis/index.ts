@@ -5,7 +5,7 @@ export function uniqBy(predicate) {
 
     return sources.map((source) => {
       const items = source.getItems().filter((item) => {
-        const appliedItem = predicate({ source, item })
+        const appliedItem = predicate({ source, item }).toLowerCase()
         const hasSeen = seen.has(appliedItem)
 
         seen.add(appliedItem)
