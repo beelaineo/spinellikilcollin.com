@@ -176,7 +176,6 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
           ) {
             const segmentsPrevPath = storage.prevPath.split('/')
             const productCollection = await getCollection(segmentsPrevPath[2])
-            console.log('productCollection', productCollection)
             const collectionLink =
               `/collections/${segmentsPrevPath[2]}` ||
               '/collections/newarrivals'

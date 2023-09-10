@@ -53,6 +53,7 @@ export enum EventType {
   AddToCart = 'productAddToCart',
   RemoveFromCart = 'productRemoveFromCart',
   BeginCheckout = 'productBeginCheckout',
+  QuickLinkClick = 'quickLinkClick',
 }
 
 interface ImpressionEvent {
@@ -107,6 +108,10 @@ interface BeginCheckoutEvent {
   }
 }
 
+interface QuickLinkClickEvent {
+  event: EventType.QuickLinkClick
+}
+
 export type GTagEvent =
   | FilterClickEvent
   | ImpressionEvent
@@ -115,3 +120,4 @@ export type GTagEvent =
   | AddToCartEvent
   | RemoveFromCartEvent
   | BeginCheckoutEvent
+  | QuickLinkClickEvent

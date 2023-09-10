@@ -87,7 +87,7 @@ export const submitToHubspot = async (
     context,
     legalConsentOptions,
   }
-  console.log('HUSBPOT FORM BODY SUBMITTED:', body)
+  console.log('HUBSPOT FORM BODY SUBMITTED:', body)
   if (config.STOREFRONT_ENV !== 'production') {
     debug('Not currently in production. Mocking Hubpsot form submission:')
     debug(body)

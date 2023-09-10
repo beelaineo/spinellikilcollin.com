@@ -42,7 +42,6 @@ const NormalVideo = ({
     if (startAutoplayPromise !== undefined) {
       startAutoplayPromise
         .then(() => {
-          console.log('playing')
           setIsLoaded(true)
           // Auto-play started
         })
