@@ -96,6 +96,7 @@ export const SlideContainer = styled.div`
     text-align: center;
     padding-right: 5;
     display: inline-flex;
+    position: relative;
     vertical-align: top;
     &:last-of-type {
       margin-right: 0;
@@ -145,6 +146,22 @@ export const SlideContainer = styled.div`
     css`
       width: fit-content;
       padding: 0 4;
+
+      &::after {
+        content: '·';
+        position: absolute;
+        width: 6px;
+        height: 100%;
+        right: -3px;
+        pointer-events: none;
+        opacity: 1;
+      }
+
+      &:last-of-type {
+        &::after {
+          display: none;
+        }
+      }
 
       ${theme.mediaQueries.desktop} {
         width: fit-content;
