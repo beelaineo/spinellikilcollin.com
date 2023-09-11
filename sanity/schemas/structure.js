@@ -5,6 +5,7 @@ import {
   MdHome,
   MdInfoOutline,
   MdLocalPhone,
+  MdLoyalty,
   MdCake,
 } from 'react-icons/md'
 import { AiOutlineTeam, AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
@@ -14,7 +15,7 @@ import { BsTools, BsBookHalf } from 'react-icons/bs'
 import { FaPencilAlt, FaSignature } from 'react-icons/fa'
 import { TiDevicePhone, TiThSmallOutline, TiDocument } from 'react-icons/ti'
 import { FiCompass } from 'react-icons/fi'
-import { GrDiamond } from 'react-icons/gr'
+import { GrDiamond, GrUserNew } from 'react-icons/gr'
 
 export default () =>
   S.list()
@@ -197,6 +198,24 @@ export default () =>
                     .id('birthdays')
                     .schemaType('birthdays')
                     .documentId('birthdays'),
+                ),
+              S.listItem()
+                .title('VIP Loyalty Form')
+                .icon(MdLoyalty)
+                .child(
+                  S.editor()
+                    .id('loyalty')
+                    .schemaType('loyalty')
+                    .documentId('loyalty'),
+                ),
+              S.listItem()
+                .title('New Customer Form')
+                .icon(GrUserNew)
+                .child(
+                  S.editor()
+                    .id('newCustomer')
+                    .schemaType('newCustomer')
+                    .documentId('newCustomer'),
                 ),
               S.listItem()
                 .title('Stones')
