@@ -63,13 +63,37 @@ type FormValues = {
   communicationsConsent: boolean
 }
 
+type Values = Record<string, string | number | boolean | undefined>
+
 const formId = '369f2dfa-fad2-4e44-bcdf-04f336d57e31'
 
 export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
+  const formatDateValue = (value: string) => {
+    const date = new Date(value).setUTCHours(0, 0, 0, 0)
+    console.log('date', date)
+    return date
+  }
+
   const handleSubmit = async (values: FormValues) => {
+    // const formatDateFields = function (values: FormValues) {
+    //   values.birthday =
+    //     values.birthday && formatDateValue(values.birthday).toString()
+    //   values.anniversary =
+    //     values.anniversary && formatDateValue(values.anniversary).toString()
+    //   values.partner_s_birthday =
+    //     values.partner_s_birthday &&
+    //     formatDateValue(values.partner_s_birthday).toString()
+    //   values.import_event_date =
+    //     values.import_event_date &&
+    //     formatDateValue(values.import_event_date).toString()
+    //   return values
+    // }
+
+    // console.log('formatted values', formatDateFields(values))
+
     setSubmitting(true)
     await fetch('/api/vipLoyalty', {
       method: 'POST',
@@ -142,7 +166,12 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             required
           />
           <Field name="phone" type="tel" placeholder="Phone" label="Phone" />
-          <Field name="birthday" label="Birthday" placeholder="MM/DD/YYYY" />
+          <Field
+            name="birthday"
+            label="Birthday"
+            placeholder="MM/DD/YYYY"
+            type="date"
+          />
           <Field
             name="anniversary"
             label="Anniversary"
@@ -158,6 +187,7 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             name="partner_s_birthday"
             label="Partner's Birthday"
             placeholder="MM/DD/YYYY"
+            type="date"
           />
           <Field
             name="important_event"
@@ -168,6 +198,7 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             name="import_event_date"
             label="Important Event Date"
             placeholder="MM/DD/YYYY"
+            type="date"
           />
           <ConsentWrapper className="consent-text">
             Spinelli Kilcollin is committed to respecting your privacy and we
