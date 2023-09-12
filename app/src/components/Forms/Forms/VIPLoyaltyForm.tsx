@@ -19,6 +19,11 @@ const FieldsWrapper = styled(BaseFieldsWrapper)`
   ${({ theme }) => css`
     margin-top: 0px;
 
+    .consent-text {
+      grid-column: 1 / 3;
+      max-width: 100%;
+    }
+
     .field--name {
       grid-column: 1 / 3;
     }
@@ -142,6 +147,7 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             name="anniversary"
             label="Anniversary"
             placeholder="MM/DD/YYYY"
+            type="date"
           />
           <Field
             name="partner_s_name"
@@ -163,7 +169,7 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             label="Important Event Date"
             placeholder="MM/DD/YYYY"
           />
-          <ConsentWrapper>
+          <ConsentWrapper className="consent-text">
             Spinelli Kilcollin is committed to respecting your privacy and we
             will never sell your personal information. We only use your
             information to administer your account and to provide you with the
@@ -172,15 +178,14 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             well as other content that may interest you. If you consent to us
             contacting you for this purpose, please check the box below.
           </ConsentWrapper>
-          <CheckboxWrapper>
+          <CheckboxWrapper className="consent-text">
             <Field
               name="communicationsConsent"
               type="checkbox"
               label="I agree to receive other communications from Spinelli Kilcollin."
             />
           </CheckboxWrapper>
-          <Button type="submit">Submit</Button>
-          <ConsentWrapper>
+          <ConsentWrapper className="consent-text">
             You may unsubscribe from these communications at any time. For more
             information on how to unsubscribe, our privacy practices, and how we
             are committed to protecting and respecting your privacy, please
@@ -188,13 +193,11 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             <Link href="/about/privacy-policy" target="_blank">
               Privacy Policy
             </Link>
-            .
+            . By clicking submit, you consent to allow Spinelli Kilcollin to
+            store and process the personal information submitted above to
+            provide you the content requested.
           </ConsentWrapper>
-          <ConsentWrapper>
-            By clicking submit, you consent to allow Spinelli Kilcollin to store
-            and process the personal information submitted above to provide you
-            the content requested.
-          </ConsentWrapper>
+          <Button type="submit">Submit</Button>
         </FieldsWrapper>
       </Form>
     </MainWrapper>

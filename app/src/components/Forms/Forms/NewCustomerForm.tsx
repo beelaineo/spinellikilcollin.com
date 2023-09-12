@@ -19,6 +19,11 @@ const FieldsWrapper = styled(BaseFieldsWrapper)`
   ${({ theme }) => css`
     margin-top: 0px;
 
+    .consent-text {
+      grid-column: 1 / 3;
+      max-width: 100%;
+    }
+
     .field--name {
       grid-column: 1 / 3;
     }
@@ -131,7 +136,7 @@ export const NewCustomerForm = ({ onContinue }: NewCustomerFormProps) => {
           <Field name="city" placeholder="City" label="City" />
           <Field name="phone" type="tel" placeholder="Phone" label="Phone" />
           <Field name="star_sign" placeholder="Star Sign" label="Star Sign" />
-          <ConsentWrapper>
+          <ConsentWrapper className="consent-text">
             Spinelli Kilcollin is committed to respecting your privacy and we
             will never sell your personal information. We only use your
             information to administer your account and to provide you with the
@@ -140,7 +145,7 @@ export const NewCustomerForm = ({ onContinue }: NewCustomerFormProps) => {
             well as other content that may interest you. If you consent to us
             contacting you for this purpose, please check the box below.
           </ConsentWrapper>
-          <CheckboxWrapper>
+          <CheckboxWrapper className="consent-text">
             <Field
               name="communicationsConsent"
               type="checkbox"
@@ -148,7 +153,7 @@ export const NewCustomerForm = ({ onContinue }: NewCustomerFormProps) => {
             />
           </CheckboxWrapper>
           <Button type="submit">Submit</Button>
-          <ConsentWrapper>
+          <ConsentWrapper className="consent-text">
             You may unsubscribe from these communications at any time. For more
             information on how to unsubscribe, our privacy practices, and how we
             are committed to protecting and respecting your privacy, please
@@ -156,12 +161,9 @@ export const NewCustomerForm = ({ onContinue }: NewCustomerFormProps) => {
             <Link href="/about/privacy-policy" target="_blank">
               Privacy Policy
             </Link>
-            .
-          </ConsentWrapper>
-          <ConsentWrapper>
-            By clicking submit, you consent to allow Spinelli Kilcollin to store
-            and process the personal information submitted above to provide you
-            the content requested.
+            . By clicking submit, you consent to allow Spinelli Kilcollin to
+            store and process the personal information submitted above to
+            provide you the content requested.
           </ConsentWrapper>
         </FieldsWrapper>
       </Form>
