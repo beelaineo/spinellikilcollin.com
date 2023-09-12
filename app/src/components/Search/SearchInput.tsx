@@ -38,7 +38,6 @@ export const SearchInput = () => {
     const inputRef = useRef<HTMLInputElement>(null)
 
     const [autocompleteState, setAutocompleteState] = useState<any>({})
-    const [resetCount, setResetCount] = useState(0)
 
     const predefinedItems = [
       {
@@ -139,8 +138,6 @@ export const SearchInput = () => {
           },
           //@ts-ignore
           getSources({ query, setContext }) {
-            setResetCount((resetCount) => resetCount + 1)
-
             if (!query) {
               return []
             }
@@ -202,12 +199,13 @@ export const SearchInput = () => {
 
           <div className="aa-Panel">
             <Carousel
-              key={resetCount}
+              key={autocompleteState.query}
+              columnCount={5}
               initialSlide={0}
               autocomplete
               buttons={false}
               dots={false}
-              reset={resetCount}
+              reset={autocompleteState.query}
             >
               {!loading &&
                 sourceList?.map((item: any, index: number) => {

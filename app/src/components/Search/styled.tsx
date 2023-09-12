@@ -67,6 +67,8 @@ export const SearchForm = styled.form<any>`
 export const SearchHeader = styled.div`
   ${({ theme }) => css`
     padding: 7;
+    overflow: hidden;
+
     ${theme.mediaQueries.mobile} {
       padding: 4;
     }

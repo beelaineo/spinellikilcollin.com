@@ -104,21 +104,20 @@ export const CarouselInner = ({
 
     const lastSlideRight =
       slides[slides.length - 1].ref.getBoundingClientRect().right
-
     if (lastSlideRight < containerWidth) {
-      setCurrentSlide(slides.length - 1)
+      setCurrentSlide(slides.length - (columnCount || defaultColumnCount) + 1)
     } else {
       /* If swiping, snap to the next slide in the direction of the swipe */
-      const slideThreshhold = state.xDirection === 'left' ? 0.2 : 0.8
+      const slideThreshold = state.xDirection === 'left' ? 0.2 : 0.8
       const newSlide = slides.findIndex(
         (slide) =>
-          slide.ref.offsetLeft + slide.ref.offsetWidth * slideThreshhold >
+          slide.ref.offsetLeft + slide.ref.offsetWidth * slideThreshold >
           -state.diff,
       )
 
       setCurrentSlide(Math.max(0, newSlide || 0))
     }
-  }, [state.active, state.diff])
+  }, [state.active, state.diff, slides, columnCount, defaultColumnCount])
 
   /* Only show the next button if there is carousel overflow */
   useEffect(() => {

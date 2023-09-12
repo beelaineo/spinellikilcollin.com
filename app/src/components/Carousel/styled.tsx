@@ -17,7 +17,7 @@ export const CarouselContainer = styled.div<WithSingle>`
       pointer-events: none;
     }
 
-    ${autocomplete && 'width: 70vw;'}
+    ${autocomplete && 'width: 70vw; max-width: 900px;'}
 
     padding: 0 11;
 
@@ -27,7 +27,7 @@ export const CarouselContainer = styled.div<WithSingle>`
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
       padding: ${single ? '0' : '0 32vw'};
-      ${autocomplete && 'width: 100%; padding: 0 10vw;'}
+      ${autocomplete && 'width: 100%; padding: 0 10vw; overflow: hidden;'}
     }
   `}
 `
