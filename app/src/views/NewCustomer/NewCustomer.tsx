@@ -61,14 +61,17 @@ const FormWrapper = styled.div`
 
 interface NewCustomerProps {
   newCustomer: NewCustomerType
+  person?: string
 }
 
-export const NewCustomer = ({ newCustomer }: NewCustomerProps) => {
+export const NewCustomer = ({ newCustomer, person }: NewCustomerProps) => {
   const { seo, title, backgroundImage } = newCustomer
   const { setColorTheme } = useNavigation()
   const defaultSeo = {
     title: 'NewCustomer',
   }
+
+  console.log('newCustomer salesperson:', person)
 
   React.useEffect(() => {
     setColorTheme('light')
@@ -82,7 +85,7 @@ export const NewCustomer = ({ newCustomer }: NewCustomerProps) => {
           {title}
         </Heading> */}
         <FormWrapper>
-          <NewCustomerForm />
+          <NewCustomerForm person={person} />
         </FormWrapper>
       </PageWrapper>
     </>

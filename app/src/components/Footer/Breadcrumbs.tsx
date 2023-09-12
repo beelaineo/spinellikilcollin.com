@@ -255,8 +255,8 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
   if (
     router.route === '/' ||
     router.route === '/404' ||
-    router.route === '/new-customer' ||
-    router.route === '/vip-loyalty' ||
+    router.route.includes('/new-customer') ||
+    router.route.includes('/vip-loyalty') ||
     (display == 'header' && router.route.includes('collections'))
   ) {
     return null

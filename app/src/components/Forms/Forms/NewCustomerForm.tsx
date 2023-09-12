@@ -41,10 +41,11 @@ const FieldsWrapper = styled(BaseFieldsWrapper)`
   `}
 `
 
-const { useState } = React
+const { useState, useEffect } = React
 
 interface NewCustomerFormProps {
   onContinue?: () => void
+  person?: string
 }
 
 type FormValues = {
@@ -57,13 +58,30 @@ type FormValues = {
   dialingCode?: string
   star_sign?: string
   communicationsConsent: boolean
+  person?: string
 }
 
-const formId = '9b296dae-8e9c-49dc-afab-acd8ebca3233'
-
-export const NewCustomerForm = ({ onContinue }: NewCustomerFormProps) => {
+export const NewCustomerForm = ({
+  onContinue,
+  person,
+}: NewCustomerFormProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [formId, setFormId] = useState('9b296dae-8e9c-49dc-afab-acd8ebca3233')
+
+  useEffect(() => {
+    if (person && person === 'andrew') {
+      setFormId('fb9a543b-dbe1-4c1c-9a32-8365dc0da4b0')
+    } else if (person && person === 'michelle') {
+      setFormId('385d94c5-06c6-434b-9705-a18ab3199213')
+    } else if (person && person === 'lizzie') {
+      setFormId('4a439432-0727-4fd9-8e82-db3a6ff47aef')
+    } else if (person && person === 'jeneva') {
+      setFormId('0ca945bd-8902-4f2a-8896-5d8a54cb66dd')
+    } else {
+      setFormId('9b296dae-8e9c-49dc-afab-acd8ebca3233')
+    }
+  }, [person])
 
   const handleSubmit = async (values: FormValues) => {
     setSubmitting(true)
@@ -85,6 +103,7 @@ export const NewCustomerForm = ({ onContinue }: NewCustomerFormProps) => {
     phoneCountryCode: 'US',
     dialingCode: '',
     communicationsConsent: true,
+    person: person,
   }
 
   const validationSchema = Yup.object().shape({
