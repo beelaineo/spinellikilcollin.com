@@ -67,7 +67,7 @@ interface ProductThumbnailProps {
 
 interface VariantAnimation {
   __typename: 'CloudinaryVideo'
-  videoId?: Maybe<Scalars['String']>
+  videoId?: Maybe<string>
 }
 
 interface WithCurrentlyInStock {
