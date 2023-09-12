@@ -19,6 +19,11 @@ const FieldsWrapper = styled(BaseFieldsWrapper)`
   ${({ theme }) => css`
     margin-top: 0px;
 
+    .consent-text {
+      grid-column: 1 / 3;
+      max-width: 100%;
+    }
+
     .field--name {
       grid-column: 1 / 3;
     }
@@ -58,13 +63,37 @@ type FormValues = {
   communicationsConsent: boolean
 }
 
+type Values = Record<string, string | number | boolean | undefined>
+
 const formId = '369f2dfa-fad2-4e44-bcdf-04f336d57e31'
 
 export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
 
+  const formatDateValue = (value: string) => {
+    const date = new Date(value).setUTCHours(0, 0, 0, 0)
+    console.log('date', date)
+    return date
+  }
+
   const handleSubmit = async (values: FormValues) => {
+    // const formatDateFields = function (values: FormValues) {
+    //   values.birthday =
+    //     values.birthday && formatDateValue(values.birthday).toString()
+    //   values.anniversary =
+    //     values.anniversary && formatDateValue(values.anniversary).toString()
+    //   values.partner_s_birthday =
+    //     values.partner_s_birthday &&
+    //     formatDateValue(values.partner_s_birthday).toString()
+    //   values.import_event_date =
+    //     values.import_event_date &&
+    //     formatDateValue(values.import_event_date).toString()
+    //   return values
+    // }
+
+    // console.log('formatted values', formatDateFields(values))
+
     setSubmitting(true)
     await fetch('/api/vipLoyalty', {
       method: 'POST',
@@ -137,11 +166,17 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             required
           />
           <Field name="phone" type="tel" placeholder="Phone" label="Phone" />
-          <Field name="birthday" label="Birthday" placeholder="MM/DD/YYYY" />
+          <Field
+            name="birthday"
+            label="Birthday"
+            placeholder="MM/DD/YYYY"
+            type="date"
+          />
           <Field
             name="anniversary"
             label="Anniversary"
             placeholder="MM/DD/YYYY"
+            type="date"
           />
           <Field
             name="partner_s_name"
@@ -152,6 +187,7 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             name="partner_s_birthday"
             label="Partner's Birthday"
             placeholder="MM/DD/YYYY"
+            type="date"
           />
           <Field
             name="important_event"
@@ -162,8 +198,9 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             name="import_event_date"
             label="Important Event Date"
             placeholder="MM/DD/YYYY"
+            type="date"
           />
-          <ConsentWrapper>
+          <ConsentWrapper className="consent-text">
             Spinelli Kilcollin is committed to respecting your privacy and we
             will never sell your personal information. We only use your
             information to administer your account and to provide you with the
@@ -172,15 +209,14 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             well as other content that may interest you. If you consent to us
             contacting you for this purpose, please check the box below.
           </ConsentWrapper>
-          <CheckboxWrapper>
+          <CheckboxWrapper className="consent-text">
             <Field
               name="communicationsConsent"
               type="checkbox"
               label="I agree to receive other communications from Spinelli Kilcollin."
             />
           </CheckboxWrapper>
-          <Button type="submit">Submit</Button>
-          <ConsentWrapper>
+          <ConsentWrapper className="consent-text">
             You may unsubscribe from these communications at any time. For more
             information on how to unsubscribe, our privacy practices, and how we
             are committed to protecting and respecting your privacy, please
@@ -188,13 +224,11 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
             <Link href="/about/privacy-policy" target="_blank">
               Privacy Policy
             </Link>
-            .
+            . By clicking submit, you consent to allow Spinelli Kilcollin to
+            store and process the personal information submitted above to
+            provide you the content requested.
           </ConsentWrapper>
-          <ConsentWrapper>
-            By clicking submit, you consent to allow Spinelli Kilcollin to store
-            and process the personal information submitted above to provide you
-            the content requested.
-          </ConsentWrapper>
+          <Button type="submit">Submit</Button>
         </FieldsWrapper>
       </Form>
     </MainWrapper>

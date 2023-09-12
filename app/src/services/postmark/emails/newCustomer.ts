@@ -12,18 +12,20 @@ export interface NewCustomerArgs {
   dialingCode?: string
   star_sign?: string
   communicationsConsent: boolean
+  person?: string
 }
 
 const Subject = 'New Customer Intake Form Signup'
 
 const textTemplate = (args: NewCustomerArgs): string => stripIndents`
   New Customer Intake Form signup:
-
   ${args.firstname} ${args.lastname}
   ${args.email}
   ${args.city}
   ${args.phone}
 
+  ${args.person && `* Signed up by: ${args.person}`}
+  
   Consent to receive communications: ${args.communicationsConsent}
 
   Star sign: ${args.star_sign}
