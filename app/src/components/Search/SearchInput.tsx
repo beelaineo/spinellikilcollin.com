@@ -16,8 +16,7 @@ import { useRouter } from 'next/router'
 import { createAutocomplete } from '@algolia/autocomplete-core'
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia'
 import { debounced, uniqBy } from './utlis'
-import { Carousel } from '../Carousel'
-import Scroller from '../Scroller/Scroller'
+import { Scroller } from '../Scroller'
 
 const { useRef, useEffect, useState, useMemo } = React
 

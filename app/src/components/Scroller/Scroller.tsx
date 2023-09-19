@@ -97,15 +97,10 @@ const Track = styled.ul`
 
 interface ScrollerProps {
   children: React.ReactNode[]
-  hideScrollBars: boolean
   autoScroll?: boolean
 }
 
-export const Scroller = ({
-  children,
-  hideScrollBars = false,
-  autoScroll = true,
-}: ScrollerProps) => {
+export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
   const [scrollLeft, setScrollLeft] = useState(0)
   const [activeIndices, setActiveIndices] = useState([])
   const [isInView, setIsInView] = useState(false)
