@@ -17,6 +17,7 @@ import { createAutocomplete } from '@algolia/autocomplete-core'
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia'
 import { debounced, uniqBy } from './utlis'
 import { Carousel } from '../Carousel'
+import Scroller from '../Scroller/Scroller'
 
 const { useRef, useEffect, useState, useMemo } = React
 
@@ -197,16 +198,8 @@ export const SearchInput = () => {
             {...autocomplete.getInputProps({})}
           />
 
-          <div className="aa-Panel">
-            <Carousel
-              key={autocompleteState.query}
-              columnCount={5}
-              initialSlide={0}
-              autocomplete
-              buttons={false}
-              dots={false}
-              reset={autocompleteState.query}
-            >
+          {sourceList && (
+            <Scroller>
               {!loading &&
                 sourceList?.map((item: any, index: number) => {
                   const source = item.source
@@ -230,8 +223,8 @@ export const SearchInput = () => {
                     )
                   )
                 })}
-            </Carousel>
-          </div>
+            </Scroller>
+          )}
           <Button level={1} type="submit">
             Search
           </Button>
