@@ -32,8 +32,8 @@ export const Slide = ({ children, index, root }) => {
   }, [intersection])
 
   const handleClick = useCallback(() => {
-    scrollToIndex(index)
-  }, [index, scrollToIndex])
+    scrollToIndex([0])
+  }, [scrollToIndex])
 
   return (
     <Wrapper ref={ref} onClick={handleClick} role="button">

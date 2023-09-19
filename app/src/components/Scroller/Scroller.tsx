@@ -1,5 +1,5 @@
 import React, { createContext, useState, useRef, useEffect } from 'react'
-import { useIntersection, useMeasure } from 'react-use'
+import { useMeasure } from 'react-use'
 // eslint-disable-next-line import/no-cycle
 import { Slide } from './Slide'
 
@@ -16,33 +16,26 @@ export const SliderContext = createContext({
   scrollToIndex: (value: any) => {},
 })
 
-interface WrapperProps {
-  isInView?: boolean
-}
-
 interface ContainerProps {
   hasOverflow?: boolean
 }
 
-const Wrapper = styled.section<WrapperProps>`
-  ${({ isInView }) => css`
-    --scrollbar-border: 0.35rem;
-    --scrollbar-color: #b8b8b8;
-    width: 100%;
+const Wrapper = styled.section`
+  --scrollbar-border: 0.35rem;
+  --scrollbar-color: #b8b8b8;
+  width: 100%;
 
-    ${isInView &&
-    `opacity: 1;
-      transform: translateX(0);`}
+  opacity: 1;
+  transform: translateX(0);
 
-    @media (hover: hover) {
-      &:hover {
-        .navigation {
-          opacity: 1;
-          pointer-events: all;
-        }
+  @media (hover: hover) {
+    &:hover {
+      .navigation {
+        opacity: 1;
+        pointer-events: all;
       }
     }
-  `}
+  }
 `
 
 const Container = styled.div<ContainerProps>`
@@ -103,7 +96,6 @@ interface ScrollerProps {
 export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
   const [scrollLeft, setScrollLeft] = useState(0)
   const [activeIndices, setActiveIndices] = useState([])
-  const [isInView, setIsInView] = useState(false)
   const [hasOverflow, setHasOverflow] = useState(true)
 
   const ref = useRef<any>(null)
@@ -116,12 +108,6 @@ export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
 
   const isBeginning = Math.floor(scrollLeft) === 0
   const isEnd = Math.ceil(containerWidth + scrollLeft) >= trackWidth
-
-  const intersection = useIntersection(ref, {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0,
-  })
 
   const handleContainerScroll = () => {
     setScrollLeft(containerRef.current.scrollLeft)
@@ -141,12 +127,6 @@ export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
   useEffect(() => {
     containerRef?.current && containerRef.current.scrollTo({ left: 0 })
   }, [containerRef])
-
-  useEffect(() => {
-    if (intersection?.isIntersecting) {
-      setIsInView(true)
-    }
-  }, [intersection])
 
   useEffect(() => {
     setHasOverflow(true)
@@ -171,7 +151,7 @@ export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
         scrollToIndex,
       }}
     >
-      <Wrapper ref={ref} isInView={isInView}>
+      <Wrapper ref={ref}>
         <Container ref={containerRef} hasOverflow={hasOverflow}>
           <div // @ts-ignore
             ref={widthRef}
