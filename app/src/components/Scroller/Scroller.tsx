@@ -16,49 +16,84 @@ export const SliderContext = createContext({
   scrollToIndex: (value: any) => {},
 })
 
+interface WrapperProps {
+  isBeginning?: boolean
+  isEnd?: boolean
+}
 interface ContainerProps {
   hasOverflow?: boolean
 }
 
-const Wrapper = styled.section`
-  --scrollbar-border: 0.35rem;
-  --scrollbar-color: #b8b8b8;
-  width: 100%;
+const Wrapper = styled.section<WrapperProps>`
+  ${({ isBeginning, isEnd }) => css`
+    width: 100%;
+    position: relative;
+    opacity: 1;
+    transform: translateX(0);
+    margin-bottom: 6;
 
-  opacity: 1;
-  transform: translateX(0);
+    &:before {
+      opacity: ${isBeginning ? 0 : 1};
+      transition: opacity 1s ease-out;
+      z-index: 1;
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0rem;
+      width: 15%;
+      height: 20px;
 
-  @media (hover: hover) {
-    &:hover {
-      .navigation {
-        opacity: 1;
-        pointer-events: all;
-      }
+      background-image: linear-gradient(
+        to left,
+        rgba(249, 250, 250, 0) -5%,
+        rgba(249, 250, 250, 1) 75%
+      );
     }
-  }
+    &:after {
+      opacity: ${isEnd ? 0 : 1};
+      transition: opacity 1s ease-out;
+      z-index: 1;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0rem;
+      width: 15%;
+      height: 20px;
+
+      background-image: linear-gradient(
+        to right,
+        rgba(249, 250, 250, 0) -5%,
+        rgba(249, 250, 250, 1) 75%
+      );
+    }
+  `}
 `
 
 const Container = styled.div<ContainerProps>`
-  overflow-x: auto;
+  overflow-x: scroll;
   overflow-y: hidden;
   scroll-behavior: smooth;
   scroll-snap-type: x none;
+  position: relative;
 
-  @media (hover: hover) {
-    &::-webkit-scrollbar {
-      width: 1.5rem;
-    }
+  padding-bottom: 2;
 
-    &::-webkit-scrollbar-thumb {
-      border: var(--scrollbar-border) solid transparent;
-      background-clip: content-box;
-      background-color: transparent;
-      border-radius: 2rem;
-    }
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 5px;
+    display: block;
+  }
 
-    &:hover::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar-color);
-    }
+  &::-webkit-scrollbar-thumb {
+    background-clip: content-box;
+    background-color: transparent;
+    border-radius: 2rem;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: #b8b8b8;
   }
 `
 
@@ -69,7 +104,9 @@ const Track = styled.ul`
   justify-content: flex-start;
   padding: 0;
   margin: 0;
-  gap: 2rem;
+  gap: 20px;
+  position: relative;
+
   list-style: none;
 
   > div:first-child {
@@ -91,9 +128,14 @@ const Track = styled.ul`
 interface ScrollerProps {
   children: React.ReactNode[]
   autoScroll?: boolean
+  query?: any
 }
 
-export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
+export const Scroller = ({
+  children,
+  autoScroll = true,
+  query,
+}: ScrollerProps) => {
   const [scrollLeft, setScrollLeft] = useState(0)
   const [activeIndices, setActiveIndices] = useState([])
   const [hasOverflow, setHasOverflow] = useState(true)
@@ -123,6 +165,9 @@ export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
       })
     }
   }
+  useEffect(() => {
+    scrollToIndex([0])
+  }, [query])
 
   useEffect(() => {
     containerRef?.current && containerRef.current.scrollTo({ left: 0 })
@@ -151,7 +196,7 @@ export const Scroller = ({ children, autoScroll = true }: ScrollerProps) => {
         scrollToIndex,
       }}
     >
-      <Wrapper ref={ref}>
+      <Wrapper ref={ref} isBeginning={isBeginning} isEnd={isEnd}>
         <Container ref={containerRef} hasOverflow={hasOverflow}>
           <div // @ts-ignore
             ref={widthRef}

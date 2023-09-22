@@ -9,6 +9,26 @@ const Wrapper = styled('div')`
   display: block;
   scroll-snap-align: start;
   width: max-content;
+  position: relative;
+  font-weight: 300;
+  font-size: 4;
+  &::after {
+    content: '·';
+    position: absolute;
+    top: 0;
+    right: -12px;
+
+    height: 100%;
+
+    pointer-events: none;
+    opacity: 1;
+  }
+
+  &:last-of-type {
+    &::after {
+      display: none;
+    }
+  }
 `
 
 export const Slide = ({ children, index, root }) => {

@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { SlideContainer } from './styled'
-import { auto } from '@cloudinary/url-gen/qualifiers/quality'
 
 const { useRef, useEffect } = React
 
@@ -16,7 +15,6 @@ export interface SlideProps {
   removeSlide: (index: number) => void
   index: number
   single?: boolean
-  autocomplete?: boolean
 }
 
 export const Slide = ({
@@ -26,7 +24,6 @@ export const Slide = ({
   columnCount,
   removeSlide,
   single,
-  autocomplete,
 }: SlideProps) => {
   const containerElement = useRef<HTMLDivElement>(null)
 
@@ -45,7 +42,6 @@ export const Slide = ({
       single={single}
       ref={containerElement}
       columnCount={columnCount}
-      autocomplete={autocomplete}
     >
       {children}
     </SlideContainer>

@@ -198,7 +198,7 @@ export const SearchInput = () => {
           />
 
           {sourceList && (
-            <Scroller>
+            <Scroller query={autocompleteState.query}>
               {!loading &&
                 sourceList?.map((item: any, index: number) => {
                   const source = item.source

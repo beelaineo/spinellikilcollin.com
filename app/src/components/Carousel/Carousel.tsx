@@ -38,8 +38,6 @@ interface CarouselProps {
   buttons?: boolean
   dots?: boolean
   single?: boolean
-  autocomplete?: boolean
-  reset?: any
 }
 
 export const CarouselInner = ({
@@ -48,17 +46,12 @@ export const CarouselInner = ({
   dots,
   buttons: customButtons,
   single,
-  autocomplete,
-  reset,
 }: CarouselProps) => {
   const { width: viewportWidth } = useViewportSize()
   const { currentSlide, setCurrentSlide } = useCarousel()
   const [hasOverflow, setHasOverflow] = useState(false)
   const outerRef = useRef<HTMLDivElement>(null)
   const [slides, setSlides] = useState<SlideInfo[]>([])
-  const [isDragging, setIsDragging] = useState<boolean>(false)
-  const [previousDiff, setPreviousDiff] = useState<number>(0)
-
   const buttons = customButtons !== undefined ? customButtons : true
 
   const { state, startSwipe } = useSwipeReducer(outerRef.current)
@@ -72,12 +65,6 @@ export const CarouselInner = ({
     if (currentSlide === null || currentSlide === 0) return
     setCurrentSlide(currentSlide - 1)
   }
-
-  useEffect(() => {
-    if (reset) {
-      setCurrentSlide(0)
-    }
-  }, [reset])
 
   const defaultColumnCount =
     viewportWidth > 1200
@@ -104,20 +91,17 @@ export const CarouselInner = ({
 
     const lastSlideRight =
       slides[slides.length - 1].ref.getBoundingClientRect().right
-    if (lastSlideRight < containerWidth) {
-      setCurrentSlide(slides.length - (columnCount || defaultColumnCount) + 1)
-    } else {
-      /* If swiping, snap to the next slide in the direction of the swipe */
-      const slideThreshold = state.xDirection === 'left' ? 0.2 : 0.8
-      const newSlide = slides.findIndex(
-        (slide) =>
-          slide.ref.offsetLeft + slide.ref.offsetWidth * slideThreshold >
-          -state.diff,
-      )
+    if (lastSlideRight < containerWidth) return
 
-      setCurrentSlide(Math.max(0, newSlide || 0))
-    }
-  }, [state.active, state.diff, slides, columnCount, defaultColumnCount])
+    /* If swiping, snap to the next slide in the direction of the swipe */
+    const slideThreshhold = state.xDirection === 'left' ? 0.2 : 0.8
+    const newSlide = slides.findIndex(
+      (slide) =>
+        slide.ref.offsetLeft + slide.ref.offsetWidth * slideThreshhold >
+        -state.diff,
+    )
+    setCurrentSlide(Math.max(0, newSlide || 0))
+  }, [state.active, state.diff])
 
   /* Only show the next button if there is carousel overflow */
   useEffect(() => {
@@ -130,24 +114,6 @@ export const CarouselInner = ({
       setHasOverflow(true)
     }
   }, [outerRef.current, viewportWidth])
-
-  useEffect(() => {
-    if (state.active) {
-      setIsDragging(false)
-      setPreviousDiff(state.diff)
-    }
-
-    return () => {
-      setTimeout(() => {
-        setIsDragging(false)
-      }, 500)
-    }
-  }, [state.active])
-
-  useEffect(() => {
-    const thresh = 50
-    setIsDragging(Math.abs(state.diff - previousDiff) > thresh)
-  }, [previousDiff, state.diff])
 
   const addSlide = useMemo(
     () => (newSlide: SlideInfo) => {
@@ -173,7 +139,7 @@ export const CarouselInner = ({
     : 0
 
   return (
-    <CarouselContainer autocomplete={autocomplete} single={single}>
+    <CarouselContainer single={single}>
       {children && buttons ? (
         <ButtonWrapper direction="previous" visible={hasOverflow && !isAtFirst}>
           <CarouselButton
@@ -189,27 +155,22 @@ export const CarouselInner = ({
       <CarouselMask single={single} ref={outerRef}>
         <SlidesContainer
           isSwiping={state.active}
-          isDragging={isDragging}
           left={containerLeft}
           onMouseDown={startSwipe(containerLeft)}
           onTouchStart={startSwipe(containerLeft)}
-          autocomplete={autocomplete}
         >
-          {React.Children.map(children, (child, index) => {
-            return (
-              <Slide
-                addSlide={addSlide}
-                removeSlide={removeSlide}
-                columnCount={columnCount}
-                index={index}
-                autocomplete={autocomplete}
-                key={index}
-                single={single}
-              >
-                {child}
-              </Slide>
-            )
-          })}
+          {React.Children.map(children, (child, index) => (
+            <Slide
+              addSlide={addSlide}
+              removeSlide={removeSlide}
+              columnCount={columnCount}
+              index={index}
+              key={index}
+              single={single}
+            >
+              {child}
+            </Slide>
+          ))}
         </SlidesContainer>
       </CarouselMask>
       {children && buttons ? (
@@ -273,18 +234,14 @@ export const Carousel = ({
   columnCount,
   dots,
   single,
-  autocomplete,
-  reset,
 }: CarouselProps) => {
   return (
     <CarouselProvider initialSlide={initialSlide}>
       <CarouselInner
-        autocomplete={autocomplete || false}
         single={single || false}
         buttons={buttons}
         dots={dots}
         columnCount={columnCount}
-        reset={reset}
       >
         {children}
       </CarouselInner>

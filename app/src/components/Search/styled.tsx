@@ -119,7 +119,7 @@ export const StyledSearchInput = styled(Input)<any>`
     border-bottom: 1px solid;
     background-color: transparent;
     border-color: body.4;
-    margin-bottom: 6;
+    margin-bottom: 4;
     height: 55px;
     width: fit-content;
 
