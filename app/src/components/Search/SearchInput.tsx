@@ -130,7 +130,7 @@ export const SearchInput = () => {
             setSearchTerm(state.query)
             router.push(
               {
-                query: { search: state.query },
+                query: { ...router.query, search: state.query },
               },
               '',
               { shallow: true },

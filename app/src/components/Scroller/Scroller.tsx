@@ -43,7 +43,7 @@ const Wrapper = styled.section<WrapperProps>`
       bottom: 0rem;
       width: 15%;
       height: 20px;
-
+      pointer-events: none;
       background-image: linear-gradient(
         to left,
         rgba(249, 250, 250, 0) -5%,
@@ -58,6 +58,7 @@ const Wrapper = styled.section<WrapperProps>`
       position: absolute;
       top: 0;
       right: 0;
+      pointer-events: none;
       bottom: 0rem;
       width: 15%;
       height: 20px;
