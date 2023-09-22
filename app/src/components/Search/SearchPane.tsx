@@ -43,13 +43,13 @@ export const SearchPane = () => {
     reset()
   }
 
-  // useEffect(() => {
-  //   if (open) {
-  //     lockScroll()
-  //   } else {
-  //     unlockScroll()
-  //   }
-  // }, [open])
+  useEffect(() => {
+    if (open) {
+      lockScroll()
+    } else {
+      unlockScroll()
+    }
+  }, [open])
 
   /** Effects */
   useEffect(() => {
