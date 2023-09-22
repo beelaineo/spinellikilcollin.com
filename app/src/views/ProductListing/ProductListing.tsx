@@ -543,7 +543,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         ref={gridRef}
         isReady={isReady}
       >
-        {!search.open && filters && filters.length ? (
+        {filters && filters.length ? (
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}
@@ -551,7 +551,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             currentFilter={currentFilters}
             productsCount={productsCount}
             resetFilters={resetFilters}
-            hideFilter={hideFilter}
+            hideFilter={search.open || hideFilter}
             scrollGridIntoView={scrollGridIntoView}
             minimalDisplay={minimalDisplay}
           />
