@@ -67,7 +67,7 @@ interface ProductThumbnailProps {
 
 interface VariantAnimation {
   __typename: 'CloudinaryVideo'
-  videoId?: Maybe<Scalars['String']>
+  videoId?: Maybe<string>
 }
 
 interface WithCurrentlyInStock {
@@ -353,7 +353,7 @@ export const ProductThumbnail = ({
   useEffect(() => {
     if (!isInViewOnce) return
     // @ts-ignore
-    sendProductImpression({ product, variant: currentVariant })
+    sendProductImpression(product, currentVariant)
   }, [isInViewOnce, currentVariant])
 
   const productImage = currentVariant?.image

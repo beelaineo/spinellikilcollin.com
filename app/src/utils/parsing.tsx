@@ -16,7 +16,7 @@ export const getHeroImage = (hero?: Hero | null): RichImage | undefined => {
 }
 
 export const getFirstImage = (
-  blocks?: Maybe<Scalars['JSON']> | null,
+  blocks?: Maybe<{ [key: string]: any }> | null,
 ): RichImage | undefined =>
   blocks ? blocks.find((b) => b._type === 'richImage') : undefined
 
