@@ -141,6 +141,8 @@ export const StyledSearchInput = styled(Input)<any>`
     -webkit-appearance: none;
     -webkit-border-radius: 0;
 
+    caret-color: #222222;
+
     &:focus-visible {
       ${theme.focus.left()}
     }
