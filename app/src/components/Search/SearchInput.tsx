@@ -1,9 +1,10 @@
 import * as React from 'react'
 import {
   AutocompleteItem,
+  AutocompleteItemWrapper,
   SearchForm,
   SearchInputWrapper,
-  StyledSearchAutoComplete,
+  Separator,
   StyledSearchInput,
 } from './styled'
 import { Button } from '../Button'
@@ -12,6 +13,7 @@ import { algoliaClient } from '../../services/algolia'
 import { createLocalStorageRecentSearchesPlugin } from '@algolia/autocomplete-plugin-recent-searches'
 import { createQuerySuggestionsPlugin } from '@algolia/autocomplete-plugin-query-suggestions'
 import { useRouter } from 'next/router'
+import SearchClockIcon from '../../svg/SearchClock.svg'
 
 import { createAutocomplete } from '@algolia/autocomplete-core'
 import { getAlgoliaResults } from '@algolia/autocomplete-preset-algolia'
@@ -24,7 +26,7 @@ export const SearchInput = () => {
   function Autocomplete() {
     const recentSearchesPlugin = createLocalStorageRecentSearchesPlugin({
       key: 'RECENT_SEARCH',
-      limit: 5,
+      limit: 3,
     })
 
     const router = useRouter()
@@ -203,22 +205,31 @@ export const SearchInput = () => {
                 sourceList?.map((item: any, index: number) => {
                   const source = item.source
 
+                  console.log('test', source.sourceId)
+
                   return (
                     sourceList.length > 0 && (
-                      <AutocompleteItem
-                        key={item.objectID}
-                        className="aa-Item"
-                        {...autocomplete.getItemProps({
-                          item,
-                          source,
-                        })}
-                      >
-                        {source.sourceId === 'querySuggestionsPlugin'
-                          ? item.query
-                          : source.sourceId === 'products'
-                          ? item.title
-                          : item.label}
-                      </AutocompleteItem>
+                      <AutocompleteItemWrapper>
+                        {source.sourceId === 'recentSearchesPlugin' && (
+                          <Separator>
+                            <SearchClockIcon />
+                          </Separator>
+                        )}
+                        <AutocompleteItem
+                          key={item.objectID}
+                          className="aa-Item"
+                          {...autocomplete.getItemProps({
+                            item,
+                            source,
+                          })}
+                        >
+                          {source.sourceId === 'querySuggestionsPlugin'
+                            ? item.query
+                            : source.sourceId === 'products'
+                            ? item.title
+                            : item.label}
+                        </AutocompleteItem>
+                      </AutocompleteItemWrapper>
                     )
                   )
                 })}

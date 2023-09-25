@@ -12,11 +12,12 @@ const Wrapper = styled('div')`
   position: relative;
   font-weight: 300;
   font-size: 4;
-  &::after {
+
+  &::before {
     content: '·';
     position: absolute;
     top: 0;
-    right: -12px;
+    left: -12px;
 
     height: 100%;
 
@@ -24,8 +25,8 @@ const Wrapper = styled('div')`
     opacity: 1;
   }
 
-  &:last-of-type {
-    &::after {
+  &:first-of-type {
+    &::before {
       display: none;
     }
   }
