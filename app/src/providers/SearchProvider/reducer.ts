@@ -1,8 +1,7 @@
 import { useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router'
 import { ShopifyProduct, ShopifyCollection } from '../../types'
-import { algoliaIndex, algoliaClient } from '../../services/algolia'
-import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js'
+import { algoliaIndex } from '../../services/algolia'
 
 export type SearchResult = ShopifyProduct | ShopifyCollection
 
@@ -223,8 +222,6 @@ export const useSearchReducer = () => {
       exactOnSingleWordQuery: 'word',
       filters: `hideFromSearch:false`,
     })
-
-    console.log('hits2', hits)
 
     const results = hits
       .map((hit) => {
