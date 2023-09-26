@@ -98,6 +98,7 @@ export const AutocompleteItemWrapper = styled.div``
 export const Separator = styled.span`
   position: relative;
   pointer-events: none;
+  color: body.6;
 
   display: flex;
   svg {
@@ -122,6 +123,9 @@ export const AutocompleteItem = styled.li<any>`
 
   &:hover {
     color: body.8;
+    span {
+      color: body.8;
+    }
   }
 `
 
