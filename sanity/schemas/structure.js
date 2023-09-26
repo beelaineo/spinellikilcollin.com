@@ -7,6 +7,7 @@ import {
   MdLocalPhone,
   MdLoyalty,
   MdCake,
+  MdPayment,
 } from 'react-icons/md'
 import { AiOutlineTeam, AiOutlineSetting, AiOutlineBook } from 'react-icons/ai'
 import { IoDocumentsOutline } from 'react-icons/io'
@@ -216,6 +217,15 @@ export default () =>
                     .id('newCustomer')
                     .schemaType('newCustomer')
                     .documentId('newCustomer'),
+                ),
+              S.listItem()
+                .title('Payment Plans')
+                .icon(MdPayment)
+                .child(
+                  S.editor()
+                    .id('paymentPlans')
+                    .schemaType('paymentPlans')
+                    .documentId('paymentPlans'),
                 ),
               S.listItem()
                 .title('Stones')
