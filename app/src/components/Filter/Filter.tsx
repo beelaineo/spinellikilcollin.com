@@ -387,8 +387,8 @@ export const Filter = ({
   if (!filters || filterSetStates.length === 0) return null
 
   const handleReset = () => {
+    // applyFilters(null)
     resetAll()
-    applyFilters(null)
     setActiveKey('')
     if (!firstRender) scrollGridIntoView()
   }
