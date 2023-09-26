@@ -519,6 +519,9 @@ export const ProductDetail = ({ product }: Props) => {
                     <>
                       <AffirmWrapper>
                         <style jsx global>{`
+                          #klarnaPlacement::part(osm-cta) {
+                            text-decoration: none;
+                          }
                           #klarnaPlacement ::part(osm-message) {
                             font-family: 'Inferi', 'Georgia', serif;
                             font-weight: 200;

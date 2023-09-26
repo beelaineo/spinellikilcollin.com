@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import * as React from 'react'
 import { Heading } from './Text'
 import { useCurrency } from '../providers/CurrencyProvider'
@@ -40,11 +39,6 @@ export const Klarna = ({ price }: KlarnaProps) => {
 
   return (
     <>
-      <style jsx global>{`
-        #klarnaPlacement::part(osm-cta) {
-          text-decoration: none;
-        }
-      `}</style>
       {/* @ts-ignore */}
       <klarna-placement
         id="klarnaPlacement"
