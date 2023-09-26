@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
@@ -517,9 +518,16 @@ export const ProductDetail = ({ product }: Props) => {
                   product.sourceData?.productType !== 'Gift Card' ? (
                     <>
                       <AffirmWrapper>
-                        <style jsx>{`
-                          #klarnaPlacement *::part(osm-container) {
-                            font-family: 'Inferi', 'Georgia', serif !important;
+                        <style jsx global>{`
+                          #klarnaPlacement ::part(osm-message) {
+                            font-family: 'Inferi', 'Georgia', serif;
+                            font-weight: 200;
+                            line-height: 18.2px;
+                          }
+                          #klarnaPlacement ::part(osm-cta) {
+                            font-family: 'Inferi', 'Georgia', serif;
+                            font-weight: 200;
+                            line-height: 18.2px;
                           }
                         `}</style>
                         <Affirm price={currentVariant?.sourceData?.priceV2} />

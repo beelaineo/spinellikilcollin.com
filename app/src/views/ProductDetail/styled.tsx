@@ -79,16 +79,16 @@ export const AffirmWrapper = styled.div`
     margin-top: 5;
     font-family: 'Inferi', 'Georgia', serif !important;
 
-    #klarnaPlacement *::part(osm-container) {
-      font-family: 'Inferi', 'Georgia', serif !important;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 2;
 
     ${theme.mediaQueries.tablet} {
       grid-row: 3;
       margin: 4 auto 0;
       width: 100%;
       max-width: small;
-      text-align: center;
+      align-items: center;
     }
     a {
       position: relative;
