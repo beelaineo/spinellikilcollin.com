@@ -37,7 +37,7 @@ const handler: NextApiHandler = async (req, res) => {
   )
   const data = await response.json()
 
-  console.log('requestRingSizer.ts data', data)
+  // console.log('requestRingSizer.ts data', data)
 
   if (data.result.verdict.addressComplete != true) {
     res.status(500).send({

@@ -194,11 +194,14 @@ export const RingSizerForm = ({
       country: postalAddress.regionCode,
     }
 
-    console.log('Submitting form with validated address values', newValues)
-
     // Use the validatedAddress and other form data to finalize the submission
     await submitToHubspot(newValues, formId)
-    await postmark.sendRequestRingSizer(newValues)
+    // await postmark.sendRequestRingSizer(newValues)
+    const response = await fetch('/api/sendRingSizerEmail', {
+      method: 'POST',
+      body: JSON.stringify(newValues),
+    })
+    const postmarkData = await response.json()
     setSuccess(true)
   }
 
