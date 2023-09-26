@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import * as React from 'react'
 import { Heading } from './Text'
 import { useCurrency } from '../providers/CurrencyProvider'
