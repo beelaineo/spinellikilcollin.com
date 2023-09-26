@@ -25,7 +25,7 @@ export const Klarna = ({ price }: KlarnaProps) => {
 
   useEffect(() => {
     // @ts-ignore
-    if (window && window.Klarna.OnsiteMessaging.refresh) {
+    if (window && window.Klarna?.OnsiteMessaging?.refresh) {
       // @ts-ignore
       window.Klarna.OnsiteMessaging.refresh()
     }
@@ -38,12 +38,19 @@ export const Klarna = ({ price }: KlarnaProps) => {
   const cents = toCents(amount)
 
   return (
-    // @ts-ignore
-    <klarna-placement
-      id="klarnaPlacement"
-      data-key="credit-promotion-auto-size"
-      data-locale="en-US"
-      data-purchase-amount={cents}
-    />
+    <>
+      <style jsx global>{`
+        #klarnaPlacement::part(osm-cta) {
+          text-decoration: none;
+        }
+      `}</style>
+      {/* @ts-ignore */}
+      <klarna-placement
+        id="klarnaPlacement"
+        data-key="credit-promotion-auto-size"
+        data-locale="en-US"
+        data-purchase-amount={cents}
+      />
+    </>
   )
 }
