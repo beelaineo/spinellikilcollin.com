@@ -65,7 +65,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
  */
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const people = ['andrew', 'michelle', 'lizzie', 'jeneva']
+  const people = ['andrew', 'michelle', 'lizzie', 'jeneva', 'austin']
   const paths = people.map((entry) => ({
     params: {
       person: entry ?? undefined,
