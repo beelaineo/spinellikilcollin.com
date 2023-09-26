@@ -205,6 +205,7 @@ export const Filter = ({
     setValues,
     resetAll,
     resetSet,
+    resetButtons,
     toggle,
     toggleSingle,
     enable,
@@ -213,7 +214,13 @@ export const Filter = ({
 
   useEffect(() => {
     handleReset()
-  }, [resetFilters, router.query])
+  }, [resetFilters])
+
+  useEffect(() => {
+    resetButtons()
+    setActiveKey('')
+    if (!firstRender) scrollGridIntoView()
+  }, [router.query])
 
   const isMobile = useMedia({
     maxWidth: `960px`,
