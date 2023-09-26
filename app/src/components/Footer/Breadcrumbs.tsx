@@ -91,6 +91,9 @@ interface Response {
   allPage: Page[]
   allJournalEntry: JournalEntry[]
 }
+interface BreadcrumbsProps {
+  display?: string
+}
 
 interface BreadcrumbProps {
   route: string
@@ -115,7 +118,7 @@ const Route2LabelMap = {
   '/customize/quiz': 'Quiz',
 }
 
-export const Breadcrumbs = () => {
+export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
   const router = useRouter()
   const [crumbs, setCrumbs] = useState([])
   const storage = globalThis?.sessionStorage
@@ -175,7 +178,7 @@ export const Breadcrumbs = () => {
             const productCollection = await getCollection(segmentsPrevPath[2])
             const collectionLink =
               `/collections/${segmentsPrevPath[2]}` ||
-              '/collections/new-arrivals'
+              '/collections/newarrivals'
             const collectionLabel = productCollection?.title || 'Collection'
             crumbLinks.splice(1, 1, collectionLink)
             crumbLabels.splice(1, 1, collectionLabel)
@@ -187,7 +190,7 @@ export const Breadcrumbs = () => {
             const collectionLink =
               collection !== null
                 ? `/collections/${collection.handle}`
-                : '/collections/new-arrivals'
+                : '/collections/newarrivals'
             const collectionLabel =
               collection !== null ? collection.title : 'Collection'
             crumbLinks.splice(1, 1, collectionLink)
@@ -249,7 +252,13 @@ export const Breadcrumbs = () => {
     }
     fetchCrumbs()
   }, [router.asPath])
-  if (router.route === '/') {
+  if (
+    router.route === '/' ||
+    router.route === '/404' ||
+    router.route.includes('/new-customer') ||
+    router.route.includes('/vip-loyalty') ||
+    (display == 'header' && router.route.includes('collections'))
+  ) {
     return null
   } else {
     return (
@@ -259,14 +268,12 @@ export const Breadcrumbs = () => {
             <div key={i}>
               {i > 0 ? <div className={'separator'}>{'→'}</div> : null}
               <div className={i == crumbs.length - 1 ? 'active ' : ''}>
-                <Link href={c.link}>
-                  <a>{c.label}</a>
-                </Link>
+                <Link href={c.link}>{c.label}</Link>
               </div>
             </div>
           )
         })}
-        <div className={'border'} />
+        {display != 'header' && <div className={'border'} />}
       </BreadcrumbWrapper>
     )
   }

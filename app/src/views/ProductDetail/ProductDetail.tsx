@@ -240,10 +240,10 @@ export const ProductDetail = ({ product }: Props) => {
 
   interface VariantAnimation {
     __typename: 'CloudinaryVideo'
-    videoId?: Maybe<Scalars['String']>
-    enableAudio?: Maybe<Scalars['Boolean']>
-    enableControls?: Maybe<Scalars['Boolean']>
-    subtitle?: Maybe<Scalars['String']>
+    videoId?: Maybe<string>
+    enableAudio?: Maybe<boolean>
+    enableControls?: Maybe<boolean>
+    subtitle?: Maybe<string>
   }
 
   let variantHasAnimation = false

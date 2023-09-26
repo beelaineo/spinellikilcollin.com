@@ -689,6 +689,7 @@ export const heroFragment = gql`
     textColorMobileCustom {
       ...ColorFragment
     }
+    textXL
     textContainer
     textPosition
     textPositionMobile

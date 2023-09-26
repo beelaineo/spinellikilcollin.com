@@ -14,7 +14,7 @@ export const DocumentLink = ({ document, children, label }: LinkProps) => {
 
   return (
     <NextLink as={as} href={href}>
-      <a>{children || label || getPageLinkLabel(document) || null}</a>
+      {children || label || getPageLinkLabel(document) || null}
     </NextLink>
   )
 }

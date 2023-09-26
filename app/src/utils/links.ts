@@ -176,6 +176,15 @@ export const getLocationSearchHash = (search: string): string => {
   return result
 }
 
+export const getLocationSearchVariantId = (search: string): string => {
+  let result: string = ''
+  const searchString = search.split('?v=')
+  if (searchString.length === 2) {
+    result = decodeURIComponent(searchString[1])
+  }
+  return Buffer.from(decodeURIComponent(result), 'base64').toString('utf-8')
+}
+
 export const getProductIdLocationSearch = (search: string): string => {
   let productId
 

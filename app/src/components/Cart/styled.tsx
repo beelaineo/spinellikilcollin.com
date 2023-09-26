@@ -24,6 +24,116 @@ export const CartSidebar = styled.aside`
   `}
 `
 
+export const FreeShippingIndicator = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+
+    button {
+      text-underline-offset: 5px;
+      text-align: center;
+    }
+
+    &.free-shipping-enter {
+      > span,
+      > button {
+        max-height: 100px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out 0.5s, max-height 1s ease-in-out;
+      }
+    }
+
+    &.free-shipping-enter-active {
+      > span,
+      > button {
+        max-height: 100px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out 0.5s, max-height 1s ease-in-out;
+      }
+
+      h4 {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+    }
+
+    &.free-shipping-enter-done {
+      > span,
+      > button {
+        max-height: 100px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
+      }
+      h4 {
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out 0.25s;
+      }
+    }
+
+    &.free-shipping-exit {
+      > span,
+      > button {
+        max-height: 100px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
+      }
+      h4 {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+    }
+
+    &.free-shipping-exit-active {
+      > span,
+      > button {
+        max-height: 100px;
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out 0.25s;
+      }
+      h4 {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+    }
+
+    &.free-shipping-exit-done {
+      > span,
+      > button {
+        max-height: 0;
+        opacity: 0;
+        transition: opacity 1s ease-in-out 1.25s,
+          max-height 1s ease-in-out 1.25s;
+      }
+      h4 {
+        opacity: 1;
+        transition: opacity 0.5s ease-in-out;
+      }
+    }
+  `}
+`
+
+export const ProgressBarWrapper = styled.span`
+width: 100%;
+height: 100%;
+position: relative;
+display: flex;
+
+border: 1px solid black;
+border-radius: 20px;
+}
+`
+
+export const ProgressBar = styled.span`
+    background-color: grays.4;
+    border-radius: 10px;
+    transition: width 2.5s ease-in-out;
+    position: relative;
+    display: flex;
+    height: 20px;
+    margin: 5px;
+}
+`
+
 export const CartHeading = styled.div`
   ${({ theme }) => css`
     min-height: ${theme.navHeight};
@@ -95,22 +205,35 @@ export const CartInner = styled.div<CartInnerProps>`
     padding-bottom: 0;
     transition: 0.2s;
 
-    ${isLoading
-      ? css`
-          opacity: 0.7;
-          pointer-events: none;
-        `
-      : ''}
-    ${center
-      ? css`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        `
-      : ''}
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-  ${theme.mediaQueries.mobile} {
+    ${
+      isLoading
+        ? css`
+            opacity: 0.7;
+            pointer-events: none;
+          `
+        : ''
+    }
+    ${
+      center
+        ? css`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+          `
+        : ''
+    }
+
+     
+    }
+
+    ${theme.mediaQueries.mobile} {
       padding: 4;
+      padding-bottom: 0;
       overflow: initial;
     }
 
@@ -122,6 +245,10 @@ export const CartInner = styled.div<CartInnerProps>`
       }
     }
   `}
+`
+
+export const CartItems = styled.div`
+  position: relative;
 `
 
 export const SubtotalWrapper = styled.div`
@@ -174,6 +301,10 @@ export const CheckoutProductWrapper = styled.div`
     }
     &:last-of-type {
       border-bottom: none;
+    }
+
+    picture {
+      position: unset;
     }
 
     > a {

@@ -67,11 +67,9 @@ export const LinkButton = ({
 }: LinkButtonProps) => {
   return (
     <Link href={href}>
-      <a>
-        <Button as="div" {...rest} level={level} disabled={disabled}>
-          {children}
-        </Button>
-      </a>
+      <Button as="div" {...rest} level={level} disabled={disabled}>
+        {children}
+      </Button>
     </Link>
   )
 }

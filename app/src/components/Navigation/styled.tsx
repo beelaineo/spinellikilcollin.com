@@ -458,6 +458,23 @@ export const NavItemWrapper = styled.div`
   `}
 `
 
+export const BreadcrumbsWrapper = styled.div`
+  ${({ theme }) => css`
+    position: absolute;
+    z-index: 10;
+    padding: 0 0 0 7;
+    margin: 0 auto;
+    max-width: calc(100% - (${theme.space[7]}px * 2));
+    width: 100%;
+    ${theme.mediaQueries.tablet} {
+      padding: 0 0 0 5;
+    }
+    ${theme.mediaQueries.mobile} {
+      margin-left: -2;
+    }
+  `}
+`
+
 export const InStockDot = styled('span')`
   ${({ theme }) => css`
     display: inline-block;

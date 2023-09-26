@@ -359,7 +359,7 @@ export const SizeConverterForm = ({
         initialValues={initialValues}
         validationSchema={ValidationSchema}
         onSubmit={() => {
-          console.log(`converter form submit`)
+          // console.log(`converter form submit`)
         }}
       >
         <FieldsWrapper>
