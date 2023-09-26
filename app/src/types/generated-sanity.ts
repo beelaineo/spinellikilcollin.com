@@ -1850,6 +1850,72 @@ export type PageSorting = {
   title?: InputMaybe<SortOrder>
 }
 
+export interface PaymentPlans extends Document {
+  __typename: 'PaymentPlans'
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']['output']>
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']['output']>
+  _key?: Maybe<Scalars['String']['output']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']['output']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']['output']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']['output']>
+  bodyRaw?: Maybe<Scalars['JSON']['output']>
+  providers?: Maybe<Array<Maybe<PaymentProvider>>>
+  seo?: Maybe<Seo>
+  title?: Maybe<Scalars['String']['output']>
+}
+
+export type PaymentPlansFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<DocumentFilter>
+  _createdAt?: InputMaybe<DatetimeFilter>
+  _id?: InputMaybe<IdFilter>
+  _key?: InputMaybe<StringFilter>
+  _rev?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  _updatedAt?: InputMaybe<DatetimeFilter>
+  seo?: InputMaybe<SeoFilter>
+  title?: InputMaybe<StringFilter>
+}
+
+export type PaymentPlansSorting = {
+  _createdAt?: InputMaybe<SortOrder>
+  _id?: InputMaybe<SortOrder>
+  _key?: InputMaybe<SortOrder>
+  _rev?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  _updatedAt?: InputMaybe<SortOrder>
+  seo?: InputMaybe<SeoSorting>
+  title?: InputMaybe<SortOrder>
+}
+
+export interface PaymentProvider {
+  __typename: 'PaymentProvider'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  bodyRaw?: Maybe<Scalars['JSON']['output']>
+  logo?: Maybe<RichImage>
+  name?: Maybe<Scalars['String']['output']>
+}
+
+export type PaymentProviderFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  logo?: InputMaybe<RichImageFilter>
+  name?: InputMaybe<StringFilter>
+}
+
+export type PaymentProviderSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  logo?: InputMaybe<RichImageSorting>
+  name?: InputMaybe<SortOrder>
+}
+
 export interface PdfLink {
   __typename: 'PdfLink'
   _key?: Maybe<Scalars['String']['output']>
@@ -2221,6 +2287,7 @@ export interface RootQuery {
   Menu?: Maybe<Menu>
   NewCustomer?: Maybe<NewCustomer>
   Page?: Maybe<Page>
+  PaymentPlans?: Maybe<PaymentPlans>
   ProductInfoSettings?: Maybe<ProductInfoSettings>
   ProductListingSettings?: Maybe<ProductListingSettings>
   SanityFileAsset?: Maybe<SanityFileAsset>
@@ -2246,6 +2313,7 @@ export interface RootQuery {
   allMenu: Array<Menu>
   allNewCustomer: Array<NewCustomer>
   allPage: Array<Page>
+  allPaymentPlans: Array<PaymentPlans>
   allProductInfoSettings: Array<ProductInfoSettings>
   allProductListingSettings: Array<ProductListingSettings>
   allSanityFileAsset: Array<SanityFileAsset>
@@ -2322,6 +2390,10 @@ export type RootQueryNewCustomerArgs = {
 }
 
 export type RootQueryPageArgs = {
+  id: Scalars['ID']['input']
+}
+
+export type RootQueryPaymentPlansArgs = {
   id: Scalars['ID']['input']
 }
 
@@ -2471,6 +2543,13 @@ export type RootQueryAllPageArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>
   sort?: InputMaybe<Array<PageSorting>>
   where?: InputMaybe<PageFilter>
+}
+
+export type RootQueryAllPaymentPlansArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  sort?: InputMaybe<Array<PaymentPlansSorting>>
+  where?: InputMaybe<PaymentPlansFilter>
 }
 
 export type RootQueryAllProductInfoSettingsArgs = {
