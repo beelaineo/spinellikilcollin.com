@@ -1,7 +1,6 @@
 import * as React from 'react'
 import {
   AutocompleteItem,
-  AutocompleteItemWrapper,
   SearchForm,
   SearchInputWrapper,
   Separator,
@@ -205,31 +204,27 @@ export const SearchInput = () => {
                 sourceList?.map((item: any, index: number) => {
                   const source = item.source
 
-                  console.log('test', source.sourceId)
-
                   return (
                     sourceList.length > 0 && (
-                      <AutocompleteItemWrapper>
+                      <AutocompleteItem
+                        key={item.objectID}
+                        className="aa-Item"
+                        {...autocomplete.getItemProps({
+                          item,
+                          source,
+                        })}
+                      >
                         {source.sourceId === 'recentSearchesPlugin' && (
                           <Separator>
                             <SearchClockIcon />
                           </Separator>
                         )}
-                        <AutocompleteItem
-                          key={item.objectID}
-                          className="aa-Item"
-                          {...autocomplete.getItemProps({
-                            item,
-                            source,
-                          })}
-                        >
-                          {source.sourceId === 'querySuggestionsPlugin'
-                            ? item.query
-                            : source.sourceId === 'products'
-                            ? item.title
-                            : item.label}
-                        </AutocompleteItem>
-                      </AutocompleteItemWrapper>
+                        {source.sourceId === 'querySuggestionsPlugin'
+                          ? item.query
+                          : source.sourceId === 'products'
+                          ? item.title
+                          : item.label}
+                      </AutocompleteItem>
                     )
                   )
                 })}

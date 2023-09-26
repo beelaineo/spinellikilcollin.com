@@ -93,20 +93,19 @@ export const Results = styled.div`
   padding: 3 0 8;
 `
 
-export const AutocompleteItemWrapper = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: row;
-
-  gap: 4px;
-  align-items: center;
-`
+export const AutocompleteItemWrapper = styled.div``
 
 export const Separator = styled.span`
   position: relative;
   pointer-events: none;
-  width: 18px;
-  height: 18px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  svg {
+    width: 14px;
+    height: 14px;
+    fill: body.6;
+  }
 `
 
 export const AutocompleteItem = styled.li<any>`
@@ -114,10 +113,21 @@ export const AutocompleteItem = styled.li<any>`
   cursor: pointer;
   position: relative;
   text-transform: capitalize;
-  opacity: 0.5;
+  color: body.6;
+
+  position: relative;
+  display: flex;
+  flex-direction: row;
+
+  gap: 4px;
+  align-items: center;
 
   &:hover {
-    opacity: 1;
+    color: body.8;
+
+    svg {
+      fill: body.8;
+    }
   }
 `
 
@@ -140,6 +150,7 @@ export const StyledSearchInput = styled(Input)<any>`
     width: fit-content;
     -webkit-appearance: none;
     -webkit-border-radius: 0;
+    color: body.8;
 
     caret-color: #222222;
 
