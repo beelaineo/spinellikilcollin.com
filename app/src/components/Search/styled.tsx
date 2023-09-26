@@ -103,7 +103,6 @@ export const Separator = styled.span`
   svg {
     width: 14px;
     height: 14px;
-    fill: body.6;
   }
 `
 
@@ -123,10 +122,6 @@ export const AutocompleteItem = styled.li<any>`
 
   &:hover {
     color: body.8;
-
-    svg {
-      fill: body.8;
-    }
   }
 `
 
