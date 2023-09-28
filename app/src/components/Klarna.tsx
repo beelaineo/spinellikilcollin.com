@@ -4,7 +4,7 @@ import { useCurrency } from '../providers/CurrencyProvider'
 
 const { useState, useEffect } = React
 
-interface AffirmProps {
+interface KlarnaProps {
   price?: {
     amount?: string | number | null
   } | null
@@ -13,7 +13,7 @@ interface AffirmProps {
 const toCents = (shopifyPrice: string | number): number =>
   parseInt(shopifyPrice.toString(), 10) * 100
 
-export const Affirm = ({ price }: AffirmProps) => {
+export const Klarna = ({ price }: KlarnaProps) => {
   const { currentCurrency } = useCurrency()
   const [isMounted, setIsMounted] = useState(false)
   if (!price) return null
@@ -24,11 +24,10 @@ export const Affirm = ({ price }: AffirmProps) => {
   }, [])
 
   useEffect(() => {
-    if (currentCurrency !== 'USD') return
     // @ts-ignore
-    if (window && window.affirm && window.affirm.ui.refresh) {
+    if (window && window.Klarna?.OnsiteMessaging?.refresh) {
       // @ts-ignore
-      window.affirm.ui.refresh()
+      window.Klarna.OnsiteMessaging.refresh()
     }
   }, [isMounted, amount, currentCurrency])
 
@@ -39,13 +38,14 @@ export const Affirm = ({ price }: AffirmProps) => {
   const cents = toCents(amount)
 
   return (
-    <Heading level={5} weight={2} my={0}>
-      <span
-        style={{ display: 'block', height: '20px' }} //fixed height to prevent jumping
-        className="affirm-as-low-as"
-        data-amount={cents}
-        data-affirm-color="black"
+    <>
+      {/* @ts-ignore */}
+      <klarna-placement
+        id="klarnaPlacement"
+        data-key="credit-promotion-auto-size"
+        data-locale="en-US"
+        data-purchase-amount={cents}
       />
-    </Heading>
+    </>
   )
 }

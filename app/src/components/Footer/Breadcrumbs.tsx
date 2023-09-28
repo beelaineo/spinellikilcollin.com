@@ -116,6 +116,7 @@ const Route2LabelMap = {
   '/pages/[slug]': 'Page Not Found',
   '/products': 'Collection',
   '/customize/quiz': 'Quiz',
+  '/about/financing': 'Financing',
 }
 
 export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
@@ -206,7 +207,9 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
           crumbLabels[1] = collection?.title
           break
         case 'about':
-          if (
+          if (segmentsPath[2] === 'financing') {
+            crumbLabels[2] = 'Financing'
+          } else if (
             segmentsPath[2] === 'issues-we-care-about' ||
             segmentsPath[2] === 'product-sourcing'
           ) {

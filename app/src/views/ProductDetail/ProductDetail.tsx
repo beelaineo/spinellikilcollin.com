@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
@@ -48,6 +49,7 @@ import { useModal } from '../../providers/ModalProvider'
 import {
   ProductPageWrapper,
   AffirmWrapper,
+  KlarnaWrapper,
   ProductDetails,
   ProductInfoWrapper,
   ProductImagesWrapper,
@@ -62,6 +64,7 @@ import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { sanityClient } from '../../services/sanity'
 import { CustomizeButton } from './components/CustomizeButton'
+import { Klarna } from '../../components/Klarna'
 
 const { useEffect, useState } = React
 
@@ -123,14 +126,11 @@ export const ProductDetail = ({ product }: Props) => {
   const [images] = unwindEdges(product?.sourceData?.images)
   const hidden = product?.hideFromSearch
 
+  /* Add the variant ID as a query parameter */
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
     sendProductDetailView({ product, variant: currentVariant })
-  }, [currentVariant])
 
-  /* Add the variant ID as a query parameter */
-  useEffect(() => {
-    if (!currentVariant) return
     const newUri = getProductUri(product, {
       variant: currentVariant,
       currentPath: router.asPath,
@@ -516,9 +516,27 @@ export const ProductDetail = ({ product }: Props) => {
                   />
                   {inquiryOnly !== true &&
                   product.sourceData?.productType !== 'Gift Card' ? (
-                    <AffirmWrapper>
-                      <Affirm price={currentVariant?.sourceData?.priceV2} />
-                    </AffirmWrapper>
+                    <>
+                      <AffirmWrapper>
+                        <style jsx global>{`
+                          #klarnaPlacement::part(osm-cta) {
+                            text-decoration: none;
+                          }
+                          #klarnaPlacement ::part(osm-message) {
+                            font-family: 'Inferi', 'Georgia', serif;
+                            font-weight: 200;
+                            line-height: 18.2px;
+                          }
+                          #klarnaPlacement ::part(osm-cta) {
+                            font-family: 'Inferi', 'Georgia', serif;
+                            font-weight: 200;
+                            line-height: 18.2px;
+                          }
+                        `}</style>
+                        <Affirm price={currentVariant?.sourceData?.priceV2} />
+                        <Klarna price={currentVariant?.sourceData?.priceV2} />
+                      </AffirmWrapper>
+                    </>
                   ) : null}
 
                   <ProductAccordionsWrapper>

@@ -154,6 +154,15 @@ export default class MyDocument extends Document {
             }}
             strategy="beforeInteractive"
           />
+          {/* Klarna config */}
+          <Script
+            id="klarna-script"
+            async
+            data-environment="production"
+            src="https://js.klarna.com/web-sdk/v1/klarna.js"
+            data-client-id="c7897f4b-e31b-570a-992e-a5e959d99bd0"
+            strategy="beforeInteractive"
+          />
         </Head>
         <body>
           {/* Pinterest */}

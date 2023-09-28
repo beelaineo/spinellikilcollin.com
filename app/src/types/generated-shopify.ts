@@ -2675,7 +2675,7 @@ export enum ShopifyStorefrontCurrencyCode {
    * @deprecated `VEF` is deprecated. Use `VES` available from version `2020-10` onwards instead.
    */
   Vef = 'VEF',
-  /** Venezuelan Bolivares (VES). */
+  /** Venezuelan Bolivares Soberanos (VES). */
   Ves = 'VES',
   /** Vietnamese đồng (VND). */
   Vnd = 'VND',
