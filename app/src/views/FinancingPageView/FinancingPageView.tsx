@@ -35,10 +35,18 @@ const ProvidersNav = styled.nav`
       cursor: pointer;
       display: inline-block;
       padding-bottom: 4;
-      &:hover,
+      transition: all 0.3s ease; // Added for smooth visual feedback
+
+      &:hover {
+        transform: translateY(-2px); // Slight lift effect
+      }
+
+      // Active state
       &.active {
-        border-bottom: 1px solid black;
-        margin-bottom: -1px;
+        transform: translateY(1px); // Slight press effect
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // Subtle shadow for pressed state
+        border-bottom: 1px solid black; // Thicker border for emphasis
+        margin-bottom: -1px; // Adjust margin for thicker border
       }
     }
 
@@ -58,8 +66,10 @@ export const FinancingPageView = ({ page }: FinancingPageProps) => {
     image: seo?.image,
   }
 
+  console.log('providers', providers)
+
   const [activeProvider, setActiveProvider] = React.useState<string | null>(
-    null,
+    'aa2522c18a00',
   )
 
   return (
