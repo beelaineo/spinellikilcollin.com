@@ -22,6 +22,7 @@ const paths = [
   '/925',
   '/about',
   '/about/contact',
+  '/about/financing',
   '/about/faq',
   '/about/team',
   '/about/[pageSlug]',
