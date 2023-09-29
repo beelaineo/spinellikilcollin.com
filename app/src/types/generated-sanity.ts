@@ -65,7 +65,7 @@ export type AboutFilter = {
   title?: InputMaybe<StringFilter>
 }
 
-export type AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrLoyaltyOrMagazineOrNewCustomerOrPageOrPaymentPlansOrShopifyCollectionOrShopifyProductOrTeamPage =
+export type AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrShopifyCollectionOrShopifyProductOrTeamPage =
 
     | About
     | Contact
@@ -73,25 +73,9 @@ export type AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrLoyaltyOr
     | Faq
     | JournalEntry
     | JournalPage
-    | Loyalty
     | Magazine
-    | NewCustomer
     | Page
     | PaymentPlans
-    | ShopifyCollection
-    | ShopifyProduct
-    | TeamPage
-
-export type AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage =
-
-    | About
-    | Contact
-    | Customize
-    | Faq
-    | JournalEntry
-    | JournalPage
-    | Magazine
-    | Page
     | ShopifyCollection
     | ShopifyProduct
     | TeamPage
@@ -1354,7 +1338,7 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
-  document?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrLoyaltyOrMagazineOrNewCustomerOrPageOrPaymentPlansOrShopifyCollectionOrShopifyProductOrTeamPage>
+  document?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrShopifyCollectionOrShopifyProductOrTeamPage>
   queryParams?: Maybe<Array<Maybe<QueryParam>>>
 }
 
@@ -1822,7 +1806,7 @@ export interface PageLink {
   /** Optional. Defaults to "Learn more" */
   ctaText?: Maybe<Scalars['String']['output']>
   image?: Maybe<RichImage>
-  linkedPage?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
+  linkedPage?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrShopifyCollectionOrShopifyProductOrTeamPage>
   summary?: Maybe<Scalars['String']['output']>
   /** Optional. By default the linked page title will be used. */
   title?: Maybe<Scalars['String']['output']>
