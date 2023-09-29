@@ -44,7 +44,6 @@ const ProvidersNav = styled.nav`
       // Active state
       &.active {
         transform: translateY(1px); // Slight press effect
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); // Subtle shadow for pressed state
         border-bottom: 1px solid black; // Thicker border for emphasis
         margin-bottom: -1px; // Adjust margin for thicker border
       }
