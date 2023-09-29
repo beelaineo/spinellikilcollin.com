@@ -11,6 +11,7 @@ import {
   JournalEntry,
   Contact,
   Faq,
+  PaymentPlans,
 } from '../types'
 
 import { getIdFromBase64 } from './shopify'
@@ -27,6 +28,7 @@ export type Document =
   | JournalEntry
   | Contact
   | Faq
+  | PaymentPlans
 
 export interface LinkInfo {
   href: string
@@ -48,6 +50,7 @@ export const getPageLinkLabel = (
     case 'Page':
     case 'TeamPage':
     case 'Faq':
+    case 'PaymentPlans':
       return document.title
     case 'About':
       return 'About'
@@ -125,6 +128,10 @@ export const getPageLinkUrl = (
     case 'About':
       return {
         href: '/about'.concat(paramString),
+      }
+    case 'PaymentPlans':
+      return {
+        href: '/about/financing',
       }
     default:
       throw new Error(
