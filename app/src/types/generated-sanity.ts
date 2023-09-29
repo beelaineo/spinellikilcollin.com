@@ -65,6 +65,23 @@ export type AboutFilter = {
   title?: InputMaybe<StringFilter>
 }
 
+export type AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrLoyaltyOrMagazineOrNewCustomerOrPageOrPaymentPlansOrShopifyCollectionOrShopifyProductOrTeamPage =
+
+    | About
+    | Contact
+    | Customize
+    | Faq
+    | JournalEntry
+    | JournalPage
+    | Loyalty
+    | Magazine
+    | NewCustomer
+    | Page
+    | PaymentPlans
+    | ShopifyCollection
+    | ShopifyProduct
+    | TeamPage
+
 export type AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage =
 
     | About
@@ -1337,7 +1354,7 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
-  document?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrShopifyCollectionOrShopifyProductOrTeamPage>
+  document?: Maybe<AboutOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrLoyaltyOrMagazineOrNewCustomerOrPageOrPaymentPlansOrShopifyCollectionOrShopifyProductOrTeamPage>
   queryParams?: Maybe<Array<Maybe<QueryParam>>>
 }
 

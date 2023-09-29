@@ -130,6 +130,9 @@ export const internalLink = {
         { type: 'customize' },
         { type: 'about' },
         { type: 'page' },
+        { type: 'loyalty' },
+        { type: 'newCustomer' },
+        { type: 'paymentPlans' },
       ],
     },
     {
