@@ -28,6 +28,7 @@ import { Price } from '../Price'
 import { StringValueNode } from 'graphql'
 import { CSSTransition } from 'react-transition-group'
 import { render } from '@testing-library/react'
+import { Klarna } from '../Klarna'
 
 const { useState, useRef, useEffect } = React
 
@@ -200,7 +201,29 @@ export const Checkout = () => {
                     (item) =>
                       item.variant?.product?.productType === 'Gift Card',
                   ) ? null : (
-                    <Affirm price={checkout.paymentDueV2} />
+                    <div>
+                      <style
+                        jsx
+                        // eslint-disable-next-line react/no-unknown-property
+                        global
+                      >{`
+                        #klarnaPlacement::part(osm-cta) {
+                          text-decoration: none;
+                        }
+                        #klarnaPlacement ::part(osm-message) {
+                          font-family: 'Inferi', 'Georgia', serif;
+                          font-weight: 200;
+                          line-height: 18.2px;
+                        }
+                        #klarnaPlacement ::part(osm-cta) {
+                          font-family: 'Inferi', 'Georgia', serif;
+                          font-weight: 200;
+                          line-height: 18.2px;
+                        }
+                      `}</style>
+                      <Affirm price={checkout.paymentDueV2} />
+                      <Klarna price={checkout.paymentDueV2} />
+                    </div>
                   )}
                 </div>
               </SubtotalWrapper>

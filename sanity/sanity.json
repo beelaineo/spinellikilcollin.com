@@ -31,6 +31,14 @@
         "projectId": "i21fjdbi",
         "dataset": "staging"
       }
+    },
+    {
+      "name": "migration",
+      "title": "Sanity v3 Migration",
+      "api": {
+        "projectId": "i21fjdbi",
+        "dataset": "migration"
+      }
     }
   ],
   "plugins": [
