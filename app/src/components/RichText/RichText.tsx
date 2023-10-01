@@ -192,7 +192,7 @@ const serializers = ({
     const weight = customWeight ?? 4
 
     if (node._type === 'richImage') {
-      return <Image image={node} sizes={imageSizes} />
+      return <Image image={node} sizes={imageSizes} richImage />
     }
     if (node._type === 'form') {
       return (

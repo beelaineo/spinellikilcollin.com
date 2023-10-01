@@ -75,6 +75,7 @@ interface ImageProps {
   ratio?: number
   loading?: 'eager' | 'lazy' | undefined
   placeholder?: 'shadow' | undefined
+  richImage?: boolean
 
   /**
    * The css/html sizes at which this image is expected to appear,
@@ -127,6 +128,7 @@ export const Image = ({
   loading,
   objectFit,
   placeholder,
+  richImage,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
@@ -175,7 +177,7 @@ export const Image = ({
     <Wrapper ref={containerRef}>
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
       {src && (preload || isInViewOnce) ? (
-        <Picture objectFit={objectFit} loaded={loaded}>
+        <Picture objectFit={objectFit} loaded={loaded} richImage={richImage}>
           {lqip ? (
             <BlurImage src={lqip} />
           ) : placeholder === 'shadow' ? (
