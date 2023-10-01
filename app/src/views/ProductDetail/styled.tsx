@@ -69,12 +69,37 @@ export const InfoWrapper = styled.div<WithProduct>`
       display: block;
       padding: ${product?.sourceData?.productType === 'Gift Card'
         ? '0 0 7'
-        : '6 0 7'};
+        : '96px 0 7'};
     }
   `}
 `
 
 export const AffirmWrapper = styled.div`
+  ${({ theme }) => css`
+    margin-top: 5;
+    font-family: 'Inferi', 'Georgia', serif !important;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2;
+
+    ${theme.mediaQueries.tablet} {
+      grid-row: 3;
+      margin: 4 auto 0;
+      width: 100%;
+      max-width: small;
+      align-items: center;
+    }
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom(0, 6)}
+      }
+    }
+  `}
+`
+
+export const KlarnaWrapper = styled.div`
   ${({ theme }) => css`
     margin-top: 5;
     ${theme.mediaQueries.tablet} {

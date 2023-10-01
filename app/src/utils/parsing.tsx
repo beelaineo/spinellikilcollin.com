@@ -16,7 +16,7 @@ export const getHeroImage = (hero?: Hero | null): RichImage | undefined => {
 }
 
 export const getFirstImage = (
-  blocks?: Maybe<Scalars['JSON']> | null,
+  blocks?: Maybe<{ [key: string]: any }> | null,
 ): RichImage | undefined =>
   blocks ? blocks.find((b) => b._type === 'richImage') : undefined
 
@@ -87,7 +87,7 @@ const transform = (node, index) => {
             const { href: aHref, as } = getLinkFromHref(href)
             return (
               <Link key={index} href={aHref} as={as}>
-                <a>{node.children.map(transform)}</a>
+                {node.children.map(transform)}
               </Link>
             )
           }

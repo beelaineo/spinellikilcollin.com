@@ -60,6 +60,9 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
     if (ref === 'journalPage') {
       return getPageLinkUrl({ __typename: 'JournalPage' })
     }
+    if (ref === 'paymentPlans') {
+      return getPageLinkUrl({ __typename: 'PaymentPlans' })
+    }
     if (ref === 'magazine') return getPageLinkUrl({ __typename: 'Magazine' })
     if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
     const page = allPages.find((page) => page._id === ref)

@@ -217,6 +217,12 @@ const pageQueryById = gql`
               current
             }
           }
+          ... on PaymentPlans {
+            _id
+            _type
+            _key
+            title
+          }
           ... on ShopifyProduct {
             _id
             _key

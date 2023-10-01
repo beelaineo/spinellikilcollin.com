@@ -41,7 +41,7 @@ export const Affirm = ({ price }: AffirmProps) => {
   return (
     <Heading level={5} weight={2} my={0}>
       <span
-        style={{ display: 'block' }}
+        style={{ display: 'block', height: '20px' }} //fixed height to prevent jumping
         className="affirm-as-low-as"
         data-amount={cents}
         data-affirm-color="black"

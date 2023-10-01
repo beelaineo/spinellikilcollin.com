@@ -1,4 +1,4 @@
-import useSWR, { responseInterface as ResponseInterface } from 'swr'
+import useSWR, { SWRResponse as ResponseInterface } from 'swr'
 import { DocumentNode } from 'graphql'
 import { print } from 'graphql/language/printer'
 import { request as gqlRequest } from 'graphql-request'

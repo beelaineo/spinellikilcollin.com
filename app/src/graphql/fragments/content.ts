@@ -140,6 +140,13 @@ export const internalLinkFragment = gql`
         }
       }
 
+      ... on PaymentPlans {
+        _id
+        _type
+        _key
+        title
+      }
+
       ... on ShopifyProduct {
         _id
         _key
@@ -689,6 +696,7 @@ export const heroFragment = gql`
     textColorMobileCustom {
       ...ColorFragment
     }
+    textXL
     textContainer
     textPosition
     textPositionMobile

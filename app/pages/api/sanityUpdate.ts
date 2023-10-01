@@ -12,6 +12,8 @@ export default async function handler(req, res) {
         ? '/journal'
         : type == 'about'
         ? '/about'
+        : type == 'paymentPlans'
+        ? '/about/financing'
         : type == 'contact'
         ? '/about/contact'
         : type == 'faq'

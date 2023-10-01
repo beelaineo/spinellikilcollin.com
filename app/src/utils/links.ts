@@ -11,6 +11,7 @@ import {
   JournalEntry,
   Contact,
   Faq,
+  PaymentPlans,
 } from '../types'
 
 import { getIdFromBase64 } from './shopify'
@@ -27,6 +28,7 @@ export type Document =
   | JournalEntry
   | Contact
   | Faq
+  | PaymentPlans
 
 export interface LinkInfo {
   href: string
@@ -48,6 +50,7 @@ export const getPageLinkLabel = (
     case 'Page':
     case 'TeamPage':
     case 'Faq':
+    case 'PaymentPlans':
       return document.title
     case 'About':
       return 'About'
@@ -126,6 +129,10 @@ export const getPageLinkUrl = (
       return {
         href: '/about'.concat(paramString),
       }
+    case 'PaymentPlans':
+      return {
+        href: '/about/financing',
+      }
     default:
       throw new Error(
         // @ts-ignore
@@ -174,6 +181,15 @@ export const getLocationSearchHash = (search: string): string => {
     result = decodeURIComponent(searchString[1])
   }
   return result
+}
+
+export const getLocationSearchVariantId = (search: string): string => {
+  let result: string = ''
+  const searchString = search.split('?v=')
+  if (searchString.length === 2) {
+    result = decodeURIComponent(searchString[1])
+  }
+  return Buffer.from(decodeURIComponent(result), 'base64').toString('utf-8')
 }
 
 export const getProductIdLocationSearch = (search: string): string => {
