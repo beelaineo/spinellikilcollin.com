@@ -73,7 +73,7 @@ export const Input = styled.input`
   ${({ color, theme, type }) => css`
     padding: 3 2;
     height: 42px;
-    width: 100%;
+    // width: 100%;
     display: block;
     border-color: body.5;
     font-size: 5;

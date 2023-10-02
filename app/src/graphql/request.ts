@@ -72,8 +72,9 @@ export const useRequest = <R, V extends Variables = Variables>(
 ) => {
   const { handleError } = useError()
   try {
-    return useSWR<R | null>([print(query), JSON.stringify(variables)], (q) =>
-      request<R>(q, variables),
+    return useSWR<R | null>(
+      [print(query), JSON.stringify(variables)],
+      (q: string | DocumentNode) => request<R>(q, variables),
     )
   } catch (e: any | unknown) {
     handleError(e, 'graphql_request_error', { query, variables })

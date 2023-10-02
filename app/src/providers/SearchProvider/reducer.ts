@@ -222,6 +222,7 @@ export const useSearchReducer = () => {
       exactOnSingleWordQuery: 'word',
       filters: `hideFromSearch:false`,
     })
+
     const results = hits
       .map((hit) => {
         const result = hit.document
