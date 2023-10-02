@@ -76,6 +76,11 @@
 		"utility-types": "^3.10.0"
 	},
 	"dependencies": {
+		"@algolia/autocomplete-core": "^1.11.0",
+		"@algolia/autocomplete-js": "^1.11.0",
+		"@algolia/autocomplete-plugin-query-suggestions": "^1.11.0",
+		"@algolia/autocomplete-plugin-recent-searches": "^1.11.0",
+		"@algolia/autocomplete-preset-algolia": "^1.11.0",
 		"@cloudinary/react": "^1.11.2",
 		"@cloudinary/url-gen": "^1.10.1",
 		"@good-idea/unwind-edges": "^1.5.3",
@@ -117,6 +122,7 @@
 		"postmark": "^3.0.18",
 		"public-ip": "^6.0.1",
 		"react": "^18.2.0",
+		"react-contenteditable": "^3.3.7",
 		"react-copy-html-to-clipboard": "^6.0.4",
 		"react-dom": "^18.2.0",
 		"react-icons": "^4.10.1",
