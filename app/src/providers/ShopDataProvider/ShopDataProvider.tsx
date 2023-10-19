@@ -53,6 +53,9 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
   const productInfoSettings = shopData?.ProductInfoSettings
   const productListingSettings = shopData?.ProductListingSettings
   const allPages = shopData?.allPage || []
+  const allJournalEntries = shopData?.allJournalEntry || []
+  const allCollections = shopData?.allShopifyCollection || []
+  const allProducts = shopData?.allShopifyProduct || []
 
   const getLinkByRef = (ref: string): LinkInfo | null => {
     if (!ref) return null
@@ -66,8 +69,28 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
     if (ref === 'magazine') return getPageLinkUrl({ __typename: 'Magazine' })
     if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
     const page = allPages.find((page) => page._id === ref)
+    const journalEntry = allJournalEntries.find((entry) => entry._id === ref)
+    const collection = allCollections?.find(
+      (collection) => collection._id === ref,
+    )
+    const product = allProducts?.find((product) => product._id === ref)
     if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
-    return { href: '/id/[nodeId]', as: `/id/${ref}` }
+    if (journalEntry)
+      return getPageLinkUrl({
+        __typename: 'JournalEntry',
+        slug: journalEntry.slug,
+      })
+    if (collection)
+      return getPageLinkUrl({
+        __typename: 'ShopifyCollection',
+        handle: collection.handle,
+      })
+    if (product)
+      return getPageLinkUrl({
+        __typename: 'ShopifyProduct',
+        handle: product.handle,
+      })
+    return { href: `/id/${ref}` }
     return null
   }
 

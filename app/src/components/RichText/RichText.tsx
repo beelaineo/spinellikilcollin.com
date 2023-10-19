@@ -11,6 +11,7 @@ import { useShopData } from '../../providers/ShopDataProvider'
 import { LinkInfo } from '../../utils'
 import { EmbeddedForm } from './EmbeddedForm'
 import { CloudinaryVideo } from '../CloudinaryVideo'
+import Link from 'next/link'
 
 interface CustomSerializerConfig {
   blockWrapper?: React.ComponentType
@@ -154,7 +155,7 @@ const serializers = ({
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
       const { as, href } = linkData
-      return <a href={href || as}>{children}</a>
+      return <Link href={href}>{children}</Link>
     },
     action: ({ children, mark }) => {
       const { actionType } = mark
