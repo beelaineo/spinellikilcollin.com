@@ -30,17 +30,18 @@ interface PictureProps {
   loaded: boolean
   objectFit?: string
   ratio?: number
+  richImage?: boolean
 }
 
 export const Picture = styled.picture`
-  ${({ loaded, objectFit, ratio }: PictureProps) => css`
+  ${({ loaded, objectFit, ratio, richImage }: PictureProps) => css`
     max-height: 100%;
     max-width: 100%;
     width: auto;
     background-color: transparent;
     display: block;
 
-    position: absolute;
+    position: ${richImage ? 'relative' : 'absolute'};
     top: 0;
     left: 0;
     right: 0;
