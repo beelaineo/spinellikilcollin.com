@@ -3,7 +3,7 @@ import { Label, Wrapper, Inner, Item } from './styled'
 import { useEffect, useRef } from 'react'
 
 interface AccordionProps {
-  label: string
+  renderLabel: any
   children: React.ReactNode
 }
 

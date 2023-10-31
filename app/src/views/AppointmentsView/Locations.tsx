@@ -1,21 +1,15 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Column, PageWrapper } from '../../components/Layout'
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import React, { useState } from 'react'
+import styled, { css } from '@xstyled/styled-components'
 
-import { PageText, Wrapper } from './styled'
-import { SEO } from '../../components/SEO'
-
-import { Heading, Span } from '../../components/Text'
 import { TextBlock } from '../../components/ContentBlock/TextBlock'
-import { Image } from '../../components/Image'
 import { ImageTextBlock } from '../../components/ContentBlock/ImageTextBlock'
 import { Button } from '../../components/Button'
 import { ContentBlock } from '../../components/ContentBlock'
-import { useMedia } from '../../hooks'
 import { Accordion } from './Accordion'
 
 interface LocationsProps {
   locations: any
+  isMedium: boolean
 }
 
 const ContentWrapper = styled.div`

@@ -44,8 +44,8 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   }, [label])
 
   return (
-    <Wrapper onClick={toggleOpen}>
-      <Label>
+    <Wrapper>
+      <Label onClick={toggleOpen}>
         {label}
         <PlusMinus open={open} />
       </Label>

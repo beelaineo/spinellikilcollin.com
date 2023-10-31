@@ -131,7 +131,9 @@ export const AppointmentsView = ({ appointments }: AppointmentsProps) => {
             </Heading>
           </PopupsHeadingWrapper>
           <PopupsWrapper>
-            <TextBlock content={upcomingPopups?.description} />
+            {upcomingPopups?.description && (
+              <TextBlock content={upcomingPopups?.description} />
+            )}
           </PopupsWrapper>
         </Grid>
       </Wrapper>
