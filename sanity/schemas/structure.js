@@ -180,6 +180,15 @@ export default () =>
                 .child(
                   S.editor().id('faq').schemaType('faq').documentId('faq'),
                 ),
+              S.listItem()
+                .title('Appointments')
+                .icon(MdLocalPhone)
+                .child(
+                  S.editor()
+                    .id('appointments')
+                    .schemaType('appointments')
+                    .documentId('appointments'),
+                ),
 
               S.listItem()
                 .title('Customize')

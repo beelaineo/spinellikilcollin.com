@@ -25,6 +25,7 @@ export const pageLink = {
         { type: 'magazine' },
         { type: 'contact' },
         { type: 'faq' },
+        { type: 'appointments' },
         { type: 'customize' },
         { type: 'about' },
         { type: 'page' },
