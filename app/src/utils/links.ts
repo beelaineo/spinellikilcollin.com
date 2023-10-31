@@ -12,6 +12,7 @@ import {
   Contact,
   Faq,
   PaymentPlans,
+  Appointments,
 } from '../types'
 
 import { getIdFromBase64 } from './shopify'
@@ -28,6 +29,7 @@ export type Document =
   | JournalEntry
   | Contact
   | Faq
+  | Appointments
   | PaymentPlans
 
 export interface LinkInfo {
@@ -50,6 +52,7 @@ export const getPageLinkLabel = (
     case 'Page':
     case 'TeamPage':
     case 'Faq':
+    case 'Appointments':
     case 'PaymentPlans':
       return document.title
     case 'About':
@@ -112,7 +115,10 @@ export const getPageLinkUrl = (
       return {
         href: '/about/faq'.concat(paramString),
       }
-
+    case 'Appointments':
+      return {
+        href: '/about/appointments'.concat(paramString),
+      }
     case 'Page':
       if (!document.slug || !document.slug.current) {
         throw new Error('This page does not have a slug')

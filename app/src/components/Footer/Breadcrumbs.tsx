@@ -107,6 +107,7 @@ const Route2LabelMap = {
   '/about': 'About',
   '/about/contact': 'Contact',
   '/about/faq': 'FAQ',
+  '/about/appointments': 'Appointments',
   '/about/team': 'Team',
   '/blogs': 'Blog',
   '/collections': 'Collections',
@@ -222,6 +223,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
               segmentsRoute.length > 2 &&
               segmentsRoute[2] !== 'contact' &&
               segmentsRoute[2] !== 'faq' &&
+              segmentsRoute[2] !== 'appointments' &&
               segmentsRoute[2] !== 'team'
             ) {
               const page = await getPage(router.query?.pageSlug)

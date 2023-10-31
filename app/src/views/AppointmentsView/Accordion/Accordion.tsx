@@ -1,14 +1,13 @@
 import * as React from 'react'
 import { Label, Wrapper, Inner, Item } from './styled'
 import { useEffect, useRef } from 'react'
-import { PlusMinus } from '../PlusMinus'
 
 interface AccordionProps {
   label: string
   children: React.ReactNode
 }
 
-export const Accordion = ({ label, children }: AccordionProps) => {
+export const Accordion = ({ renderLabel, children }: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
   const toggleOpen = () => setOpen(!open)
 
@@ -33,22 +32,9 @@ export const Accordion = ({ label, children }: AccordionProps) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (open) return
-
-    setTimeout(() => {
-      if (label !== 'Description') return
-
-      setOpen(label === 'Description')
-    }, 3000)
-  }, [label])
-
   return (
-    <Wrapper onClick={toggleOpen}>
-      <Label>
-        {label}
-        <PlusMinus open={open} />
-      </Label>
+    <Wrapper>
+      <Label onClick={() => setOpen(!open)}>{renderLabel()}</Label>
       <Inner tabIndex={-1} open={open} height={height}>
         <Item ref={refContainer}>{children}</Item>
       </Inner>
