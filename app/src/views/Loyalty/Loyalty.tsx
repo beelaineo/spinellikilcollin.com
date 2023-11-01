@@ -65,7 +65,6 @@ interface LoyaltyProps {
 export const Loyalty = ({ loyalty }: LoyaltyProps) => {
   const { seo, title, backgroundImage } = loyalty
   const { setColorTheme } = useNavigation()
-  console.log('backgroundImage', backgroundImage)
   const defaultSeo = {
     title: 'Loyalty',
   }

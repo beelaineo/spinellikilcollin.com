@@ -8,12 +8,13 @@ import { StateField } from '../CustomFields'
 import { Button } from '../../Button'
 import { CheckboxWrapper, ConsentWrapper } from './styled'
 import { submitToHubspot } from '../../../services'
+import { postmark } from '../../../services/postmark'
 import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
 import Script from 'next/script'
 import Link from 'next/link'
 import * as Yup from 'yup'
 
-const { useState } = React
+const { useState, useRef } = React
 
 interface WithVisible {
   visible: boolean
@@ -124,15 +125,36 @@ export const RingSizerForm = ({
 }: RingSizerFormProps) => {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
+  const [validatedAddress, setValidatedAddress] = useState<string | null>(null)
+  const [postalAddress, setPostalAddress] = useState<any | null>(null)
+  const [addressError, setAddressError] = useState<string | null>(null)
+
+  const formValuesRef = useRef<FormValues | null>(null)
 
   const handleSubmit = async (values: FormValues) => {
     setSubmitting(true)
-    await fetch('/api/requestRingSizer', {
+    formValuesRef.current = values
+
+    const response = await fetch('/api/requestRingSizer', {
       method: 'POST',
       body: JSON.stringify(values),
-    }).then((r) => r.json())
-    await submitToHubspot(values, formId)
-    setSuccess(true)
+    })
+    const data = await response.json()
+
+    if (data.error) {
+      setAddressError(data.error)
+      setSubmitting(false)
+      return
+    }
+
+    if (data.validatedAddress && data.postalAddress) {
+      setValidatedAddress(data.validatedAddress)
+      setPostalAddress(data.postalAddress)
+      setSubmitting(false)
+    } else {
+      // await submitToHubspot(values, formId)
+      // setSuccess(true)
+    }
   }
 
   const initialValues: FormValues = {
@@ -158,6 +180,30 @@ export const RingSizerForm = ({
       'You must consent to communications to submit this form.',
     ),
   })
+
+  const submitFinalFormWithValidatedAddress = async () => {
+    if (!formValuesRef.current) return
+
+    const newValues = {
+      ...formValuesRef.current,
+      address1: postalAddress.addressLines[0],
+      address2: postalAddress.addressLines[1],
+      city: postalAddress.locality,
+      state: postalAddress.administrativeArea,
+      zip: postalAddress.postalCode,
+      country: postalAddress.regionCode,
+    }
+
+    // Use the validatedAddress and other form data to finalize the submission
+    await submitToHubspot(newValues, formId)
+    // await postmark.sendRequestRingSizer(newValues)
+    const response = await fetch('/api/sendRingSizerEmail', {
+      method: 'POST',
+      body: JSON.stringify(newValues),
+    })
+    const postmarkData = await response.json()
+    setSuccess(true)
+  }
 
   return (
     <>
@@ -190,67 +236,120 @@ export const RingSizerForm = ({
             ) : null}
           </SuccessWrapper>
           <FieldsWrapper visible={!success}>
-            <Field
-              name="name"
-              label="Name"
-              placeholder="First and Last name"
-              required
-            />
-            <Field
-              name="email"
-              type="email"
-              label="Email Address"
-              placeholder=""
-              required
-            />
-            <Field name="address1" label="Mailing Address Line 1" required />
-            <Field name="address2" label="Mailing Address Line 2" />
-            <Field label="City" name="city" required />
-            <StateField label="State" name="state" required />
-            <Field label="Postal Code" name="zip" required />
-            <Field
-              label="Country"
-              name="country"
-              type="countrySelector"
-              required
-            />
-            <Field name="phone" type="tel" label="Phone Number" required />
-            <ConsentWrapper>
-              Spinelli Kilcollin is committed to respecting your privacy and we
-              will never sell your personal information. We only use your
-              information to administer your account and to provide you with the
-              best experience, products and services you requested from us. From
-              time to time, we may contact you about our products and services,
-              as well as other content that may interest you. If you consent to
-              us contacting you for this purpose, please check the box below.
-            </ConsentWrapper>
-            <CheckboxWrapper>
-              <Field
-                name="communicationsConsent"
-                type="checkbox"
-                label="I agree to receive other communications from Spinelli Kilcollin."
-              />
-            </CheckboxWrapper>
-            <Field name="product" type="hidden" />
-            <Field name="variant" type="hidden" />
-            <Button mt={2} type="submit">
-              Submit
-            </Button>
-            <ConsentWrapper>
-              You may unsubscribe from these communications at any time. For
-              more information on how to unsubscribe, our privacy practices, and
-              how we are committed to protecting and respecting your privacy,
-              please review our{' '}
-              <Link href="/about/privacy-policy" target="_blank">
-                Privacy Policy
-              </Link>
-              .
-            </ConsentWrapper>
-            <ConsentWrapper>
-              By clicking submit, you consent to allow Spinelli Kilcollin to
-              store and process the personal information submitted above to
-              provide you the content requested.
-            </ConsentWrapper>
+            {!validatedAddress && (
+              <>
+                <Field
+                  name="name"
+                  label="Name"
+                  placeholder="First and Last name"
+                  required
+                />
+                <Field
+                  name="email"
+                  type="email"
+                  label="Email Address"
+                  placeholder=""
+                  required
+                />
+                <Field
+                  name="address1"
+                  label="Mailing Address Line 1"
+                  placeholder={'Street address, P.O. Box, company name, c/o'}
+                  required
+                />
+                <Field
+                  name="address2"
+                  label="Mailing Address Line 2"
+                  placeholder="Apartment, suite, unit, building, floor, etc."
+                />
+                <Field label="City" name="city" required />
+                <StateField label="State" name="state" required />
+                <Field label="Postal Code" name="zip" required />
+                <Field
+                  label="Country"
+                  name="country"
+                  type="countrySelector"
+                  required
+                />
+                <Field name="phone" type="tel" label="Phone Number" required />
+                <ConsentWrapper>
+                  Spinelli Kilcollin is committed to respecting your privacy and
+                  we will never sell your personal information. We only use your
+                  information to administer your account and to provide you with
+                  the the best experience, products and services you requested
+                  from time to time, we may contact you about our products and
+                  services, as well as other content that may interest you. If
+                  you consent to us contacting you for this purpose, please
+                  check the box below.
+                </ConsentWrapper>
+                <CheckboxWrapper>
+                  <Field
+                    name="communicationsConsent"
+                    type="checkbox"
+                    label="I agree to receive other communications from Spinelli Kilcollin."
+                  />
+                </CheckboxWrapper>
+                <Field name="product" type="hidden" />
+                <Field name="variant" type="hidden" />
+              </>
+            )}
+            {addressError && (
+              <div style={{ color: 'red', marginTop: '10px' }}>
+                {addressError}
+              </div>
+            )}
+            {validatedAddress && (
+              <div
+                style={{
+                  border: '1px solid #ddd',
+                  padding: '10px',
+                  marginTop: '10px',
+                }}
+              >
+                <p>Is this your address?</p>
+                <strong>{validatedAddress}</strong>
+                <div style={{ marginTop: '10px' }}>
+                  <Button
+                    onClick={() => {
+                      submitFinalFormWithValidatedAddress()
+                    }}
+                  >
+                    Confirm Address
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      // Clear the validatedAddress to let the user modify the form
+                      setValidatedAddress(null)
+                    }}
+                    style={{ marginLeft: '10px' }}
+                  >
+                    Modify Address
+                  </Button>
+                </div>
+              </div>
+            )}
+            {!validatedAddress && (
+              <>
+                <Button mt={2} type="submit">
+                  Submit
+                </Button>
+                <ConsentWrapper>
+                  You may unsubscribe from these communications at any time. For
+                  more information on how to unsubscribe, our privacy practices,
+                  and how we are committed to protecting and respecting your
+                  privacy, please review our{' '}
+                  <Link href="/about/privacy-policy" target="_blank">
+                    Privacy Policy
+                  </Link>
+                  .
+                </ConsentWrapper>
+                <ConsentWrapper>
+                  By clicking submit, you consent to allow Spinelli Kilcollin to
+                  store and process the personal information submitted above to
+                  provide you the content requested.
+                </ConsentWrapper>
+              </>
+            )}
           </FieldsWrapper>
         </Form>
       </MainWrapper>
