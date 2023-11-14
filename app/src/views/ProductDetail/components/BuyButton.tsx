@@ -198,7 +198,7 @@ export const BuyButton = ({
       >
         {buttonLabel}
       </BuyButtonEl>
-      {isSticky ? <ButtonSpacer ref={spacerRef} /> : null}
+      {/* {isSticky ? <ButtonSpacer ref={spacerRef} /> : null} */}
     </>
   )
 }
