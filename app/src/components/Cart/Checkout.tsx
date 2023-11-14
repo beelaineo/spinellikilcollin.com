@@ -201,7 +201,7 @@ export const Checkout = () => {
                     (item) =>
                       item.variant?.product?.productType === 'Gift Card',
                   ) ? null : (
-                    <div>
+                    <div className="payment-plans">
                       <style
                         jsx
                         // eslint-disable-next-line react/no-unknown-property
@@ -219,6 +219,20 @@ export const Checkout = () => {
                           font-family: 'Inferi', 'Georgia', serif;
                           font-weight: 200;
                           line-height: 18.2px;
+                        }
+                        @media screen and (max-width: 460px) {
+                          .payment-plans
+                            #klarnaPlacement
+                            ::part(osm-container) {
+                            margin-top: 1.5em;
+                          }
+                        }
+                        @media screen and (min-width: 640px) {
+                          .payment-plans
+                            #klarnaPlacement
+                            ::part(osm-container) {
+                            margin-top: 1.5em;
+                          }
                         }
                       `}</style>
                       <Affirm price={checkout.paymentDueV2} />
