@@ -1,16 +1,10 @@
 import * as React from 'react'
-import { BlockPreview } from '../components/BlockPreview'
-import { actionTypes } from './shared'
-import {
-  getTypeText,
-  getReferencedDocument,
-  getShopifyThumbnail,
-} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
+import {actionTypes} from './shared'
+import {getTypeText, getReferencedDocument, getShopifyThumbnail} from '../utils'
 
 const getActionTitle = (action) => {
-  const actionType = actionTypes.find(
-    (a) => a.value === action || a.title === action,
-  )
+  const actionType = actionTypes.find((a) => a.value === action || a.title === action)
   if (!actionType) {
     throw new Error(`"${action}" is not a valid CTA action`)
   }
@@ -18,7 +12,7 @@ const getActionTitle = (action) => {
 }
 
 const getPreviewValues = async (values) => {
-  const { action, label } = values
+  const {action, label} = values
 
   if (action) {
     return {
@@ -27,9 +21,7 @@ const getPreviewValues = async (values) => {
     }
   }
   if (values.link_external) {
-    const subtitles = [`🔗 External Link: ${values.link_external.url}`].filter(
-      Boolean,
-    )
+    const subtitles = [`🔗 External Link: ${values.link_external.url}`].filter(Boolean)
 
     return {
       title: label,
@@ -37,14 +29,13 @@ const getPreviewValues = async (values) => {
     }
   }
   if (values.link) {
-    const { document } = values.link
+    const {document} = values.link
     if (!document || !document._ref) {
-      return { title: '(empty)' }
+      return {title: '(empty)'}
     }
     const doc = await getReferencedDocument(document._ref)
     const src =
-      doc &&
-      (doc._type === 'shopifyProduct' || doc._type === 'shopifyCollection')
+      doc && (doc._type === 'shopifyProduct' || doc._type === 'shopifyCollection')
         ? getShopifyThumbnail(doc)
         : undefined
 
@@ -71,7 +62,7 @@ export const cta = {
   title: 'CTA Button',
   type: 'object',
   icon: () => (
-    <span role="img" aria-label="Link" style={{ fontSize: '3em' }}>
+    <span role="img" aria-label="Link" style={{fontSize: '3em'}}>
       🔗
     </span>
   ),
@@ -89,9 +80,9 @@ export const cta = {
       initialValue: 'internal',
       options: {
         list: [
-          { title: 'Internal', value: 'internal' },
-          { title: 'External', value: 'external' },
-          { title: 'Action', value: 'action' },
+          {title: 'Internal', value: 'internal'},
+          {title: 'External', value: 'external'},
+          {title: 'Action', value: 'action'},
         ],
       },
     },
@@ -99,13 +90,13 @@ export const cta = {
       type: 'internalLink',
       name: 'link',
       title: 'Internal Link',
-      hidden: ({ parent }) => parent.linkType !== 'internal',
+      hidden: ({parent}) => parent.linkType !== 'internal',
     },
     {
       type: 'externalLink',
       name: 'link_external',
       title: 'External Link',
-      hidden: ({ parent }) => parent.linkType !== 'external',
+      hidden: ({parent}) => parent.linkType !== 'external',
     },
     {
       name: 'action',
@@ -116,7 +107,7 @@ export const cta = {
       options: {
         list: actionTypes,
       },
-      hidden: ({ parent }) => parent.linkType !== 'action',
+      hidden: ({parent}) => parent.linkType !== 'action',
     },
     {
       name: 'bambuser',
@@ -133,8 +124,6 @@ export const cta = {
       label: 'label',
       action: 'action',
     },
-    component: (props) => (
-      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
-    ),
+    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
 }

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { actionTypes } from './shared'
+import {actionTypes} from './shared'
 
 export const textAction = {
   name: 'textAction',
@@ -8,7 +8,7 @@ export const textAction = {
   description: 'Have the selected text launch an action when clicked',
   blockEditor: {
     icon: () => (
-      <span role="img" aria-label="Link" style={{ fontSize: '1em' }}>
+      <span role="img" aria-label="Link" style={{fontSize: '1em'}}>
         🚀
       </span>
     ),
@@ -27,7 +27,7 @@ export const textAction = {
     select: {
       actionType: 'actionType',
     },
-    prepare: ({ actionType }) => {
+    prepare: ({actionType}) => {
       return {
         title: actionType,
         subtitle: 'Action',

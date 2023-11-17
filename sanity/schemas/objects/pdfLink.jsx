@@ -7,7 +7,7 @@ export const pdfLink = {
   type: 'object',
   blockEditor: {
     icon: () => (
-      <span role="img" aria-label="PDF Link" style={{ fontSize: '1em' }}>
+      <span role="img" aria-label="PDF Link" style={{fontSize: '1em'}}>
         📄
       </span>
     ),
@@ -30,7 +30,7 @@ export const pdfLink = {
       title: 'title',
       filename: 'pdf.asset.originalFilename',
     },
-    prepare: ({ title, filename }) => {
+    prepare: ({title, filename}) => {
       return {
         title: title,
         subtitle: filename,

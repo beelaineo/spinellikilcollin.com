@@ -1,16 +1,16 @@
-import { withDocument } from 'part:@sanity/form-builder'
-import { PatchEvent, set, unset } from 'part:@sanity/form-builder/patch-event'
+import {withDocument} from 'part:@sanity/form-builder'
+import {PatchEvent, set, unset} from 'part:@sanity/form-builder/patch-event'
 
 import * as React from 'react'
-import { useState, useEffect } from 'react'
+import {useState, useEffect} from 'react'
 
 import client from 'part:@sanity/base/client'
 import FormField from 'part:@sanity/components/formfields/default'
 import SearchableSelect from 'part:@sanity/components/selects/searchable'
-import { useId } from '@reach/auto-id'
+import {useId} from '@reach/auto-id'
 
 // eslint-disable-next-line react/display-name
-export const ProductVariantSelector = React.forwardRef(({ props }, ref) => {
+export const ProductVariantSelector = React.forwardRef(({props}, ref) => {
   const {
     type,
     value,
@@ -51,7 +51,7 @@ export const ProductVariantSelector = React.forwardRef(({ props }, ref) => {
   //   [onChange],
   // )
 
-  const handleChange = ({ props }) => {
+  const handleChange = ({props}) => {
     onChange(PatchEvent.from(set(props.children)))
     setInputValue(null)
   }
@@ -82,7 +82,7 @@ export const ProductVariantSelector = React.forwardRef(({ props }, ref) => {
       variants
         .filter((v) => v.toLowerCase().indexOf(query.toLowerCase()) > -1)
         // eslint-disable-next-line react/jsx-key
-        .map((v) => <div>{v}</div>),
+        .map((v) => <div>{v}</div>)
     )
   }
 

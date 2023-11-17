@@ -1,13 +1,9 @@
 import * as React from 'react'
-import {
-  getReferencedDocument,
-  getImageThumbnail,
-  blocksToPlainText,
-} from '../utils'
-import { BlockPreview } from '../components/BlockPreview'
+import {getReferencedDocument, getImageThumbnail, blocksToPlainText} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
 
 const getPreviewValues = async (values) => {
-  const { body, ctaText, media, link } = values
+  const {body, ctaText, media, link} = values
   const getTitle = async () => {
     if (body && body.length) return blocksToPlainText(title)
     if (ctaText) return ctaText
@@ -61,11 +57,7 @@ export const imageTextBlock = {
     {
       name: 'link',
       type: 'array',
-      of: [
-        { type: 'internalLink' },
-        { type: 'externalLink' },
-        { type: 'pdfLink' },
-      ],
+      of: [{type: 'internalLink'}, {type: 'externalLink'}, {type: 'pdfLink'}],
     },
     {
       name: 'textPosition',
@@ -83,8 +75,8 @@ export const imageTextBlock = {
       title: 'Layout',
       options: {
         list: [
-          { title: 'Normal', value: 'normal' },
-          { title: 'Full Width', value: 'fullWidth' },
+          {title: 'Normal', value: 'normal'},
+          {title: 'Full Width', value: 'fullWidth'},
         ],
         layout: 'radio',
         direction: 'horizontal',
@@ -118,8 +110,6 @@ export const imageTextBlock = {
       media: 'backgroundImage',
       link: 'link',
     },
-    component: (props) => (
-      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
-    ),
+    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
 }

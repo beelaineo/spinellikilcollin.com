@@ -1,17 +1,11 @@
 import * as React from 'react'
-import { BlockPreview } from '../components/BlockPreview'
-import {
-  getImageThumbnail,
-  getReferencedDocument,
-  blocksToPlainText,
-} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
+import {getImageThumbnail, getReferencedDocument, blocksToPlainText} from '../utils'
 
 const getPreviewValues = async (values) => {
-  const { title, image, link } = values
+  const {title, image, link} = values
 
-  const linkedDoc = link
-    ? await getReferencedDocument(link.document._ref)
-    : undefined
+  const linkedDoc = link ? await getReferencedDocument(link.document._ref) : undefined
 
   const subtitles = [
     //
@@ -36,9 +30,9 @@ export const hero = {
     collapsed: true,
   },
   fieldsets: [
-    { name: 'display', title: 'Layout & Colors' },
-    { name: 'image', title: 'Image' },
-    { name: 'video', title: 'Video' },
+    {name: 'display', title: 'Layout & Colors'},
+    {name: 'image', title: 'Image'},
+    {name: 'video', title: 'Video'},
   ],
   fields: [
     {
@@ -61,7 +55,7 @@ export const hero = {
       name: 'cta',
       title: 'CTA',
       type: 'array',
-      of: [{ type: 'cta' }],
+      of: [{type: 'cta'}],
       validation: (Rule) => Rule.max(1),
     },
 
@@ -74,8 +68,8 @@ export const hero = {
       fieldset: 'display',
       options: {
         list: [
-          { title: '2:1', value: 0.5 },
-          { title: '16:9', value: 0.5625 },
+          {title: '2:1', value: 0.5},
+          {title: '16:9', value: 0.5625},
         ],
         layout: 'radio',
         direction: 'horizontal',
@@ -96,26 +90,25 @@ export const hero = {
       initialValue: 'full',
       options: {
         list: [
-          { title: 'Full Width: Text over Image', value: 'full' },
-          { title: 'Flex: Text / Image', value: 'flex-left' },
-          { title: 'Flex: Image / Text', value: 'flex-right' },
+          {title: 'Full Width: Text over Image', value: 'full'},
+          {title: 'Flex: Text / Image', value: 'flex-left'},
+          {title: 'Flex: Image / Text', value: 'flex-right'},
         ],
       },
     },
     {
       name: 'textContainer',
       title: 'Text Container Size',
-      description:
-        'Limit the size of the text container. (Default: Full Width)',
+      description: 'Limit the size of the text container. (Default: Full Width)',
       type: 'string',
       fieldset: 'display',
       options: {
         list: [
-          { title: 'Full Width', value: 'full' },
-          { title: 'Half-left', value: 'half-left' },
-          { title: 'Half-right', value: 'half-right' },
-          { title: 'Half-top', value: 'half-left' },
-          { title: 'Half-bottom', value: 'half-right' },
+          {title: 'Full Width', value: 'full'},
+          {title: 'Half-left', value: 'half-left'},
+          {title: 'Half-right', value: 'half-right'},
+          {title: 'Half-top', value: 'half-left'},
+          {title: 'Half-bottom', value: 'half-right'},
         ],
       },
     },
@@ -123,8 +116,7 @@ export const hero = {
       name: 'textXL',
       label: 'Text Oversized',
       type: 'boolean',
-      description:
-        'Extra-large heading text size for banners (for use with H1)',
+      description: 'Extra-large heading text size for banners (for use with H1)',
     },
     {
       name: 'textPosition',
@@ -150,7 +142,7 @@ export const hero = {
       title: 'Text Color (custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({ parent }) => parent.textColor !== 'custom',
+      hidden: ({parent}) => parent.textColor !== 'custom',
     },
     {
       name: 'textColorMobile',
@@ -163,7 +155,7 @@ export const hero = {
       title: 'Text Color (mobile, custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({ parent }) => parent.textColorMobile !== 'custom',
+      hidden: ({parent}) => parent.textColorMobile !== 'custom',
     },
 
     {
@@ -177,7 +169,7 @@ export const hero = {
       title: 'Background Color (custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({ parent }) => parent.backgroundColor !== 'custom',
+      hidden: ({parent}) => parent.backgroundColor !== 'custom',
     },
     {
       name: 'mobileBackgroundColor',
@@ -190,7 +182,7 @@ export const hero = {
       title: 'Background Color (mobile, custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({ parent }) => parent.mobileBackgroundColor !== 'custom',
+      hidden: ({parent}) => parent.mobileBackgroundColor !== 'custom',
     },
 
     /* Video */
@@ -233,8 +225,6 @@ export const hero = {
       }
     },
 
-    component: (props) => (
-      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
-    ),
+    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
 }

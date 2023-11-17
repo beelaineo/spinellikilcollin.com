@@ -1,5 +1,6 @@
 export * from './directory'
 export * from './about'
+export * from './collection'
 export * from './team'
 export * from './productListingSettings'
 export * from './siteSettings'

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { MdInfo } from 'react-icons/md'
+import {MdInfo} from 'react-icons/md'
 
 const wrapperStyles = {
   display: 'grid',
@@ -22,7 +22,7 @@ const pStyles = {
 }
 
 const Hidden = (props) => {
-  const { description } = props.type
+  const {description} = props.type
   if (!description) return null
   return (
     <div style={wrapperStyles}>

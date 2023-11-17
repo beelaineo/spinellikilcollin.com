@@ -25,7 +25,7 @@ export const filterByPriceRange = {
       maxPrice: 'maxPrice',
       minPrice: 'minPrice',
     },
-    prepare: ({ minPrice, maxPrice }) => {
+    prepare: ({minPrice, maxPrice}) => {
       return {
         title: 'Price Range',
         subtitle: `From $${minPrice} to $${maxPrice}`,
@@ -51,7 +51,7 @@ export const filterByInventory = {
     select: {
       label: 'label',
     },
-    prepare: ({ label }) => {
+    prepare: ({label}) => {
       return {
         title: 'Inventory Filter',
         subtitle: `${label}`,
@@ -60,8 +60,8 @@ export const filterByInventory = {
   },
 }
 
-const FilterMatchPreview = ({ value }) => {
-  const { match, type } = value
+const FilterMatchPreview = ({value}) => {
+  const {match, type} = value
   if (!type || !match) {
     return <h2>(empty)</h2>
   }
@@ -82,8 +82,7 @@ const FilterMatchPreview = ({ value }) => {
       ? 'Product variant style equals'
       : type === 'By Variant Stone'
       ? 'Product variant stones include'
-      : type ===
-        'By Variant Size (note: does not exclude non-matches, only reorders query results)'
+      : type === 'By Variant Size (note: does not exclude non-matches, only reorders query results)'
       ? 'Variant sizes include'
       : null
   if (!titlePrefix) {
@@ -91,7 +90,7 @@ const FilterMatchPreview = ({ value }) => {
   }
 
   return (
-    <h4 style={{ fontWeight: 400, margin: 0 }}>
+    <h4 style={{fontWeight: 400, margin: 0}}>
       {titlePrefix}:{' '}
       <pre
         style={{
@@ -117,19 +116,19 @@ export const filterMatch = {
       options: {
         layout: 'radio',
         list: [
-          { title: 'By Product Subcategory', value: 'subcategory' },
+          {title: 'By Product Subcategory', value: 'subcategory'},
           {
             title:
               'By Variant Size (note: does not exclude non-matches, only reorders query results)',
             value: 'size',
           },
-          { title: 'By Variant Metal', value: 'metal' },
-          { title: 'By Variant Style', value: 'style' },
-          { title: 'By Variant Stone', value: 'stone' },
-          { title: 'By Tag', value: 'tag' },
-          { title: 'By Product Type', value: 'type' },
-          { title: 'By Product Title', value: 'title' },
-          { title: 'By Option Name', value: 'option' },
+          {title: 'By Variant Metal', value: 'metal'},
+          {title: 'By Variant Style', value: 'style'},
+          {title: 'By Variant Stone', value: 'stone'},
+          {title: 'By Tag', value: 'tag'},
+          {title: 'By Product Type', value: 'type'},
+          {title: 'By Product Title', value: 'title'},
+          {title: 'By Option Name', value: 'option'},
         ],
       },
       validation: (Rule) => Rule.required(),
@@ -150,8 +149,8 @@ export const filterMatch = {
   },
 }
 
-const FilterPreview = ({ value }) => {
-  const { label, matches } = value
+const FilterPreview = ({value}) => {
+  const {label, matches} = value
   if (!matches) return null
   const tagMatches = matches.filter((m) => m.type === 'tag')
   const typeMatches = matches.filter((m) => m.type === 'type')
@@ -164,44 +163,33 @@ const FilterPreview = ({ value }) => {
   const sizeMatches = matches.filter((m) => m.type === 'size')
   const subtitles = [
     titleMatches.length
-      ? `Matches title: ${titleMatches.map(({ match }) => match).join(', ')}`
+      ? `Matches title: ${titleMatches.map(({match}) => match).join(', ')}`
       : null,
-    tagMatches.length
-      ? `Matches tags: ${tagMatches.map(({ match }) => match).join(', ')}`
-      : null,
+    tagMatches.length ? `Matches tags: ${tagMatches.map(({match}) => match).join(', ')}` : null,
     optionMatches.length
-      ? `Matches options: ${optionMatches.map(({ match }) => match).join(', ')}`
+      ? `Matches options: ${optionMatches.map(({match}) => match).join(', ')}`
       : null,
-    typeMatches.length
-      ? `Matches type: ${typeMatches.map(({ match }) => match).join(', ')}`
-      : null,
+    typeMatches.length ? `Matches type: ${typeMatches.map(({match}) => match).join(', ')}` : null,
     subcategoryMatches.length
-      ? `Matches subcategory: ${subcategoryMatches
-          .map(({ match }) => match)
-          .join(', ')}`
+      ? `Matches subcategory: ${subcategoryMatches.map(({match}) => match).join(', ')}`
       : null,
     metalMatches.length
-      ? `Matches metal: ${metalMatches.map(({ match }) => match).join(', ')}`
+      ? `Matches metal: ${metalMatches.map(({match}) => match).join(', ')}`
       : null,
     styleMatches.length
-      ? `Matches style: ${styleMatches.map(({ match }) => match).join(', ')}`
+      ? `Matches style: ${styleMatches.map(({match}) => match).join(', ')}`
       : null,
     stoneMatches.length
-      ? `Matches stone: ${stoneMatches.map(({ match }) => match).join(', ')}`
+      ? `Matches stone: ${stoneMatches.map(({match}) => match).join(', ')}`
       : null,
-    sizeMatches.length
-      ? `Matches size: ${sizeMatches.map(({ match }) => match).join(', ')}`
-      : null,
+    sizeMatches.length ? `Matches size: ${sizeMatches.map(({match}) => match).join(', ')}` : null,
   ].filter(Boolean)
   return (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <h4 style={{ fontWeight: 500, margin: '0 15px 0 0' }}>{label}</h4>
+    <div style={{display: 'flex', alignItems: 'center'}}>
+      <h4 style={{fontWeight: 500, margin: '0 15px 0 0'}}>{label}</h4>
       <div>
         {subtitles.map((subtitle) => (
-          <h6
-            key={subtitle}
-            style={{ color: 'gray', fontWeight: 400, margin: 0 }}
-          >
+          <h6 key={subtitle} style={{color: 'gray', fontWeight: 400, margin: 0}}>
             {subtitle}
           </h6>
         ))}
@@ -228,7 +216,7 @@ export const filter = {
       name: 'matches',
       title: 'Matches any of:',
       type: 'array',
-      of: [{ type: 'filterMatch' }],
+      of: [{type: 'filterMatch'}],
     },
   ],
   preview: {
@@ -255,13 +243,12 @@ export const filterSet = {
       name: 'filters',
       title: 'Filters',
       type: 'array',
-      of: [{ type: 'filter' }],
+      of: [{type: 'filter'}],
     },
     {
       name: 'searchOnly',
       title: 'Search Filter Only',
-      description:
-        'If selected, this filter will not appear on collection page filters',
+      description: 'If selected, this filter will not appear on collection page filters',
       type: 'boolean',
     },
   ],
@@ -272,9 +259,9 @@ export const productFilter = {
   type: 'array',
   title: 'Product Listing Filter',
   of: [
-    { type: 'filter' },
-    { type: 'filterSet' },
-    { type: 'priceRangeFilter' },
-    { type: 'inventoryFilter' },
+    {type: 'filter'},
+    {type: 'filterSet'},
+    {type: 'priceRangeFilter'},
+    {type: 'inventoryFilter'},
   ],
 }

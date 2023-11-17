@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { FaList } from 'react-icons/fa'
+import {FaList} from 'react-icons/fa'
 
 export const directory = {
   type: 'document',
@@ -34,7 +34,7 @@ export const directory = {
       name: 'pageLinks',
       title: 'Page Blocks',
       type: 'array',
-      of: [{ type: 'pageLink' }],
+      of: [{type: 'pageLink'}],
     },
     {
       name: 'seo',
@@ -43,12 +43,11 @@ export const directory = {
     },
   ],
   preview: {
-    select: { title: 'title' },
-    prepare: ({ title }) => {
+    select: {title: 'title'},
+    prepare: ({title}) => {
       return {
         media: <FaList />,
         title,
-        // media: <span style={{ fontSize: '1.5rem' }}>{'🎫'}</span>,
       }
     },
   },

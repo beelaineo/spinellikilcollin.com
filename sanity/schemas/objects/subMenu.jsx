@@ -1,22 +1,20 @@
 import * as React from 'react'
-import { groupBy, prop } from 'ramda'
-import { IoIosListBox, IoIosLink } from 'react-icons/io'
-import { BlockPreview } from '../components/BlockPreview'
-import { getReferencedDocument, getShopifyThumbnail } from '../utils'
-import { actionTypes } from './shared'
+import {groupBy, prop} from 'ramda'
+import {IoIosListBox, IoIosLink} from 'react-icons/io'
+import {BlockPreview} from '../components/BlockPreview'
+import {getReferencedDocument, getShopifyThumbnail} from '../utils'
+import {actionTypes} from './shared'
 
 const getPreviewValues = async (values) => {
-  const { link, label, link_external, action, linkType } = values
-  if (!link && !link_external && !action) return { title: 'Missing Link' }
+  const {link, label, link_external, action, linkType} = values
+  if (!link && !link_external && !action) return {title: 'Missing Link'}
 
   const linkedDoc = !(!link || !link.document || !link.document._ref)
     ? await getReferencedDocument(link.document._ref)
     : undefined
 
   const shopifyThumbnail =
-    linkedDoc &&
-    (linkedDoc._type === 'shopifyProduct' ||
-      linkedDoc._type === 'shopifyCollection')
+    linkedDoc && (linkedDoc._type === 'shopifyProduct' || linkedDoc._type === 'shopifyCollection')
       ? getShopifyThumbnail(linkedDoc)
       : undefined
 
@@ -54,9 +52,9 @@ export const MenuLink = {
       options: {
         required: true,
         list: [
-          { title: 'Internal', value: 'internal' },
-          { title: 'External', value: 'external' },
-          { title: 'Action', value: 'action' },
+          {title: 'Internal', value: 'internal'},
+          {title: 'External', value: 'external'},
+          {title: 'Action', value: 'action'},
         ],
       },
     },
@@ -64,13 +62,13 @@ export const MenuLink = {
       type: 'internalLink',
       name: 'link',
       title: 'Internal Link',
-      hidden: ({ parent }) => parent.linkType !== 'internal',
+      hidden: ({parent}) => parent.linkType !== 'internal',
     },
     {
       type: 'externalLink',
       name: 'link_external',
       title: 'External Link',
-      hidden: ({ parent }) => parent.linkType !== 'external',
+      hidden: ({parent}) => parent.linkType !== 'external',
     },
     {
       name: 'action',
@@ -81,7 +79,7 @@ export const MenuLink = {
       options: {
         list: actionTypes,
       },
-      hidden: ({ parent }) => parent.linkType !== 'action',
+      hidden: ({parent}) => parent.linkType !== 'action',
     },
   ],
   preview: {
@@ -93,9 +91,7 @@ export const MenuLink = {
       linkType: 'linkType',
     },
     prepare: (val) => val,
-    component: (props) => (
-      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
-    ),
+    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
 }
 
@@ -115,7 +111,7 @@ export const subMenu = {
       title: 'Links & Submenus',
       name: 'links',
       type: 'array',
-      of: [{ type: 'cta' }, { type: 'subMenu' }],
+      of: [{type: 'cta'}, {type: 'subMenu'}],
     },
   ],
   preview: {
@@ -123,21 +119,17 @@ export const subMenu = {
       title: 'title',
       links: 'links',
     },
-    prepare: ({ title, links }) => {
+    prepare: ({title, links}) => {
       const byType = groupBy(prop('_type'), links || {})
 
-      const { richPageLink: richPageLinks, linkGroup: linkGroups } = byType
+      const {richPageLink: richPageLinks, linkGroup: linkGroups} = byType
 
       const subtitle = [
         richPageLinks && richPageLinks.length
-          ? `${richPageLinks.length} Page Link${
-              richPageLinks.length === 1 ? '' : 's'
-            }`
+          ? `${richPageLinks.length} Page Link${richPageLinks.length === 1 ? '' : 's'}`
           : undefined,
         linkGroups && linkGroups.length
-          ? `${linkGroups.length} Link Group${
-              linkGroups.length === 1 ? '' : 's'
-            }`
+          ? `${linkGroups.length} Link Group${linkGroups.length === 1 ? '' : 's'}`
           : undefined,
       ]
         .filter(Boolean)

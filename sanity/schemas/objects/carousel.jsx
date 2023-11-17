@@ -1,29 +1,18 @@
 import * as React from 'react'
-import { BlockPreview } from '../components/BlockPreview'
-import {
-  getShopifyThumbnail,
-  getPageLinkThumbnail,
-  getReferencedDocument,
-} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
+import {getShopifyThumbnail, getPageLinkThumbnail, getReferencedDocument} from '../utils'
 
 const getPreviewValues = async (values) => {
-  const { title, collection, items } = values
+  const {title, collection, items} = values
 
-  const collectionDoc = collection
-    ? await getReferencedDocument(collection._ref)
-    : undefined
-  const collectionImage = collectionDoc
-    ? await getShopifyThumbnail(collectionDoc)
-    : undefined
+  const collectionDoc = collection ? await getReferencedDocument(collection._ref) : undefined
+  const collectionImage = collectionDoc ? await getShopifyThumbnail(collectionDoc) : undefined
 
-  const firstItemImage =
-    items && items.length ? await getPageLinkThumbnail(items[0]) : undefined
+  const firstItemImage = items && items.length ? await getPageLinkThumbnail(items[0]) : undefined
 
   const subtitles = [
     collectionDoc ? `🔗 Collection: ${collectionDoc.title}` : undefined,
-    items && items.length
-      ? `🔗 ${items.length} Link${items.length === 1 ? '' : 's'}`
-      : undefined,
+    items && items.length ? `🔗 ${items.length} Link${items.length === 1 ? '' : 's'}` : undefined,
   ].filter(Boolean)
 
   return {
@@ -50,11 +39,11 @@ export const carousel = {
       of: [
         {
           type: 'block',
-          styles: [{ title: 'Normal', value: 'normal' }],
+          styles: [{title: 'Normal', value: 'normal'}],
           marks: {
             decorators: [
-              { title: 'Strong', value: 'strong' },
-              { title: 'Emphasis', value: 'em' },
+              {title: 'Strong', value: 'strong'},
+              {title: 'Emphasis', value: 'em'},
             ],
           },
         },
@@ -66,13 +55,13 @@ export const carousel = {
       type: 'reference',
       description:
         'Create a carousel from a collection. If a collection is used, items linked to below be ignored.',
-      to: [{ type: 'shopifyCollection' }],
+      to: [{type: 'shopifyCollection'}],
     },
     {
       name: 'items',
       label: 'Carousel Items',
       type: 'array',
-      of: [{ type: 'richPageLink' }],
+      of: [{type: 'richPageLink'}],
     },
   ],
   preview: {
@@ -81,8 +70,6 @@ export const carousel = {
       items: 'items',
       collection: 'collection',
     },
-    component: (props) => (
-      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
-    ),
+    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
 }

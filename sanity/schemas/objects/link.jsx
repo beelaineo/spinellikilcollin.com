@@ -1,16 +1,12 @@
 import * as React from 'react'
-import { BlockPreview } from '../components/BlockPreview'
-import {
-  getTypeText,
-  getReferencedDocument,
-  getShopifyThumbnail,
-} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
+import {getTypeText, getReferencedDocument, getShopifyThumbnail} from '../utils'
 
 const getPreviewValues = async (values) => {
-  const { document } = values
+  const {document} = values
 
   if (!document || !document._ref) {
-    return { title: '(empty)' }
+    return {title: '(empty)'}
   }
   const doc = await getReferencedDocument(document._ref)
   const src =
@@ -37,7 +33,7 @@ export const externalLink = {
   type: 'object',
   name: 'externalLink',
   icon: () => (
-    <span role="img" aria-label="Link" style={{ fontSize: '1em' }}>
+    <span role="img" aria-label="Link" style={{fontSize: '1em'}}>
       🔗
     </span>
   ),
@@ -60,7 +56,7 @@ export const externalLink = {
       url: 'url',
       newTab: 'newTab',
     },
-    prepare: ({ url, newTab }) => {
+    prepare: ({url, newTab}) => {
       return {
         title: url,
         subtitle: newTab ? '⧉ Opens in new tab' : undefined,
@@ -93,7 +89,7 @@ export const queryParam = {
       key: 'key',
       value: 'value',
     },
-    prepare: ({ key, value }) => {
+    prepare: ({key, value}) => {
       return {
         title: `${key}=${value}`,
       }
@@ -108,7 +104,7 @@ export const internalLink = {
   type: 'object',
   blockEditor: {
     icon: () => (
-      <span role="img" aria-label="Link" style={{ fontSize: '1em' }}>
+      <span role="img" aria-label="Link" style={{fontSize: '1em'}}>
         🔗
       </span>
     ),
@@ -119,18 +115,18 @@ export const internalLink = {
       title: 'Linked Page',
       type: 'reference',
       to: [
-        { type: 'shopifyProduct' },
-        { type: 'shopifyCollection' },
-        { type: 'journalPage' },
-        { type: 'journalEntry' },
-        { type: 'teamPage' },
-        { type: 'magazine' },
-        { type: 'contact' },
-        { type: 'faq' },
-        { type: 'customize' },
-        { type: 'about' },
-        { type: 'page' },
-        { type: 'paymentPlans' },
+        {type: 'shopifyProduct'},
+        {type: 'shopifyCollection'},
+        {type: 'journalPage'},
+        {type: 'journalEntry'},
+        {type: 'teamPage'},
+        {type: 'magazine'},
+        {type: 'contact'},
+        {type: 'faq'},
+        {type: 'customize'},
+        {type: 'about'},
+        {type: 'page'},
+        {type: 'paymentPlans'},
       ],
     },
     {
@@ -138,16 +134,14 @@ export const internalLink = {
       name: 'queryParams',
       description: 'Add query parameter(s) to the link route.',
       type: 'array',
-      of: [{ type: 'queryParam' }],
+      of: [{type: 'queryParam'}],
     },
   ],
   preview: {
     select: {
       document: 'document',
     },
-    component: (props) => (
-      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
-    ),
+    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
 }
 
@@ -161,11 +155,7 @@ export const richPageLink = {
       name: 'document',
       title: 'Linked Page',
       type: 'reference',
-      to: [
-        { type: 'shopifyProduct' },
-        { type: 'shopifyCollection' },
-        { type: 'page' },
-      ],
+      to: [{type: 'shopifyProduct'}, {type: 'shopifyCollection'}, {type: 'page'}],
       validation: (Rule) => Rule.required(),
     },
     {
@@ -183,11 +173,11 @@ export const richPageLink = {
       of: [
         {
           type: 'block',
-          styles: [{ title: 'Normal', value: 'normal' }],
+          styles: [{title: 'Normal', value: 'normal'}],
           marks: {
             decorators: [
-              { title: 'Strong', value: 'strong' },
-              { title: 'Emphasis', value: 'em' },
+              {title: 'Strong', value: 'strong'},
+              {title: 'Emphasis', value: 'em'},
             ],
           },
         },
@@ -196,15 +186,13 @@ export const richPageLink = {
     {
       name: 'image',
       title: 'Image',
-      description:
-        'If left empty, the image of the linked product or document will be used.',
+      description: 'If left empty, the image of the linked product or document will be used.',
       type: 'richImage',
     },
     {
       name: 'hoverImage',
       title: 'Hover Image',
-      description:
-        'If left empty, the second image of the linked product will be used.',
+      description: 'If left empty, the second image of the linked product will be used.',
       type: 'richImage',
     },
   ],
@@ -214,8 +202,6 @@ export const richPageLink = {
       title: 'title',
       image: 'image',
     },
-    component: (props) => (
-      <BlockPreview {...props} getPreviewValues={getPreviewValues} />
-    ),
+    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
 }

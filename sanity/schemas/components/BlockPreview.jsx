@@ -1,12 +1,6 @@
 import * as React from 'react'
-import {
-  wrapperStyles,
-  imageStyles,
-  textWrapperStyles,
-  titleStyles,
-  subtitleStyles,
-} from './styles'
-import { Loading } from './Loading'
+import {wrapperStyles, imageStyles, textWrapperStyles, titleStyles, subtitleStyles} from './styles'
+import {Loading} from './Loading'
 
 export class BlockPreview extends React.Component {
   state = {
@@ -34,7 +28,7 @@ export class BlockPreview extends React.Component {
   }
 
   render() {
-    const { src, title, subtitles, loading } = this.state
+    const {src, title, subtitles, loading} = this.state
     return (
       <div style={wrapperStyles}>
         {loading ? (
