@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {BlockPreview} from '../components/BlockPreview'
+import {BlockPreview} from '../../components/BlockPreview'
 import {actionTypes} from './shared'
 import {getTypeText, getReferencedDocument, getShopifyThumbnail} from '../utils'
 

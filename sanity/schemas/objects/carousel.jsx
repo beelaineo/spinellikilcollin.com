@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {BlockPreview} from '../components/BlockPreview'
+import {BlockPreview} from '../../components/BlockPreview'
 import {getShopifyThumbnail, getPageLinkThumbnail, getReferencedDocument} from '../utils'
 
 const getPreviewValues = async (values) => {

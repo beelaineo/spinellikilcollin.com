@@ -3,7 +3,7 @@
  */
 import {ListItemBuilder, StructureResolver} from 'sanity/desk'
 import collections from './collectionStructure'
-import colorThemes from './colorThemeStructure'
+// import colorThemes from './colorThemeStructure'
 import home from './homeStructure'
 import pages from './pageStructure'
 import products from './productStructure'
@@ -32,7 +32,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
 
   return ![
     'collection',
-    'colorTheme',
+    // 'colorTheme',
     'home',
     'media.tag',
     'page',
@@ -51,8 +51,8 @@ export const structure: StructureResolver = (S, context) =>
       S.divider(),
       collections(S, context),
       products(S, context),
-      S.divider(),
-      colorThemes(S, context),
+      // S.divider(),
+      // colorThemes(S, context),
       S.divider(),
       settings(S, context),
       S.divider(),

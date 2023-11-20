@@ -3,9 +3,9 @@ import {defineField, defineType} from 'sanity'
 import {PackageIcon} from '@sanity/icons'
 import {getExtension} from '@sanity/asset-utils'
 import pluralize from 'pluralize-esm'
-import CollectionHiddenInput from '../components/inputs/CollectionHidden'
-import ShopifyIcon from '../components/icons/Shopify'
-import ShopifyDocumentStatus from '../components/media/ShopifyDocumentStatus'
+import CollectionHiddenInput from '../../components/inputs/CollectionHidden'
+import ShopifyIcon from '../../components/icons/Shopify'
+import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus'
 
 const GROUPS = [
   {
@@ -99,13 +99,13 @@ export const collection = defineType({
       description: 'Collection data from Shopify (read-only)',
       group: 'shopifySync',
     }),
-    // SEO
-    defineField({
-      name: 'seo',
-      title: 'SEO',
-      type: 'shopifySeo',
-      group: 'seo',
-    }),
+    // // SEO
+    // defineField({
+    //   name: 'seo',
+    //   title: 'SEO',
+    //   type: 'shopifySeo',
+    //   group: 'seo',
+    // }),
   ],
   orderings: [
     {

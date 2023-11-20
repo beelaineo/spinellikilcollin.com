@@ -7,7 +7,7 @@ export const homepage = {
       name: 'content',
       label: 'Content',
       type: 'array',
-      of: [{ type: 'hero' }, { type: 'carousel' }, { type: 'imageTextBlock' }],
+      of: [{type: 'hero'}, {type: 'carousel'}, {type: 'imageTextBlock'}],
     },
     {
       name: 'header_color',

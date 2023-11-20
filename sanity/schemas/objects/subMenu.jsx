@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {groupBy, prop} from 'ramda'
 import {IoIosListBox, IoIosLink} from 'react-icons/io'
-import {BlockPreview} from '../components/BlockPreview'
+import {BlockPreview} from '../../components/BlockPreview'
 import {getReferencedDocument, getShopifyThumbnail} from '../utils'
 import {actionTypes} from './shared'
 

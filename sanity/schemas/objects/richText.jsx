@@ -20,22 +20,59 @@ export const defaultExternalLink = {
   ],
 }
 
-const TextSpan = ({ fontSize, backgroundColor, children, fontWeight }) => (
-  <span style={{ fontSize, fontWeight, backgroundColor }}>{children}</span>
+const TextSpan = ({fontSize, backgroundColor, children, fontWeight}) => (
+  <span style={{fontSize, fontWeight, backgroundColor}}>{children}</span>
 )
 
-const createBlockEditorConfig = ({ label, fontWeight }) => ({
+const createBlockEditorConfig = ({label, fontWeight}) => ({
   icon: () => (
     <TextSpan fontSize={11} fontWeight={fontWeight}>
       {label}
     </TextSpan>
   ),
-  render: ({ children }) => (
+  render: ({children}) => (
     <TextSpan backgroundColor="#e5e8f7" fontWeight={fontWeight}>
       {children}
     </TextSpan>
   ),
 })
+
+import {actionTypes} from './shared'
+
+const textActionObject = {
+  name: 'textAction',
+  title: 'Action',
+  type: 'object',
+  description: 'Have the selected text launch an action when clicked',
+  blockEditor: {
+    icon: () => (
+      <span role="img" aria-label="Link" style={{fontSize: '1em'}}>
+        🚀
+      </span>
+    ),
+  },
+  fields: [
+    {
+      name: 'actionType',
+      title: 'Action Type',
+      type: 'string',
+      options: {
+        list: actionTypes,
+      },
+    },
+  ],
+  preview: {
+    select: {
+      actionType: 'actionType',
+    },
+    prepare: ({actionType}) => {
+      return {
+        title: actionType,
+        subtitle: 'Action',
+      }
+    },
+  },
+}
 
 export const richText = {
   name: 'richText',
@@ -87,26 +124,22 @@ export const richText = {
               fontWeight: 900,
             }),
           },
-          { title: 'Italic', value: 'em' },
-          { title: 'Underline', value: 'underline' },
+          {title: 'Italic', value: 'em'},
+          {title: 'Underline', value: 'underline'},
         ],
         annotations: [
-          { name: 'link', type: 'link', title: 'External Link' },
+          {name: 'link', type: 'link', title: 'External Link'},
           {
             name: 'internalLink',
             type: 'internalLink',
             title: 'Internal Link',
           },
-          {
-            name: 'action',
-            type: 'textAction',
-            title: 'Action',
-          },
+          textActionObject,
         ],
       },
     },
-    { type: 'richImage' },
-    { type: 'cloudinaryVideo' },
-    { type: 'form' },
+    {type: 'richImage'},
+    {type: 'cloudinaryVideo'},
+    {type: 'form'},
   ],
 }
