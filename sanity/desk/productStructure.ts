@@ -6,25 +6,25 @@ import {GiDiamondRing} from 'react-icons/gi'
 export default defineStructure<ListItemBuilder>((S) =>
   S.listItem()
     .title('Products')
-    .schemaType('product')
+    .schemaType('shopifyProduct')
     .icon(GiDiamondRing)
     .child(
-      S.documentTypeList('product')
+      S.documentTypeList('shopifyProduct')
         // .defaultLayout('detail')
         .child(async (id) =>
           S.list()
             .title('Product')
             .canHandleIntent(
-              (intentName, params) => intentName === 'edit' && params.type === 'product'
+              (intentName, params) => intentName === 'edit' && params.type === 'shopifyProduct'
             )
             .items([
               // Details
               S.listItem()
                 .title('Details')
                 .icon(InfoOutlineIcon)
-                .schemaType('product')
+                .schemaType('shopifyProduct')
                 .id(id)
-                .child(S.document().schemaType('product').documentId(id)),
+                .child(S.document().schemaType('shopifyProduct').documentId(id)),
               // Product variants
               S.listItem()
                 .title('Variants')

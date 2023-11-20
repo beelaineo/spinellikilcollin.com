@@ -6,6 +6,6 @@ export default defineStructure<ListItemBuilder>((S) =>
   S.listItem()
     .title('Collections')
     .icon(TiThSmallOutline)
-    .schemaType('collection')
-    .child(S.documentTypeList('collection'))
+    .schemaType('shopifyCollection')
+    .child(S.documentTypeList('shopifyCollection'))
 )

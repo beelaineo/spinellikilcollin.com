@@ -1,58 +1,59 @@
-import * as React from 'react'
-import {wrapperStyles, imageStyles, textWrapperStyles, titleStyles, subtitleStyles} from './styles'
+import React, {useState, useEffect} from 'react'
+import styled from 'styled-components'
 import {Loading} from './Loading'
 
-export class BlockPreview extends React.Component {
-  state = {
+const Wrapper = styled.div
+const Image = styled.img
+const TextWrapper = styled.div
+const Title = styled.p
+const Subtitle = styled.h4
+
+// TypeScript (optional): Define types for your props
+// interface BlockPreviewProps {
+//   getPreviewValues?: (value: any) => Promise<any>;
+//   value: any;
+// }
+
+export const BlockPreview = (props) => {
+  const [state, setState] = useState({
     title: '',
     src: undefined,
     subtitles: [],
     loading: true,
-  }
+  })
 
-  componentDidMount() {
-    this.fetchValues()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.fetchValues(nextProps)
-  }
-
-  fetchValues = async (props = this.props) => {
+  const fetchValues = async () => {
     if (!props.getPreviewValues) return
     const values = await props.getPreviewValues(props.value)
-    this.setState({
+    setState({
       ...values,
       loading: false,
     })
   }
 
-  render() {
-    const {src, title, subtitles, loading} = this.state
-    return (
-      <div style={wrapperStyles}>
-        {loading ? (
-          <Loading />
-        ) : (
-          <React.Fragment>
-            {src && <img style={imageStyles} src={src} alt={title} />}
-            <div style={textWrapperStyles}>
-              <p style={titleStyles}>{title}</p>
-              {subtitles && subtitles.length
-                ? subtitles.slice(0, 2).map((subtitle) => (
-                    <h4
-                      className="DefaultPreview_subtitle_3ARTa"
-                      key={subtitle}
-                      style={subtitleStyles}
-                    >
-                      {subtitle}
-                    </h4>
-                  ))
-                : null}
-            </div>
-          </React.Fragment>
-        )}
-      </div>
-    )
-  }
+  useEffect(() => {
+    fetchValues()
+  }, [props])
+
+  const {src, title, subtitles, loading} = state
+
+  return (
+    <Wrapper>
+      {loading ? (
+        <Loading />
+      ) : (
+        <>
+          {src && <Image src={src} alt={title} />}
+          <TextWrapper>
+            <Title>{title}</Title>
+            {subtitles && subtitles.length
+              ? subtitles
+                  .slice(0, 2)
+                  .map((subtitle) => <Subtitle key={subtitle}>{subtitle}</Subtitle>)
+              : null}
+          </TextWrapper>
+        </>
+      )}
+    </Wrapper>
+  )
 }

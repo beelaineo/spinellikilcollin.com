@@ -115,6 +115,9 @@ const objects2 = [
   shopifyProductVariant,
   collectionGroup,
   collectionLinks,
+  // shopifyProductDocument,
+  // shopifyCollectionDocument,
+  // productOptionValue,
 ]
 
 export default [
@@ -122,7 +125,4 @@ export default [
   ...Object.values(documents),
   ...Object.values(objects),
   ...Object.values(objects2),
-  // shopifyProductDocument,
-  // shopifyCollectionDocument,
-  // productOptionValue,
 ]
