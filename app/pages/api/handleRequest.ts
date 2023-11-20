@@ -8,11 +8,12 @@ const sanityClient = createClient({
   apiVersion: '2023-01-01',
   dataset: process.env.SANITY_DATASET,
   projectId: process.env.SANITY_PROJECT_ID,
-  token: process.env.SANITY_ADMIN_AUTH_TOKEN,
+  token: process.env.SANITY_AUTH_TOKEN,
   useCdn: false,
 })
 
 export async function handle(body: RequestBody) {
+  console.log('Handling request', body)
   if (['create', 'update'].includes(body.action) && 'products' in body) {
     for (const product of body.products) {
       await handleProductUpdate(sanityClient, product)
