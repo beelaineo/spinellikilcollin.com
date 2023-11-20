@@ -1,11 +1,11 @@
 import {ListItemBuilder} from 'sanity/desk'
 import defineStructure from '../utils/defineStructure'
-import {DocumentsIcon} from '@sanity/icons'
+import {MdInfoOutline} from 'react-icons/md'
 
 export default defineStructure<ListItemBuilder>((S) =>
   S.listItem()
-    .title('Pages')
-    .icon(DocumentsIcon)
+    .title('About Pages')
+    .icon(MdInfoOutline)
     .schemaType('page')
     .child(S.documentTypeList('page'))
 )

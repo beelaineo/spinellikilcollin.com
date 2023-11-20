@@ -8,6 +8,13 @@ import home from './homeStructure'
 import pages from './pageStructure'
 import products from './productStructure'
 import settings from './settingStructure'
+import nav from './navStructure'
+import productsOld from './productOldStructure'
+import collectionsOld from './collectionOldStructure'
+import journal from './journalStructure'
+import specialPagesStructure from './specialPagesStructure'
+
+import {MdInfoOutline} from 'react-icons/md'
 
 /**
  * Desk structure overrides
@@ -33,12 +40,34 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
   return ![
     'collection',
     // 'colorTheme',
-    'home',
+    'homepage',
+    'menu',
     'media.tag',
     'page',
     'product',
     'productVariant',
     'settings',
+    'siteSettings',
+    'productInfoSettings',
+    'productListingSettings',
+    'emailSignatureSettings',
+    'shopifyProduct',
+    'shopifyCollection',
+    'journal',
+    'journalPage',
+    'journalEntry',
+    'about',
+    'birthdays',
+    'magazine',
+    'contact',
+    'faq',
+    'customize',
+    'loyalty',
+    'newCustomer',
+    'paymentPlans',
+    'stone',
+    'teamPage',
+    'directory',
   ].includes(id)
 }
 
@@ -46,15 +75,26 @@ export const structure: StructureResolver = (S, context) =>
   S.list()
     .title('Content')
     .items([
+      settings(S, context),
+      S.divider(),
       home(S, context),
-      pages(S, context),
+      nav(S, context),
       S.divider(),
       collections(S, context),
       products(S, context),
       // S.divider(),
       // colorThemes(S, context),
       S.divider(),
-      settings(S, context),
+      collectionsOld(S, context),
+      productsOld(S, context),
+      S.divider(),
+      journal(S, context),
+      S.listItem()
+        .title('About (Main Page)')
+        .icon(MdInfoOutline)
+        .child(S.editor().id('about').schemaType('about').documentId('about')),
+      pages(S, context),
+      specialPagesStructure(S, context),
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
     ])
