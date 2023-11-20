@@ -53,46 +53,97 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
   const productInfoSettings = shopData?.ProductInfoSettings
   const productListingSettings = shopData?.ProductListingSettings
   const allPages = shopData?.allPage || []
+  const pagesMap = new Map(allPages.map((page) => [page._id, page]))
   const allJournalEntries = shopData?.allJournalEntry || []
+  const journalMap = new Map(
+    allJournalEntries.map((entry) => [entry._id, entry]),
+  )
   const allCollections = shopData?.allShopifyCollection || []
+  const collectionMap = new Map(
+    allCollections.map((collection) => [collection._id, collection]),
+  )
   const allProducts = shopData?.allShopifyProduct || []
+  const productMap = new Map(
+    allProducts.map((product) => [product._id, product]),
+  )
+
+  // Assuming allPages, allJournalEntries, etc. are Maps with _id as key
+  const linkTypeHandlers = {
+    customize: () => getPageLinkUrl({ __typename: 'Customize' }),
+    journalPage: () => getPageLinkUrl({ __typename: 'JournalPage' }),
+    paymentPlans: () => getPageLinkUrl({ __typename: 'PaymentPlans' }),
+    magazine: () => getPageLinkUrl({ __typename: 'Magazine' }),
+    contact: () => getPageLinkUrl({ __typename: 'Contact' }),
+    default: (ref) => {
+      const page = pagesMap.get(ref)
+      const journalEntry = journalMap.get(ref)
+      const collection = collectionMap.get(ref)
+      const product = productMap.get(ref)
+
+      if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
+      if (journalEntry)
+        return getPageLinkUrl({
+          __typename: 'JournalEntry',
+          slug: journalEntry.slug,
+        })
+      if (collection)
+        return getPageLinkUrl({
+          __typename: 'ShopifyCollection',
+          handle: collection.handle,
+        })
+      if (product)
+        return getPageLinkUrl({
+          __typename: 'ShopifyProduct',
+          handle: product.handle,
+        })
+
+      return { href: `/id/${ref}` }
+    },
+  }
 
   const getLinkByRef = (ref: string): LinkInfo | null => {
     if (!ref) return null
-    if (ref === 'customize') return getPageLinkUrl({ __typename: 'Customize' })
-    if (ref === 'journalPage') {
-      return getPageLinkUrl({ __typename: 'JournalPage' })
-    }
-    if (ref === 'paymentPlans') {
-      return getPageLinkUrl({ __typename: 'PaymentPlans' })
-    }
-    if (ref === 'magazine') return getPageLinkUrl({ __typename: 'Magazine' })
-    if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
-    const page = allPages.find((page) => page._id === ref)
-    const journalEntry = allJournalEntries.find((entry) => entry._id === ref)
-    const collection = allCollections?.find(
-      (collection) => collection._id === ref,
-    )
-    const product = allProducts?.find((product) => product._id === ref)
-    if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
-    if (journalEntry)
-      return getPageLinkUrl({
-        __typename: 'JournalEntry',
-        slug: journalEntry.slug,
-      })
-    if (collection)
-      return getPageLinkUrl({
-        __typename: 'ShopifyCollection',
-        handle: collection.handle,
-      })
-    if (product)
-      return getPageLinkUrl({
-        __typename: 'ShopifyProduct',
-        handle: product.handle,
-      })
-    return { href: `/id/${ref}` }
-    return null
+    const handler = linkTypeHandlers[ref] || linkTypeHandlers['default']
+    return handler(ref)
   }
+
+  // const getLinkByRef = (ref: string): LinkInfo | null => {
+  //   if (!ref) return null
+  //   if (ref === 'customize') return getPageLinkUrl({ __typename: 'Customize' })
+  //   if (ref === 'journalPage') {
+  //     return getPageLinkUrl({ __typename: 'JournalPage' })
+  //   }
+  //   if (ref === 'paymentPlans') {
+  //     return getPageLinkUrl({ __typename: 'PaymentPlans' })
+  //   }
+  //   if (ref === 'magazine') return getPageLinkUrl({ __typename: 'Magazine' })
+  //   if (ref === 'contact') return getPageLinkUrl({ __typename: 'Contact' })
+  //   console.log('allOPages', allPages)
+  //   const page = allPages.find((page) => page._id === ref)
+  //   const journalEntry = allJournalEntries.find((entry) => entry._id === ref)
+  //   const collection = allCollections?.find(
+  //     (collection) => collection._id === ref,
+  //   )
+  //   const product = allProducts?.find((product) => product._id === ref)
+  //   if (page) return getPageLinkUrl({ __typename: 'Page', slug: page.slug })
+  //   if (journalEntry)
+  //     return getPageLinkUrl({
+  //       __typename: 'JournalEntry',
+  //       slug: journalEntry.slug,
+  //     })
+  //   if (collection)
+  //     return getPageLinkUrl({
+  //       __typename: 'ShopifyCollection',
+  //       handle: collection.handle,
+  //     })
+  //   if (product)
+  //     return getPageLinkUrl({
+  //       __typename: 'ShopifyProduct',
+  //       handle: product.handle,
+  //     })
+  //   return { href: `/id/${ref}` }
+  //   return null
+  // }
 
   const getProductInfoBlocks = (product: ShopifyProduct): ProductInfo[] => {
     const productBlocks = definitely(product.info)
