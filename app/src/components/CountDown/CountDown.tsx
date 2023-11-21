@@ -3,9 +3,10 @@ import * as React from 'react'
 import { Column, Value, Label, Wrapper } from './styled'
 import { TDate, useCountDown } from '../../hooks/useCountdown'
 import { Heading } from '../Text'
+import { Maybe } from '@good-idea/unwind-edges'
 
 interface CountDownProps {
-  targetDate: TDate
+  targetDate?: TDate
 }
 
 export const CountDown = ({ targetDate }: CountDownProps) => {

@@ -12,7 +12,6 @@ import { Hero, Maybe } from '../../types'
 import { RichText } from '../RichText'
 import { DocumentLink } from '../DocumentLink'
 import { CloudinaryVideo } from '../CloudinaryVideo'
-import { CTA } from '../CTA'
 import { definitely } from '../../utils'
 import { useInViewport, useMedia } from '../../hooks'
 import { theme } from '../../theme'
@@ -413,7 +412,9 @@ export const HeroBlock = React.forwardRef(
               <RichText
                 body={isMobile && body_mobileRaw ? body_mobileRaw : bodyRaw}
               />
-              {countdown && <CountDown targetDate={countdown.dateTime} />}
+              {countdown?.dateTime && (
+                <CountDown targetDate={countdown.dateTime} />
+              )}
 
               {cta ? (
                 <CtaOuter>
