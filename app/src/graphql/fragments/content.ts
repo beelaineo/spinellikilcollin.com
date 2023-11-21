@@ -689,6 +689,9 @@ export const heroFragment = gql`
     bodyRaw
     body_mobileRaw
     textColor
+    countdown {
+      dateTime
+    }
     textColorCustom {
       ...ColorFragment
     }

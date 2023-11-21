@@ -37,6 +37,7 @@ export const hero = {
   },
   fieldsets: [
     { name: 'display', title: 'Layout & Colors' },
+    { name: 'countdown', title: 'Countdown' },
     { name: 'image', title: 'Image' },
     { name: 'video', title: 'Video' },
   ],
@@ -80,6 +81,11 @@ export const hero = {
         layout: 'radio',
         direction: 'horizontal',
       },
+    },
+    {
+      name: 'countdown',
+      title: 'Countdown',
+      type: 'countdown',
     },
     {
       name: 'header_color',
