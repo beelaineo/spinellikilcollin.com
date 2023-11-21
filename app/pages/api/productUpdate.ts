@@ -46,7 +46,9 @@ export async function handleProductUpdate(
           option1: variant.selectedOptions[0]?.value,
           option2: variant.selectedOptions[1]?.value,
           option3: variant.selectedOptions[2]?.value,
+          selectedOptions: variant.selectedOptions,
           previewImageUrl: variant.image?.src,
+          image: variant.image,
           price: Number(variant.price),
           compareAtPrice: variant.compareAtPrice ?? 0,
           productGid: variant.product.id,
@@ -98,12 +100,73 @@ export async function handleProductUpdate(
         current: handle,
       },
       options,
+      // variants: productVariantsDocuments.map((variant) => {
+      //   return {
+      //     _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
+      //     _type: 'reference',
+      //     _ref: variant._id,
+      //     _weak: true,
+      //   }
+      // }),
       variants: productVariantsDocuments.map((variant) => {
         return {
           _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
-          _type: 'reference',
-          _ref: variant._id,
-          _weak: true,
+          _type: 'shopifyProductVariant',
+          id: variant.store.gid,
+          shopifyVariantID: variant.store.gid,
+          sourceData: {
+            __typename: 'ProductVariant',
+            _type: 'shopifySourceProductVariant',
+            availableForSale: Boolean(
+              variant.store.inventory.policy == 'CONTINUE' ||
+                (variant.store.inventory.quantity &&
+                  variant.store.inventory.quantity > 0),
+            ),
+            compareAtPriceV2: {
+              amount: variant.store.compareAtPrice,
+              currencyCode: 'USD',
+            },
+            currentlyNotInStock: Boolean(
+              variant.store.inventory.quantity &&
+                variant.store.inventory.quantity < 1,
+            ),
+            id: variant.store.gid,
+            image: variant.store.image && {
+              __typename: 'Image',
+              altText: variant.store.image.altText,
+              id: variant.store.image.id,
+              originalSrc: variant.store.image.src,
+              height: variant.store.image.height,
+              width: variant.store.image.width,
+            },
+            metafields: [
+              {
+                // query for metafields here
+                namespace: 'sanity',
+                key: 'variantId',
+                value: 'value',
+              },
+            ],
+            priceV2: {
+              amount: variant.store.price,
+              currencyCode: 'USD',
+            },
+            requiresShipping: true,
+            selectedOptions: variant.store.selectedOptions.map((option) => {
+              return {
+                _key:
+                  option.name.replace(/ /g, '_') +
+                  '_' +
+                  option.value.replace(/ /g, '_'),
+                _type: 'shopifySourceSelectedOption',
+                name: option.name,
+                value: option.value,
+              }
+            }),
+            sku: variant.store.sku,
+            title: variant.store.title,
+          },
+          title: variant.store.title,
         }
       }),
     },

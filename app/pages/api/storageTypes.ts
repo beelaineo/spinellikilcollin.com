@@ -43,7 +43,18 @@ export type ShopifyDocumentProductVariant = {
     option1: string
     option2: string
     option3: string
+    selectedOptions: {
+      name: string
+      value: string
+    }[]
     previewImageUrl?: string
+    image?: {
+      id: `gid://shopify/ProductImage/${string}`
+      altText?: string
+      height?: number
+      width?: number
+      src: string
+    }
     price: number
     productGid: `gid://shopify/Product/${string}`
     productId: number
@@ -59,6 +70,51 @@ export type ShopifyDocumentProductVariant = {
       isAvailable?: boolean
     }
   }
+}
+
+interface ShopifyDocumentProductVariantMember {
+  _key: string
+  _type: 'shopifyProductVariant'
+  id: `gid://shopify/ProductVariant/${string}`
+  shopifyVariantID: `gid://shopify/ProductVariant/${string}`
+  sourceData: {
+    __typename: 'ProductVariant'
+    _type: 'shopifySourceProductVariant'
+    availableForSale: boolean
+    compareAtPriceV2: {
+      amount: number
+      currencyCode: string
+    }
+    currentlyNotInStock: boolean
+    id: `gid://shopify/ProductVariant/${string}`
+    image?: {
+      __typename: 'Image'
+      altText?: string
+      id: string
+      originalSrc: string
+      height?: number
+      width?: number
+    }
+    metafields?: {
+      key: string
+      namespace: string
+      value: string
+    }[]
+    priceV2: {
+      amount: number
+      currencyCode: string
+    }
+    requiresShipping: boolean
+    selectedOptions: {
+      _key: string
+      _type: 'shopifySourceSelectedOption'
+      name: string
+      value: string
+    }[]
+    sku: string
+    title: string
+  }
+  title: string
 }
 
 export type ShopifyDocumentProduct = {
@@ -78,7 +134,7 @@ export type ShopifyDocumentProduct = {
     previewImageUrl?: string
     createdAt: string
     isDeleted: boolean
-    variants?: { _key: string; _type: string; _ref: string; _weak: boolean }[]
+    variants?: ShopifyDocumentProductVariantMember[]
     options: {
       _type: string
       _key: string
