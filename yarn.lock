@@ -12744,6 +12744,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dayjs@npm:^1.11.10":
+  version: 1.11.10
+  resolution: "dayjs@npm:1.11.10"
+  checksum: a6b5a3813b8884f5cd557e2e6b7fa569f4c5d0c97aca9558e38534af4f2d60daafd3ff8c2000fed3435cfcec9e805bcebd99f90130c6d1c5ef524084ced588c4
+  languageName: node
+  linkType: hard
+
 "deasync@npm:^0.1.0":
   version: 0.1.28
   resolution: "deasync@npm:0.1.28"
@@ -29194,6 +29201,7 @@ __metadata:
     "@types/tsc-watch": ^4.2.0
     "@typescript-eslint/eslint-plugin": ^5.61.0
     "@typescript-eslint/parser": ^5.61.0
+    dayjs: ^1.11.10
     dotenv: ^16.3.1
     eslint: ^8.44.0
     eslint-config-prettier: ^8.8.0
