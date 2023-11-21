@@ -23,7 +23,7 @@ export const Column = styled.div`
 
 export const Value = styled.div`
   ${({ theme }) => css`
-    h2 {
+    span {
       font-size: ${theme.fontSizes[2]};
     }
   `}
@@ -35,10 +35,11 @@ export const Label = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     position: relative;
     gap: 4;
 
-    h3 {
+    span {
       font-size: ${theme.fontSizes[3]};
     }
 

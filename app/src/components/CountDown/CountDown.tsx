@@ -33,10 +33,14 @@ export const CountDown = ({ targetDate }: CountDownProps) => {
         return (
           <Column key={i}>
             <Value>
-              <Heading level={2}>{value}</Heading>
+              <Heading as="span" level={2}>
+                {value}
+              </Heading>
             </Value>
             <Label>
-              <Heading level={3}>{label}</Heading>
+              <Heading as="span" level={3}>
+                {label}
+              </Heading>
             </Label>
           </Column>
         )
