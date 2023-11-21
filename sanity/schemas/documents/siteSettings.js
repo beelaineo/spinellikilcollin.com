@@ -3,8 +3,8 @@ export const siteSettings = {
   type: 'document',
   name: 'siteSettings',
   fieldsets: [
-    { name: 'info', title: 'Site Info' },
-    { name: 'footer', title: 'Footer' },
+    {name: 'info', title: 'Site Info'},
+    {name: 'footer', title: 'Footer'},
   ],
   fields: [
     {
@@ -30,7 +30,7 @@ export const siteSettings = {
       fieldset: 'footer',
       title: 'Page Links',
       type: 'array',
-      of: [{ type: 'internalLink' }, { type: 'externalLink' }],
+      of: [{type: 'internalLink'}, {type: 'externalLink'}],
     },
     {
       name: 'mailerTitle',
