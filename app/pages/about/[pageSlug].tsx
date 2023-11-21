@@ -378,6 +378,14 @@ const pageHandlesQuery = gql`
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // When this is true (in preview environments) don't pre-render pages
+  if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+    return {
+      paths: [],
+      fallback: 'blocking',
+    }
+  }
+
   const result = await request<PageResponse>(pageHandlesQuery)
   const pages = definitely(result?.allPage)
   const paths = pages.map((page) => ({
