@@ -4,9 +4,9 @@ export const colorPicker = {
   type: 'string',
   options: {
     list: [
-      { title: 'Light', value: 'light' },
-      { title: 'Dark', value: 'dark' },
-      { title: 'Custom', value: 'custom' },
+      {title: 'Light', value: 'light'},
+      {title: 'Dark', value: 'dark'},
+      {title: 'Custom', value: 'custom'},
     ],
   },
 }

@@ -142,7 +142,7 @@ export const hero = {
       title: 'Text Color (custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) => parent.textColor !== 'custom',
+      hidden: ({parent}) => parent?.textColor && parent.textColor !== 'custom',
     },
     {
       name: 'textColorMobile',
@@ -155,7 +155,7 @@ export const hero = {
       title: 'Text Color (mobile, custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) => parent.textColorMobile !== 'custom',
+      hidden: ({parent}) => parent?.textColorMobile && parent.textColorMobile !== 'custom',
     },
 
     {
@@ -169,7 +169,7 @@ export const hero = {
       title: 'Background Color (custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) => parent.backgroundColor !== 'custom',
+      hidden: ({parent}) => parent?.backgroundColor && parent.backgroundColor !== 'custom',
     },
     {
       name: 'mobileBackgroundColor',
@@ -182,7 +182,8 @@ export const hero = {
       title: 'Background Color (mobile, custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) => parent.mobileBackgroundColor !== 'custom',
+      hidden: ({parent}) =>
+        parent?.mobileBackgroundColor && parent?.mobileBackgroundColor !== 'custom',
     },
 
     /* Video */

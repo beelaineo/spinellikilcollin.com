@@ -6674,6 +6674,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@reach/observe-rect@npm:^1.1.0":
+  version: 1.2.0
+  resolution: "@reach/observe-rect@npm:1.2.0"
+  checksum: 7dd903eeaad0e22c6d973bd26265d91eadba56ab5134701ceb3e85214db75339fae94aa7e8b88a65e8daa64bc7cf1b915d4ffcdfd324466b561dc6adc3c6e070
+  languageName: node
+  linkType: hard
+
 "@reach/utils@npm:0.18.0":
   version: 0.18.0
   resolution: "@reach/utils@npm:0.18.0"
@@ -7302,6 +7309,34 @@ __metadata:
   version: 2.35.3
   resolution: "@sanity/production-preview@npm:2.35.3"
   checksum: 802f918718bfb4ab5cba356e4d5f04d46956f78b73a7246bb2ebd60ccb90913e5a5469e5567035d9659c56596736d8d9b35accb43060c40171a769cc071ecb82
+  languageName: node
+  linkType: hard
+
+"@sanity/scheduled-publishing@npm:^1.2.1":
+  version: 1.2.1
+  resolution: "@sanity/scheduled-publishing@npm:1.2.1"
+  dependencies:
+    "@sanity/color": ^2.1.20
+    "@sanity/icons": ^2.0.0
+    "@sanity/incompatible-plugin": ^1.0.4
+    "@sanity/ui": ^1.0.0
+    "@sanity/util": ^3.0.0
+    "@vvo/tzdb": ^6.75.0
+    date-fns: ^2.29.3
+    date-fns-tz: ^2.0.0
+    debug: ^4.3.4
+    lodash: ^4.17.21
+    pluralize: ^8.0.0
+    react-focus-lock: ^2.9.1
+    react-virtual: ^2.10.4
+    rxjs: ^7.5.7
+    swr: ^1.3.0
+  peerDependencies:
+    react: ^18
+    react-dom: ^18
+    sanity: ^3.0.0
+    styled-components: ^5.3.3
+  checksum: 844e57fbcc253077de7ce1f6d336120cb35341b96b14be76496e00918e2a3def61655580c2e1a12e9352c41f6f6fe7aba14b8b434b61d9ec2d063b3174355c25
   languageName: node
   linkType: hard
 
@@ -9341,6 +9376,13 @@ __metadata:
   peerDependencies:
     vite: ^4.2.0
   checksum: 73dd403f5bca4f3f99f0bd3dcbb0cc0ecf88f758b886fb599711be744ca93f20adafe1af3574a998ac7cbd24aaf67ac7fe06983d87088cbdf535540ab402d496
+  languageName: node
+  linkType: hard
+
+"@vvo/tzdb@npm:^6.75.0":
+  version: 6.113.0
+  resolution: "@vvo/tzdb@npm:6.113.0"
+  checksum: 597a46c8329f123089dd08d9ad63ccafd19eea653382d122aa8248897d5665f2e6c84fc20a02fc0332e29ad2d4f51364b1bb6abc7ef608bece76ecaf46a5d2b6
   languageName: node
   linkType: hard
 
@@ -12688,7 +12730,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.26.1, date-fns@npm:^2.27.0":
+"date-fns-tz@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "date-fns-tz@npm:2.0.0"
+  peerDependencies:
+    date-fns: ">=2.0.0"
+  checksum: a6553603a9d26dd9669326c99a58a2335ac550bc060c74b86a5ad9e1de73c9d4e3e5236f0f552f990e616e4e8dcc2b6a637913a04d2e04396e6a9f8ae83c73da
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.26.1, date-fns@npm:^2.27.0, date-fns@npm:^2.29.3":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -15338,6 +15389,15 @@ __metadata:
   dependencies:
     tslib: ^2.0.3
   checksum: 6a407c4c45f05f8258f92565541fc5f8043f576643a7603eb999e1a790173e08712056766ed034ccd31c6d6deed259dea558002712fa5ef2432fc6930b9c7a05
+  languageName: node
+  linkType: hard
+
+"focus-lock@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "focus-lock@npm:1.0.0"
+  dependencies:
+    tslib: ^2.0.3
+  checksum: 85eb62534e8c0314026453c4f734bf6450054a19b248280f3f69c98b5d5481707124e2206d7dc515650a6f28da827a2de297455056a9c8f398e5f8ba5dba8419
   languageName: node
   linkType: hard
 
@@ -23876,6 +23936,26 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-focus-lock@npm:^2.9.1":
+  version: 2.9.6
+  resolution: "react-focus-lock@npm:2.9.6"
+  dependencies:
+    "@babel/runtime": ^7.0.0
+    focus-lock: ^1.0.0
+    prop-types: ^15.6.2
+    react-clientside-effect: ^1.2.6
+    use-callback-ref: ^1.3.0
+    use-sidecar: ^1.1.2
+  peerDependencies:
+    "@types/react": ^16.8.0 || ^17.0.0 || ^18.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 3ee2b32dfe479839548baf097d53ddab0b9a8df71cd51763edc9dd900eb85ac98e0255130a9152de9a424a038bae6e1782fca6fde0d89ae1f37c2ca802d94351
+  languageName: node
+  linkType: hard
+
 "react-hook-form@npm:^7.45.1":
   version: 7.47.0
   resolution: "react-hook-form@npm:7.47.0"
@@ -24120,6 +24200,17 @@ __metadata:
     react: ^16.8.0  || ^17.0.0 || ^18.0.0
     react-dom: ^16.8.0  || ^17.0.0 || ^18.0.0
   checksum: 0889da919b49a186de375ec15d2778b954ae981c523acd17dd496e4a4da7b6190efe7993491e1b85fdd6de3e745d08a4eaba4caa35408d570b5f1de550f35d11
+  languageName: node
+  linkType: hard
+
+"react-virtual@npm:^2.10.4":
+  version: 2.10.4
+  resolution: "react-virtual@npm:2.10.4"
+  dependencies:
+    "@reach/observe-rect": ^1.1.0
+  peerDependencies:
+    react: ^16.6.3 || ^17.0.0
+  checksum: 1bebc741b01057829a7d7f29256114caecf0597d41b187cb41e75af77f24a87c780bc1a81ec11205b78ee2e9c801fc5e36b20a9e1ab7ddc70a18dd95417795f8
   languageName: node
   linkType: hard
 
@@ -24963,7 +25054,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^7.0.0, rxjs@npm:^7.5.5, rxjs@npm:^7.8.0, rxjs@npm:^7.8.1":
+"rxjs@npm:^7.0.0, rxjs@npm:^7.5.5, rxjs@npm:^7.5.7, rxjs@npm:^7.8.0, rxjs@npm:^7.8.1":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"
   dependencies:
@@ -26116,6 +26207,7 @@ __metadata:
     "@sanity/eslint-config-studio": ^2.0.1
     "@sanity/icons": ^2.3.1
     "@sanity/production-preview": ^2.35.3
+    "@sanity/scheduled-publishing": ^1.2.1
     "@sanity/ui": ^1.3.2
     "@sanity/vision": latest
     "@types/eslint": ^8.40.2
@@ -26780,6 +26872,15 @@ __metadata:
   dependencies:
     tslib: ^2.0.3
   checksum: 6e21c9e1b3cd5735eb2af679a99ec3efc78a14e3d4d5e3fd594e254b91cfd37185b3d1c6e41b22f53a2cdf5d1b963ce30c0fe8b78337e3fd43d0137084670a5f
+  languageName: node
+  linkType: hard
+
+"swr@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "swr@npm:1.3.0"
+  peerDependencies:
+    react: ^16.11.0 || ^17.0.0 || ^18.0.0
+  checksum: e7a184f0d560e9c8be85c023cc8e65e56a88a6ed46f9394b301b07f838edca23d2e303685319a4fcd620b81d447a7bcb489c7fa0a752c259f91764903c690cdb
   languageName: node
   linkType: hard
 

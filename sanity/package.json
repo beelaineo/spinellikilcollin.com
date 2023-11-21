@@ -42,6 +42,7 @@
     "@sanity/components": "^2.14.0",
     "@sanity/icons": "^2.3.1",
     "@sanity/production-preview": "^2.35.3",
+    "@sanity/scheduled-publishing": "^1.2.1",
     "@sanity/ui": "^1.3.2",
     "@sanity/vision": "latest",
     "@types/eslint": "^8.40.2",

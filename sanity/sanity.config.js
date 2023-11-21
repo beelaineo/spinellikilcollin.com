@@ -9,6 +9,7 @@ import {colorInput} from '@sanity/color-input'
 import {imageHotspotArrayPlugin} from 'sanity-plugin-hotspot-array'
 import {media, mediaAssetSource} from 'sanity-plugin-media'
 import {customDocumentActions} from './plugins/customDocumentActions'
+import {scheduledPublishing} from '@sanity/scheduled-publishing'
 
 export default defineConfig([
   {
@@ -24,6 +25,7 @@ export default defineConfig([
       imageHotspotArrayPlugin(),
       customDocumentActions(),
       media(),
+      scheduledPublishing(),
     ],
     schema: {
       types: schemas,
@@ -42,6 +44,7 @@ export default defineConfig([
       imageHotspotArrayPlugin(),
       customDocumentActions(),
       media(),
+      scheduledPublishing(),
     ],
     schema: {
       types: schemas,
@@ -60,6 +63,7 @@ export default defineConfig([
       imageHotspotArrayPlugin(),
       customDocumentActions(),
       media(),
+      scheduledPublishing(),
     ],
     schema: {
       types: schemas,
