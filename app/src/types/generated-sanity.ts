@@ -410,6 +410,25 @@ export type ContactSorting = {
   title?: InputMaybe<SortOrder>
 }
 
+export interface Countdown {
+  __typename: 'Countdown'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  dateTime?: Maybe<Scalars['DateTime']['output']>
+}
+
+export type CountdownFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  dateTime?: InputMaybe<DatetimeFilter>
+}
+
+export type CountdownSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  dateTime?: InputMaybe<SortOrder>
+}
+
 export interface CrossDatasetReference {
   __typename: 'CrossDatasetReference'
   _dataset?: Maybe<Scalars['String']['output']>
@@ -1047,6 +1066,7 @@ export interface Hero {
   body_mobileRaw?: Maybe<Scalars['JSON']['output']>
   cloudinaryVideo?: Maybe<CloudinaryVideo>
   cloudinaryVideoMobile?: Maybe<CloudinaryVideo>
+  countdown?: Maybe<Countdown>
   cta?: Maybe<Array<Maybe<Cta>>>
   /** Text color for the header/nav overlay over the hero. */
   header_color?: Maybe<Scalars['String']['output']>
@@ -1077,6 +1097,7 @@ export type HeroFilter = {
   backgroundColorCustom?: InputMaybe<ColorFilter>
   cloudinaryVideo?: InputMaybe<CloudinaryVideoFilter>
   cloudinaryVideoMobile?: InputMaybe<CloudinaryVideoFilter>
+  countdown?: InputMaybe<CountdownFilter>
   header_color?: InputMaybe<StringFilter>
   heroLink?: InputMaybe<InternalLinkFilter>
   image?: InputMaybe<RichImageFilter>
@@ -1102,6 +1123,7 @@ export type HeroSorting = {
   backgroundColorCustom?: InputMaybe<ColorSorting>
   cloudinaryVideo?: InputMaybe<CloudinaryVideoSorting>
   cloudinaryVideoMobile?: InputMaybe<CloudinaryVideoSorting>
+  countdown?: InputMaybe<CountdownSorting>
   header_color?: InputMaybe<SortOrder>
   heroLink?: InputMaybe<InternalLinkSorting>
   image?: InputMaybe<RichImageSorting>

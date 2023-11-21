@@ -45,14 +45,7 @@ export interface ShopifyStorefrontApiVersion {
   displayName: Scalars['String']['output']
   /** The unique identifier of an ApiVersion. All supported API versions have a date-based (YYYY-MM) or `unstable` handle. */
   handle: Scalars['String']['output']
-  /**
-   * Whether the version is actively supported by Shopify. Supported API versions
-   * are guaranteed to be stable. Unsupported API versions include unstable,
-   * release candidate, and end-of-life versions that are marked as unsupported.
-   * For more information, refer to
-   * [Versioning](https://shopify.dev/api/usage/versioning).
-   *
-   */
+  /** Whether the version is actively supported by Shopify. Supported API versions are guaranteed to be stable. Unsupported API versions include unstable, release candidate, and end-of-life versions that are marked as unsupported. For more information, refer to [Versioning](https://shopify.dev/api/usage/versioning). */
   supported: Scalars['Boolean']['output']
 }
 
@@ -452,12 +445,7 @@ export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
   buyerIdentity: ShopifyStorefrontCartBuyerIdentity
   /** The URL of the checkout for the cart. */
   checkoutUrl: Scalars['URL']['output']
-  /**
-   * The estimated costs that the buyer will pay at checkout. The costs are subject
-   * to change and changes will be reflected at checkout. The `cost` field uses the
-   * `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
-   *
-   */
+  /** The estimated costs that the buyer will pay at checkout. The costs are subject to change and changes will be reflected at checkout. The `cost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
   cost: ShopifyStorefrontCartCost
   /** The date and time when the cart was created. */
   createdAt: Scalars['DateTime']['output']
@@ -472,11 +460,7 @@ export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
   /** The case-insensitive discount codes that the customer added at checkout. */
   discountCodes: Array<ShopifyStorefrontCartDiscountCode>
   /**
-   * The estimated costs that the buyer will pay at checkout.
-   * The estimated costs are subject to change and changes will be reflected at checkout.
-   * The `estimatedCost` field uses the `buyerIdentity` field to determine
-   * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
-   *
+   * The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
    * @deprecated Use `cost` instead.
    */
   estimatedCost: ShopifyStorefrontCartEstimatedCost
@@ -589,6 +573,7 @@ export type ShopifyStorefrontCartBuyerIdentityInput = {
    * The rank of the preferences is determined by the order of the addresses in the array. Preferences
    * can be used to populate relevant fields in the checkout flow.
    *
+   * The input must not contain more than `250` values.
    */
   deliveryAddressPreferences?: InputMaybe<
     Array<ShopifyStorefrontDeliveryAddressInput>
@@ -626,13 +611,7 @@ export interface ShopifyStorefrontCartCodeDiscountAllocation
  */
 export interface ShopifyStorefrontCartCost {
   __typename: 'CartCost'
-  /**
-   * The estimated amount, before taxes and discounts, for the customer to pay at
-   * checkout. The checkout charge amount doesn't include any deferred payments
-   * that'll be paid at a later date. If the cart has no deferred payments, then
-   * the checkout charge amount is equivalent to `subtotalAmount`.
-   *
-   */
+  /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to `subtotalAmount`. */
   checkoutChargeAmount: ShopifyStorefrontMoneyV2
   /** The amount, before taxes and cart-level discounts, for the customer to pay. */
   subtotalAmount: ShopifyStorefrontMoneyV2
@@ -776,14 +755,7 @@ export enum ShopifyStorefrontCartErrorCode {
   MissingNote = 'MISSING_NOTE',
 }
 
-/**
- * The estimated costs that the buyer will pay at checkout.
- * The estimated cost uses
- * [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity)
- * to determine
- * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
- *
- */
+/** The estimated costs that the buyer will pay at checkout. The estimated cost uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
 export interface ShopifyStorefrontCartEstimatedCost {
   __typename: 'CartEstimatedCost'
   /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to`subtotal_amount`. */
@@ -800,7 +772,11 @@ export interface ShopifyStorefrontCartEstimatedCost {
 
 /** The input fields to create a cart. */
 export type ShopifyStorefrontCartInput = {
-  /** An array of key-value pairs that contains additional information about the cart. */
+  /**
+   * An array of key-value pairs that contains additional information about the cart.
+   *
+   * The input must not contain more than `250` values.
+   */
   attributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /**
    * The customer associated with the cart. Used to determine [international pricing]
@@ -812,9 +788,14 @@ export type ShopifyStorefrontCartInput = {
   /**
    * The case-insensitive discount codes that the customer added at checkout.
    *
+   * The input must not contain more than `250` values.
    */
   discountCodes?: InputMaybe<Array<Scalars['String']['input']>>
-  /** A list of merchandise lines to add to the cart. */
+  /**
+   * A list of merchandise lines to add to the cart.
+   *
+   * The input must not contain more than `250` values.
+   */
   lines?: InputMaybe<Array<ShopifyStorefrontCartLineInput>>
   /**
    * A note that's associated with the cart. For example, the note can be a personalized message to the buyer.
@@ -911,7 +892,11 @@ export interface ShopifyStorefrontCartLineEstimatedCost {
 
 /** The input fields to create a merchandise line on a cart. */
 export type ShopifyStorefrontCartLineInput = {
-  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  /**
+   * An array of key-value pairs that contains additional information about the merchandise line.
+   *
+   * The input must not contain more than `250` values.
+   */
   attributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The ID of the merchandise that the buyer intends to purchase. */
   merchandiseId: Scalars['ID']['input']
@@ -923,7 +908,11 @@ export type ShopifyStorefrontCartLineInput = {
 
 /** The input fields to update a line item on a cart. */
 export type ShopifyStorefrontCartLineUpdateInput = {
-  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  /**
+   * An array of key-value pairs that contains additional information about the merchandise line.
+   *
+   * The input must not contain more than `250` values.
+   */
   attributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The ID of the merchandise line. */
   id: Scalars['ID']['input']
@@ -1128,7 +1117,11 @@ export type ShopifyStorefrontCheckoutAttributesUpdateV2Input = {
    *
    */
   allowPartialAddresses?: InputMaybe<Scalars['Boolean']['input']>
-  /** A list of extra information that's added to the checkout. */
+  /**
+   * A list of extra information that's added to the checkout.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: InputMaybe<Scalars['String']['input']>
@@ -1223,11 +1216,19 @@ export type ShopifyStorefrontCheckoutCreateInput = {
   allowPartialAddresses?: InputMaybe<Scalars['Boolean']['input']>
   /** The identity of the customer associated with the checkout. */
   buyerIdentity?: InputMaybe<ShopifyStorefrontCheckoutBuyerIdentityInput>
-  /** A list of extra information that's added to the checkout. */
+  /**
+   * A list of extra information that's added to the checkout.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The email with which the customer wants to checkout. */
   email?: InputMaybe<Scalars['String']['input']>
-  /** A list of line item objects, each one containing information about an item in the checkout. */
+  /**
+   * A list of line item objects, each one containing information about an item in the checkout.
+   *
+   * The input must not contain more than `250` values.
+   */
   lineItems?: InputMaybe<Array<ShopifyStorefrontCheckoutLineItemInput>>
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: InputMaybe<Scalars['String']['input']>
@@ -1493,7 +1494,11 @@ export interface ShopifyStorefrontCheckoutLineItemEdge {
 
 /** The input fields to create a line item on a checkout. */
 export type ShopifyStorefrontCheckoutLineItemInput = {
-  /** Extra information in the form of an array of Key-Value pairs about the line item. */
+  /**
+   * Extra information in the form of an array of Key-Value pairs about the line item.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The quantity of the line item. */
   quantity: Scalars['Int']['input']
@@ -1503,7 +1508,11 @@ export type ShopifyStorefrontCheckoutLineItemInput = {
 
 /** The input fields to update a line item on the checkout. */
 export type ShopifyStorefrontCheckoutLineItemUpdateInput = {
-  /** Extra information in the form of an array of Key-Value pairs about the line item. */
+  /**
+   * Extra information in the form of an array of Key-Value pairs about the line item.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The ID of the line item. */
   id?: InputMaybe<Scalars['ID']['input']>
@@ -3614,6 +3623,20 @@ export type ShopifyStorefrontImageTransformInput = {
   scale?: InputMaybe<Scalars['Int']['input']>
 }
 
+/** Provide details about the contexts influenced by the @inContext directive on a field. */
+export interface ShopifyStorefrontInContext {
+  __typename: 'InContext'
+  description: Scalars['String']['output']
+  type: ShopifyStorefrontInContextType
+}
+
+/** This gives information about the type of context that impacts a field. For example, for a query with @inContext(language: "EN"), the type would point to the name: LanguageCode and kind: ENUM. */
+export interface ShopifyStorefrontInContextType {
+  __typename: 'InContextType'
+  kind: Scalars['String']['output']
+  name: Scalars['String']['output']
+}
+
 /** A language. */
 export interface ShopifyStorefrontLanguage {
   __typename: 'Language'
@@ -4401,6 +4424,7 @@ export type ShopifyStorefrontMetafieldReference =
   | ShopifyStorefrontCollection
   | ShopifyStorefrontGenericFile
   | ShopifyStorefrontMediaImage
+  | ShopifyStorefrontMetaobject
   | ShopifyStorefrontPage
   | ShopifyStorefrontProduct
   | ShopifyStorefrontProductVariant
@@ -4430,6 +4454,93 @@ export interface ShopifyStorefrontMetafieldReferenceEdge {
   cursor: Scalars['String']['output']
   /** The item at the end of MetafieldReferenceEdge. */
   node: ShopifyStorefrontMetafieldReference
+}
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export interface ShopifyStorefrontMetaobject extends ShopifyStorefrontNode {
+  __typename: 'Metaobject'
+  /** Accesses a field of the object by key. */
+  field?: Maybe<ShopifyStorefrontMetaobjectField>
+  /**
+   * All object fields with defined values.
+   * Omitted object keys can be assumed null, and no guarantees are made about field order.
+   *
+   */
+  fields: Array<ShopifyStorefrontMetaobjectField>
+  /** The unique handle of the metaobject. Useful as a custom ID. */
+  handle: Scalars['String']['output']
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output']
+  /** The type of the metaobject. Defines the namespace of its associated metafields. */
+  type: Scalars['String']['output']
+  /** The date and time when the metaobject was last updated. */
+  updatedAt: Scalars['DateTime']['output']
+}
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export type ShopifyStorefrontMetaobjectFieldArgs = {
+  key: Scalars['String']['input']
+}
+
+/**
+ * An auto-generated type for paginating through multiple Metaobjects.
+ *
+ */
+export interface ShopifyStorefrontMetaobjectConnection {
+  __typename: 'MetaobjectConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontMetaobjectEdge>
+  /** A list of the nodes contained in MetaobjectEdge. */
+  nodes: Array<ShopifyStorefrontMetaobject>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/**
+ * An auto-generated type which holds one Metaobject and a cursor during pagination.
+ *
+ */
+export interface ShopifyStorefrontMetaobjectEdge {
+  __typename: 'MetaobjectEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output']
+  /** The item at the end of MetaobjectEdge. */
+  node: ShopifyStorefrontMetaobject
+}
+
+/** Provides the value of a Metaobject field. */
+export interface ShopifyStorefrontMetaobjectField {
+  __typename: 'MetaobjectField'
+  /** The field key. */
+  key: Scalars['String']['output']
+  /** A referenced object if the field type is a resource reference. */
+  reference?: Maybe<ShopifyStorefrontMetafieldReference>
+  /** A list of referenced objects if the field type is a resource reference list. */
+  references?: Maybe<ShopifyStorefrontMetafieldReferenceConnection>
+  /**
+   * The type name of the field.
+   * See the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
+   *
+   */
+  type: Scalars['String']['output']
+  /** The field value. */
+  value?: Maybe<Scalars['String']['output']>
+}
+
+/** Provides the value of a Metaobject field. */
+export type ShopifyStorefrontMetaobjectFieldReferencesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** The input fields used to retrieve a metaobject by handle. */
+export type ShopifyStorefrontMetaobjectHandleInput = {
+  /** The handle of the metaobject. */
+  handle: Scalars['String']['input']
+  /** The type of the metaobject. */
+  type: Scalars['String']['input']
 }
 
 /** Represents a Shopify hosted 3D model. */
@@ -4895,6 +5006,8 @@ export interface ShopifyStorefrontOrder
   currentTotalPrice: ShopifyStorefrontMoneyV2
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
   currentTotalTax: ShopifyStorefrontMoneyV2
+  /** A list of the custom attributes added to the order. */
+  customAttributes: Array<ShopifyStorefrontAttribute>
   /** The locale code in which this specific order happened. */
   customerLocale?: Maybe<Scalars['String']['output']>
   /** The unique URL that the customer can use to access the order. */
@@ -5662,6 +5775,8 @@ export type ShopifyStorefrontProductFilter = {
   productType?: InputMaybe<Scalars['String']['input']>
   /** The product vendor to filter on. */
   productVendor?: InputMaybe<Scalars['String']['input']>
+  /** A product tag to filter on. */
+  tag?: InputMaybe<Scalars['String']['input']>
   /** A variant metafield to filter on. */
   variantMetafield?: InputMaybe<ShopifyStorefrontMetafieldFilter>
   /** A variant option to filter on. */
@@ -5849,6 +5964,7 @@ export type ShopifyStorefrontProductVariantStoreAvailabilityArgs = {
   before?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  near?: InputMaybe<ShopifyStorefrontGeoCoordinateInput>
   reverse?: InputMaybe<Scalars['Boolean']['input']>
 }
 
@@ -5943,6 +6059,10 @@ export interface ShopifyStorefrontQueryRoot {
   locations: ShopifyStorefrontLocationConnection
   /** Retrieve a [navigation menu](https://help.shopify.com/manual/online-store/menus-and-links) by its handle. */
   menu?: Maybe<ShopifyStorefrontMenu>
+  /** Fetch a specific Metaobject by one of its unique identifiers. */
+  metaobject?: Maybe<ShopifyStorefrontMetaobject>
+  /** All active metaobjects for the shop. */
+  metaobjects: ShopifyStorefrontMetaobjectConnection
   /** Returns a specific node by ID. */
   node?: Maybe<ShopifyStorefrontNode>
   /** Returns the list of nodes with the given IDs. */
@@ -5978,7 +6098,7 @@ export interface ShopifyStorefrontQueryRoot {
   productTags: ShopifyStorefrontStringConnection
   /** List of product types for the shop's products that are published to your app. */
   productTypes: ShopifyStorefrontStringConnection
-  /** List of the shop’s products. */
+  /** List of the shop’s products. For storefront search, use [`search` query](https://shopify.dev/docs/api/storefront/latest/queries/search). */
   products: ShopifyStorefrontProductConnection
   /** The list of public Storefront API versions, including supported, release candidate and unstable versions. */
   publicApiVersions: Array<ShopifyStorefrontApiVersion>
@@ -6070,6 +6190,23 @@ export type ShopifyStorefrontQueryRootMenuArgs = {
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootMetaobjectArgs = {
+  handle?: InputMaybe<ShopifyStorefrontMetaobjectHandleInput>
+  id?: InputMaybe<Scalars['ID']['input']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootMetaobjectsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  reverse?: InputMaybe<Scalars['Boolean']['input']>
+  sortKey?: InputMaybe<Scalars['String']['input']>
+  type: Scalars['String']['input']
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootNodeArgs = {
   id: Scalars['ID']['input']
 }
@@ -6144,6 +6281,7 @@ export type ShopifyStorefrontQueryRootUrlRedirectsArgs = {
   before?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  query?: InputMaybe<Scalars['String']['input']>
   reverse?: InputMaybe<Scalars['Boolean']['input']>
 }
 
