@@ -1,4 +1,5 @@
-import sanityClient from 'part:@sanity/base/client'
+import { createClient } from '@sanity/client'
+
 import { path } from 'ramda'
 
 export const niceDate = (sourceDate) => {
@@ -19,7 +20,13 @@ export const getTypeText = (doc) => {
   return 'Page'
 }
 
-const client = sanityClient.withConfig({ apiVersion: '2021-10-21' })
+const client = createClient({
+  projectId: 'i21fjdbi',
+  dataset: 'migration',
+  useCdn: true,
+  apiVersion: '2023-09-15',
+  // token: process.env.SANITY_SECRET_TOKEN // Only if you want to update content with the client
+})
 
 export const getReferencedDocument = async (ref) => client.getDocument(ref)
 
