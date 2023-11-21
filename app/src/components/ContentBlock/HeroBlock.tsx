@@ -18,6 +18,7 @@ import { useInViewport, useMedia } from '../../hooks'
 import { theme } from '../../theme'
 import { useNavigation, useSearch } from '../../providers'
 import { Heading } from '../Text'
+import { CountDown } from '../CountDown'
 
 const { useEffect, useRef } = React
 
@@ -199,6 +200,12 @@ const HeroText = styled.div`
       };
 
     }
+    h2 {
+      font-size: ${
+        textContainer == 'full' && textXL ? '10vw' : theme.fontSizes[2]
+      };
+
+    }
     ${theme.mediaQueries.tablet} {
       ${
         minimalDisplay
@@ -212,7 +219,7 @@ const HeroText = styled.div`
               font-size: ${textXL ? '14vw' : theme.mobileFontSizes[1]};
             }
             h2 {
-              font-size: ${theme.mobileFontSizes[2]};
+              font-size: ${textXL ? '10vw' : theme.mobileFontSizes[2]};
             }
             h3 {
               font-size: ${theme.mobileFontSizes[3]};
@@ -352,6 +359,7 @@ export const HeroBlock = React.forwardRef(
       mobileImage,
       header_color,
       cta: ctas,
+      countdown,
     } = hero
     const cta = definitely(ctas).length ? definitely(ctas)[0] : null
     const isMobile = useMedia({
@@ -405,6 +413,8 @@ export const HeroBlock = React.forwardRef(
               <RichText
                 body={isMobile && body_mobileRaw ? body_mobileRaw : bodyRaw}
               />
+              {countdown && <CountDown targetDate={countdown.dateTime} />}
+
               {cta ? (
                 <CtaOuter>
                   <CtaWrapper>
