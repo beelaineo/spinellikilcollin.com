@@ -1,10 +1,6 @@
 import * as React from 'react'
-import { BlockPreview } from '../components/BlockPreview'
-import {
-  getTypeText,
-  getReferencedDocument,
-  getShopifyThumbnail,
-} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
+import {getTypeText, getReferencedDocument, getShopifyThumbnail} from '../utils'
 
 const getPreviewValues = async (values) => {
   const { document } = values
