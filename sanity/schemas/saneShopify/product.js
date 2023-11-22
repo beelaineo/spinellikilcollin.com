@@ -4,15 +4,16 @@ export const productOptionValue = {
       title: 'Description',
       name: 'description',
       type: 'array',
-      description: 'An alternate description to display when this variant is selected',
+      description:
+        'An alternate description to display when this variant is selected',
       of: [
         {
           type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
+          styles: [{ title: 'Normal', value: 'normal' }],
           marks: {
             decorators: [
-              {title: 'Strong', value: 'strong'},
-              {title: 'Emphasis', value: 'em'},
+              { title: 'Strong', value: 'strong' },
+              { title: 'Emphasis', value: 'em' },
             ],
           },
         },
@@ -40,7 +41,7 @@ export const productOptionValue = {
       type: 'reference',
       description: 'If Karat swatch, link to associated stone.',
       weak: true,
-      to: [{type: 'stone'}],
+      to: [{ type: 'stone' }],
     },
   ],
   preview: {
@@ -51,7 +52,7 @@ export const productOptionValue = {
   },
 }
 
-export const shopifyProductDocument = {
+export const product = {
   fields: [
     {
       title: 'Hidden (deprecated)',
@@ -73,7 +74,7 @@ export const shopifyProductDocument = {
       type: 'reference',
       description: 'Always show product in specified collection.',
       weak: true,
-      to: [{type: 'shopifyCollection'}],
+      to: [{ type: 'shopifyCollection' }],
     },
     {
       title: 'Show in Collections',
@@ -84,7 +85,7 @@ export const shopifyProductDocument = {
           type: 'reference',
           description: 'Always show product in specified collections.',
           weak: true,
-          to: [{type: 'shopifyCollection'}],
+          to: [{ type: 'shopifyCollection' }],
         },
       ],
     },
@@ -92,8 +93,9 @@ export const shopifyProductDocument = {
       title: 'Initial Variant (by Collection)',
       name: 'initialVariantSelections',
       type: 'array',
-      description: "Choose initial variant to show based on the product's parent collection.",
-      of: [{type: 'initialVariantSelection'}],
+      description:
+        "Choose initial variant to show based on the product's parent collection.",
+      of: [{ type: 'initialVariantSelection' }],
     },
     {
       title: 'Hide from Search',
@@ -115,13 +117,13 @@ export const shopifyProductDocument = {
       type: 'array',
       description:
         'Info accordions will appear below the product description. You can also add content accordions to multiple items in the "Product Info" section of the CMS.',
-      of: [{type: 'productInfo'}],
+      of: [{ type: 'productInfo' }],
     },
     {
       title: 'Gallery',
       name: 'gallery',
       type: 'array',
-      of: [{type: 'richImage'}],
+      of: [{ type: 'richImage' }],
     },
     {
       title: 'Content Blocks',
@@ -129,11 +131,12 @@ export const shopifyProductDocument = {
       description:
         'These blocks will appear below the product header & gallery, and above the Related Items carousel.',
       type: 'array',
-      of: [{type: 'imageTextBlock'}],
+      of: [{ type: 'imageTextBlock' }],
     },
     {
       title: 'Related Products Carousels',
-      description: 'The title will default to "Related Products" if left empty.',
+      description:
+        'The title will default to "Related Products" if left empty.',
       name: 'related',
       type: 'carousel',
     },
