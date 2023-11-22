@@ -37,8 +37,6 @@ const SHOPIFY_CHECKOUT_DOMAIN = process.env.SHOPIFY_CHECKOUT_DOMAIN
 const FB_PIXEL_ID = process.env.FB_PIXEL_ID
 const FB_PRDOUCT_CATALOG_ID = process.env.FB_PRDOUCT_CATALOG_ID
 
-const SKIP_BUILD_STATIC_GENERATION = process.env.SKIP_BUILD_STATIC_GENERATION
-
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
 
@@ -68,7 +66,6 @@ module.exports = withSourceMaps({
     SHOPIFY_SHOP_NAME,
     FB_PIXEL_ID,
     FB_PRDOUCT_CATALOG_ID,
-    SKIP_BUILD_STATIC_GENERATION,
   },
   serverRuntimeConfig: {
     PROJECT_ROOT: __dirname,

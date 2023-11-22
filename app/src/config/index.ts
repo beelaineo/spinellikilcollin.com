@@ -17,7 +17,6 @@ const {
   SHOPIFY_SHOP_NAME,
   FB_PIXEL_ID,
   FB_PRDOUCT_CATALOG_ID,
-  SKIP_BUILD_STATIC_GENERATION,
 } = publicRuntimeConfig
 
 const ALGOLIA_API_KEY =
@@ -45,8 +44,7 @@ if (!SHOPIFY_CHECKOUT_DOMAIN)
 if (!FB_PIXEL_ID) throw new Error('You must provide a facbook pixel id')
 if (!FB_PRDOUCT_CATALOG_ID)
   throw new Error('You must provide a facbook product catalog id')
-if (!SKIP_BUILD_STATIC_GENERATION)
-  throw new Error('You must include a SKIP_BUILD_STATIC_GENERATION variable')
+
 if (!EXCHANGE_RATE_API_KEY)
   throw new Error('You must include a EXCHANGE_RATE_API_KEY variable')
 
@@ -73,5 +71,4 @@ export const config = {
   SHOPIFY_CHECKOUT_DOMAIN,
   FB_PIXEL_ID,
   FB_PRDOUCT_CATALOG_ID,
-  SKIP_BUILD_STATIC_GENERATION,
 }

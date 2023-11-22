@@ -1,4 +1,4 @@
-export const shopifyCollectionDocument = {
+export const collection = {
   fieldsets: [
     {
       name: 'integrations',
@@ -10,7 +10,7 @@ export const shopifyCollectionDocument = {
     },
   ],
   fields: [
-    {name: 'sourceData', hidden: true},
+    { name: 'sourceData', hidden: true },
     {
       title: 'Hidden',
       name: 'hidden',
@@ -23,7 +23,8 @@ export const shopifyCollectionDocument = {
       name: 'reduceColumnCount',
       type: 'boolean',
       title: 'Reduce Column Count',
-      description: 'Changes the layout to 2 columns on desktop, 1 column on tablet',
+      description:
+        'Changes the layout to 2 columns on desktop, 1 column on tablet',
     },
 
     {
@@ -34,11 +35,11 @@ export const shopifyCollectionDocument = {
         'Toggle this to ON to change text color to white for all products in collection.',
     },
 
-    {name: 'hero', type: 'hero'},
+    { name: 'hero', type: 'hero' },
     {
       name: 'collectionBlocks',
       type: 'array',
-      of: [{type: 'collectionBlock'}],
+      of: [{ type: 'collectionBlock' }],
     },
     {
       name: 'description',
@@ -50,7 +51,7 @@ export const shopifyCollectionDocument = {
       name: 'preferredVariantMatches',
       type: 'array',
       title: 'Preferred Variant',
-      of: [{type: 'string'}],
+      of: [{ type: 'string' }],
       description:
         'Add values here to auto-select a preferred variant option when viewing this collection. The first variant that has an option containing one of these values will be used. E.g., "BG" or "Black Gold"',
     },
@@ -58,27 +59,34 @@ export const shopifyCollectionDocument = {
       title: 'Hide Filters',
       name: 'hideFilter',
       type: 'boolean',
-      description: 'Toggle this to ON to remove all filters from the collection view.',
+      description:
+        'Toggle this to ON to remove all filters from the collection view.',
     },
     {
       title: 'Minimal Filter Display',
       name: 'minimalDisplay',
       type: 'boolean',
-      description: 'Toggle this to ON to hide filter label, reset button, and sort tools.',
+      description:
+        'Toggle this to ON to hide filter label, reset button, and sort tools.',
     },
     {
       title: 'Override Default Filters',
       name: 'overrideDefaultFilter',
       type: 'boolean',
-      description: 'Toggle this to ON to only display the custom filters you add below.',
+      description:
+        'Toggle this to ON to only display the custom filters you add below.',
     },
-    {name: 'customFilter', type: 'productFilter'},
-    {name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations'},
+    { name: 'customFilter', type: 'productFilter' },
+    { name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations' },
     {
       name: 'footer',
       title: 'Footer Blocks',
       type: 'array',
-      of: [{type: 'carousel'}, {type: 'imageTextBlock'}, {type: 'textBlock'}],
+      of: [
+        { type: 'carousel' },
+        { type: 'imageTextBlock' },
+        { type: 'textBlock' },
+      ],
     },
     {
       name: 'seo',
