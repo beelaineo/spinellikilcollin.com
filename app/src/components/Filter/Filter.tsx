@@ -219,7 +219,6 @@ export const Filter = ({
   useEffect(() => {
     resetButtons()
     setActiveKey('')
-    if (!firstRender) scrollGridIntoView()
   }, [router.query])
 
   const isMobile = useMedia({
