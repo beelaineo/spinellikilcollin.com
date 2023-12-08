@@ -167,6 +167,11 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     const crumbLinks = CombineAccumulatively(segmentsPath)
     const crumbLabels = CombineAccumulatively(segmentsRoute)
 
+    // console.log('segmentsPath', segmentsPath)
+    // console.log('crumbLinks', crumbLinks)
+    // console.log('segmentsRoute', segmentsRoute)
+    // console.log('crumbLabels', crumbLabels)
+
     const fetchCrumbs = async () => {
       switch (segmentsRoute[1]) {
         case 'products':
@@ -255,6 +260,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     }
     fetchCrumbs()
   }, [router.asPath])
+  console.log('router', router)
   if (
     router.route === '/' ||
     router.route === '/404' ||
