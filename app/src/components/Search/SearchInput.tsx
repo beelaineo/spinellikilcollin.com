@@ -157,6 +157,9 @@ export const SearchInput = () => {
                         query,
                         params: {
                           hitsPerPage: 4,
+                          typoTolerance: 'min',
+                          exactOnSingleWordQuery: 'word',
+                          filters: `hideFromSearch:false`,
                         },
                       },
                     ],
