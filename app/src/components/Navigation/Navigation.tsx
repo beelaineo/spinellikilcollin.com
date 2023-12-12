@@ -30,6 +30,7 @@ import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
 import { QuickLinks } from './QuickLinks'
 import { Breadcrumbs } from '../Footer/Breadcrumbs'
+import { search } from '@algolia/autocomplete-plugin-recent-searches'
 const { useEffect, useState, useRef, useCallback } = React
 
 export const Navigation = () => {
@@ -90,11 +91,10 @@ export const Navigation = () => {
             open={false}
             colorTheme={colorTheme}
           />
-          
-          <LogoWrapper colorTheme={colorTheme}>
-            <Link href="/" as="/" aria-label="Link to homepage">     
-              <Logotype />
 
+          <LogoWrapper colorTheme={colorTheme}>
+            <Link href="/" as="/" aria-label="Link to homepage">
+              <Logotype />
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
@@ -120,7 +120,7 @@ export const Navigation = () => {
           </ToolsWrapper>
         </Inner>
         <BreadcrumbsWrapper>
-          <Breadcrumbs display={'header'} />
+          {!searchOpen && <Breadcrumbs display={'header'} />}
         </BreadcrumbsWrapper>
         {showQuickLinks(router) ? <QuickLinks colorTheme={colorTheme} /> : null}
       </Wrapper>

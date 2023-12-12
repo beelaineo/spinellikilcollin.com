@@ -36,9 +36,7 @@ export const useProductVariant = (
   const { initialVariant, shopifyVariant } = options
   let variants: ShopifyProductVariant[] = []
   if (product?.variants && product?.variants.length > 1) {
-    variants = definitely(product?.variants).filter(
-      (v) => v.sourceData?.availableForSale === true,
-    )
+    variants = definitely(product?.variants)
     if (variants.length === 0) {
       variants = definitely(product?.variants)
     }
@@ -60,6 +58,7 @@ export const useProductVariant = (
     const variant = variants.find(
       (v) => v.shopifyVariantID === convertedVariantId,
     )
+
     if (!variant)
       throw new Error(
         `There is no variant with the id "${variantId}" on the product ${product.title}`,
