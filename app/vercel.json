@@ -1,7 +1,7 @@
 {
   "version": 2,
   "functions": {
-    "src/pages/api/algoliaIndex.ts": {
+    "pages/api/algoliaIndex.ts": {
       "maxDuration": 90
     }
   }
