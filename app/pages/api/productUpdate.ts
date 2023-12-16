@@ -172,6 +172,12 @@ export async function handleProductUpdate(
     },
   }
 
+  console.log(
+    'Committing product documents',
+    productDocument,
+    productVariantsDocuments,
+  )
+
   await commitProductDocuments(
     client,
     productDocument,
