@@ -4,9 +4,18 @@ import { handleProductUpdate } from './productUpdate'
 import { deleteCollectionDocuments, deleteProductDocuments } from './sanityOps'
 import { handleCollectionUpdate } from './collectionUpdate'
 
+// Uncomment this when migrating to production:
+// const sanityClient = createClient({
+//   apiVersion: '2023-01-01',
+//   dataset: process.env.SANITY_DATASET,
+//   projectId: process.env.SANITY_PROJECT_ID,
+//   token: process.env.SANITY_AUTH_TOKEN,
+//   useCdn: false,
+// })
+
 const sanityClient = createClient({
   apiVersion: '2023-01-01',
-  dataset: process.env.SANITY_DATASET,
+  dataset: 'migration',
   projectId: process.env.SANITY_PROJECT_ID,
   token: process.env.SANITY_AUTH_TOKEN,
   useCdn: false,
