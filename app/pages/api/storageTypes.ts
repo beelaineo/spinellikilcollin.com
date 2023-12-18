@@ -143,5 +143,6 @@ export type ShopifyDocumentProduct = {
     }[]
     vendor: string
     descriptionHtml: string
+    description: string
   }
 }

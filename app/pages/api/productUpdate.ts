@@ -86,6 +86,7 @@ export async function handleProductUpdate(
     shopifyId: id,
     store: {
       ...product,
+      description: product.descriptionHtml.replace(/<[^>]+>/g, ''),
       id: shopifyProductId,
       gid: id,
       isDeleted: false,
