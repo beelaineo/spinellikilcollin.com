@@ -260,7 +260,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     }
     fetchCrumbs()
   }, [router.asPath])
-  console.log('router', router)
+
   if (
     router.route === '/' ||
     router.route === '/404' ||
