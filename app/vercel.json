@@ -1,3 +1,8 @@
 {
-  "version": 2
+  "version": 2,
+  "functions": {
+    "pages/api/algoliaIndex.ts": {
+      "maxDuration": 90
+    }
+  }
 }
