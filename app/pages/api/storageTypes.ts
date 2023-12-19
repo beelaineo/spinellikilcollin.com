@@ -134,6 +134,14 @@ export type ShopifyDocumentProduct = {
     previewImageUrl?: string
     createdAt: string
     isDeleted: boolean
+    images?: {
+      _key: string
+      id: `gid://shopify/ProductImage/${string}`
+      altText?: string
+      height?: number
+      width?: number
+      src: string
+    }[]
     variants?: ShopifyDocumentProductVariantMember[]
     options: {
       _type: string

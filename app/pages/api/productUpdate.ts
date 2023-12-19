@@ -100,6 +100,10 @@ export async function handleProductUpdate(
         _type: 'slug',
         current: handle,
       },
+      images: images?.map((image) => ({
+        ...image,
+        _key: uuidv5(image.id, 'product-image'),
+      })),
       options,
       // variants: productVariantsDocuments.map((variant) => {
       //   return {
@@ -143,6 +147,7 @@ export async function handleProductUpdate(
             metafields: [
               {
                 // query for metafields here
+                _key: 'metafieldId',
                 namespace: 'sanity',
                 key: 'variantId',
                 value: 'value',
