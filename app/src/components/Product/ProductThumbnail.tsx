@@ -49,6 +49,11 @@ import { ShopifyStorefrontProductVariant } from '../../types/generated-shopify'
 
 const { useEffect, useState, useMemo, useRef } = React
 
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 interface ProductThumbnailProps {
   product: ShopifyProduct
   displayPrice?: boolean
@@ -583,7 +588,7 @@ export const ProductThumbnail = ({
   ])
 
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
-    if (!product?.sourceData) return false
+    if (!product?.sourceData || !showInStockIndicators) return false
 
     const isInStock =
       stockedVariants && stockedVariants.length > 0 ? true : false
