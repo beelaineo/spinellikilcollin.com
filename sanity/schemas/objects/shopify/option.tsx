@@ -1,7 +1,7 @@
 import {SunIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   title: 'Product option',
   name: 'option',
   type: 'object',

@@ -1,6 +1,7 @@
 import * as React from 'react'
+import {defineField, defineType} from 'sanity'
 
-export const filterByPriceRange = {
+export const filterByPriceRange = defineType({
   name: 'priceRangeFilter',
   title: 'Price Range Filter',
   type: 'object',
@@ -32,9 +33,9 @@ export const filterByPriceRange = {
       }
     },
   },
-}
+})
 
-export const filterByInventory = {
+export const filterByInventory = defineType({
   name: 'inventoryFilter',
   title: 'Inventory Filter',
   type: 'object',
@@ -58,7 +59,7 @@ export const filterByInventory = {
       }
     },
   },
-}
+})
 
 const FilterMatchPreview = ({value}) => {
   const {match, type} = value
@@ -105,7 +106,7 @@ const FilterMatchPreview = ({value}) => {
   )
 }
 
-export const filterMatch = {
+export const filterMatch = defineType({
   name: 'filterMatch',
   title: 'Filter Match',
   type: 'object',
@@ -147,7 +148,7 @@ export const filterMatch = {
     },
     component: FilterMatchPreview,
   },
-}
+})
 
 const FilterPreview = ({value}) => {
   const {label, matches} = value
@@ -202,7 +203,7 @@ const FilterPreview = ({value}) => {
   }
 }
 
-export const filter = {
+export const filter = defineType({
   name: 'filter',
   type: 'object',
   title: 'Filter',
@@ -226,9 +227,9 @@ export const filter = {
     },
     component: FilterPreview,
   },
-}
+})
 
-export const filterSet = {
+export const filterSet = defineType({
   name: 'filterSet',
   title: 'Filter Set',
   type: 'object',
@@ -252,9 +253,9 @@ export const filterSet = {
       type: 'boolean',
     },
   ],
-}
+})
 
-export const productFilter = {
+export const productFilter = defineField({
   name: 'productFilter',
   type: 'array',
   title: 'Product Listing Filter',
@@ -264,4 +265,4 @@ export const productFilter = {
     {type: 'priceRangeFilter'},
     {type: 'inventoryFilter'},
   ],
-}
+})

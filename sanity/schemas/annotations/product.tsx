@@ -5,9 +5,9 @@
  */
 import {TagIcon} from '@sanity/icons'
 import React from 'react'
-import {defineField} from 'sanity'
+import {defineType, defineField} from 'sanity'
 
-export default defineField({
+export default defineType({
   title: 'Product',
   name: 'annotationProduct',
   type: 'object',

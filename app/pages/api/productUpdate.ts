@@ -19,6 +19,48 @@ import {
 import { DataSinkProduct } from './requestTypes'
 import { idFromGid } from './requestHelpers'
 
+interface Metafield {
+  id: string
+  namespace: string
+  key: string
+  value: string
+}
+
+interface VariantMetafieldsResponse {
+  metafields: Metafield[]
+}
+
+interface VariantMetefieldsGQLResponse {
+  Metafields?: Maybe<MetafieldsType>
+}
+
+const metafieldsQuery = `
+query($variantId: ID!) {
+  productVariant(id: $variantId) {
+    subcategory: metafield(namespace: "filter", key: "subcategory") {
+      value
+      type
+    }
+    stone: metafield(namespace: "filter", key: "stone") {
+      value
+      type
+    }
+  }
+}
+`
+
+// This is a hypothetical function to fetch metafields for a variant.
+// You will need to implement the actual API call logic here.
+async function fetchVariantMetafields(
+  variantId: string,
+): Promise<VariantMetafieldsResponse> {
+  // TODO: Implement the logic to fetch metafields from Shopify
+  const [response] = await Promise.all([
+    request<VariantMetafieldsResponse>(metafieldsQuery),
+  ])
+  throw new Error('fetchVariantMetafields function is not implemented')
+}
+
 export async function handleProductUpdate(
   client: SanityClient,
   product: DataSinkProduct,
@@ -114,6 +156,11 @@ export async function handleProductUpdate(
       //   }
       // }),
       variants: productVariantsDocuments.map((variant) => {
+        const variantId = idFromGid(variant.store.gid)
+
+        const metafieldsData = await fetchVariantMetafields(
+          variantId.toString(),
+        )
         return {
           _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
           _type: 'shopifyProductVariant',
@@ -144,15 +191,21 @@ export async function handleProductUpdate(
               height: variant.store.image.height,
               width: variant.store.image.width,
             },
-            metafields: [
-              {
-                // query for metafields here
-                _key: 'metafieldId',
-                namespace: 'sanity',
-                key: 'variantId',
-                value: 'value',
-              },
-            ],
+            // metafields: [
+            //   {
+            //     // query for metafields here
+            //     _key: 'metafieldId',
+            //     namespace: 'sanity',
+            //     key: 'variantId',
+            //     value: 'value',
+            //   },
+            // ],
+            metafields: metafieldsData.metafields.map((metafield) => ({
+              _key: metafield.id, // or any other unique identifier
+              namespace: metafield.namespace,
+              key: metafield.key,
+              value: metafield.value,
+            })),
             priceV2: {
               amount: variant.store.price,
               currencyCode: 'USD',

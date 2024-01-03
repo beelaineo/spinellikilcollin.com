@@ -1,4 +1,4 @@
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 export default defineField({
   name: 'accordionBody',

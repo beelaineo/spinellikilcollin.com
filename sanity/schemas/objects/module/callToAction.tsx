@@ -1,7 +1,7 @@
 import {BlockElementIcon, ImageIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   name: 'module.callToAction',
   title: 'Call to action',
   type: 'object',

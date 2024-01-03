@@ -1,15 +1,15 @@
 import {ThLargeIcon} from '@sanity/icons'
 import pluralize from 'pluralize-esm'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   name: 'module.grid',
   title: 'Grid',
   type: 'object',
   icon: ThLargeIcon,
   fields: [
     // Items
-    {
+    defineField({
       name: 'items',
       title: 'Items',
       type: 'array',
@@ -18,7 +18,7 @@ export default defineField({
           type: 'gridItem',
         },
       ],
-    },
+    }),
   ],
   preview: {
     select: {

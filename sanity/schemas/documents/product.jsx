@@ -30,18 +30,27 @@ export const product = defineType({
   icon: TagIcon,
   groups: GROUPS,
   fields: [
+    // The ProductHiddenInput is hiding all product info, temporarily disabling it here
+    // defineField({
+    //   name: 'hidden',
+    //   type: 'string',
+    //   components: {
+    //     field: ProductHiddenInput,
+    //   },
+    //   group: GROUPS.map((group) => group.name),
+    //   hidden: ({ parent }) => {
+    //     const isActive = parent?.store?.status === 'active'
+    //     const isDeleted = parent?.store?.isDeleted
+    //     return !parent?.store || (isActive && !isDeleted)
+    //   },
+    // }),
     defineField({
-      name: 'hidden',
+      name: 'shopifyId',
+      title: 'ShopifyId',
       type: 'string',
-      components: {
-        field: ProductHiddenInput,
-      },
-      group: GROUPS.map((group) => group.name),
-      hidden: ({parent}) => {
-        const isActive = parent?.store?.status === 'active'
-        const isDeleted = parent?.store?.isDeleted
-        return !parent?.store || (isActive && !isDeleted)
-      },
+      options: {field: 'shopifyId'},
+      readOnly: true,
+      hidden: true,
     }),
     // Title (proxy)
     defineField({
@@ -50,13 +59,21 @@ export const product = defineType({
       type: 'proxyString',
       options: {field: 'store.title'},
     }),
-    // Slug (proxy)
-    defineField({
-      name: 'slugProxy',
-      title: 'Slug',
-      type: 'proxyString',
-      options: {field: 'store.slug.current'},
-    }),
+    // defineField({
+    //   name: 'description',
+    //   title: 'Description',
+    //   type: 'proxyDescription',
+    //   group: 'editorial',
+    //   options: { field: 'store.description' },
+    //   readOnly: true,
+    // }),
+    // // Slug (proxy)
+    // defineField({
+    //   name: 'slugProxy',
+    //   title: 'Slug',
+    //   type: 'proxyString',
+    //   options: {field: 'store.slug.current'},
+    // }),
     // Color theme
     // defineField({
     //   name: 'colorTheme',

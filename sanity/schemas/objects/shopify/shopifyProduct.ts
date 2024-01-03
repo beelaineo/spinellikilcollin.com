@@ -1,6 +1,6 @@
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   name: 'shopifyProduct',
   title: 'Shopify',
   type: 'object',
@@ -36,6 +36,13 @@ export default defineField({
       fieldset: 'status',
       name: 'createdAt',
       title: 'Created at',
+      type: 'string',
+    }),
+    // Published at
+    defineField({
+      fieldset: 'status',
+      name: 'publishedAt',
+      title: 'Published at',
       type: 'string',
     }),
     // Updated at
@@ -91,10 +98,24 @@ export default defineField({
       type: 'slug',
       description: 'Shopify Product handle',
     }),
-    // Description
+    // Handle
+    defineField({
+      name: 'handle',
+      title: 'Handle',
+      type: 'string',
+      description: 'Shopify Product handle',
+    }),
+    // Description (HTML)
     defineField({
       name: 'descriptionHtml',
       title: 'HTML Description',
+      type: 'text',
+      rows: 5,
+    }),
+    // Description
+    defineField({
+      name: 'description',
+      title: 'Description',
       type: 'text',
       rows: 5,
     }),
@@ -117,7 +138,12 @@ export default defineField({
       fieldset: 'organization',
       name: 'tags',
       title: 'Tags',
-      type: 'string',
+      type: 'array',
+      of: [
+        {
+          type: 'string',
+        },
+      ],
     }),
     // Price range
     defineField({
@@ -125,12 +151,29 @@ export default defineField({
       title: 'Price range',
       type: 'priceRange',
     }),
+    // Featured Image
+    defineField({
+      name: 'featuredImage',
+      title: 'Featured Image',
+      type: 'shopifyImage',
+    }),
     // Preview Image URL
     defineField({
       name: 'previewImageUrl',
       title: 'Preview Image URL',
       type: 'string',
       description: 'Image displayed in both cart and checkout',
+    }),
+    // Images
+    defineField({
+      name: 'images',
+      title: 'Images',
+      type: 'array',
+      of: [
+        {
+          type: 'shopifyImage',
+        },
+      ],
     }),
     // Options
     defineField({
@@ -149,14 +192,7 @@ export default defineField({
       name: 'variants',
       title: 'Variants',
       type: 'array',
-      of: [
-        {
-          title: 'Variant',
-          type: 'reference',
-          weak: true,
-          to: [{type: 'productVariant'}],
-        },
-      ],
+      of: [{type: 'shopifyProductVariant'}],
     }),
   ],
 })

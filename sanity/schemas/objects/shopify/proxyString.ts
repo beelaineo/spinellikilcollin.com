@@ -1,4 +1,4 @@
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 import ProxyStringInput from '../../../components/inputs/ProxyString'
 

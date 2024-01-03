@@ -1,10 +1,10 @@
 import {LinkIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 import {PAGE_REFERENCES} from '../../../constants'
 import {getPriceRange} from '../../../utils/getPriceRange'
 
-export default defineField({
+export default defineType({
   title: 'Internal Link',
   name: 'linkInternal',
   type: 'object',

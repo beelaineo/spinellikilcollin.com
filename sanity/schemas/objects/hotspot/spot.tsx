@@ -1,9 +1,9 @@
 import React from 'react'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 import ShopifyDocumentStatus from '../../../components/media/ShopifyDocumentStatus'
 
-export default defineField({
+export default defineType({
   name: 'spot',
   title: 'Spot',
   type: 'object',

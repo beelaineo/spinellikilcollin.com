@@ -1,5 +1,5 @@
 import {ImageIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 const VARIANTS = [
   {title: 'Simple', value: undefined},
@@ -9,7 +9,7 @@ const VARIANTS = [
   {title: 'Product tags', value: 'productTags'},
 ]
 
-export default defineField({
+export default defineType({
   name: 'module.image',
   title: 'Image',
   type: 'object',

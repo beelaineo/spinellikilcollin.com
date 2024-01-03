@@ -1,8 +1,8 @@
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 import blocksToText from '../../../utils/blocksToText'
 
-export default defineField({
+export default defineType({
   name: 'gridItem',
   title: 'Item',
   type: 'object',

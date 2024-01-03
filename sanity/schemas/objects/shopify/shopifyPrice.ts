@@ -1,22 +1,22 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'priceRange',
-  title: 'Price range',
+  name: 'shopifyPrice',
+  title: 'Price',
   type: 'object',
   options: {
     columns: 2,
   },
   fields: [
     defineField({
-      name: 'minVariantPrice',
-      title: 'Min variant price',
+      name: 'amount',
+      title: 'Amount',
       type: 'number',
     }),
     defineField({
-      name: 'maxVariantPrice',
-      title: 'Max variant price',
-      type: 'number',
+      name: 'currencyCode',
+      title: 'Currency code',
+      type: 'string',
     }),
   ],
 })

@@ -1,7 +1,7 @@
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 import blocksToText from '../../../utils/blocksToText'
 
-export default defineField({
+export default defineType({
   name: 'accordionGroup',
   title: 'Object',
   type: 'object',

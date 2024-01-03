@@ -5,9 +5,9 @@
  */
 import {EarthGlobeIcon} from '@sanity/icons'
 import React from 'react'
-import {defineField} from 'sanity'
+import {defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   title: 'External Link',
   name: 'annotationLinkExternal',
   type: 'object',

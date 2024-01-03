@@ -25,6 +25,7 @@
     "deploy:cms": "sanity deploy",
     "deploy:graphql:production": "sanity graphql deploy --generation gen2 --playground",
     "deploy:graphql:staging": "sanity graphql deploy --dataset staging --generation gen2 --playground",
+    "deploy:graphql:migration": "sanity graphql deploy --dataset migration --generation gen2 --playground",
     "deploy:types": "yarn workspace spinellikilcollin-app generate-types",
     "sync:export": "sanity dataset export production",
     "sync:reset": "sanity dataset delete staging && sanity dataset create staging",

@@ -1,7 +1,7 @@
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
-  name: 'shopifyProductVariant',
+export default defineType({
+  name: 'shopifyProductVariantItem',
   title: 'Shopify',
   type: 'object',
   options: {

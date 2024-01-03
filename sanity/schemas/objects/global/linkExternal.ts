@@ -1,7 +1,7 @@
 import {EarthGlobeIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   title: 'External Link',
   name: 'linkExternal',
   type: 'object',
@@ -9,7 +9,6 @@ export default defineField({
   fields: [
     // Title
     {
-      title: 'Title',
       name: 'title',
       type: 'string',
       validation: (Rule) => Rule.required(),
@@ -37,7 +36,7 @@ export default defineField({
     prepare(selection) {
       const {title, url} = selection
 
-      let subtitle = []
+      const subtitle = []
       if (url) {
         subtitle.push(`→ ${url}`)
       }

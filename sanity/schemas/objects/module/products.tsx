@@ -1,8 +1,8 @@
 import {TagIcon} from '@sanity/icons'
 import pluralize from 'pluralize-esm'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   name: 'module.products',
   title: 'Products',
   type: 'object',

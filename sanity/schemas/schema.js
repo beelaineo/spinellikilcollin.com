@@ -38,6 +38,7 @@ import moduleCallout from './objects/module/callout'
 import moduleCallToAction from './objects/module/callToAction'
 import moduleCollection from './objects/module/collection'
 import moduleGrid from './objects/module/grid'
+import shopifyImage from './objects/shopify/shopifyImage'
 import gridItems from './objects/module/gridItem'
 import menu from './objects/global/menu'
 import moduleImage from './objects/module/image'
@@ -53,6 +54,7 @@ import productHotspots from './objects/hotspot/productHotspots'
 import option from './objects/shopify/option'
 import productWithVariant from './objects/shopify/productWithVariant'
 import proxyString from './objects/shopify/proxyString'
+import proxyDescription from './objects/shopify/proxyDescription'
 import seo from './objects/seo/seo'
 import seoHome from './objects/seo/home'
 import seoPage from './objects/seo/page'
@@ -60,8 +62,13 @@ import seoDescription from './objects/seo/description'
 import seoShopify from './objects/seo/shopify'
 import shopifyCollection from './objects/shopify/shopifyCollection'
 import shopifyCollectionRule from './objects/shopify/shopifyCollectionRule'
+import shopifyPrice from './objects/shopify/shopifyPrice'
 import shopifyProduct from './objects/shopify/shopifyProduct'
 import shopifyProductVariant from './objects/shopify/shopifyProductVariant'
+import shopifyProductVariantItem from './objects/shopify/shopifyProductVariantItem'
+import shopifySourceProductVariant from './objects/shopify/shopifySourceProductVariant'
+import shopifyMetafield from './objects/shopify/shopifyMetafield'
+import shopifySourceSelectedOption from './objects/shopify/shopifySourceSelectedOption'
 
 // Collections
 import collectionGroup from './objects/collection/group'
@@ -90,6 +97,7 @@ const objects2 = [
   moduleCallToAction,
   moduleCollection,
   moduleGrid,
+  shopifyImage,
   gridItems,
   moduleImage,
   moduleImageAction,
@@ -104,15 +112,21 @@ const objects2 = [
   option,
   productWithVariant,
   proxyString,
-  // seo,
+  proxyDescription,
+  seo,
   seoHome,
   seoPage,
   seoDescription,
   seoShopify,
   shopifyCollection,
   shopifyCollectionRule,
+  shopifyPrice,
   shopifyProduct,
   shopifyProductVariant,
+  shopifyProductVariantItem,
+  shopifySourceProductVariant,
+  shopifyMetafield,
+  shopifySourceSelectedOption,
   collectionGroup,
   collectionLinks,
   // shopifyProductDocument,

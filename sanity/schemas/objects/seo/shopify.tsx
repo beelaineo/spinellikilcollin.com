@@ -1,7 +1,7 @@
 import React from 'react'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   name: 'seo.shopify',
   title: 'SEO',
   type: 'object',

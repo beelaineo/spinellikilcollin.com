@@ -1,11 +1,11 @@
 import pluralize from 'pluralize-esm'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 interface ColorOption {
   title: string
 }
 
-export default defineField({
+export default defineType({
   name: 'customProductOption.color',
   title: 'Color',
   type: 'object',

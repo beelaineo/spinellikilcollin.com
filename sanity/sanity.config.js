@@ -15,7 +15,7 @@ export default defineConfig([
   {
     title: 'Spinelli Kilcollin',
     projectId: 'i21fjdbi',
-    dataset: 'migration',
+    dataset: 'production',
     name: 'production-workspace',
     basePath: '/production',
     plugins: [

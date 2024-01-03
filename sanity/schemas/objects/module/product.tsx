@@ -1,10 +1,10 @@
 import {TagIcon} from '@sanity/icons'
 import React from 'react'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 import ShopifyDocumentStatus from '../../../components/media/ShopifyDocumentStatus'
 
-export default defineField({
+export default defineType({
   name: 'module.product',
   title: 'Product',
   type: 'object',

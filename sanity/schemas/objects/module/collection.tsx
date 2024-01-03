@@ -1,10 +1,10 @@
 import React from 'react'
 import {PackageIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 import ShopifyDocumentStatus from '../../../components/media/ShopifyDocumentStatus'
 
-export default defineField({
+export default defineType({
   name: 'module.collection',
   title: 'Collection',
   type: 'object',

@@ -1,7 +1,7 @@
 import {UserIcon} from '@sanity/icons'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   name: 'module.instagram',
   title: 'Instagram',
   type: 'object',

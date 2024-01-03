@@ -1,5 +1,5 @@
 import React from 'react'
-import {defineField} from 'sanity'
+import {defineField, defineType} from 'sanity'
 
 const ColorPreview = ({color}: {color: string}) => {
   return (
@@ -15,7 +15,7 @@ const ColorPreview = ({color}: {color: string}) => {
   )
 }
 
-export default defineField({
+export default defineType({
   name: 'customProductOption.colorObject',
   title: 'Color',
   type: 'object',

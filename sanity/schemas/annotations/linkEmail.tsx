@@ -5,9 +5,9 @@
  */
 import {EnvelopeIcon} from '@sanity/icons'
 import React from 'react'
-import {defineField} from 'sanity'
+import {defineType} from 'sanity'
 
-export default defineField({
+export default defineType({
   title: 'Email link',
   name: 'annotationLinkEmail',
   type: 'object',

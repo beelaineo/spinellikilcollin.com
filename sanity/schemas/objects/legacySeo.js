@@ -1,6 +1,6 @@
-export const seo = {
+export const legacySeo = {
   title: 'SEO & Accessibility',
-  name: 'seo',
+  name: 'legacySeo',
   type: 'object',
   fields: [
     {
