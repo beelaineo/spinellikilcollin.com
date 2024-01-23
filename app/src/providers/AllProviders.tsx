@@ -56,7 +56,7 @@ export async function shopifyQuery<Response>(
   }).then((r) => r.json())
   console.log('shopifyQuery body', { query: queryString, variables })
   console.log('shopifyQuery result', result)
-  return result
+  return result.data
 }
 
 interface Props {
