@@ -45,6 +45,7 @@ export async function shopifyQuery<Response>(
     typeof query === 'string'
       ? query
       : deduplicateFragments(query?.loc?.source.body)
+  console.log('shopifyQuery queryString', queryString)
   const result = await fetch(SHOPIFY_STOREFRONT_URL, {
     method: 'POST',
     headers: {
@@ -53,6 +54,8 @@ export async function shopifyQuery<Response>(
     },
     body: JSON.stringify({ query: queryString, variables }),
   }).then((r) => r.json())
+  console.log('shopifyQuery body', { query: queryString, variables })
+  console.log('shopifyQuery result', result)
   return result
 }
 

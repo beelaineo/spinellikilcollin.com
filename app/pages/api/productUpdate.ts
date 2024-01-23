@@ -68,7 +68,7 @@ async function fetchVariantMetafields(
       variantId,
     },
   )
-
+  console.log('fetchVariantMetafields response', response)
   if (!response || !response.node) {
     throw new Error('No data returned')
   }
