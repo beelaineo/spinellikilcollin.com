@@ -55,6 +55,11 @@ export type ShopifyDocumentProductVariant = {
       width?: number
       src: string
     }
+    metafields?: {
+      key: string
+      namespace: string
+      value: string
+    }[]
     price: number
     productGid: `gid://shopify/Product/${string}`
     productId: number

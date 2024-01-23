@@ -1,5 +1,6 @@
 import type { SanityClient } from '@sanity/client'
 import { v5 as uuidv5 } from 'uuid'
+import { request } from '../../src/graphql'
 
 import {
   buildProductDocumentId,
@@ -18,47 +19,55 @@ import {
 } from './constants'
 import { DataSinkProduct } from './requestTypes'
 import { idFromGid } from './requestHelpers'
+import { ShopifyStorefrontMetafield } from '../../src/types/generated-shopify'
+import { Maybe } from '../../src/types'
 
 interface Metafield {
-  id: string
-  namespace: string
   key: string
   value: string
+  namespace: string
+}
+
+interface ProductVariantNode {
+  id: string
+  subcategory: Maybe<Metafield>
+  stone: Maybe<Metafield>
 }
 
 interface VariantMetafieldsResponse {
-  metafields: Metafield[]
-}
-
-interface VariantMetefieldsGQLResponse {
-  Metafields?: Maybe<MetafieldsType>
+  node: Maybe<ProductVariantNode>
 }
 
 const metafieldsQuery = `
-query($variantId: ID!) {
-  productVariant(id: $variantId) {
-    subcategory: metafield(namespace: "filter", key: "subcategory") {
-      value
-      type
-    }
-    stone: metafield(namespace: "filter", key: "stone") {
-      value
-      type
+query VariantMetafieldsQuery($variantId: ID!) {
+  node(id: $variantId) {
+    id
+    ... on ProductVariant {
+      subcategory: metafield(namespace: "filter", key: "subcategory") {
+        key
+        value
+        namespace
+      }
+      stone: metafield(namespace: "filter", key: "stone") {
+        key
+        value
+        namespace
+      }
     }
   }
 }
 `
-
-// This is a hypothetical function to fetch metafields for a variant.
-// You will need to implement the actual API call logic here.
+// This function fetches metafields for a variant.
 async function fetchVariantMetafields(
   variantId: string,
 ): Promise<VariantMetafieldsResponse> {
-  // TODO: Implement the logic to fetch metafields from Shopify
-  const [response] = await Promise.all([
-    request<VariantMetafieldsResponse>(metafieldsQuery),
-  ])
-  throw new Error('fetchVariantMetafields function is not implemented')
+  const response = await request<VariantMetafieldsResponse>(metafieldsQuery, {
+    variantId,
+  })
+  if (!response || !response.node) {
+    throw new Error('No data returned')
+  }
+  return { node: response.node }
 }
 
 export async function handleProductUpdate(
@@ -74,9 +83,27 @@ export async function handleProductUpdate(
   const firstImage = images?.[0]
   const shopifyProductId = idFromGid(id)
 
-  const productVariantsDocuments = variants.map<ShopifyDocumentProductVariant>(
-    (variant) => {
+  const productVariantsDocuments = await Promise.all(
+    variants.map<Promise<ShopifyDocumentProductVariant>>(async (variant) => {
       const variantId = idFromGid(variant.id)
+      const metafieldsData = await fetchVariantMetafields(variant.id)
+
+      const metafields: Metafield[] = []
+      if (metafieldsData.node?.subcategory) {
+        metafields.push({
+          key: metafieldsData.node.subcategory.key,
+          namespace: 'filter',
+          value: metafieldsData.node.subcategory.value,
+        })
+      }
+      if (metafieldsData.node?.stone) {
+        metafields.push({
+          key: metafieldsData.node.stone.key,
+          namespace: 'filter',
+          value: metafieldsData.node.stone.value,
+        })
+      }
+
       return {
         _id: buildProductVariantDocumentId(variantId),
         _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
@@ -108,9 +135,10 @@ export async function handleProductUpdate(
               variant.inventoryQuantity !== null &&
               variant.inventoryQuantity > 0,
           },
+          metafields: metafields,
         },
       }
-    },
+    }),
   )
 
   const options: ShopifyDocumentProduct['store']['options'] =
@@ -158,9 +186,6 @@ export async function handleProductUpdate(
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
 
-        const metafieldsData = await fetchVariantMetafields(
-          variantId.toString(),
-        )
         return {
           _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
           _type: 'shopifyProductVariant',
@@ -191,21 +216,17 @@ export async function handleProductUpdate(
               height: variant.store.image.height,
               width: variant.store.image.width,
             },
-            // metafields: [
-            //   {
-            //     // query for metafields here
-            //     _key: 'metafieldId',
-            //     namespace: 'sanity',
-            //     key: 'variantId',
-            //     value: 'value',
-            //   },
-            // ],
-            metafields: metafieldsData.metafields.map((metafield) => ({
-              _key: metafield.id, // or any other unique identifier
-              namespace: metafield.namespace,
-              key: metafield.key,
-              value: metafield.value,
-            })),
+            metafields: variant.store.metafields?.map((metafield) => {
+              return {
+                __typename: 'Metafield',
+                _key: metafield.key,
+                _type: 'shopifySourceMetafield',
+                id: metafield.key,
+                key: metafield.key,
+                namespace: metafield.namespace,
+                value: metafield.value,
+              }
+            }),
             priceV2: {
               amount: variant.store.price,
               currencyCode: 'USD',
