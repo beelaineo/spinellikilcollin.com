@@ -218,6 +218,12 @@ export async function handleProductUpdate(
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
 
+        console.log(
+          'UUID_NAMESPACE_PRODUCT_VARIANT',
+          UUID_NAMESPACE_PRODUCT_VARIANT,
+        )
+        console.log('variant._id', variant._id)
+
         return {
           _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
           _type: 'shopifyProductVariant',
