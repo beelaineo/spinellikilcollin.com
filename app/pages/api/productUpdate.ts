@@ -21,6 +21,7 @@ import { DataSinkProduct } from './requestTypes'
 import { idFromGid } from './requestHelpers'
 import { ShopifyStorefrontMetafield } from '../../src/types/generated-shopify'
 import { Maybe } from '../../src/types'
+import { shopifyQuery } from '../../src/providers/AllProviders'
 
 interface Metafield {
   key: string
@@ -61,9 +62,13 @@ query VariantMetafieldsQuery($variantId: ID!) {
 async function fetchVariantMetafields(
   variantId: string,
 ): Promise<VariantMetafieldsResponse> {
-  const response = await request<VariantMetafieldsResponse>(metafieldsQuery, {
-    variantId,
-  })
+  const response = await shopifyQuery<VariantMetafieldsResponse>(
+    metafieldsQuery,
+    {
+      variantId,
+    },
+  )
+
   if (!response || !response.node) {
     throw new Error('No data returned')
   }
