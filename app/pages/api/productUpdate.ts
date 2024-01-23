@@ -113,9 +113,18 @@ export async function handleProductUpdate(
         _id: buildProductVariantDocumentId(variantId),
         _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
         store: {
-          // ...variant,
+          ...variant,
           id: variantId,
           gid: `gid://shopify/ProductVariant/${variant.id}`,
+          isDeleted: false,
+          option1: variant.selectedOptions[0]?.value,
+          option2: variant.selectedOptions[1]?.value,
+          option3: variant.selectedOptions[2]?.value,
+          selectedOptions: variant.selectedOptions,
+          previewImageUrl: variant.image?.src,
+          image: variant.image,
+          price: Number(variant.price),
+          compareAtPrice: variant.compareAtPrice ?? 0,
           productGid: variant.product.id,
           productId: idFromGid(variant.product.id),
           sku: variant.sku,
@@ -139,7 +148,7 @@ export async function handleProductUpdate(
         _id: buildProductVariantDocumentId(variantId),
         _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
         store: {
-          // ...variant,
+          ...variant,
           id: variantId,
           gid: `gid://shopify/ProductVariant/${variant.id}`,
           isDeleted: false,
@@ -208,8 +217,6 @@ export async function handleProductUpdate(
       options,
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
-
-        console.log('productVariantsDocuments variant doc:', variant)
 
         return {
           _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
