@@ -90,11 +90,11 @@ const useVariantIsInStock = (
     const requestVariantData = async () => {
       setIsInStock(PENDING)
       const result = await shopifyQuery<{
-        data: { node: ShopifyStorefrontProductVariant }
+        node: ShopifyStorefrontProductVariant
       }>(shopifyVariantQuery, {
         id: currentVariantId,
       })
-      const variantIsAvailableForSale = result?.data.node.availableForSale
+      const variantIsAvailableForSale = result?.node.availableForSale
       setIsInStock(variantIsAvailableForSale)
     }
     requestVariantData()

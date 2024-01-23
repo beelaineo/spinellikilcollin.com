@@ -109,6 +109,41 @@ export async function handleProductUpdate(
         })
       }
 
+      console.log('productVariantsDocuments variant doc:', {
+        _id: buildProductVariantDocumentId(variantId),
+        _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
+        store: {
+          ...variant,
+          id: variantId,
+          gid: `gid://shopify/ProductVariant/${variant.id}`,
+          isDeleted: false,
+          option1: variant.selectedOptions[0]?.value,
+          option2: variant.selectedOptions[1]?.value,
+          option3: variant.selectedOptions[2]?.value,
+          selectedOptions: variant.selectedOptions,
+          previewImageUrl: variant.image?.src,
+          image: variant.image,
+          price: Number(variant.price),
+          compareAtPrice: variant.compareAtPrice ?? 0,
+          productGid: variant.product.id,
+          productId: idFromGid(variant.product.id),
+          sku: variant.sku,
+          status,
+          updatedAt: variant.updatedAt,
+          inventory: {
+            management: (
+              variant.inventoryManagement || 'not_managed'
+            ).toUpperCase(),
+            policy: (variant.inventoryPolicy || '').toUpperCase(),
+            quantity: variant.inventoryQuantity ?? 0,
+            isAvailable:
+              variant.inventoryQuantity !== null &&
+              variant.inventoryQuantity > 0,
+          },
+          metafields: metafields,
+        },
+      })
+
       return {
         _id: buildProductVariantDocumentId(variantId),
         _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
@@ -180,14 +215,6 @@ export async function handleProductUpdate(
         _key: uuidv5(image.id, 'product-image'),
       })),
       options,
-      // variants: productVariantsDocuments.map((variant) => {
-      //   return {
-      //     _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
-      //     _type: 'reference',
-      //     _ref: variant._id,
-      //     _weak: true,
-      //   }
-      // }),
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
 
