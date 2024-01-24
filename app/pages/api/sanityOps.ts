@@ -37,6 +37,13 @@ export async function hasDrafts(
   }, {})
 }
 
+export async function fetchCurrentProductDocument(
+  client: SanityClient,
+  id: string,
+): Promise<ShopifyDocumentProduct | undefined> {
+  return await client.getDocument(id)
+}
+
 const deleteProductVariants = async (
   client: SanityClient,
   transaction: Transaction,
@@ -100,7 +107,7 @@ export async function deleteProductDocuments(client: SanityClient, id: number) {
   await transaction.commit()
 }
 
-export const createProductDocument = (
+export const createProductDocument = async (
   client: SanityClient,
   transaction: Transaction,
   document: ShopifyDocumentProduct,
@@ -108,16 +115,37 @@ export const createProductDocument = (
 ) => {
   const publishedId = document._id
 
+  // Fetch current document to compare options
+  const currentDocument = await fetchCurrentProductDocument(client, publishedId)
+
+  const updatedOptions = document.options.map((option) => {
+    const currentOption = currentDocument?.options.find(
+      (o) => o._key === option._key,
+    )
+    if (currentOption) {
+      // Merge values, keeping existing ones if they match
+      const updatedValues = option.values.map((value) => {
+        const currentValue = currentOption.values.find(
+          (v) => v.value === value.value,
+        )
+        return currentValue ? currentValue : value
+      })
+      return { ...option, values: updatedValues }
+    } else {
+      return option
+    }
+  })
+
   // Create new product if none found
   transaction.createIfNotExists(document).patch(publishedId, (patch) => {
-    return patch.set({ options: document.options, store: document.store })
+    return patch.set({ options: updatedOptions, store: document.store })
   })
 
   // Patch existing draft (if present)
   if (draftExists) {
     const draftId = `drafts.${document._id}`
     transaction.patch(draftId, (patch) => {
-      return patch.set({ options: document.options, store: document.store })
+      return patch.set({ options: updatedOptions, store: document.store })
     })
   }
 }
