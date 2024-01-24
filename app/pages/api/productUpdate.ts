@@ -302,7 +302,7 @@ export async function handleProductUpdate(
         option.values.map((v) => {
           return {
             _key: slugify(v),
-            _type: 'shopifyProductOptionValue',
+            _type: 'productOptionValue',
             value: v,
           }
         }) ?? [],

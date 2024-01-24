@@ -124,7 +124,7 @@ interface ShopifyDocumentProductVariantMember {
 
 interface ShopifyProductOptionValue {
   _key: string
-  _type: 'shopifyProductOptionValue'
+  _type: 'productOptionValue'
   value: string
 }
 
