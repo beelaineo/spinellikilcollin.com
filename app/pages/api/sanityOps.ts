@@ -110,14 +110,14 @@ export const createProductDocument = (
 
   // Create new product if none found
   transaction.createIfNotExists(document).patch(publishedId, (patch) => {
-    return patch.set({ store: document.store })
+    return patch.set({ options: document.options, store: document.store })
   })
 
   // Patch existing draft (if present)
   if (draftExists) {
     const draftId = `drafts.${document._id}`
     transaction.patch(draftId, (patch) => {
-      return patch.set({ store: document.store })
+      return patch.set({ options: document.options, store: document.store })
     })
   }
 }
