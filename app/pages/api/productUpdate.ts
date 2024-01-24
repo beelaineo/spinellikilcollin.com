@@ -82,7 +82,7 @@ query VariantMetafieldsQuery($variantId: ID!) {
         value
         namespace
       }
-      style: metafield(namespace: "filter", key: "style"") {
+      style: metafield(namespace: "filter", key: "style") {
         key
         value
         namespace
