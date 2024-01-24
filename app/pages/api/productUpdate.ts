@@ -1,5 +1,5 @@
 import type { SanityClient } from '@sanity/client'
-import { v5 as uuidv5 } from 'uuid'
+import { v5 as uuidv5, v3 as uuidv3 } from 'uuid'
 import { request } from '../../src/graphql'
 
 import {
@@ -212,10 +212,10 @@ export async function handleProductUpdate(
       },
       images: images?.map((image) => {
         console.log('image', image)
-        console.log('image uuid:', uuidv5(image.id, 'product-image'))
+        console.log('image uuid:', uuidv3(image.id, 'product-image'))
         return {
           ...image,
-          _key: uuidv5(image.id, 'product-image'),
+          _key: uuidv3(image.id, 'product-image'),
         }
       }),
       options,
@@ -229,8 +229,7 @@ export async function handleProductUpdate(
         console.log('variant._id', variant._id)
 
         return {
-          // _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
-          _key: `shopifyProductVariant-${variant._id}`,
+          _key: uuidv3(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
           _type: 'shopifyProductVariant',
           id: variant.store.gid,
           shopifyVariantID: variant.store.gid,
