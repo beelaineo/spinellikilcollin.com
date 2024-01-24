@@ -15,7 +15,7 @@ import { handleCollectionUpdate } from './collectionUpdate'
 
 const sanityClient = createClient({
   apiVersion: '2023-01-01',
-  dataset: 'migration',
+  dataset: 'connect',
   projectId: process.env.SANITY_PROJECT_ID,
   token: process.env.SANITY_AUTH_TOKEN,
   useCdn: false,
