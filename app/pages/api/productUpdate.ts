@@ -110,40 +110,40 @@ export async function handleProductUpdate(
         })
       }
 
-      console.log('productVariantsDocuments variant doc:', {
-        _id: buildProductVariantDocumentId(variantId),
-        _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
-        store: {
-          ...variant,
-          id: variantId,
-          gid: `gid://shopify/ProductVariant/${variant.id}`,
-          isDeleted: false,
-          option1: variant.selectedOptions[0]?.value,
-          option2: variant.selectedOptions[1]?.value,
-          option3: variant.selectedOptions[2]?.value,
-          selectedOptions: variant.selectedOptions,
-          previewImageUrl: variant.image?.src,
-          image: variant.image,
-          price: Number(variant.price),
-          compareAtPrice: variant.compareAtPrice ?? 0,
-          productGid: variant.product.id,
-          productId: idFromGid(variant.product.id),
-          sku: variant.sku,
-          status,
-          updatedAt: variant.updatedAt,
-          inventory: {
-            management: (
-              variant.inventoryManagement || 'not_managed'
-            ).toUpperCase(),
-            policy: (variant.inventoryPolicy || '').toUpperCase(),
-            quantity: variant.inventoryQuantity ?? 0,
-            isAvailable:
-              variant.inventoryQuantity !== null &&
-              variant.inventoryQuantity > 0,
-          },
-          metafields: metafields,
-        },
-      })
+      // console.log('productVariantsDocuments variant doc:', {
+      //   _id: buildProductVariantDocumentId(variantId),
+      //   _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
+      //   store: {
+      //     ...variant,
+      //     id: variantId,
+      //     gid: `gid://shopify/ProductVariant/${variant.id}`,
+      //     isDeleted: false,
+      //     option1: variant.selectedOptions[0]?.value,
+      //     option2: variant.selectedOptions[1]?.value,
+      //     option3: variant.selectedOptions[2]?.value,
+      //     selectedOptions: variant.selectedOptions,
+      //     previewImageUrl: variant.image?.src,
+      //     image: variant.image,
+      //     price: Number(variant.price),
+      //     compareAtPrice: variant.compareAtPrice ?? 0,
+      //     productGid: variant.product.id,
+      //     productId: idFromGid(variant.product.id),
+      //     sku: variant.sku,
+      //     status,
+      //     updatedAt: variant.updatedAt,
+      //     inventory: {
+      //       management: (
+      //         variant.inventoryManagement || 'not_managed'
+      //       ).toUpperCase(),
+      //       policy: (variant.inventoryPolicy || '').toUpperCase(),
+      //       quantity: variant.inventoryQuantity ?? 0,
+      //       isAvailable:
+      //         variant.inventoryQuantity !== null &&
+      //         variant.inventoryQuantity > 0,
+      //     },
+      //     metafields: metafields,
+      //   },
+      // })
 
       return {
         _id: buildProductVariantDocumentId(variantId),
@@ -151,7 +151,7 @@ export async function handleProductUpdate(
         store: {
           ...variant,
           id: variantId,
-          gid: `gid://shopify/ProductVariant/${variant.id}`,
+          gid: `gid://shopify/ProductVariant/${variantId}`,
           isDeleted: false,
           option1: variant.selectedOptions[0]?.value,
           option2: variant.selectedOptions[1]?.value,
@@ -223,6 +223,7 @@ export async function handleProductUpdate(
         }
       }),
       options,
+      publishedAt: product.publishedAt,
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
 

@@ -138,6 +138,7 @@ export type ShopifyDocumentProduct = {
     updatedAt?: string
     previewImageUrl?: string
     createdAt: string
+    publishedAt: string
     isDeleted: boolean
     images?: {
       _key: string

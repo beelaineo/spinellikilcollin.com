@@ -56,7 +56,6 @@ export interface DataSinkProduct {
   variants: DataSinkProductVariant[]
   vendor: string
   status: 'active' | 'archived' | 'draft' | 'unknown'
-
   publishedAt: string
   createdAt: string
   updatedAt: string
