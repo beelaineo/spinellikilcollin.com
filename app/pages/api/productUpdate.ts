@@ -15,6 +15,7 @@ import type {
 import {
   SHOPIFY_PRODUCT_DOCUMENT_TYPE,
   SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
+  UUID_NAMESPACE_PRODUCT_IMAGE,
   UUID_NAMESPACE_PRODUCT_VARIANT,
 } from './constants'
 import { DataSinkProduct } from './requestTypes'
@@ -212,10 +213,13 @@ export async function handleProductUpdate(
       },
       images: images?.map((image) => {
         console.log('image', image)
-        console.log('image uuid:', uuidv3(image.id, 'product-image'))
+        console.log(
+          'image uuid:',
+          uuidv5(image.id, UUID_NAMESPACE_PRODUCT_IMAGE),
+        )
         return {
           ...image,
-          _key: uuidv3(image.id, 'product-image'),
+          _key: uuidv5(image.id, UUID_NAMESPACE_PRODUCT_IMAGE),
         }
       }),
       options,
@@ -229,7 +233,8 @@ export async function handleProductUpdate(
         console.log('variant._id', variant._id)
 
         return {
-          _key: uuidv3(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
+          _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
+          // _key: `shopifyProductVariant-${variant._id}`,
           _type: 'shopifyProductVariant',
           id: variant.store.gid,
           shopifyVariantID: variant.store.gid,
