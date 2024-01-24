@@ -30,17 +30,44 @@ interface Metafield {
   namespace: string
 }
 
+interface ProductNode {
+  id: string
+  excludeFromIndication: Maybe<Metafield>
+}
+
 interface ProductVariantNode {
   id: string
   subcategory: Maybe<Metafield>
+  metal: Maybe<Metafield>
+  style: Maybe<Metafield>
   stone: Maybe<Metafield>
+  excludeFromIndication: Maybe<Metafield>
 }
 
 interface VariantMetafieldsResponse {
   node: Maybe<ProductVariantNode>
 }
 
-const metafieldsQuery = `
+interface ProductMetafieldsResponse {
+  node: Maybe<ProductNode>
+}
+
+const productMetafieldsQuery = `
+query ProductMetafieldsQuery($variantId: ID!) {
+  node(id: $variantId) {
+    id
+    ... on Product {
+      excludeFromIndication: metafield(namespace: "product", key: "excludeFromIndication") {
+        key
+        value
+        namespace
+      }
+    }
+  }
+}
+`
+
+const variantMetafieldsQuery = `
 query VariantMetafieldsQuery($variantId: ID!) {
   node(id: $variantId) {
     id
@@ -50,7 +77,22 @@ query VariantMetafieldsQuery($variantId: ID!) {
         value
         namespace
       }
+      metal: metafield(namespace: "filter", key: "metal") {
+        key
+        value
+        namespace
+      }
+      style: metafield(namespace: "filter", key: "style"") {
+        key
+        value
+        namespace
+      }
       stone: metafield(namespace: "filter", key: "stone") {
+        key
+        value
+        namespace
+      }
+      excludeFromIndication: metafield(namespace: "variant", key: "excludeFromIndication") {
         key
         value
         namespace
@@ -59,12 +101,29 @@ query VariantMetafieldsQuery($variantId: ID!) {
   }
 }
 `
+
+// This function fetches metafields for a product.
+async function fetchProductMetafields(
+  productId: string,
+): Promise<ProductMetafieldsResponse> {
+  const response = await shopifyQuery<ProductMetafieldsResponse>(
+    productMetafieldsQuery,
+    {
+      productId,
+    },
+  )
+  if (!response || !response.node) {
+    throw new Error('No data returned')
+  }
+  return { node: response.node }
+}
+
 // This function fetches metafields for a variant.
 async function fetchVariantMetafields(
   variantId: string,
 ): Promise<VariantMetafieldsResponse> {
   const response = await shopifyQuery<VariantMetafieldsResponse>(
-    metafieldsQuery,
+    variantMetafieldsQuery,
     {
       variantId,
     },
@@ -89,6 +148,18 @@ export async function handleProductUpdate(
   const firstImage = images?.[0]
   const shopifyProductId = idFromGid(id)
 
+  const productMetafieldsData = await fetchProductMetafields(id)
+
+  const productMetafields: Metafield[] = []
+
+  if (productMetafieldsData.node?.excludeFromIndication) {
+    productMetafields.push({
+      key: productMetafieldsData.node.excludeFromIndication.key,
+      namespace: 'product',
+      value: productMetafieldsData.node.excludeFromIndication.value,
+    })
+  }
+
   const productVariantsDocuments = await Promise.all(
     variants.map<Promise<ShopifyDocumentProductVariant>>(async (variant) => {
       const variantId = idFromGid(variant.id)
@@ -102,11 +173,32 @@ export async function handleProductUpdate(
           value: metafieldsData.node.subcategory.value,
         })
       }
+      if (metafieldsData.node?.metal) {
+        metafields.push({
+          key: metafieldsData.node.metal.key,
+          namespace: 'filter',
+          value: metafieldsData.node.metal.value,
+        })
+      }
+      if (metafieldsData.node?.style) {
+        metafields.push({
+          key: metafieldsData.node.style.key,
+          namespace: 'filter',
+          value: metafieldsData.node.style.value,
+        })
+      }
       if (metafieldsData.node?.stone) {
         metafields.push({
           key: metafieldsData.node.stone.key,
           namespace: 'filter',
           value: metafieldsData.node.stone.value,
+        })
+      }
+      if (metafieldsData.node?.excludeFromIndication) {
+        metafields.push({
+          key: metafieldsData.node.excludeFromIndication.key,
+          namespace: 'variant',
+          value: metafieldsData.node.excludeFromIndication.value,
         })
       }
 
@@ -190,7 +282,6 @@ export async function handleProductUpdate(
       values: option.values ?? [],
     })) || []
 
-  // We assign _key values of product option name and values since they're guaranteed unique in Shopify
   const productDocument: ShopifyDocumentProduct = {
     _id: buildProductDocumentId(shopifyProductId), // Shopify product ID
     _type: SHOPIFY_PRODUCT_DOCUMENT_TYPE,
@@ -220,6 +311,17 @@ export async function handleProductUpdate(
         return {
           ...image,
           _key: uuidv5(image.id, UUID_NAMESPACE_PRODUCT_IMAGE),
+        }
+      }),
+      metafields: productMetafields.map((metafield) => {
+        return {
+          __typename: 'Metafield',
+          _key: metafield.key,
+          _type: 'shopifySourceMetafield',
+          id: metafield.key,
+          key: metafield.key,
+          namespace: metafield.namespace,
+          value: metafield.value,
         }
       }),
       options,

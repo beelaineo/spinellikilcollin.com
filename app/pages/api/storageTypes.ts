@@ -148,6 +148,11 @@ export type ShopifyDocumentProduct = {
       width?: number
       src: string
     }[]
+    metafields?: {
+      key: string
+      namespace: string
+      value: string
+    }[]
     variants?: ShopifyDocumentProductVariantMember[]
     options: {
       _type: string
