@@ -344,7 +344,6 @@ export async function handleProductUpdate(
         return {
           __typename: 'Metafield',
           _key: metafield.key,
-          _type: 'shopifySourceMetafield',
           id: metafield.key,
           key: metafield.key,
           namespace: metafield.namespace,
@@ -390,7 +389,6 @@ export async function handleProductUpdate(
               return {
                 __typename: 'Metafield',
                 _key: metafield.key,
-                _type: 'shopifySourceMetafield',
                 id: metafield.key,
                 key: metafield.key,
                 namespace: metafield.namespace,

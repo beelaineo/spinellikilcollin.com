@@ -133,6 +133,14 @@ export default defineType({
       title: 'Vendor',
       type: 'string',
     }),
+    // Metafields
+    defineField({
+      fieldset: 'organization',
+      name: 'metafields',
+      title: 'Product Metafields',
+      type: 'array',
+      of: [{type: 'shopifyMetafield'}],
+    }),
     // Tags
     defineField({
       fieldset: 'organization',
