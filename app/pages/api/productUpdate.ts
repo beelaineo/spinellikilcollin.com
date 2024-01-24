@@ -210,10 +210,14 @@ export async function handleProductUpdate(
         _type: 'slug',
         current: handle,
       },
-      images: images?.map((image) => ({
-        ...image,
-        _key: uuidv5(image.id, 'product-image'),
-      })),
+      images: images?.map((image) => {
+        console.log('image', image)
+        console.log('image uuid:', uuidv5(image.id, 'product-image'))
+        return {
+          ...image,
+          _key: uuidv5(image.id, 'product-image'),
+        }
+      }),
       options,
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
