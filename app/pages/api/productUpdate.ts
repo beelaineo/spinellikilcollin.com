@@ -274,9 +274,9 @@ export async function handleProductUpdate(
     }),
   )
 
-  const options: ShopifyDocumentProduct['store']['options'] =
+  const options: ShopifyDocumentProduct['options'] =
     product.options.map((option) => ({
-      _type: 'option',
+      _type: 'productOption',
       _key: option.id,
       name: option.name,
       values: option.values ?? [],
@@ -287,7 +287,7 @@ export async function handleProductUpdate(
     _id: buildProductDocumentId(shopifyProductId), // Shopify product ID
     _type: SHOPIFY_PRODUCT_DOCUMENT_TYPE,
     shopifyId: id,
-    options,
+    options: options,
     store: {
       ...product,
       description: product.descriptionHtml.replace(/<[^>]+>/g, ''),
