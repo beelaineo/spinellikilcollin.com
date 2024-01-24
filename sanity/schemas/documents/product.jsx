@@ -89,6 +89,12 @@ export const product = defineType({
     //   group: 'editorial',
     // }),
     defineField({
+      name: 'options',
+      title: 'Options',
+      type: 'array',
+      of: [{type: 'productOption'}],
+    }),
+    defineField({
       name: 'store',
       title: 'Shopify',
       type: 'shopifyProduct',

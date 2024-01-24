@@ -21,7 +21,7 @@ import {
 import { DataSinkProduct } from './requestTypes'
 import { idFromGid } from './requestHelpers'
 import { ShopifyStorefrontMetafield } from '../../src/types/generated-shopify'
-import { Maybe } from '../../src/types'
+import { Maybe, ShopifyProduct } from '../../src/types'
 import { shopifyQuery } from '../../src/providers/AllProviders'
 
 interface Metafield {
@@ -282,10 +282,12 @@ export async function handleProductUpdate(
       values: option.values ?? [],
     })) || []
 
+  // sanity connect definition (with store field)
   const productDocument: ShopifyDocumentProduct = {
     _id: buildProductDocumentId(shopifyProductId), // Shopify product ID
     _type: SHOPIFY_PRODUCT_DOCUMENT_TYPE,
     shopifyId: id,
+    options,
     store: {
       ...product,
       description: product.descriptionHtml.replace(/<[^>]+>/g, ''),
@@ -401,6 +403,8 @@ export async function handleProductUpdate(
       }),
     },
   }
+
+  // type definition to match legacy shopify documents instead?
 
   console.log(
     'Committing product documents',

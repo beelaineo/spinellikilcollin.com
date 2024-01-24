@@ -126,6 +126,12 @@ export type ShopifyDocumentProduct = {
   _id: `shopifyProduct-${string}` // Shopify product ID
   _type: 'product'
   shopifyId: `gid://shopify/Product/${string}`
+  options: {
+    _type: string
+    _key: string
+    name: string
+    values: string[]
+  }[]
   store: {
     id: number
     gid: `gid://shopify/Product/${string}`

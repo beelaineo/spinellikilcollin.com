@@ -69,4 +69,23 @@ export default defineConfig([
       types: schemas,
     },
   },
+  {
+    title: 'SK Connect',
+    projectId: 'i21fjdbi',
+    dataset: 'connect',
+    name: 'connect-workspace',
+    basePath: '/connect',
+    plugins: [
+      deskTool({structure}),
+      colorInput(),
+      visionTool(),
+      imageHotspotArrayPlugin(),
+      customDocumentActions(),
+      media(),
+      scheduledPublishing(),
+    ],
+    schema: {
+      types: schemas,
+    },
+  },
 ])
