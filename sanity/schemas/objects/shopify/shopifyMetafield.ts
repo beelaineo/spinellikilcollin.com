@@ -23,5 +23,10 @@ export default defineType({
       title: 'Value',
       type: 'string',
     }),
+    defineField({
+      name: 'id',
+      title: 'ID',
+      type: 'string',
+    }),
   ],
 })

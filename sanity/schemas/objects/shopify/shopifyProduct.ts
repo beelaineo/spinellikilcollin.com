@@ -188,6 +188,7 @@ export default defineType({
       name: 'options',
       title: 'Options',
       type: 'array',
+      hidden: true,
       of: [
         {
           type: 'option',
