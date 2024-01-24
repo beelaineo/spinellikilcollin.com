@@ -132,7 +132,7 @@ export type ShopifyDocumentProduct = {
   _id: `shopifyProduct-${string}` // Shopify product ID
   _type: 'product'
   shopifyId: `gid://shopify/Product/${string}`
-  options: {
+  options?: {
     _type: string
     _key: string
     name: string
@@ -166,7 +166,7 @@ export type ShopifyDocumentProduct = {
       value: string
     }[]
     variants?: ShopifyDocumentProductVariantMember[]
-    options: {
+    options?: {
       _type: string
       _key: string
       name: string

@@ -118,8 +118,8 @@ export const createProductDocument = async (
   // Fetch current document to compare options
   const currentDocument = await fetchCurrentProductDocument(client, publishedId)
 
-  const updatedOptions = document.options.map((option) => {
-    const currentOption = currentDocument?.options.find(
+  const updatedOptions = document.options?.map((option) => {
+    const currentOption = currentDocument?.options?.find(
       (o) => o._key === option._key,
     )
     if (currentOption) {
