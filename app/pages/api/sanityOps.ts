@@ -259,7 +259,6 @@ export function buildProductDocumentId(
 export function buildProductVariantDocumentId(
   id: number,
 ): ShopifyDocumentProductVariant['_id'] {
-  console.log('buildProductVariantDocumentId', `shopifyProductVariant-${id}`)
   return `shopifyProductVariant-${id}`
 }
 

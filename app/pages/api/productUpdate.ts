@@ -128,7 +128,6 @@ async function fetchVariantMetafields(
       variantId,
     },
   )
-  console.log('fetchVariantMetafields response', response)
   if (!response || !response.node) {
     throw new Error('No data returned')
   }
@@ -305,11 +304,6 @@ export async function handleProductUpdate(
         current: handle,
       },
       images: images?.map((image) => {
-        console.log('image', image)
-        console.log(
-          'image uuid:',
-          uuidv5(image.id, UUID_NAMESPACE_PRODUCT_IMAGE),
-        )
         return {
           ...image,
           _key: uuidv5(image.id, UUID_NAMESPACE_PRODUCT_IMAGE),
@@ -330,13 +324,6 @@ export async function handleProductUpdate(
       publishedAt: product.publishedAt,
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
-
-        console.log(
-          'UUID_NAMESPACE_PRODUCT_VARIANT',
-          UUID_NAMESPACE_PRODUCT_VARIANT,
-        )
-        console.log('variant._id', variant._id)
-
         return {
           _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
           // _key: `shopifyProductVariant-${variant._id}`,
@@ -406,11 +393,7 @@ export async function handleProductUpdate(
 
   // type definition to match legacy shopify documents instead?
 
-  console.log(
-    'Committing product documents',
-    productDocument,
-    productVariantsDocuments,
-  )
+  console.log('Committing product documents', productDocument)
 
   await commitProductDocuments(
     client,
