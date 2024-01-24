@@ -225,7 +225,8 @@ export async function handleProductUpdate(
         console.log('variant._id', variant._id)
 
         return {
-          _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
+          // _key: uuidv5(variant._id, UUID_NAMESPACE_PRODUCT_VARIANT),
+          _key: `shopifyProductVariant-${variant._id}`,
           _type: 'shopifyProductVariant',
           id: variant.store.gid,
           shopifyVariantID: variant.store.gid,
