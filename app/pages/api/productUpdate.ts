@@ -143,6 +143,18 @@ export async function handleProductUpdate(
 }> {
   const { handle, id, images, status, priceRange } = product
 
+  const slugify = (text?: Maybe<string>) => {
+    if (!text) return ''
+    return text
+      .toString()
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
+  }
+
   const variants = product.variants || []
   const firstImage = images?.[0]
   const shopifyProductId = idFromGid(id)
@@ -273,7 +285,7 @@ export async function handleProductUpdate(
     }),
   )
 
-  const options: ShopifyDocumentProduct['options'] =
+  const options: ShopifyDocumentProduct['store']['options'] =
     product.options.map((option) => ({
       _type: 'productOption',
       _key: option.id,
@@ -281,12 +293,31 @@ export async function handleProductUpdate(
       values: option.values ?? [],
     })) || []
 
+  const productOptions: ShopifyDocumentProduct['options'] =
+    product.options.map((option) => ({
+      _type: 'productOption',
+      _key: option.id,
+      name: option.name,
+      values:
+        option.values.map((v) => {
+          return {
+            _key: slugify(v),
+            _type: 'shopifyProductOptionValue',
+            value: v,
+          }
+        }) ?? [],
+    })) || []
+
+  // value
+  // _key:libra-gris
+  // _type:shopifyProductOptionValue
+
   // sanity connect definition (with store field)
   const productDocument: ShopifyDocumentProduct = {
     _id: buildProductDocumentId(shopifyProductId), // Shopify product ID
     _type: SHOPIFY_PRODUCT_DOCUMENT_TYPE,
     shopifyId: id,
-    options: options,
+    options: productOptions,
     store: {
       ...product,
       description: product.descriptionHtml.replace(/<[^>]+>/g, ''),

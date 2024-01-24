@@ -122,6 +122,12 @@ interface ShopifyDocumentProductVariantMember {
   title: string
 }
 
+interface ShopifyProductOptionValue {
+  _key: string
+  _type: 'shopifyProductOptionValue'
+  value: string
+}
+
 export type ShopifyDocumentProduct = {
   _id: `shopifyProduct-${string}` // Shopify product ID
   _type: 'product'
@@ -130,7 +136,7 @@ export type ShopifyDocumentProduct = {
     _type: string
     _key: string
     name: string
-    values: string[]
+    values: ShopifyProductOptionValue[]
   }[]
   store: {
     id: number

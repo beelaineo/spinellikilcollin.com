@@ -6,7 +6,6 @@ export const productOption = defineType({
   name: 'productOption',
   type: 'object',
   // icon: SunIcon,
-  readOnly: true,
   fields: [
     // Name
     defineField({
@@ -20,7 +19,7 @@ export const productOption = defineType({
       title: 'Values',
       name: 'values',
       type: 'array',
-      of: [{type: 'string'}],
+      of: [{type: 'productOptionValue'}],
     },
   ],
   preview: {
