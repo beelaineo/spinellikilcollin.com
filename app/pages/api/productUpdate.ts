@@ -53,8 +53,8 @@ interface ProductMetafieldsResponse {
 }
 
 const productMetafieldsQuery = `
-query ProductMetafieldsQuery($variantId: ID!) {
-  node(id: $variantId) {
+query ProductMetafieldsQuery($productId: ID!) {
+  node(id: $productId) {
     id
     ... on Product {
       excludeFromIndication: metafield(namespace: "product", key: "excludeFromIndication") {
