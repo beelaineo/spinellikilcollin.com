@@ -118,6 +118,7 @@ export const createProductDocument = async (
   // Fetch current document to compare options
   const currentDocument = await fetchCurrentProductDocument(client, publishedId)
 
+  // Update current options
   const updatedOptions = document.options?.map((option) => {
     const currentOption = currentDocument?.options?.find(
       (o) => o._key === option._key,
@@ -138,14 +139,22 @@ export const createProductDocument = async (
 
   // Create new product if none found
   transaction.createIfNotExists(document).patch(publishedId, (patch) => {
-    return patch.set({ options: updatedOptions, store: document.store })
+    return patch.set({
+      collections: document.collections,
+      options: updatedOptions,
+      store: document.store,
+    })
   })
 
   // Patch existing draft (if present)
   if (draftExists) {
     const draftId = `drafts.${document._id}`
     transaction.patch(draftId, (patch) => {
-      return patch.set({ options: updatedOptions, store: document.store })
+      return patch.set({
+        collections: document.collections,
+        options: updatedOptions,
+        store: document.store,
+      })
     })
   }
 }
