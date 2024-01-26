@@ -54,8 +54,8 @@ export async function shopifyQuery<Response>(
     },
     body: JSON.stringify({ query: queryString, variables }),
   }).then((r) => r.json())
-  console.log('shopifyQuery body', { query: queryString, variables })
-  console.log('shopifyQuery result', result)
+  // console.log('shopifyQuery body', { query: queryString, variables })
+  // console.log('shopifyQuery result', result)
   return result.data
 }
 
