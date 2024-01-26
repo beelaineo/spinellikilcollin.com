@@ -3,6 +3,7 @@ import { v5 as uuidv5, v3 as uuidv3 } from 'uuid'
 import { request } from '../../src/graphql'
 
 import {
+  buildCollectionDocumentId,
   buildProductDocumentId,
   buildProductVariantDocumentId,
   commitProductDocuments,
@@ -16,6 +17,7 @@ import {
   SHOPIFY_PRODUCT_DOCUMENT_TYPE,
   SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
   UUID_NAMESPACE_PRODUCT_IMAGE,
+  UUID_NAMESPACE_COLLECTIONS,
   UUID_NAMESPACE_PRODUCT_VARIANT,
 } from './constants'
 import { DataSinkProduct } from './requestTypes'
@@ -23,6 +25,12 @@ import { idFromGid } from './requestHelpers'
 import { ShopifyStorefrontMetafield } from '../../src/types/generated-shopify'
 import { Maybe, ShopifyProduct } from '../../src/types'
 import { shopifyQuery } from '../../src/providers/AllProviders'
+
+interface SanityReference {
+  _key: string
+  _ref: string
+  _type: 'reference'
+}
 
 interface Metafield {
   key: string
@@ -33,6 +41,20 @@ interface Metafield {
 interface ProductNode {
   id: string
   excludeFromIndication: Maybe<Metafield>
+}
+
+interface CollectionRef {
+  id: string
+  handle: string
+  title: string
+}
+interface ProductCollectionsNode {
+  id: string
+  collections: {
+    edges: Array<{
+      node: CollectionRef
+    }>
+  }
 }
 
 interface ProductVariantNode {
@@ -47,10 +69,31 @@ interface ProductVariantNode {
 interface VariantMetafieldsResponse {
   node: Maybe<ProductVariantNode>
 }
+interface ProductCollectionsResponse {
+  product: Maybe<ProductCollectionsNode>
+}
+type ProductCollectionRefs = CollectionRef[]
 
 interface ProductMetafieldsResponse {
   node: Maybe<ProductNode>
 }
+
+const productCollectionsQuery = `
+query ProductCollectionsQuery($productId: ID!) {
+  product(id: $productId) {
+    id
+    collections(first: 99) {
+      edges {
+        node {
+          id
+          handle
+          title
+        }
+      }
+    }
+  }
+}
+`
 
 const productMetafieldsQuery = `
 query ProductMetafieldsQuery($productId: ID!) {
@@ -101,6 +144,26 @@ query VariantMetafieldsQuery($variantId: ID!) {
   }
 }
 `
+
+// This function fetches collections for a product.
+async function fetchProductCollections(
+  productId: string,
+): Promise<ProductCollectionRefs> {
+  const response = await shopifyQuery<ProductCollectionsResponse>(
+    productCollectionsQuery,
+    { productId },
+  )
+
+  if (!response || !response.product || !response.product.collections) {
+    throw new Error('No collections data returned')
+  }
+
+  return response.product.collections.edges.map((edge) => ({
+    id: edge.node.id,
+    handle: edge.node.handle,
+    title: edge.node.title,
+  }))
+}
 
 // This function fetches metafields for a product.
 async function fetchProductMetafields(
@@ -159,9 +222,23 @@ export async function handleProductUpdate(
   const firstImage = images?.[0]
   const shopifyProductId = idFromGid(id)
 
+  // Fetch collections
+  const productCollectionsData = await fetchProductCollections(id)
+  // Fetch metafields
   const productMetafieldsData = await fetchProductMetafields(id)
 
+  const productCollections: SanityReference[] = []
   const productMetafields: Metafield[] = []
+
+  if (productCollectionsData.length > 0) {
+    productCollectionsData.forEach((collection) => {
+      productCollections.push({
+        _key: uuidv5(collection.id, UUID_NAMESPACE_COLLECTIONS),
+        _ref: buildCollectionDocumentId(idFromGid(collection.id)),
+        _type: 'reference',
+      })
+    })
+  }
 
   if (productMetafieldsData.node?.excludeFromIndication) {
     productMetafields.push({
@@ -317,6 +394,7 @@ export async function handleProductUpdate(
     _id: buildProductDocumentId(shopifyProductId), // Shopify product ID
     _type: SHOPIFY_PRODUCT_DOCUMENT_TYPE,
     shopifyId: id,
+    collections: productCollections,
     options: productOptions,
     store: {
       ...product,
