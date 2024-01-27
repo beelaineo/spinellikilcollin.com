@@ -64,7 +64,7 @@ export async function shopifyQuery<Response>(
     const result = await response.json()
 
     // console.log('shopifyQuery body', { query: queryString, variables })
-    console.log('shopifyQuery result', result)
+    // console.log('shopifyQuery result', result)
 
     if (result.errors) {
       console.error('Shopify query errors:', result.errors)
