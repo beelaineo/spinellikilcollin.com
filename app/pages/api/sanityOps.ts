@@ -190,40 +190,45 @@ export async function commitProductDocuments(
   productDocument: ShopifyDocumentProduct,
   productVariantsDocuments: ShopifyDocumentProductVariant[],
 ) {
-  const transaction = client.transaction()
+  try {
+    const transaction = client.transaction()
 
-  const drafts = await hasDrafts(client, [
-    productDocument,
-    ...productVariantsDocuments,
-  ])
+    const drafts = await hasDrafts(client, [
+      productDocument,
+      ...productVariantsDocuments,
+    ])
 
-  // Create product and merge options
-  createProductDocument(
-    client,
-    transaction,
-    productDocument,
-    drafts[productDocument._id],
-  )
-
-  // Mark the non existing product variants as deleted
-  await deleteProductVariants(
-    client,
-    transaction,
-    productDocument,
-    productVariantsDocuments,
-  )
-
-  // Create / update product variants
-  for (const productVariantsDocument of productVariantsDocuments) {
-    createProductVariantDocument(
+    // Create product and merge options
+    createProductDocument(
       client,
       transaction,
-      productVariantsDocument,
-      drafts[productVariantsDocument._id],
+      productDocument,
+      drafts[productDocument._id],
     )
-  }
 
-  await transaction.commit()
+    // Mark the non existing product variants as deleted
+    await deleteProductVariants(
+      client,
+      transaction,
+      productDocument,
+      productVariantsDocuments,
+    )
+
+    // Create / update product variants
+    for (const productVariantsDocument of productVariantsDocuments) {
+      createProductVariantDocument(
+        client,
+        transaction,
+        productVariantsDocument,
+        drafts[productVariantsDocument._id],
+      )
+    }
+
+    const commitResult = await transaction.commit()
+    console.log('Transaction successfully committed', commitResult)
+  } catch (error) {
+    console.error('Error committing transaction:', error)
+  }
 }
 
 export const createCollectionDocument = async (
