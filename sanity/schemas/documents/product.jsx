@@ -93,6 +93,88 @@ export const product = defineType({
       title: 'Options',
       type: 'array',
       of: [{type: 'productOption'}],
+      group: 'editorial',
+    }),
+    defineField({
+      name: 'hideFromCollections',
+      title: 'Hide from Collections',
+      description:
+        'Toggle this to ON to hide this product from collection pages. The product will still be viewable at its URL',
+      type: 'boolean',
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Show in Collections',
+      name: 'showInCollections',
+      type: 'array',
+      of: [
+        {
+          type: 'reference',
+          description: 'Always show product in specified collections.',
+          weak: true,
+          // TODO: update this to new collection type
+          to: [{type: 'shopifyCollection'}],
+        },
+      ],
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Initial Variant (by Collection)',
+      name: 'initialVariantSelections',
+      type: 'array',
+      description: "Choose initial variant to show based on the product's parent collection.",
+      of: [{type: 'initialVariantSelection'}],
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Hide from Search',
+      name: 'hideFromSearch',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide this product from search results. The product will still be viewable at its URL',
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Inquiry Only',
+      name: 'inquiryOnly',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide a product\'s price and show an inquiry button instead of "Add to Cart"',
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Accordions',
+      name: 'info',
+      type: 'array',
+      of: [
+        {
+          type: 'productInfo',
+        },
+      ],
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Gallery',
+      name: 'gallery',
+      type: 'array',
+      of: [{type: 'richImage'}],
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Content Blocks',
+      name: 'contentAfter',
+      description:
+        'These blocks will appear below the product header & gallery, and above the Related Items carousel.',
+      type: 'array',
+      of: [{type: 'imageTextBlock'}],
+      group: 'editorial',
+    }),
+    defineField({
+      title: 'Related Products Carousels',
+      description: 'The title will default to "Related Products" if left empty.',
+      name: 'related',
+      type: 'carousel',
+      group: 'editorial',
     }),
     defineField({
       name: 'store',

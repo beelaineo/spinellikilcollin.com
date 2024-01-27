@@ -1,6 +1,7 @@
 // import { ProductVariantSelector } from '../components/ProductVariantSelector'
+import {defineField, defineType} from 'sanity'
 
-export const initialVariantSelection = {
+export const initialVariantSelection = defineType({
   name: 'initialVariantSelection',
   title: 'Initial Variant Selection',
   type: 'object',
@@ -9,12 +10,11 @@ export const initialVariantSelection = {
       title: 'Collection',
       name: 'selectedCollection',
       type: 'reference',
-      description:
-        'Select a collection to override the default product variant',
+      description: 'Select a collection to override the default product variant',
       weak: true,
-      to: [{ type: 'shopifyCollection' }],
+      to: [{type: 'shopifyCollection'}],
       options: {
-        filter: ({ document }) => {
+        filter: ({document}) => {
           if (!document.collections) return
           return {
             filter: '_id in $product.collections[]._ref',
@@ -30,9 +30,7 @@ export const initialVariantSelection = {
       name: 'selectedVariant',
       title: 'Variant',
       type: 'string',
-      description:
-        'Enter initial variant Title with exact capitalization and punctuation.',
-      // inputComponent: ProductVariantSelector,
+      description: 'Enter initial variant Title with exact capitalization and punctuation.',
       validation: (Rule) => Rule.required(),
     },
   ],
@@ -41,11 +39,11 @@ export const initialVariantSelection = {
       collectionTitle: 'selectedCollection.title',
       selectedVariant: 'selectedVariant',
     },
-    prepare: ({ collectionTitle, selectedVariant }) => {
+    prepare: ({collectionTitle, selectedVariant}) => {
       return {
         title: `${collectionTitle}`,
         subtitle: `${selectedVariant}`,
       }
     },
   },
-}
+})

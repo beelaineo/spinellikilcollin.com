@@ -501,10 +501,10 @@ export async function handleProductUpdate(
   // type definition to match legacy shopify documents instead?
 
   // console.log('Committing product documents', productDocument)
-  console.log(
-    'Committing product document collections:',
-    productDocument.collections,
-  )
+  // console.log(
+  //   'Committing product document collections:',
+  //   productDocument.collections,
+  // )
 
   await commitProductDocuments(
     client,
