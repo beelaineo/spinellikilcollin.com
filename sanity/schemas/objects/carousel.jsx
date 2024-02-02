@@ -55,7 +55,7 @@ export const carousel = {
       type: 'reference',
       description:
         'Create a carousel from a collection. If a collection is used, items linked to below be ignored.',
-      to: [{type: 'shopifyCollection'}],
+      to: [{type: 'collection'}],
     },
     {
       name: 'items',

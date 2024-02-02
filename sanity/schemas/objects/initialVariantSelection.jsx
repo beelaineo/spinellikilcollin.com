@@ -12,7 +12,7 @@ export const initialVariantSelection = defineType({
       type: 'reference',
       description: 'Select a collection to override the default product variant',
       weak: true,
-      to: [{type: 'shopifyCollection'}],
+      to: [{type: 'collection'}],
       options: {
         filter: ({document}) => {
           if (!document.collections) return
@@ -36,13 +36,16 @@ export const initialVariantSelection = defineType({
   ],
   preview: {
     select: {
-      collectionTitle: 'selectedCollection.title',
+      collectionTitle: 'selectedCollection.store.title',
       selectedVariant: 'selectedVariant',
+      previewImage: 'selectedCollection.store.imageUrl',
     },
-    prepare: ({collectionTitle, selectedVariant}) => {
+    prepare: ({collectionTitle, selectedVariant, previewImage}) => {
       return {
         title: `${collectionTitle}`,
         subtitle: `${selectedVariant}`,
+        // eslint-disable-next-line @next/next/no-img-element
+        media: <img alt={collectionTitle} src={previewImage + '&width=100'} />,
       }
     },
   },

@@ -1,5 +1,5 @@
 import type { SanityClient } from '@sanity/client'
-import { v5 as uuidv5, v3 as uuidv3 } from 'uuid'
+import { v5 as uuidv5 } from 'uuid'
 import { request } from '../../src/graphql'
 
 import {
@@ -230,7 +230,7 @@ export async function handleProductUpdate(
   const productCollections: SanityReference[] = []
   const productMetafields: Metafield[] = []
 
-  if (productCollectionsData.length > 0) {
+  if (productCollectionsData && productCollectionsData.length > 0) {
     productCollectionsData.forEach((collection) => {
       productCollections.push({
         _key: uuidv5(collection.id, UUID_NAMESPACE_COLLECTIONS),

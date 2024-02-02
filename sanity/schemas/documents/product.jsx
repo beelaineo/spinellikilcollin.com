@@ -89,6 +89,15 @@ export const product = defineType({
     //   group: 'editorial',
     // }),
     defineField({
+      name: 'collections',
+      title: 'Collections',
+      description: 'Synced from Shopify',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'collection'}]}],
+      group: 'editorial',
+      readOnly: true,
+    }),
+    defineField({
       name: 'options',
       title: 'Options',
       type: 'array',
@@ -112,8 +121,7 @@ export const product = defineType({
           type: 'reference',
           description: 'Always show product in specified collections.',
           weak: true,
-          // TODO: update this to new collection type
-          to: [{type: 'shopifyCollection'}],
+          to: [{type: 'collection'}],
         },
       ],
       group: 'editorial',
@@ -154,17 +162,10 @@ export const product = defineType({
       group: 'editorial',
     }),
     defineField({
-      title: 'Gallery',
-      name: 'gallery',
-      type: 'array',
-      of: [{type: 'richImage'}],
-      group: 'editorial',
-    }),
-    defineField({
       title: 'Content Blocks',
       name: 'contentAfter',
       description:
-        'These blocks will appear below the product header & gallery, and above the Related Items carousel.',
+        'These blocks will appear below the product header, and above the Related Items carousel.',
       type: 'array',
       of: [{type: 'imageTextBlock'}],
       group: 'editorial',

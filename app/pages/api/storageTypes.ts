@@ -6,6 +6,11 @@ export type VariantPriceRange = {
 export type ShopifyDocumentCollection = {
   _id: `shopifyCollection-${string}` // Shopify product ID
   _type: 'collection'
+  products?: {
+    _type: 'reference'
+    _key: string
+    _ref: string
+  }[]
   store: {
     id: number
     gid: `gid://shopify/Collection/${string}`

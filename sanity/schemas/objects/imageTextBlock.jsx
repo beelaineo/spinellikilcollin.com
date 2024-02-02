@@ -1,75 +1,48 @@
 import * as React from 'react'
-import {getReferencedDocument, getImageThumbnail, blocksToPlainText} from '../utils'
 import {BlockPreview} from '../../components/BlockPreview'
+import {defineField, defineType} from 'sanity'
 
-const getPreviewValues = async (values) => {
-  const {body, ctaText, media, link} = values
-  const getTitle = async () => {
-    if (body && body.length) return blocksToPlainText(title)
-    if (ctaText) return ctaText
-    return undefined
-  }
-  const getLinkTitle = async () => {
-    if (link && link.length) {
-      const ref = link[0].document._ref
-      const page = await getReferencedDocument(ref)
-      if (page && page.title) return `🔗 ${page.title}`
-    }
-    return undefined
-  }
-  const [src, inferredTitle, linkTitle] = await Promise.all([
-    getImageThumbnail(media),
-    getTitle(),
-    getLinkTitle(),
-  ])
-
-  const title = inferredTitle ? inferredTitle : linkTitle || '(no text)'
-  const subtitles = title === linkTitle ? [] : [linkTitle]
-  return {
-    src,
-    title,
-    subtitles,
-  }
-}
-
-export const imageTextBlock = {
+export const imageTextBlock = defineType({
   name: 'imageTextBlock',
   type: 'object',
   title: 'Image + Text Block',
+  // components: {
+  //   preview: BlockPreview,
+  // },
   fields: [
-    {
+    defineField({
       name: 'body',
       title: 'Text',
       type: 'richText',
       description: 'Tip: Use shift+return for a soft-wrapping line',
-    },
-    {
+    }),
+    defineField({
       name: 'body_mobile',
       title: 'Text (Mobile)',
       description: 'Text substitute shown on mobile devices (optional)',
       type: 'richText',
-    },
-    {
+    }),
+    defineField({
       name: 'ctaText',
       title: 'CTA Text',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'link',
       type: 'array',
       of: [{type: 'internalLink'}, {type: 'externalLink'}, {type: 'pdfLink'}],
-    },
-    {
+    }),
+    defineField({
       name: 'textPosition',
       title: 'text position',
       type: 'position',
-    },
-    {
+    }),
+    defineField({
       name: 'textColor',
       title: 'text color',
       type: 'colorPicker',
-    },
-    {
+    }),
+    defineField({
       name: 'layout',
       type: 'string',
       title: 'Layout',
@@ -81,27 +54,27 @@ export const imageTextBlock = {
         layout: 'radio',
         direction: 'horizontal',
       },
-    },
-    {
+    }),
+    defineField({
       name: 'cloudinaryVideo',
       title: 'Cloudinary Video',
       type: 'cloudinaryVideo',
-    },
-    {
+    }),
+    defineField({
       name: 'backgroundImage',
       title: 'Background Image',
       type: 'richImage',
-    },
-    {
+    }),
+    defineField({
       name: 'backgroundColor',
       title: 'Background Color',
       type: 'colorPicker',
-    },
-    {
+    }),
+    defineField({
       name: 'hoverImage',
       title: 'Hover Image',
       type: 'richImage',
-    },
+    }),
   ],
   preview: {
     select: {
@@ -110,6 +83,5 @@ export const imageTextBlock = {
       media: 'backgroundImage',
       link: 'link',
     },
-    component: (props) => <BlockPreview {...props} getPreviewValues={getPreviewValues} />,
   },
-}
+})

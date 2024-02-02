@@ -67,30 +67,6 @@ export const collection = defineType({
       type: 'hero',
       group: 'editorial',
     }),
-    // Vector
-    defineField({
-      name: 'vector',
-      title: 'Vector artwork',
-      type: 'image',
-      description: 'Displayed in collection links using color theme',
-      options: {
-        accept: 'image/svg+xml',
-      },
-      group: 'theme',
-      validation: (Rule) =>
-        Rule.custom((image) => {
-          if (!image?.asset?._ref) {
-            return true
-          }
-
-          const format = getExtension(image.asset._ref)
-
-          if (format !== 'svg') {
-            return 'Image must be an SVG'
-          }
-          return true
-        }),
-    }),
     // Shopify collection
     defineField({
       name: 'store',
