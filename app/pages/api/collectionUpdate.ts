@@ -38,6 +38,7 @@ interface CollectionProductsNode {
   products: {
     edges: Array<{
       node: ProductRef
+      cursor: string
     }>
     pageInfo: {
       hasNextPage: boolean
@@ -69,24 +70,40 @@ const collectionProductsQuery = `query CollectionProductsQuery($collectionId: ID
   }
 }`
 
-// This function fetches products in a collection.
+// Updated fetchCollectionProducts function to fetch all products in a collection
 async function fetchCollectionProducts(
   collectionId: string,
+  productsAccumulator: CollectionProductsRefs = [],
+  afterCursor: string | null = null,
 ): Promise<CollectionProductsRefs> {
   const response = await shopifyQuery<CollectionProductsResponse>(
     collectionProductsQuery,
-    { collectionId },
+    {
+      collectionId,
+      first: 250,
+      after: afterCursor,
+    },
   )
 
   if (!response || !response.collection || !response.collection.products) {
     throw new Error('No products data returned')
   }
 
-  return response.collection.products.edges.map((edge) => ({
+  // Accumulate products
+  const newProducts = response.collection.products.edges.map((edge) => ({
     id: edge.node.id,
     handle: edge.node.handle,
     title: edge.node.title,
   }))
+  const allProducts = [...productsAccumulator, ...newProducts]
+
+  // Check if there are more products to fetch
+  if (response.collection.products.pageInfo.hasNextPage) {
+    const nextCursor = response.collection.products.edges.slice(-1)[0].cursor
+    return fetchCollectionProducts(collectionId, allProducts, nextCursor)
+  }
+
+  return allProducts
 }
 
 export async function handleCollectionUpdate(
