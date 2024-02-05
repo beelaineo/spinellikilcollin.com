@@ -61,29 +61,31 @@ export const filterByInventory = defineType({
   },
 })
 
-const FilterMatchPreview = ({value}) => {
-  const {match, type} = value
+const FilterMatchPreview = (props) => {
+  const {match, type} = props
+  console.log('FilterMatch props', props)
   if (!type || !match) {
     return <h2>(empty)</h2>
   }
+
   const titlePrefix =
-    type === 'By Tag'
+    type === 'tag'
       ? 'Product tags include'
-      : type === 'By Product Type'
+      : type === 'type'
       ? 'Product type equals'
-      : type === 'By Option Name'
+      : type === 'option'
       ? 'Product options include'
-      : type === 'By Product Title'
+      : type === 'title'
       ? 'Product title includes'
-      : type === 'By Product Subcategory'
+      : type === 'subcategory'
       ? 'Product subcategory equals'
-      : type === 'By Variant Metal'
+      : type === 'metal'
       ? 'Product variant metals include'
-      : type === 'By Variant Style'
+      : type === 'style'
       ? 'Product variant style equals'
-      : type === 'By Variant Stone'
+      : type === 'stone'
       ? 'Product variant stones include'
-      : type === 'By Variant Size (note: does not exclude non-matches, only reorders query results)'
+      : type === 'size'
       ? 'Variant sizes include'
       : null
   if (!titlePrefix) {
@@ -110,6 +112,9 @@ export const filterMatch = defineType({
   name: 'filterMatch',
   title: 'Filter Match',
   type: 'object',
+  components: {
+    preview: FilterMatchPreview,
+  },
   fields: [
     {
       name: 'type',
@@ -146,12 +151,11 @@ export const filterMatch = defineType({
       type: 'type',
       match: 'match',
     },
-    component: FilterMatchPreview,
   },
 })
 
-const FilterPreview = ({value}) => {
-  const {label, matches} = value
+const FilterPreview = (props) => {
+  const {label, matches} = props
   if (!matches) return null
   const tagMatches = matches.filter((m) => m.type === 'tag')
   const typeMatches = matches.filter((m) => m.type === 'type')
@@ -207,6 +211,9 @@ export const filter = defineType({
   name: 'filter',
   type: 'object',
   title: 'Filter',
+  components: {
+    preview: FilterPreview,
+  },
   fields: [
     {
       name: 'label',
@@ -225,7 +232,6 @@ export const filter = defineType({
       label: 'label',
       matches: 'matches',
     },
-    component: FilterPreview,
   },
 })
 

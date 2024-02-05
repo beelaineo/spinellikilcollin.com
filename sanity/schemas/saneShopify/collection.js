@@ -82,7 +82,7 @@ export const shopifyCollectionDocument = {
     },
     {
       name: 'seo',
-      type: 'seo',
+      type: 'legacySeo',
       description:
         'Custom SEO settings. By default, the collection description and image will be used.',
     },

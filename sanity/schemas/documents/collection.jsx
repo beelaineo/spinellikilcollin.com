@@ -36,17 +36,17 @@ export const collection = defineType({
   groups: GROUPS,
   fields: [
     // Product hidden status
-    defineField({
-      name: 'hidden',
-      type: 'string',
-      components: {
-        field: CollectionHiddenInput,
-      },
-      hidden: ({parent}) => {
-        const isDeleted = parent?.store?.isDeleted
-        return !isDeleted
-      },
-    }),
+    // defineField({
+    //   name: 'hidden',
+    //   type: 'string',
+    //   components: {
+    //     field: CollectionHiddenInput,
+    //   },
+    //   hidden: ({parent}) => {
+    //     const isDeleted = parent?.store?.isDeleted
+    //     return !isDeleted
+    //   },
+    // }),
     // Title (proxy)
     defineField({
       name: 'titleProxy',
@@ -62,10 +62,88 @@ export const collection = defineType({
       options: {field: 'store.slug.current'},
     }),
     defineField({
+      name: 'handle',
+      title: 'Handle',
+      hidden: true,
+      type: 'string',
+    }),
+    defineField({
+      name: 'products',
+      title: 'Products',
+      description: 'Synced from Shopify',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'product'}]}],
+      readOnly: true,
+    }),
+    defineField({
+      title: 'Hidden',
+      name: 'hidden',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to hide this collection. The product will still be viewable at its URL',
+    }),
+    defineField({
+      name: 'reduceColumnCount',
+      type: 'boolean',
+      title: 'Reduce Column Count',
+      description: 'Changes the layout to 2 columns on desktop, 1 column on tablet',
+    }),
+    defineField({
+      title: 'Product Listing Text Color',
+      name: 'lightTheme',
+      type: 'boolean',
+      description:
+        'Toggle this to ON to change text color to white for all products in collection.',
+    }),
+    defineField({
       name: 'hero',
       title: 'Hero',
       type: 'hero',
       group: 'editorial',
+    }),
+    defineField({
+      name: 'collectionBlocks',
+      type: 'array',
+      of: [{type: 'collectionBlock'}],
+    }),
+    defineField({
+      name: 'description',
+      title: 'Collection Description',
+      description: 'SEO-friendly text for the collection footer',
+      type: 'richText',
+    }),
+    defineField({
+      name: 'preferredVariantMatches',
+      type: 'array',
+      title: 'Preferred Variant',
+      of: [{type: 'string'}],
+      description:
+        'Add values here to auto-select a preferred variant option when viewing this collection. The first variant that has an option containing one of these values will be used. E.g., "BG" or "Black Gold"',
+    }),
+    defineField({
+      title: 'Hide Filters',
+      name: 'hideFilter',
+      type: 'boolean',
+      description: 'Toggle this to ON to remove all filters from the collection view.',
+    }),
+    defineField({
+      title: 'Minimal Filter Display',
+      name: 'minimalDisplay',
+      type: 'boolean',
+      description: 'Toggle this to ON to hide filter label, reset button, and sort tools.',
+    }),
+    defineField({
+      title: 'Override Default Filters',
+      name: 'overrideDefaultFilter',
+      type: 'boolean',
+      description: 'Toggle this to ON to only display the custom filters you add below.',
+    }),
+    defineField({name: 'customFilter', type: 'productFilter'}),
+    defineField({
+      name: 'footer',
+      title: 'Footer Blocks',
+      type: 'array',
+      of: [{type: 'carousel'}, {type: 'imageTextBlock'}, {type: 'textBlock'}],
     }),
     // Shopify collection
     defineField({
@@ -74,6 +152,13 @@ export const collection = defineType({
       type: 'shopifyCollection',
       description: 'Collection data from Shopify (read-only)',
       group: 'shopifySync',
+    }),
+    defineField({
+      name: 'seo',
+      type: 'legacySeo',
+      description:
+        'Custom SEO settings. By default, the collection description and image will be used.',
+      group: 'seo',
     }),
     // // SEO
     // defineField({

@@ -138,7 +138,9 @@ export async function handleCollectionUpdate(
   const collectionDocument: ShopifyDocumentCollection = {
     _id: buildCollectionDocumentId(shopifyId), // Shopify product ID
     _type: SHOPIFY_COLLECTION_DOCUMENT_TYPE,
+    handle: handle,
     products: collectionProducts,
+    shopifyId: id,
     store: {
       ...collection,
       id: shopifyId,
@@ -161,6 +163,7 @@ export async function handleCollectionUpdate(
         current: handle,
       },
     },
+    title: collection.title,
   }
 
   await commitCollectionDocument(client, collectionDocument)
