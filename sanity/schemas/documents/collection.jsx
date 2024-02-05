@@ -74,6 +74,7 @@ export const collection = defineType({
       type: 'array',
       of: [{type: 'reference', to: [{type: 'product'}]}],
       readOnly: true,
+      group: 'editorial',
     }),
     defineField({
       title: 'Hidden',
@@ -81,12 +82,14 @@ export const collection = defineType({
       type: 'boolean',
       description:
         'Toggle this to ON to hide this collection. The product will still be viewable at its URL',
+      group: 'editorial',
     }),
     defineField({
       name: 'reduceColumnCount',
       type: 'boolean',
       title: 'Reduce Column Count',
       description: 'Changes the layout to 2 columns on desktop, 1 column on tablet',
+      group: 'editorial',
     }),
     defineField({
       title: 'Product Listing Text Color',
@@ -94,6 +97,7 @@ export const collection = defineType({
       type: 'boolean',
       description:
         'Toggle this to ON to change text color to white for all products in collection.',
+      group: 'editorial',
     }),
     defineField({
       name: 'hero',
@@ -105,12 +109,14 @@ export const collection = defineType({
       name: 'collectionBlocks',
       type: 'array',
       of: [{type: 'collectionBlock'}],
+      group: 'editorial',
     }),
     defineField({
       name: 'description',
       title: 'Collection Description',
       description: 'SEO-friendly text for the collection footer',
       type: 'richText',
+      group: 'editorial',
     }),
     defineField({
       name: 'preferredVariantMatches',
@@ -119,31 +125,36 @@ export const collection = defineType({
       of: [{type: 'string'}],
       description:
         'Add values here to auto-select a preferred variant option when viewing this collection. The first variant that has an option containing one of these values will be used. E.g., "BG" or "Black Gold"',
+      group: 'editorial',
     }),
     defineField({
       title: 'Hide Filters',
       name: 'hideFilter',
       type: 'boolean',
       description: 'Toggle this to ON to remove all filters from the collection view.',
+      group: 'editorial',
     }),
     defineField({
       title: 'Minimal Filter Display',
       name: 'minimalDisplay',
       type: 'boolean',
       description: 'Toggle this to ON to hide filter label, reset button, and sort tools.',
+      group: 'editorial',
     }),
     defineField({
       title: 'Override Default Filters',
       name: 'overrideDefaultFilter',
       type: 'boolean',
       description: 'Toggle this to ON to only display the custom filters you add below.',
+      group: 'editorial',
     }),
-    defineField({name: 'customFilter', type: 'productFilter'}),
+    defineField({name: 'customFilter', type: 'productFilter', group: 'editorial'}),
     defineField({
       name: 'footer',
       title: 'Footer Blocks',
       type: 'array',
       of: [{type: 'carousel'}, {type: 'imageTextBlock'}, {type: 'textBlock'}],
+      group: 'editorial',
     }),
     // Shopify collection
     defineField({
