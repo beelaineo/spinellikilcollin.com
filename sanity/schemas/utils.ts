@@ -20,13 +20,12 @@ export const getTypeText = (doc: any) => {
   if (doc._type === 'page') return 'Page'
   return 'Page'
 }
-
 const client = createClient({
-  projectId: 'i21fjdbi',
-  dataset: 'connect',
+  apiVersion: '2024-01-01',
+  dataset: process.env.SANITY_DATASET,
+  projectId: process.env.SANITY_PROJECT_ID,
+  // token: process.env.SANITY_AUTH_TOKEN, // Only if you want to update content with the client
   useCdn: false,
-  apiVersion: '2023-09-15',
-  // token: process.env.SANITY_SECRET_TOKEN // Only if you want to update content with the client
 })
 
 export const getReferencedDocument = async (ref: string) => client.getDocument(ref)
