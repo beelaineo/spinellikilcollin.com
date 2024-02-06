@@ -1,7 +1,7 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'shopifyProduct',
+  name: 'shopifyProductDef',
   title: 'Shopify',
   type: 'object',
   options: {

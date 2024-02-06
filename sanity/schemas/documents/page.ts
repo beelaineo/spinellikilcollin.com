@@ -1,4 +1,6 @@
-export const page = {
+import {defineField, defineType} from 'sanity'
+
+export const page = defineType({
   title: 'Page',
   type: 'document',
   name: 'page',
@@ -6,66 +8,60 @@ export const page = {
     {
       name: 'integrations',
       title: 'Integrations',
-      options: { collapsed: true, collapsible: true },
+      options: {collapsed: true, collapsible: true},
     },
   ],
   fields: [
-    {
+    defineField({
       name: 'title',
-      label: 'Title',
+      title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'subtitle',
-      label: 'Subtitle',
+      title: 'Subtitle',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'hideTitle',
-      label: 'Hide Title',
+      title: 'Hide Title',
       type: 'boolean',
-    },
-    {
+    }),
+    defineField({
       name: 'hero',
       type: 'hero',
-    },
-    {
+    }),
+    defineField({
       name: 'content',
-      label: 'Content Blocks',
+      title: 'Content Blocks',
       type: 'array',
-      of: [
-        { type: 'carousel' },
-        { type: 'imageTextBlock' },
-        { type: 'textBlock' },
-        { type: 'embedBlock' },
-      ],
-    },
-    {
+      of: [{type: 'carousel'}, {type: 'imageTextBlock'}, {type: 'textBlock'}, {type: 'embedBlock'}],
+    }),
+    defineField({
       name: 'fullWidth',
       type: 'boolean',
       title: 'Full Width',
-      description:
-        'When on, padding above and below the content blocks will be removed',
-    },
-    {
+      description: 'When on, padding above and below the content blocks will be removed',
+    }),
+    defineField({
       name: 'slug',
-      label: 'Page URL',
+      title: 'Page URL',
       type: 'slug',
       options: {
         source: 'title',
       },
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'body',
-      label: 'Content',
+      title: 'Content',
       type: 'richText',
-    },
-    {
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-    },
+    }),
   ],
-}
+})

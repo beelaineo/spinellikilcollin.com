@@ -1,4 +1,3 @@
-import * as React from 'react'
 import {BlockPreview} from '../../components/BlockPreview'
 import {defineField, defineType} from 'sanity'
 
@@ -80,8 +79,28 @@ export const imageTextBlock = defineType({
     select: {
       body: 'body',
       ctaText: 'ctaText',
-      media: 'backgroundImage',
+      backgroundImage: 'backgroundImage',
+      video: 'cloudinaryVideo',
       link: 'link',
+      linkRef: 'link.0.document.title',
+    },
+    prepare({body, ctaText, backgroundImage, video, link, linkRef}) {
+      // console.log('body in prepare', body)
+      // console.log('link in prepare', link)
+      // console.log('linkRef in prepare', linkRef)
+      return {
+        title:
+          body && body.length > 0
+            ? body[0].children[0].text
+            : ctaText
+            ? ctaText
+            : `[no text${video ? ', video' : backgroundImage ? ', image' : ''}]`,
+        subtitle:
+          link && link[0]
+            ? '🔗: ' + (linkRef || link[0].url || link[0].title || link[0]._type)
+            : undefined,
+        media: backgroundImage,
+      }
     },
   },
 })

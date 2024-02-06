@@ -1,18 +1,20 @@
-export const journalPage = {
+import {PreviewValue, defineField, defineType} from 'sanity'
+
+export const journalPage = defineType({
   title: 'Journal (Main Page)',
   type: 'document',
   name: 'journalPage',
   fields: [
-    {
+    defineField({
       name: 'title',
-      label: 'Title',
+      title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-    },
+    }),
   ],
-}
+})

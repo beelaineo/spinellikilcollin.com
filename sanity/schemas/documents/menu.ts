@@ -1,9 +1,11 @@
-export const Menu = {
+import {defineField, defineType} from 'sanity'
+
+export const Menu = defineType({
   title: 'Navigation Menu',
   name: 'menu',
   type: 'document',
   fields: [
-    {
+    defineField({
       name: 'menuItems',
       title: 'Menu Items',
       type: 'array',
@@ -16,8 +18,8 @@ export const Menu = {
           name: 'subMenu',
         },
       ],
-    },
-    {
+    }),
+    defineField({
       name: 'footerMenuItems',
       title: 'Footer Menu Items',
       type: 'array',
@@ -26,7 +28,7 @@ export const Menu = {
           type: 'menuLink',
         },
       ],
-    },
+    }),
   ],
   preview: {
     select: {},
@@ -34,4 +36,4 @@ export const Menu = {
       title: 'Nav menu',
     }),
   },
-}
+})

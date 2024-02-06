@@ -1,4 +1,6 @@
-export const textBlock = {
+import {defineField, defineType} from 'sanity'
+
+export const textBlock = defineType({
   name: 'textBlock',
   type: 'object',
   title: 'Text Block',
@@ -7,24 +9,24 @@ export const textBlock = {
     layout: 'normal',
   },
   fields: [
-    {
+    defineField({
       name: 'body',
       title: 'Text',
       type: 'richText',
       description: 'Tip: Use shift+return for a soft-wrapping line',
-    },
-    {
+    }),
+    defineField({
       name: 'body_mobile',
       title: 'Text (Mobile)',
       description: 'Text substitute shown on mobile devices (optional)',
       type: 'richText',
-    },
-    {
+    }),
+    defineField({
       name: 'textColor',
       title: 'text color',
       type: 'colorPicker',
-    },
-    {
+    }),
+    defineField({
       name: 'alignment',
       type: 'string',
       title: 'Text Alignment',
@@ -38,8 +40,8 @@ export const textBlock = {
         layout: 'radio',
         direction: 'horizontal',
       },
-    },
-    {
+    }),
+    defineField({
       name: 'layout',
       type: 'string',
       title: 'Layout',
@@ -51,22 +53,25 @@ export const textBlock = {
         layout: 'radio',
         direction: 'horizontal',
       },
-    },
-    {
+    }),
+    defineField({
       name: 'backgroundImage',
       title: 'Background Image',
       type: 'richImage',
-    },
+    }),
   ],
   preview: {
     select: {
-      title: 'body.0',
+      body: 'body',
+      backgroundImage: 'backgroundImage',
     },
-    prepare: ({title}) => {
-      title = title.children[0].text || '(no text)'
+    prepare: ({body, backgroundImage}) => {
+      body = body[0].children[0].text || '(no text)'
       return {
-        title: title,
+        title: body,
+        subtitle: 'text block',
+        media: backgroundImage,
       }
     },
   },
-}
+})

@@ -1,4 +1,7 @@
-export const shopifyCollectionDocument = {
+export const shopifyCollection = {
+  name: 'shopifyCollection',
+  type: 'document',
+  title: 'Shopify Collection (old)',
   fieldsets: [
     {
       name: 'integrations',
@@ -10,7 +13,50 @@ export const shopifyCollectionDocument = {
     },
   ],
   fields: [
-    {name: 'sourceData', hidden: true},
+    // {name: 'sourceData', hidden: true, type: 'shopifySync'},
+    {
+      title: 'Title',
+      name: 'title',
+      type: 'string',
+      readOnly: true,
+    },
+    {
+      title: 'Handle',
+      name: 'handle',
+      type: 'string',
+      readOnly: true,
+    },
+    {
+      title: 'Products',
+      name: 'products',
+      type: 'array',
+      of: [{type: 'reference', to: [{type: 'shopifyProduct'}]}],
+      readOnly: true,
+    },
+    {
+      title: 'Archived?',
+      name: 'archived',
+      type: 'boolean',
+      readOnly: true,
+    },
+    {
+      title: 'Shopify ID',
+      name: 'shopifyId',
+      type: 'string',
+      readOnly: true,
+    },
+    {
+      title: 'Shopify source data',
+      name: 'sourceData',
+      type: 'object',
+      hidden: true,
+      fields: [
+        {name: 'id', type: 'string', hidden: true},
+        {name: 'handle', type: 'string', hidden: true},
+        {name: 'title', type: 'string', hidden: true},
+        {name: 'image', type: 'richImage', hidden: true},
+      ],
+    },
     {
       title: 'Hidden',
       name: 'hidden',
@@ -73,7 +119,7 @@ export const shopifyCollectionDocument = {
       description: 'Toggle this to ON to only display the custom filters you add below.',
     },
     {name: 'customFilter', type: 'productFilter'},
-    {name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations'},
+    {name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations', hidden: true},
     {
       name: 'footer',
       title: 'Footer Blocks',
@@ -82,9 +128,16 @@ export const shopifyCollectionDocument = {
     },
     {
       name: 'seo',
-      type: 'legacySeo',
+      type: 'seo',
       description:
         'Custom SEO settings. By default, the collection description and image will be used.',
     },
   ],
+  preview: {
+    select: {
+      title: 'title',
+      subtitle: 'sourceData.handle',
+      media: 'sourceData.image',
+    },
+  },
 }

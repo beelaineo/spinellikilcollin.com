@@ -1,4 +1,6 @@
-export const siteSettings = {
+import {defineField, defineType} from 'sanity'
+
+export const siteSettings = defineType({
   title: 'Site Settings',
   type: 'document',
   name: 'siteSettings',
@@ -7,7 +9,7 @@ export const siteSettings = {
     {name: 'footer', title: 'Footer'},
   ],
   fields: [
-    {
+    defineField({
       name: 'phone',
       fieldset: 'info',
       title: 'Business Phone Number',
@@ -24,31 +26,31 @@ export const siteSettings = {
             return 'Not a valid phone number'
           }
         }),
-    },
-    {
+    }),
+    defineField({
       name: 'links',
       fieldset: 'footer',
       title: 'Page Links',
       type: 'array',
       of: [{type: 'internalLink'}, {type: 'externalLink'}],
-    },
-    {
+    }),
+    defineField({
       name: 'mailerTitle',
       fieldset: 'footer',
       title: 'Mailing List Title',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'mailerSubtitle',
       fieldset: 'footer',
       title: 'Mailing List Subtitle',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'seo',
       type: 'seo',
       title: 'Default SEO',
-    },
+    }),
   ],
 
   preview: {
@@ -57,4 +59,4 @@ export const siteSettings = {
       title: 'Site Settings',
     }),
   },
-}
+})

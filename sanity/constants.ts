@@ -1,11 +1,21 @@
 // Currency code (ISO 4217) to use when displaying prices in the studio
+
 // https://en.wikipedia.org/wiki/ISO_4217
 export const DEFAULT_CURRENCY_CODE = 'USD'
 
 // Document types which:
 // - cannot be created in the 'new document' menu
 // - cannot be duplicated, unpublished or deleted
-export const LOCKED_DOCUMENT_TYPES = ['settings', 'home', 'media.tag']
+export const LOCKED_DOCUMENT_TYPES = [
+  'settings',
+  'home',
+  'homepage',
+  'media.tag',
+  'emailSignatureSettings',
+  'siteSettings',
+  'productInfoSettings',
+  'productListingSettings',
+]
 
 // Document types which:
 // - cannot be created in the 'new document' menu

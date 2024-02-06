@@ -29,7 +29,7 @@ export const magazine = {
     {
       name: 'seo',
       title: 'SEO',
-      type: 'seo',
+      type: 'seo.shopify',
     },
   ],
 }

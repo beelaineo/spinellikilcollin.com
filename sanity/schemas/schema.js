@@ -1,7 +1,8 @@
 import * as documents from './documents'
 import * as objects from './objects'
-import {shopifyProductDocument, productOptionValue} from './saneShopify/product'
-import {shopifyCollectionDocument} from './saneShopify/collection'
+import {shopifyProduct} from './saneShopify/product'
+import {shopifyCollection} from './saneShopify/collection'
+import {shopifyProductOption} from './saneShopify/product'
 
 // Rich text annotations used in the block content editor
 import annotationLinkEmail from './annotations/linkEmail'
@@ -60,10 +61,10 @@ import seoHome from './objects/seo/home'
 import seoPage from './objects/seo/page'
 import seoDescription from './objects/seo/description'
 import seoShopify from './objects/seo/shopify'
-import shopifyCollection from './objects/shopify/shopifyCollection'
+import shopifyCollectionDef from './objects/shopify/shopifyCollectionDef'
 import shopifyCollectionRule from './objects/shopify/shopifyCollectionRule'
 import shopifyPrice from './objects/shopify/shopifyPrice'
-import shopifyProduct from './objects/shopify/shopifyProduct'
+import shopifyProductDef from './objects/shopify/shopifyProductDef'
 import shopifyProductVariant from './objects/shopify/shopifyProductVariant'
 import shopifyProductVariantItem from './objects/shopify/shopifyProductVariantItem'
 import shopifySourceProductVariant from './objects/shopify/shopifySourceProductVariant'
@@ -118,10 +119,10 @@ const objects2 = [
   seoPage,
   seoDescription,
   seoShopify,
-  shopifyCollection,
+  shopifyCollectionDef,
   shopifyCollectionRule,
   shopifyPrice,
-  shopifyProduct,
+  shopifyProductDef,
   shopifyProductVariant,
   shopifyProductVariantItem,
   shopifySourceProductVariant,
@@ -129,8 +130,9 @@ const objects2 = [
   shopifySourceSelectedOption,
   collectionGroup,
   collectionLinks,
-  // shopifyProductDocument,
-  // shopifyCollectionDocument,
+  shopifyProduct,
+  shopifyProductOption,
+  shopifyCollection,
   // productOptionValue,
 ]
 

@@ -1,21 +1,22 @@
-export const emailSignatureSettings = {
+import {defineField, defineType} from 'sanity'
+
+export const emailSignatureSettings = defineType({
   title: 'Email Signature Settings',
   type: 'document',
   name: 'emailSignatureSettings',
-  __experimental_actions: ['update', 'publish'],
   fields: [
-    {
+    defineField({
       name: 'wordmark',
       title: 'SK Wordmark',
       type: 'file',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'signatures',
       title: 'Signatures',
       type: 'array',
-      of: [{ type: 'signature' }],
-    },
+      of: [{type: 'signature'}],
+    }),
   ],
 
   preview: {
@@ -24,4 +25,4 @@ export const emailSignatureSettings = {
       title: 'Email Signature Settings',
     }),
   },
-}
+})

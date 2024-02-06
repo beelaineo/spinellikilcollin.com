@@ -180,7 +180,7 @@ export const product = defineType({
     defineField({
       name: 'store',
       title: 'Shopify',
-      type: 'shopifyProduct',
+      type: 'shopifyProductDef',
       description: 'Product data from Shopify (read-only)',
       group: 'shopifySync',
     }),

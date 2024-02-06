@@ -1,65 +1,66 @@
-import { niceDate } from '../utils'
+import {PreviewValue, defineField, defineType} from 'sanity'
+import {niceDate} from '../utils'
 
-export const journal = {
+export const journal = defineType({
   title: 'Journal Entry',
   type: 'document',
   name: 'journalEntry',
   fields: [
-    {
+    defineField({
       name: 'publishDate',
-      label: 'Publish Date',
+      title: 'Publish Date',
       type: 'date',
       validation: (Rule) => Rule.required(),
       options: {
         dateFormat: 'MMMM D, YYYY',
       },
-    },
-    {
+    }),
+    defineField({
       name: 'hero',
       title: 'Hero',
       type: 'hero',
-    },
-    {
+    }),
+    defineField({
       name: 'title',
-      label: 'Title',
+      title: 'Title',
       type: 'string',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'subtitle',
-      label: 'Subtitle',
+      title: 'Subtitle',
       type: 'string',
-    },
-    {
+    }),
+    defineField({
       name: 'slug',
-      label: 'Page URL',
+      title: 'Page URL',
       type: 'slug',
       options: {
         source: 'title',
       },
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'thumbnail',
-      label: 'Thumbnail',
+      title: 'Thumbnail',
       type: 'richImage',
-    },
-    {
+    }),
+    defineField({
       name: 'tags',
-      label: 'Tags',
+      title: 'Tags',
       type: 'array',
-      of: [{ type: 'string' }],
-    },
-    {
+      of: [{type: 'string'}],
+    }),
+    defineField({
       name: 'body',
-      label: 'Content',
+      title: 'Content',
       type: 'richText',
-    },
-    {
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO',
       type: 'seo',
-    },
+    }),
   ],
   preview: {
     select: {
@@ -68,7 +69,7 @@ export const journal = {
       title: 'title',
       thumbnail: 'thumbnail',
     },
-    prepare: ({ title, publishDate, createdAt, thumbnail }) => ({
+    prepare: ({title, publishDate, createdAt, thumbnail}) => ({
       title: title,
       subtitle: niceDate(publishDate || createdAt),
       media: thumbnail,
@@ -79,9 +80,9 @@ export const journal = {
       title: 'Publish Date',
       name: 'publishDateDesc',
       by: [
-        { field: 'publishDate', direction: 'desc' },
-        { field: '_createdAt', direction: 'desc' },
+        {field: 'publishDate', direction: 'desc'},
+        {field: '_createdAt', direction: 'desc'},
       ],
     },
   ],
-}
+})
