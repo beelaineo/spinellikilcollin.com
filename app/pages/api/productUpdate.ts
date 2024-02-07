@@ -30,6 +30,7 @@ interface SanityReference {
   _key: string
   _ref: string
   _type: 'reference'
+  _weak: boolean
 }
 
 interface Metafield {
@@ -236,6 +237,7 @@ export async function handleProductUpdate(
         _key: uuidv5(collection.id, UUID_NAMESPACE_COLLECTIONS),
         _ref: buildCollectionDocumentId(idFromGid(collection.id)),
         _type: 'reference',
+        _weak: true,
       })
     })
   }

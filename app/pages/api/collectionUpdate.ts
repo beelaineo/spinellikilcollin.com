@@ -27,6 +27,7 @@ interface SanityReference {
   _key: string
   _ref: string
   _type: 'reference'
+  _weak: boolean
 }
 interface ProductRef {
   id: string
@@ -131,6 +132,7 @@ export async function handleCollectionUpdate(
         _key: uuidv5(product.id, UUID_NAMESPACE_PRODUCTS),
         _ref: buildProductDocumentId(idFromGid(product.id)),
         _type: 'reference',
+        _weak: true,
       })
     })
   }

@@ -11,6 +11,7 @@ export type ShopifyDocumentCollection = {
     _type: 'reference'
     _key: string
     _ref: string
+    _weak: boolean
   }[]
   shopifyId: `gid://shopify/Collection/${string}`
   store: {
@@ -144,6 +145,7 @@ export type ShopifyDocumentProduct = {
     _type: 'reference'
     _key: string
     _ref: string
+    _weak: boolean
   }[]
   options?: {
     _type: string
