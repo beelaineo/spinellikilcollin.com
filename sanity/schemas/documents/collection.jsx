@@ -54,12 +54,24 @@ export const collection = defineType({
       type: 'proxyString',
       options: {field: 'store.title'},
     }),
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      hidden: true,
+    }),
     // Slug (proxy)
     defineField({
       name: 'slugProxy',
       title: 'Slug',
       type: 'proxyString',
       options: {field: 'store.slug.current'},
+    }),
+    defineField({
+      name: 'shopifyId',
+      title: 'Shopify ID',
+      type: 'string',
+      hidden: true,
     }),
     defineField({
       name: 'handle',
@@ -72,7 +84,13 @@ export const collection = defineType({
       title: 'Products',
       description: 'Synced from Shopify',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'product'}]}],
+      of: [
+        {
+          type: 'reference',
+          to: [{type: 'product'}],
+          weak: true,
+        },
+      ],
       readOnly: true,
       group: 'editorial',
     }),

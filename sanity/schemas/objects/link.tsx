@@ -140,6 +140,7 @@ export const internalLink = defineType({
       collectionThumb: 'document.sourceData.image.w100',
       docTitle: 'document.title',
     },
+    // @ts-ignore
     prepare({document, type, productThumb, collectionThumb, docTitle}) {
       // console.log('document', document)
       const src =
@@ -161,7 +162,8 @@ export const internalLink = defineType({
       return {
         title: docTitle,
         subtitle: subtitles.join(', '),
-        media: src || undefined,
+        // eslint-disable-next-line @next/next/no-img-element
+        media: src ? <img alt={'Thumb'} src={src} /> : undefined,
       }
     },
   },

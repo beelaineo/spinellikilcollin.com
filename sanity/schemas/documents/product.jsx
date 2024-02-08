@@ -93,7 +93,7 @@ export const product = defineType({
       title: 'Collections',
       description: 'Synced from Shopify',
       type: 'array',
-      of: [{type: 'reference', to: [{type: 'collection'}]}],
+      of: [{type: 'reference', to: [{type: 'collection'}], weak: true}],
       group: 'editorial',
       readOnly: true,
     }),

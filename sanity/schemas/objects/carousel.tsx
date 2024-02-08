@@ -1,3 +1,4 @@
+import {Stack} from '@sanity/ui'
 import {defineField, defineType} from 'sanity'
 
 export const carousel = defineType({
@@ -48,12 +49,13 @@ export const carousel = defineType({
       items: 'items',
       collection: 'collection',
     },
+    // @ts-ignore
     prepare({title, items, collection}) {
       return {
         title: title ? `Carousel: ${title}` : '🎠 Carousel',
         subtitle:
           items && items.length ? `${items.length} Items` : collection ? 'Collection' : undefined,
-        media: '🎠',
+        media: <Stack>🎠</Stack>,
       }
     },
   },
