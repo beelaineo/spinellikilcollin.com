@@ -57,44 +57,38 @@ export const product = defineType({
       name: 'titleProxy',
       title: 'Title',
       type: 'proxyString',
-      options: {field: 'store.title'},
+      options: {field: 'title'},
     }),
-    // defineField({
-    //   name: 'description',
-    //   title: 'Description',
-    //   type: 'proxyDescription',
-    //   group: 'editorial',
-    //   options: { field: 'store.description' },
-    //   readOnly: true,
-    // }),
-    // // Slug (proxy)
-    // defineField({
-    //   name: 'slugProxy',
-    //   title: 'Slug',
-    //   type: 'proxyString',
-    //   options: {field: 'store.slug.current'},
-    // }),
-    // Color theme
-    // defineField({
-    //   name: 'colorTheme',
-    //   title: 'Color theme',
-    //   type: 'reference',
-    //   to: [{type: 'colorTheme'}],
-    //   group: 'editorial',
-    // }),
-    // defineField({
-    //   name: 'body',
-    //   title: 'Body',
-    //   type: 'body',
-    //   group: 'editorial',
-    // }),
+    // Handle (proxy)
+    defineField({
+      name: 'handleProxy',
+      title: 'Handle',
+      type: 'proxyString',
+      options: {field: 'handle'},
+    }),
+    // Title
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      hidden: true,
+      readOnly: true,
+    }),
+    // Handle
+    defineField({
+      name: 'handle',
+      title: 'Handle',
+      type: 'string',
+      hidden: true,
+      readOnly: true,
+    }),
     defineField({
       name: 'collections',
       title: 'Collections',
       description: 'Synced from Shopify',
       type: 'array',
       of: [{type: 'reference', to: [{type: 'collection'}], weak: true}],
-      group: 'editorial',
+      group: 'shopifySync',
       readOnly: true,
     }),
     defineField({
@@ -102,6 +96,13 @@ export const product = defineType({
       title: 'Options',
       type: 'array',
       of: [{type: 'productOption'}],
+      group: 'editorial',
+    }),
+    defineField({
+      name: 'archived',
+      title: 'Archived?',
+      type: 'boolean',
+      readOnly: true,
       group: 'editorial',
     }),
     defineField({

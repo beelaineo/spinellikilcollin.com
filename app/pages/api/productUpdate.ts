@@ -396,6 +396,8 @@ export async function handleProductUpdate(
     _id: buildProductDocumentId(shopifyProductId), // Shopify product ID
     _type: SHOPIFY_PRODUCT_DOCUMENT_TYPE,
     shopifyId: id,
+    title: product.title,
+    handle: product.handle,
     collections: productCollections,
     options: productOptions,
     store: {
@@ -494,6 +496,7 @@ export async function handleProductUpdate(
             sku: variant.store.sku,
             title: variant.store.title,
           },
+          store: variant.store,
           title: variant.store.title,
         }
       }),

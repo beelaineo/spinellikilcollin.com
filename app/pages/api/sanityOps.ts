@@ -139,12 +139,14 @@ export const createProductDocument = async (
 
   // Create new product if none found
   transaction.createIfNotExists(document).patch(publishedId, (patch) => {
-    console.log('patching document')
-    console.log('patching collections:', document.collections)
+    console.log('patching document', document.title)
+    // console.log('patching collections:', document.collections)
     return patch.set({
       collections: document.collections,
       options: updatedOptions,
       store: document.store,
+      title: document.title,
+      handle: document.handle,
     })
   })
 
@@ -157,6 +159,8 @@ export const createProductDocument = async (
         collections: document.collections,
         options: updatedOptions,
         store: document.store,
+        title: document.title,
+        handle: document.handle,
       })
     })
   }

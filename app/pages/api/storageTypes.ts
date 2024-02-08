@@ -141,6 +141,8 @@ export type ShopifyDocumentProduct = {
   _id: `shopifyProduct-${string}` // Shopify product ID
   _type: 'product'
   shopifyId: `gid://shopify/Product/${string}`
+  title: string
+  handle: string
   collections?: {
     _type: 'reference'
     _key: string
@@ -187,6 +189,8 @@ export type ShopifyDocumentProduct = {
       name: string
       values: string[]
     }[]
+    totalInventory: number
+    tracksInventory: boolean
     vendor: string
     descriptionHtml: string
     description: string

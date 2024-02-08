@@ -53,6 +53,8 @@ export interface DataSinkProduct {
   priceRange: DataSinkProductPriceRange
   productType: string
   tags: string[]
+  totalInventory: number
+  tracksInventory: boolean
   variants: DataSinkProductVariant[]
   vendor: string
   status: 'active' | 'archived' | 'draft' | 'unknown'
