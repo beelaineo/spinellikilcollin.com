@@ -58,6 +58,12 @@ interface ProductCollectionsNode {
   }
 }
 
+interface ProductInventoryNode {
+  id: string
+  title: string
+  availableForSale: boolean
+}
+
 interface ProductVariantNode {
   id: string
   subcategory: Maybe<Metafield>
@@ -77,6 +83,10 @@ type ProductCollectionRefs = CollectionRef[]
 
 interface ProductMetafieldsResponse {
   node: Maybe<ProductNode>
+}
+
+interface ProductInventoryResponse {
+  product: Maybe<ProductInventoryNode>
 }
 
 const productCollectionsQuery = `
@@ -146,6 +156,16 @@ query VariantMetafieldsQuery($variantId: ID!) {
 }
 `
 
+const productInventoryQuery = `
+query ProductInventoryQuery($productId: ID!) {
+  product(id: $productId) {
+    id
+    title
+    availableForSale
+  }
+}
+`
+
 // This function fetches collections for a product.
 async function fetchProductCollections(
   productId: string,
@@ -198,6 +218,22 @@ async function fetchVariantMetafields(
   return { node: response.node }
 }
 
+// This function fetches inventory data for a product.
+async function fetchProductInventory(
+  productId: string,
+): Promise<ProductInventoryResponse> {
+  const response = await shopifyQuery<ProductInventoryResponse>(
+    productInventoryQuery,
+    {
+      productId,
+    },
+  )
+  if (!response || !response.product) {
+    throw new Error('No data returned')
+  }
+  return { product: response.product }
+}
+
 export async function handleProductUpdate(
   client: SanityClient,
   product: DataSinkProduct,
@@ -228,6 +264,8 @@ export async function handleProductUpdate(
   // Fetch metafields
   const productMetafieldsData = await fetchProductMetafields(id)
 
+  const productInventoryData = await fetchProductInventory(id)
+
   const productCollections: SanityReference[] = []
   const productMetafields: Metafield[] = []
 
@@ -249,6 +287,9 @@ export async function handleProductUpdate(
       value: productMetafieldsData.node.excludeFromIndication.value,
     })
   }
+
+  const availableForSale =
+    productInventoryData.product?.availableForSale ?? false
 
   const productVariantsDocuments = await Promise.all(
     variants.map<Promise<ShopifyDocumentProductVariant>>(async (variant) => {
@@ -404,6 +445,7 @@ export async function handleProductUpdate(
       ...product,
       description: product.descriptionHtml.replace(/<[^>]+>/g, ''),
       id: shopifyProductId,
+      availableForSale: availableForSale,
       gid: id,
       isDeleted: false,
       ...(firstImage

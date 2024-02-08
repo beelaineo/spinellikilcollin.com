@@ -162,6 +162,7 @@ export type ShopifyDocumentProduct = {
     productType: string
     slug: { _type: string; current: string }
     status: 'active' | 'archived' | 'draft' | 'unknown'
+    availableForSale: boolean
     tags: string[]
     title: string
     updatedAt?: string
