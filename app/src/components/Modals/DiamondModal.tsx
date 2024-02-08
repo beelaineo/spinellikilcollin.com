@@ -150,12 +150,10 @@ export const DiamondModal = ({
           </Heading>
         ) : null}
         {stone?.stone?.gia_link ? (
-          <Link href={stone.stone.gia_link}>
-            <a target="_blank">
-              <Heading level={5} my={0} fontStyle="italic">
-                View on GIA →
-              </Heading>
-            </a>
+          <Link href={stone.stone.gia_link} target="_blank">
+            <Heading level={5} my={0} fontStyle="italic">
+              View on GIA →
+            </Heading>
           </Link>
         ) : null}
       </Footer>

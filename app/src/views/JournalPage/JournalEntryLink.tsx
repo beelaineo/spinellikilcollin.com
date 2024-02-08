@@ -142,22 +142,23 @@ export const JournalEntryLink = ({
       {thumbnail ? (
         <ImageContainer featured={featured}>
           <ImagePadding featured={featured} />
-          <Link href={href} as={as}>
-            <a tabIndex={-1} aria-label={'Link to journal entry ' + title}>
-              <Image image={thumbnail} />
-            </a>
+          <Link
+            href={href}
+            as={as}
+            tabIndex={-1}
+            aria-label={'Link to journal entry ' + title}
+          >
+            <Image image={thumbnail} />
           </Link>
         </ImageContainer>
       ) : null}
       <Heading mt={2} mb={featured ? 3 : 2} level={2} weight={2}>
         {title}
       </Heading>
-      <Link href={href} as={as}>
-        <a aria-label={'Link to read more of ' + title}>
-          <Heading level={5} fontStyle="italic" textDecoration="underline">
-            Read More
-          </Heading>
-        </a>
+      <Link href={href} as={as} aria-label={'Link to read more of ' + title}>
+        <Heading level={5} fontStyle="italic" textDecoration="underline">
+          Read More
+        </Heading>
       </Link>
     </Wrapper>
   )

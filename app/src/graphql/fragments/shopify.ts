@@ -263,8 +263,7 @@ export const checkoutFragment = gql`
       __typename
       handle
       price {
-        amount
-        currencyCode
+        ...MoneyV2Fragment
       }
       title
     }

@@ -17,6 +17,7 @@ import { definitely } from '../../utils'
 import { useInViewport, useMedia } from '../../hooks'
 import { theme } from '../../theme'
 import { useNavigation, useSearch } from '../../providers'
+import { Heading } from '../Text'
 
 const { useEffect, useRef } = React
 
@@ -78,6 +79,7 @@ interface HeroTextProps {
   textPositionMobile?: string | null
   textColorMobile?: string | null
   textContainer?: string | null
+  textXL?: boolean | null
 }
 
 const HeroText = styled.div`
@@ -88,6 +90,7 @@ const HeroText = styled.div`
     textPosition,
     textColor,
     textPositionMobile,
+    textXL,
     textColorMobile,
     textContainer,
   }: HeroTextProps) => css`
@@ -117,14 +120,19 @@ const HeroText = styled.div`
         : 'inherit'
     };
 
+    
+
     .text-container {
       ${
-        textContainer == 'full'
+        textXL
+          ? 'max-width: 90vw;'
+          : textContainer == 'full'
           ? 'max-width: 720px;'
           : textContainer == 'half-left' || textContainer == 'half-right'
           ? 'max-width: 60%;'
           : 'max-width: 400px'
       };
+
 
       ${
         textContainer == 'half-top' || textContainer == 'half-bottom'
@@ -184,6 +192,13 @@ const HeroText = styled.div`
       }
     }
 
+    }
+    h1 {
+      font-size: ${
+        textContainer == 'full' && textXL ? '14vw' : theme.fontSizes[1]
+      };
+
+    }
     ${theme.mediaQueries.tablet} {
       ${
         minimalDisplay
@@ -194,7 +209,7 @@ const HeroText = styled.div`
       ${
         textContainer == 'full'
           ? `h1 {
-              font-size: ${theme.mobileFontSizes[1]};
+              font-size: ${textXL ? '14vw' : theme.mobileFontSizes[1]};
             }
             h2 {
               font-size: ${theme.mobileFontSizes[2]};
@@ -245,6 +260,21 @@ const HeroText = styled.div`
       };
     }
   `}
+`
+
+const CtaOuter = styled.div`
+  margin: 2 0 0 0;
+  color: inherit;
+`
+
+const CtaWrapper = styled.span`
+  color: inherit;
+  text-decoration: none;
+  padding-top: 3;
+  padding-bottom: 0px;
+  border-bottom: 1px solid;
+  display: inline-block;
+  cursor: pointer;
 `
 
 interface HeroImageWrapperProps {
@@ -310,6 +340,7 @@ export const HeroBlock = React.forwardRef(
       textPosition,
       textColor,
       textContainer,
+      textXL,
       heroLink,
       bodyRaw,
       body_mobileRaw,
@@ -362,6 +393,7 @@ export const HeroBlock = React.forwardRef(
           )}
           <HeroText
             textPosition={textPosition}
+            textXL={textXL}
             textColor={textColor}
             textPositionMobile={textPositionMobile}
             textColorMobile={textColorMobile}
@@ -373,7 +405,15 @@ export const HeroBlock = React.forwardRef(
               <RichText
                 body={isMobile && body_mobileRaw ? body_mobileRaw : bodyRaw}
               />
-              {cta ? <CTA cta={cta} /> : null}
+              {cta ? (
+                <CtaOuter>
+                  <CtaWrapper>
+                    <Heading level={4} my={0} fontStyle="italic">
+                      {cta.label}
+                    </Heading>
+                  </CtaWrapper>
+                </CtaOuter>
+              ) : null}
             </div>
           </HeroText>
         </DocumentLink>

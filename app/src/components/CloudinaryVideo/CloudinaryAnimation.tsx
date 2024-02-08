@@ -80,7 +80,7 @@ const NormalVideo = ({
       />
     )
   } else {
-    return <Image src={poster} layout="fill" />
+    return <Image alt="" src={poster} fill />
   }
 }
 

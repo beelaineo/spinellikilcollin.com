@@ -116,6 +116,7 @@ const Route2LabelMap = {
   '/pages/[slug]': 'Page Not Found',
   '/products': 'Collection',
   '/customize/quiz': 'Quiz',
+  '/about/financing': 'Financing',
 }
 
 export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
@@ -166,6 +167,11 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     const crumbLinks = CombineAccumulatively(segmentsPath)
     const crumbLabels = CombineAccumulatively(segmentsRoute)
 
+    // console.log('segmentsPath', segmentsPath)
+    // console.log('crumbLinks', crumbLinks)
+    // console.log('segmentsRoute', segmentsRoute)
+    // console.log('crumbLabels', crumbLabels)
+
     const fetchCrumbs = async () => {
       switch (segmentsRoute[1]) {
         case 'products':
@@ -176,7 +182,6 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
           ) {
             const segmentsPrevPath = storage.prevPath.split('/')
             const productCollection = await getCollection(segmentsPrevPath[2])
-            console.log('productCollection', productCollection)
             const collectionLink =
               `/collections/${segmentsPrevPath[2]}` ||
               '/collections/newarrivals'
@@ -207,7 +212,9 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
           crumbLabels[1] = collection?.title
           break
         case 'about':
-          if (
+          if (segmentsPath[2] === 'financing') {
+            crumbLabels[2] = 'Financing'
+          } else if (
             segmentsPath[2] === 'issues-we-care-about' ||
             segmentsPath[2] === 'product-sourcing'
           ) {
@@ -253,8 +260,12 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     }
     fetchCrumbs()
   }, [router.asPath])
+
   if (
     router.route === '/' ||
+    router.route === '/404' ||
+    router.route.includes('/new-customer') ||
+    router.route.includes('/vip-loyalty') ||
     (display == 'header' && router.route.includes('collections'))
   ) {
     return null
@@ -266,9 +277,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
             <div key={i}>
               {i > 0 ? <div className={'separator'}>{'→'}</div> : null}
               <div className={i == crumbs.length - 1 ? 'active ' : ''}>
-                <Link href={c.link}>
-                  <a>{c.label}</a>
-                </Link>
+                <Link href={c.link}>{c.label}</Link>
               </div>
             </div>
           )

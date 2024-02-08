@@ -1,10 +1,6 @@
 import * as React from 'react'
-import { BlockPreview } from '../components/BlockPreview'
-import {
-  getImageThumbnail,
-  getReferencedDocument,
-  blocksToPlainText,
-} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
+import {getImageThumbnail, getReferencedDocument, blocksToPlainText} from '../utils'
 
 const getPreviewValues = async (values) => {
   const { title, image, link } = values
@@ -118,6 +114,13 @@ export const hero = {
           { title: 'Half-bottom', value: 'half-right' },
         ],
       },
+    },
+    {
+      name: 'textXL',
+      label: 'Text Oversized',
+      type: 'boolean',
+      description:
+        'Extra-large heading text size for banners (for use with H1)',
     },
     {
       name: 'textPosition',

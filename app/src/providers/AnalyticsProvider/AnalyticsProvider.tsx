@@ -7,17 +7,20 @@ import {
   reportTTViewContent,
   reportTTAddToCart,
   isShopifyProduct,
+  reportTTViewContentImpression,
 } from '../../utils'
 import { parseProduct } from './utils'
+import { ShopifyProductVariant } from '../../types'
 import { SelectedProduct, EventType, GTagEvent } from './types'
 
 const { useEffect } = React
 
 interface AnalyticsContextValue {
   sendFilterClick: () => void
+  sendQuickLinkClick: () => void
   sendProductImpression: (
     products: SelectedProduct | SelectedProduct[],
-    list?: string,
+    variant?: ShopifyProductVariant,
   ) => void
   sendProductClick: (products: SelectedProduct | SelectedProduct[]) => void
   sendProductDetailView: (products: SelectedProduct | SelectedProduct[]) => void
@@ -78,11 +81,31 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     })
   }
 
+  const sendQuickLinkClick: AnalyticsContextValue['sendQuickLinkClick'] =
+    () => {
+      sendEvent({
+        event: EventType.QuickLinkClick,
+      })
+    }
+
   const sendProductImpression: AnalyticsContextValue['sendProductImpression'] =
-    (selected, list) => {
+    (selected, variant) => {
       const impressions = arrayify(selected).map((s, i) =>
-        parseProduct(s, { position: i + 1, list }),
+        parseProduct(s, { position: i + 1 }),
       )
+
+      // arrayify(selected).forEach((s) => {
+      //   const selectedProduct = s?.product
+      //   if (isShopifyProduct(selectedProduct)) {
+      //     reportTTViewContentImpression(selectedProduct)
+      //   }
+      // })
+
+      if (isShopifyProduct(selected)) {
+        reportFBViewContent(selected)
+        reportTTViewContentImpression(selected, variant)
+      }
+
       sendEvent({
         event: EventType.Impressions,
         ecommerce: { impressions },
@@ -163,6 +186,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
 
   const value = {
     sendFilterClick,
+    sendQuickLinkClick,
     sendProductImpression,
     sendProductClick,
     sendProductDetailView,

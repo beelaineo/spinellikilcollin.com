@@ -28,6 +28,7 @@ export const pageLink = {
         { type: 'customize' },
         { type: 'about' },
         { type: 'page' },
+        { type: 'paymentPlans' },
       ],
     },
     {

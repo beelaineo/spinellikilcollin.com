@@ -18,6 +18,7 @@ export interface FieldProps {
   placeholder?: string
   min?: number
   max?: number
+  maxLength?: number
   required?: boolean
   type?: string
   color?: string

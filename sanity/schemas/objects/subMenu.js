@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { groupBy, prop } from 'ramda'
-import { IoIosListBox, IoIosLink } from 'react-icons/io'
-import { BlockPreview } from '../components/BlockPreview'
-import { getReferencedDocument, getShopifyThumbnail } from '../utils'
-import { actionTypes } from './shared'
+import {groupBy, prop} from 'ramda'
+import {IoIosListBox, IoIosLink} from 'react-icons/io'
+import {BlockPreview} from '../components/BlockPreview'
+import {getReferencedDocument, getShopifyThumbnail} from '../utils'
+import {actionTypes} from './shared'
 
 const getPreviewValues = async (values) => {
   const { link, label, link_external, action, linkType } = values

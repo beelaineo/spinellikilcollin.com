@@ -25,9 +25,7 @@ export const NotFound = () => (
         Sorry, this page was not found
       </Heading>
       <Heading level={3}>
-        <Link href="/">
-          <a>Return to the homepage</a>
-        </Link>
+        <Link href="/">Return to the homepage</Link>
       </Heading>
     </Main>
   </PageWrapper>

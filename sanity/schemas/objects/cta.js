@@ -1,11 +1,7 @@
 import * as React from 'react'
-import { BlockPreview } from '../components/BlockPreview'
-import { actionTypes } from './shared'
-import {
-  getTypeText,
-  getReferencedDocument,
-  getShopifyThumbnail,
-} from '../utils'
+import {BlockPreview} from '../components/BlockPreview'
+import {actionTypes} from './shared'
+import {getTypeText, getReferencedDocument, getShopifyThumbnail} from '../utils'
 
 const getActionTitle = (action) => {
   const actionType = actionTypes.find(

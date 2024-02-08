@@ -1,5 +1,4 @@
 import * as React from 'react'
-import fetch from 'isomorphic-unfetch'
 import { ThemeProvider } from '@xstyled/styled-components'
 import { DocumentNode } from 'graphql'
 import { ShopDataResponse } from './ShopDataProvider/shopDataQuery'

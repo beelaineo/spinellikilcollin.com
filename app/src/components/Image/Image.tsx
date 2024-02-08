@@ -5,10 +5,14 @@ import {
   getAspectRatio,
   getImageDetails,
   getImageKey,
+  getImageLQIP,
 } from './utils'
+
 import { Heading } from '../Text'
 import {
   MainImage,
+  BlurImage,
+  ShadowImage,
   HoverImage,
   Wrapper,
   Picture,
@@ -70,6 +74,8 @@ interface ImageProps {
   hoverImage?: Maybe<ImageType>
   ratio?: number
   loading?: 'eager' | 'lazy' | undefined
+  placeholder?: 'shadow' | undefined
+  richImage?: boolean
 
   /**
    * The css/html sizes at which this image is expected to appear,
@@ -121,6 +127,8 @@ export const Image = ({
   preloadImages,
   loading,
   objectFit,
+  placeholder,
+  richImage,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
@@ -129,6 +137,8 @@ export const Image = ({
   const { isInViewOnce } = useInViewport(containerRef)
 
   const imageDetails = React.useMemo(() => getImageDetails(image), [image])
+
+  const lqip = getImageLQIP(image)
 
   const {
     caption,
@@ -167,7 +177,12 @@ export const Image = ({
     <Wrapper ref={containerRef}>
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
       {src && (preload || isInViewOnce) ? (
-        <Picture objectFit={objectFit} loaded={true}>
+        <Picture objectFit={objectFit} loaded={loaded} richImage={richImage}>
+          {lqip ? (
+            <BlurImage src={lqip} />
+          ) : placeholder === 'shadow' ? (
+            <ShadowImage />
+          ) : null}
           {srcSetWebp ? (
             <source type="image/webp" srcSet={srcSetWebp} sizes={sizes} />
           ) : null}

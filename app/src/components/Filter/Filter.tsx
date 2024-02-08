@@ -48,6 +48,11 @@ import { useRouter } from 'next/router'
 
 const { useEffect, useState, useRef } = React
 
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 interface InventoryFilterType extends InventoryFilterTypeSource {
   applyFilter?: boolean
 }
@@ -165,7 +170,6 @@ export const Filter = ({
   const [open, setOpen] = useState(false)
   const [mobileDisplay, setMobileDisplay] = useState('filter')
   const [activeKey, setActiveKey] = useState('')
-  const [isRouterLoaded, setIsRouterLoaded] = useState(false)
   const router = useRouter()
   const { sendFilterClick } = useAnalytics()
 
@@ -181,12 +185,6 @@ export const Filter = ({
   const firstRender = useFirstRender()
 
   const filterRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (isRouterLoaded) return
-
-    router.isReady && setIsRouterLoaded(true)
-  }, [router.isReady])
 
   const toggleOpen = () => {
     setOpen(!open)
@@ -212,6 +210,7 @@ export const Filter = ({
     setValues,
     resetAll,
     resetSet,
+    resetButtons,
     toggle,
     toggleSingle,
     enable,
@@ -221,6 +220,12 @@ export const Filter = ({
   useEffect(() => {
     handleReset()
   }, [resetFilters])
+
+  useEffect(() => {
+    resetButtons()
+    setActiveKey('')
+    if (!firstRender) scrollGridIntoView()
+  }, [router.query])
 
   const isMobile = useMedia({
     maxWidth: `960px`,
@@ -324,8 +329,6 @@ export const Filter = ({
   useQueryUpdate('price')
 
   useEffect(() => {
-    if (isRouterLoaded) return
-
     const getFilterSetQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
       arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
 
@@ -391,13 +394,13 @@ export const Filter = ({
     }
 
     updateFromValueFilter(instockQuery?.key, instockQuery?.values)
-  }, [router.isReady])
+  }, [router.isReady, router.query])
 
   if (!filters || filterSetStates.length === 0) return null
 
   const handleReset = () => {
+    // applyFilters(null)
     resetAll()
-    applyFilters(null)
     setActiveKey('')
     if (!firstRender) scrollGridIntoView()
   }
@@ -550,17 +553,19 @@ export const Filter = ({
                   active={Boolean(activeKey === filter._key)}
                   minimalDisplay={minimalDisplay}
                 >
-                  <InventoryFilter
-                    setKey={filter._key || 'some-key'}
-                    filterSetState={filterSetStates.find(
-                      (s) => s.key === filter._key,
-                    )}
-                    setValues={setValues(filter._key || 'some-key')}
-                    resetSet={resetSet(filter._key || 'some-key')}
-                    scrollGridIntoView={scrollGridIntoView}
-                    inventoryFilter={filter}
-                    active={Boolean(activeKey === filter._key)}
-                  />
+                  {showInStockIndicators && (
+                    <InventoryFilter
+                      setKey={filter._key || 'some-key'}
+                      filterSetState={filterSetStates.find(
+                        (s) => s.key === filter._key,
+                      )}
+                      setValues={setValues(filter._key || 'some-key')}
+                      resetSet={resetSet(filter._key || 'some-key')}
+                      scrollGridIntoView={scrollGridIntoView}
+                      inventoryFilter={filter}
+                      active={Boolean(activeKey === filter._key)}
+                    />
+                  )}
                 </FilterWrapper>
               ) : null,
             )}

@@ -5,6 +5,9 @@ import {
   ProductInfoSettings,
   ProductListingSettings,
   SiteSettings,
+  JournalEntry,
+  ShopifyCollection,
+  ShopifyProduct,
 } from '../../types'
 import {
   productInfoFragment,
@@ -25,6 +28,20 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       slug {
         current
       }
+    }
+    allJournalEntry {
+      _id
+      slug {
+        current
+      }
+    }
+    allShopifyCollection {
+      _id
+      handle
+    }
+    allShopifyProduct {
+      _id
+      handle
     }
     Menu(id: "menu-settings") {
       _id
@@ -180,6 +197,9 @@ export interface ShopDataResponse {
   ProductInfoSettings: ProductInfoSettings
   SiteSettings: SiteSettings
   allPage: Page[]
+  allJournalEntry: JournalEntry[]
+  allShopifyCollection: ShopifyCollection[]
+  allShopifyProduct: ShopifyProduct[]
 }
 
 export const requestShopData = async () => {

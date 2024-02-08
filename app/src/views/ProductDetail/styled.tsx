@@ -77,6 +77,41 @@ export const InfoWrapper = styled.div<WithProduct>`
 export const AffirmWrapper = styled.div`
   ${({ theme }) => css`
     margin-top: 5;
+    font-family: 'Inferi', 'Georgia', serif !important;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2;
+    width: max-content;
+    h5,
+    span {
+      height: 100%;
+      text-align: left;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      grid-row: 3;
+      margin: 4 auto 0;
+      width: 100%;
+      max-width: small;
+      align-items: center;
+    }
+    ${theme.mediaQueries.mobile} {
+      align-items: flex-start;
+    }
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom(0, 6)}
+      }
+    }
+  `}
+`
+
+export const KlarnaWrapper = styled.div`
+  ${({ theme }) => css`
+    margin-top: 5;
+
     ${theme.mediaQueries.tablet} {
       grid-row: 3;
       margin: 4 auto 0;

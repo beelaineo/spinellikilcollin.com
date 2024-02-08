@@ -26,6 +26,12 @@ interface WithHide {
   hide: boolean
 }
 
+import { config } from '../../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
+
 const StockedLabel = styled('div')<WithHide>`
   ${({ theme, hide }) => css`
     display: block;
@@ -162,7 +168,9 @@ export const ProductDetailHeader = ({
   return (
     <>
       <TitleWrapper product={product}>
-        {variantsInStock?.length > 0 && disableStockIndication !== true ? (
+        {variantsInStock?.length > 0 &&
+        disableStockIndication !== true &&
+        showInStockIndicators ? (
           <StockedLabel
             hide={
               !isSwatchCurrentlyInStock(

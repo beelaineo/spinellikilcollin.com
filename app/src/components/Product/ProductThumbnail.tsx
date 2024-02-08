@@ -52,6 +52,11 @@ import { ShopifyStorefrontProductVariant } from '../../types/generated-shopify'
 
 const { useEffect, useState, useMemo, useRef } = React
 
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 interface ProductThumbnailProps {
   product: ShopifyProduct
   displayPrice?: boolean
@@ -70,7 +75,7 @@ interface ProductThumbnailProps {
 
 interface VariantAnimation {
   __typename: 'CloudinaryVideo'
-  videoId?: Maybe<Scalars['String']>
+  videoId?: Maybe<string>
 }
 
 interface WithCurrentlyInStock {
@@ -467,7 +472,7 @@ export const ProductThumbnail = ({
   useEffect(() => {
     if (!isInViewOnce) return
     // @ts-ignore
-    sendProductImpression({ product, variant: currentVariant })
+    sendProductImpression(product, currentVariant)
   }, [isInViewOnce, currentVariant])
 
   const productImage = currentVariant?.image
@@ -697,7 +702,7 @@ export const ProductThumbnail = ({
   ])
 
   const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
-    if (!product?.sourceData) return false
+    if (!product?.sourceData || !showInStockIndicators) return false
 
     const isInStock =
       stockedVariants && stockedVariants.length > 0 ? true : false
@@ -717,43 +722,16 @@ export const ProductThumbnail = ({
 
   return (
     <ProductThumb ref={containerRef}>
-      <Link href="/products/[productSlug]" as={linkAs}>
-        <a
-          draggable="false"
-          aria-label={'Link to ' + product.title}
-          onClick={handleClick}
-        >
-          {variantAnimation ? (
-            <VideoWrapper
-              hide={!playing}
-              carousel={carousel}
-              hover={imageHover}
-            >
-              {imageHover && currentSwatchOption?.hover_image && (
-                <HoverThumbWrapper>
-                  <Image
-                    image={currentSwatchOption?.hover_image}
-                    ratio={imageRatio || 1}
-                    sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                    preload
-                    altText={altText}
-                    preloadImages={allImages}
-                    objectFit="cover"
-                  />
-                </HoverThumbWrapper>
-              )}
-
-              <CloudinaryAnimation
-                video={variantAnimation}
-                image={productImage}
-                setPlaying={setPlaying}
-                view={'list'}
-              />
-            </VideoWrapper>
-          ) : null}
-          <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
+      <Link
+        href="/products/[productSlug]"
+        as={linkAs}
+        draggable="false"
+        aria-label={'Link to ' + product.title}
+        onClick={handleClick}
+      >
+        {variantAnimation ? (
+          <VideoWrapper hide={!playing} carousel={carousel} hover={imageHover}>
             {imageHover && currentSwatchOption?.hover_image && (
-              // <HoverThumb src={currentSwatchOption?.hover_image.asset?.url} />
               <HoverThumbWrapper>
                 <Image
                   image={currentSwatchOption?.hover_image}
@@ -762,96 +740,120 @@ export const ProductThumbnail = ({
                   preload
                   altText={altText}
                   preloadImages={allImages}
+                  objectFit="cover"
                 />
               </HoverThumbWrapper>
             )}
 
-            <Image
+            <CloudinaryAnimation
+              video={variantAnimation}
               image={productImage}
-              ratio={imageRatio || 1}
-              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-              preload
-              altText={altText}
-              preloadImages={allImages}
+              setPlaying={setPlaying}
+              view={'list'}
             />
-          </ImageWrapper>
-          <HoverArea
-            onMouseEnter={() => setImageHover(true)}
-            onMouseLeave={() => setImageHover(false)}
-          />
+          </VideoWrapper>
+        ) : null}
+        <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
+          {imageHover && currentSwatchOption?.hover_image && (
+            // <HoverThumb src={currentSwatchOption?.hover_image.asset?.url} />
+            <HoverThumbWrapper>
+              <Image
+                image={currentSwatchOption?.hover_image}
+                ratio={imageRatio || 1}
+                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                preload
+                altText={altText}
+                preloadImages={allImages}
+              />
+            </HoverThumbWrapper>
+          )}
 
-          <ProductInfo
-            hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
-            displayGrid={Boolean(displayTags || displaySwatches)}
-          >
-            {displayTags ? <TagBadges product={product} /> : <div />}
-            {displayPrice && inquiryOnly != true ? (
-              <TitleHeading
-                level={headingLevel || 3}
-                my={0}
-                currentlyInStock={isProductCurrentlyInStock(product)}
-              >
-                {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) &&
-                disableStockIndication == false ? (
-                  <InStockDot />
-                ) : (
-                  ''
-                )}
-                {product.title} |{' '}
-                <PriceWrapper>
+          <Image
+            image={productImage}
+            ratio={imageRatio || 1}
+            sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+            preload
+            altText={altText}
+            preloadImages={allImages}
+            placeholder="shadow"
+          />
+        </ImageWrapper>
+        <HoverArea
+          onMouseEnter={() => setImageHover(true)}
+          onMouseLeave={() => setImageHover(false)}
+        />
+
+        <ProductInfo
+          hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+          displayGrid={Boolean(displayTags || displaySwatches)}
+        >
+          {displayTags ? <TagBadges product={product} /> : <div />}
+          {displayPrice && inquiryOnly != true ? (
+            <TitleHeading
+              level={headingLevel || 3}
+              my={0}
+              currentlyInStock={isProductCurrentlyInStock(product)}
+            >
+              {isProductCurrentlyInStock(product) &&
+              !IsDisplayingSwatches(product) &&
+              disableStockIndication == false ? (
+                <InStockDot />
+              ) : (
+                ''
+              )}
+              {product.title} |{' '}
+              <PriceWrapper>
+                <Price
+                  price={
+                    currentPrice && currentPrice != null
+                      ? currentPrice
+                      : currentVariant?.priceV2 ||
+                        product?.sourceData?.priceRange?.minVariantPrice
+                  }
+                />
+                <Span ml={2} color="body.6" textDecoration="line-through">
                   <Price
                     price={
-                      currentPrice && currentPrice != null
-                        ? currentPrice
-                        : currentVariant?.priceV2 ||
-                          product?.sourceData?.priceRange?.minVariantPrice
+                      currentCompareAtPrice && currentCompareAtPrice != null
+                        ? currentCompareAtPrice
+                        : currentVariant?.compareAtPriceV2
                     }
                   />
-                  <Span ml={2} color="body.6" textDecoration="line-through">
-                    <Price
-                      price={
-                        currentCompareAtPrice && currentCompareAtPrice != null
-                          ? currentCompareAtPrice
-                          : currentVariant?.compareAtPriceV2
-                      }
-                    />
-                  </Span>
-                </PriceWrapper>
-              </TitleHeading>
-            ) : (
-              <TitleHeading
-                textAlign="center"
-                my={0}
-                level={headingLevel || 3}
-                currentlyInStock={isProductCurrentlyInStock(product)}
-              >
-                {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) &&
-                disableStockIndication == false ? (
-                  <InStockDot />
-                ) : (
-                  ''
-                )}
-                {product.title}
-              </TitleHeading>
-            )}
-            {displaySwatches ? (
-              <div onClick={stopPropagation}>
-                <ProductSwatches
-                  onSwatchHover={onSwatchHover}
-                  isSwatchActive={isSwatchActive}
-                  product={product}
-                  stockedVariants={stockedVariants}
-                  disableStockIndication={disableStockIndication}
-                  includedVariants={includedVariants}
-                />
-              </div>
-            ) : (
-              <div />
-            )}
-          </ProductInfo>
-        </a>
+                </Span>
+              </PriceWrapper>
+            </TitleHeading>
+          ) : (
+            <TitleHeading
+              textAlign="center"
+              my={0}
+              level={headingLevel || 3}
+              currentlyInStock={isProductCurrentlyInStock(product)}
+            >
+              {isProductCurrentlyInStock(product) &&
+              !IsDisplayingSwatches(product) &&
+              disableStockIndication == false ? (
+                <InStockDot />
+              ) : (
+                ''
+              )}
+              {product.title}
+            </TitleHeading>
+          )}
+          {displaySwatches ? (
+            <div onClick={stopPropagation}>
+              <ProductSwatches
+                onSwatchHover={onSwatchHover}
+                isSwatchActive={isSwatchActive}
+                product={product}
+                stockedVariants={stockedVariants}
+                disableStockIndication={disableStockIndication}
+                includedVariants={includedVariants}
+              />
+            </div>
+          ) : (
+            <div />
+          )}
+        </ProductInfo>
       </Link>
     </ProductThumb>
   )
