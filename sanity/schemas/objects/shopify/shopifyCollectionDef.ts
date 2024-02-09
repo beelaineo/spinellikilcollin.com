@@ -80,30 +80,7 @@ export default defineType({
     defineField({
       name: 'image',
       title: 'Image',
-      type: 'object',
-      fields: [
-        defineField({
-          name: 'altText',
-          title: 'Alt Text',
-          type: 'string',
-        }),
-        defineField({
-          name: 'src',
-          title: 'Source',
-          type: 'string',
-        }),
-        defineField({
-          name: 'width',
-          title: 'Width',
-          type: 'number',
-        }),
-        defineField({
-          name: 'height',
-          title: 'Height',
-          type: 'number',
-        }),
-      ],
-      readOnly: true,
+      type: 'shopifyCollectionImage',
     }),
     // Image URL
     defineField({

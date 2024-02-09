@@ -1,4 +1,4 @@
-import {ListItemBuilder} from 'sanity/desk'
+import {ListItemBuilder} from 'sanity/structure'
 import defineStructure from '../utils/defineStructure'
 import {MdSettings} from 'react-icons/md'
 import {AiOutlineSetting} from 'react-icons/ai'

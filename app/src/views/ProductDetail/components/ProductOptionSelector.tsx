@@ -4,7 +4,7 @@ import {
   ShopifyProduct,
   ShopifyProductOption,
   ShopifyProductVariant,
-  ShopifyProductOptionValue,
+  ProductOptionValue,
   Maybe,
   ShopifySourceProductVariant,
   ShopifySourceSelectedOption,
@@ -102,7 +102,7 @@ export const ProductOptionSelector = ({
   isInput,
   disableStockIndication,
 }: ProductOptionSelectorProps) => {
-  if (!option || !option.name || !option.shopifyOptionId || !option.values) {
+  if (!option || !option.name || !option.values) {
     console.warn('Missing option config', option)
     return null
   }
@@ -302,14 +302,14 @@ export const ProductOptionSelector = ({
   }
 
   const handleSwatchClick =
-    (option: ShopifyProductOption, { value }: ShopifyProductOptionValue) =>
+    (option: ShopifyProductOption, { value }: ProductOptionValue) =>
     () => {
       if (value) selectOption(value)
     }
 
   const isSwatchActive = (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ): boolean => {
     return optionMatchesVariant(option.name || 'foo', value, currentVariant)
   }

@@ -48,14 +48,8 @@ export const shopifyCollection = {
     {
       title: 'Shopify source data',
       name: 'sourceData',
-      type: 'object',
+      type: 'shopifySourceCollection',
       hidden: true,
-      fields: [
-        {name: 'id', type: 'string', hidden: true},
-        {name: 'handle', type: 'string', hidden: true},
-        {name: 'title', type: 'string', hidden: true},
-        {name: 'image', type: 'richImage', hidden: true},
-      ],
     },
     {
       title: 'Hidden',
@@ -118,7 +112,16 @@ export const shopifyCollection = {
       type: 'boolean',
       description: 'Toggle this to ON to only display the custom filters you add below.',
     },
-    {name: 'customFilter', type: 'productFilter'},
+    {
+      name: 'customFilter',
+      type: 'array',
+      of: [
+        {type: 'filter'},
+        {type: 'filterSet'},
+        {type: 'priceRangeMinMaxFilter'},
+        {type: 'inStockFilter'},
+      ],
+    },
     {name: 'bambuser', type: 'bambuserSettings', fieldset: 'integrations', hidden: true},
     {
       name: 'footer',

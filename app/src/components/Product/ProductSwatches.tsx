@@ -3,7 +3,8 @@ import { Image } from '../../components/Image'
 import {
   ShopifyProduct,
   ShopifyProductOption,
-  ShopifyProductOptionValue,
+  // ShopifyProductOptionValue,
+  ProductOptionValue,
   ShopifyProductVariant,
   ShopifySourceProductVariant,
   ShopifySourceProductVariantEdge,
@@ -39,15 +40,15 @@ interface OptionSwatchesProps {
   disableStockIndication?: boolean
   onSwatchHover?: (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ) => () => void
   onSwatchClick?: (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ) => () => void
   isSwatchActive?: (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ) => boolean
 }
 
@@ -106,15 +107,15 @@ interface ProductSwatchesProps {
   >
   onSwatchHover?: (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ) => () => void
   onSwatchClick?: (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ) => () => void
   isSwatchActive?: (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ) => boolean
 }
 

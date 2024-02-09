@@ -5,7 +5,7 @@ import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   ShopifyProduct,
   ShopifyProductOption,
-  ShopifyProductOptionValue,
+  ProductOptionValue,
   ShopifySourceProductVariant,
   ShopifySourceImage,
   FilterConfiguration,
@@ -187,7 +187,7 @@ export const ProductThumbnail = ({
   >(initialVariant)
 
   const [currentSwatchOption, setCurrentSwatchOption] = useState<
-    Maybe<ShopifyProductOptionValue> | undefined
+    Maybe<ProductOptionValue> | undefined
   >(undefined)
 
   const [variantAnimation, setVariantAnimation] = useState<
@@ -368,7 +368,7 @@ export const ProductThumbnail = ({
   }
 
   const onSwatchHover =
-    (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
+    (option: ShopifyProductOption, value: ProductOptionValue) => () => {
       if (!value.value) return
       if (!currentVariant?.selectedOptions) return
       const currentOptions = currentVariant.selectedOptions
@@ -398,7 +398,7 @@ export const ProductThumbnail = ({
 
   const isSwatchActive = (
     option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    value: ProductOptionValue,
   ): boolean => {
     if (!currentVariant) return false
 
@@ -425,7 +425,7 @@ export const ProductThumbnail = ({
     if (currentFilter) {
       const defaultPriceRangeFilter =
         productListingSettings?.newDefaultFilter?.find(
-          (f) => f?.__typename == 'PriceRangeFilter',
+          (f) => f?.__typename == 'PriceRangeMinMaxFilter',
         )
       //@ts-ignore
       const defaultMinPrice = defaultPriceRangeFilter?.minPrice

@@ -4,21 +4,22 @@ import {defineCliConfig} from 'sanity/cli'
 export default defineCliConfig({
   api: {
     projectId: 'i21fjdbi',
-    dataset: 'migration',
+    dataset: 'production',
   },
   graphql: [
-    // {
-    //   id: 'production',
-    //   workspace: 'production-workspace',
-    // },
+    {
+      id: 'production',
+      workspace: 'production-workspace',
+      playground: true,
+    },
     // {
     //   id: 'staging',
     //   workspace: 'staging-workspace',
     // },
-    {
-      playground: true,
-      workspace: 'migration-workspace',
-      id: 'migration',
-    },
+    // {
+    //   playground: true,
+    //   workspace: 'migration-workspace',
+    //   id: 'migration',
+    // },
   ],
 })

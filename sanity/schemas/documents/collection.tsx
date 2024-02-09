@@ -7,33 +7,31 @@ import CollectionHiddenInput from '../../components/inputs/CollectionHidden'
 import ShopifyIcon from '../../components/icons/Shopify'
 import ShopifyDocumentStatus from '../../components/media/ShopifyDocumentStatus'
 
-const GROUPS = [
-  {
-    name: 'theme',
-    title: 'Theme',
-  },
-  {
-    default: true,
-    name: 'editorial',
-    title: 'Editorial',
-  },
-  {
-    name: 'shopifySync',
-    title: 'Shopify sync',
-    icon: ShopifyIcon,
-  },
-  {
-    name: 'seo',
-    title: 'SEO',
-  },
-]
-
 export const collection = defineType({
   name: 'collection',
   title: 'Collection',
   type: 'document',
   icon: PackageIcon,
-  groups: GROUPS,
+  groups: [
+    {
+      name: 'theme',
+      title: 'Theme',
+    },
+    {
+      default: true,
+      name: 'editorial',
+      title: 'Editorial',
+    },
+    {
+      name: 'shopifySync',
+      title: 'Shopify sync',
+      icon: ShopifyIcon,
+    },
+    {
+      name: 'seo',
+      title: 'SEO',
+    },
+  ],
   fields: [
     // Product hidden status
     // defineField({
@@ -172,7 +170,17 @@ export const collection = defineType({
       description: 'Toggle this to ON to only display the custom filters you add below.',
       group: 'editorial',
     }),
-    defineField({name: 'customFilter', type: 'productFilter', group: 'editorial'}),
+    defineField({
+      name: 'customFilter',
+      group: 'editorial',
+      type: 'array',
+      of: [
+        {type: 'filter'},
+        {type: 'filterSet'},
+        {type: 'priceRangeMinMaxFilter'},
+        {type: 'inStockFilter'},
+      ],
+    }),
     defineField({
       name: 'footer',
       title: 'Footer Blocks',
@@ -222,6 +230,7 @@ export const collection = defineType({
       rules: 'store.rules',
       title: 'store.title',
     },
+    // @ts-ignore
     prepare(selection) {
       const {imageUrl, isDeleted, rules, title} = selection
       const ruleCount = rules?.length || 0

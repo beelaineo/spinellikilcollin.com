@@ -17,14 +17,26 @@ export const productListingSettings = defineType({
     defineField({
       name: 'defaultFilter',
       title: 'Default Filters',
-      type: 'productFilter',
+      type: 'array',
       fieldset: 'filters',
+      of: [
+        {type: 'filter'},
+        {type: 'filterSet'},
+        {type: 'priceRangeMinMaxFilter'},
+        {type: 'inStockFilter'},
+      ],
     }),
     defineField({
       name: 'newDefaultFilter',
       title: 'New Filters (beta)',
-      type: 'productFilter',
       fieldset: 'filters',
+      type: 'array',
+      of: [
+        {type: 'filter'},
+        {type: 'filterSet'},
+        {type: 'priceRangeMinMaxFilter'},
+        {type: 'inStockFilter'},
+      ],
     }),
   ],
   preview: {

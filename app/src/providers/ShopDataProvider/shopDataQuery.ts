@@ -8,6 +8,8 @@ import {
   JournalEntry,
   ShopifyCollection,
   ShopifyProduct,
+  Collection,
+  Product,
 } from '../../types'
 import {
   productInfoFragment,
@@ -15,8 +17,8 @@ import {
   externalLinkFragment,
   ctaFragment,
   filterSetFragment,
-  priceRangeFilterFragment,
-  inventoryFilterFragment,
+  priceRangeMinMaxFilterFragment,
+  inStockFilterFragment,
   seoFragment,
 } from '../../graphql/fragments'
 import { request } from '../../graphql'
@@ -35,11 +37,11 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         current
       }
     }
-    allShopifyCollection {
+    allCollection {
       _id
       handle
     }
-    allShopifyProduct {
+    allProduct {
       _id
       handle
     }
@@ -121,11 +123,11 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         ... on FilterSet {
           ...FilterSetFragment
         }
-        ... on PriceRangeFilter {
-          ...PriceRangeFilterFragment
+        ... on PriceRangeMinMaxFilter {
+          ...PriceRangeMinMaxFilterFragment
         }
-        ... on InventoryFilter {
-          ...InventoryFilterFragment
+        ... on InStockFilter {
+          ...InStockFilterFragment
         }
       }
     }
@@ -155,8 +157,14 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         label
       }
       excludeFromStockIndication {
-        _id
-        handle
+        ... on Product {
+          _id
+          handle
+        }
+        ... on ShopifyProduct {
+          _id
+          handle
+        }
       }
     }
     SiteSettings(id: "site-settings") {
@@ -184,8 +192,8 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   ${externalLinkFragment}
   ${ctaFragment}
   ${filterSetFragment}
-  ${priceRangeFilterFragment}
-  ${inventoryFilterFragment}
+  ${priceRangeMinMaxFilterFragment}
+  ${inStockFilterFragment}
 `
 
 export interface ShopDataResponse {
@@ -195,8 +203,8 @@ export interface ShopDataResponse {
   SiteSettings: SiteSettings
   allPage: Page[]
   allJournalEntry: JournalEntry[]
-  allShopifyCollection: ShopifyCollection[]
-  allShopifyProduct: ShopifyProduct[]
+  allCollection: Collection[]
+  allProduct: Product[]
 }
 
 export const requestShopData = async () => {

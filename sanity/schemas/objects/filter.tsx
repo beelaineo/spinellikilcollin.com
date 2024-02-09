@@ -1,67 +1,7 @@
 import * as React from 'react'
 import {defineField, defineType} from 'sanity'
 
-export const filterByPriceRange = defineType({
-  name: 'priceRangeFilter',
-  title: 'Price Range Filter',
-  type: 'object',
-  fields: [
-    {
-      name: 'minPrice',
-      title: 'Minimum Price',
-      type: 'number',
-      validation: (Rule) => Rule.required(),
-    },
-
-    {
-      name: 'maxPrice',
-      title: 'Maximum Price',
-      type: 'number',
-      validation: (Rule) => Rule.required(),
-    },
-  ],
-
-  preview: {
-    select: {
-      maxPrice: 'maxPrice',
-      minPrice: 'minPrice',
-    },
-    prepare: ({minPrice, maxPrice}) => {
-      return {
-        title: 'Price Range',
-        subtitle: `From $${minPrice} to $${maxPrice}`,
-      }
-    },
-  },
-})
-
-export const filterByInventory = defineType({
-  name: 'inventoryFilter',
-  title: 'Inventory Filter',
-  type: 'object',
-  fields: [
-    {
-      name: 'label',
-      title: 'Currently In Stock Label',
-      type: 'string',
-      validation: (Rule) => Rule.required(),
-    },
-  ],
-
-  preview: {
-    select: {
-      label: 'label',
-    },
-    prepare: ({label}) => {
-      return {
-        title: 'Inventory Filter',
-        subtitle: `${label}`,
-      }
-    },
-  },
-})
-
-const FilterMatchPreview = (props) => {
+const FilterMatchPreview = (props: any) => {
   const {match, type} = props
   console.log('FilterMatch props', props)
   if (!type || !match) {
@@ -116,7 +56,7 @@ export const filterMatch = defineType({
     preview: FilterMatchPreview,
   },
   fields: [
-    {
+    defineField({
       name: 'type',
       type: 'string',
       options: {
@@ -138,13 +78,13 @@ export const filterMatch = defineType({
         ],
       },
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'match',
       type: 'string',
       title: 'Match',
       validation: (Rule) => Rule.required(),
-    },
+    }),
   ],
   preview: {
     select: {
@@ -154,40 +94,46 @@ export const filterMatch = defineType({
   },
 })
 
-const FilterPreview = (props) => {
+const FilterPreview = (props: any) => {
   const {label, matches} = props
   if (!matches) return null
-  const tagMatches = matches.filter((m) => m.type === 'tag')
-  const typeMatches = matches.filter((m) => m.type === 'type')
-  const titleMatches = matches.filter((m) => m.type === 'title')
-  const optionMatches = matches.filter((m) => m.type === 'option')
-  const subcategoryMatches = matches.filter((m) => m.type === 'subcategory')
-  const metalMatches = matches.filter((m) => m.type === 'metal')
-  const styleMatches = matches.filter((m) => m.type === 'style')
-  const stoneMatches = matches.filter((m) => m.type === 'stone')
-  const sizeMatches = matches.filter((m) => m.type === 'size')
+  const tagMatches = matches.filter((m: any) => m.type === 'tag')
+  const typeMatches = matches.filter((m: any) => m.type === 'type')
+  const titleMatches = matches.filter((m: any) => m.type === 'title')
+  const optionMatches = matches.filter((m: any) => m.type === 'option')
+  const subcategoryMatches = matches.filter((m: any) => m.type === 'subcategory')
+  const metalMatches = matches.filter((m: any) => m.type === 'metal')
+  const styleMatches = matches.filter((m: any) => m.type === 'style')
+  const stoneMatches = matches.filter((m: any) => m.type === 'stone')
+  const sizeMatches = matches.filter((m: any) => m.type === 'size')
   const subtitles = [
     titleMatches.length
-      ? `Matches title: ${titleMatches.map(({match}) => match).join(', ')}`
+      ? `Matches title: ${titleMatches.map(({match}: any) => match).join(', ')}`
       : null,
-    tagMatches.length ? `Matches tags: ${tagMatches.map(({match}) => match).join(', ')}` : null,
+    tagMatches.length
+      ? `Matches tags: ${tagMatches.map(({match}: any) => match).join(', ')}`
+      : null,
     optionMatches.length
-      ? `Matches options: ${optionMatches.map(({match}) => match).join(', ')}`
+      ? `Matches options: ${optionMatches.map(({match}: any) => match).join(', ')}`
       : null,
-    typeMatches.length ? `Matches type: ${typeMatches.map(({match}) => match).join(', ')}` : null,
+    typeMatches.length
+      ? `Matches type: ${typeMatches.map(({match}: any) => match).join(', ')}`
+      : null,
     subcategoryMatches.length
-      ? `Matches subcategory: ${subcategoryMatches.map(({match}) => match).join(', ')}`
+      ? `Matches subcategory: ${subcategoryMatches.map(({match}: any) => match).join(', ')}`
       : null,
     metalMatches.length
-      ? `Matches metal: ${metalMatches.map(({match}) => match).join(', ')}`
+      ? `Matches metal: ${metalMatches.map(({match}: any) => match).join(', ')}`
       : null,
     styleMatches.length
-      ? `Matches style: ${styleMatches.map(({match}) => match).join(', ')}`
+      ? `Matches style: ${styleMatches.map(({match}: any) => match).join(', ')}`
       : null,
     stoneMatches.length
-      ? `Matches stone: ${stoneMatches.map(({match}) => match).join(', ')}`
+      ? `Matches stone: ${stoneMatches.map(({match}: any) => match).join(', ')}`
       : null,
-    sizeMatches.length ? `Matches size: ${sizeMatches.map(({match}) => match).join(', ')}` : null,
+    sizeMatches.length
+      ? `Matches size: ${sizeMatches.map(({match}: any) => match).join(', ')}`
+      : null,
   ].filter(Boolean)
   return (
     <div style={{display: 'flex', alignItems: 'center'}}>
@@ -201,10 +147,6 @@ const FilterPreview = (props) => {
       </div>
     </div>
   )
-  return {
-    title: label,
-    subtitle: subtitle,
-  }
 }
 
 export const filter = defineType({
@@ -215,17 +157,17 @@ export const filter = defineType({
     preview: FilterPreview,
   },
   fields: [
-    {
+    defineField({
       name: 'label',
       type: 'string',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'matches',
       title: 'Matches any of:',
       type: 'array',
       of: [{type: 'filterMatch'}],
-    },
+    }),
   ],
   preview: {
     select: {
@@ -240,35 +182,23 @@ export const filterSet = defineType({
   title: 'Filter Set',
   type: 'object',
   fields: [
-    {
+    defineField({
       name: 'heading',
       title: 'Heading',
       type: 'string',
       validation: (Rule) => Rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: 'filters',
       title: 'Filters',
       type: 'array',
       of: [{type: 'filter'}],
-    },
-    {
+    }),
+    defineField({
       name: 'searchOnly',
       title: 'Search Filter Only',
       description: 'If selected, this filter will not appear on collection page filters',
       type: 'boolean',
-    },
-  ],
-})
-
-export const productFilter = defineField({
-  name: 'productFilter',
-  type: 'array',
-  title: 'Product Listing Filter',
-  of: [
-    {type: 'filter'},
-    {type: 'filterSet'},
-    {type: 'priceRangeFilter'},
-    {type: 'inventoryFilter'},
+    }),
   ],
 })

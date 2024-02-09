@@ -1,5 +1,6 @@
 import * as documents from './documents'
 import * as objects from './objects'
+import * as saneShopifySourceTypes from './objects/legacy/shopifySource'
 import {shopifyProduct} from './saneShopify/product'
 import {shopifyCollection} from './saneShopify/collection'
 import {shopifyProductOption} from './saneShopify/product'
@@ -70,6 +71,11 @@ import shopifyProductVariantItem from './objects/shopify/shopifyProductVariantIt
 import shopifySourceProductVariant from './objects/shopify/shopifySourceProductVariant'
 import shopifyMetafield from './objects/shopify/shopifyMetafield'
 import shopifySourceSelectedOption from './objects/shopify/shopifySourceSelectedOption'
+import shopifyCollectionImage from './objects/shopify/shopifyCollectionImage'
+
+import {shopifySourceCollection} from './saneShopify/shopifySourceCollection'
+import {shopifySourceProduct} from './saneShopify/shopifySourceProduct'
+import {shopifySourceProductVariantLegacy} from './saneShopify/shopifySourceProductVariantLegacy'
 
 // Collections
 import collectionGroup from './objects/collection/group'
@@ -121,6 +127,7 @@ const objects2 = [
   seoShopify,
   shopifyCollectionDef,
   shopifyCollectionRule,
+  shopifyCollectionImage,
   shopifyPrice,
   shopifyProductDef,
   shopifyProductVariant,
@@ -134,6 +141,9 @@ const objects2 = [
   shopifyProductOption,
   shopifyCollection,
   // productOptionValue,
+  shopifySourceCollection,
+  shopifySourceProduct,
+  shopifySourceProductVariantLegacy,
 ]
 
 export default [
@@ -141,4 +151,5 @@ export default [
   ...Object.values(documents),
   ...Object.values(objects),
   ...Object.values(objects2),
+  ...Object.values(saneShopifySourceTypes),
 ]

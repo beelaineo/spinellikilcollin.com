@@ -2,13 +2,13 @@ import { useReducer } from 'react'
 import {
   Filter as FilterSingleType,
   FilterSet as FilterSetType,
-  PriceRangeFilter as PriceRangeFilterType,
-  InventoryFilter as InventoryFilterTypeSource,
+  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
+  InStockFilter as InStockFilterTypeSource,
 } from '../../types'
 import { unique } from '../../utils'
 import { FilterSetState, FilterValues } from './types'
 
-interface InventoryFilterType extends InventoryFilterTypeSource {
+interface InStockFilterType extends InStockFilterTypeSource {
   applyFilter?: boolean
 }
 
@@ -197,7 +197,10 @@ const reducer = (state: State, action: Action): State => {
 }
 
 type Filters = Array<
-  FilterSingleType | FilterSetType | PriceRangeFilterType | InventoryFilterType
+  | FilterSingleType
+  | FilterSetType
+  | PriceRangeMinMaxFilterType
+  | InStockFilterType
 >
 
 interface UseFilterReducer {
@@ -220,24 +223,24 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
       key: filter._key || 'some-key',
       activeMatchKeys: [],
       initialValues:
-        filter.__typename === 'PriceRangeFilter'
+        filter.__typename === 'PriceRangeMinMaxFilter'
           ? {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
             }
-          : filter.__typename === 'InventoryFilter'
+          : filter.__typename === 'InStockFilter'
           ? {
               label: filter?.label || 'Ready to Ship',
               applyFilter: false,
             }
           : {},
       values:
-        filter.__typename === 'PriceRangeFilter'
+        filter.__typename === 'PriceRangeMinMaxFilter'
           ? {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
             }
-          : filter.__typename === 'InventoryFilter'
+          : filter.__typename === 'InStockFilter'
           ? {
               label: filter?.label || 'Ready to Ship',
               applyFilter: filter?.applyFilter || false,

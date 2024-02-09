@@ -1,4 +1,4 @@
-import {ListItemBuilder} from 'sanity/desk'
+import {ListItemBuilder} from 'sanity/structure'
 import defineStructure from '../utils/defineStructure'
 import {AiOutlineBook} from 'react-icons/ai'
 import {FaPencilAlt} from 'react-icons/fa'

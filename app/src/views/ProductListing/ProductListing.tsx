@@ -6,8 +6,8 @@ import {
   CollectionBlock as CollectionBlockType,
   Filter as FilterType,
   FilterSet as FilterSetType,
-  InventoryFilter as InventoryFilterType,
-  PriceRangeFilter as PriceRangeFilterType,
+  InStockFilter as InStockFilterType,
+  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
   FilterConfiguration,
   FilterMatch,
   PRICE_RANGE_FILTER,
@@ -140,8 +140,8 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     | (
         | FilterType
         | FilterSetType
-        | InventoryFilterType
-        | PriceRangeFilterType
+        | InStockFilterType
+        | PriceRangeMinMaxFilterType
       )[]
     | null
   >(null)
@@ -179,7 +179,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       : [...customFilters, ...defaultFilters]
 
     filters.map((filter) => {
-      if (filter._type === 'inventoryFilter')
+      if (filter._type === 'inStockFilter')
         filters.push(filters.splice(filters.indexOf(filter), 1)[0])
     })
     setFilters(filters)
@@ -259,10 +259,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
           } else {
             return Boolean(
               p.prices.some(
-                (price) =>
-                  price &&
-                  minPrice <= parseFloat(price) &&
-                  maxPrice >= parseFloat(price),
+                (price) => price && minPrice <= price && maxPrice >= price,
               ),
             )
           }

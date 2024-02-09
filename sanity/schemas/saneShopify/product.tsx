@@ -1,3 +1,5 @@
+import {defineField, defineType} from 'sanity'
+
 export const shopifyProductOption = defineType({
   title: 'Product option (old)',
   name: 'shopifyProductOption',
@@ -88,7 +90,6 @@ export const productOptionValue = {
     },
   },
 }
-import {defineField, defineType} from 'sanity'
 
 export const shopifyProduct = defineType({
   name: 'shopifyProduct',
@@ -130,13 +131,18 @@ export const shopifyProduct = defineType({
     defineField({
       title: 'Shopify source data',
       name: 'sourceData',
-      type: 'object',
+      type: 'shopifySourceProduct',
       hidden: true,
-      fields: [
-        {name: 'id', type: 'string', hidden: true},
-        {name: 'title', type: 'string', hidden: true},
-        {name: 'image', type: 'richImage', hidden: true},
-      ],
+    }),
+    defineField({
+      name: 'minVariantPrice',
+      type: 'number',
+      hidden: true,
+    }),
+    defineField({
+      name: 'maxVariantPrice',
+      type: 'number',
+      hidden: true,
     }),
     defineField({
       title: 'Archived?',
@@ -232,7 +238,7 @@ export const shopifyProduct = defineType({
       name: 'variants',
       hidden: true,
       type: 'array',
-      of: [{type: 'productVariant'}],
+      of: [{type: 'shopifyProductVariant'}],
     }),
     defineField({
       name: 'seo',

@@ -19,62 +19,62 @@ export default defineType({
       to: [{type: 'product'}],
       weak: true,
     }),
-    defineField({
-      name: 'variant',
-      type: 'reference',
-      to: [{type: 'productVariant'}],
-      weak: true,
-      description: 'First variant will be selected if left empty',
-      options: {
-        filter: ({parent}) => {
-          // @ts-ignore
-          const productId = parent?.product?._ref
-          const shopifyProductId = Number(productId?.replace('shopifyProduct-', ''))
+    // defineField({
+    //   name: 'variant',
+    //   type: 'reference',
+    //   to: [{type: 'productVariant'}],
+    //   weak: true,
+    //   description: 'First variant will be selected if left empty',
+    //   options: {
+    //     filter: ({parent}) => {
+    //       // @ts-ignore
+    //       const productId = parent?.product?._ref
+    //       const shopifyProductId = Number(productId?.replace('shopifyProduct-', ''))
 
-          if (!shopifyProductId) {
-            return {filter: '', params: {}}
-          }
+    //       if (!shopifyProductId) {
+    //         return {filter: '', params: {}}
+    //       }
 
-          // TODO: once variants are correctly marked as deleted, this could be made a little more efficient
-          // e.g. filter: 'store.productId == $shopifyProductId && !store.isDeleted',
-          return {
-            filter: `_id in *[_id == $shopifyProductId][0].store.variants[]._ref`,
-            params: {
-              shopifyProductId: productId,
-            },
-          }
-        },
-      },
-      hidden: ({parent}) => {
-        const productSelected = parent?.product
-        return !productSelected
-      },
-      validation: (Rule) =>
-        Rule.custom(async (value, {parent, getClient}) => {
-          // Selected product in adjacent `product` field
-          // @ts-ignore
-          const productId = parent?.product?._ref
+    //       // TODO: once variants are correctly marked as deleted, this could be made a little more efficient
+    //       // e.g. filter: 'store.productId == $shopifyProductId && !store.isDeleted',
+    //       return {
+    //         filter: `_id in *[_id == $shopifyProductId][0].store.variants[]._ref`,
+    //         params: {
+    //           shopifyProductId: productId,
+    //         },
+    //       }
+    //     },
+    //   },
+    //   hidden: ({parent}) => {
+    //     const productSelected = parent?.product
+    //     return !productSelected
+    //   },
+    //   validation: (Rule) =>
+    //     Rule.custom(async (value, {parent, getClient}) => {
+    //       // Selected product in adjacent `product` field
+    //       // @ts-ignore
+    //       const productId = parent?.product?._ref
 
-          // Selected product variant
-          const productVariantId = value?._ref
+    //       // Selected product variant
+    //       const productVariantId = value?._ref
 
-          if (!productId || !productVariantId) {
-            return true
-          }
+    //       if (!productId || !productVariantId) {
+    //         return true
+    //       }
 
-          // If both product + product variant are specified,
-          // check to see if `product` references this product variant.
-          const result = await getClient({apiVersion: SANITY_API_VERSION}).fetch(
-            `*[_id == $productId && references($productVariantId)][0]._id`,
-            {
-              productId,
-              productVariantId,
-            }
-          )
+    //       // If both product + product variant are specified,
+    //       // check to see if `product` references this product variant.
+    //       const result = await getClient({apiVersion: SANITY_API_VERSION}).fetch(
+    //         `*[_id == $productId && references($productVariantId)][0]._id`,
+    //         {
+    //           productId,
+    //           productVariantId,
+    //         }
+    //       )
 
-          return result ? true : 'Invalid product variant'
-        }),
-    }),
+    //       return result ? true : 'Invalid product variant'
+    //     }),
+    // }),
   ],
   preview: {
     select: {

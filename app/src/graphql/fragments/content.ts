@@ -154,7 +154,21 @@ export const internalLinkFragment = gql`
         title
         handle
       }
+      ... on Product {
+        _id
+        _key
+        _type
+        title
+        handle
+      }
       ... on ShopifyCollection {
+        _id
+        _key
+        _type
+        title
+        handle
+      }
+      ... on Collection {
         _id
         _key
         _type
@@ -195,8 +209,8 @@ export const filterSetFragment = gql`
   }
 `
 
-export const priceRangeFilterFragment = gql`
-  fragment PriceRangeFilterFragment on PriceRangeFilter {
+export const priceRangeMinMaxFilterFragment = gql`
+  fragment PriceRangeMinMaxFilterFragment on PriceRangeMinMaxFilter {
     __typename
     _key
     minPrice
@@ -204,8 +218,8 @@ export const priceRangeFilterFragment = gql`
   }
 `
 
-export const inventoryFilterFragment = gql`
-  fragment InventoryFilterFragment on InventoryFilter {
+export const inStockFilterFragment = gql`
+  fragment InStockFilterFragment on InStockFilter {
     __typename
     _key
     label
@@ -213,7 +227,7 @@ export const inventoryFilterFragment = gql`
 `
 
 export const customFilterFragment = gql`
-  fragment CustomFilterFragment on FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter {
+  fragment CustomFilterFragment on FilterOrFilterSetOrInStockFilterOrPriceRangeMinMaxFilter {
     ... on FilterSet {
       __typename
       _key
@@ -231,12 +245,12 @@ export const customFilterFragment = gql`
         }
       }
     }
-    ... on InventoryFilter {
+    ... on InStockFilter {
       __typename
       _key
       label
     }
-    ... on PriceRangeFilter {
+    ... on PriceRangeMinMaxFilter {
       __typename
       _key
       minPrice
@@ -423,6 +437,30 @@ export const shopifySourceProductFragment = gql`
   ${shopifySourceProductVariantFragment}
 `
 
+export const productFragment = gql`
+  fragment ProductFragment on Product {
+    __typename
+    _id
+    _key
+    title
+    handle
+    archived
+    shopifyId
+    sourceData {
+      ...ShopifySourceProductFragment
+    }
+    info {
+      ...ProductInfoFragment
+    }
+    contentAfter {
+      ...ImageTextBlockFragment
+    }
+  }
+  ${productInfoFragment}
+  ${shopifySourceProductFragment}
+  ${imageTextBlockFragment}
+`
+
 export const shopifyProductFragment = gql`
   fragment ShopifyProductFragment on ShopifyProduct {
     __typename
@@ -607,40 +645,84 @@ export const carouselFragment = gql`
     title
     subtitleRaw
     collection {
-      __typename
-      _id
-      _type
-      _key
-      title
-      handle
-      archived
-      shopifyId
-      products {
+      ... on Collection {
         __typename
         _id
+        _type
         _key
         title
-        hidden
-        hideFromSearch
         handle
         archived
         shopifyId
-        minVariantPrice
-        maxVariantPrice
-        sourceData {
+        products {
           __typename
-          id
+          _id
+          _key
           title
+          hidden
+          hideFromSearch
           handle
-          tags
-          productType
-          images {
+          archived
+          shopifyId
+          minVariantPrice
+          maxVariantPrice
+          sourceData {
             __typename
-            edges {
+            id
+            title
+            handle
+            tags
+            productType
+            images {
               __typename
-              cursor
-              node {
-                ...ShopifySourceImageFragment
+              edges {
+                __typename
+                cursor
+                node {
+                  ...ShopifySourceImageFragment
+                }
+              }
+            }
+          }
+        }
+      }
+
+      ... on ShopifyCollection {
+        __typename
+        _id
+        _type
+        _key
+        title
+        handle
+        archived
+        shopifyId
+        products {
+          __typename
+          _id
+          _key
+          title
+          hidden
+          hideFromSearch
+          handle
+          archived
+          shopifyId
+          minVariantPrice
+          maxVariantPrice
+          sourceData {
+            __typename
+            id
+            title
+            handle
+            tags
+            productType
+            images {
+              __typename
+              edges {
+                __typename
+                cursor
+                node {
+                  ...ShopifySourceImageFragment
+                }
               }
             }
           }
