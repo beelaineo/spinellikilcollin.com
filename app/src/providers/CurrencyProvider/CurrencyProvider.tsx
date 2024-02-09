@@ -59,11 +59,11 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (message) {
-      createToast({ message, type: ToastType.Error })
-    }
-  }, [message])
+  // useEffect(() => {
+  //   if (message) {
+  //     createToast({ message, type: ToastType.Error })
+  //   }
+  // }, [message])
 
   useEffect(() => {
     setCookie(CURRENCY_COOKIE, currentCurrency)
