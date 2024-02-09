@@ -70,6 +70,13 @@ export default defineType({
       title: 'Deleted from Shopify?',
       type: 'boolean',
     }),
+    // Deleted
+    defineField({
+      fieldset: 'status',
+      name: 'availableForSale',
+      title: 'Available for Sale?',
+      type: 'boolean',
+    }),
     // Title
     defineField({
       name: 'title',

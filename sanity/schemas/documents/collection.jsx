@@ -68,6 +68,12 @@ export const collection = defineType({
       options: {field: 'store.slug.current'},
     }),
     defineField({
+      name: 'archived',
+      title: 'Archived?',
+      type: 'boolean',
+      readOnly: true,
+    }),
+    defineField({
       name: 'shopifyId',
       title: 'Shopify ID',
       type: 'string',

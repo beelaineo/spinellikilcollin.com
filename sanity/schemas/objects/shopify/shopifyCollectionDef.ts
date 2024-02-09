@@ -23,6 +23,12 @@ export default defineType({
       title: 'Created at',
       type: 'string',
     }),
+    defineField({
+      name: 'handle',
+      title: 'Handle',
+      type: 'string',
+      readOnly: true,
+    }),
     // Updated at
     defineField({
       fieldset: 'status',
@@ -70,6 +76,34 @@ export default defineType({
       title: 'HTML Description',
       type: 'text',
       rows: 5,
+    }),
+    defineField({
+      name: 'image',
+      title: 'Image',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'altText',
+          title: 'Alt Text',
+          type: 'string',
+        }),
+        defineField({
+          name: 'src',
+          title: 'Source',
+          type: 'string',
+        }),
+        defineField({
+          name: 'width',
+          title: 'Width',
+          type: 'number',
+        }),
+        defineField({
+          name: 'height',
+          title: 'Height',
+          type: 'number',
+        }),
+      ],
+      readOnly: true,
     }),
     // Image URL
     defineField({
