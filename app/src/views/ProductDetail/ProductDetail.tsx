@@ -3,11 +3,8 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 import {
   Maybe,
-  Scalars,
   Product,
   ShopifyProductVariant,
-  ShopifySourceImage,
-  ShopifySourceProductVariant,
   ShopifyImage,
 } from '../../types'
 import {
@@ -469,8 +466,8 @@ export const ProductDetail = ({ product }: Props) => {
                         <InStockDot />
                         {currentlyNotInStock !== true &&
                         !currentVariant.title?.includes('Not sure of my size')
-                          ? 'Ready to Ship'
-                          : 'Ready to Ship in Select Sizes'}
+                          ? 'In Stock'
+                          : 'In Stock in Select Sizes'}
                       </Heading>
                     </StockedLabelMobile>
                   ) : null}

@@ -137,8 +137,8 @@ export const ProductDetailHeader = ({
               <InStockDot />
               {currentlyNotInStock !== true &&
               !currentVariant.title?.includes('Not sure of my size')
-                ? 'Ready to Ship'
-                : 'Ready to Ship in Select Sizes'}
+                ? 'In Stock'
+                : 'In Stock in Select Sizes'}
             </Heading>
           </StockedLabel>
         ) : null}

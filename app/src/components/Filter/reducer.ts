@@ -230,7 +230,7 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
             }
           : filter.__typename === 'InStockFilter'
           ? {
-              label: filter?.label || 'Ready to Ship',
+              label: filter?.label || 'In Stock',
               applyFilter: false,
             }
           : {},
@@ -242,7 +242,7 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
             }
           : filter.__typename === 'InStockFilter'
           ? {
-              label: filter?.label || 'Ready to Ship',
+              label: filter?.label || 'In Stock',
               applyFilter: filter?.applyFilter || false,
             }
           : {},

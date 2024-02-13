@@ -538,7 +538,7 @@ export const Filter = ({
                 </FilterWrapper>
               ) : filter.__typename === 'InStockFilter' ? (
                 <FilterWrapper
-                  heading="Ready to Ship"
+                  heading="In Stock"
                   key={filter._key || 'some-key'}
                   type={filter.__typename}
                   filter={filter}
