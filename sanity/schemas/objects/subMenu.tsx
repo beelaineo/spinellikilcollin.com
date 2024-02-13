@@ -58,46 +58,23 @@ export const MenuLink = defineType({
     select: {
       link: 'link',
       label: 'label',
-      refTitle: 'link.document.title',
       refDocument: 'link.document',
-      refProductThumb: 'link.document.sourceData.images.edges.0.node.w100',
-      refCollectionThumb: 'link.document.sourceData.image.w100',
       link_external: 'link_external',
       action: 'action',
       linkType: 'linkType',
     },
-    prepare({
-      link,
-      label,
-      refTitle,
-      refDocument,
-      refProductThumb,
-      refCollectionThumb,
-      link_external,
-      action,
-      linkType,
-    }): PreviewValue {
+    prepare({link, label, refDocument, link_external, action, linkType}): PreviewValue {
       if (!link && !link_external && !action) return {title: '[missing link]'}
-
-      // console.log('refProductThumb', refProductThumb)
-      // console.log('refCollectionThumb', refCollectionThumb)
-      // console.log('refDocument', refDocument)
-      // console.log('refType', refDocument._type)
-      // console.log('refTitle', refTitle)
 
       const src =
         refDocument._type === 'product' || refDocument._type === 'collection'
           ? getShopifyThumbnail(refDocument)
-          : refDocument._type === 'shopifyProduct'
-          ? refProductThumb + '&width=100'
-          : refDocument._type === 'shopifyCollection'
-          ? refCollectionThumb + '&width=100'
           : undefined
 
       const subtitles = [
         action ? `🔗 Action: ${action}` : null,
         link_external ? `🔗 External Link: ${link_external.url}` : null,
-        refTitle ? `🔗${refTitle}` : null,
+        refDocument.title ? `🔗${refDocument.title}` : null,
       ].filter(Boolean)
 
       return {

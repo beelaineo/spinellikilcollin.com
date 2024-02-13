@@ -1,6 +1,8 @@
 import * as React from 'react'
 import {
   CloudinaryVideo as CloudinaryVideoType,
+  Maybe,
+  ShopifyImage,
   ShopifySourceImage,
 } from '../../types'
 import { AnimationWrapper, DesktopWrapper, MobileWrapper } from './styled'
@@ -118,14 +120,17 @@ const RatioPadding = ({
   const paddingBottom = src ? 0 : `${ratio * 100}%`
   return (
     <RatioImageFill style={{ paddingBottom, backgroundColor }} aria-hidden>
-      {src ? <img src={src} /> : null}
+      {src ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img alt={'Animation Padding'} src={src} />
+      ) : null}
     </RatioImageFill>
   )
 }
 
 interface CloudinaryVideoProps {
   video: CloudinaryVideoType
-  image?: ShopifySourceImage
+  image?: Maybe<ShopifyImage>
   screen?: 'desktop' | 'mobile'
   view?: 'list' | 'detail'
   setPlaying: (playing: boolean) => void
@@ -153,13 +158,15 @@ export const CloudinaryAnimation = ({
 
   const poster =
     viewportWidth > 1200
-      ? (image?.w1600 as string)
+      ? ((image?.src + '?w=1600') as string)
       : viewportWidth > 1000
-      ? (image?.w1200 as string)
-      : (image?.w800 as string)
+      ? ((image?.src + '?w=1200') as string)
+      : ((image?.src + '?w=800') as string)
 
   const listPoster =
-    viewportWidth > 1200 ? (image?.w1200 as string) : (image?.w800 as string)
+    viewportWidth > 1200
+      ? ((image?.src + '?w=1200') as string)
+      : ((image?.src + '?w=800') as string)
 
   return screen === 'desktop' ? (
     <DesktopWrapper>

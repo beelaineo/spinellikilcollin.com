@@ -6,8 +6,6 @@ import {
   ProductListingSettings,
   SiteSettings,
   JournalEntry,
-  ShopifyCollection,
-  ShopifyProduct,
   Collection,
   Product,
 } from '../../types'
@@ -118,7 +116,6 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
     }
     ProductListingSettings(id: "productListingSettings") {
       _id
-      _type
       newDefaultFilter {
         ... on FilterSet {
           ...FilterSetFragment
@@ -158,10 +155,6 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       }
       excludeFromStockIndication {
         ... on Product {
-          _id
-          handle
-        }
-        ... on ShopifyProduct {
           _id
           handle
         }

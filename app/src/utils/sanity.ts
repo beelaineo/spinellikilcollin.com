@@ -14,23 +14,23 @@ import { definitely } from './data'
 const parseFilterMatch = ({ type, match }: FilterMatch): string | null => {
   switch (type) {
     case 'type':
-      return `sourceData.productType == "${match}"`
+      return `store.productType == "${match}"`
     case 'tag':
-      return `"${match}" in sourceData.tags`
+      return `"${match}" in store.tags`
     case 'title':
       return `title match "${match}"`
     case 'option':
-      return `"${match}" in sourceData.options[].value`
+      return `"${match}" in store.options[].value`
     case 'size':
-      return `"${match}" in sourceData.options[name == "Size"].values[]`
+      return `"${match}" in store.options[name == "Size"].values[]`
     case 'subcategory':
-      return `variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
+      return `store.variants[].sourceData.metafields[key == "subcategory"].value match "*${match}*"`
     case 'metal':
-      return `variants[].sourceData.metafields.edges[node.key == "metal"].node.value match "*${match}*"`
+      return `store.variants[].sourceData.metafields[key == "metal"].value match "*${match}*"`
     case 'style':
-      return `variants[].sourceData.metafields.edges[node.key == "style"].node.value match "*${match}*"`
+      return `store.variants[].sourceData.metafields[key == "style"].value match "*${match}*"`
     case 'stone':
-      return `variants[].sourceData.metafields.edges[node.key == "stone"].node.value match "*${match}*"`
+      return `store.variants[].sourceData.metafields[key == "stone"].value match "*${match}*"`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
@@ -42,23 +42,23 @@ const parseFilterMatchDefaultSort = ({
 }: FilterMatch): string | null => {
   switch (type) {
     case 'type':
-      return `@->sourceData.productType == "${match}"`
+      return `@->store.productType == "${match}"`
     case 'tag':
-      return `"${match}" in @->sourceData.tags`
+      return `"${match}" in @->store.tags`
     case 'title':
       return `@->title match "${match}"`
     case 'option':
-      return `"${match}" in @->sourceData.options[].value`
+      return `"${match}" in @->store.options[].value`
     case 'size':
-      return `"${match}" in @->sourceData.options[name == "Size"].values[]`
+      return `"${match}" in @->store.options[name == "Size"].values[]`
     case 'subcategory':
-      return `@->variants[].sourceData.metafields.edges[node.key == "subcategory"].node.value match "*${match}*"`
+      return `@->variants[].store.metafields[key == "subcategory"].value match "*${match}*"`
     case 'metal':
-      return `@->variants[].sourceData.metafields.edges[node.key == "metal"].node.value match "*${match}*"`
+      return `@->variants[].store.metafields[key == "metal"].value match "*${match}*"`
     case 'style':
-      return `@->variants[].sourceData.metafields.edges[node.key == "style"].node.value match "*${match}*"`
+      return `@->variants[].store.metafields[key == "style"].value match "*${match}*"`
     case 'stone':
-      return `@->variants[].sourceData.metafields.edges[node.key == "stone"].node.value match "*${match}*"`
+      return `@->variants[].store.metafields[key == "stone"].value match "*${match}*"`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }
@@ -121,14 +121,14 @@ export const buildFilters = (
         return [
           '(',
           sort == Sort.Default || (filterSort && filterSort.length > 0)
-            ? '@->maxVariantPrice'
-            : 'maxVariantPrice',
+            ? '@->store.priceRange.maxVariantPrice'
+            : 'store.priceRange.maxVariantPrice',
           ' >= ',
           Math.floor(minPrice),
           ' && ',
           sort == Sort.Default || (filterSort && filterSort.length > 0)
-            ? '@->minVariantPrice'
-            : 'minVariantPrice',
+            ? '@->store.priceRange.minVariantPrice'
+            : 'store.priceRange.minVariantPrice',
           ' <= ',
           Math.ceil(maxPrice),
           ')',
@@ -136,14 +136,14 @@ export const buildFilters = (
       } else if (filterGroup.filterType === INVENTORY_FILTER) {
         const rule =
           sort == Sort.Default || (filterSort && filterSort.length > 0)
-            ? '(count(@->sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
-            : '(count(sourceData.variants.edges[][node.currentlyNotInStock == false]) > 0)'
+            ? '(count(@->store.variants[][currentlyNotInStock == false]) > 0)'
+            : '(count(store.variants[][currentlyNotInStock == false]) > 0)'
         const { applyFilter } = filterGroup
         return applyFilter
           ? rule
           : sort == Sort.Default || (filterSort && filterSort.length > 0)
-          ? '(count(@->sourceData.variants.edges[]) > 0)'
-          : '(count(sourceData.variants.edges[]) > 0)'
+          ? '(count(@->store.variants[]) > 0)'
+          : '(count(store.variants[]) > 0)'
       }
       throw new Error(`This kind of filter cannot be parsed`)
     })

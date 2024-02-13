@@ -19,6 +19,17 @@ export const seoFragment = gql`
   ${sanityImageFragment}
 `
 
+export const shopifyImageFragment = gql`
+  fragment ShopifyImageFragment on ShopifyImage {
+    __typename
+    id
+    altText
+    src
+    width
+    height
+  }
+`
+
 export const shopifySourceImageFragment = gql`
   fragment ShopifySourceImageFragment on ShopifySourceImage {
     __typename
@@ -44,7 +55,7 @@ export const shopifySourceProductVariantFragment = gql`
     sku
     title
     image {
-      ...ShopifySourceImageFragment
+      ...ShopifyImageFragment
     }
     priceV2 {
       __typename
@@ -63,7 +74,23 @@ export const shopifySourceProductVariantFragment = gql`
       value
     }
   }
-  ${shopifySourceImageFragment}
+  ${shopifyImageFragment}
+`
+
+export const shopifyProductVariantFragment = gql`
+  fragment ShopifyProductVariantFragment on ShopifyProductVariant {
+    __typename
+    _key
+    _type
+    id
+    isDeleted
+    shopifyVariantID
+    sourceData {
+      ...ShopifySourceProductVariantFragment
+    }
+    title
+  }
+  ${shopifySourceProductVariantFragment}
 `
 
 export const productInfoFragment = gql`
@@ -89,91 +116,93 @@ export const internalLinkFragment = gql`
     }
     document {
       __typename
-      ... on Contact {
-        _id
-        _type
+      ... on About {
+        __typename
         _key
+        _type
+        title
+      }
+      ... on Contact {
+        __typename
+        _key
+        _type
         title
       }
       ... on Faq {
-        _id
+        __typename
         _type
         _key
         title
       }
       ... on Customize {
+        __typename
         _id
-        _type
         _key
+        _type
         title
       }
       ... on JournalEntry {
+        __typename
         _id
-        _type
         _key
+        _type
         title
         slug {
           current
         }
       }
       ... on JournalPage {
-        _id
+        __typename
         _type
+        _id
         _key
         title
       }
-
       ... on Magazine {
-        _id
+        __typename
         _type
+        _id
         _key
         title
       }
-
       ... on Page {
-        _id
+        __typename
         _type
+        _id
         _key
         title
         slug {
           current
         }
       }
-
       ... on PaymentPlans {
-        _id
+        __typename
         _type
-        _key
-        title
-      }
-
-      ... on ShopifyProduct {
         _id
         _key
-        _type
         title
-        handle
       }
       ... on Product {
+        __typename
+        _type
         _id
         _key
-        _type
-        title
-        handle
-      }
-      ... on ShopifyCollection {
-        _id
-        _key
-        _type
         title
         handle
       }
       ... on Collection {
+        __typename
+        _type
         _id
         _key
-        _type
         title
         handle
+      }
+      ... on TeamPage {
+        __typename
+        _id
+        _key
+        title
       }
     }
   }
@@ -411,16 +440,8 @@ export const shopifySourceProductFragment = gql`
     }
     priceRange {
       __typename
-      minVariantPrice {
-        __typename
-        amount
-        currencyCode
-      }
-      maxVariantPrice {
-        __typename
-        amount
-        currencyCode
-      }
+      minVariantPrice
+      maxVariantPrice
     }
     images {
       __typename
@@ -437,6 +458,33 @@ export const shopifySourceProductFragment = gql`
   ${shopifySourceProductVariantFragment}
 `
 
+export const shopifyProductDefFragment = gql`
+  fragment ShopifyProductDefFragment on ShopifyProductDef {
+    __typename
+    id
+    title
+    handle
+    vendor
+    tags
+    productType
+    description
+    descriptionHtml
+    variants {
+      ...ShopifyProductVariantFragment
+    }
+    priceRange {
+      __typename
+      minVariantPrice
+      maxVariantPrice
+    }
+    images {
+      ...ShopifyImageFragment
+    }
+  }
+  ${shopifyImageFragment}
+  ${shopifyProductVariantFragment}
+`
+
 export const productFragment = gql`
   fragment ProductFragment on Product {
     __typename
@@ -445,9 +493,14 @@ export const productFragment = gql`
     title
     handle
     archived
+    collections {
+      __typename
+      handle
+      id
+    }
     shopifyId
-    sourceData {
-      ...ShopifySourceProductFragment
+    store {
+      ...ShopifyProductDefFragment
     }
     info {
       ...ProductInfoFragment
@@ -457,7 +510,7 @@ export const productFragment = gql`
     }
   }
   ${productInfoFragment}
-  ${shopifySourceProductFragment}
+  ${shopifyProductDefFragment}
   ${imageTextBlockFragment}
 `
 
@@ -470,10 +523,8 @@ export const shopifyProductFragment = gql`
     handle
     archived
     shopifyId
-    minVariantPrice
-    maxVariantPrice
-    sourceData {
-      ...ShopifySourceProductFragment
+    store {
+      ...ShopifyProductDefFragment
     }
     info {
       ...ProductInfoFragment
@@ -483,7 +534,7 @@ export const shopifyProductFragment = gql`
     }
   }
   ${productInfoFragment}
-  ${shopifySourceProductFragment}
+  ${shopifyProductDefFragment}
   ${imageTextBlockFragment}
 `
 
@@ -522,8 +573,8 @@ export const shopifySourceCollectionFragment = gql`
   ${shopifySourceImageFragment}
 `
 
-export const shopifyCollectionFragment = gql`
-  fragment ShopifyCollectionFragment on ShopifyCollection {
+export const collectionFragment = gql`
+  fragment CollectionFragment on Collection {
     __typename
     _id
     _type
@@ -533,10 +584,10 @@ export const shopifyCollectionFragment = gql`
     archived
     shopifyId
     products {
-      ...ShopifyProductFragment
+      ...ProductFragment
     }
   }
-  ${shopifyProductFragment}
+  ${productFragment}
 `
 
 export const collectionBlockFragment = gql`
@@ -561,8 +612,8 @@ export const collectionBlockFragment = gql`
   ${richImageFragment}
 `
 
-export const shopifyProductThumbnailFragment = gql`
-  fragment ShopifyProductThumbnailFragment on ShopifyProduct {
+export const productThumbnailFragment = gql`
+  fragment ProductThumbnailFragment on Product {
     __typename
     _id
     _key
@@ -574,7 +625,6 @@ export const shopifyProductThumbnailFragment = gql`
       __typename
       _key
       _type
-      shopifyOptionId
       name
       values {
         __typename
@@ -591,14 +641,13 @@ export const shopifyProductThumbnailFragment = gql`
         }
       }
     }
-    sourceData {
-      ...ShopifySourceProductFragment
+    store {
+      ...ShopifyProductDefFragment
     }
   }
 
   ${sanityImageFragment}
-  ${shopifySourceImageFragment}
-  ${shopifySourceProductFragment}
+  ${shopifyProductDefFragment}
   ${stoneFragment}
 `
 
@@ -617,13 +666,13 @@ export const richPageLinkFragment = gql`
           current
         }
       }
-      ... on ShopifyCollection {
+      ... on Collection {
         shopifyId
         handle
         title
       }
-      ... on ShopifyProduct {
-        ...ShopifyProductThumbnailFragment
+      ... on Product {
+        ...ProductThumbnailFragment
       }
     }
     image {
@@ -634,7 +683,7 @@ export const richPageLinkFragment = gql`
     }
   }
   ${richImageFragment}
-  ${shopifyProductThumbnailFragment}
+  ${productThumbnailFragment}
 `
 
 export const carouselFragment = gql`
@@ -664,66 +713,20 @@ export const carouselFragment = gql`
           handle
           archived
           shopifyId
-          minVariantPrice
-          maxVariantPrice
-          sourceData {
+          store {
             __typename
             id
             title
             handle
             tags
-            productType
-            images {
+            priceRange {
               __typename
-              edges {
-                __typename
-                cursor
-                node {
-                  ...ShopifySourceImageFragment
-                }
-              }
+              minVariantPrice
+              maxVariantPrice
             }
-          }
-        }
-      }
-
-      ... on ShopifyCollection {
-        __typename
-        _id
-        _type
-        _key
-        title
-        handle
-        archived
-        shopifyId
-        products {
-          __typename
-          _id
-          _key
-          title
-          hidden
-          hideFromSearch
-          handle
-          archived
-          shopifyId
-          minVariantPrice
-          maxVariantPrice
-          sourceData {
-            __typename
-            id
-            title
-            handle
-            tags
             productType
             images {
-              __typename
-              edges {
-                __typename
-                cursor
-                node {
-                  ...ShopifySourceImageFragment
-                }
-              }
+              ...ShopifyImageFragment
             }
           }
         }
@@ -734,7 +737,7 @@ export const carouselFragment = gql`
     }
   }
   ${richPageLinkFragment}
-  ${shopifySourceImageFragment}
+  ${shopifyImageFragment}
 `
 
 export const colorFragment = gql`

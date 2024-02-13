@@ -43,7 +43,7 @@ export default defineType({
     defineField({
       title: 'Shopify Source Image',
       name: 'image',
-      type: 'shopifySourceImage',
+      type: 'shopifyImage',
     }),
     // Selected Options
     defineField({

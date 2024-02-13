@@ -110,8 +110,6 @@ export const internalLink = defineType({
       to: [
         {type: 'product'},
         {type: 'collection'},
-        {type: 'shopifyProduct'},
-        {type: 'shopifyCollection'},
         {type: 'journalPage'},
         {type: 'journalEntry'},
         {type: 'teamPage'},
@@ -144,13 +142,7 @@ export const internalLink = defineType({
     prepare({document, type, productThumb, collectionThumb, docTitle}) {
       // console.log('document', document)
       const src =
-        type === 'product' || type === 'collection'
-          ? getShopifyThumbnail(document)
-          : type === 'shopifyProduct'
-          ? productThumb
-          : type === 'shopifyCollection'
-          ? collectionThumb
-          : undefined
+        type === 'product' || type === 'collection' ? getShopifyThumbnail(document) : undefined
 
       const subtitles = [
         `🔗 ${getTypeText(document)}: ${document.title}`,
@@ -163,7 +155,7 @@ export const internalLink = defineType({
         title: docTitle,
         subtitle: subtitles.join(', '),
         // eslint-disable-next-line @next/next/no-img-element
-        media: src ? <img alt={'Thumb'} src={src} /> : undefined,
+        // media: src ? <img alt={'Thumb'} src={src} /> : undefined,
       }
     },
   },
@@ -179,13 +171,7 @@ export const richPageLink = {
       name: 'document',
       title: 'Linked Page',
       type: 'reference',
-      to: [
-        {type: 'shopifyProduct'},
-        {type: 'shopifyCollection'},
-        {type: 'product'},
-        {type: 'collection'},
-        {type: 'page'},
-      ],
+      to: [{type: 'product'}, {type: 'collection'}, {type: 'page'}],
       validation: (Rule: any) => Rule.required(),
     },
     {

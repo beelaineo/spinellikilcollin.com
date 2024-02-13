@@ -63,44 +63,34 @@ export const cta = defineType({
     select: {
       label: 'label',
       linkType: 'linkType',
-      refTitle: 'link.document.title',
       refDocument: 'link.document',
-      refProductThumb: 'link.document.sourceData.images.edges.0.node.w100',
-      refCollectionThumb: 'link.document.sourceData.image.w100',
       link_external: 'link_external',
       action: 'action',
     },
-    prepare({
-      label,
-      linkType,
-      refTitle,
-      refDocument,
-      refProductThumb,
-      refCollectionThumb,
-      link_external,
-      action,
-    }): PreviewValue {
-      if (!refDocument && !link_external && !action) return {title: '[missing link]'}
-
+    prepare({label, linkType, refDocument, link_external, action}): any {
+      if (!refDocument && !link_external && !action && !label) return {title: '[missing link]'}
       const src =
-        refDocument._type === 'product' || refDocument._type === 'collection'
+        refDocument?._type === 'product' || refDocument?._type === 'collection'
           ? getShopifyThumbnail(refDocument)
-          : refDocument._type === 'shopifyProduct'
-          ? refProductThumb + '&width=100'
-          : refDocument._type === 'shopifyCollection'
-          ? refCollectionThumb + '&width=100'
           : undefined
+      // const src =
+      //   refDocument._type === 'product' || refDocument._type === 'collection'
+      //     ? getShopifyThumbnail(refDocument)
+      //     : refDocument._type === 'shopifyProduct'
+      //     ? refProductThumb + '&width=100'
+      //     : refDocument._type === 'shopifyCollection'
+      //     ? refCollectionThumb + '&width=100'
+      //     : undefined
 
       const subtitles = [
         action ? `🔗 Action: ${action}` : null,
         link_external ? `🔗 External Link: ${link_external.url}` : null,
-        refTitle ? `🔗${refTitle}` : null,
       ].filter(Boolean)
 
       return {
         title: label,
         subtitle: subtitles.join(', '),
-        //@ts-ignore
+        // //@ts-ignore
         media: linkType !== 'internal' ? '🔗' : src ? <img alt={'thumb'} src={src} /> : undefined,
       }
     },

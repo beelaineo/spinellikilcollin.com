@@ -48,7 +48,6 @@ const productQueryInner = `
     __typename
     _key
     _type
-    shopifyOptionId
     name
     values {
       __typename

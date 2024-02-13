@@ -242,7 +242,7 @@ export async function handleProductUpdate(
   productVariantsDocuments: ShopifyDocumentProductVariant[]
 }> {
   const { handle, id, images, status, priceRange } = product
-
+  console.log('incoming product doc variants:', product.variants)
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
     return text

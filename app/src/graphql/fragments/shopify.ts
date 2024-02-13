@@ -15,6 +15,17 @@ export const imageFragment = gql`
     originalSrc
   }
 `
+export const shopifyImageFragment = gql`
+  fragment ShopifyImageFragment on ShopifyImage {
+    __typename
+    _type
+    altText
+    height
+    id
+    src
+    width
+  }
+`
 
 export const collectionFragment = gql`
   fragment CollectionFragment on Collection {
@@ -35,45 +46,40 @@ export const collectionFragment = gql`
 export const productWithoutVariantsFragment = gql`
   fragment ProductWithoutVariantsFragment on Product {
     __typename
-    availableForSale
-    createdAt
-    description
-    descriptionHtml
     handle
-    id
-    productType
-    publishedAt
-    tags
     title
-    vendor
-    images(first: 100) {
-      __typename
-      edges {
-        __typename
-        node {
-          ...ImageFragment
-        }
-      }
-    }
     options(first: 100) {
       __typename
-      id
+      _type
       name
       values
     }
-    priceRange {
-      __typename
-      maxVariantPrice {
-        ...MoneyV2Fragment
+    store {
+      availableForSale
+      createdAt
+      description
+      descriptionHtml
+      featuredImage {
+        ...ShopifyImageFragment
       }
-      minVariantPrice {
-        ...MoneyV2Fragment
+      gid
+      id
+      images {
+        ...ShopifyImageFragment
       }
+      priceRange {
+        __typename
+        maxVariantPrice
+        minVariantPrice
+      }
+      productType
+      publishedAt
+      tags
+      vendor
     }
   }
-
   ${imageFragment}
-  ${moneyV2Fragment}
+  ${shopifyImageFragment}
 `
 
 export const variantWithProductFragment = gql`
@@ -111,30 +117,39 @@ export const variantWithProductFragment = gql`
 `
 
 export const variantFragment = gql`
-  fragment VariantFragment on ProductVariant {
+  fragment VariantFragment on ShopifyProductVariant {
     __typename
-    availableForSale
-    currentlyNotInStock
+    _type
     id
-    sku
-    title
-    weight
-    weightUnit
-    compareAtPriceV2 {
-      ...MoneyV2Fragment
-    }
-    priceV2 {
-      ...MoneyV2Fragment
-    }
-    requiresShipping
-    selectedOptions {
+    isDeleted
+    shopifyVariantId
+    sourceData {
       __typename
-      name
-      value
+      _type
+      availableForSale
+      currentlyNotInStock
+      id
+      sku
+      title
+      weight
+      weightUnit
+      compareAtPriceV2 {
+        ...MoneyV2Fragment
+      }
+      priceV2 {
+        ...MoneyV2Fragment
+      }
+      requiresShipping
+      selectedOptions {
+        __typename
+        name
+        value
+      }
+      image {
+        ...ShopifyImageFragment
+      }
     }
-    image {
-      ...ImageFragment
-    }
+    title
   }
   ${moneyV2Fragment}
   ${imageFragment}
@@ -143,58 +158,48 @@ export const variantFragment = gql`
 export const productFragment = gql`
   fragment ProductFragment on Product {
     __typename
-    availableForSale
-    createdAt
-    description
-    descriptionHtml
     handle
-    id
-    productType
-    publishedAt
-    tags
     title
-    vendor
-    images(first: 100) {
-      __typename
-      edges {
-        __typename
-        node {
-          ...ImageFragment
-        }
-      }
-    }
     options(first: 100) {
       __typename
-      id
+      _type
       name
       values
     }
-    priceRange {
-      __typename
-      maxVariantPrice {
-        ...MoneyV2Fragment
+    store {
+      availableForSale
+      createdAt
+      description
+      descriptionHtml
+      featuredImage {
+        ...ShopifyImageFragment
       }
-      minVariantPrice {
-        ...MoneyV2Fragment
+      gid
+      id
+      images {
+        ...ShopifyImageFragment
       }
-    }
-    variants(first: 100) {
-      __typename
-      pageInfo {
+      priceRange {
         __typename
-        hasNextPage
-        hasPreviousPage
-      }
-      edges {
-        __typename
-        node {
-          ...VariantFragment
+        maxVariantPrice {
+          ...MoneyV2Fragment
         }
+        minVariantPrice {
+          ...MoneyV2Fragment
+        }
+      }
+      productType
+      publishedAt
+      tags
+      vendor
+      variants {
+        ...VariantFragment
       }
     }
   }
 
   ${imageFragment}
+  ${shopifyImageFragment}
   ${moneyV2Fragment}
   ${variantFragment}
 `

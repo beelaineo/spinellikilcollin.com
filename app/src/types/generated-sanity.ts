@@ -82,6 +82,21 @@ export type AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPag
     | ShopifyProduct
     | TeamPage
 
+export type AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage =
+
+    | About
+    | Collection
+    | Contact
+    | Customize
+    | Faq
+    | JournalEntry
+    | JournalPage
+    | Magazine
+    | Page
+    | PaymentPlans
+    | Product
+    | TeamPage
+
 export type AboutSorting = {
   _createdAt?: InputMaybe<SortOrder>
   _id?: InputMaybe<SortOrder>
@@ -321,7 +336,7 @@ export interface Carousel {
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
   /** Create a carousel from a collection. If a collection is used, items linked to below be ignored. */
-  collection?: Maybe<CollectionOrShopifyCollection>
+  collection?: Maybe<Collection>
   items?: Maybe<Array<Maybe<RichPageLink>>>
   subtitleRaw?: Maybe<Scalars['JSON']['output']>
   title?: Maybe<Scalars['String']['output']>
@@ -330,6 +345,7 @@ export interface Carousel {
 export type CarouselFilter = {
   _key?: InputMaybe<StringFilter>
   _type?: InputMaybe<StringFilter>
+  collection?: InputMaybe<CollectionFilter>
   title?: InputMaybe<StringFilter>
 }
 
@@ -523,12 +539,7 @@ export type CollectionOrHomepageOrPageOrProduct =
   | Page
   | Product
 
-export type CollectionOrPageOrProductOrShopifyCollectionOrShopifyProduct =
-  | Collection
-  | Page
-  | Product
-  | ShopifyCollection
-  | ShopifyProduct
+export type CollectionOrPageOrProduct = Collection | Page | Product
 
 export type CollectionOrShopifyCollection = Collection | ShopifyCollection
 
@@ -1865,7 +1876,7 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
-  document?: Maybe<AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrShopifyCollectionOrShopifyProductOrTeamPage>
+  document?: Maybe<AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   queryParams?: Maybe<Array<Maybe<QueryParam>>>
 }
 
@@ -3314,7 +3325,7 @@ export interface RichPageLink {
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
   captionRaw?: Maybe<Scalars['JSON']['output']>
-  document?: Maybe<CollectionOrPageOrProductOrShopifyCollectionOrShopifyProduct>
+  document?: Maybe<CollectionOrPageOrProduct>
   hoverImage?: Maybe<RichImage>
   image?: Maybe<RichImage>
   /** If left empty, the title of the linked page, product, or collection will be used. */
@@ -5190,7 +5201,7 @@ export interface ShopifySourceProductVariant {
   compareAtPriceV2?: Maybe<ShopifyPrice>
   currentlyNotInStock?: Maybe<Scalars['Boolean']['output']>
   id?: Maybe<Scalars['String']['output']>
-  image?: Maybe<ShopifySourceImage>
+  image?: Maybe<ShopifyImage>
   metafields?: Maybe<Array<Maybe<ShopifyMetafield>>>
   priceV2?: Maybe<ShopifyPrice>
   requiresShipping?: Maybe<Scalars['Boolean']['output']>
@@ -5230,7 +5241,7 @@ export type ShopifySourceProductVariantFilter = {
   compareAtPriceV2?: InputMaybe<ShopifyPriceFilter>
   currentlyNotInStock?: InputMaybe<BooleanFilter>
   id?: InputMaybe<StringFilter>
-  image?: InputMaybe<ShopifySourceImageFilter>
+  image?: InputMaybe<ShopifyImageFilter>
   priceV2?: InputMaybe<ShopifyPriceFilter>
   requiresShipping?: InputMaybe<BooleanFilter>
   sku?: InputMaybe<StringFilter>
@@ -5335,7 +5346,7 @@ export type ShopifySourceProductVariantSorting = {
   compareAtPriceV2?: InputMaybe<ShopifyPriceSorting>
   currentlyNotInStock?: InputMaybe<SortOrder>
   id?: InputMaybe<SortOrder>
-  image?: InputMaybe<ShopifySourceImageSorting>
+  image?: InputMaybe<ShopifyImageSorting>
   priceV2?: InputMaybe<ShopifyPriceSorting>
   requiresShipping?: InputMaybe<SortOrder>
   sku?: InputMaybe<SortOrder>

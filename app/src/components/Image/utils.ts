@@ -5,6 +5,7 @@ import {
   Image as SanityImage,
   RichImage,
   ShopifySourceImage,
+  ShopifyImage,
 } from '../../types'
 import { config } from '../../config'
 
@@ -12,6 +13,7 @@ const { SANITY_PROJECT_ID, SANITY_DATASET } = config
 
 export type ImageType =
   | ShopifySourceImage
+  | ShopifyImage
   | SanityImage
   | RichImage
   | SanityRawImage
@@ -147,18 +149,10 @@ export const getAspectRatio = (
 
 const shopifyWidths = [100, 300, 800, 1200, 1600]
 
-const getShopifyImageDetails = (
-  image: ShopifySourceImage,
-): ImageDetails | null => {
-  const src = image.originalSrc
-  const { altText } = image
+const getShopifyImageDetails = (image: ShopifyImage): ImageDetails | null => {
+  const { altText, src } = image
   const srcSet = shopifyWidths
-    .map((width) => {
-      const key = `w${width}`
-      if (!image[key]) return null
-      return `${image[key]} ${width}w`
-    })
-    .filter(Boolean)
+    .map((width) => `${src}?w=${width} ${width}w`)
     .join(', ')
   return { src, srcSet, altText }
 }
@@ -172,8 +166,8 @@ const isSanityImage = (image: ImageType): image is RichImage =>
   Boolean(image.__typename && /^Image|^RichImage/.test(image.__typename)) &&
   /richImage/.test(image._type || '')
 
-const isShopifyImage = (image: ImageType): image is ShopifySourceImage =>
-  'originalSrc' in image || image.__typename === 'ShopifySourceImage'
+const isShopifyImage = (image: ImageType): image is ShopifyImage =>
+  'src' in image || image.__typename === 'ShopifyImage'
 
 export const getImageDetails = (
   image?: ImageType | null | void,

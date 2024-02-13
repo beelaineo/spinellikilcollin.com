@@ -1,9 +1,5 @@
 import { Sort } from '../../components/Filter'
-import {
-  ShopifyProduct,
-  FilterConfiguration,
-  FilterMatchGroup,
-} from '../../types'
+import { Product, FilterConfiguration, FilterMatchGroup } from '../../types'
 import { buildFilters } from '../../utils/sanity'
 
 const getSortString = (sort?: Sort, filterSort?: string[]): string => {
@@ -11,19 +7,21 @@ const getSortString = (sort?: Sort, filterSort?: string[]): string => {
     const countMatches: string[] = []
 
     filterSort.map((s) => {
-      const string = `count(@->sourceData.variants.edges[node.currentlyNotInStock == false && node.selectedOptions[1].value == '${s}'])*2 + count(@->sourceData.variants.edges[node.currentlyNotInStock == true && node.selectedOptions[1].value == '${s}'])`
+      const string = `count(@->store.variants.[currentlyNotInStock == false && selectedOptions[1].value == '${s}'])*2 + count(@->store.variants[currentlyNotInStock == true && selectedOptions[1].value == '${s}'])`
       countMatches.push(string)
     })
 
     let sortString = countMatches.join(' + ')
     sortString = '(' + sortString + ') desc'
 
-    if (sort === Sort.PriceAsc) return sortString + ', @->minVariantPrice asc'
-    if (sort === Sort.PriceDesc) return sortString + ', @->maxVariantPrice desc'
+    if (sort === Sort.PriceAsc)
+      return sortString + ', @->store.priceRange.minVariantPrice asc'
+    if (sort === Sort.PriceDesc)
+      return sortString + ', @->store.priceRange.maxVariantPrice desc'
     return sortString
   } else {
-    if (sort === Sort.PriceAsc) return 'minVariantPrice asc'
-    if (sort === Sort.PriceDesc) return 'maxVariantPrice desc'
+    if (sort === Sort.PriceAsc) return 'store.priceRange.minVariantPrice asc'
+    if (sort === Sort.PriceDesc) return 'store.priceRange.maxVariantPrice desc'
     // if (sort === Sort.DateAsc) return 'sourceData.publishedAt asc'
     // if (sort === Sort.DateDesc) return 'sourceData.publishedAt desc'
     // if (sort === Sort.AlphaAsc) return 'title asc'
@@ -39,8 +37,6 @@ const productInner = `
   hidden,
   hideFromCollections,
   showInCollections,
-  minVariantPrice,
-  maxVariantPrice,
   initialVariantSelections[]{
     ...
   },
@@ -54,42 +50,40 @@ const productInner = `
     ...
   },
   "filterData": {
-    "inStock": (count(sourceData.variants.edges[][node.currentlyNotInStock == false && node.title != "Not sure of my size"]) > 0),
-    "subcategory": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "subcategory"].node.value),
-    "metal": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "metal"].node.value),
-    "style": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "style"].node.value),
-    "stone": array::unique(sourceData.variants.edges[][node.availableForSale == true].node.metafields.edges[node.key == "stone"].node.value),
-    "sizes": array::unique(sourceData.variants.edges[][node.currentlyNotInStock == false && node.title != "Not sure of my size"].node.selectedOptions[name == "Size"].value),
+    "inStock": (count(store.variants[][currentlyNotInStock == false && title != "Not sure of my size"]) > 0),
+    "subcategory": array::unique(store.variants[][availableForSale == true].metafields[key == "subcategory"].value),
+    "metal": array::unique(store.variants[][availableForSale == true].metafields[key == "metal"].value),
+    "style": array::unique(store.variants[][availableForSale == true].metafields[key == "style"].value),
+    "stone": array::unique(store.variants[][availableForSale == true].metafields[key == "stone"].value),
+    "sizes": array::unique(store.variants[][currentlyNotInStock == false && title != "Not sure of my size"].selectedOptions[name == "Size"].value),
   },
-  "excludeFromIndication": sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value,
-  "metafields": sourceData.metafields.edges[].node,
-  sourceData {
+  "excludeFromIndication": store.metafields[key == "excludeFromIndication"][0].value,
+  "metafields": store.metafields,
+  store {
     _type,
     handle,
     id,
     images,
     tags,
     title,
-    tags,
     priceRange,
     productType,
     publishedAt,
-    variants {
-      "edges": edges[][node.availableForSale == true] {
-        cursor,
-        node {
-          __typename,
-          _type,
-          id,
-          image,
-          title,
-          selectedOptions,
-          priceV2,
-          compareAtPriceV2,
-          availableForSale,
-          currentlyNotInStock,
-          metafields,
-        },
+    "variants": variants[][!isDeleted && sourceData.availableForSale == true] {
+      title,
+      shopifyVariantId,
+      sourceData {
+        __typename,
+        _type,
+        id,
+        image,
+        title,
+        selectedOptions,
+        priceV2,
+        compareAtPriceV2,
+        availableForSale,
+        currentlyNotInStock,
+        metafields,
       },
     },
   },
@@ -97,7 +91,7 @@ const productInner = `
 
 export const createSanityCollectionQuery = (sort?: Sort) => `
 *[
-  _type == "shopifyCollection"
+  _type == "collection"
   && defined(shopifyId)
   && handle == $handle
 ] {
@@ -176,7 +170,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       }
     },
   },
-  "products": products[!(@->_id in path("drafts.**")) && @->hidden!=true && (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))]-> | order(${getSortString(
+  "products": products[!(@->_id in path("drafts.**")) && @->hidden!=true && (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "collection" && handle == $handle][0]._id]) > 0))]-> | order(${getSortString(
     sort,
   )}) {
     ${productInner}
@@ -208,21 +202,21 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
  */
 export const moreProductsQuery = `
 *[
-  _type == "shopifyCollection"
+  _type == "collection"
   && defined(shopifyId)
   && handle == $handle
 ] {
   "products": products[@->hidden != true &&
     (!(@->_id in path("drafts.**")) &&
     @->hideFromCollections != true || (@->hideFromCollections == true &&
-      count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
+      count(@->showInCollections[_ref == *[_type == "collection" &&
       handle == $handle][0]._id]) > 0))]-> {
     ${productInner}
   },
 }
 `
 
-export type FilterResponse = ShopifyProduct[]
+export type FilterResponse = Product[]
 
 /*
  * Use this query to get products when a sort order or filter
@@ -238,14 +232,14 @@ ${
   filterSort && filterSort.length > 0
     ? `
     *[
-      _type == "shopifyCollection"
+      _type == "collection"
       && defined(shopifyId)
       && handle == $handle
     ] {
         products[@->hidden != true &&
         !(@->_id in path("drafts.**")) &&
         (@->hideFromCollections != true || (@->hideFromCollections == true &&
-        count(@->showInCollections[_ref == *[_type == "shopifyCollection" &&
+        count(@->showInCollections[_ref == *[_type == "collection" &&
         handle == $handle][0]._id]) > 0))
         ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort, filterSort)})->
@@ -257,22 +251,22 @@ ${
     : sort == Sort.Default
     ? `
     *[
-      _type == "shopifyCollection" &&
+      _type == "collection" &&
       handle == $handle
     ] 
     {
       products[@->hidden != true &&
         !(@->_id in path("drafts.**")) &&
-      (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0))
+      (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "collection" && handle == $handle][0]._id]) > 0))
       ${filterString ? `&& ${filterString}` : ''}]->{${productInner}}
     }[0]
     `
     : `*[
-      _type == "shopifyProduct" &&
+      _type == "product" &&
         defined(shopifyId) &&
         hidden != true &&
         !(_id in path("drafts.**")) &&
-        (hideFromCollections != true || (hideFromCollections == true && count(showInCollections[_ref == *[_type == "shopifyCollection" && handle == $handle][0]._id]) > 0)) &&
+        (hideFromCollections != true || (hideFromCollections == true && count(showInCollections[_ref == *[_type == "collection" && handle == $handle][0]._id]) > 0)) &&
         references($collectionId) 
       ${filterString ? `&& ${filterString}` : ''}
     ] | order(${getSortString(sort)}) {
