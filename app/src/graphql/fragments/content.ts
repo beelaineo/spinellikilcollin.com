@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag'
+import { shopifyImageFragment } from './shopify'
 import {
   sanityImageFragment,
   sanityFileAssetFragment,
@@ -19,15 +20,19 @@ export const seoFragment = gql`
   ${sanityImageFragment}
 `
 
-export const shopifyImageFragment = gql`
-  fragment ShopifyImageFragment on ShopifyImage {
-    __typename
-    id
-    altText
-    src
-    width
-    height
+export const seoShopifyFragment = gql`
+  fragment SeoShopifyFragment on SeoShopify {
+    _key
+    _type
+    title
+    metaTitle
+    description
+    keywords
+    image {
+      ...SanityImageFragment
+    }
   }
+  ${sanityImageFragment}
 `
 
 export const shopifySourceImageFragment = gql`
@@ -571,6 +576,24 @@ export const shopifySourceCollectionFragment = gql`
     }
   }
   ${shopifySourceImageFragment}
+`
+
+export const shopifyCollectionDefFragment = gql`
+  fragment ShopifyCollectionDefFragment on ShopifyCollectionDef {
+    __typename
+    title
+    handle
+    description
+    descriptionHtml
+    image {
+      ...ShopifyImageFragment
+    }
+    products {
+      ...ProductFragment
+    }
+  }
+  ${shopifyImageFragment}
+  ${productFragment}
 `
 
 export const collectionFragment = gql`

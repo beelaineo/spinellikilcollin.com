@@ -1,12 +1,7 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
 import atob from 'atob'
 import { definitely } from './data'
-import {
-  ShopifyProduct,
-  ShopifyProductVariant,
-  // ShopifySourceProductVariant as SourceVariant,
-} from '../types'
+import { Product, ShopifyProductVariant } from '../types'
 
 const { useState } = React
 
@@ -30,20 +25,20 @@ interface ReturnValue {
 }
 
 export const useProductVariant = (
-  product: ShopifyProduct,
+  product: Product,
   options: Options = {},
 ): ReturnValue => {
   const { initialVariant, shopifyVariant } = options
   let variants: ShopifyProductVariant[] = []
-  if (product?.variants && product?.variants.length > 1) {
-    variants = definitely(product?.variants).filter(
+  if (product?.store?.variants && product?.store?.variants.length > 1) {
+    variants = definitely(product?.store?.variants).filter(
       (v) => v.sourceData?.availableForSale === true,
     )
     if (variants.length === 0) {
-      variants = definitely(product?.variants)
+      variants = definitely(product?.store?.variants)
     }
   } else {
-    variants = definitely(product?.variants)
+    variants = definitely(product?.store?.variants)
   }
   // ? (product?.variants)
   // : []
@@ -54,12 +49,10 @@ export const useProductVariant = (
    */
 
   const findVariant = (variantId: string) => {
-    const convertedVariantId = /gid:\/\/shopify\//.test(variantId)
-      ? variantId
-      : atob(variantId)
-    const variant = variants.find(
-      (v) => v.shopifyVariantID === convertedVariantId,
-    )
+    const variant = variants.find((v) => v.shopifyVariantID === variantId)
+    console.log('variants', variants)
+    console.log('variantId', variantId)
+    console.log(`variant match:`, variant)
     if (!variant)
       throw new Error(
         `There is no variant with the id "${variantId}" on the product ${product.title}`,
@@ -69,10 +62,9 @@ export const useProductVariant = (
 
   const getInitialState = () => {
     if (shopifyVariant) {
-      const btoa = (str: string) => Buffer.from(str).toString('base64')
       const variantStorefrontId =
         'gid://shopify/ProductVariant/' + shopifyVariant
-      return findVariant(btoa(variantStorefrontId))
+      return findVariant(variantStorefrontId)
     }
     if (!initialVariant || initialVariant === 'first') return variants[0]
     if (initialVariant === 'last') return variants[variants.length - 1]

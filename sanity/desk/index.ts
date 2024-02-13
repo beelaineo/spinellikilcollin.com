@@ -84,9 +84,9 @@ export const structure: StructureResolver = (S, context) =>
       products(S, context),
       // S.divider(),
       // colorThemes(S, context),
-      S.divider(),
-      collectionsOld(S, context),
-      productsOld(S, context),
+      // S.divider(),
+      // collectionsOld(S, context),
+      // productsOld(S, context),
       S.divider(),
       journal(S, context),
       S.listItem()

@@ -1,21 +1,24 @@
 import {
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   ShopifySourceProduct,
   ShopifySourceProductVariant,
   Maybe,
 } from '../../types'
 import {
-  ShopifyStorefrontProduct as Product,
+  ShopifyStorefrontProduct,
   ShopifyStorefrontCheckoutLineItem as CheckoutLineItem,
-  ShopifyStorefrontProductVariant as Variant,
+  ShopifyStorefrontProductVariant,
 } from '../../types/generated-shopify'
 import { SelectedProduct, EcommerceObject } from './types'
 import { getProductIdFromStorefrontId } from '../../utils'
 
 const getVariantSourceData = (
-  variant: ShopifyProductVariant | ShopifySourceProductVariant | Variant,
-): ShopifySourceProductVariant | Variant => {
+  variant:
+    | ShopifyProductVariant
+    | ShopifySourceProductVariant
+    | ShopifyStorefrontProductVariant,
+): ShopifySourceProductVariant | ShopifyStorefrontProductVariant => {
   if (
     '__typename' in variant &&
     variant.__typename === 'ShopifySourceProductVariant'
@@ -36,20 +39,17 @@ const getVariantSourceData = (
 }
 
 const getProductSourceData = (
-  product: ShopifyProduct | ShopifySourceProduct | Product | CheckoutLineItem,
-): ShopifySourceProduct | Product | CheckoutLineItem => {
-  if (product.__typename === 'CheckoutLineItem') return product
-  if (product.__typename === 'ShopifySourceProduct') return product
-  if (product.__typename === 'Product') return product
-  if (product.__typename === 'ShopifyProduct') {
-    // @ts-ignore
-    const sourceData = product?.sourceData
-    if (!sourceData) throw new Error('No product source data was provided')
-    return sourceData
-  }
+  product:
+    | Product
+    | ShopifySourceProduct
+    | ShopifyStorefrontProduct
+    | CheckoutLineItem,
+): ShopifySourceProduct | ShopifyStorefrontProduct | CheckoutLineItem => {
+  //@ts-ignore
+  return product.sourceData ? product.sourceData : product
 
-  console.error(product)
-  throw new Error('Could not get product data')
+  // console.error(product)
+  // throw new Error('Could not get product data')
 }
 
 interface ProductExtras {

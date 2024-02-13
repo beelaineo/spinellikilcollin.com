@@ -13,6 +13,7 @@ import {
   LegacySeo,
   ShopifyImage,
   ShopifyCollectionImage,
+  SeoShopify,
 } from '../types'
 import { definitely, getProductIdLocationSearch } from '../utils'
 
@@ -31,7 +32,7 @@ type DefaultSeo = {
 }
 
 interface SEOProps {
-  seo?: Maybe<Seo | LegacySeo>
+  seo?: Maybe<Seo | LegacySeo | SeoShopify>
   defaultSeo: DefaultSeo
   path: string
   contentType?: string

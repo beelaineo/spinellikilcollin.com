@@ -80,7 +80,7 @@ export const productInfo = defineType({
       of: [
         {
           type: 'reference',
-          to: [{type: 'shopifyProduct'}, {type: 'product'}],
+          to: [{type: 'product'}],
         },
       ],
     }),

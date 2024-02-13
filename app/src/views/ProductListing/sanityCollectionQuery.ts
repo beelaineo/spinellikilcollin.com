@@ -50,12 +50,12 @@ const productInner = `
     ...
   },
   "filterData": {
-    "inStock": (count(store.variants[][currentlyNotInStock == false && title != "Not sure of my size"]) > 0),
-    "subcategory": array::unique(store.variants[][availableForSale == true].metafields[key == "subcategory"].value),
-    "metal": array::unique(store.variants[][availableForSale == true].metafields[key == "metal"].value),
-    "style": array::unique(store.variants[][availableForSale == true].metafields[key == "style"].value),
-    "stone": array::unique(store.variants[][availableForSale == true].metafields[key == "stone"].value),
-    "sizes": array::unique(store.variants[][currentlyNotInStock == false && title != "Not sure of my size"].selectedOptions[name == "Size"].value),
+    "inStock": (count(store.variants[sourceData.currentlyNotInStock == false && !(title match "Not sure of my size")]) > 0),
+    "subcategory": array::unique(store.variants[][sourceData.availableForSale == true].sourceData.metafields[key == "subcategory"].value),
+    "metal": array::unique(store.variants[][sourceData.availableForSale == true].sourceData.metafields[key == "metal"].value),
+    "style": array::unique(store.variants[][sourceData.availableForSale == true].sourceData.metafields[key == "style"].value),
+    "stone": array::unique(store.variants[][sourceData.availableForSale == true].sourceData.metafields[key == "stone"].value),
+    "sizes": array::unique(store.variants[][sourceData.currentlyNotInStock == false && !(title match "Not sure of my size")].sourceData.selectedOptions[name == "Size"].value),
   },
   "excludeFromIndication": store.metafields[key == "excludeFromIndication"][0].value,
   "metafields": store.metafields,

@@ -27,22 +27,6 @@ export const shopifyImageFragment = gql`
   }
 `
 
-export const collectionFragment = gql`
-  fragment CollectionFragment on Collection {
-    __typename
-    description
-    descriptionHtml
-    handle
-    id
-    image {
-      ...ImageFragment
-    }
-    title
-    updatedAt
-  }
-  ${imageFragment}
-`
-
 export const productWithoutVariantsFragment = gql`
   fragment ProductWithoutVariantsFragment on Product {
     __typename
@@ -153,55 +137,6 @@ export const variantFragment = gql`
   }
   ${moneyV2Fragment}
   ${imageFragment}
-`
-
-export const productFragment = gql`
-  fragment ProductFragment on Product {
-    __typename
-    handle
-    title
-    options(first: 100) {
-      __typename
-      _type
-      name
-      values
-    }
-    store {
-      availableForSale
-      createdAt
-      description
-      descriptionHtml
-      featuredImage {
-        ...ShopifyImageFragment
-      }
-      gid
-      id
-      images {
-        ...ShopifyImageFragment
-      }
-      priceRange {
-        __typename
-        maxVariantPrice {
-          ...MoneyV2Fragment
-        }
-        minVariantPrice {
-          ...MoneyV2Fragment
-        }
-      }
-      productType
-      publishedAt
-      tags
-      vendor
-      variants {
-        ...VariantFragment
-      }
-    }
-  }
-
-  ${imageFragment}
-  ${shopifyImageFragment}
-  ${moneyV2Fragment}
-  ${variantFragment}
 `
 
 export const discountApplicationFragment = gql`

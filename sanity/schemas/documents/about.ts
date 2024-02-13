@@ -19,8 +19,6 @@ export const pageLink = defineType({
       name: 'linkedPage',
       type: 'reference',
       to: [
-        {type: 'shopifyProduct'},
-        {type: 'shopifyCollection'},
         {type: 'product'},
         {type: 'collection'},
         {type: 'journalPage'},

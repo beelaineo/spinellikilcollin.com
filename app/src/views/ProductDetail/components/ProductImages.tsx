@@ -5,6 +5,8 @@ import {
   RichImage,
   ShopifyProductVariant,
   ShopifyProduct,
+  Product,
+  ShopifyImage,
 } from '../../../types'
 import { Image } from '../../../components/Image'
 import {
@@ -58,18 +60,22 @@ export const ProductGalleryCarousel = ({
 }
 
 interface ProductImagesProps {
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
   screen: string
   hide?: boolean
 }
 
-const getKey = (image: ShopifySourceImage | RichImage): string => {
+const getKey = (
+  image: ShopifySourceImage | RichImage | ShopifyImage,
+): string => {
   switch (image.__typename) {
+    case 'ShopifyImage':
+      return image.id || 'some-key-si'
     case 'ShopifySourceImage':
-      return image.id || 'some-key'
+      return image.id || 'some-key-ssi'
     case 'RichImage':
-      return image?.asset?._id || 'some-key'
+      return image?.asset?._id || 'some-key-ri'
     default:
       // @ts-ignore
       throw new Error(`Could not get key for image type ${image.__typename}`)
@@ -85,8 +91,8 @@ export const ProductImages = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const variantImage = currentVariant?.sourceData?.image ?? null
-  const productImages = definitely(product?.gallery)
-  const images = definitely([variantImage, ...productImages])
+  // const productImages = definitely(product?.gallery)
+  const images = definitely([variantImage])
 
   const changeMainImage = (index: number) => () => setCurrentImageIndex(index)
 

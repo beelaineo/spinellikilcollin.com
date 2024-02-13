@@ -65,23 +65,6 @@ export type AboutFilter = {
   title?: InputMaybe<StringFilter>
 }
 
-export type AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrShopifyCollectionOrShopifyProductOrTeamPage =
-
-    | About
-    | Collection
-    | Contact
-    | Customize
-    | Faq
-    | JournalEntry
-    | JournalPage
-    | Magazine
-    | Page
-    | PaymentPlans
-    | Product
-    | ShopifyCollection
-    | ShopifyProduct
-    | TeamPage
-
 export type AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage =
 
     | About
@@ -1838,7 +1821,7 @@ export interface InitialVariantSelection {
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
   /** Select a collection to override the default product variant */
-  selectedCollection?: Maybe<CollectionOrShopifyCollection>
+  selectedCollection?: Maybe<Collection>
   /** Enter initial variant Title with exact capitalization and punctuation. */
   selectedVariant?: Maybe<Scalars['String']['output']>
 }
@@ -1846,6 +1829,7 @@ export interface InitialVariantSelection {
 export type InitialVariantSelectionFilter = {
   _key?: InputMaybe<StringFilter>
   _type?: InputMaybe<StringFilter>
+  selectedCollection?: InputMaybe<CollectionFilter>
   selectedVariant?: InputMaybe<StringFilter>
 }
 
@@ -2709,7 +2693,7 @@ export interface PageLink {
   /** Optional. Defaults to "Learn more" */
   ctaText?: Maybe<Scalars['String']['output']>
   image?: Maybe<RichImage>
-  linkedPage?: Maybe<AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrShopifyCollectionOrShopifyProductOrTeamPage>
+  linkedPage?: Maybe<AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   summary?: Maybe<Scalars['String']['output']>
   /** Optional. By default the linked page title will be used. */
   title?: Maybe<Scalars['String']['output']>
@@ -3014,7 +2998,7 @@ export interface ProductInfoSettings extends Document {
   _type?: Maybe<Scalars['String']['output']>
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>
-  excludeFromStockIndication?: Maybe<Array<Maybe<ProductOrShopifyProduct>>>
+  excludeFromStockIndication?: Maybe<Array<Maybe<Product>>>
   globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
   /** Use these fields to add snippets of descriptions to all or some projects. For instance, you could add a 'Shipping and Returns' accordion on all items, a 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold' accordion to any product tagged with 'Black Gold'. These accordions will be displayed in accordion-dropdowns below the main product information. You can also add info accordions to individual items on their page here in the CMS. */
   helpText?: Maybe<Scalars['String']['output']>
@@ -3148,8 +3132,6 @@ export type ProductOptionValueSorting = {
   swatch?: InputMaybe<ImageSorting>
   value?: InputMaybe<SortOrder>
 }
-
-export type ProductOrShopifyProduct = Product | ShopifyProduct
 
 export type ProductSorting = {
   _createdAt?: InputMaybe<SortOrder>

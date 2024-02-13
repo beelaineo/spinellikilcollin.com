@@ -12,7 +12,7 @@ export const initialVariantSelection = defineType({
       type: 'reference',
       description: 'Select a collection to override the default product variant',
       weak: true,
-      to: [{type: 'collection'}, {type: 'shopifyCollection'}],
+      to: [{type: 'collection'}],
       options: {
         filter: ({document}) => {
           if (!document.collections)

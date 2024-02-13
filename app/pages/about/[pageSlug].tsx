@@ -84,20 +84,6 @@ const pageQuery = gql`
               current
             }
           }
-          ... on ShopifyProduct {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
-          ... on ShopifyCollection {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
         }
       }
     }
@@ -222,20 +208,6 @@ const pageQueryById = gql`
             _type
             _key
             title
-          }
-          ... on ShopifyProduct {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
-          ... on ShopifyCollection {
-            _id
-            _key
-            _type
-            title
-            handle
           }
         }
       }

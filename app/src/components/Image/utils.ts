@@ -6,6 +6,7 @@ import {
   RichImage,
   ShopifySourceImage,
   ShopifyImage,
+  ShopifyCollectionImage,
 } from '../../types'
 import { config } from '../../config'
 
@@ -14,6 +15,7 @@ const { SANITY_PROJECT_ID, SANITY_DATASET } = config
 export type ImageType =
   | ShopifySourceImage
   | ShopifyImage
+  | ShopifyCollectionImage
   | SanityImage
   | RichImage
   | SanityRawImage
