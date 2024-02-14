@@ -23,8 +23,15 @@ export const textBlock = defineType({
     }),
     defineField({
       name: 'textColor',
-      title: 'text color',
-      type: 'colorPicker',
+      title: 'Text Color',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     }),
     defineField({
       name: 'alignment',

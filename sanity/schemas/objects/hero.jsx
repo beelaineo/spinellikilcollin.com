@@ -130,60 +130,85 @@ export const hero = {
       type: 'position',
       fieldset: 'display',
     },
-
     {
       name: 'textColor',
       title: 'Text Color',
-      type: 'colorPicker',
+      type: 'string',
       fieldset: 'display',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     },
     {
       name: 'textColorCustom',
       title: 'Text Color (custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) => parent?.textColor && parent.textColor !== 'custom',
+      hidden: ({document}) => document?.textColor !== 'custom',
     },
     {
       name: 'textColorMobile',
       title: 'Text Color (mobile)',
-      type: 'colorPicker',
+      type: 'string',
       fieldset: 'display',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     },
     {
       name: 'textColorMobileCustom',
       title: 'Text Color (mobile, custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) => parent?.textColorMobile && parent.textColorMobile !== 'custom',
+      hidden: ({document}) => document?.textColorMobile !== 'custom',
     },
-
     {
       name: 'backgroundColor',
       title: 'Background Color',
-      type: 'colorPicker',
+      type: 'string',
       fieldset: 'display',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     },
     {
       name: 'backgroundColorCustom',
       title: 'Background Color (custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) => parent?.backgroundColor && parent.backgroundColor !== 'custom',
+      hidden: ({document}) => document?.backgroundColor !== 'custom',
     },
     {
       name: 'mobileBackgroundColor',
       title: 'Background Color (mobile)',
-      type: 'colorPicker',
+      type: 'string',
       fieldset: 'display',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     },
     {
       name: 'mobileBackgroundColorCustom',
       title: 'Background Color (mobile, custom)',
       type: 'color',
       fieldset: 'display',
-      hidden: ({parent}) =>
-        parent?.mobileBackgroundColor && parent?.mobileBackgroundColor !== 'custom',
+      hidden: ({document}) => document?.mobileBackgroundColor !== 'custom',
     },
 
     /* Video */

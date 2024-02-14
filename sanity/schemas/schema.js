@@ -1,9 +1,10 @@
 import * as documents from './documents'
 import * as objects from './objects'
 import * as saneShopifySourceTypes from './objects/legacy/shopifySource'
+import {shopifyProductOption} from './saneShopify/product'
+
 import {shopifyProduct} from './saneShopify/product'
 import {shopifyCollection} from './saneShopify/collection'
-import {shopifyProductOption} from './saneShopify/product'
 
 // Rich text annotations used in the block content editor
 import annotationLinkEmail from './annotations/linkEmail'
@@ -33,13 +34,13 @@ import notFoundPage from './objects/global/notFoundPage'
 import heroCollection from './objects/hero/collection'
 import heroHome from './objects/hero/home'
 import heroPage from './objects/hero/page'
-import moduleAccordion from './objects/module/accordion'
-import accordionBody from './objects/module/accordionBody'
-import accordionGroup from './objects/module/accordionGroup'
-import moduleCallout from './objects/module/callout'
-import moduleCallToAction from './objects/module/callToAction'
-import moduleCollection from './objects/module/collection'
-import moduleGrid from './objects/module/grid'
+// import moduleAccordion from './objects/module/accordion'
+// import accordionBody from './objects/module/accordionBody'
+// import accordionGroup from './objects/module/accordionGroup'
+// import moduleCallout from './objects/module/callout'
+// import moduleCallToAction from './objects/module/callToAction'
+// import moduleCollection from './objects/module/collection'
+// import moduleGrid from './objects/module/grid'
 import shopifyImage from './objects/shopify/shopifyImage'
 import gridItems from './objects/module/gridItem'
 import menu from './objects/global/menu'
@@ -96,16 +97,16 @@ const objects2 = [
   heroCollection,
   heroHome,
   heroPage,
-  moduleAccordion,
-  accordionBody,
-  accordionGroup,
+  // moduleAccordion,
+  // accordionBody,
+  // accordionGroup,
   menu,
-  moduleCallout,
-  moduleCallToAction,
-  moduleCollection,
-  moduleGrid,
+  // moduleCallout,
+  // moduleCallToAction,
+  // moduleCollection,
+  // moduleGrid,
   shopifyImage,
-  gridItems,
+  // gridItems,
   moduleImage,
   moduleImageAction,
   moduleImages,
@@ -137,17 +138,17 @@ const objects2 = [
   shopifySourceSelectedOption,
   collectionGroup,
   collectionLinks,
-  shopifyProduct,
   shopifyProductOption,
-  shopifyCollection,
   // productOptionValue,
   shopifySourceCollection,
   shopifySourceProduct,
   shopifySourceProductVariantLegacy,
+  shopifyCollection,
+  shopifyProduct,
 ]
 
 export default [
-  ...Object.values(annotations),
+  // ...Object.values(annotations),
   ...Object.values(documents),
   ...Object.values(objects),
   ...Object.values(objects2),

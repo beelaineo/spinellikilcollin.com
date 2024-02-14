@@ -39,7 +39,14 @@ export const imageTextBlock = defineType({
     defineField({
       name: 'textColor',
       title: 'text color',
-      type: 'colorPicker',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     }),
     defineField({
       name: 'layout',
@@ -67,7 +74,14 @@ export const imageTextBlock = defineType({
     defineField({
       name: 'backgroundColor',
       title: 'Background Color',
-      type: 'colorPicker',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     }),
     defineField({
       name: 'hoverImage',

@@ -16,6 +16,12 @@ import { SwatchesWrapper, SwatchWrapper } from './styled'
 import styled, { css } from '@xstyled/styled-components'
 import { ShopifyStorefrontProductVariant } from '../../types/generated-shopify'
 
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
+
 const OptionSwatchesWrapper = styled('div')`
   display: flex;
   justify-content: center;
@@ -85,7 +91,8 @@ export const OptionSwatches = ({
             ratio={1}
             sizes="40px"
           />
-          {isSwatchCurrentlyInStock(value, stockedOptions) ? (
+          {isSwatchCurrentlyInStock(value, stockedOptions) &&
+          showInStockIndicators ? (
             <InStockDot />
           ) : (
             ''

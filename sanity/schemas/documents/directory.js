@@ -46,7 +46,7 @@ export const directory = {
     select: {title: 'title'},
     prepare: ({title}) => {
       return {
-        media: <FaList />,
+        media: FaList,
         title,
       }
     },

@@ -93,109 +93,6 @@ export type AboutSorting = {
   title?: InputMaybe<SortOrder>
 }
 
-export interface AccordionGroup {
-  __typename: 'AccordionGroup'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  bodyRaw?: Maybe<Scalars['JSON']['output']>
-  title?: Maybe<Scalars['String']['output']>
-}
-
-export type AccordionGroupFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  title?: InputMaybe<StringFilter>
-}
-
-export type AccordionGroupSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  title?: InputMaybe<SortOrder>
-}
-
-export interface AnnotationLinkEmail {
-  __typename: 'AnnotationLinkEmail'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  email?: Maybe<Scalars['String']['output']>
-}
-
-export type AnnotationLinkEmailFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  email?: InputMaybe<StringFilter>
-}
-
-export type AnnotationLinkEmailSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  email?: InputMaybe<SortOrder>
-}
-
-export interface AnnotationLinkExternal {
-  __typename: 'AnnotationLinkExternal'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  newWindow?: Maybe<Scalars['Boolean']['output']>
-  url?: Maybe<Scalars['String']['output']>
-}
-
-export type AnnotationLinkExternalFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  newWindow?: InputMaybe<BooleanFilter>
-  url?: InputMaybe<StringFilter>
-}
-
-export type AnnotationLinkExternalSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  newWindow?: InputMaybe<SortOrder>
-  url?: InputMaybe<SortOrder>
-}
-
-export interface AnnotationLinkInternal {
-  __typename: 'AnnotationLinkInternal'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  reference?: Maybe<CollectionOrHomepageOrPageOrProduct>
-}
-
-export type AnnotationLinkInternalFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-}
-
-export type AnnotationLinkInternalSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-}
-
-export interface AnnotationProduct {
-  __typename: 'AnnotationProduct'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  linkAction?: Maybe<Scalars['String']['output']>
-  productWithVariant?: Maybe<ProductWithVariant>
-  quantity?: Maybe<Scalars['Float']['output']>
-}
-
-export type AnnotationProductFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  linkAction?: InputMaybe<StringFilter>
-  productWithVariant?: InputMaybe<ProductWithVariantFilter>
-  quantity?: InputMaybe<FloatFilter>
-}
-
-export type AnnotationProductSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  linkAction?: InputMaybe<SortOrder>
-  productWithVariant?: InputMaybe<ProductWithVariantSorting>
-  quantity?: InputMaybe<SortOrder>
-}
-
 export interface BambuserLiveSettings {
   __typename: 'BambuserLiveSettings'
   _key?: Maybe<Scalars['String']['output']>
@@ -1401,29 +1298,6 @@ export type GeopointSorting = {
   lng?: InputMaybe<SortOrder>
 }
 
-export interface GridItem {
-  __typename: 'GridItem'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  bodyRaw?: Maybe<Scalars['JSON']['output']>
-  image?: Maybe<Image>
-  title?: Maybe<Scalars['String']['output']>
-}
-
-export type GridItemFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  image?: InputMaybe<ImageFilter>
-  title?: InputMaybe<StringFilter>
-}
-
-export type GridItemSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  image?: InputMaybe<ImageSorting>
-  title?: InputMaybe<SortOrder>
-}
-
 export interface Hero {
   __typename: 'Hero'
   _key?: Maybe<Scalars['String']['output']>
@@ -1717,8 +1591,6 @@ export type ImageFilter = {
   crop?: InputMaybe<SanityImageCropFilter>
   hotspot?: InputMaybe<SanityImageHotspotFilter>
 }
-
-export type ImageOrProductWithVariant = Image | ProductWithVariant
 
 export type ImageSorting = {
   _key?: InputMaybe<SortOrder>
@@ -2315,109 +2187,6 @@ export type MenuSorting = {
   _rev?: InputMaybe<SortOrder>
   _type?: InputMaybe<SortOrder>
   _updatedAt?: InputMaybe<SortOrder>
-}
-
-export interface ModuleAccordion {
-  __typename: 'ModuleAccordion'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  groups?: Maybe<Array<Maybe<AccordionGroup>>>
-}
-
-export type ModuleAccordionFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-}
-
-export type ModuleAccordionSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-}
-
-export interface ModuleCallToAction {
-  __typename: 'ModuleCallToAction'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  body?: Maybe<Scalars['String']['output']>
-  content?: Maybe<Array<Maybe<ImageOrProductWithVariant>>>
-  layout?: Maybe<Scalars['String']['output']>
-  links?: Maybe<Array<Maybe<LinkExternalOrLinkInternal>>>
-  title?: Maybe<Scalars['String']['output']>
-}
-
-export type ModuleCallToActionFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  body?: InputMaybe<StringFilter>
-  layout?: InputMaybe<StringFilter>
-  title?: InputMaybe<StringFilter>
-}
-
-export type ModuleCallToActionSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  body?: InputMaybe<SortOrder>
-  layout?: InputMaybe<SortOrder>
-  title?: InputMaybe<SortOrder>
-}
-
-export interface ModuleCallout {
-  __typename: 'ModuleCallout'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  links?: Maybe<Array<Maybe<LinkExternalOrLinkInternal>>>
-  text?: Maybe<Scalars['String']['output']>
-}
-
-export type ModuleCalloutFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  text?: InputMaybe<StringFilter>
-}
-
-export type ModuleCalloutSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  text?: InputMaybe<SortOrder>
-}
-
-export interface ModuleCollection {
-  __typename: 'ModuleCollection'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  collection?: Maybe<Collection>
-  /** Use Shopify collection image as background (if available) */
-  showBackground?: Maybe<Scalars['Boolean']['output']>
-}
-
-export type ModuleCollectionFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  collection?: InputMaybe<CollectionFilter>
-  showBackground?: InputMaybe<BooleanFilter>
-}
-
-export type ModuleCollectionSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  showBackground?: InputMaybe<SortOrder>
-}
-
-export interface ModuleGrid {
-  __typename: 'ModuleGrid'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  items?: Maybe<Array<Maybe<GridItem>>>
-}
-
-export type ModuleGridFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-}
-
-export type ModuleGridSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
 }
 
 export interface ModuleImage {

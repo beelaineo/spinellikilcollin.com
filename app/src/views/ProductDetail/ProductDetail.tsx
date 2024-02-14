@@ -95,6 +95,11 @@ const StockedLabelMobile = styled('div')<WithHide>`
 interface Props {
   product: Product
 }
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 
 export const ProductDetail = ({ product }: Props) => {
   const { openCustomizationModal } = useModal()
@@ -452,7 +457,8 @@ export const ProductDetail = ({ product }: Props) => {
                 />
                 <ProductInfoWrapper>
                   {variantsInStock?.length > 0 &&
-                  disableStockIndication !== true ? (
+                  disableStockIndication !== true &&
+                  showInStockIndicators ? (
                     <StockedLabelMobile
                       hide={
                         !isSwatchCurrentlyInStock(

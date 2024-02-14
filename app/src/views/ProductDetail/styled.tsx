@@ -82,6 +82,12 @@ export const AffirmWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2;
+    width: max-content;
+    h5,
+    span {
+      height: 100%;
+      text-align: left;
+    }
 
     ${theme.mediaQueries.tablet} {
       grid-row: 3;
@@ -89,6 +95,9 @@ export const AffirmWrapper = styled.div`
       width: 100%;
       max-width: small;
       align-items: center;
+    }
+    ${theme.mediaQueries.mobile} {
+      align-items: flex-start;
     }
     a {
       position: relative;
@@ -102,6 +111,7 @@ export const AffirmWrapper = styled.div`
 export const KlarnaWrapper = styled.div`
   ${({ theme }) => css`
     margin-top: 5;
+
     ${theme.mediaQueries.tablet} {
       grid-row: 3;
       margin: 4 auto 0;

@@ -48,6 +48,11 @@ import { useRouter } from 'next/router'
 
 const { useEffect, useState, useRef } = React
 
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 interface InStockFilterType extends InStockFilterTypeSource {
   applyFilter?: boolean
 }
@@ -546,17 +551,19 @@ export const Filter = ({
                   active={Boolean(activeKey === filter._key)}
                   minimalDisplay={minimalDisplay}
                 >
-                  <InventoryFilter
-                    setKey={filter._key || 'some-key'}
-                    filterSetState={filterSetStates.find(
-                      (s) => s.key === filter._key,
-                    )}
-                    setValues={setValues(filter._key || 'some-key')}
-                    resetSet={resetSet(filter._key || 'some-key')}
-                    scrollGridIntoView={scrollGridIntoView}
-                    inventoryFilter={filter}
-                    active={Boolean(activeKey === filter._key)}
-                  />
+                  {showInStockIndicators && (
+                    <InventoryFilter
+                      setKey={filter._key || 'some-key'}
+                      filterSetState={filterSetStates.find(
+                        (s) => s.key === filter._key,
+                      )}
+                      setValues={setValues(filter._key || 'some-key')}
+                      resetSet={resetSet(filter._key || 'some-key')}
+                      scrollGridIntoView={scrollGridIntoView}
+                      inventoryFilter={filter}
+                      active={Boolean(activeKey === filter._key)}
+                    />
+                  )}
                 </FilterWrapper>
               ) : null,
             )}

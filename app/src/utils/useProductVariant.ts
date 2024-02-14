@@ -54,6 +54,7 @@ export const useProductVariant = (
     const variant = variants.find(
       (v) => v.shopifyVariantID === convertedVariantId,
     )
+
     if (!variant)
       throw new Error(
         `There is no variant with the id "${variantId}" on the product ${product.title}`,
