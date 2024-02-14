@@ -229,13 +229,13 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   try {
     const result = await request<Response>(pageHandlesQuery)
-    const products = definitely(result?.allProduct)
-    const paths = products.map((product) => ({
-      params: {
-        productSlug: product.handle ? product.handle : undefined,
-        updatedAt: product?._updatedAt?.toString(),
-      },
-    }))
+    const products = result.allProduct
+
+    const paths = products
+      .filter((product) => product.handle)
+      .map((product) => ({
+        params: { productSlug: product.handle ?? undefined },
+      }))
 
     return {
       paths,
