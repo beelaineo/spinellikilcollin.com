@@ -90,13 +90,6 @@ export const product = defineType({
       hidden: true,
     }),
     defineField({
-      name: 'showInCollection',
-      title: 'Show in collection? (deprecated)',
-      type: 'boolean',
-      readOnly: true,
-      hidden: true,
-    }),
-    defineField({
       name: 'collections',
       title: 'Collections',
       description: 'Synced from Shopify',

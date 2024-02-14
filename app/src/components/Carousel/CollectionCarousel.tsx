@@ -28,7 +28,7 @@ const query = gql`
         handle
         archived
         shopifyId
-        sourceData {
+        store {
           __typename
           id
           title

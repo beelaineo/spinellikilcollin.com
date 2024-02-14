@@ -2665,7 +2665,6 @@ export interface Product extends Document {
   related?: Maybe<Carousel>
   seo?: Maybe<SeoShopify>
   shopifyId?: Maybe<Scalars['String']['output']>
-  showInCollection?: Maybe<Scalars['Boolean']['output']>
   showInCollections?: Maybe<Array<Maybe<Collection>>>
   store?: Maybe<ShopifyProductDef>
   title?: Maybe<Scalars['String']['output']>
@@ -2691,7 +2690,6 @@ export type ProductFilter = {
   related?: InputMaybe<CarouselFilter>
   seo?: InputMaybe<SeoShopifyFilter>
   shopifyId?: InputMaybe<StringFilter>
-  showInCollection?: InputMaybe<BooleanFilter>
   store?: InputMaybe<ShopifyProductDefFilter>
   title?: InputMaybe<StringFilter>
   titleProxy?: InputMaybe<StringFilter>
@@ -2919,7 +2917,6 @@ export type ProductSorting = {
   related?: InputMaybe<CarouselSorting>
   seo?: InputMaybe<SeoShopifySorting>
   shopifyId?: InputMaybe<SortOrder>
-  showInCollection?: InputMaybe<SortOrder>
   store?: InputMaybe<ShopifyProductDefSorting>
   title?: InputMaybe<SortOrder>
   titleProxy?: InputMaybe<SortOrder>

@@ -588,12 +588,8 @@ export const shopifyCollectionDefFragment = gql`
     image {
       ...ShopifyImageFragment
     }
-    products {
-      ...ProductFragment
-    }
   }
   ${shopifyImageFragment}
-  ${productFragment}
 `
 
 export const collectionFragment = gql`

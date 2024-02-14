@@ -199,7 +199,7 @@ export const ProductOptionSelector = ({
     product: Product,
   ): Promise<ShopifyStorefrontProductVariant[] | null> => {
     const variants = await sanityQuery(
-      `*[_type == 'shopifyProduct' && handle == $handle][0].variants[sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value == "false"]`,
+      `*[_type == 'product' && handle == $handle][0].store.variants[sourceData.metafields[key == "excludeFromIndication"].value == "false"]`,
       { handle: product?.handle },
     )
     return variants

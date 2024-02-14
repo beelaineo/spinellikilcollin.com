@@ -46,7 +46,7 @@ const getProductSourceData = (
     | CheckoutLineItem,
 ): ShopifySourceProduct | ShopifyStorefrontProduct | CheckoutLineItem => {
   //@ts-ignore
-  return product.sourceData ? product.sourceData : product
+  return product.store ? product.store : product
 
   // console.error(product)
   // throw new Error('Could not get product data')
@@ -67,15 +67,18 @@ export const parseProduct = (
   { position, list }: ProductExtras,
 ): EcommerceObject => {
   const quantity = selectedProduct.quantity || 1
-  const product = selectedProduct.product
-    ? getProductSourceData(selectedProduct.product)
-    : selectedProduct?.variant?.__typename === 'ProductVariant'
-    ? selectedProduct.variant.product
-    : undefined
+  const product =
+    // @ts-ignore
+    selectedProduct.product?.store
+      ? // @ts-ignore
+        selectedProduct.product?.store
+      : selectedProduct.product
+      ? selectedProduct.product
+      : selectedProduct?.variant?.__typename === 'ProductVariant'
+      ? selectedProduct.variant.product
+      : undefined
 
-  const decodedProductId = product?.id
-    ? getProductIdFromStorefrontId(product.id)
-    : undefined
+  const productId = product?.shopifyId ? product.shopifyId : product?.id
 
   const variant = selectedProduct.variant
     ? getVariantSourceData(selectedProduct.variant)
@@ -91,7 +94,7 @@ export const parseProduct = (
     product && 'productType' in product ? product.productType : undefined
   const values: EcommerceObject = {
     name: product?.title,
-    id: decodedProductId,
+    id: productId,
     price: formattedPrice ? assertExists(formattedPrice, 'price') : undefined,
     category: productType ?? undefined,
     variant: variant ? assertExists(variant.title, 'variant') : undefined,

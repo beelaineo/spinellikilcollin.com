@@ -653,6 +653,7 @@ export const getProductUri = (
       : variantId
   newParams.delete('stone')
   newParams.delete('metal')
+  newParams.delete('instock')
   newParams.delete('pos')
   newParams.delete('search')
   newParams.delete('v')
