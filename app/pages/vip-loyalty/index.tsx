@@ -17,7 +17,7 @@ const loyaltyQuery = gql`
         ...RichImageFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

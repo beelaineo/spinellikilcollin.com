@@ -7,7 +7,7 @@ import {
 } from './media'
 
 export const seoFragment = gql`
-  fragment SEOFragment on Seo {
+  fragment SeoFragment on Seo {
     _key
     _type
     title

@@ -24,7 +24,7 @@ const pageQuery = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       pageLinks {
         _key
@@ -123,7 +123,7 @@ const pageQuery = gql`
       }
 
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -143,7 +143,7 @@ const pageQueryById = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       pageLinks {
         _key
@@ -248,7 +248,7 @@ const pageQueryById = gql`
       }
 
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

@@ -73,7 +73,7 @@ const collectionQueryById = gql`
       descriptionRaw
       preferredVariantMatches
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
