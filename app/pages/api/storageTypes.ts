@@ -103,13 +103,23 @@ interface ShopifyDocumentProductVariantMember {
     id: `gid://shopify/ProductVariant/${string}`
     image?: {
       __typename: 'Image'
+      id: `gid://shopify/ProductImage/${string}`
       altText?: string
-      id: string
-      originalSrc: string
       height?: number
       width?: number
+      url: string
     }
+    inventory: {
+      policy: string
+      quantity?: number
+      management: string
+      isAvailable?: boolean
+    }
+    isDeleted: boolean
     metafields?: {
+      __typename: 'Metafield'
+      _key: string
+      id: string
       key: string
       namespace: string
       value: string
@@ -118,6 +128,8 @@ interface ShopifyDocumentProductVariantMember {
       amount: number
       currencyCode: string
     }
+    productGid: `gid://shopify/Product/${string}`
+    productId: number
     requiresShipping: boolean
     selectedOptions: {
       _key: string
@@ -126,7 +138,9 @@ interface ShopifyDocumentProductVariantMember {
       value: string
     }[]
     sku: string
+    status: 'active' | 'archived' | 'draft' | 'unknown'
     title: string
+    updatedAt?: string
   }
   title: string
 }

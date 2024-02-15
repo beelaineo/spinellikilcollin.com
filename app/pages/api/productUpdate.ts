@@ -515,10 +515,17 @@ export async function handleProductUpdate(
               __typename: 'Image',
               altText: variant.store.image.altText,
               id: variant.store.image.id,
-              originalSrc: variant.store.image.url,
+              url: variant.store.image.url,
               height: variant.store.image.height,
               width: variant.store.image.width,
             },
+            inventory: {
+              management: variant.store.inventory.management,
+              policy: variant.store.inventory.policy,
+              quantity: variant.store.inventory.quantity,
+              isAvailable: variant.store.inventory.isAvailable,
+            },
+            isDeleted: variant.store.isDeleted,
             metafields: variant.store.metafields?.map((metafield) => {
               return {
                 __typename: 'Metafield',
@@ -533,6 +540,8 @@ export async function handleProductUpdate(
               amount: variant.store.price,
               currencyCode: 'USD',
             },
+            productGid: variant.store.productGid,
+            productId: variant.store.productId,
             requiresShipping: true,
             selectedOptions: variant.store.selectedOptions.map((option) => {
               return {
@@ -546,7 +555,9 @@ export async function handleProductUpdate(
               }
             }),
             sku: variant.store.sku,
+            status: variant.store.status,
             title: variant.store.title,
+            updatedAt: variant.store.updatedAt,
           },
           store: variant.store,
           title: variant.store.title,
