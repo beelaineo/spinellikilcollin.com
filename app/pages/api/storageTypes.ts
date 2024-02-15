@@ -62,7 +62,7 @@ export type ShopifyDocumentProductVariant = {
       altText?: string
       height?: number
       width?: number
-      src: string
+      url: string
     }
     metafields?: {
       key: string

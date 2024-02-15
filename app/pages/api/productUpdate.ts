@@ -73,8 +73,22 @@ interface ProductVariantNode {
   excludeFromIndication: Maybe<Metafield>
 }
 
+interface ProductVariantImageNode {
+  id: string
+  image: {
+    altText: string
+    height: number
+    id: `gid://shopify/ProductImage/${string}`
+    url: string
+    width: number
+  }
+}
+
 interface VariantMetafieldsResponse {
   node: Maybe<ProductVariantNode>
+}
+interface VariantImageResponse {
+  node: Maybe<ProductVariantImageNode>
 }
 interface ProductCollectionsResponse {
   product: Maybe<ProductCollectionsNode>
@@ -156,6 +170,23 @@ query VariantMetafieldsQuery($variantId: ID!) {
 }
 `
 
+const variantImageQuery = `
+query VariantImageQuery($variantId: ID!) {
+  node(id: $variantId) {
+    id
+    ... on ProductVariant {
+      image {
+        altText
+        height
+        id
+        url
+        width
+      }
+    }
+  }
+}
+`
+
 const productInventoryQuery = `
 query ProductInventoryQuery($productId: ID!) {
   product(id: $productId) {
@@ -212,6 +243,19 @@ async function fetchVariantMetafields(
       variantId,
     },
   )
+  if (!response || !response.node) {
+    throw new Error('No data returned')
+  }
+  return { node: response.node }
+}
+
+// This function fetches images for a variant.
+async function fetchVariantImage(
+  variantId: string,
+): Promise<VariantImageResponse> {
+  const response = await shopifyQuery<VariantImageResponse>(variantImageQuery, {
+    variantId,
+  })
   if (!response || !response.node) {
     throw new Error('No data returned')
   }
@@ -295,6 +339,7 @@ export async function handleProductUpdate(
     variants.map<Promise<ShopifyDocumentProductVariant>>(async (variant) => {
       const variantId = idFromGid(variant.id)
       const metafieldsData = await fetchVariantMetafields(variant.id)
+      const variantImageData = await fetchVariantImage(variant.id)
 
       const metafields: Metafield[] = []
       if (metafieldsData.node?.subcategory) {
@@ -333,41 +378,6 @@ export async function handleProductUpdate(
         })
       }
 
-      // console.log('productVariantsDocuments variant doc:', {
-      //   _id: buildProductVariantDocumentId(variantId),
-      //   _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
-      //   store: {
-      //     ...variant,
-      //     id: variantId,
-      //     gid: `gid://shopify/ProductVariant/${variant.id}`,
-      //     isDeleted: false,
-      //     option1: variant.selectedOptions[0]?.value,
-      //     option2: variant.selectedOptions[1]?.value,
-      //     option3: variant.selectedOptions[2]?.value,
-      //     selectedOptions: variant.selectedOptions,
-      //     previewImageUrl: variant.image?.src,
-      //     image: variant.image,
-      //     price: Number(variant.price),
-      //     compareAtPrice: variant.compareAtPrice ?? 0,
-      //     productGid: variant.product.id,
-      //     productId: idFromGid(variant.product.id),
-      //     sku: variant.sku,
-      //     status,
-      //     updatedAt: variant.updatedAt,
-      //     inventory: {
-      //       management: (
-      //         variant.inventoryManagement || 'not_managed'
-      //       ).toUpperCase(),
-      //       policy: (variant.inventoryPolicy || '').toUpperCase(),
-      //       quantity: variant.inventoryQuantity ?? 0,
-      //       isAvailable:
-      //         variant.inventoryQuantity !== null &&
-      //         variant.inventoryQuantity > 0,
-      //     },
-      //     metafields: metafields,
-      //   },
-      // })
-
       return {
         _id: buildProductVariantDocumentId(variantId),
         _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
@@ -380,8 +390,8 @@ export async function handleProductUpdate(
           option2: variant.selectedOptions[1]?.value,
           option3: variant.selectedOptions[2]?.value,
           selectedOptions: variant.selectedOptions,
-          previewImageUrl: variant.image?.src,
-          image: variant.image,
+          previewImageUrl: variantImageData.node?.image.url,
+          image: variantImageData.node?.image,
           price: Number(variant.price),
           compareAtPrice: variant.compareAtPrice ?? 0,
           productGid: variant.product.id,
@@ -505,7 +515,7 @@ export async function handleProductUpdate(
               __typename: 'Image',
               altText: variant.store.image.altText,
               id: variant.store.image.id,
-              originalSrc: variant.store.image.src,
+              originalSrc: variant.store.image.url,
               height: variant.store.image.height,
               width: variant.store.image.width,
             },
