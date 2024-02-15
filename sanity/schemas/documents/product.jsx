@@ -195,7 +195,7 @@ export const product = defineType({
     defineField({
       name: 'seo',
       title: 'SEO',
-      type: 'seo.shopify',
+      type: 'seo',
       group: 'seo',
     }),
   ],

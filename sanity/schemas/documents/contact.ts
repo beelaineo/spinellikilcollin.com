@@ -58,7 +58,7 @@ export const contact = defineType({
     defineField({
       name: 'seo',
       title: 'SEO',
-      type: 'seo.shopify',
+      type: 'seo',
     }),
   ],
 })

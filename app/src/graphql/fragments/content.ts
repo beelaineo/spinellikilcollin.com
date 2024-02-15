@@ -20,21 +20,6 @@ export const seoFragment = gql`
   ${sanityImageFragment}
 `
 
-export const seoShopifyFragment = gql`
-  fragment SeoShopifyFragment on SeoShopify {
-    _key
-    _type
-    title
-    metaTitle
-    description
-    keywords
-    image {
-      ...SanityImageFragment
-    }
-  }
-  ${sanityImageFragment}
-`
-
 export const shopifySourceImageFragment = gql`
   fragment ShopifySourceImageFragment on ShopifySourceImage {
     __typename

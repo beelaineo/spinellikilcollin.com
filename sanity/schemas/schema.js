@@ -62,7 +62,6 @@ import seo from './objects/seo/seo'
 import seoHome from './objects/seo/home'
 import seoPage from './objects/seo/page'
 import seoDescription from './objects/seo/description'
-import seoShopify from './objects/seo/shopify'
 import shopifyCollectionDef from './objects/shopify/shopifyCollectionDef'
 import shopifyCollectionRule from './objects/shopify/shopifyCollectionRule'
 import shopifyPrice from './objects/shopify/shopifyPrice'
@@ -125,7 +124,6 @@ const objects2 = [
   seoHome,
   seoPage,
   seoDescription,
-  seoShopify,
   shopifyCollectionDef,
   shopifyCollectionRule,
   shopifyCollectionImage,

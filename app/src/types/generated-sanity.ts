@@ -517,7 +517,7 @@ export interface Contact extends Document {
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>
   contactLines?: Maybe<Array<Maybe<ContactLine>>>
-  seo?: Maybe<SeoShopify>
+  seo?: Maybe<Seo>
   title?: Maybe<Scalars['String']['output']>
 }
 
@@ -530,7 +530,7 @@ export type ContactFilter = {
   _rev?: InputMaybe<StringFilter>
   _type?: InputMaybe<StringFilter>
   _updatedAt?: InputMaybe<DatetimeFilter>
-  seo?: InputMaybe<SeoShopifyFilter>
+  seo?: InputMaybe<SeoFilter>
   title?: InputMaybe<StringFilter>
 }
 
@@ -566,7 +566,7 @@ export type ContactSorting = {
   _rev?: InputMaybe<SortOrder>
   _type?: InputMaybe<SortOrder>
   _updatedAt?: InputMaybe<SortOrder>
-  seo?: InputMaybe<SeoShopifySorting>
+  seo?: InputMaybe<SeoSorting>
   title?: InputMaybe<SortOrder>
 }
 
@@ -2030,7 +2030,7 @@ export interface Magazine extends Document {
   _updatedAt?: Maybe<Scalars['DateTime']['output']>
   coverImage?: Maybe<RichImage>
   descriptionRaw?: Maybe<Scalars['JSON']['output']>
-  seo?: Maybe<SeoShopify>
+  seo?: Maybe<Seo>
   successMessage?: Maybe<Scalars['String']['output']>
   title?: Maybe<Scalars['String']['output']>
 }
@@ -2045,7 +2045,7 @@ export type MagazineFilter = {
   _type?: InputMaybe<StringFilter>
   _updatedAt?: InputMaybe<DatetimeFilter>
   coverImage?: InputMaybe<RichImageFilter>
-  seo?: InputMaybe<SeoShopifyFilter>
+  seo?: InputMaybe<SeoFilter>
   successMessage?: InputMaybe<StringFilter>
   title?: InputMaybe<StringFilter>
 }
@@ -2058,7 +2058,7 @@ export type MagazineSorting = {
   _type?: InputMaybe<SortOrder>
   _updatedAt?: InputMaybe<SortOrder>
   coverImage?: InputMaybe<RichImageSorting>
-  seo?: InputMaybe<SeoShopifySorting>
+  seo?: InputMaybe<SeoSorting>
   successMessage?: InputMaybe<SortOrder>
   title?: InputMaybe<SortOrder>
 }
@@ -2663,7 +2663,7 @@ export interface Product extends Document {
   inquiryOnly?: Maybe<Scalars['Boolean']['output']>
   options?: Maybe<Array<Maybe<ProductOption>>>
   related?: Maybe<Carousel>
-  seo?: Maybe<SeoShopify>
+  seo?: Maybe<Seo>
   shopifyId?: Maybe<Scalars['String']['output']>
   showInCollections?: Maybe<Array<Maybe<Collection>>>
   store?: Maybe<ShopifyProductDef>
@@ -2688,7 +2688,7 @@ export type ProductFilter = {
   hideFromSearch?: InputMaybe<BooleanFilter>
   inquiryOnly?: InputMaybe<BooleanFilter>
   related?: InputMaybe<CarouselFilter>
-  seo?: InputMaybe<SeoShopifyFilter>
+  seo?: InputMaybe<SeoFilter>
   shopifyId?: InputMaybe<StringFilter>
   store?: InputMaybe<ShopifyProductDefFilter>
   title?: InputMaybe<StringFilter>
@@ -2915,7 +2915,7 @@ export type ProductSorting = {
   hideFromSearch?: InputMaybe<SortOrder>
   inquiryOnly?: InputMaybe<SortOrder>
   related?: InputMaybe<CarouselSorting>
-  seo?: InputMaybe<SeoShopifySorting>
+  seo?: InputMaybe<SeoSorting>
   shopifyId?: InputMaybe<SortOrder>
   store?: InputMaybe<ShopifyProductDefSorting>
   title?: InputMaybe<SortOrder>
@@ -3917,39 +3917,6 @@ export type SeoPageFilter = {
 }
 
 export type SeoPageSorting = {
-  _key?: InputMaybe<SortOrder>
-  _type?: InputMaybe<SortOrder>
-  description?: InputMaybe<SortOrder>
-  image?: InputMaybe<ImageSorting>
-  keywords?: InputMaybe<SortOrder>
-  metaTitle?: InputMaybe<SortOrder>
-  title?: InputMaybe<SortOrder>
-}
-
-export interface SeoShopify {
-  __typename: 'SeoShopify'
-  _key?: Maybe<Scalars['String']['output']>
-  _type?: Maybe<Scalars['String']['output']>
-  description?: Maybe<Scalars['String']['output']>
-  image?: Maybe<Image>
-  /** Comma-separated SEO keywords */
-  keywords?: Maybe<Scalars['String']['output']>
-  /** title for search results */
-  metaTitle?: Maybe<Scalars['String']['output']>
-  title?: Maybe<Scalars['String']['output']>
-}
-
-export type SeoShopifyFilter = {
-  _key?: InputMaybe<StringFilter>
-  _type?: InputMaybe<StringFilter>
-  description?: InputMaybe<StringFilter>
-  image?: InputMaybe<ImageFilter>
-  keywords?: InputMaybe<StringFilter>
-  metaTitle?: InputMaybe<StringFilter>
-  title?: InputMaybe<StringFilter>
-}
-
-export type SeoShopifySorting = {
   _key?: InputMaybe<SortOrder>
   _type?: InputMaybe<SortOrder>
   description?: InputMaybe<SortOrder>

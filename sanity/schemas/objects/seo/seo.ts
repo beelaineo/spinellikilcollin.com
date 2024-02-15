@@ -43,5 +43,4 @@ export default defineType({
       description: 'Comma-separated SEO keywords',
     }),
   ],
-  validation: (Rule) => Rule.required(),
 })

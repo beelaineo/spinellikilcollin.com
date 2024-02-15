@@ -15,7 +15,6 @@ import {
   seoFragment,
   stoneFragment,
   request,
-  seoShopifyFragment,
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 import { Sentry } from '../../src/services/sentry'
@@ -79,7 +78,7 @@ const productQueryInner = `
     ...CarouselFragment
   }
   seo {
-    ...SeoShopifyFragment
+    ...SeoFragment
   }
 `
 
@@ -96,7 +95,7 @@ const productQueryById = gql`
   ${productInfoFragment}
   ${carouselFragment}
   ${imageTextBlockFragment}
-  ${seoShopifyFragment}
+  ${seoFragment}
   ${stoneFragment}
 `
 
@@ -115,7 +114,7 @@ const productQueryByHandle = gql`
   ${productInfoFragment}
   ${carouselFragment}
   ${imageTextBlockFragment}
-  ${seoShopifyFragment}
+  ${seoFragment}
 `
 
 interface Response {
