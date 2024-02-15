@@ -97,7 +97,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     minimalDisplay,
   } = collection
 
-  // console.log('collection', collection)
+  console.log('collection', collection)
   const search = useSearch()
 
   const collectionProductsWithPrices = [...definitely(collection.products)].map(

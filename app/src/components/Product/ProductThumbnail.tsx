@@ -159,6 +159,19 @@ export const ProductThumbnail = ({
   const { sendProductImpression, sendProductClick } = useAnalytics()
   const { productInfoSettings, productListingSettings } = useShopData()
 
+  console.log(
+    'Product Thumbnail:',
+    product.title,
+    'displaySwatches:',
+    displaySwatches,
+    'store:',
+    product.store,
+    'preferredVariantMatches:',
+    preferredVariantMatches,
+    'show in stock indicators:',
+    showInStockIndicators,
+  )
+
   const productImages = product.store?.images
   const variants = (product?.store?.variants || [])
     .flat()
@@ -183,11 +196,15 @@ export const ProductThumbnail = ({
         })
         .map((s) => s.selectedVariant)
 
+  console.log('initialVariantSelections:', initialVariantSelections)
+
   const initialVariant = initialVariantSelections
     ? getBestVariantByMatch(variants, definitely(initialVariantSelections))
     : preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
     : variants[0]
+
+  console.log('initialVariant:', initialVariant)
 
   const [currentVariant, setCurrentVariant] = useState<
     ShopifyProductVariant | undefined
@@ -356,6 +373,8 @@ export const ProductThumbnail = ({
     } else {
       setVariantAnimation(undefined)
     }
+    console.log('currentVariant:', currentVariant)
+    console.log('currentSwatchOption:', currentSwatchOption)
   }, [currentVariant])
 
   const handleClick = () => {
@@ -593,9 +612,9 @@ export const ProductThumbnail = ({
 
   const isProductCurrentlyInStock = (product: Product): boolean => {
     if (!product?.store || !showInStockIndicators) return false
-
     const isInStock =
       stockedVariants && stockedVariants.length > 0 ? true : false
+    console.log('isInStock:', isInStock)
     return isInStock
   }
 
