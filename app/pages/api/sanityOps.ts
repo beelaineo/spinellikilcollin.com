@@ -229,7 +229,7 @@ export async function commitProductDocuments(
     }
 
     const commitResult = await transaction.commit()
-    console.log('Transaction successfully committed', commitResult)
+    // console.log('Transaction successfully committed', commitResult)
   } catch (error) {
     console.error('Error committing transaction:', error)
   }

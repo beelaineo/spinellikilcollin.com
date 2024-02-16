@@ -5,7 +5,7 @@ import { Sentry } from '../../src/services/sentry'
 
 const handler: NextApiHandler = async (req, res) => {
   try {
-    console.log(`onProductUpdate: ${req.body.id}`)
+    // console.log(`onProductUpdate: ${req.body.id}`)
     const timeout = setTimeout(() => {
       throw new Error('Timeout: onProductUpdate')
     }, 55000)
