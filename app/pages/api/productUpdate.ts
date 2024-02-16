@@ -259,6 +259,7 @@ async function fetchVariantImage(
   if (!response || !response.node) {
     throw new Error('No data returned')
   }
+  console.log(`fetched image for ${variantId}:`, response.node.image.url)
   return { node: response.node }
 }
 
@@ -286,7 +287,7 @@ export async function handleProductUpdate(
   productVariantsDocuments: ShopifyDocumentProductVariant[]
 }> {
   const { handle, id, images, status, priceRange } = product
-  console.log('incoming product doc variants:', product.variants)
+  // console.log('incoming product doc variant example:', product.variants[0])
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
     return text
@@ -377,6 +378,8 @@ export async function handleProductUpdate(
           value: metafieldsData.node.excludeFromIndication.value,
         })
       }
+
+      console.log('variantImageData:', variantImageData)
 
       return {
         _id: buildProductVariantDocumentId(variantId),
