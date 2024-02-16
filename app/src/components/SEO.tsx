@@ -13,6 +13,7 @@ import {
   LegacySeo,
   ShopifyImage,
   ShopifyCollectionImage,
+  ShopifyVariantImage,
 } from '../types'
 import { definitely, getProductIdLocationSearch } from '../utils'
 
@@ -22,6 +23,7 @@ type ImageType =
   | ShopifySourceImage
   | ShopifyImage
   | ShopifyCollectionImage
+  | ShopifyVariantImage
   | null
 
 type DefaultSeo = {

@@ -7,6 +7,7 @@ import {
   ShopifyProduct,
   Product,
   ShopifyImage,
+  ShopifyVariantImage,
 } from '../../../types'
 import { Image } from '../../../components/Image'
 import {
@@ -67,10 +68,12 @@ interface ProductImagesProps {
 }
 
 const getKey = (
-  image: ShopifySourceImage | RichImage | ShopifyImage,
+  image: ShopifySourceImage | RichImage | ShopifyImage | ShopifyVariantImage,
 ): string => {
   switch (image.__typename) {
     case 'ShopifyImage':
+      return image.id || 'some-key-si'
+    case 'ShopifyVariantImage':
       return image.id || 'some-key-si'
     case 'ShopifySourceImage':
       return image.id || 'some-key-ssi'

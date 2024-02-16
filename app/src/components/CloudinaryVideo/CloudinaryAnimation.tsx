@@ -4,6 +4,7 @@ import {
   Maybe,
   ShopifyImage,
   ShopifySourceImage,
+  ShopifyVariantImage,
 } from '../../types'
 import { AnimationWrapper, DesktopWrapper, MobileWrapper } from './styled'
 import { useViewportSize } from '../../utils'
@@ -130,7 +131,7 @@ const RatioPadding = ({
 
 interface CloudinaryVideoProps {
   video: CloudinaryVideoType
-  image?: Maybe<ShopifyImage>
+  image?: Maybe<ShopifyImage | ShopifyVariantImage>
   screen?: 'desktop' | 'mobile'
   view?: 'list' | 'detail'
   setPlaying: (playing: boolean) => void
@@ -156,17 +157,20 @@ export const CloudinaryAnimation = ({
     setIsPlaying(true)
   }
 
+  const imageSrc =
+    image?.__typename === 'ShopifyImage' ? image?.src : image?.url
+
   const poster =
     viewportWidth > 1200
-      ? ((image?.src + '?w=1600') as string)
+      ? ((imageSrc + '?w=1600') as string)
       : viewportWidth > 1000
-      ? ((image?.src + '?w=1200') as string)
-      : ((image?.src + '?w=800') as string)
+      ? ((imageSrc + '?w=1200') as string)
+      : ((imageSrc + '?w=800') as string)
 
   const listPoster =
     viewportWidth > 1200
-      ? ((image?.src + '?w=1200') as string)
-      : ((image?.src + '?w=800') as string)
+      ? ((imageSrc + '?w=1200') as string)
+      : ((imageSrc + '?w=800') as string)
 
   return screen === 'desktop' ? (
     <DesktopWrapper>

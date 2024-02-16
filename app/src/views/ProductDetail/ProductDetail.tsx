@@ -6,6 +6,7 @@ import {
   Product,
   ShopifyProductVariant,
   ShopifyImage,
+  ShopifyVariantImage,
 } from '../../types'
 import {
   getVariantTitle,
@@ -388,7 +389,7 @@ export const ProductDetail = ({ product }: Props) => {
     title: getVariantTitle(product, currentVariant),
     image:
       currentVariant?.sourceData?.image ?? images.length
-        ? (currentVariant?.sourceData?.image as ShopifyImage)
+        ? (currentVariant?.sourceData?.image as ShopifyVariantImage)
         : images[0],
   }
 
