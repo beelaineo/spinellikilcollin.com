@@ -515,7 +515,7 @@ export async function handleProductUpdate(
             ),
             id: variant.store.gid,
             image: variant.store.image && {
-              __typename: 'Image',
+              __typename: 'ShopifyVariantImage',
               altText: variant.store.image.altText,
               id: variant.store.image.id,
               url: variant.store.image.url,

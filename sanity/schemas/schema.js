@@ -42,6 +42,7 @@ import heroPage from './objects/hero/page'
 // import moduleCollection from './objects/module/collection'
 // import moduleGrid from './objects/module/grid'
 import shopifyImage from './objects/shopify/shopifyImage'
+import shopifyVariantImage from './objects/shopify/shopifyVariantImage'
 import gridItems from './objects/module/gridItem'
 import menu from './objects/global/menu'
 import moduleImage from './objects/module/image'
@@ -105,6 +106,7 @@ const objects2 = [
   // moduleCollection,
   // moduleGrid,
   shopifyImage,
+  shopifyVariantImage,
   // gridItems,
   moduleImage,
   moduleImageAction,

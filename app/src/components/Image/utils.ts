@@ -3,6 +3,7 @@ import {
   Maybe,
   SanityRawImage,
   Image as SanityImage,
+  ShopifyVariantImage,
   RichImage,
   ShopifySourceImage,
   ShopifyImage,
@@ -19,6 +20,7 @@ export type ImageType =
   | SanityImage
   | RichImage
   | SanityRawImage
+  | ShopifyVariantImage
 
 const builder = imageUrlBuilder({
   projectId: SANITY_PROJECT_ID,
@@ -159,6 +161,16 @@ const getShopifyImageDetails = (image: ShopifyImage): ImageDetails | null => {
   return { src, srcSet, altText }
 }
 
+const getShopifyVariantImageDetails = (
+  image: ShopifyVariantImage,
+): ImageDetails | null => {
+  const { altText, url } = image
+  const srcSet = shopifyWidths
+    .map((width) => `${url}?w=${width} ${width}w`)
+    .join(', ')
+  return { src: url, srcSet, altText }
+}
+
 // Type Guards
 //
 const isSanityRawImage = (image: ImageType): image is SanityRawImage =>
@@ -171,10 +183,16 @@ const isSanityImage = (image: ImageType): image is RichImage =>
 const isShopifyImage = (image: ImageType): image is ShopifyImage =>
   'src' in image || image.__typename === 'ShopifyImage'
 
+const isShopifyVariantImage = (
+  image: ImageType,
+): image is ShopifyVariantImage =>
+  'url' in image || image.__typename === 'Image'
+
 export const getImageDetails = (
   image?: ImageType | null | void,
 ): ImageDetails | null => {
   if (!image) return null
+  if (isShopifyVariantImage(image)) return getShopifyVariantImageDetails(image)
   if (isShopifyImage(image)) return getShopifyImageDetails(image)
   if (isSanityRawImage(image)) return getSanityImageDetails(image)
   if (isSanityImage(image)) return getSanityImageDetails(image)
@@ -187,6 +205,7 @@ export const getImageDetails = (
 
 export const getImageKey = (image: ImageType): string => {
   if (isShopifyImage(image)) return image.id || 'some-key'
+  if (isShopifyVariantImage(image)) return image.id || 'some-key'
   if (isSanityRawImage(image)) return image._key || 'some-key'
   if (isSanityImage(image)) return image._key || 'some-key'
 

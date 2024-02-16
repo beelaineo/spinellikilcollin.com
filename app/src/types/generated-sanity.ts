@@ -4916,7 +4916,7 @@ export interface ShopifySourceProductVariant {
   compareAtPriceV2?: Maybe<ShopifyPrice>
   currentlyNotInStock?: Maybe<Scalars['Boolean']['output']>
   id?: Maybe<Scalars['String']['output']>
-  image?: Maybe<ShopifyImage>
+  image?: Maybe<ShopifyVariantImage>
   metafields?: Maybe<Array<Maybe<ShopifyMetafield>>>
   priceV2?: Maybe<ShopifyPrice>
   requiresShipping?: Maybe<Scalars['Boolean']['output']>
@@ -4956,7 +4956,7 @@ export type ShopifySourceProductVariantFilter = {
   compareAtPriceV2?: InputMaybe<ShopifyPriceFilter>
   currentlyNotInStock?: InputMaybe<BooleanFilter>
   id?: InputMaybe<StringFilter>
-  image?: InputMaybe<ShopifyImageFilter>
+  image?: InputMaybe<ShopifyVariantImageFilter>
   priceV2?: InputMaybe<ShopifyPriceFilter>
   requiresShipping?: InputMaybe<BooleanFilter>
   sku?: InputMaybe<StringFilter>
@@ -5061,7 +5061,7 @@ export type ShopifySourceProductVariantSorting = {
   compareAtPriceV2?: InputMaybe<ShopifyPriceSorting>
   currentlyNotInStock?: InputMaybe<SortOrder>
   id?: InputMaybe<SortOrder>
-  image?: InputMaybe<ShopifyImageSorting>
+  image?: InputMaybe<ShopifyVariantImageSorting>
   priceV2?: InputMaybe<ShopifyPriceSorting>
   requiresShipping?: InputMaybe<SortOrder>
   sku?: InputMaybe<SortOrder>
@@ -5130,6 +5130,37 @@ export type ShopifySourceSelectedOptionSorting = {
   _type?: InputMaybe<SortOrder>
   name?: InputMaybe<SortOrder>
   value?: InputMaybe<SortOrder>
+}
+
+export interface ShopifyVariantImage {
+  __typename: 'ShopifyVariantImage'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  altText?: Maybe<Scalars['String']['output']>
+  height?: Maybe<Scalars['Float']['output']>
+  id?: Maybe<Scalars['String']['output']>
+  url?: Maybe<Scalars['String']['output']>
+  width?: Maybe<Scalars['Float']['output']>
+}
+
+export type ShopifyVariantImageFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  altText?: InputMaybe<StringFilter>
+  height?: InputMaybe<FloatFilter>
+  id?: InputMaybe<StringFilter>
+  url?: InputMaybe<StringFilter>
+  width?: InputMaybe<FloatFilter>
+}
+
+export type ShopifyVariantImageSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  altText?: InputMaybe<SortOrder>
+  height?: InputMaybe<SortOrder>
+  id?: InputMaybe<SortOrder>
+  url?: InputMaybe<SortOrder>
+  width?: InputMaybe<SortOrder>
 }
 
 export interface Signature {

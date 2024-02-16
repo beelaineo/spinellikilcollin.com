@@ -13,6 +13,7 @@ import {
   Scalars,
   ShopifySourceSelectedOption,
   ProductOption,
+  ShopifyVariantImage,
 } from '../../types'
 import { Heading, Span } from '../Text'
 import { Image } from '../Image'
@@ -109,11 +110,13 @@ const PriceWrapper = styled('span')`
   `}
 `
 
-const uniqueImages = (variants: ShopifyProductVariant[]): ShopifyImage[] =>
-  variants.reduce<ShopifyImage[]>((acc, variant) => {
+const uniqueImages = (
+  variants: ShopifyProductVariant[],
+): ShopifyVariantImage[] =>
+  variants.reduce<ShopifyVariantImage[]>((acc, variant) => {
     const image = variant?.sourceData?.image
     if (!image) return acc
-    if (acc.find((i) => i?.src === image.src)) {
+    if (acc.find((i) => i?.url === image.url)) {
       return acc
     }
     return [...acc, image]

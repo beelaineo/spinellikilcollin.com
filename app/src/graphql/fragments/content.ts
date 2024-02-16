@@ -1,5 +1,5 @@
 import { gql } from 'graphql-tag'
-import { shopifyImageFragment } from './shopify'
+import { shopifyImageFragment, shopifyVariantImageFragment } from './shopify'
 import {
   sanityImageFragment,
   sanityFileAssetFragment,
@@ -45,7 +45,7 @@ export const shopifySourceProductVariantFragment = gql`
     sku
     title
     image {
-      ...ShopifyImageFragment
+      ...ShopifyVariantImageFragment
     }
     priceV2 {
       __typename
@@ -64,7 +64,7 @@ export const shopifySourceProductVariantFragment = gql`
       value
     }
   }
-  ${shopifyImageFragment}
+  ${shopifyVariantImageFragment}
 `
 
 export const shopifyProductVariantFragment = gql`

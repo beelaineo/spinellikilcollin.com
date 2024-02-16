@@ -102,7 +102,7 @@ interface ShopifyDocumentProductVariantMember {
     currentlyNotInStock: boolean
     id: `gid://shopify/ProductVariant/${string}`
     image?: {
-      __typename: 'Image'
+      __typename: 'ShopifyVariantImage'
       id: `gid://shopify/ProductImage/${string}`
       altText?: string
       height?: number

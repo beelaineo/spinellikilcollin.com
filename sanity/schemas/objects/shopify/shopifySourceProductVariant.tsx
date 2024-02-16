@@ -41,9 +41,9 @@ export default defineType({
       type: 'string',
     }),
     defineField({
-      title: 'Shopify Source Image',
+      title: 'Shopify Variant Image',
       name: 'image',
-      type: 'shopifyImage',
+      type: 'shopifyVariantImage',
     }),
     // Selected Options
     defineField({
