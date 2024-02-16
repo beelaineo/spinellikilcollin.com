@@ -69,7 +69,7 @@ export const OptionSwatches = ({
     return stockedOptions.includes(value._key) ? true : false
   }
 
-  console.log('option', option)
+  // console.log('option', option)
 
   return (
     <SwatchesWrapper>

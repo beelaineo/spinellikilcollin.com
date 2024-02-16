@@ -92,10 +92,12 @@ export const ProductImages = ({
   hide,
 }: ProductImagesProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
-
+  // console.log('currentVariant', currentVariant)
   const variantImage = currentVariant?.sourceData?.image ?? null
   // const productImages = definitely(product?.gallery)
   const images = definitely([variantImage])
+
+  // console.log('variantImage', variantImage)
 
   const changeMainImage = (index: number) => () => setCurrentImageIndex(index)
 

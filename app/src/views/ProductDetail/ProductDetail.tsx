@@ -128,6 +128,8 @@ export const ProductDetail = ({ product }: Props) => {
   const images = product?.store?.images || []
   const hidden = product?.hideFromSearch
 
+  // console.log('product', product)
+
   /* Add the variant ID as a query parameter */
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
@@ -400,6 +402,8 @@ export const ProductDetail = ({ product }: Props) => {
     : basePath
 
   const weddingMatch = product.store?.tags?.some((tag) => tag === 'wedding')
+
+  // console.log('currentVariant', currentVariant)
 
   return (
     <>

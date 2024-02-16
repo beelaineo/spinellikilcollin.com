@@ -127,7 +127,7 @@ const getCollectionFromPreviewResponse = (response: Response) => {
 
 const CollectionPage = ({ collection, useEffect }: CollectionPageProps) => {
   const { query, isReady } = useRouter()
-  console.log('collection', collection)
+  // console.log('collection', collection)
   const token = query?.preview
   const preview = Boolean(query?.preview)
 

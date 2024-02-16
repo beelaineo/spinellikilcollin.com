@@ -3,6 +3,9 @@
   "functions": {
     "pages/api/algoliaIndex.ts": {
       "maxDuration": 90
+    },
+    "pages/api/shopifySyncHandler.ts": {
+      "maxDuration": 300
     }
   }
 }
