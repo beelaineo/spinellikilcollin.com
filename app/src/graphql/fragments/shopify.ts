@@ -141,13 +141,13 @@ export const variantFragment = gql`
         value
       }
       image {
-        ...ShopifyImageFragment
+        ...ShopifyVariantImageFragment
       }
     }
     title
   }
   ${moneyV2Fragment}
-  ${imageFragment}
+  ${shopifyVariantImageFragment}
 `
 
 export const discountApplicationFragment = gql`

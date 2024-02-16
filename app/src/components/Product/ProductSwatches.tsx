@@ -69,6 +69,8 @@ export const OptionSwatches = ({
     return stockedOptions.includes(value._key) ? true : false
   }
 
+  console.log('option', option)
+
   return (
     <SwatchesWrapper>
       {definitely(option.values).map((value) => (

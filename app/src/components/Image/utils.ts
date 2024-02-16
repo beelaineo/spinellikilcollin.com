@@ -186,7 +186,7 @@ const isShopifyImage = (image: ImageType): image is ShopifyImage =>
 const isShopifyVariantImage = (
   image: ImageType,
 ): image is ShopifyVariantImage =>
-  'url' in image || image.__typename === 'Image'
+  'url' in image || image.__typename === 'ShopifyVariantImage'
 
 export const getImageDetails = (
   image?: ImageType | null | void,

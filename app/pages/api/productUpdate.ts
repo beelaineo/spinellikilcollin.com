@@ -259,7 +259,7 @@ async function fetchVariantImage(
   if (!response || !response.node) {
     throw new Error('No data returned')
   }
-  console.log(`fetched image for ${variantId}:`, response.node.image.url)
+  // console.log(`fetched image for ${variantId}:`, response.node.image.url)
   return { node: response.node }
 }
 
@@ -379,7 +379,9 @@ export async function handleProductUpdate(
         })
       }
 
-      console.log('variantImageData:', variantImageData)
+      // console.log('variantImageData:', variantImageData)
+
+      const variantImage = variantImageData.node?.image
 
       return {
         _id: buildProductVariantDocumentId(variantId),
@@ -394,7 +396,16 @@ export async function handleProductUpdate(
           option3: variant.selectedOptions[2]?.value,
           selectedOptions: variant.selectedOptions,
           previewImageUrl: variantImageData.node?.image.url,
-          image: variantImageData.node?.image,
+          image: variantImage
+            ? {
+                __typename: 'ShopifyVariantImage',
+                altText: variantImage.altText,
+                id: variantImage.id,
+                url: variantImage.url,
+                height: variantImage.height,
+                width: variantImage.width,
+              }
+            : undefined,
           price: Number(variant.price),
           compareAtPrice: variant.compareAtPrice ?? 0,
           productGid: variant.product.id,

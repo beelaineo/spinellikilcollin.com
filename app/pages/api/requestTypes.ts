@@ -99,7 +99,6 @@ export interface DataSinkProductVariant {
   price: string
   createdAt: string
   updatedAt: string
-  image?: DataSinkProductImage
   product: {
     id: `gid://shopify/Product/${string}`
     status: 'active' | 'archived' | 'draft' | 'unknown'

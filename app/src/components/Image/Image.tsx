@@ -140,6 +140,8 @@ export const Image = ({
 
   const lqip = getImageLQIP(image)
 
+  console.log('Image', image)
+
   const {
     caption,
     src,
