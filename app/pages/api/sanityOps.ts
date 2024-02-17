@@ -136,7 +136,7 @@ export const createProductDocument = async (
       return option
     }
   })
-
+  console.log('transaction before product creation:', transaction)
   // Create new product if none found
   transaction.createIfNotExists(document).patch(publishedId, (patch) => {
     console.log('patching document', document.title)
@@ -164,6 +164,7 @@ export const createProductDocument = async (
       })
     })
   }
+  console.log('transaction after product creation:', transaction)
 }
 
 export const createProductVariantDocument = (
@@ -192,18 +193,18 @@ export const createProductVariantDocument = (
 export async function commitProductDocuments(
   client: SanityClient,
   productDocument: ShopifyDocumentProduct,
-  productVariantsDocuments: ShopifyDocumentProductVariant[],
+  // productVariantsDocuments: ShopifyDocumentProductVariant[],
 ) {
   try {
     const transaction = client.transaction()
-
+    console.log('create transaction:', transaction)
     const drafts = await hasDrafts(client, [
       productDocument,
-      ...productVariantsDocuments,
+      // ...productVariantsDocuments,
     ])
 
     // Create product and merge options
-    createProductDocument(
+    await createProductDocument(
       client,
       transaction,
       productDocument,
@@ -211,22 +212,23 @@ export async function commitProductDocuments(
     )
 
     // Mark the non existing product variants as deleted
-    await deleteProductVariants(
-      client,
-      transaction,
-      productDocument,
-      productVariantsDocuments,
-    )
+    // await deleteProductVariants(
+    //   client,
+    //   transaction,
+    //   productDocument,
+    //   productVariantsDocuments,
+    // )
 
     // Create / update product variants
-    for (const productVariantsDocument of productVariantsDocuments) {
-      createProductVariantDocument(
-        client,
-        transaction,
-        productVariantsDocument,
-        drafts[productVariantsDocument._id],
-      )
-    }
+    // for (const productVariantsDocument of productVariantsDocuments) {
+    //   createProductVariantDocument(
+    //     client,
+    //     transaction,
+    //     productVariantsDocument,
+    //     drafts[productVariantsDocument._id],
+    //   )
+    // }
+    console.log('transaction before commit:', transaction)
 
     const commitResult = await transaction.commit()
     console.log('Transaction successfully committed', commitResult)

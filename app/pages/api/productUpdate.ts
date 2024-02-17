@@ -284,7 +284,7 @@ export async function handleProductUpdate(
   product: DataSinkProduct,
 ): Promise<{
   productDocument: ShopifyDocumentProduct
-  productVariantsDocuments: ShopifyDocumentProductVariant[]
+  // productVariantsDocuments: ShopifyDocumentProductVariant[]
 }> {
   const { handle, id, images, status, priceRange } = product
   // console.log('incoming product doc variant example:', product.variants[0])
@@ -395,7 +395,7 @@ export async function handleProductUpdate(
           option2: variant.selectedOptions[1]?.value,
           option3: variant.selectedOptions[2]?.value,
           selectedOptions: variant.selectedOptions,
-          previewImageUrl: variantImageData.node?.image.url,
+          previewImageUrl: variantImageData.node?.image?.url,
           image: variantImage
             ? {
                 __typename: 'ShopifyVariantImage',
@@ -582,17 +582,18 @@ export async function handleProductUpdate(
 
   // type definition to match legacy shopify documents instead?
 
-  // console.log('Committing product documents', productDocument)
-  // console.log(
-  //   'Committing product document collections:',
-  //   productDocument.collections,
-  // )
+  console.log('Committing product documents', productDocument)
+  console.log(
+    'Committing product document collections:',
+    productDocument.collections,
+  )
 
   await commitProductDocuments(
     client,
     productDocument,
-    productVariantsDocuments,
+    // productVariantsDocuments,
   )
 
-  return { productDocument, productVariantsDocuments }
+  // return { productDocument, productVariantsDocuments }
+  return { productDocument }
 }

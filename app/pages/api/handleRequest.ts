@@ -13,7 +13,7 @@ const sanityClient = createClient({
 })
 
 export async function handle(body: RequestBody) {
-  // console.log('Handling request', body)
+  console.log('Handling request', body)
   if (['create', 'update'].includes(body.action) && 'products' in body) {
     for (const product of body.products) {
       await handleProductUpdate(sanityClient, product)

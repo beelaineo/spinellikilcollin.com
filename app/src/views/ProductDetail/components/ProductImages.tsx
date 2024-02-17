@@ -97,7 +97,7 @@ export const ProductImages = ({
   // const productImages = definitely(product?.gallery)
   const images = definitely([variantImage])
 
-  // console.log('variantImage', variantImage)
+  console.log('variantImage', variantImage)
 
   const changeMainImage = (index: number) => () => setCurrentImageIndex(index)
 
