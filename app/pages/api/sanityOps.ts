@@ -136,10 +136,8 @@ export const createProductDocument = async (
       return option
     }
   })
-  console.log('transaction before product creation:', transaction)
   // Create new product if none found
   transaction.createIfNotExists(document).patch(publishedId, (patch) => {
-    console.log('patching document', document.title)
     // console.log('patching collections:', document.collections)
     return patch.set({
       collections: document.collections,
@@ -152,7 +150,6 @@ export const createProductDocument = async (
 
   // Patch existing draft (if present)
   if (draftExists) {
-    console.log('patching existing draft')
     const draftId = `drafts.${document._id}`
     transaction.patch(draftId, (patch) => {
       return patch.set({
@@ -164,7 +161,6 @@ export const createProductDocument = async (
       })
     })
   }
-  console.log('transaction after product creation:', transaction)
 }
 
 export const createProductVariantDocument = (
@@ -197,7 +193,6 @@ export async function commitProductDocuments(
 ) {
   try {
     const transaction = client.transaction()
-    console.log('create transaction:', transaction)
     const drafts = await hasDrafts(client, [
       productDocument,
       // ...productVariantsDocuments,
@@ -228,7 +223,6 @@ export async function commitProductDocuments(
     //     drafts[productVariantsDocument._id],
     //   )
     // }
-    console.log('transaction before commit:', transaction)
 
     const commitResult = await transaction.commit()
     console.log('Transaction successfully committed', commitResult)

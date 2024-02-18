@@ -4,7 +4,6 @@ import {
   ShopifySourceImage,
   RichImage,
   ShopifyProductVariant,
-  ShopifyProduct,
   Product,
   ShopifyImage,
   ShopifyVariantImage,
@@ -30,7 +29,7 @@ const { useState, useEffect } = React
 
 interface ProductGalleryCarouselProps {
   images: Array<ShopifySourceImage | RichImage>
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
 }
 

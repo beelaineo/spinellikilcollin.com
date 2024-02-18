@@ -1,10 +1,5 @@
 import * as React from 'react'
-import {
-  Maybe,
-  Product,
-  ShopifyProduct,
-  ShopifyProductVariant,
-} from '../../../types'
+import { Maybe, Product, ShopifyProductVariant } from '../../../types'
 import { TitleWrapper } from '../styled'
 import { Heading, Span } from '../../../components/Text'
 import { Price } from '../../../components/Price'

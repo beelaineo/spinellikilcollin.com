@@ -71,8 +71,6 @@ export const NewCustomer = ({ newCustomer, person }: NewCustomerProps) => {
     title: 'NewCustomer',
   }
 
-  console.log('newCustomer salesperson:', person)
-
   React.useEffect(() => {
     setColorTheme('light')
   }, [])

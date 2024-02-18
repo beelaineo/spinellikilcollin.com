@@ -65,8 +65,6 @@ export const FinancingPageView = ({ page }: FinancingPageProps) => {
     image: seo?.image,
   }
 
-  console.log('providers', providers)
-
   const [activeProvider, setActiveProvider] = React.useState<string | null>(
     'aa2522c18a00',
   )

@@ -3,7 +3,7 @@ import {defineField, defineType} from 'sanity'
 
 const FilterMatchPreview = (props: any) => {
   const {match, type} = props
-  console.log('FilterMatch props', props)
+  // console.log('FilterMatch props', props)
   if (!type || !match) {
     return <h2>(empty)</h2>
   }

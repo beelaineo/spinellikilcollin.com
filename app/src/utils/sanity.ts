@@ -52,13 +52,13 @@ const parseFilterMatchDefaultSort = ({
     case 'size':
       return `"${match}" in @->store.options[name == "Size"].values[]`
     case 'subcategory':
-      return `@->variants[].store.metafields[key == "subcategory"].value match "*${match}*"`
+      return `@->variants[].sourceData.metafields[key == "subcategory"].value match "*${match}*"`
     case 'metal':
-      return `@->variants[].store.metafields[key == "metal"].value match "*${match}*"`
+      return `@->variants[].sourceData.metafields[key == "metal"].value match "*${match}*"`
     case 'style':
-      return `@->variants[].store.metafields[key == "style"].value match "*${match}*"`
+      return `@->variants[].sourceData.metafields[key == "style"].value match "*${match}*"`
     case 'stone':
-      return `@->variants[].store.metafields[key == "stone"].value match "*${match}*"`
+      return `@->variants[].sourceData.metafields[key == "stone"].value match "*${match}*"`
     default:
       throw new Error(`"${type}" is not a valid filter type`)
   }

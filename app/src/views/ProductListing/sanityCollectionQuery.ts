@@ -7,7 +7,7 @@ const getSortString = (sort?: Sort, filterSort?: string[]): string => {
     const countMatches: string[] = []
 
     filterSort.map((s) => {
-      const string = `count(@->store.variants.[currentlyNotInStock == false && selectedOptions[1].value == '${s}'])*2 + count(@->store.variants[currentlyNotInStock == true && selectedOptions[1].value == '${s}'])`
+      const string = `count(@->store.variants.[sourceData.currentlyNotInStock == false && selectedOptions[1].value == '${s}'])*2 + count(@->store.variants[sourceData.currentlyNotInStock == true && selectedOptions[1].value == '${s}'])`
       countMatches.push(string)
     })
 

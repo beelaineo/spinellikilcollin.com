@@ -41,40 +41,45 @@ export const shopifyVariantImageFragment = gql`
 export const productWithoutVariantsFragment = gql`
   fragment ProductWithoutVariantsFragment on Product {
     __typename
+    availableForSale
+    createdAt
+    description
+    descriptionHtml
     handle
+    id
+    productType
+    publishedAt
+    tags
     title
+    vendor
+    images(first: 100) {
+      __typename
+      edges {
+        __typename
+        node {
+          ...ImageFragment
+        }
+      }
+    }
     options(first: 100) {
       __typename
-      _type
+      id
       name
       values
     }
-    store {
-      availableForSale
-      createdAt
-      description
-      descriptionHtml
-      featuredImage {
-        ...ShopifyImageFragment
+    priceRange {
+      __typename
+      maxVariantPrice {
+        ...MoneyV2Fragment
       }
-      gid
-      id
-      images {
-        ...ShopifyImageFragment
+      minVariantPrice {
+        ...MoneyV2Fragment
       }
-      priceRange {
-        __typename
-        maxVariantPrice
-        minVariantPrice
-      }
-      productType
-      publishedAt
-      tags
-      vendor
     }
   }
+
   ${imageFragment}
-  ${shopifyImageFragment}
+  ${moneyV2Fragment}
 `
 
 export const variantWithProductFragment = gql`
@@ -112,43 +117,93 @@ export const variantWithProductFragment = gql`
 `
 
 export const variantFragment = gql`
-  fragment VariantFragment on ShopifyProductVariant {
+  fragment VariantFragment on ProductVariant {
     __typename
-    _type
+    availableForSale
+    currentlyNotInStock
     id
-    isDeleted
-    shopifyVariantId
-    sourceData {
-      __typename
-      _type
-      availableForSale
-      currentlyNotInStock
-      id
-      sku
-      title
-      weight
-      weightUnit
-      compareAtPriceV2 {
-        ...MoneyV2Fragment
-      }
-      priceV2 {
-        ...MoneyV2Fragment
-      }
-      requiresShipping
-      selectedOptions {
-        __typename
-        name
-        value
-      }
-      image {
-        ...ShopifyVariantImageFragment
-      }
-    }
+    sku
     title
+    weight
+    weightUnit
+    compareAtPriceV2 {
+      ...MoneyV2Fragment
+    }
+    priceV2 {
+      ...MoneyV2Fragment
+    }
+    requiresShipping
+    selectedOptions {
+      __typename
+      name
+      value
+    }
+    image {
+      ...ImageFragment
+    }
   }
   ${moneyV2Fragment}
-  ${shopifyVariantImageFragment}
+  ${imageFragment}
 `
+
+// export const productFragment = gql`
+//   fragment ProductFragment on Product {
+//     __typename
+//     availableForSale
+//     createdAt
+//     description
+//     descriptionHtml
+//     handle
+//     id
+//     productType
+//     publishedAt
+//     tags
+//     title
+//     vendor
+//     images(first: 100) {
+//       __typename
+//       edges {
+//         __typename
+//         node {
+//           ...ImageFragment
+//         }
+//       }
+//     }
+//     options(first: 100) {
+//       __typename
+//       id
+//       name
+//       values
+//     }
+//     priceRange {
+//       __typename
+//       maxVariantPrice {
+//         ...MoneyV2Fragment
+//       }
+//       minVariantPrice {
+//         ...MoneyV2Fragment
+//       }
+//     }
+//     variants(first: 100) {
+//       __typename
+//       pageInfo {
+//         __typename
+//         hasNextPage
+//         hasPreviousPage
+//       }
+//       edges {
+//         __typename
+//         node {
+//           ...VariantFragment
+//         }
+//       }
+//     }
+//   }
+
+//   ${imageFragment}
+//   ${moneyV2Fragment}
+//   ${variantFragment}
+// `
 
 export const discountApplicationFragment = gql`
   fragment DiscountApplicationFragment on DiscountApplication {

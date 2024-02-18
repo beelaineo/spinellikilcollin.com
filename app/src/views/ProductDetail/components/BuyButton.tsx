@@ -7,7 +7,7 @@ import {
   UseCheckoutValues,
 } from '../../../providers/ShopifyProvider'
 import { Button } from '../../../components/Button'
-import { Product, ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
 import { useAnalytics, useCart, useModal } from '../../../providers'
 import { useMedia } from '../../../hooks'

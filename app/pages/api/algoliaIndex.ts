@@ -151,19 +151,17 @@ const parseDocument = (doc: SanityShopifyDocument) => {
               'hidden',
               'hideFromSearch',
               'shopifyId',
-              'minVariantPrice',
-              'maxVariantPrice',
             ]),
-            __typename: 'ShopifyProduct',
+            __typename: 'Product',
             options: definitely(doc?.options).map((option) => ({
-              ...pick(option, ['_key', '_type', 'shopifyOptionId', 'name']),
-              __typename: 'ShopifyProductOption',
+              ...pick(option, ['_key', '_type', 'name']),
+              __typename: 'ProductOption',
               values: definitely(option?.values).map((value) => ({
-                __typename: 'ShopifyProductOptionValue',
+                __typename: 'ProductOptionValue',
                 ...pick(value, ['_key', 'value', 'swatch']),
               })),
             })),
-            sourceData: {
+            store: {
               ...pick(doc?.store, [
                 '__typename',
                 '_key',
@@ -177,7 +175,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                 'handle',
                 'id',
               ]),
-              __typename: 'ShopifySourceProduct',
+              __typename: 'ShopifyProductDef',
               images: paginate([
                 pick(images[0], ['id', '__typename', 'originalSrc', 'w800']),
               ]),
@@ -196,6 +194,8 @@ const parseDocument = (doc: SanityShopifyDocument) => {
 
 const handler: NextApiHandler = (req, res) =>
   new Promise<void>((resolve, reject) => {
+    console.log('parseDocument', parseDocument)
+
     try {
       const partialUpdateObjects = bindCallback((objects, done) => {
         algoliaIndex

@@ -127,7 +127,7 @@ export const useCheckout = ({
       variables || {},
     )
 
-    const { checkoutCreate: checkoutCreateResponse } = result.data
+    const { checkoutCreate: checkoutCreateResponse } = result
 
     if (checkoutCreateResponse.checkout)
       setViewerCartCookie(checkoutCreateResponse.checkout.id)
@@ -152,7 +152,7 @@ export const useCheckout = ({
         CHECKOUT_FETCH,
         variables,
       )
-      const checkout = result.data ? result.data.node : undefined
+      const checkout = result ? result.node : undefined
       dispatch({ type: FETCHED_CHECKOUT, checkout })
     } else {
       /* When no token exists, dispatch this to set "loading" to false. */
@@ -174,7 +174,7 @@ export const useCheckout = ({
       CheckoutLineItemsAddResponse,
       CheckoutLineItemsAddInput
     >(CHECKOUT_LINE_ITEMS_ADD, variables)
-    dispatch({ type: ADDED_LINE_ITEMS, ...result.data.checkoutLineItemsAdd })
+    dispatch({ type: ADDED_LINE_ITEMS, ...result.checkoutLineItemsAdd })
   }
 
   const checkoutLineItemsUpdate = async (
@@ -193,7 +193,7 @@ export const useCheckout = ({
 
     dispatch({
       type: UPDATED_LINE_ITEMS,
-      ...result.data.checkoutLineItemsUpdate,
+      ...result.checkoutLineItemsUpdate,
     })
   }
 
@@ -213,7 +213,7 @@ export const useCheckout = ({
     })
     dispatch({
       type: APPLIED_DISCOUNT,
-      ...result.data.checkoutDiscountCodeApplyV2,
+      ...result.checkoutDiscountCodeApplyV2,
     })
   }
 
@@ -233,7 +233,7 @@ export const useCheckout = ({
     })
     dispatch({
       type: REMOVED_DISCOUNT,
-      ...result.data.checkoutDiscountCodeRemove,
+      ...result.checkoutDiscountCodeRemove,
     })
   }
 
@@ -255,7 +255,7 @@ export const useCheckout = ({
     })
     dispatch({
       type: APPLIED_DISCOUNT,
-      ...result.data.checkoutAttributesUpdateV2,
+      ...result.checkoutAttributesUpdateV2,
     })
   }
 
