@@ -3,6 +3,7 @@ import {BlockPreview} from '../../components/BlockPreview'
 import {actionTypes} from './shared'
 import {getTypeText, getReferencedDocument, getShopifyThumbnail} from '../utils'
 import {PreviewValue, defineField, defineType} from 'sanity'
+import {Stack} from '@sanity/ui'
 
 export const cta = defineType({
   name: 'cta',
@@ -91,7 +92,12 @@ export const cta = defineType({
         title: label,
         subtitle: subtitles.join(', '),
         // //@ts-ignore
-        media: linkType !== 'internal' ? '🔗' : src ? <img alt={'thumb'} src={src} /> : undefined,
+        media:
+          linkType !== 'internal' ? (
+            <Stack>🔗</Stack>
+          ) : src ? (
+            <img alt={'thumb'} src={src} />
+          ) : undefined,
       }
     },
   },

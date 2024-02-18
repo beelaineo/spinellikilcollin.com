@@ -522,8 +522,10 @@ export async function handleProductUpdate(
             },
             currentlyNotInStock: Boolean(
               variant.store.inventory.quantity &&
-                variant.store.inventory.quantity < 1,
-            ),
+                variant.store.inventory.quantity > 0,
+            )
+              ? false
+              : true,
             id: variant.store.gid,
             image: variant.store.image && {
               __typename: 'ShopifyVariantImage',

@@ -136,8 +136,8 @@ export const buildFilters = (
       } else if (filterGroup.filterType === INVENTORY_FILTER) {
         const rule =
           sort == Sort.Default || (filterSort && filterSort.length > 0)
-            ? '(count(@->store.variants[][currentlyNotInStock == false]) > 0)'
-            : '(count(store.variants[][currentlyNotInStock == false]) > 0)'
+            ? '(count(@->store.variants[][sourceData.currentlyNotInStock == false]) > 0)'
+            : '(count(store.variants[][sourceData.currentlyNotInStock == false]) > 0)'
         const { applyFilter } = filterGroup
         return applyFilter
           ? rule

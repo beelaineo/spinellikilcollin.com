@@ -226,6 +226,9 @@ export const ProductDetail = ({ product }: Props) => {
           (option) => option.name === 'Color',
         ).value,
       )
+      console.log('currentVariant', currentVariant)
+      console.log('stockedOptions', stockedOptions)
+      console.log('stockedVariants', stockedVariants)
       return stockedOptions.includes(color)
     } else {
       return Boolean(stockedVariants?.length > 0)

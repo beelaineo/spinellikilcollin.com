@@ -7,6 +7,7 @@ import {
   getShopifyThumbnail,
   getLegacyShopifyThumbnail,
 } from '../utils'
+import {Stack} from '@sanity/ui'
 
 // const getPreviewValues = async (values: any) => {
 //   const {document} = values
@@ -59,7 +60,7 @@ export const externalLink = defineType({
       return {
         title: url,
         subtitle: newTab ? '⧉ Opens in new tab' : undefined,
-        media: '🔗',
+        media: <Stack>🔗</Stack>,
       }
     },
   },
