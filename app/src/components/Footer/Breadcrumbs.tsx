@@ -26,13 +26,6 @@ const productQuery = gql`
         handle
         shopifyId
       }
-      variants {
-        __typename
-        _key
-        _type
-        shopifyVariantID
-        title
-      }
     }
   }
 `
