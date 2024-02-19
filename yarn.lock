@@ -6587,6 +6587,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@sanity/webhook@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@sanity/webhook@npm:4.0.1"
+  checksum: 17a0f2ad9cf429681589c857d343c1160b2f084ba8a43c04c37dddc5185dbfed69a6c0632c253e30f9089c0ab0386c8242f824a09e680832629da221c64f8e02
+  languageName: node
+  linkType: hard
+
 "@sentry/browser@npm:^6.19.7":
   version: 6.19.7
   resolution: "@sentry/browser@npm:6.19.7"
@@ -25731,6 +25738,7 @@ __metadata:
     "@sanity/block-content-to-react": ^3.0.0
     "@sanity/client": ^6.8.6
     "@sanity/image-url": ^1.0.2
+    "@sanity/webhook": ^4.0.1
     "@sentry/browser": ^6.19.7
     "@sentry/integrations": ^6.19.7
     "@sentry/node": ^6.19.7

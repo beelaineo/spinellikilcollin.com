@@ -88,6 +88,7 @@
 		"@sanity/block-content-to-react": "^3.0.0",
 		"@sanity/client": "^6.8.6",
 		"@sanity/image-url": "^1.0.2",
+		"@sanity/webhook": "^4.0.1",
 		"@sentry/browser": "^6.19.7",
 		"@sentry/integrations": "^6.19.7",
 		"@sentry/node": "^6.19.7",
