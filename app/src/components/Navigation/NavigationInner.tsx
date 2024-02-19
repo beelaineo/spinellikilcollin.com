@@ -98,7 +98,7 @@ export const NavigationInner = ({ closeMenu }: NavigationInnerProps) => {
                             ? inferredLabel.toUpperCase()
                             : ''}
                           {menuItem.link?.document?.__typename ==
-                            'ShopifyCollection' &&
+                            'Collection' &&
                           menuItem.link?.document?.handle === 'in-stock' ? (
                             <InStockDot />
                           ) : null}

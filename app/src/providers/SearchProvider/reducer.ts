@@ -1,9 +1,9 @@
 import { useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router'
-import { ShopifyProduct, ShopifyCollection } from '../../types'
+import { Product, Collection } from '../../types'
 import { algoliaIndex } from '../../services/algolia'
 
-export type SearchResult = ShopifyProduct | ShopifyCollection
+export type SearchResult = Product | Collection
 
 interface SearchHit {
   document: SearchResult

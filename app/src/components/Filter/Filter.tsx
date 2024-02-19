@@ -2,11 +2,11 @@ import * as React from 'react'
 import {
   Filter as FilterSingleType,
   FilterSet as FilterSetType,
-  PriceRangeFilter as PriceRangeFilterType,
-  InventoryFilter as InventoryFilterTypeSource,
+  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
+  InStockFilter as InStockFilterTypeSource,
   FilterConfiguration,
-  PriceRangeFilterConfiguration,
-  InventoryFilterConfiguration,
+  PriceRangeMinMaxFilterConfiguration,
+  InStockFilterConfiguration,
   FilterMatchGroup,
   FILTER_SINGLE,
   PRICE_RANGE_FILTER,
@@ -53,7 +53,7 @@ import { config } from '../../config'
 const { SHOW_IN_STOCK_INDICATORS } = config
 
 const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
-interface InventoryFilterType extends InventoryFilterTypeSource {
+interface InStockFilterType extends InStockFilterTypeSource {
   applyFilter?: boolean
 }
 
@@ -62,8 +62,8 @@ type FilterValues = Record<string, any>
 type FilterType =
   | FilterSingleType
   | FilterSetType
-  | PriceRangeFilterType
-  | InventoryFilterType
+  | PriceRangeMinMaxFilterType
+  | InStockFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
@@ -103,7 +103,7 @@ const getCurrentFilters = (
         matches: filterMatches,
       }
       return [...acc, matchGroup]
-    } else if (filter.__typename === 'PriceRangeFilter') {
+    } else if (filter.__typename === 'PriceRangeMinMaxFilter') {
       const filterSetState = filterSetStates.find(
         (fss) => fss.key === filter._key,
       )
@@ -119,14 +119,14 @@ const getCurrentFilters = (
         throw new Error('currentMaxPrice must be a number')
       }
 
-      const priceRangeFilter: PriceRangeFilterConfiguration = {
+      const priceRangeMinMaxFilter: PriceRangeMinMaxFilterConfiguration = {
         filterType: PRICE_RANGE_FILTER,
         key: filter._key || 'some-key',
         minPrice,
         maxPrice,
       }
-      return [...acc, priceRangeFilter]
-    } else if (filter.__typename === 'InventoryFilter') {
+      return [...acc, priceRangeMinMaxFilter]
+    } else if (filter.__typename === 'InStockFilter') {
       const filterSetState = filterSetStates.find(
         (fss) => fss.key === filter._key,
       )
@@ -134,13 +134,13 @@ const getCurrentFilters = (
       const label = filterSetState?.values?.label
       const applyFilter = filterSetState?.values?.applyFilter
 
-      const inventoryFilter: InventoryFilterConfiguration = {
+      const inStockFilter: InStockFilterConfiguration = {
         filterType: INVENTORY_FILTER,
         key: filter._key || 'some-key',
         applyFilter,
         label,
       }
-      return [...acc, inventoryFilter]
+      return [...acc, inStockFilter]
     } else if (filter.__typename === 'Filter') {
       const activeMatchKeys = setState.activeMatchKeys
       if (activeMatchKeys.length === 0) return acc
@@ -250,7 +250,7 @@ export const Filter = ({
       .flat()
       .join(' ')
 
-    const inventoryFilter = filterMatches.find(
+    const inStockFilter = filterMatches.find(
       (f) => f.filterType === INVENTORY_FILTER,
       //@ts-ignore
     )?.applyFilter
@@ -273,8 +273,8 @@ export const Filter = ({
       priceRangeMatches !== Object.values(priceInitialValues).join(' ')
     ) {
       return { price: priceRangeMatches }
-    } else if (type === 'instock' && inventoryFilter) {
-      return { instock: inventoryFilter }
+    } else if (type === 'instock' && inStockFilter) {
+      return { instock: inStockFilter }
     } else {
       return { [type]: filterSetMatches }
     }
@@ -371,9 +371,7 @@ export const Filter = ({
     }
 
     const getInstockQuery = (items, query) => {
-      const match = items?.find(
-        (item) => item?.__typename === 'InventoryFilter',
-      )
+      const match = items?.find((item) => item?.__typename === 'InStockFilter')
 
       return {
         key: match?._key,
@@ -521,7 +519,7 @@ export const Filter = ({
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>
-              ) : filter.__typename === 'PriceRangeFilter' ? (
+              ) : filter.__typename === 'PriceRangeMinMaxFilter' ? (
                 <FilterWrapper
                   heading="Price:"
                   key={filter._key || 'some-key'}
@@ -543,9 +541,9 @@ export const Filter = ({
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>
-              ) : filter.__typename === 'InventoryFilter' ? (
+              ) : filter.__typename === 'InStockFilter' ? (
                 <FilterWrapper
-                  heading="Ready to Ship"
+                  heading="In Stock"
                   key={filter._key || 'some-key'}
                   type={filter.__typename}
                   filter={filter}

@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { gql } from 'graphql-tag'
-import { ShopifyCollection } from '../../types'
+import { Collection, ShopifyCollection } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
 import { definitely, useViewportSize } from '../../utils'
-import { useLazyRequest, shopifySourceImageFragment } from '../../graphql'
+import { useLazyRequest, shopifyImageFragment } from '../../graphql'
 const { useEffect } = React
 
 const query = gql`
   query CarouselCollectionQuery($collectionId: ID!) {
-    allShopifyCollection(where: { _id: { eq: $collectionId } }) {
+    allCollection(where: { _id: { eq: $collectionId } }) {
       __typename
       _id
       _type
@@ -28,9 +28,7 @@ const query = gql`
         handle
         archived
         shopifyId
-        minVariantPrice
-        maxVariantPrice
-        sourceData {
+        store {
           __typename
           id
           title
@@ -38,31 +36,24 @@ const query = gql`
           tags
           productType
           images {
-            __typename
-            edges {
-              __typename
-              cursor
-              node {
-                ...ShopifySourceImageFragment
-              }
-            }
+            ...ShopifyImageFragment
           }
         }
       }
     }
   }
-  ${shopifySourceImageFragment}
+  ${shopifyImageFragment}
 `
 
 interface Response {
-  allShopifyCollection: ShopifyCollection[]
+  allCollection: Collection[]
 }
 interface Variables {
   collectionId: string | null | undefined
 }
 
 interface CollectionCarouselProps {
-  collection: ShopifyCollection
+  collection: Collection
 }
 
 export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
@@ -85,7 +76,7 @@ export const CollectionCarousel = ({ collection }: CollectionCarouselProps) => {
     getCarousel(variables)
   }, [data])
 
-  const fetchedCollection = data?.allShopifyCollection[0]
+  const fetchedCollection = data?.allCollection[0]
 
   const products = collectionProducts
     ? collectionProducts

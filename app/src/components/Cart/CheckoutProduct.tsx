@@ -2,7 +2,10 @@ import * as React from 'react'
 import { Box } from '@xstyled/styled-components'
 import Link from 'next/link'
 import { useShopify, useAnalytics } from '../../providers'
-import { ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType } from '../../types/generated-shopify'
+import {
+  ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType,
+  ShopifyStorefrontProductVariant,
+} from '../../types/generated-shopify'
 import { Heading, Span } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
@@ -18,6 +21,7 @@ import {
   QuantityWrapper,
   QuantityAdjustButton,
 } from './styled'
+import { Maybe, ShopifyImage } from '../../types'
 
 const { useEffect, useState } = React
 
@@ -171,6 +175,17 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     return options
   }
 
+  const displayImage: Maybe<ShopifyImage> = variant?.image
+    ? {
+        __typename: 'ShopifyImage',
+        altText: variant.image.altText,
+        height: variant.image.height,
+        id: variant.image.id,
+        src: variant.image.originalSrc,
+        width: variant.image.width,
+      }
+    : null
+
   useEffect(() => {
     if (!variant) {
       remove()
@@ -193,7 +208,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
         as={linkAs}
         aria-label={'Link to ' + displayTitle(title, variant)}
       >
-        <Image image={variant.image} />
+        <Image image={displayImage} />
       </Link>
       <CheckoutItemDetails>
         <div>

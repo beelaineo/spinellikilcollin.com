@@ -25,7 +25,7 @@ const journalEntryQuery = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

@@ -55,7 +55,7 @@
 	"dependencies": {
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"graphql": "^16.7.1",
-		"react-icons": "^4.10.1"
+		"react-icons": "^5.0.1"
 	},
 	"resolutions": {
 		"graphql": "^15.5.1"

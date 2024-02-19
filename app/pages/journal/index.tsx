@@ -16,7 +16,7 @@ const journalPageQuery = gql`
     JournalPage(id: "journalPage") {
       title
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
     allJournalEntry(

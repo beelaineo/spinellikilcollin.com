@@ -15,7 +15,7 @@ const query = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       pageLinks {
         _key

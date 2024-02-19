@@ -17,9 +17,10 @@ import {
 } from 'rxjs/operators'
 import { algoliaIndex } from '../../src/services/algolia'
 import {
-  GroqShopifyProduct,
-  GroqShopifyCollection,
-  ShopifySourceProductVariant,
+  GroqProduct,
+  GroqCollection,
+  ShopifyProductVariant,
+  ShopifyImage,
 } from '../../src/types'
 import { Sentry } from '../../src/services/sentry'
 import { definitely, getVariantBySelectedOption } from '../../src/utils'
@@ -60,20 +61,26 @@ const pick = <T>(obj: T | undefined, keys: string[]): Partial<T> =>
     ? keys.reduce<Partial<T>>((acc, key) => ({ ...acc, [key]: obj[key] }), {})
     : {}
 
-type SanityShopifyDocument = GroqShopifyProduct | GroqShopifyCollection
+type SanityShopifyDocument = GroqProduct | GroqCollection
 
 const parseDocument = (doc: SanityShopifyDocument) => {
   try {
     switch (doc._type) {
-      case 'shopifyProduct':
-        const [allVariants] = unwindEdges(doc?.sourceData?.variants)
-        const [images] = unwindEdges(doc?.sourceData?.images)
-        const thumbnailVariants = definitely(doc?.sourceData?.options)
+      case 'product':
+        const allVariants = (doc?.store?.variants || []).filter(
+          (variant): variant is ShopifyProductVariant =>
+            variant !== null && variant !== undefined,
+        )
+        const images = (doc?.store?.images || []).filter(
+          (image): image is ShopifyImage =>
+            image !== null && image !== undefined,
+        )
+        const thumbnailVariants = definitely(doc?.store?.options)
           .filter((option) => option.name && /Color/.test(option.name))
-          .reduce<ShopifySourceProductVariant[]>((variants, option) => {
+          .reduce<ShopifyProductVariant[]>((variants, option) => {
             // if (!option || !option.name) return variants
             const variantsByOption = definitely(option?.values).reduce<
-              ShopifySourceProductVariant[]
+              ShopifyProductVariant[]
             >((acc, optionValue) => {
               if (option.name && optionValue) {
                 const v = getVariantBySelectedOption(allVariants, {
@@ -89,13 +96,13 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                     'priceV2',
                     'compareAtPriceV2',
                   ]),
-                  image: pick(v.image, [
+                  image: pick(v.sourceData?.image, [
                     'id',
                     '__typename',
                     'originalSrc',
                     'w800',
                   ]),
-                } as ShopifySourceProductVariant
+                } as ShopifyProductVariant
                 return [...acc, picked]
               }
               return acc
@@ -108,7 +115,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
           type: doc._type,
           hidden: Boolean(doc.hidden),
           hideFromSearch: Boolean(doc.hideFromSearch),
-          description: doc?.sourceData?.description,
+          description: doc?.store?.description,
           optionDescriptions: doc?.options?.reduce<string[]>(
             (descriptions, option) => {
               const valueDescriptions = definitely(option?.values)
@@ -122,10 +129,10 @@ const parseDocument = (doc: SanityShopifyDocument) => {
 
             [],
           ),
-          _tags: doc?.sourceData?.tags,
-          options: definitely(doc?.sourceData?.options),
+          _tags: doc?.store?.tags,
+          options: definitely(doc?.store?.options),
           optionNames: unique(
-            definitely(doc?.sourceData?.options)
+            definitely(doc?.store?.options)
               ?.filter((option) => option?.name?.toLowerCase() !== 'size')
               .map((option) => option.values)
               .flat()
@@ -144,20 +151,18 @@ const parseDocument = (doc: SanityShopifyDocument) => {
               'hidden',
               'hideFromSearch',
               'shopifyId',
-              'minVariantPrice',
-              'maxVariantPrice',
             ]),
-            __typename: 'ShopifyProduct',
+            __typename: 'Product',
             options: definitely(doc?.options).map((option) => ({
-              ...pick(option, ['_key', '_type', 'shopifyOptionId', 'name']),
-              __typename: 'ShopifyProductOption',
+              ...pick(option, ['_key', '_type', 'name']),
+              __typename: 'ProductOption',
               values: definitely(option?.values).map((value) => ({
-                __typename: 'ShopifyProductOptionValue',
+                __typename: 'ProductOptionValue',
                 ...pick(value, ['_key', 'value', 'swatch']),
               })),
             })),
-            sourceData: {
-              ...pick(doc?.sourceData, [
+            store: {
+              ...pick(doc?.store, [
                 '__typename',
                 '_key',
                 '_type',
@@ -170,7 +175,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                 'handle',
                 'id',
               ]),
-              __typename: 'ShopifySourceProduct',
+              __typename: 'ShopifyProductDef',
               images: paginate([
                 pick(images[0], ['id', '__typename', 'originalSrc', 'w800']),
               ]),
@@ -189,6 +194,8 @@ const parseDocument = (doc: SanityShopifyDocument) => {
 
 const handler: NextApiHandler = (req, res) =>
   new Promise<void>((resolve, reject) => {
+    console.log('parseDocument', parseDocument)
+
     try {
       const partialUpdateObjects = bindCallback((objects, done) => {
         algoliaIndex
@@ -231,7 +238,7 @@ const handler: NextApiHandler = (req, res) =>
           filter((doc: SanityShopifyDocument) => {
             // @ts-ignore
             if (doc.error) throw new Error(doc.error)
-            if (doc._type === 'shopifyProduct') {
+            if (doc._type === 'product') {
               if (!doc?.shopifyId) return false
               return true
             }

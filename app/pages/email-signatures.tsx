@@ -200,7 +200,7 @@ const Signature = ({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <img width="75" src={wordmark} />
+                  <img width="75" src={wordmark} alt="Spinelli Kilcollin" />
                 </a>
               </td>
               <td

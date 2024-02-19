@@ -9,7 +9,7 @@ import { ConvertSizeLocaleField } from '../CustomFields/ConvertSizeLocaleField'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
 import { FieldWrapper } from '../../Forms/Fields/styled'
-import { Maybe, ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Maybe, Product, ShopifyProductVariant } from '../../../types'
 import Checkmark from '../../../svg/Checkmark.svg'
 import { Button } from '../../Button'
 import { ConversionRule, CountryOption } from './types'
@@ -145,7 +145,7 @@ interface SizeConverterFormProps {
   initialSize?: Maybe<string>
   title?: Maybe<string>
   subtitle?: Maybe<string>
-  currentProduct: ShopifyProduct
+  currentProduct: Product
   selectedColorVariant?: ShopifyProductVariant
   changeValueForOption: (id: string) => (value: string) => void
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
@@ -220,10 +220,10 @@ export const SizeConverterForm = ({
 
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
 
-    if (!product?.sourceData) {
-      throw new Error('Product was loaded without sourceData')
+    if (!product?.store) {
+      throw new Error('Product was loaded without store data')
     }
-    const [variants] = unwindEdges(product.sourceData.variants)
+    const variants = product.store?.variants ?? []
 
     // @ts-ignore
     const newOptions = definitely(previousOptions).map(({ name, value }) => {
@@ -232,7 +232,7 @@ export const SizeConverterForm = ({
     })
 
     const newVariant = variants.find((variant) => {
-      const { selectedOptions } = variant
+      const selectedOptions = variant?.sourceData?.selectedOptions
       if (!selectedOptions) return false
 
       // @ts-ignore
@@ -247,7 +247,7 @@ export const SizeConverterForm = ({
     const bestVariant = newVariant
       ? newVariant
       : variants.find((variant) => {
-          const { selectedOptions } = variant
+          const selectedOptions = variant?.sourceData?.selectedOptions
 
           if (!selectedOptions) return false
           const match = Boolean(

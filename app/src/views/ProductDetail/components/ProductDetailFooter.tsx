@@ -1,10 +1,10 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import { ShopifyProduct } from '../../../types'
+import { Product } from '../../../types'
 import { ContentBlock } from '../../../components/ContentBlock/ContentBlock'
 
 interface ProductDetailFooterProps {
-  product: ShopifyProduct
+  product: Product
 }
 
 const ContentGrid = styled.div`

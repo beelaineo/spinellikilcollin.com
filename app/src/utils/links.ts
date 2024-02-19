@@ -1,7 +1,7 @@
 import {
-  ShopifyProduct,
+  Product,
   ShopifySourceImage,
-  ShopifyCollection,
+  Collection,
   Page,
   About,
   Magazine,
@@ -12,13 +12,15 @@ import {
   Contact,
   Faq,
   PaymentPlans,
+  ShopifyCollectionImage,
+  ShopifyImage,
 } from '../types'
 
 import { getIdFromBase64 } from './shopify'
 
 export type Document =
-  | ShopifyProduct
-  | ShopifyCollection
+  | Product
+  | Collection
   | Page
   | TeamPage
   | About
@@ -40,8 +42,8 @@ export const getPageLinkLabel = (
 ): string | null | void => {
   if (!document) return null
   switch (document.__typename) {
-    case 'ShopifyCollection':
-    case 'ShopifyProduct':
+    case 'Collection':
+    case 'Product':
     case 'Magazine':
     case 'Customize':
     case 'JournalPage':
@@ -72,11 +74,11 @@ export const getPageLinkUrl = (
     .replace(/^\?$/, '')
   if (!document) throw new Error('No document was provided')
   switch (document.__typename) {
-    case 'ShopifyCollection':
+    case 'Collection':
       return {
         href: `/collections/${document.handle}`.concat(paramString),
       }
-    case 'ShopifyProduct':
+    case 'Product':
       return {
         href: `/products/${document.handle}`.concat(paramString),
       }
@@ -155,17 +157,17 @@ export const getLinkFromHref = (href: string): LinkInfo => {
 export const getDocumentLinkImage = (
   // document?: PageOrShopifyCollectionOrShopifyProduct,
   document?: Document | null,
-): ShopifySourceImage | void | null => {
+): ShopifySourceImage | ShopifyImage | ShopifyCollectionImage | void | null => {
   if (!document) return undefined
   switch (document.__typename) {
-    case 'ShopifyCollection':
-      return document?.sourceData?.image
-    case 'ShopifyProduct':
-      const imageEdges = document?.sourceData?.images?.edges
-      if (!imageEdges || imageEdges.length === 0 || imageEdges[0] === null) {
+    case 'Collection':
+      return document?.store?.image
+    case 'Product':
+      const images = document?.store?.images
+      if (!images || images.length === 0 || images[0] === null) {
         return undefined
       }
-      return imageEdges[0].node
+      return images[0]
     case 'Page':
       return undefined
     default:

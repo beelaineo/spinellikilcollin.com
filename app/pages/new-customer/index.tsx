@@ -17,7 +17,7 @@ const newCustomerQuery = gql`
         ...RichImageFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

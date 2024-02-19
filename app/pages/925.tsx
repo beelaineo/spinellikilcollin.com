@@ -15,7 +15,7 @@ const magazineQuery = gql`
       title
       descriptionRaw
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       coverImage {
         ...RichImageFragment

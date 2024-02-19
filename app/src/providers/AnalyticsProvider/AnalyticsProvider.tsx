@@ -6,7 +6,7 @@ import {
   reportFBAddToCart,
   reportTTViewContent,
   reportTTAddToCart,
-  isShopifyProduct,
+  isProduct,
   reportTTViewContentImpression,
 } from '../../utils'
 import { parseProduct } from './utils'
@@ -101,7 +101,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
       //   }
       // })
 
-      if (isShopifyProduct(selected)) {
+      if (isProduct(selected)) {
         reportFBViewContent(selected)
         reportTTViewContentImpression(selected, variant)
       }
@@ -132,7 +132,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
 
       arrayify(selected).forEach((s) => {
         const selectedProduct = s?.product
-        if (isShopifyProduct(selectedProduct)) {
+        if (isProduct(selectedProduct)) {
           reportFBViewContent(selectedProduct)
           reportTTViewContent(selectedProduct)
         }
@@ -150,7 +150,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
 
     arrayify(selected).forEach((s) => {
       const selectedProduct = s?.product
-      if (isShopifyProduct(selectedProduct)) {
+      if (isProduct(selectedProduct)) {
         reportFBAddToCart(selectedProduct)
         reportTTAddToCart(selectedProduct)
       }

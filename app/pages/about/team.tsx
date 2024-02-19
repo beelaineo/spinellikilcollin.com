@@ -15,7 +15,7 @@ const teamQuery = gql`
       _type
       title
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       teamMembers {
         _key

@@ -22,7 +22,7 @@ const customizeQuery = gql`
       subtitle
       bodyRaw
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       hero {
         ...HeroFragment
