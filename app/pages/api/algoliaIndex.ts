@@ -71,10 +71,12 @@ const parseDocument = (doc: SanityShopifyDocument) => {
           (variant): variant is ShopifyProductVariant =>
             variant !== null && variant !== undefined,
         )
-        const images = (doc?.store?.images || []).filter(
-          (image): image is ShopifyImage =>
-            image !== null && image !== undefined,
-        )
+        const images = (doc?.store?.images || [])
+          .filter(
+            (image): image is ShopifyImage =>
+              image !== null && image !== undefined,
+          )
+          .map((image) => ({ ...image, __typename: 'ShopifyImage' }))
         const thumbnailVariants = definitely(doc?.store?.options)
           .filter((option) => option.name && /Color/.test(option.name))
           .reduce<ShopifyProductVariant[]>((variants, option) => {
@@ -96,12 +98,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                     'priceV2',
                     'compareAtPriceV2',
                   ]),
-                  image: pick(v.sourceData?.image, [
-                    'id',
-                    '__typename',
-                    'originalSrc',
-                    'w800',
-                  ]),
+                  image: pick(v.sourceData?.image, ['id', '__typename', 'url']),
                 } as ShopifyProductVariant
                 return [...acc, picked]
               }
@@ -176,10 +173,8 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                 'id',
               ]),
               __typename: 'ShopifyProductDef',
-              images: paginate([
-                pick(images[0], ['id', '__typename', 'originalSrc', 'w800']),
-              ]),
-              variants: paginate(thumbnailVariants),
+              images: [pick(images[0], ['id', '__typename', 'src'])],
+              variants: thumbnailVariants,
             },
           },
         }
@@ -194,8 +189,6 @@ const parseDocument = (doc: SanityShopifyDocument) => {
 
 const handler: NextApiHandler = (req, res) =>
   new Promise<void>((resolve, reject) => {
-    console.log('parseDocument', parseDocument)
-
     try {
       const partialUpdateObjects = bindCallback((objects, done) => {
         algoliaIndex
