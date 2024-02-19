@@ -72,7 +72,7 @@ export const Checkout = () => {
   const freeShippingThreshold = 500
 
   const freeShippingPosition =
-    freeShippingThreshold - checkout?.paymentDueV2?.amount || 0
+    freeShippingThreshold - checkout?.paymentDue?.amount || 0
 
   useEffect(() => {
     if (cartOpen) {
@@ -90,7 +90,7 @@ export const Checkout = () => {
         ),
       )
     }
-  }, [cartOpen, checkout?.paymentDueV2.amount, freeShippingPosition])
+  }, [cartOpen, checkout?.paymentDue.amount, freeShippingPosition])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -188,7 +188,7 @@ export const Checkout = () => {
           </CartInner>
 
           <CartBottom hidden={!cartOpen}>
-            {checkout && checkout?.paymentDueV2?.amount ? (
+            {checkout && checkout?.paymentDue?.amount ? (
               <SubtotalWrapper>
                 <Heading level={4} weight={2}>
                   Total:
@@ -235,8 +235,8 @@ export const Checkout = () => {
                           }
                         }
                       `}</style>
-                      <Affirm price={checkout.paymentDueV2} />
-                      <Klarna price={checkout.paymentDueV2} />
+                      <Affirm price={checkout.paymentDue} />
+                      <Klarna price={checkout.paymentDue} />
                     </div>
                   )}
                 </div>

@@ -37,7 +37,6 @@ export const SearchPane = () => {
 
   const { lockScroll, unlockScroll } = useLockScroll()
 
-  console.log('search-test: searchResults', searchResults)
   /* Handlers */
 
   const close = () => {
