@@ -9,6 +9,7 @@ import {
   commitProductDocuments,
 } from './sanityOps'
 import type {
+  ShopifyDocumentCollection,
   ShopifyDocumentProduct,
   ShopifyDocumentProductVariant,
 } from './storageTypes'
@@ -19,11 +20,11 @@ import {
   UUID_NAMESPACE_PRODUCT_IMAGE,
   UUID_NAMESPACE_COLLECTIONS,
   UUID_NAMESPACE_PRODUCT_VARIANT,
+  UUID_NAMESPACE_PRODUCTS,
 } from './constants'
 import { DataSinkProduct } from './requestTypes'
 import { idFromGid } from './requestHelpers'
-import { ShopifyStorefrontMetafield } from '../../src/types/generated-shopify'
-import { Maybe, ShopifyProduct } from '../../src/types'
+import { Maybe } from '../../src/types'
 import { shopifyQuery } from '../../src/providers/AllProviders'
 
 interface SanityReference {
@@ -83,6 +84,48 @@ interface ProductVariantImageNode {
     width: number
   }
 }
+
+interface ProductRef {
+  id: string
+  handle: string
+  title: string
+}
+interface CollectionProductsNode {
+  id: string
+  products: {
+    edges: Array<{
+      node: ProductRef
+      cursor: string
+    }>
+    pageInfo: {
+      hasNextPage: boolean
+    }
+  }
+}
+
+interface CollectionProductsResponse {
+  collection: Maybe<CollectionProductsNode>
+}
+type CollectionProductsRefs = ProductRef[]
+
+const collectionProductsQuery = `query CollectionProductsQuery($collectionId: ID!, $first: Int!, $after: String) {
+  collection(id: $collectionId) {
+    id
+    products(first: $first, after: $after) {
+      edges {
+        cursor
+        node {
+          id
+          handle
+          title
+        }
+      }
+      pageInfo {
+        hasNextPage
+      }
+    }
+  }
+}`
 
 interface VariantMetafieldsResponse {
   node: Maybe<ProductVariantNode>
@@ -207,7 +250,9 @@ async function fetchProductCollections(
   )
 
   if (!response || !response.product || !response.product.collections) {
-    throw new Error('No collections data returned')
+    throw new Error(
+      `No collections data returned for product: ${response?.product?.id}`,
+    )
   }
 
   return response.product.collections.edges.map((edge) => ({
@@ -215,6 +260,78 @@ async function fetchProductCollections(
     handle: edge.node.handle,
     title: edge.node.title,
   }))
+}
+
+// Fetch a collection document from Sanity by its ID
+async function fetchCollectionDocument(
+  client: SanityClient,
+  collectionId: string,
+): Promise<ShopifyDocumentCollection> {
+  const query = `*[_id == $collectionId][0]`
+  const params = { collectionId }
+  return await client.fetch(query, params)
+}
+
+// Updated fetchCollectionProducts function to fetch all products in a collection
+async function fetchCollectionProducts(
+  collectionId: string,
+  productsAccumulator: CollectionProductsRefs = [],
+  afterCursor: string | null = null,
+): Promise<CollectionProductsRefs> {
+  const response = await shopifyQuery<CollectionProductsResponse>(
+    collectionProductsQuery,
+    {
+      collectionId,
+      first: 250,
+      after: afterCursor,
+    },
+  )
+
+  if (!response || !response.collection || !response.collection.products) {
+    throw new Error('No products data returned')
+  }
+
+  // Accumulate products
+  const newProducts = response.collection.products.edges.map((edge) => ({
+    id: edge.node.id,
+    handle: edge.node.handle,
+    title: edge.node.title,
+  }))
+  const allProducts = [...productsAccumulator, ...newProducts]
+
+  // Check if there are more products to fetch
+  if (response.collection.products.pageInfo.hasNextPage) {
+    const nextCursor = response.collection.products.edges.slice(-1)[0].cursor
+    return fetchCollectionProducts(collectionId, allProducts, nextCursor)
+  }
+
+  return allProducts
+}
+
+// Update the collection document with the new product reference
+async function updateRelatedCollectionProducts(
+  client: SanityClient,
+  collectionId: string,
+) {
+  // Fetch products
+  const collectionProductsData = await fetchCollectionProducts(collectionId)
+  const collectionProducts: SanityReference[] = []
+
+  const sanityId = buildCollectionDocumentId(idFromGid(collectionId))
+
+  if (collectionProductsData && collectionProductsData.length > 0) {
+    collectionProductsData.forEach((product) => {
+      collectionProducts.push({
+        _key: uuidv5(product.id, UUID_NAMESPACE_PRODUCTS),
+        _ref: buildProductDocumentId(idFromGid(product.id)),
+        _type: 'reference',
+        _weak: true,
+      })
+    })
+  }
+
+  // Commit the patch to the collection document
+  await client.patch(sanityId).set({ products: collectionProducts }).commit()
 }
 
 // This function fetches metafields for a product.
@@ -316,6 +433,8 @@ export async function handleProductUpdate(
 
   if (productCollectionsData && productCollectionsData.length > 0) {
     productCollectionsData.forEach((collection) => {
+      updateRelatedCollectionProducts(client, collection.id)
+
       productCollections.push({
         _key: uuidv5(collection.id, UUID_NAMESPACE_COLLECTIONS),
         _ref: buildCollectionDocumentId(idFromGid(collection.id)),
@@ -590,12 +709,7 @@ export async function handleProductUpdate(
     productDocument.collections,
   )
 
-  await commitProductDocuments(
-    client,
-    productDocument,
-    // productVariantsDocuments,
-  )
+  await commitProductDocuments(client, productDocument)
 
-  // return { productDocument, productVariantsDocuments }
   return { productDocument }
 }
