@@ -150,7 +150,7 @@ const CollectionPage = ({ collection, useEffect }: CollectionPageProps) => {
         : prevCollection
 
     if (collectionState !== compareState) {
-      keepAliveDropCache('collection-page', false)
+      keepAliveDropCache('collection-page', true)
     }
   }, [collectionState, prevCollection])
 
@@ -276,5 +276,5 @@ export default withKeepAlive(
   //@ts-ignore
   CollectionPage,
   'collection-page',
-  { keepScrollEnabled: false },
+  { keepScrollEnabled: true },
 )
