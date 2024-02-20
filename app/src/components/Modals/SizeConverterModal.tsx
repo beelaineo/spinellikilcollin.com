@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Modal } from '../Modal'
 import { SizeConverterForm } from '../Forms'
-import { ShopifyProduct, ShopifyProductVariant } from '../../types'
+import { Product, ShopifyProductVariant } from '../../types'
 import { CheckoutLineItemInput } from '../../providers/ShopifyProvider/types'
 
 interface SizeConverterModalProps {
   closeModal: () => void
-  product?: ShopifyProduct
+  product?: Product
   variant?: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
   openRingSizerModal?: ({ currentProduct, currentVariant }) => void

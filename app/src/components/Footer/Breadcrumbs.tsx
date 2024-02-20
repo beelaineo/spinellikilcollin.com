@@ -2,12 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import {
-  ShopifyProduct,
-  ShopifyCollection,
-  Page,
-  JournalEntry,
-} from '../../types'
+import { Product, Collection, Page, JournalEntry } from '../../types'
 import { request } from '../../../src/graphql'
 
 import { BreadcrumbWrapper } from './styled'
@@ -16,9 +11,7 @@ const { useState, useEffect } = React
 
 const productQuery = gql`
   query ProductsPageQuery($handle: String) {
-    allShopifyProduct(
-      where: { handle: { eq: $handle }, archived: { neq: true } }
-    ) {
+    allProduct(where: { handle: { eq: $handle }, archived: { neq: true } }) {
       __typename
       _id
       _key
@@ -33,21 +26,12 @@ const productQuery = gql`
         handle
         shopifyId
       }
-      variants {
-        __typename
-        _key
-        _type
-        shopifyVariantID
-        title
-      }
     }
   }
 `
 const collectionQuery = gql`
   query CollectionQuery($handle: String) {
-    allShopifyCollection(
-      where: { handle: { eq: $handle }, archived: { neq: true } }
-    ) {
+    allCollection(where: { handle: { eq: $handle }, archived: { neq: true } }) {
       __typename
       _id
       _type
@@ -86,8 +70,8 @@ const journalEntryQuery = gql`
 `
 
 interface Response {
-  allShopifyProduct: ShopifyProduct[]
-  allShopifyCollection: ShopifyCollection[]
+  allProduct: Product[]
+  allCollection: Collection[]
   allPage: Page[]
   allJournalEntry: JournalEntry[]
 }
@@ -129,7 +113,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     const [response] = await Promise.all([
       request<Response>(productQuery, variables),
     ])
-    const products = response?.allShopifyProduct
+    const products = response?.allProduct
     const product = products && products.length ? products[0] : null
     return product
   }
@@ -138,7 +122,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     const [response] = await Promise.all([
       request<Response>(collectionQuery, variables),
     ])
-    const collections = response?.allShopifyCollection
+    const collections = response?.allCollection
     const collection = collections && collections.length ? collections[0] : null
     return collection
   }

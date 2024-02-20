@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../../types'
+import { Product, ShopifyProductVariant } from '../../types'
 import { Modal } from '../Modal'
 import { CustomizationForm } from '../Forms'
 
 interface CustomizationModalProps {
   closeModal: () => void
-  product?: ShopifyProduct
+  product?: Product
   variant?: ShopifyProductVariant
 }
 

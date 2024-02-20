@@ -2,7 +2,7 @@ import { getLocationSearchHash } from './links'
 import { getIdFromBase64 } from './shopify'
 
 import { config } from '../../src/config'
-import { ShopifyProduct } from '../types'
+import { Product } from '../types'
 const { FB_PRDOUCT_CATALOG_ID } = config
 
 export const pageview = () => {
@@ -32,7 +32,7 @@ type FB_VIEW_CONTENT = {
   currency?: string
 }
 
-export const reportFBAddToCart = (product: ShopifyProduct): void => {
+export const reportFBAddToCart = (product: Product): void => {
   const content_ids: string[] = []
   const event_id =
     'ATC_' + new Date().getTime() + Math.floor(100000 + Math.random() * 900000)
@@ -50,7 +50,7 @@ export const reportFBAddToCart = (product: ShopifyProduct): void => {
       content_ids: content_ids,
     }
 
-    const variants = product.variants
+    const variants = product.store?.variants
     const variant = variants?.find((v) => {
       return v?.shopifyVariantID === hash
     })
@@ -69,22 +69,22 @@ export const reportFBAddToCart = (product: ShopifyProduct): void => {
 
       if (variant.sourceData.priceV2) {
         if (variant.sourceData.priceV2.amount) {
-          template['value'] = parseFloat(variant.sourceData.priceV2.amount)
+          template['value'] = variant.sourceData.priceV2.amount
         }
         if (variant.sourceData.priceV2.currencyCode) {
           template['currency'] = variant.sourceData.priceV2.currencyCode
         }
       }
 
-      if (product.sourceData && product.sourceData.productType) {
-        template['content_category'] = product.sourceData.productType
+      if (product.store && product.store.productType) {
+        template['content_category'] = product.store.productType
       }
       addToCart(template, eventData)
     }
   }
 }
 
-export const reportFBViewContent = (product: ShopifyProduct): void => {
+export const reportFBViewContent = (product: Product): void => {
   const content_ids: string[] = []
   const event_id =
     'VC_' + new Date().getTime() + Math.floor(100000 + Math.random() * 900000)
@@ -102,7 +102,7 @@ export const reportFBViewContent = (product: ShopifyProduct): void => {
       content_ids: content_ids,
     }
 
-    const variants = product.variants
+    const variants = product.store?.variants
     const variant = variants?.find((v) => {
       return v?.shopifyVariantID === hash
     })
@@ -121,15 +121,15 @@ export const reportFBViewContent = (product: ShopifyProduct): void => {
 
       if (variant.sourceData.priceV2) {
         if (variant.sourceData.priceV2.amount) {
-          template['value'] = parseFloat(variant.sourceData.priceV2.amount)
+          template['value'] = variant.sourceData.priceV2.amount
         }
         if (variant.sourceData.priceV2.currencyCode) {
           template['currency'] = variant.sourceData.priceV2.currencyCode
         }
       }
 
-      if (product.sourceData && product.sourceData.productType) {
-        template['content_category'] = product.sourceData.productType
+      if (product.store && product.store.productType) {
+        template['content_category'] = product.store.productType
       }
       viewContent(template, eventData)
     }

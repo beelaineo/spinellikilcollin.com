@@ -2,7 +2,7 @@ import * as React from 'react'
 import {
   Maybe,
   ShopifyMoneyV2,
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   ShopifyStorefrontMoneyV2,
 } from '../../../types'
@@ -16,7 +16,7 @@ import styled, { css } from '@xstyled/styled-components'
 const { useEffect, useState } = React
 
 interface ProductDetailHeaderProps {
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
   disableStockIndication?: boolean
   mobile?: string
@@ -62,7 +62,8 @@ export const ProductDetailHeader = ({
   disableStockIndication,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(product, currentVariant)
-  const { inquiryOnly, variants } = product
+  const { inquiryOnly } = product
+  const variants = product.store?.variants
   const { compareAtPriceV2, priceV2, currentlyNotInStock } =
     currentVariant?.sourceData ?? {}
 
@@ -121,24 +122,22 @@ export const ProductDetailHeader = ({
         ),
     ) || []
 
-  const stockedVariants = product.sourceData?.variants?.edges?.filter(
-    (variant) => {
-      return (
-        variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false &&
-        !variant?.node?.selectedOptions?.find(
-          (o) => o?.value == 'Not sure of my size',
-        ) &&
-        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
-      )
-    },
-  )
+  const stockedVariants = product.store?.variants?.filter((variant) => {
+    return (
+      variant?.sourceData?.availableForSale === true &&
+      variant?.sourceData?.currentlyNotInStock === false &&
+      !variant?.sourceData?.selectedOptions?.find(
+        (o) => o?.value == 'Not sure of my size',
+      ) &&
+      !variant?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat')
+    )
+  })
 
   const keys = ['Size', 'Quantity', 'Length', 'Title']
 
   const stockedColorOptions = stockedVariants
     ?.map((variant) => {
-      return variant?.node?.selectedOptions?.find(
+      return variant?.sourceData?.selectedOptions?.find(
         (option) => option?.name === 'Color',
       )
     })
@@ -184,8 +183,8 @@ export const ProductDetailHeader = ({
               <InStockDot />
               {currentlyNotInStock !== true &&
               !currentVariant.title?.includes('Not sure of my size')
-                ? 'Ready to Ship'
-                : 'Ready to Ship in Select Sizes'}
+                ? 'In Stock'
+                : 'In Stock in Select Sizes'}
             </Heading>
           </StockedLabel>
         ) : null}

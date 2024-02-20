@@ -24,7 +24,7 @@ const pageQuery = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       pageLinks {
         _key
@@ -84,20 +84,6 @@ const pageQuery = gql`
               current
             }
           }
-          ... on ShopifyProduct {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
-          ... on ShopifyCollection {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
         }
       }
     }
@@ -137,7 +123,7 @@ const pageQuery = gql`
       }
 
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -157,7 +143,7 @@ const pageQueryById = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       pageLinks {
         _key
@@ -223,20 +209,6 @@ const pageQueryById = gql`
             _key
             title
           }
-          ... on ShopifyProduct {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
-          ... on ShopifyCollection {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
         }
       }
     }
@@ -276,7 +248,7 @@ const pageQueryById = gql`
       }
 
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

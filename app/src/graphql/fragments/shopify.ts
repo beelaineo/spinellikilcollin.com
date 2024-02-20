@@ -15,21 +15,27 @@ export const imageFragment = gql`
     originalSrc
   }
 `
-
-export const collectionFragment = gql`
-  fragment CollectionFragment on Collection {
+export const shopifyImageFragment = gql`
+  fragment ShopifyImageFragment on ShopifyImage {
     __typename
-    description
-    descriptionHtml
-    handle
+    _type
+    altText
+    height
     id
-    image {
-      ...ImageFragment
-    }
-    title
-    updatedAt
+    src
+    width
   }
-  ${imageFragment}
+`
+
+export const shopifyVariantImageFragment = gql`
+  fragment ShopifyVariantImageFragment on ShopifyVariantImage {
+    __typename
+    altText
+    height
+    id
+    url
+    width
+  }
 `
 
 export const productWithoutVariantsFragment = gql`
@@ -140,64 +146,64 @@ export const variantFragment = gql`
   ${imageFragment}
 `
 
-export const productFragment = gql`
-  fragment ProductFragment on Product {
-    __typename
-    availableForSale
-    createdAt
-    description
-    descriptionHtml
-    handle
-    id
-    productType
-    publishedAt
-    tags
-    title
-    vendor
-    images(first: 100) {
-      __typename
-      edges {
-        __typename
-        node {
-          ...ImageFragment
-        }
-      }
-    }
-    options(first: 100) {
-      __typename
-      id
-      name
-      values
-    }
-    priceRange {
-      __typename
-      maxVariantPrice {
-        ...MoneyV2Fragment
-      }
-      minVariantPrice {
-        ...MoneyV2Fragment
-      }
-    }
-    variants(first: 100) {
-      __typename
-      pageInfo {
-        __typename
-        hasNextPage
-        hasPreviousPage
-      }
-      edges {
-        __typename
-        node {
-          ...VariantFragment
-        }
-      }
-    }
-  }
+// export const productFragment = gql`
+//   fragment ProductFragment on Product {
+//     __typename
+//     availableForSale
+//     createdAt
+//     description
+//     descriptionHtml
+//     handle
+//     id
+//     productType
+//     publishedAt
+//     tags
+//     title
+//     vendor
+//     images(first: 100) {
+//       __typename
+//       edges {
+//         __typename
+//         node {
+//           ...ImageFragment
+//         }
+//       }
+//     }
+//     options(first: 100) {
+//       __typename
+//       id
+//       name
+//       values
+//     }
+//     priceRange {
+//       __typename
+//       maxVariantPrice {
+//         ...MoneyV2Fragment
+//       }
+//       minVariantPrice {
+//         ...MoneyV2Fragment
+//       }
+//     }
+//     variants(first: 100) {
+//       __typename
+//       pageInfo {
+//         __typename
+//         hasNextPage
+//         hasPreviousPage
+//       }
+//       edges {
+//         __typename
+//         node {
+//           ...VariantFragment
+//         }
+//       }
+//     }
+//   }
 
-  ${imageFragment}
-  ${moneyV2Fragment}
-  ${variantFragment}
-`
+//   ${imageFragment}
+//   ${moneyV2Fragment}
+//   ${variantFragment}
+// `
 
 export const discountApplicationFragment = gql`
   fragment DiscountApplicationFragment on DiscountApplication {
@@ -250,6 +256,9 @@ export const checkoutFragment = gql`
   fragment CheckoutFragment on Checkout {
     __typename
     id
+    paymentDue {
+      ...MoneyV2Fragment
+    }
     totalPriceV2 {
       amount
       currencyCode

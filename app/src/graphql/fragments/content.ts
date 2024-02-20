@@ -1,4 +1,5 @@
 import { gql } from 'graphql-tag'
+import { shopifyImageFragment, shopifyVariantImageFragment } from './shopify'
 import {
   sanityImageFragment,
   sanityFileAssetFragment,
@@ -6,7 +7,7 @@ import {
 } from './media'
 
 export const seoFragment = gql`
-  fragment SEOFragment on Seo {
+  fragment SeoFragment on Seo {
     _key
     _type
     title
@@ -44,7 +45,7 @@ export const shopifySourceProductVariantFragment = gql`
     sku
     title
     image {
-      ...ShopifySourceImageFragment
+      ...ShopifyVariantImageFragment
     }
     priceV2 {
       __typename
@@ -63,7 +64,23 @@ export const shopifySourceProductVariantFragment = gql`
       value
     }
   }
-  ${shopifySourceImageFragment}
+  ${shopifyVariantImageFragment}
+`
+
+export const shopifyProductVariantFragment = gql`
+  fragment ShopifyProductVariantFragment on ShopifyProductVariant {
+    __typename
+    _key
+    _type
+    id
+    isDeleted
+    shopifyVariantID
+    sourceData {
+      ...ShopifySourceProductVariantFragment
+    }
+    title
+  }
+  ${shopifySourceProductVariantFragment}
 `
 
 export const productInfoFragment = gql`
@@ -90,77 +107,93 @@ export const internalLinkFragment = gql`
     }
     document {
       __typename
-      ... on Contact {
-        _id
-        _type
+      ... on About {
+        __typename
         _key
+        _type
+        title
+      }
+      ... on Contact {
+        __typename
+        _key
+        _type
         title
       }
       ... on Faq {
-        _id
+        __typename
         _type
         _key
         title
       }
       ... on Customize {
+        __typename
         _id
-        _type
         _key
+        _type
         title
       }
       ... on JournalEntry {
+        __typename
         _id
-        _type
         _key
+        _type
         title
         slug {
           current
         }
       }
       ... on JournalPage {
-        _id
+        __typename
         _type
+        _id
         _key
         title
       }
-
       ... on Magazine {
-        _id
+        __typename
         _type
+        _id
         _key
         title
       }
-
       ... on Page {
-        _id
+        __typename
         _type
+        _id
         _key
         title
         slug {
           current
         }
       }
-
       ... on PaymentPlans {
-        _id
+        __typename
         _type
+        _id
         _key
         title
       }
-
-      ... on ShopifyProduct {
+      ... on Product {
+        __typename
+        _type
         _id
         _key
-        _type
         title
         handle
       }
-      ... on ShopifyCollection {
+      ... on Collection {
+        __typename
+        _type
         _id
         _key
-        _type
         title
         handle
+      }
+      ... on TeamPage {
+        __typename
+        _id
+        _key
+        title
       }
     }
   }
@@ -196,8 +229,8 @@ export const filterSetFragment = gql`
   }
 `
 
-export const priceRangeFilterFragment = gql`
-  fragment PriceRangeFilterFragment on PriceRangeFilter {
+export const priceRangeMinMaxFilterFragment = gql`
+  fragment PriceRangeMinMaxFilterFragment on PriceRangeMinMaxFilter {
     __typename
     _key
     minPrice
@@ -205,8 +238,8 @@ export const priceRangeFilterFragment = gql`
   }
 `
 
-export const inventoryFilterFragment = gql`
-  fragment InventoryFilterFragment on InventoryFilter {
+export const inStockFilterFragment = gql`
+  fragment InStockFilterFragment on InStockFilter {
     __typename
     _key
     label
@@ -214,7 +247,7 @@ export const inventoryFilterFragment = gql`
 `
 
 export const customFilterFragment = gql`
-  fragment CustomFilterFragment on FilterOrFilterSetOrInventoryFilterOrPriceRangeFilter {
+  fragment CustomFilterFragment on FilterOrFilterSetOrInStockFilterOrPriceRangeMinMaxFilter {
     ... on FilterSet {
       __typename
       _key
@@ -232,12 +265,12 @@ export const customFilterFragment = gql`
         }
       }
     }
-    ... on InventoryFilter {
+    ... on InStockFilter {
       __typename
       _key
       label
     }
-    ... on PriceRangeFilter {
+    ... on PriceRangeMinMaxFilter {
       __typename
       _key
       minPrice
@@ -398,16 +431,8 @@ export const shopifySourceProductFragment = gql`
     }
     priceRange {
       __typename
-      minVariantPrice {
-        __typename
-        amount
-        currencyCode
-      }
-      maxVariantPrice {
-        __typename
-        amount
-        currencyCode
-      }
+      minVariantPrice
+      maxVariantPrice
     }
     images {
       __typename
@@ -424,19 +449,49 @@ export const shopifySourceProductFragment = gql`
   ${shopifySourceProductVariantFragment}
 `
 
-export const shopifyProductFragment = gql`
-  fragment ShopifyProductFragment on ShopifyProduct {
+export const shopifyProductDefFragment = gql`
+  fragment ShopifyProductDefFragment on ShopifyProductDef {
+    __typename
+    id
+    title
+    handle
+    vendor
+    tags
+    productType
+    description
+    descriptionHtml
+    variants {
+      ...ShopifyProductVariantFragment
+    }
+    priceRange {
+      __typename
+      minVariantPrice
+      maxVariantPrice
+    }
+    images {
+      ...ShopifyImageFragment
+    }
+  }
+  ${shopifyImageFragment}
+  ${shopifyProductVariantFragment}
+`
+
+export const productFragment = gql`
+  fragment ProductFragment on Product {
     __typename
     _id
     _key
     title
     handle
     archived
+    collections {
+      __typename
+      handle
+      id
+    }
     shopifyId
-    minVariantPrice
-    maxVariantPrice
-    sourceData {
-      ...ShopifySourceProductFragment
+    store {
+      ...ShopifyProductDefFragment
     }
     info {
       ...ProductInfoFragment
@@ -446,7 +501,31 @@ export const shopifyProductFragment = gql`
     }
   }
   ${productInfoFragment}
-  ${shopifySourceProductFragment}
+  ${shopifyProductDefFragment}
+  ${imageTextBlockFragment}
+`
+
+export const shopifyProductFragment = gql`
+  fragment ShopifyProductFragment on ShopifyProduct {
+    __typename
+    _id
+    _key
+    title
+    handle
+    archived
+    shopifyId
+    store {
+      ...ShopifyProductDefFragment
+    }
+    info {
+      ...ProductInfoFragment
+    }
+    contentAfter {
+      ...ImageTextBlockFragment
+    }
+  }
+  ${productInfoFragment}
+  ${shopifyProductDefFragment}
   ${imageTextBlockFragment}
 `
 
@@ -485,8 +564,22 @@ export const shopifySourceCollectionFragment = gql`
   ${shopifySourceImageFragment}
 `
 
-export const shopifyCollectionFragment = gql`
-  fragment ShopifyCollectionFragment on ShopifyCollection {
+export const shopifyCollectionDefFragment = gql`
+  fragment ShopifyCollectionDefFragment on ShopifyCollectionDef {
+    __typename
+    title
+    handle
+    description
+    descriptionHtml
+    image {
+      ...ShopifyImageFragment
+    }
+  }
+  ${shopifyImageFragment}
+`
+
+export const collectionFragment = gql`
+  fragment CollectionFragment on Collection {
     __typename
     _id
     _type
@@ -496,10 +589,10 @@ export const shopifyCollectionFragment = gql`
     archived
     shopifyId
     products {
-      ...ShopifyProductFragment
+      ...ProductFragment
     }
   }
-  ${shopifyProductFragment}
+  ${productFragment}
 `
 
 export const collectionBlockFragment = gql`
@@ -524,8 +617,8 @@ export const collectionBlockFragment = gql`
   ${richImageFragment}
 `
 
-export const shopifyProductThumbnailFragment = gql`
-  fragment ShopifyProductThumbnailFragment on ShopifyProduct {
+export const productThumbnailFragment = gql`
+  fragment ProductThumbnailFragment on Product {
     __typename
     _id
     _key
@@ -537,7 +630,6 @@ export const shopifyProductThumbnailFragment = gql`
       __typename
       _key
       _type
-      shopifyOptionId
       name
       values {
         __typename
@@ -554,14 +646,13 @@ export const shopifyProductThumbnailFragment = gql`
         }
       }
     }
-    sourceData {
-      ...ShopifySourceProductFragment
+    store {
+      ...ShopifyProductDefFragment
     }
   }
 
   ${sanityImageFragment}
-  ${shopifySourceImageFragment}
-  ${shopifySourceProductFragment}
+  ${shopifyProductDefFragment}
   ${stoneFragment}
 `
 
@@ -580,13 +671,13 @@ export const richPageLinkFragment = gql`
           current
         }
       }
-      ... on ShopifyCollection {
+      ... on Collection {
         shopifyId
         handle
         title
       }
-      ... on ShopifyProduct {
-        ...ShopifyProductThumbnailFragment
+      ... on Product {
+        ...ProductThumbnailFragment
       }
     }
     image {
@@ -597,7 +688,7 @@ export const richPageLinkFragment = gql`
     }
   }
   ${richImageFragment}
-  ${shopifyProductThumbnailFragment}
+  ${productThumbnailFragment}
 `
 
 export const carouselFragment = gql`
@@ -608,41 +699,39 @@ export const carouselFragment = gql`
     title
     subtitleRaw
     collection {
-      __typename
-      _id
-      _type
-      _key
-      title
-      handle
-      archived
-      shopifyId
-      products {
+      ... on Collection {
         __typename
         _id
+        _type
         _key
         title
-        hidden
-        hideFromSearch
         handle
         archived
         shopifyId
-        minVariantPrice
-        maxVariantPrice
-        sourceData {
+        products {
           __typename
-          id
+          _id
+          _key
           title
+          hidden
+          hideFromSearch
           handle
-          tags
-          productType
-          images {
+          archived
+          shopifyId
+          store {
             __typename
-            edges {
+            id
+            title
+            handle
+            tags
+            priceRange {
               __typename
-              cursor
-              node {
-                ...ShopifySourceImageFragment
-              }
+              minVariantPrice
+              maxVariantPrice
+            }
+            productType
+            images {
+              ...ShopifyImageFragment
             }
           }
         }
@@ -653,7 +742,7 @@ export const carouselFragment = gql`
     }
   }
   ${richPageLinkFragment}
-  ${shopifySourceImageFragment}
+  ${shopifyImageFragment}
 `
 
 export const colorFragment = gql`

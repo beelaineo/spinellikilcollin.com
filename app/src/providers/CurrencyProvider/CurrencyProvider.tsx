@@ -1,5 +1,9 @@
 import * as React from 'react'
-import { ShopifyMoneyV2, ShopifyStorefrontMoneyV2 } from '../../types'
+import {
+  ShopifyMoneyV2,
+  ShopifyStorefrontMoneyV2,
+  ShopifyPrice,
+} from '../../types'
 import { roundTo, setCookie, getCookie } from '../../utils'
 import { useToast, ToastType } from '../ToastProvider'
 import { useCurrencyState } from './reducer'
@@ -10,6 +14,7 @@ const CURRENCY_COOKIE = 'VIEWER_CURRENCY'
 export type Money =
   | Omit<ShopifyMoneyV2, '__typename'>
   | Omit<ShopifyStorefrontMoneyV2, '__typename'>
+  | Omit<ShopifyPrice, '__typename'>
 
 interface CurrencyContextValue {
   currentCurrency: string

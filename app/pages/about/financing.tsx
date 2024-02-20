@@ -24,7 +24,7 @@ const query = gql`
         }
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

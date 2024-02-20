@@ -45,15 +45,42 @@ export interface ShopifyStorefrontApiVersion {
   displayName: Scalars['String']['output']
   /** The unique identifier of an ApiVersion. All supported API versions have a date-based (YYYY-MM) or `unstable` handle. */
   handle: Scalars['String']['output']
-  /**
-   * Whether the version is actively supported by Shopify. Supported API versions
-   * are guaranteed to be stable. Unsupported API versions include unstable,
-   * release candidate, and end-of-life versions that are marked as unsupported.
-   * For more information, refer to
-   * [Versioning](https://shopify.dev/api/usage/versioning).
-   *
-   */
+  /** Whether the version is actively supported by Shopify. Supported API versions are guaranteed to be stable. Unsupported API versions include unstable, release candidate, and end-of-life versions that are marked as unsupported. For more information, refer to [Versioning](https://shopify.dev/api/usage/versioning). */
   supported: Scalars['Boolean']['output']
+}
+
+/**
+ * The input fields for submitting Apple Pay payment method information for checkout.
+ *
+ */
+export type ShopifyStorefrontApplePayWalletContentInput = {
+  /** The customer's billing address. */
+  billingAddress: ShopifyStorefrontMailingAddressInput
+  /** The data for the Apple Pay wallet. */
+  data: Scalars['String']['input']
+  /** The header data for the Apple Pay wallet. */
+  header: ShopifyStorefrontApplePayWalletHeaderInput
+  /** The last digits of the card used to create the payment. */
+  lastDigits?: InputMaybe<Scalars['String']['input']>
+  /** The signature for the Apple Pay wallet. */
+  signature: Scalars['String']['input']
+  /** The version for the Apple Pay wallet. */
+  version: Scalars['String']['input']
+}
+
+/**
+ * The input fields for submitting wallet payment method information for checkout.
+ *
+ */
+export type ShopifyStorefrontApplePayWalletHeaderInput = {
+  /** The application data for the Apple Pay wallet. */
+  applicationData?: InputMaybe<Scalars['String']['input']>
+  /** The ephemeral public key for the Apple Pay wallet. */
+  ephemeralPublicKey: Scalars['String']['input']
+  /** The public key hash for the Apple Pay wallet. */
+  publicKeyHash: Scalars['String']['input']
+  /** The transaction ID for the Apple Pay wallet. */
+  transactionId: Scalars['String']['input']
 }
 
 /** Details about the gift card used on the checkout. */
@@ -275,6 +302,62 @@ export interface ShopifyStorefrontAvailableShippingRates {
   shippingRates?: Maybe<Array<ShopifyStorefrontShippingRate>>
 }
 
+/** Represents a cart line common fields. */
+export type ShopifyStorefrontBaseCartLine = {
+  /** An attribute associated with the cart line. */
+  attribute?: Maybe<ShopifyStorefrontAttribute>
+  /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
+  attributes: Array<ShopifyStorefrontAttribute>
+  /** The cost of the merchandise that the buyer will pay for at checkout. The costs are subject to change and changes will be reflected at checkout. */
+  cost: ShopifyStorefrontCartLineCost
+  /** The discounts that have been applied to the cart line. */
+  discountAllocations: Array<ShopifyStorefrontCartDiscountAllocation>
+  /**
+   * The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout.
+   * @deprecated Use `cost` instead.
+   */
+  estimatedCost: ShopifyStorefrontCartLineEstimatedCost
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output']
+  /** The merchandise that the buyer intends to purchase. */
+  merchandise: ShopifyStorefrontMerchandise
+  /** The quantity of the merchandise that the customer intends to purchase. */
+  quantity: Scalars['Int']['output']
+  /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
+  sellingPlanAllocation?: Maybe<ShopifyStorefrontSellingPlanAllocation>
+}
+
+/** Represents a cart line common fields. */
+export type ShopifyStorefrontBaseCartLineAttributeArgs = {
+  key: Scalars['String']['input']
+}
+
+/**
+ * An auto-generated type for paginating through multiple BaseCartLines.
+ *
+ */
+export interface ShopifyStorefrontBaseCartLineConnection {
+  __typename: 'BaseCartLineConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontBaseCartLineEdge>
+  /** A list of the nodes contained in BaseCartLineEdge. */
+  nodes: Array<ShopifyStorefrontBaseCartLine>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/**
+ * An auto-generated type which holds one BaseCartLine and a cursor during pagination.
+ *
+ */
+export interface ShopifyStorefrontBaseCartLineEdge {
+  __typename: 'BaseCartLineEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output']
+  /** The item at the end of BaseCartLineEdge. */
+  node: ShopifyStorefrontBaseCartLine
+}
+
 /** An online store blog. */
 export interface ShopifyStorefrontBlog
   extends ShopifyStorefrontHasMetafields,
@@ -442,7 +525,9 @@ export enum ShopifyStorefrontCardBrand {
  * during a customer's session.
  *
  */
-export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
+export interface ShopifyStorefrontCart
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'Cart'
   /** An attribute associated with the cart. */
   attribute?: Maybe<ShopifyStorefrontAttribute>
@@ -452,12 +537,7 @@ export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
   buyerIdentity: ShopifyStorefrontCartBuyerIdentity
   /** The URL of the checkout for the cart. */
   checkoutUrl: Scalars['URL']['output']
-  /**
-   * The estimated costs that the buyer will pay at checkout. The costs are subject
-   * to change and changes will be reflected at checkout. The `cost` field uses the
-   * `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
-   *
-   */
+  /** The estimated costs that the buyer will pay at checkout. The costs are subject to change and changes will be reflected at checkout. The `cost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
   cost: ShopifyStorefrontCartCost
   /** The date and time when the cart was created. */
   createdAt: Scalars['DateTime']['output']
@@ -472,18 +552,18 @@ export interface ShopifyStorefrontCart extends ShopifyStorefrontNode {
   /** The case-insensitive discount codes that the customer added at checkout. */
   discountCodes: Array<ShopifyStorefrontCartDiscountCode>
   /**
-   * The estimated costs that the buyer will pay at checkout.
-   * The estimated costs are subject to change and changes will be reflected at checkout.
-   * The `estimatedCost` field uses the `buyerIdentity` field to determine
-   * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
-   *
+   * The estimated costs that the buyer will pay at checkout. The estimated costs are subject to change and changes will be reflected at checkout. The `estimatedCost` field uses the `buyerIdentity` field to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
    * @deprecated Use `cost` instead.
    */
   estimatedCost: ShopifyStorefrontCartEstimatedCost
   /** A globally-unique ID. */
   id: Scalars['ID']['output']
   /** A list of lines containing information about the items the customer intends to purchase. */
-  lines: ShopifyStorefrontCartLineConnection
+  lines: ShopifyStorefrontBaseCartLineConnection
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<ShopifyStorefrontMetafield>>
   /** A note that's associated with the cart. For example, the note can be a personalized message to the buyer. */
   note?: Maybe<Scalars['String']['output']>
   /** The total number of items in the cart. */
@@ -533,6 +613,29 @@ export type ShopifyStorefrontCartLinesArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>
 }
 
+/**
+ * A cart represents the merchandise that a buyer intends to purchase,
+ * and the estimated cost associated with the cart. Learn how to
+ * [interact with a cart](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+ * during a customer's session.
+ *
+ */
+export type ShopifyStorefrontCartMetafieldArgs = {
+  key: Scalars['String']['input']
+  namespace: Scalars['String']['input']
+}
+
+/**
+ * A cart represents the merchandise that a buyer intends to purchase,
+ * and the estimated cost associated with the cart. Learn how to
+ * [interact with a cart](https://shopify.dev/custom-storefronts/internationalization/international-pricing)
+ * during a customer's session.
+ *
+ */
+export type ShopifyStorefrontCartMetafieldsArgs = {
+  identifiers: Array<ShopifyStorefrontHasMetafieldsIdentifier>
+}
+
 /** Return type for `cartAttributesUpdate` mutation. */
 export interface ShopifyStorefrontCartAttributesUpdatePayload {
   __typename: 'CartAttributesUpdatePayload'
@@ -570,6 +673,12 @@ export interface ShopifyStorefrontCartBuyerIdentity {
   email?: Maybe<Scalars['String']['output']>
   /** The phone number of the buyer that's interacting with the cart. */
   phone?: Maybe<Scalars['String']['output']>
+  /**
+   * A set of wallet preferences tied to the buyer that is interacting with the cart.
+   * Preferences can be used to populate relevant payment fields in the checkout flow.
+   *
+   */
+  walletPreferences: Array<Scalars['String']['output']>
 }
 
 /**
@@ -589,6 +698,7 @@ export type ShopifyStorefrontCartBuyerIdentityInput = {
    * The rank of the preferences is determined by the order of the addresses in the array. Preferences
    * can be used to populate relevant fields in the checkout flow.
    *
+   * The input must not contain more than `250` values.
    */
   deliveryAddressPreferences?: InputMaybe<
     Array<ShopifyStorefrontDeliveryAddressInput>
@@ -597,6 +707,14 @@ export type ShopifyStorefrontCartBuyerIdentityInput = {
   email?: InputMaybe<Scalars['String']['input']>
   /** The phone number of the buyer that is interacting with the cart. */
   phone?: InputMaybe<Scalars['String']['input']>
+  /**
+   * A set of wallet preferences tied to the buyer that is interacting with the cart.
+   * Preferences can be used to populate relevant payment fields in the checkout flow.
+   *   Accepted value: `["shop_pay"]`.
+   *
+   * The input must not contain more than `250` values.
+   */
+  walletPreferences?: InputMaybe<Array<Scalars['String']['input']>>
 }
 
 /** Return type for `cartBuyerIdentityUpdate` mutation. */
@@ -606,6 +724,19 @@ export interface ShopifyStorefrontCartBuyerIdentityUpdatePayload {
   cart?: Maybe<ShopifyStorefrontCart>
   /** The list of errors that occurred from executing the mutation. */
   userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/**
+ * Represents how credit card details are provided for a direct payment.
+ *
+ */
+export enum ShopifyStorefrontCartCardSource {
+  /**
+   * The credit card was provided by a third party and vaulted on their system.
+   * Using this value requires a separate permission from Shopify.
+   *
+   */
+  SavedCreditCard = 'SAVED_CREDIT_CARD',
 }
 
 /** The discount that has been applied to the cart line using a discount code. */
@@ -618,6 +749,57 @@ export interface ShopifyStorefrontCartCodeDiscountAllocation
   discountedAmount: ShopifyStorefrontMoneyV2
 }
 
+/** The completion action to checkout a cart. */
+export type ShopifyStorefrontCartCompletionAction =
+  ShopifyStorefrontCompletePaymentChallenge
+
+/** The required completion action to checkout a cart. */
+export interface ShopifyStorefrontCartCompletionActionRequired {
+  __typename: 'CartCompletionActionRequired'
+  /** The action required to complete the cart completion attempt. */
+  action?: Maybe<ShopifyStorefrontCartCompletionAction>
+  /** The ID of the cart completion attempt. */
+  id: Scalars['String']['output']
+}
+
+/** The result of a cart completion attempt. */
+export type ShopifyStorefrontCartCompletionAttemptResult =
+  | ShopifyStorefrontCartCompletionActionRequired
+  | ShopifyStorefrontCartCompletionFailed
+  | ShopifyStorefrontCartCompletionProcessing
+  | ShopifyStorefrontCartCompletionSuccess
+
+/** A failed completion to checkout a cart. */
+export interface ShopifyStorefrontCartCompletionFailed {
+  __typename: 'CartCompletionFailed'
+  /** The errors that caused the checkout to fail. */
+  errors: Array<ShopifyStorefrontCompletionError>
+  /** The ID of the cart completion attempt. */
+  id: Scalars['String']['output']
+}
+
+/** A cart checkout completion that's still processing. */
+export interface ShopifyStorefrontCartCompletionProcessing {
+  __typename: 'CartCompletionProcessing'
+  /** The ID of the cart completion attempt. */
+  id: Scalars['String']['output']
+  /** The number of milliseconds to wait before polling again. */
+  pollDelay: Scalars['Int']['output']
+}
+
+/** A successful completion to checkout a cart and a created order. */
+export interface ShopifyStorefrontCartCompletionSuccess {
+  __typename: 'CartCompletionSuccess'
+  /** The date and time when the job completed. */
+  completedAt?: Maybe<Scalars['DateTime']['output']>
+  /** The ID of the cart completion attempt. */
+  id: Scalars['String']['output']
+  /** The ID of the order that's created in Shopify. */
+  orderId: Scalars['ID']['output']
+  /** The URL of the order confirmation in Shopify. */
+  orderUrl: Scalars['URL']['output']
+}
+
 /**
  * The costs that the buyer will pay at checkout.
  * The cart cost uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine
@@ -626,13 +808,7 @@ export interface ShopifyStorefrontCartCodeDiscountAllocation
  */
 export interface ShopifyStorefrontCartCost {
   __typename: 'CartCost'
-  /**
-   * The estimated amount, before taxes and discounts, for the customer to pay at
-   * checkout. The checkout charge amount doesn't include any deferred payments
-   * that'll be paid at a later date. If the cart has no deferred payments, then
-   * the checkout charge amount is equivalent to `subtotalAmount`.
-   *
-   */
+  /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to `subtotalAmount`. */
   checkoutChargeAmount: ShopifyStorefrontMoneyV2
   /** The amount, before taxes and cart-level discounts, for the customer to pay. */
   subtotalAmount: ShopifyStorefrontMoneyV2
@@ -675,7 +851,7 @@ export interface ShopifyStorefrontCartCustomDiscountAllocation
 export interface ShopifyStorefrontCartDeliveryGroup {
   __typename: 'CartDeliveryGroup'
   /** A list of cart lines for the delivery group. */
-  cartLines: ShopifyStorefrontCartLineConnection
+  cartLines: ShopifyStorefrontBaseCartLineConnection
   /** The destination address for the delivery group. */
   deliveryAddress: ShopifyStorefrontMailingAddress
   /** The delivery options available for the delivery group. */
@@ -738,6 +914,19 @@ export interface ShopifyStorefrontCartDeliveryOption {
   title?: Maybe<Scalars['String']['output']>
 }
 
+/**
+ * The input fields for submitting direct payment method information for checkout.
+ *
+ */
+export type ShopifyStorefrontCartDirectPaymentMethodInput = {
+  /** The customer's billing address. */
+  billingAddress: ShopifyStorefrontMailingAddressInput
+  /** The source of the credit card payment. */
+  cardSource?: InputMaybe<ShopifyStorefrontCartCardSource>
+  /** The session ID for the direct payment method used to create the payment. */
+  sessionId: Scalars['String']['input']
+}
+
 /** The discounts that have been applied to the cart line. */
 export type ShopifyStorefrontCartDiscountAllocation = {
   /** The discounted amount that has been applied to the cart line. */
@@ -766,24 +955,29 @@ export interface ShopifyStorefrontCartDiscountCodesUpdatePayload {
 export enum ShopifyStorefrontCartErrorCode {
   /** The input value is invalid. */
   Invalid = 'INVALID',
+  /** Delivery group was not found in cart. */
+  InvalidDeliveryGroup = 'INVALID_DELIVERY_GROUP',
+  /** Delivery option was not valid. */
+  InvalidDeliveryOption = 'INVALID_DELIVERY_OPTION',
   /** Merchandise line was not found in cart. */
   InvalidMerchandiseLine = 'INVALID_MERCHANDISE_LINE',
+  /** The metafields were not valid. */
+  InvalidMetafields = 'INVALID_METAFIELDS',
+  /** The payment wasn't valid. */
+  InvalidPayment = 'INVALID_PAYMENT',
+  /** Cannot update payment on an empty cart */
+  InvalidPaymentEmptyCart = 'INVALID_PAYMENT_EMPTY_CART',
   /** The input value should be less than the maximum value allowed. */
   LessThan = 'LESS_THAN',
   /** Missing discount code. */
   MissingDiscountCode = 'MISSING_DISCOUNT_CODE',
   /** Missing note. */
   MissingNote = 'MISSING_NOTE',
+  /** The payment method is not supported. */
+  PaymentMethodNotSupported = 'PAYMENT_METHOD_NOT_SUPPORTED',
 }
 
-/**
- * The estimated costs that the buyer will pay at checkout.
- * The estimated cost uses
- * [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity)
- * to determine
- * [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing).
- *
- */
+/** The estimated costs that the buyer will pay at checkout. The estimated cost uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
 export interface ShopifyStorefrontCartEstimatedCost {
   __typename: 'CartEstimatedCost'
   /** The estimated amount, before taxes and discounts, for the customer to pay at checkout. The checkout charge amount doesn't include any deferred payments that'll be paid at a later date. If the cart has no deferred payments, then the checkout charge amount is equivalent to`subtotal_amount`. */
@@ -798,9 +992,22 @@ export interface ShopifyStorefrontCartEstimatedCost {
   totalTaxAmount?: Maybe<ShopifyStorefrontMoneyV2>
 }
 
+/**
+ * The input fields for submitting a billing address without a selected payment method.
+ *
+ */
+export type ShopifyStorefrontCartFreePaymentMethodInput = {
+  /** The customer's billing address. */
+  billingAddress: ShopifyStorefrontMailingAddressInput
+}
+
 /** The input fields to create a cart. */
 export type ShopifyStorefrontCartInput = {
-  /** An array of key-value pairs that contains additional information about the cart. */
+  /**
+   * An array of key-value pairs that contains additional information about the cart.
+   *
+   * The input must not contain more than `250` values.
+   */
   attributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /**
    * The customer associated with the cart. Used to determine [international pricing]
@@ -812,10 +1019,21 @@ export type ShopifyStorefrontCartInput = {
   /**
    * The case-insensitive discount codes that the customer added at checkout.
    *
+   * The input must not contain more than `250` values.
    */
   discountCodes?: InputMaybe<Array<Scalars['String']['input']>>
-  /** A list of merchandise lines to add to the cart. */
+  /**
+   * A list of merchandise lines to add to the cart.
+   *
+   * The input must not contain more than `250` values.
+   */
   lines?: InputMaybe<Array<ShopifyStorefrontCartLineInput>>
+  /**
+   * The metafields to associate with this cart.
+   *
+   * The input must not contain more than `250` values.
+   */
+  metafields?: InputMaybe<Array<ShopifyStorefrontCartInputMetafieldInput>>
   /**
    * A note that's associated with the cart. For example, the note can be a personalized message to the buyer.
    *
@@ -823,8 +1041,27 @@ export type ShopifyStorefrontCartInput = {
   note?: InputMaybe<Scalars['String']['input']>
 }
 
+/** The input fields for a cart metafield value to set. */
+export type ShopifyStorefrontCartInputMetafieldInput = {
+  /** The key name of the metafield. */
+  key: Scalars['String']['input']
+  /**
+   * The type of data that the cart metafield stores.
+   * The type of data must be a [supported type](https://shopify.dev/apps/metafields/types).
+   *
+   */
+  type: Scalars['String']['input']
+  /**
+   * The data to store in the cart metafield. The data is always stored as a string, regardless of the metafield's type.
+   *
+   */
+  value: Scalars['String']['input']
+}
+
 /** Represents information about the merchandise in the cart. */
-export interface ShopifyStorefrontCartLine extends ShopifyStorefrontNode {
+export interface ShopifyStorefrontCartLine
+  extends ShopifyStorefrontBaseCartLine,
+    ShopifyStorefrontNode {
   __typename: 'CartLine'
   /** An attribute associated with the cart line. */
   attribute?: Maybe<ShopifyStorefrontAttribute>
@@ -854,20 +1091,6 @@ export type ShopifyStorefrontCartLineAttributeArgs = {
   key: Scalars['String']['input']
 }
 
-/**
- * An auto-generated type for paginating through multiple CartLines.
- *
- */
-export interface ShopifyStorefrontCartLineConnection {
-  __typename: 'CartLineConnection'
-  /** A list of edges. */
-  edges: Array<ShopifyStorefrontCartLineEdge>
-  /** A list of the nodes contained in CartLineEdge. */
-  nodes: Array<ShopifyStorefrontCartLine>
-  /** Information to aid in pagination. */
-  pageInfo: ShopifyStorefrontPageInfo
-}
-
 /** The cost of the merchandise line that the buyer will pay at checkout. */
 export interface ShopifyStorefrontCartLineCost {
   __typename: 'CartLineCost'
@@ -879,18 +1102,6 @@ export interface ShopifyStorefrontCartLineCost {
   subtotalAmount: ShopifyStorefrontMoneyV2
   /** The total cost of the merchandise line. */
   totalAmount: ShopifyStorefrontMoneyV2
-}
-
-/**
- * An auto-generated type which holds one CartLine and a cursor during pagination.
- *
- */
-export interface ShopifyStorefrontCartLineEdge {
-  __typename: 'CartLineEdge'
-  /** A cursor for use in pagination. */
-  cursor: Scalars['String']['output']
-  /** The item at the end of CartLineEdge. */
-  node: ShopifyStorefrontCartLine
 }
 
 /**
@@ -911,7 +1122,11 @@ export interface ShopifyStorefrontCartLineEstimatedCost {
 
 /** The input fields to create a merchandise line on a cart. */
 export type ShopifyStorefrontCartLineInput = {
-  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  /**
+   * An array of key-value pairs that contains additional information about the merchandise line.
+   *
+   * The input must not contain more than `250` values.
+   */
   attributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The ID of the merchandise that the buyer intends to purchase. */
   merchandiseId: Scalars['ID']['input']
@@ -923,7 +1138,11 @@ export type ShopifyStorefrontCartLineInput = {
 
 /** The input fields to update a line item on a cart. */
 export type ShopifyStorefrontCartLineUpdateInput = {
-  /** An array of key-value pairs that contains additional information about the merchandise line. */
+  /**
+   * An array of key-value pairs that contains additional information about the merchandise line.
+   *
+   * The input must not contain more than `250` values.
+   */
   attributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The ID of the merchandise line. */
   id: Scalars['ID']['input']
@@ -962,9 +1181,98 @@ export interface ShopifyStorefrontCartLinesUpdatePayload {
   userErrors: Array<ShopifyStorefrontCartUserError>
 }
 
+/** The input fields to delete a cart metafield. */
+export type ShopifyStorefrontCartMetafieldDeleteInput = {
+  /**
+   * The key name of the cart metafield. Can either be a composite key (`namespace.key`) or a simple key
+   *  that relies on the default app-reserved namespace.
+   *
+   */
+  key: Scalars['String']['input']
+  /** The ID of the cart resource. */
+  ownerId: Scalars['ID']['input']
+}
+
+/** Return type for `cartMetafieldDelete` mutation. */
+export interface ShopifyStorefrontCartMetafieldDeletePayload {
+  __typename: 'CartMetafieldDeletePayload'
+  /** The ID of the deleted cart metafield. */
+  deletedId?: Maybe<Scalars['ID']['output']>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontMetafieldDeleteUserError>
+}
+
+/** The input fields for a cart metafield value to set. */
+export type ShopifyStorefrontCartMetafieldsSetInput = {
+  /** The key name of the cart metafield. */
+  key: Scalars['String']['input']
+  /** The ID of the cart resource. */
+  ownerId: Scalars['ID']['input']
+  /**
+   * The type of data that the cart metafield stores.
+   * The type of data must be a [supported type](https://shopify.dev/apps/metafields/types).
+   *
+   */
+  type: Scalars['String']['input']
+  /**
+   * The data to store in the cart metafield. The data is always stored as a string, regardless of the metafield's type.
+   *
+   */
+  value: Scalars['String']['input']
+}
+
+/** Return type for `cartMetafieldsSet` mutation. */
+export interface ShopifyStorefrontCartMetafieldsSetPayload {
+  __typename: 'CartMetafieldsSetPayload'
+  /** The list of cart metafields that were set. */
+  metafields?: Maybe<Array<ShopifyStorefrontMetafield>>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontMetafieldsSetUserError>
+}
+
 /** Return type for `cartNoteUpdate` mutation. */
 export interface ShopifyStorefrontCartNoteUpdatePayload {
   __typename: 'CartNoteUpdatePayload'
+  /** The updated cart. */
+  cart?: Maybe<ShopifyStorefrontCart>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/**
+ * The input fields for updating the payment method that will be used to checkout.
+ *
+ */
+export type ShopifyStorefrontCartPaymentInput = {
+  /** The amount that the customer will be charged at checkout. */
+  amount: ShopifyStorefrontMoneyInput
+  /**
+   * The input fields to use when checking out a cart with a direct payment method (like a credit card).
+   *
+   */
+  directPaymentMethod?: InputMaybe<ShopifyStorefrontCartDirectPaymentMethodInput>
+  /**
+   * The input fields to use to checkout a cart without providing a payment method.
+   * Use this payment method input if the total cost of the cart is 0.
+   *
+   */
+  freePaymentMethod?: InputMaybe<ShopifyStorefrontCartFreePaymentMethodInput>
+  /**
+   * An ID of the order placed on the originating platform.
+   * Note that this value doesn't correspond to the Shopify Order ID.
+   *
+   */
+  sourceIdentifier?: InputMaybe<Scalars['String']['input']>
+  /**
+   * The input fields to use when checking out a cart with a wallet payment method (like Shop Pay or Apple Pay).
+   *
+   */
+  walletPaymentMethod?: InputMaybe<ShopifyStorefrontCartWalletPaymentMethodInput>
+}
+
+/** Return type for `cartPaymentUpdate` mutation. */
+export interface ShopifyStorefrontCartPaymentUpdatePayload {
+  __typename: 'CartPaymentUpdatePayload'
   /** The updated cart. */
   cart?: Maybe<ShopifyStorefrontCart>
   /** The list of errors that occurred from executing the mutation. */
@@ -991,6 +1299,22 @@ export interface ShopifyStorefrontCartSelectedDeliveryOptionsUpdatePayload {
   userErrors: Array<ShopifyStorefrontCartUserError>
 }
 
+/** Return type for `cartSubmitForCompletion` mutation. */
+export interface ShopifyStorefrontCartSubmitForCompletionPayload {
+  __typename: 'CartSubmitForCompletionPayload'
+  /** The result of cart submission for completion. */
+  result?: Maybe<ShopifyStorefrontCartSubmitForCompletionResult>
+  /** The list of errors that occurred from executing the mutation. */
+  userErrors: Array<ShopifyStorefrontCartUserError>
+}
+
+/** The result of cart submit completion. */
+export type ShopifyStorefrontCartSubmitForCompletionResult =
+  | ShopifyStorefrontSubmitAlreadyAccepted
+  | ShopifyStorefrontSubmitFailed
+  | ShopifyStorefrontSubmitSuccess
+  | ShopifyStorefrontSubmitThrottled
+
 /** Represents an error that happens during execution of a cart mutation. */
 export interface ShopifyStorefrontCartUserError
   extends ShopifyStorefrontDisplayableError {
@@ -1001,6 +1325,17 @@ export interface ShopifyStorefrontCartUserError
   field?: Maybe<Array<Scalars['String']['output']>>
   /** The error message. */
   message: Scalars['String']['output']
+}
+
+/**
+ * The input fields for submitting wallet payment method information for checkout.
+ *
+ */
+export type ShopifyStorefrontCartWalletPaymentMethodInput = {
+  /** The payment method information for the Apple Pay wallet. */
+  applePayWalletContent?: InputMaybe<ShopifyStorefrontApplePayWalletContentInput>
+  /** The payment method information for the Shop Pay wallet. */
+  shopPayWalletContent?: InputMaybe<ShopifyStorefrontShopPayWalletContentInput>
 }
 
 /** A container for all the information required to checkout items and pay. */
@@ -1039,7 +1374,7 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   note?: Maybe<Scalars['String']['output']>
   /** The resulting order from a paid checkout. */
   order?: Maybe<ShopifyStorefrontOrder>
-  /** The Order Status Page for this Checkout, null when checkout isn't completed. */
+  /** The <b>Order status</b> page for this Checkout, null when checkout isn't completed. */
   orderStatusUrl?: Maybe<Scalars['URL']['output']>
   /** The amount left to be paid. This is equal to the cost of the line items, taxes, and shipping, minus discounts and gift cards. */
   paymentDue: ShopifyStorefrontMoneyV2
@@ -1128,7 +1463,11 @@ export type ShopifyStorefrontCheckoutAttributesUpdateV2Input = {
    *
    */
   allowPartialAddresses?: InputMaybe<Scalars['Boolean']['input']>
-  /** A list of extra information that's added to the checkout. */
+  /**
+   * A list of extra information that's added to the checkout.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: InputMaybe<Scalars['String']['input']>
@@ -1223,11 +1562,19 @@ export type ShopifyStorefrontCheckoutCreateInput = {
   allowPartialAddresses?: InputMaybe<Scalars['Boolean']['input']>
   /** The identity of the customer associated with the checkout. */
   buyerIdentity?: InputMaybe<ShopifyStorefrontCheckoutBuyerIdentityInput>
-  /** A list of extra information that's added to the checkout. */
+  /**
+   * A list of extra information that's added to the checkout.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The email with which the customer wants to checkout. */
   email?: InputMaybe<Scalars['String']['input']>
-  /** A list of line item objects, each one containing information about an item in the checkout. */
+  /**
+   * A list of line item objects, each one containing information about an item in the checkout.
+   *
+   * The input must not contain more than `250` values.
+   */
   lineItems?: InputMaybe<Array<ShopifyStorefrontCheckoutLineItemInput>>
   /** The text of an optional note that a shop owner can attach to the checkout. */
   note?: InputMaybe<Scalars['String']['input']>
@@ -1405,6 +1752,8 @@ export enum ShopifyStorefrontCheckoutErrorCode {
   NotSupported = 'NOT_SUPPORTED',
   /** The input value needs to be blank. */
   Present = 'PRESENT',
+  /** Product is not published for this customer. */
+  ProductNotAvailable = 'PRODUCT_NOT_AVAILABLE',
   /** Shipping rate expired. */
   ShippingRateExpired = 'SHIPPING_RATE_EXPIRED',
   /** Throttled during checkout. */
@@ -1493,7 +1842,11 @@ export interface ShopifyStorefrontCheckoutLineItemEdge {
 
 /** The input fields to create a line item on a checkout. */
 export type ShopifyStorefrontCheckoutLineItemInput = {
-  /** Extra information in the form of an array of Key-Value pairs about the line item. */
+  /**
+   * Extra information in the form of an array of Key-Value pairs about the line item.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The quantity of the line item. */
   quantity: Scalars['Int']['input']
@@ -1503,7 +1856,11 @@ export type ShopifyStorefrontCheckoutLineItemInput = {
 
 /** The input fields to update a line item on the checkout. */
 export type ShopifyStorefrontCheckoutLineItemUpdateInput = {
-  /** Extra information in the form of an array of Key-Value pairs about the line item. */
+  /**
+   * Extra information in the form of an array of Key-Value pairs about the line item.
+   *
+   * The input must not contain more than `250` values.
+   */
   customAttributes?: InputMaybe<Array<ShopifyStorefrontAttributeInput>>
   /** The ID of the line item. */
   id?: InputMaybe<Scalars['ID']['input']>
@@ -1782,6 +2139,39 @@ export interface ShopifyStorefrontCommentEdge {
   node: ShopifyStorefrontComment
 }
 
+/** The action for the 3DS payment redirect. */
+export interface ShopifyStorefrontCompletePaymentChallenge {
+  __typename: 'CompletePaymentChallenge'
+  /** The URL for the 3DS payment redirect. */
+  redirectUrl?: Maybe<Scalars['URL']['output']>
+}
+
+/** An error that occurred during a cart completion attempt. */
+export interface ShopifyStorefrontCompletionError {
+  __typename: 'CompletionError'
+  /** The error code. */
+  code: ShopifyStorefrontCompletionErrorCode
+  /** The error message. */
+  message?: Maybe<Scalars['String']['output']>
+}
+
+/** The code of the error that occurred during a cart completion attempt. */
+export enum ShopifyStorefrontCompletionErrorCode {
+  Error = 'ERROR',
+  InventoryReservationError = 'INVENTORY_RESERVATION_ERROR',
+  PaymentAmountTooSmall = 'PAYMENT_AMOUNT_TOO_SMALL',
+  PaymentCallIssuer = 'PAYMENT_CALL_ISSUER',
+  PaymentCardDeclined = 'PAYMENT_CARD_DECLINED',
+  PaymentError = 'PAYMENT_ERROR',
+  PaymentGatewayNotEnabledError = 'PAYMENT_GATEWAY_NOT_ENABLED_ERROR',
+  PaymentInsufficientFunds = 'PAYMENT_INSUFFICIENT_FUNDS',
+  PaymentInvalidBillingAddress = 'PAYMENT_INVALID_BILLING_ADDRESS',
+  PaymentInvalidCreditCard = 'PAYMENT_INVALID_CREDIT_CARD',
+  PaymentInvalidCurrency = 'PAYMENT_INVALID_CURRENCY',
+  PaymentInvalidPaymentMethod = 'PAYMENT_INVALID_PAYMENT_METHOD',
+  PaymentTransientError = 'PAYMENT_TRANSIENT_ERROR',
+}
+
 /** A country. */
 export interface ShopifyStorefrontCountry {
   __typename: 'Country'
@@ -1791,6 +2181,8 @@ export interface ShopifyStorefrontCountry {
   currency: ShopifyStorefrontCurrency
   /** The ISO code of the country. */
   isoCode: ShopifyStorefrontCountryCode
+  /** The market that includes this country. */
+  market?: Maybe<ShopifyStorefrontMarket>
   /** The name of the country. */
   name: Scalars['String']['output']
   /** The unit system used in the country. */
@@ -2243,7 +2635,7 @@ export enum ShopifyStorefrontCountryCode {
   Tn = 'TN',
   /** Tonga. */
   To = 'TO',
-  /** Turkey. */
+  /** Türkiye. */
   Tr = 'TR',
   /** Trinidad & Tobago. */
   Tt = 'TT',
@@ -3109,6 +3501,11 @@ export type ShopifyStorefrontDeliveryAddress = ShopifyStorefrontMailingAddress
  *
  */
 export type ShopifyStorefrontDeliveryAddressInput = {
+  /**
+   * The ID of a customer address that is associated with the buyer that is interacting with the cart.
+   *
+   */
+  customerAddressId?: InputMaybe<Scalars['ID']['input']>
   /** A delivery address preference of a buyer that is interacting with the cart. */
   deliveryAddress?: InputMaybe<ShopifyStorefrontMailingAddressInput>
 }
@@ -3298,6 +3695,8 @@ export interface ShopifyStorefrontExternalVideo
   mediaContentType: ShopifyStorefrontMediaContentType
   /** The origin URL of the video on the respective host. */
   originUrl: Scalars['URL']['output']
+  /** The presentation for a media. */
+  presentation?: Maybe<ShopifyStorefrontMediaPresentation>
   /** The preview image for the media. */
   previewImage?: Maybe<ShopifyStorefrontImage>
 }
@@ -3614,6 +4013,20 @@ export type ShopifyStorefrontImageTransformInput = {
   scale?: InputMaybe<Scalars['Int']['input']>
 }
 
+/** Provide details about the contexts influenced by the @inContext directive on a field. */
+export interface ShopifyStorefrontInContextAnnotation {
+  __typename: 'InContextAnnotation'
+  description: Scalars['String']['output']
+  type: ShopifyStorefrontInContextAnnotationType
+}
+
+/** This gives information about the type of context that impacts a field. For example, for a query with @inContext(language: "EN"), the type would point to the name: LanguageCode and kind: ENUM. */
+export interface ShopifyStorefrontInContextAnnotationType {
+  __typename: 'InContextAnnotationType'
+  kind: Scalars['String']['output']
+  name: Scalars['String']['output']
+}
+
 /** A language. */
 export interface ShopifyStorefrontLanguage {
   __typename: 'Language'
@@ -3928,17 +4341,36 @@ export interface ShopifyStorefrontLocalization {
   country: ShopifyStorefrontCountry
   /** The language of the active localized experience. Use the `@inContext` directive to change this value. */
   language: ShopifyStorefrontLanguage
+  /** The market including the country of the active localized experience. Use the `@inContext` directive to change this value. */
+  market: ShopifyStorefrontMarket
 }
 
 /** Represents a location where product inventory is held. */
-export interface ShopifyStorefrontLocation extends ShopifyStorefrontNode {
+export interface ShopifyStorefrontLocation
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
   __typename: 'Location'
   /** The address of the location. */
   address: ShopifyStorefrontLocationAddress
   /** A globally-unique ID. */
   id: Scalars['ID']['output']
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<ShopifyStorefrontMetafield>>
   /** The name of the location. */
   name: Scalars['String']['output']
+}
+
+/** Represents a location where product inventory is held. */
+export type ShopifyStorefrontLocationMetafieldArgs = {
+  key: Scalars['String']['input']
+  namespace: Scalars['String']['input']
+}
+
+/** Represents a location where product inventory is held. */
+export type ShopifyStorefrontLocationMetafieldsArgs = {
+  identifiers: Array<ShopifyStorefrontHasMetafieldsIdentifier>
 }
 
 /**
@@ -4175,12 +4607,43 @@ export interface ShopifyStorefrontManualDiscountApplication
   value: ShopifyStorefrontPricingValue
 }
 
+/** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
+export interface ShopifyStorefrontMarket
+  extends ShopifyStorefrontHasMetafields,
+    ShopifyStorefrontNode {
+  __typename: 'Market'
+  /**
+   * A human-readable unique string for the market automatically generated from its title.
+   *
+   */
+  handle: Scalars['String']['output']
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output']
+  /** Returns a metafield found by namespace and key. */
+  metafield?: Maybe<ShopifyStorefrontMetafield>
+  /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
+  metafields: Array<Maybe<ShopifyStorefrontMetafield>>
+}
+
+/** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
+export type ShopifyStorefrontMarketMetafieldArgs = {
+  key: Scalars['String']['input']
+  namespace: Scalars['String']['input']
+}
+
+/** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
+export type ShopifyStorefrontMarketMetafieldsArgs = {
+  identifiers: Array<ShopifyStorefrontHasMetafieldsIdentifier>
+}
+
 /** Represents a media interface. */
 export type ShopifyStorefrontMedia = {
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']['output']>
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
+  /** The presentation for a media. */
+  presentation?: Maybe<ShopifyStorefrontMediaPresentation>
   /** The preview image for the media. */
   previewImage?: Maybe<ShopifyStorefrontImage>
 }
@@ -4244,8 +4707,33 @@ export interface ShopifyStorefrontMediaImage
   image?: Maybe<ShopifyStorefrontImage>
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
+  /** The presentation for a media. */
+  presentation?: Maybe<ShopifyStorefrontMediaPresentation>
   /** The preview image for the media. */
   previewImage?: Maybe<ShopifyStorefrontImage>
+}
+
+/** A media presentation. */
+export interface ShopifyStorefrontMediaPresentation
+  extends ShopifyStorefrontNode {
+  __typename: 'MediaPresentation'
+  /** A JSON object representing a presentation view. */
+  asJson?: Maybe<Scalars['JSON']['output']>
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output']
+}
+
+/** A media presentation. */
+export type ShopifyStorefrontMediaPresentationAsJsonArgs = {
+  format: ShopifyStorefrontMediaPresentationFormat
+}
+
+/** The possible formats for a media presentation. */
+export enum ShopifyStorefrontMediaPresentationFormat {
+  /** A media image presentation. */
+  Image = 'IMAGE',
+  /** A model viewer presentation. */
+  ModelViewer = 'MODEL_VIEWER',
 }
 
 /**
@@ -4362,6 +4850,26 @@ export type ShopifyStorefrontMetafieldReferencesArgs = {
   last?: InputMaybe<Scalars['Int']['input']>
 }
 
+/** Possible error codes that can be returned by `MetafieldDeleteUserError`. */
+export enum ShopifyStorefrontMetafieldDeleteErrorCode {
+  /** The owner ID is invalid. */
+  InvalidOwner = 'INVALID_OWNER',
+  /** Metafield not found. */
+  MetafieldDoesNotExist = 'METAFIELD_DOES_NOT_EXIST',
+}
+
+/** An error that occurs during the execution of cart metafield deletion. */
+export interface ShopifyStorefrontMetafieldDeleteUserError
+  extends ShopifyStorefrontDisplayableError {
+  __typename: 'MetafieldDeleteUserError'
+  /** The error code. */
+  code?: Maybe<ShopifyStorefrontMetafieldDeleteErrorCode>
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']['output']>>
+  /** The error message. */
+  message: Scalars['String']['output']
+}
+
 /**
  * A filter used to view a subset of products in a collection matching a specific metafield value.
  *
@@ -4385,8 +4893,11 @@ export type ShopifyStorefrontMetafieldFilter = {
 export type ShopifyStorefrontMetafieldParentResource =
   | ShopifyStorefrontArticle
   | ShopifyStorefrontBlog
+  | ShopifyStorefrontCart
   | ShopifyStorefrontCollection
   | ShopifyStorefrontCustomer
+  | ShopifyStorefrontLocation
+  | ShopifyStorefrontMarket
   | ShopifyStorefrontOrder
   | ShopifyStorefrontPage
   | ShopifyStorefrontProduct
@@ -4401,6 +4912,7 @@ export type ShopifyStorefrontMetafieldReference =
   | ShopifyStorefrontCollection
   | ShopifyStorefrontGenericFile
   | ShopifyStorefrontMediaImage
+  | ShopifyStorefrontMetaobject
   | ShopifyStorefrontPage
   | ShopifyStorefrontProduct
   | ShopifyStorefrontProductVariant
@@ -4432,6 +4944,129 @@ export interface ShopifyStorefrontMetafieldReferenceEdge {
   node: ShopifyStorefrontMetafieldReference
 }
 
+/** An error that occurs during the execution of `MetafieldsSet`. */
+export interface ShopifyStorefrontMetafieldsSetUserError
+  extends ShopifyStorefrontDisplayableError {
+  __typename: 'MetafieldsSetUserError'
+  /** The error code. */
+  code?: Maybe<ShopifyStorefrontMetafieldsSetUserErrorCode>
+  /** The index of the array element that's causing the error. */
+  elementIndex?: Maybe<Scalars['Int']['output']>
+  /** The path to the input field that caused the error. */
+  field?: Maybe<Array<Scalars['String']['output']>>
+  /** The error message. */
+  message: Scalars['String']['output']
+}
+
+/** Possible error codes that can be returned by `MetafieldsSetUserError`. */
+export enum ShopifyStorefrontMetafieldsSetUserErrorCode {
+  /** The input value is blank. */
+  Blank = 'BLANK',
+  /** The input value isn't included in the list. */
+  Inclusion = 'INCLUSION',
+  /** The owner ID is invalid. */
+  InvalidOwner = 'INVALID_OWNER',
+  /** The type is invalid. */
+  InvalidType = 'INVALID_TYPE',
+  /** The value is invalid for metafield type or for definition options. */
+  InvalidValue = 'INVALID_VALUE',
+  /** The input value should be less than or equal to the maximum value allowed. */
+  LessThanOrEqualTo = 'LESS_THAN_OR_EQUAL_TO',
+  /** The input value needs to be blank. */
+  Present = 'PRESENT',
+  /** The input value is too long. */
+  TooLong = 'TOO_LONG',
+  /** The input value is too short. */
+  TooShort = 'TOO_SHORT',
+}
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export interface ShopifyStorefrontMetaobject extends ShopifyStorefrontNode {
+  __typename: 'Metaobject'
+  /** Accesses a field of the object by key. */
+  field?: Maybe<ShopifyStorefrontMetaobjectField>
+  /**
+   * All object fields with defined values.
+   * Omitted object keys can be assumed null, and no guarantees are made about field order.
+   *
+   */
+  fields: Array<ShopifyStorefrontMetaobjectField>
+  /** The unique handle of the metaobject. Useful as a custom ID. */
+  handle: Scalars['String']['output']
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output']
+  /** The type of the metaobject. Defines the namespace of its associated metafields. */
+  type: Scalars['String']['output']
+  /** The date and time when the metaobject was last updated. */
+  updatedAt: Scalars['DateTime']['output']
+}
+
+/** An instance of a user-defined model based on a MetaobjectDefinition. */
+export type ShopifyStorefrontMetaobjectFieldArgs = {
+  key: Scalars['String']['input']
+}
+
+/**
+ * An auto-generated type for paginating through multiple Metaobjects.
+ *
+ */
+export interface ShopifyStorefrontMetaobjectConnection {
+  __typename: 'MetaobjectConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontMetaobjectEdge>
+  /** A list of the nodes contained in MetaobjectEdge. */
+  nodes: Array<ShopifyStorefrontMetaobject>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+}
+
+/**
+ * An auto-generated type which holds one Metaobject and a cursor during pagination.
+ *
+ */
+export interface ShopifyStorefrontMetaobjectEdge {
+  __typename: 'MetaobjectEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output']
+  /** The item at the end of MetaobjectEdge. */
+  node: ShopifyStorefrontMetaobject
+}
+
+/** Provides the value of a Metaobject field. */
+export interface ShopifyStorefrontMetaobjectField {
+  __typename: 'MetaobjectField'
+  /** The field key. */
+  key: Scalars['String']['output']
+  /** A referenced object if the field type is a resource reference. */
+  reference?: Maybe<ShopifyStorefrontMetafieldReference>
+  /** A list of referenced objects if the field type is a resource reference list. */
+  references?: Maybe<ShopifyStorefrontMetafieldReferenceConnection>
+  /**
+   * The type name of the field.
+   * See the list of [supported types](https://shopify.dev/apps/metafields/definitions/types).
+   *
+   */
+  type: Scalars['String']['output']
+  /** The field value. */
+  value?: Maybe<Scalars['String']['output']>
+}
+
+/** Provides the value of a Metaobject field. */
+export type ShopifyStorefrontMetaobjectFieldReferencesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+}
+
+/** The input fields used to retrieve a metaobject by handle. */
+export type ShopifyStorefrontMetaobjectHandleInput = {
+  /** The handle of the metaobject. */
+  handle: Scalars['String']['input']
+  /** The type of the metaobject. */
+  type: Scalars['String']['input']
+}
+
 /** Represents a Shopify hosted 3D model. */
 export interface ShopifyStorefrontModel3d
   extends ShopifyStorefrontMedia,
@@ -4443,6 +5078,8 @@ export interface ShopifyStorefrontModel3d
   id: Scalars['ID']['output']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
+  /** The presentation for a media. */
+  presentation?: Maybe<ShopifyStorefrontMediaPresentation>
   /** The preview image for the media. */
   previewImage?: Maybe<ShopifyStorefrontImage>
   /** The sources for a 3d model. */
@@ -4505,10 +5142,23 @@ export interface ShopifyStorefrontMutation {
   cartLinesRemove?: Maybe<ShopifyStorefrontCartLinesRemovePayload>
   /** Updates one or more merchandise lines on a cart. */
   cartLinesUpdate?: Maybe<ShopifyStorefrontCartLinesUpdatePayload>
+  /** Deletes a cart metafield. */
+  cartMetafieldDelete?: Maybe<ShopifyStorefrontCartMetafieldDeletePayload>
+  /**
+   * Sets cart metafield values. Cart metafield values will be set regardless if they were previously created or not.
+   *
+   * Allows a maximum of 25 cart metafields to be set at a time.
+   *
+   */
+  cartMetafieldsSet?: Maybe<ShopifyStorefrontCartMetafieldsSetPayload>
   /** Updates the note on the cart. */
   cartNoteUpdate?: Maybe<ShopifyStorefrontCartNoteUpdatePayload>
+  /** Update the customer's payment method that will be used to checkout. */
+  cartPaymentUpdate?: Maybe<ShopifyStorefrontCartPaymentUpdatePayload>
   /** Update the selected delivery options for a delivery group. */
   cartSelectedDeliveryOptionsUpdate?: Maybe<ShopifyStorefrontCartSelectedDeliveryOptionsUpdatePayload>
+  /** Submit the cart for checkout completion. */
+  cartSubmitForCompletion?: Maybe<ShopifyStorefrontCartSubmitForCompletionPayload>
   /** Updates the attributes of a checkout if `allowPartialAddresses` is `true`. */
   checkoutAttributesUpdateV2?: Maybe<ShopifyStorefrontCheckoutAttributesUpdateV2Payload>
   /** Completes a checkout without providing payment information. You can use this mutation for free items or items whose purchase price is covered by a gift card. */
@@ -4655,15 +5305,37 @@ export type ShopifyStorefrontMutationCartLinesUpdateArgs = {
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartMetafieldDeleteArgs = {
+  input: ShopifyStorefrontCartMetafieldDeleteInput
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartMetafieldsSetArgs = {
+  metafields: Array<ShopifyStorefrontCartMetafieldsSetInput>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type ShopifyStorefrontMutationCartNoteUpdateArgs = {
   cartId: Scalars['ID']['input']
   note?: InputMaybe<Scalars['String']['input']>
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartPaymentUpdateArgs = {
+  cartId: Scalars['ID']['input']
+  payment: ShopifyStorefrontCartPaymentInput
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
 export type ShopifyStorefrontMutationCartSelectedDeliveryOptionsUpdateArgs = {
   cartId: Scalars['ID']['input']
   selectedDeliveryOptions: Array<ShopifyStorefrontCartSelectedDeliveryOptionInput>
+}
+
+/** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
+export type ShopifyStorefrontMutationCartSubmitForCompletionArgs = {
+  attemptToken: Scalars['String']['input']
+  cartId: Scalars['ID']['input']
 }
 
 /** The schema’s entry-point for mutations. This acts as the public, top-level API from which all mutation queries must start. */
@@ -4881,6 +5553,8 @@ export interface ShopifyStorefrontOrder
   extends ShopifyStorefrontHasMetafields,
     ShopifyStorefrontNode {
   __typename: 'Order'
+  /** The address associated with the payment method. */
+  billingAddress?: Maybe<ShopifyStorefrontMailingAddress>
   /** The reason for the order's cancellation. Returns `null` if the order wasn't canceled. */
   cancelReason?: Maybe<ShopifyStorefrontOrderCancelReason>
   /** The date and time when the order was canceled. Returns null if the order wasn't canceled. */
@@ -4895,6 +5569,8 @@ export interface ShopifyStorefrontOrder
   currentTotalPrice: ShopifyStorefrontMoneyV2
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
   currentTotalTax: ShopifyStorefrontMoneyV2
+  /** A list of the custom attributes added to the order. */
+  customAttributes: Array<ShopifyStorefrontAttribute>
   /** The locale code in which this specific order happened. */
   customerLocale?: Maybe<Scalars['String']['output']>
   /** The unique URL that the customer can use to access the order. */
@@ -5662,6 +6338,8 @@ export type ShopifyStorefrontProductFilter = {
   productType?: InputMaybe<Scalars['String']['input']>
   /** The product vendor to filter on. */
   productVendor?: InputMaybe<Scalars['String']['input']>
+  /** A product tag to filter on. */
+  tag?: InputMaybe<Scalars['String']['input']>
   /** A variant metafield to filter on. */
   variantMetafield?: InputMaybe<ShopifyStorefrontMetafieldFilter>
   /** A variant option to filter on. */
@@ -5721,6 +6399,18 @@ export interface ShopifyStorefrontProductPriceRange {
   maxVariantPrice: ShopifyStorefrontMoneyV2
   /** The lowest variant's price. */
   minVariantPrice: ShopifyStorefrontMoneyV2
+}
+
+/**
+ * The recommendation intent that is used to generate product recommendations.
+ * You can use intent to generate product recommendations according to different strategies.
+ *
+ */
+export enum ShopifyStorefrontProductRecommendationIntent {
+  /** Offer customers products that are complementary to a product for which recommendations are to be fetched. An example is add-on products that display in a Pair it with section. */
+  Complementary = 'COMPLEMENTARY',
+  /** Offer customers a mix of products that are similar or complementary to a product for which recommendations are to be fetched. An example is substitutable products that display in a You may also like section. */
+  Related = 'RELATED',
 }
 
 /** The set of valid sort keys for the Product query. */
@@ -5849,6 +6539,7 @@ export type ShopifyStorefrontProductVariantStoreAvailabilityArgs = {
   before?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  near?: InputMaybe<ShopifyStorefrontGeoCoordinateInput>
   reverse?: InputMaybe<Scalars['Boolean']['input']>
 }
 
@@ -5899,6 +6590,8 @@ export enum ShopifyStorefrontProductVariantSortKeys {
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export interface ShopifyStorefrontQueryRoot {
   __typename: 'QueryRoot'
+  /** Fetch a specific Article by its ID. */
+  article?: Maybe<ShopifyStorefrontArticle>
   /** List of the shop's articles. */
   articles: ShopifyStorefrontArticleConnection
   /** Fetch a specific `Blog` by one of its unique attributes. */
@@ -5916,6 +6609,11 @@ export interface ShopifyStorefrontQueryRoot {
    *
    */
   cart?: Maybe<ShopifyStorefrontCart>
+  /**
+   * A poll for the status of the cart checkout completion and order creation.
+   *
+   */
+  cartCompletionAttempt?: Maybe<ShopifyStorefrontCartCompletionAttemptResult>
   /** Fetch a specific `Collection` by one of its unique attributes. */
   collection?: Maybe<ShopifyStorefrontCollection>
   /**
@@ -5943,6 +6641,10 @@ export interface ShopifyStorefrontQueryRoot {
   locations: ShopifyStorefrontLocationConnection
   /** Retrieve a [navigation menu](https://help.shopify.com/manual/online-store/menus-and-links) by its handle. */
   menu?: Maybe<ShopifyStorefrontMenu>
+  /** Fetch a specific Metaobject by one of its unique identifiers. */
+  metaobject?: Maybe<ShopifyStorefrontMetaobject>
+  /** All active metaobjects for the shop. */
+  metaobjects: ShopifyStorefrontMetaobjectConnection
   /** Returns a specific node by ID. */
   node?: Maybe<ShopifyStorefrontNode>
   /** Returns the list of nodes with the given IDs. */
@@ -5978,7 +6680,7 @@ export interface ShopifyStorefrontQueryRoot {
   productTags: ShopifyStorefrontStringConnection
   /** List of product types for the shop's products that are published to your app. */
   productTypes: ShopifyStorefrontStringConnection
-  /** List of the shop’s products. */
+  /** List of the shop’s products. For storefront search, use [`search` query](https://shopify.dev/docs/api/storefront/latest/queries/search). */
   products: ShopifyStorefrontProductConnection
   /** The list of public Storefront API versions, including supported, release candidate and unstable versions. */
   publicApiVersions: Array<ShopifyStorefrontApiVersion>
@@ -5986,6 +6688,11 @@ export interface ShopifyStorefrontQueryRoot {
   shop: ShopifyStorefrontShop
   /** A list of redirects for a shop. */
   urlRedirects: ShopifyStorefrontUrlRedirectConnection
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootArticleArgs = {
+  id: Scalars['ID']['input']
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -6024,6 +6731,11 @@ export type ShopifyStorefrontQueryRootBlogsArgs = {
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootCartArgs = {
   id: Scalars['ID']['input']
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootCartCompletionAttemptArgs = {
+  attemptId: Scalars['String']['input']
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -6067,6 +6779,23 @@ export type ShopifyStorefrontQueryRootLocationsArgs = {
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootMenuArgs = {
   handle: Scalars['String']['input']
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootMetaobjectArgs = {
+  handle?: InputMaybe<ShopifyStorefrontMetaobjectHandleInput>
+  id?: InputMaybe<Scalars['ID']['input']>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootMetaobjectsArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  reverse?: InputMaybe<Scalars['Boolean']['input']>
+  sortKey?: InputMaybe<Scalars['String']['input']>
+  type: Scalars['String']['input']
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -6114,6 +6843,7 @@ export type ShopifyStorefrontQueryRootProductByHandleArgs = {
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootProductRecommendationsArgs = {
+  intent?: InputMaybe<ShopifyStorefrontProductRecommendationIntent>
   productId: Scalars['ID']['input']
 }
 
@@ -6144,6 +6874,7 @@ export type ShopifyStorefrontQueryRootUrlRedirectsArgs = {
   before?: InputMaybe<Scalars['String']['input']>
   first?: InputMaybe<Scalars['Int']['input']>
   last?: InputMaybe<Scalars['Int']['input']>
+  query?: InputMaybe<Scalars['String']['input']>
   reverse?: InputMaybe<Scalars['Boolean']['input']>
 }
 
@@ -6493,6 +7224,17 @@ export type ShopifyStorefrontShopMetafieldsArgs = {
   identifiers: Array<ShopifyStorefrontHasMetafieldsIdentifier>
 }
 
+/**
+ * The input fields for submitting Shop Pay payment method information for checkout.
+ *
+ */
+export type ShopifyStorefrontShopPayWalletContentInput = {
+  /** The customer's billing address. */
+  billingAddress: ShopifyStorefrontMailingAddressInput
+  /** Session token for transaction. */
+  sessionToken: Scalars['String']['input']
+}
+
 /** Policy that a merchant has configured for their store, such as their refund or privacy policy. */
 export interface ShopifyStorefrontShopPolicy extends ShopifyStorefrontNode {
   __typename: 'ShopPolicy'
@@ -6591,6 +7333,147 @@ export interface ShopifyStorefrontStringEdge {
   cursor: Scalars['String']['output']
   /** The item at the end of StringEdge. */
   node: Scalars['String']['output']
+}
+
+/** An error that occurred during cart submit for completion. */
+export interface ShopifyStorefrontSubmissionError {
+  __typename: 'SubmissionError'
+  /** The error code. */
+  code: ShopifyStorefrontSubmissionErrorCode
+  /** The error message. */
+  message?: Maybe<Scalars['String']['output']>
+}
+
+/** The code of the error that occurred during cart submit for completion. */
+export enum ShopifyStorefrontSubmissionErrorCode {
+  BuyerIdentityEmailIsInvalid = 'BUYER_IDENTITY_EMAIL_IS_INVALID',
+  BuyerIdentityEmailRequired = 'BUYER_IDENTITY_EMAIL_REQUIRED',
+  BuyerIdentityPhoneIsInvalid = 'BUYER_IDENTITY_PHONE_IS_INVALID',
+  DeliveryAddress1Invalid = 'DELIVERY_ADDRESS1_INVALID',
+  DeliveryAddress1Required = 'DELIVERY_ADDRESS1_REQUIRED',
+  DeliveryAddress1TooLong = 'DELIVERY_ADDRESS1_TOO_LONG',
+  DeliveryAddress2Invalid = 'DELIVERY_ADDRESS2_INVALID',
+  DeliveryAddress2Required = 'DELIVERY_ADDRESS2_REQUIRED',
+  DeliveryAddress2TooLong = 'DELIVERY_ADDRESS2_TOO_LONG',
+  DeliveryAddressRequired = 'DELIVERY_ADDRESS_REQUIRED',
+  DeliveryCityInvalid = 'DELIVERY_CITY_INVALID',
+  DeliveryCityRequired = 'DELIVERY_CITY_REQUIRED',
+  DeliveryCityTooLong = 'DELIVERY_CITY_TOO_LONG',
+  DeliveryCompanyInvalid = 'DELIVERY_COMPANY_INVALID',
+  DeliveryCompanyRequired = 'DELIVERY_COMPANY_REQUIRED',
+  DeliveryCompanyTooLong = 'DELIVERY_COMPANY_TOO_LONG',
+  DeliveryCountryRequired = 'DELIVERY_COUNTRY_REQUIRED',
+  DeliveryFirstNameInvalid = 'DELIVERY_FIRST_NAME_INVALID',
+  DeliveryFirstNameRequired = 'DELIVERY_FIRST_NAME_REQUIRED',
+  DeliveryFirstNameTooLong = 'DELIVERY_FIRST_NAME_TOO_LONG',
+  DeliveryInvalidPostalCodeForCountry = 'DELIVERY_INVALID_POSTAL_CODE_FOR_COUNTRY',
+  DeliveryInvalidPostalCodeForZone = 'DELIVERY_INVALID_POSTAL_CODE_FOR_ZONE',
+  DeliveryLastNameInvalid = 'DELIVERY_LAST_NAME_INVALID',
+  DeliveryLastNameRequired = 'DELIVERY_LAST_NAME_REQUIRED',
+  DeliveryLastNameTooLong = 'DELIVERY_LAST_NAME_TOO_LONG',
+  DeliveryNoDeliveryAvailable = 'DELIVERY_NO_DELIVERY_AVAILABLE',
+  DeliveryNoDeliveryAvailableForMerchandiseLine = 'DELIVERY_NO_DELIVERY_AVAILABLE_FOR_MERCHANDISE_LINE',
+  DeliveryOptionsPhoneNumberInvalid = 'DELIVERY_OPTIONS_PHONE_NUMBER_INVALID',
+  DeliveryOptionsPhoneNumberRequired = 'DELIVERY_OPTIONS_PHONE_NUMBER_REQUIRED',
+  DeliveryPhoneNumberInvalid = 'DELIVERY_PHONE_NUMBER_INVALID',
+  DeliveryPhoneNumberRequired = 'DELIVERY_PHONE_NUMBER_REQUIRED',
+  DeliveryPostalCodeInvalid = 'DELIVERY_POSTAL_CODE_INVALID',
+  DeliveryPostalCodeRequired = 'DELIVERY_POSTAL_CODE_REQUIRED',
+  DeliveryZoneNotFound = 'DELIVERY_ZONE_NOT_FOUND',
+  DeliveryZoneRequiredForCountry = 'DELIVERY_ZONE_REQUIRED_FOR_COUNTRY',
+  Error = 'ERROR',
+  MerchandiseLineLimitReached = 'MERCHANDISE_LINE_LIMIT_REACHED',
+  MerchandiseNotApplicable = 'MERCHANDISE_NOT_APPLICABLE',
+  MerchandiseNotEnoughStockAvailable = 'MERCHANDISE_NOT_ENOUGH_STOCK_AVAILABLE',
+  MerchandiseOutOfStock = 'MERCHANDISE_OUT_OF_STOCK',
+  MerchandiseProductNotPublished = 'MERCHANDISE_PRODUCT_NOT_PUBLISHED',
+  NoDeliveryGroupSelected = 'NO_DELIVERY_GROUP_SELECTED',
+  PaymentsAddress1Invalid = 'PAYMENTS_ADDRESS1_INVALID',
+  PaymentsAddress1Required = 'PAYMENTS_ADDRESS1_REQUIRED',
+  PaymentsAddress1TooLong = 'PAYMENTS_ADDRESS1_TOO_LONG',
+  PaymentsAddress2Invalid = 'PAYMENTS_ADDRESS2_INVALID',
+  PaymentsAddress2Required = 'PAYMENTS_ADDRESS2_REQUIRED',
+  PaymentsAddress2TooLong = 'PAYMENTS_ADDRESS2_TOO_LONG',
+  PaymentsBillingAddressZoneNotFound = 'PAYMENTS_BILLING_ADDRESS_ZONE_NOT_FOUND',
+  PaymentsBillingAddressZoneRequiredForCountry = 'PAYMENTS_BILLING_ADDRESS_ZONE_REQUIRED_FOR_COUNTRY',
+  PaymentsCityInvalid = 'PAYMENTS_CITY_INVALID',
+  PaymentsCityRequired = 'PAYMENTS_CITY_REQUIRED',
+  PaymentsCityTooLong = 'PAYMENTS_CITY_TOO_LONG',
+  PaymentsCompanyInvalid = 'PAYMENTS_COMPANY_INVALID',
+  PaymentsCompanyRequired = 'PAYMENTS_COMPANY_REQUIRED',
+  PaymentsCompanyTooLong = 'PAYMENTS_COMPANY_TOO_LONG',
+  PaymentsCountryRequired = 'PAYMENTS_COUNTRY_REQUIRED',
+  PaymentsCreditCardBaseExpired = 'PAYMENTS_CREDIT_CARD_BASE_EXPIRED',
+  PaymentsCreditCardBaseGatewayNotSupported = 'PAYMENTS_CREDIT_CARD_BASE_GATEWAY_NOT_SUPPORTED',
+  PaymentsCreditCardBaseInvalidStartDateOrIssueNumberForDebit = 'PAYMENTS_CREDIT_CARD_BASE_INVALID_START_DATE_OR_ISSUE_NUMBER_FOR_DEBIT',
+  PaymentsCreditCardBrandNotSupported = 'PAYMENTS_CREDIT_CARD_BRAND_NOT_SUPPORTED',
+  PaymentsCreditCardFirstNameBlank = 'PAYMENTS_CREDIT_CARD_FIRST_NAME_BLANK',
+  PaymentsCreditCardGeneric = 'PAYMENTS_CREDIT_CARD_GENERIC',
+  PaymentsCreditCardLastNameBlank = 'PAYMENTS_CREDIT_CARD_LAST_NAME_BLANK',
+  PaymentsCreditCardMonthInclusion = 'PAYMENTS_CREDIT_CARD_MONTH_INCLUSION',
+  PaymentsCreditCardNameInvalid = 'PAYMENTS_CREDIT_CARD_NAME_INVALID',
+  PaymentsCreditCardNumberInvalid = 'PAYMENTS_CREDIT_CARD_NUMBER_INVALID',
+  PaymentsCreditCardNumberInvalidFormat = 'PAYMENTS_CREDIT_CARD_NUMBER_INVALID_FORMAT',
+  PaymentsCreditCardSessionId = 'PAYMENTS_CREDIT_CARD_SESSION_ID',
+  PaymentsCreditCardVerificationValueBlank = 'PAYMENTS_CREDIT_CARD_VERIFICATION_VALUE_BLANK',
+  PaymentsCreditCardVerificationValueInvalidForCardType = 'PAYMENTS_CREDIT_CARD_VERIFICATION_VALUE_INVALID_FOR_CARD_TYPE',
+  PaymentsCreditCardYearExpired = 'PAYMENTS_CREDIT_CARD_YEAR_EXPIRED',
+  PaymentsCreditCardYearInvalidExpiryYear = 'PAYMENTS_CREDIT_CARD_YEAR_INVALID_EXPIRY_YEAR',
+  PaymentsFirstNameInvalid = 'PAYMENTS_FIRST_NAME_INVALID',
+  PaymentsFirstNameRequired = 'PAYMENTS_FIRST_NAME_REQUIRED',
+  PaymentsFirstNameTooLong = 'PAYMENTS_FIRST_NAME_TOO_LONG',
+  PaymentsInvalidPostalCodeForCountry = 'PAYMENTS_INVALID_POSTAL_CODE_FOR_COUNTRY',
+  PaymentsInvalidPostalCodeForZone = 'PAYMENTS_INVALID_POSTAL_CODE_FOR_ZONE',
+  PaymentsLastNameInvalid = 'PAYMENTS_LAST_NAME_INVALID',
+  PaymentsLastNameRequired = 'PAYMENTS_LAST_NAME_REQUIRED',
+  PaymentsLastNameTooLong = 'PAYMENTS_LAST_NAME_TOO_LONG',
+  PaymentsMethodRequired = 'PAYMENTS_METHOD_REQUIRED',
+  PaymentsMethodUnavailable = 'PAYMENTS_METHOD_UNAVAILABLE',
+  PaymentsPhoneNumberInvalid = 'PAYMENTS_PHONE_NUMBER_INVALID',
+  PaymentsPhoneNumberRequired = 'PAYMENTS_PHONE_NUMBER_REQUIRED',
+  PaymentsPostalCodeInvalid = 'PAYMENTS_POSTAL_CODE_INVALID',
+  PaymentsPostalCodeRequired = 'PAYMENTS_POSTAL_CODE_REQUIRED',
+  PaymentsShopifyPaymentsRequired = 'PAYMENTS_SHOPIFY_PAYMENTS_REQUIRED',
+  PaymentsUnacceptablePaymentAmount = 'PAYMENTS_UNACCEPTABLE_PAYMENT_AMOUNT',
+  PaymentsWalletContentMissing = 'PAYMENTS_WALLET_CONTENT_MISSING',
+  TaxesDeliveryGroupIdNotFound = 'TAXES_DELIVERY_GROUP_ID_NOT_FOUND',
+  TaxesLineIdNotFound = 'TAXES_LINE_ID_NOT_FOUND',
+  TaxesMustBeDefined = 'TAXES_MUST_BE_DEFINED',
+}
+
+/** Cart submit for checkout completion is successful. */
+export interface ShopifyStorefrontSubmitAlreadyAccepted {
+  __typename: 'SubmitAlreadyAccepted'
+  /** The ID of the cart completion attempt that will be used for polling for the result. */
+  attemptId: Scalars['String']['output']
+}
+
+/** Cart submit for checkout completion failed. */
+export interface ShopifyStorefrontSubmitFailed {
+  __typename: 'SubmitFailed'
+  /** The URL of the checkout for the cart. */
+  checkoutUrl?: Maybe<Scalars['URL']['output']>
+  /** The list of errors that occurred from executing the mutation. */
+  errors: Array<ShopifyStorefrontSubmissionError>
+}
+
+/** Cart submit for checkout completion is already accepted. */
+export interface ShopifyStorefrontSubmitSuccess {
+  __typename: 'SubmitSuccess'
+  /** The ID of the cart completion attempt that will be used for polling for the result. */
+  attemptId: Scalars['String']['output']
+}
+
+/** Cart submit for checkout completion is throttled. */
+export interface ShopifyStorefrontSubmitThrottled {
+  __typename: 'SubmitThrottled'
+  /**
+   * UTC date time string that indicates the time after which clients should make their next
+   * poll request. Any poll requests sent before this time will be ignored. Use this value to schedule the
+   * next poll request.
+   *
+   */
+  pollAfter: Scalars['DateTime']['output']
 }
 
 /**
@@ -6798,6 +7681,8 @@ export interface ShopifyStorefrontVideo
   id: Scalars['ID']['output']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
+  /** The presentation for a media. */
+  presentation?: Maybe<ShopifyStorefrontMediaPresentation>
   /** The preview image for the media. */
   previewImage?: Maybe<ShopifyStorefrontImage>
   /** The sources for a video. */

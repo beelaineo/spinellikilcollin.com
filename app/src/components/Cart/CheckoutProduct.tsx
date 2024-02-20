@@ -8,7 +8,6 @@ import {
   useCountry,
 } from '../../providers'
 import {
-  Maybe,
   ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType,
   ShopifyStorefrontMoneyV2,
 } from '../../types/generated-shopify'
@@ -27,6 +26,7 @@ import {
   QuantityWrapper,
   QuantityAdjustButton,
 } from './styled'
+import { Maybe, ShopifyImage } from '../../types'
 
 const { useEffect, useState } = React
 
@@ -206,6 +206,17 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     return options
   }
 
+  const displayImage: Maybe<ShopifyImage> = variant?.image
+    ? {
+        __typename: 'ShopifyImage',
+        altText: variant.image.altText,
+        height: variant.image.height,
+        id: variant.image.id,
+        src: variant.image.originalSrc,
+        width: variant.image.width,
+      }
+    : null
+
   useEffect(() => {
     if (!variant) {
       remove()
@@ -228,7 +239,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
         as={linkAs}
         aria-label={'Link to ' + displayTitle(title, variant)}
       >
-        <Image image={variant.image} />
+        <Image image={displayImage} />
       </Link>
       <CheckoutItemDetails>
         <div>

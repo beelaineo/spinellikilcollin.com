@@ -62,7 +62,7 @@ export const LoadingWrapper = styled.div`
 `
 
 export const NoResultsWrapper = styled.div`
-  padding: 8 2;
+  padding: 10 2 6 2;
   display: flex;
   flex-direction: column;
   align-items: center;

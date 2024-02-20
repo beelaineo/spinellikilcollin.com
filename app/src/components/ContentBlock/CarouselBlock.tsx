@@ -64,7 +64,7 @@ export const CarouselBlock = ({ content }: CarouselBlockProps) => {
         <Heading level={4}>{title}</Heading>
       )}
       <CarouselContainer>
-        {collection ? (
+        {collection && collection.__typename == 'Collection' ? (
           <CollectionCarousel collection={collection} />
         ) : items ? (
           <ItemsCarousel items={items} />

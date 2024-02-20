@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import {
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   ShopifySourceSelectedOption,
 } from '../../types'
@@ -12,7 +12,7 @@ import DiamondOutline from '../../svg/Diamond.svg'
 
 interface DiamondModalProps {
   closeModal: () => void
-  product?: ShopifyProduct
+  product?: Product
   variant?: ShopifyProductVariant
   diamond?: ShopifySourceSelectedOption
 }
