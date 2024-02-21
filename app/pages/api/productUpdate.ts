@@ -345,7 +345,7 @@ async function fetchProductMetafields(
     },
   )
   if (!response || !response.node) {
-    throw new Error('No data returned')
+    throw new Error('No data returned for fetchProductMetafields response')
   }
   return { node: response.node }
 }
@@ -361,7 +361,7 @@ async function fetchVariantMetafields(
     },
   )
   if (!response || !response.node) {
-    throw new Error('No data returned')
+    throw new Error('No data returned for fetchVariantMetafields response')
   }
   return { node: response.node }
 }
@@ -391,7 +391,7 @@ async function fetchProductInventory(
     },
   )
   if (!response || !response.product) {
-    throw new Error('No data returned')
+    throw new Error('No data returned for fetchProductInventory response')
   }
   return { product: response.product }
 }
