@@ -64,6 +64,11 @@ export default async function handler(
         return res.json({
           message: `Revalidated "${type}"`,
         })
+      case 'emailSignatureSettings':
+        await res.revalidate(`/email-signatures`)
+        return res.json({
+          message: `Revalidated "${type}"`,
+        })
       case 'journalEntry':
         await res.revalidate(`/journal/${slug}`)
         await res.revalidate(`/journal`)
