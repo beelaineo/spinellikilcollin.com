@@ -65,9 +65,10 @@ export type AboutFilter = {
   title?: InputMaybe<StringFilter>
 }
 
-export type AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage =
+export type AboutOrAppointmentsOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage =
 
     | About
+    | Appointments
     | Collection
     | Contact
     | Customize
@@ -91,6 +92,89 @@ export type AboutSorting = {
   introText?: InputMaybe<SortOrder>
   seo?: InputMaybe<SeoSorting>
   title?: InputMaybe<SortOrder>
+}
+
+export interface AppointmentLocation {
+  __typename: 'AppointmentLocation'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  body?: Maybe<TextBlock>
+  content?: Maybe<Array<Maybe<EmbedBlock>>>
+  ctaLabel?: Maybe<Scalars['String']['output']>
+  image?: Maybe<ImageTextBlock>
+  label?: Maybe<Scalars['String']['output']>
+  phone?: Maybe<Scalars['String']['output']>
+  slug?: Maybe<Slug>
+}
+
+export type AppointmentLocationFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  body?: InputMaybe<TextBlockFilter>
+  ctaLabel?: InputMaybe<StringFilter>
+  image?: InputMaybe<ImageTextBlockFilter>
+  label?: InputMaybe<StringFilter>
+  phone?: InputMaybe<StringFilter>
+  slug?: InputMaybe<SlugFilter>
+}
+
+export type AppointmentLocationSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  body?: InputMaybe<TextBlockSorting>
+  ctaLabel?: InputMaybe<SortOrder>
+  image?: InputMaybe<ImageTextBlockSorting>
+  label?: InputMaybe<SortOrder>
+  phone?: InputMaybe<SortOrder>
+  slug?: InputMaybe<SlugSorting>
+}
+
+export interface Appointments extends Document {
+  __typename: 'Appointments'
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']['output']>
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']['output']>
+  _key?: Maybe<Scalars['String']['output']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']['output']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']['output']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']['output']>
+  appointmentLocations?: Maybe<Array<Maybe<AppointmentLocation>>>
+  description?: Maybe<TextBlock>
+  seo?: Maybe<Seo>
+  title?: Maybe<Scalars['String']['output']>
+  upcomingPopups?: Maybe<UpcomingPopups>
+}
+
+export type AppointmentsFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<DocumentFilter>
+  _createdAt?: InputMaybe<DatetimeFilter>
+  _id?: InputMaybe<IdFilter>
+  _key?: InputMaybe<StringFilter>
+  _rev?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  _updatedAt?: InputMaybe<DatetimeFilter>
+  description?: InputMaybe<TextBlockFilter>
+  seo?: InputMaybe<SeoFilter>
+  title?: InputMaybe<StringFilter>
+  upcomingPopups?: InputMaybe<UpcomingPopupsFilter>
+}
+
+export type AppointmentsSorting = {
+  _createdAt?: InputMaybe<SortOrder>
+  _id?: InputMaybe<SortOrder>
+  _key?: InputMaybe<SortOrder>
+  _rev?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  _updatedAt?: InputMaybe<SortOrder>
+  description?: InputMaybe<TextBlockSorting>
+  seo?: InputMaybe<SeoSorting>
+  title?: InputMaybe<SortOrder>
+  upcomingPopups?: InputMaybe<UpcomingPopupsSorting>
 }
 
 export interface BambuserLiveSettings {
@@ -1732,7 +1816,7 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
-  document?: Maybe<AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
+  document?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   queryParams?: Maybe<Array<Maybe<QueryParam>>>
 }
 
@@ -2462,7 +2546,7 @@ export interface PageLink {
   /** Optional. Defaults to "Learn more" */
   ctaText?: Maybe<Scalars['String']['output']>
   image?: Maybe<RichImage>
-  linkedPage?: Maybe<AboutOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
+  linkedPage?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   summary?: Maybe<Scalars['String']['output']>
   /** Optional. By default the linked page title will be used. */
   title?: Maybe<Scalars['String']['output']>
@@ -3099,6 +3183,7 @@ export type RichPageLinkSorting = {
 export interface RootQuery {
   __typename: 'RootQuery'
   About?: Maybe<About>
+  Appointments?: Maybe<Appointments>
   Birthdays?: Maybe<Birthdays>
   Collection?: Maybe<Collection>
   Contact?: Maybe<Contact>
@@ -3128,6 +3213,7 @@ export interface RootQuery {
   Stone?: Maybe<Stone>
   TeamPage?: Maybe<TeamPage>
   allAbout: Array<About>
+  allAppointments: Array<Appointments>
   allBirthdays: Array<Birthdays>
   allCollection: Array<Collection>
   allContact: Array<Contact>
@@ -3158,6 +3244,10 @@ export interface RootQuery {
 }
 
 export type RootQueryAboutArgs = {
+  id: Scalars['ID']['input']
+}
+
+export type RootQueryAppointmentsArgs = {
   id: Scalars['ID']['input']
 }
 
@@ -3278,6 +3368,13 @@ export type RootQueryAllAboutArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>
   sort?: InputMaybe<Array<AboutSorting>>
   where?: InputMaybe<AboutFilter>
+}
+
+export type RootQueryAllAppointmentsArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  sort?: InputMaybe<Array<AppointmentsSorting>>
+  where?: InputMaybe<AppointmentsFilter>
 }
 
 export type RootQueryAllBirthdaysArgs = {
@@ -5553,4 +5650,26 @@ export type TextBlockSorting = {
   backgroundImage?: InputMaybe<RichImageSorting>
   layout?: InputMaybe<SortOrder>
   textColor?: InputMaybe<SortOrder>
+}
+
+export interface UpcomingPopups {
+  __typename: 'UpcomingPopups'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  description?: Maybe<TextBlock>
+  title?: Maybe<Scalars['String']['output']>
+}
+
+export type UpcomingPopupsFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  description?: InputMaybe<TextBlockFilter>
+  title?: InputMaybe<StringFilter>
+}
+
+export type UpcomingPopupsSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  description?: InputMaybe<TextBlockSorting>
+  title?: InputMaybe<SortOrder>
 }

@@ -124,6 +124,12 @@ export const internalLinkFragment = gql`
         _key
         title
       }
+      ... on Appointments {
+        _id
+        _type
+        _key
+        title
+      }
       ... on Customize {
         __typename
         _id
