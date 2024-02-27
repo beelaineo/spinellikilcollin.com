@@ -61,6 +61,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
     'magazine',
     'contact',
     'faq',
+    'appointments',
     'customize',
     'loyalty',
     'newCustomer',
