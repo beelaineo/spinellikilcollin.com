@@ -40,7 +40,6 @@ const query = gql`
           ...TextBlockFragment
         }
         content {
-          ...TextBlockFragment
           ... on EmbedBlock {
             __typename
             title
@@ -50,7 +49,7 @@ const query = gql`
         }
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
