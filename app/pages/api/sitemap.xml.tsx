@@ -24,6 +24,7 @@ const paths = [
   '/about/contact',
   '/about/financing',
   '/about/faq',
+  '/about/appointments',
   '/about/team',
   '/about/[pageSlug]',
   '/collections/[collectionSlug]',
