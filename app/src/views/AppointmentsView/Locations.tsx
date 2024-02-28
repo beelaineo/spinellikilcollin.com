@@ -7,6 +7,7 @@ import { Button } from '../../components/Button'
 import { ContentBlock } from '../../components/ContentBlock'
 import { Accordion } from './Accordion'
 import { Image } from '../../components/Image'
+import WeddingAppointmentIcon from '../../svg/WeddingAppointment.svg'
 
 interface LocationsProps {
   locations: any
@@ -139,6 +140,26 @@ const IconWrapper = styled.div<iconWrapperProps>`
   `}
 `
 
+const CalendarText = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    gap: 6;
+    align-items: center;
+
+    > div > div {
+      min-height: unset;
+      height: unset;
+      margin: 0;
+    }
+    svg {
+      width: 80;
+      height: 80;
+    }
+  `}
+`
+
 const Label = styled.span`
   ${({ theme }) => css`
     position: relative;
@@ -202,8 +223,9 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
                 </ContentWrapper>
               ) : (
                 <CalendarWrapper>
-                  <TextBlock content={location?.body} />
-
+                  <CalendarText>
+                    <TextBlock content={location?.body} />
+                  </CalendarText>
                   {location?.content?.map((content, i) => (
                     <ContentBlock key={i} content={content} />
                   ))}
@@ -236,8 +258,10 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
         </ContentWrapper>
       ) : (
         <CalendarWrapper>
-          <TextBlock content={locations[activeIndex]?.body} />
-
+          <CalendarText>
+            <WeddingAppointmentIcon />
+            <TextBlock content={locations[activeIndex]?.body} />
+          </CalendarText>
           {!isMedium &&
             locations &&
             locations[activeIndex]?.content?.map((content, i) => (
