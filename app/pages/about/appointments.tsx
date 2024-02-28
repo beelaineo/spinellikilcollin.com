@@ -8,6 +8,7 @@ import {
   request,
   textBlockFragment,
   imageTextBlockFragment,
+  richImageFragment,
 } from '../../src/graphql'
 import { requestShopData } from '../../src/providers/ShopDataProvider/shopDataQuery'
 
@@ -31,6 +32,9 @@ const query = gql`
         ctaLabel
         slug {
           current
+        }
+        icon {
+          ...RichImageFragment
         }
         phone
         image {
@@ -56,6 +60,7 @@ const query = gql`
   ${seoFragment}
   ${textBlockFragment}
   ${imageTextBlockFragment}
+  ${richImageFragment}
 `
 
 interface AppointmentsPageProps {

@@ -101,6 +101,7 @@ export interface AppointmentLocation {
   body?: Maybe<TextBlock>
   content?: Maybe<Array<Maybe<EmbedBlock>>>
   ctaLabel?: Maybe<Scalars['String']['output']>
+  icon?: Maybe<RichImage>
   image?: Maybe<ImageTextBlock>
   label?: Maybe<Scalars['String']['output']>
   phone?: Maybe<Scalars['String']['output']>
@@ -112,6 +113,7 @@ export type AppointmentLocationFilter = {
   _type?: InputMaybe<StringFilter>
   body?: InputMaybe<TextBlockFilter>
   ctaLabel?: InputMaybe<StringFilter>
+  icon?: InputMaybe<RichImageFilter>
   image?: InputMaybe<ImageTextBlockFilter>
   label?: InputMaybe<StringFilter>
   phone?: InputMaybe<StringFilter>
@@ -123,6 +125,7 @@ export type AppointmentLocationSorting = {
   _type?: InputMaybe<SortOrder>
   body?: InputMaybe<TextBlockSorting>
   ctaLabel?: InputMaybe<SortOrder>
+  icon?: InputMaybe<RichImageSorting>
   image?: InputMaybe<ImageTextBlockSorting>
   label?: InputMaybe<SortOrder>
   phone?: InputMaybe<SortOrder>
