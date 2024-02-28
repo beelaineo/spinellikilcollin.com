@@ -271,14 +271,16 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
         </ContentWrapper>
       ) : (
         <CalendarWrapper>
-          <CalendarText>
-            <WeddingAppointmentIcon />
-            <TextBlock content={locations[activeIndex]?.body} />
-          </CalendarText>
           {!isMedium &&
             locations &&
             locations[activeIndex]?.content?.map((content, i) => (
-              <ContentBlock key={i} content={content} />
+              <>
+                <CalendarText>
+                  <WeddingAppointmentIcon />
+                  <TextBlock content={locations[activeIndex]?.body} />
+                </CalendarText>
+                <ContentBlock key={i} content={content} />
+              </>
             ))}
         </CalendarWrapper>
       )}
