@@ -14,7 +14,7 @@ interface LocationsProps {
   isMedium: boolean
 }
 
-interface iconWrapperProps {
+interface ItemProps {
   isActive: boolean
 }
 
@@ -91,13 +91,33 @@ const Items = styled.ul`
   `}
 `
 
-const Item = styled.li`
-  ${({ theme }) => css`
+const Item = styled.li<ItemProps>`
+  ${({ theme, isActive }) => css`
     position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 6;
+
+    &:hover {
+      > span {
+        outline: 1px solid ${theme.colors.grays[4]};
+        border-radius: 10px;
+      }
+    }
+
+    ${isActive &&
+    `    >span {
+      outline: 1px solid ${theme.colors.grays[6]}; 
+      border-radius: 10px;
+    }
+  
+      &:hover {
+         > span
+      {  outline: 1px solid ${theme.colors.grays[6]};
+        border-radius: 10px;}
+      }
+      `}
   `}
 `
 
@@ -108,26 +128,11 @@ const TextWrapper = styled.div`
     flex-direction: column;
   `}
 `
-const IconWrapper = styled.div<iconWrapperProps>`
-  ${({ theme, isActive }) => css`
+const IconWrapper = styled.span`
+  ${({ theme }) => css`
     position: relative;
     display: flex;
     width: 90;
-
-    &:hover {
-      outline: 1px solid ${theme.colors.grays[4]};
-      border-radius: 10px;
-    }
-
-    ${isActive &&
-    `outline: 1px solid ${theme.colors.grays[6]}; 
-    border-radius: 10px;
-
-    &:hover {
-      outline: 1px solid ${theme.colors.grays[6]};
-      border-radius: 10px;
-    }
-    `}
 
     > div {
       aspect-ratio: 1;
@@ -198,8 +203,12 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
             <Accordion
               key={i}
               renderLabel={() => (
-                <Item key={i} onClick={handleLocationClick(i)}>
-                  <IconWrapper isActive={activeIndex === i}>
+                <Item
+                  key={i}
+                  isActive={activeIndex === i}
+                  onClick={handleLocationClick(i)}
+                >
+                  <IconWrapper>
                     <Image image={location?.icon} objectFit="contain" />
                   </IconWrapper>
                   <TextWrapper>
@@ -233,8 +242,12 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
               )}
             </Accordion>
           ) : (
-            <Item key={i} onClick={handleLocationClick(i)}>
-              <IconWrapper isActive={activeIndex === i}>
+            <Item
+              isActive={activeIndex === i}
+              key={i}
+              onClick={handleLocationClick(i)}
+            >
+              <IconWrapper>
                 <Image image={location?.icon} objectFit="contain" />
               </IconWrapper>
               <TextWrapper>
