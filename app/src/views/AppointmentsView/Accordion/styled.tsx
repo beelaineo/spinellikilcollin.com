@@ -28,7 +28,7 @@ export const Inner = styled.div`
 `
 
 export const Item = styled.div`
-  padding: 2 0 4;
+  padding: 8 0 4;
   opacity: 1;
 `
 

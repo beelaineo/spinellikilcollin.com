@@ -6,10 +6,15 @@ import { ImageTextBlock } from '../../components/ContentBlock/ImageTextBlock'
 import { Button } from '../../components/Button'
 import { ContentBlock } from '../../components/ContentBlock'
 import { Accordion } from './Accordion'
+import { Image } from '../../components/Image'
 
 interface LocationsProps {
   locations: any
   isMedium: boolean
+}
+
+interface iconWrapperProps {
+  isActive: boolean
 }
 
 const ContentWrapper = styled.div`
@@ -22,7 +27,7 @@ const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 6;
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       border-left: none;
       margin: 0 auto;
       padding-left: 0;
@@ -42,7 +47,7 @@ const CalendarWrapper = styled.div`
     div:first-child > div {
       min-height: unset;
     }
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       border-left: none;
       margin: 0 auto;
       padding-left: 0;
@@ -57,10 +62,10 @@ const ButtonsWrapper = styled.div`
     flex-direction: row;
     gap: 6;
     width: 100%;
-    z-index: 1000;
+    z-index: 100;
     button {
       width: 100%;
-      z-index: 1000;
+      z-index: 100;
     }
     button:nth-child(2) {
       background-color: white;
@@ -90,6 +95,8 @@ const Item = styled.li`
     position: relative;
     display: flex;
     flex-direction: row;
+    align-items: center;
+    gap: 6;
   `}
 `
 
@@ -98,6 +105,37 @@ const TextWrapper = styled.div`
     position: relative;
     display: flex;
     flex-direction: column;
+  `}
+`
+const IconWrapper = styled.div<iconWrapperProps>`
+  ${({ theme, isActive }) => css`
+    position: relative;
+    display: flex;
+    width: 90;
+
+    &:hover {
+      outline: 1px solid ${theme.colors.grays[4]};
+      border-radius: 10px;
+    }
+
+    ${isActive &&
+    `outline: 1px solid ${theme.colors.grays[6]}; 
+    border-radius: 10px;
+
+    &:hover {
+      outline: 1px solid ${theme.colors.grays[6]};
+      border-radius: 10px;
+    }
+    `}
+
+    > div {
+      aspect-ratio: 1;
+      margin: 8px;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      width: 70;
+    }
   `}
 `
 
@@ -140,6 +178,9 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
               key={i}
               renderLabel={() => (
                 <Item key={i} onClick={handleLocationClick(i)}>
+                  <IconWrapper>
+                    <Image image={location?.icon} objectFit="contain" />
+                  </IconWrapper>
                   <TextWrapper>
                     <Label>{location?.label}</Label>
                     <Cta>{location?.ctaLabel}</Cta>
@@ -171,6 +212,9 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
             </Accordion>
           ) : (
             <Item key={i} onClick={handleLocationClick(i)}>
+              <IconWrapper isActive={activeIndex === i}>
+                <Image image={location?.icon} objectFit="contain" />
+              </IconWrapper>
               <TextWrapper>
                 <Label>{location?.label}</Label>
                 <Cta>{location?.ctaLabel}</Cta>

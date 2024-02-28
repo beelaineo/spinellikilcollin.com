@@ -19,7 +19,7 @@ const Grid = styled.div`
     grid-template-columns: 1fr 1fr;
     max-width: 1600px;
     margin: 6 auto;
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       display: block;
     }
   `}
@@ -38,14 +38,14 @@ const TitleWrapper = styled.div`
 
 const PopupsHeadingWrapper = styled.div`
   ${({ theme }) => css`
-    margin: 8 0;
+    margin: 8 8;
     h1 {
       max-width: 26rem;
-      margin: 0 auto;
       line-height: 1em;
     }
-    ${theme.mediaQueries.mobile} {
-      margin: 0;
+    ${theme.mediaQueries.tablet} {
+      margin: 0 auto;
+      max-width: 16rem;
     }
   `}
 `
@@ -63,7 +63,7 @@ const PopupsWrapper = styled.div`
         padding-bottom: 5;
       }
     }
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       > div > div {
         margin: 6 0;
       }
@@ -76,7 +76,7 @@ const DescriptionWrapper = styled.div`
     h4 {
       padding-bottom: 3;
     }
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       > div > div {
         margin: 6 0;
       }
@@ -97,6 +97,7 @@ export const AppointmentsView = ({ appointments }: AppointmentsProps) => {
     maxWidth: '1000px',
   })
 
+  console.log(appointments, 'appointments')
   return (
     <>
       <SEO
