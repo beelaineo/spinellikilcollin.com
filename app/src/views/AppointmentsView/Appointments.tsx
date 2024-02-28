@@ -97,7 +97,6 @@ export const AppointmentsView = ({ appointments }: AppointmentsProps) => {
     maxWidth: '1000px',
   })
 
-  console.log(appointments, 'appointments')
   return (
     <>
       <SEO

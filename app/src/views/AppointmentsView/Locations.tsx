@@ -178,7 +178,7 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
               key={i}
               renderLabel={() => (
                 <Item key={i} onClick={handleLocationClick(i)}>
-                  <IconWrapper>
+                  <IconWrapper isActive={activeIndex === i}>
                     <Image image={location?.icon} objectFit="contain" />
                   </IconWrapper>
                   <TextWrapper>
