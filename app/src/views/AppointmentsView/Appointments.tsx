@@ -64,6 +64,8 @@ const PopupsWrapper = styled.div`
       h5 {
         padding-bottom: 5;
       }
+
+      min-height: unset;
     }
     ${theme.mediaQueries.tablet} {
       > div > div {
@@ -77,6 +79,9 @@ const DescriptionWrapper = styled.div`
   ${({ theme }) => css`
     h4 {
       padding-bottom: 3;
+    }
+    > div > div {
+      min-height: unset;
     }
     ${theme.mediaQueries.tablet} {
       > div > div {
