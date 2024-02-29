@@ -46,8 +46,9 @@ const PopupsHeadingWrapper = styled.div`
       line-height: 1em;
     }
 
-    ${theme.mediaQueries.tablet} {
-      width: 100%;
+    ${theme.mediaQueries.mobile} {
+      max-width: 16rem;
+      margin: 0 auto;
     }
   `}
 `
