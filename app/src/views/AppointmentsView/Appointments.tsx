@@ -39,13 +39,15 @@ const TitleWrapper = styled.div`
 const PopupsHeadingWrapper = styled.div`
   ${({ theme }) => css`
     margin: 8 8;
+
     h1 {
       max-width: 26rem;
+      margin: 0 auto;
       line-height: 1em;
     }
+
     ${theme.mediaQueries.tablet} {
-      margin: 0 auto;
-      max-width: 16rem;
+      width: 100%;
     }
   `}
 `
