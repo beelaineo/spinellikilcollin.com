@@ -20,6 +20,8 @@ interface ItemProps {
 
 const ContentWrapper = styled.div`
   ${({ theme }) => css`
+    max-width: 500px;
+
     border-left: 1px solid black;
     padding-left: 10;
     position: relative;
@@ -28,6 +30,7 @@ const ContentWrapper = styled.div`
     display: flex;
     flex-direction: column;
     gap: 6;
+
     ${theme.mediaQueries.tablet} {
       border-left: none;
       margin: 0 auto;
@@ -77,7 +80,6 @@ const ButtonsWrapper = styled.div`
 
 const Items = styled.ul`
   ${({ theme }) => css`
-    max-width: 500px;
     position: relative;
     width: 100%;
     height: 100%;
