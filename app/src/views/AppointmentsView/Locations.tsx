@@ -136,11 +136,11 @@ const IconWrapper = styled.span`
 
     > div {
       aspect-ratio: 1;
-      margin: 8px;
+      margin: 4px;
     }
 
     ${theme.mediaQueries.tablet} {
-      width: 70;
+      width: 80;
     }
   `}
 `
