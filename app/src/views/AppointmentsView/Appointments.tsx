@@ -29,6 +29,7 @@ const TitleWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  padding-bottom: 5;
   h1 {
     max-width: 26rem;
     margin: 0 auto;
@@ -39,6 +40,7 @@ const TitleWrapper = styled.div`
 const PopupsHeadingWrapper = styled.div`
   ${({ theme }) => css`
     margin: 8 8;
+    padding-bottom: 5;
 
     h1 {
       max-width: 26rem;

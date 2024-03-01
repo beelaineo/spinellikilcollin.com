@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { css } from '@xstyled/styled-components'
 
 import { TextBlock } from '../../components/ContentBlock/TextBlock'
@@ -20,10 +20,9 @@ interface ItemProps {
 
 const ContentWrapper = styled.div`
   ${({ theme }) => css`
-    max-width: 500px;
-
     border-left: 1px solid black;
-    padding-left: 10;
+    padding: 0 2 0 8;
+
     position: relative;
     width: 100%;
     margin: 8 auto;
@@ -34,7 +33,7 @@ const ContentWrapper = styled.div`
     ${theme.mediaQueries.tablet} {
       border-left: none;
       margin: 0 auto;
-      padding-left: 0;
+      padding: 0;
     }
   `}
 `
@@ -88,7 +87,7 @@ const Items = styled.ul`
     flex-direction: column;
     gap: 40px;
     cursor: pointer;
-    margin: 8 0;
+    margin: 10 0;
     padding: 0;
   `}
 `
@@ -101,10 +100,12 @@ const Item = styled.li<ItemProps>`
     align-items: center;
     gap: 6;
 
-    &:hover {
-      > span {
-        outline: 1px solid ${theme.colors.grays[4]};
-        border-radius: 10px;
+    @media (hover: hover) {
+      &:hover {
+        > span {
+          outline: 1px solid ${theme.colors.grays[4]};
+          border-radius: 10px;
+        }
       }
     }
 
@@ -113,13 +114,16 @@ const Item = styled.li<ItemProps>`
       outline: 1px solid ${theme.colors.grays[6]}; 
       border-radius: 10px;
     }
-  
+    
+    @media (hover: hover) {
       &:hover {
-         > span
-      {  outline: 1px solid ${theme.colors.grays[6]};
-        border-radius: 10px;}
-      }
-      `}
+        > span {
+          outline: 1px solid ${theme.colors.grays[6]};
+          border-radius: 10px;
+          }
+        }
+      }  
+    `}
   `}
 `
 
@@ -197,19 +201,22 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
     setShowCalendar(false)
   }
 
+  useEffect(() => {
+    isMedium && setActiveIndex(-1)
+  }, [isMedium])
+
   return (
     <>
       <Items>
         {locations?.map((location, i) => {
           return isMedium ? (
             <Accordion
+              index={i}
+              isActive={activeIndex === i}
+              setActiveIndex={setActiveIndex}
               key={i}
               renderLabel={() => (
-                <Item
-                  key={i}
-                  isActive={activeIndex === i}
-                  onClick={handleLocationClick(i)}
-                >
+                <Item key={i} isActive={activeIndex === i}>
                   <IconWrapper>
                     <Image image={location?.icon} objectFit="contain" />
                   </IconWrapper>
