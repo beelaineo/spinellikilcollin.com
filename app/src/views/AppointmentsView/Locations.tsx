@@ -202,7 +202,7 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
   }
 
   useEffect(() => {
-    isMedium && setActiveIndex(-1)
+    setActiveIndex(isMedium ? -1 : 0)
   }, [isMedium])
 
   return (
@@ -270,7 +270,9 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
 
       {!isMedium && locations && !showCalendar ? (
         <ContentWrapper>
-          <ImageTextBlock content={locations[activeIndex]?.image} />
+          {activeIndex >= 0 && (
+            <ImageTextBlock content={locations[activeIndex]?.image} />
+          )}
           <ButtonsWrapper>
             <Button onClick={() => setShowCalendar(true)}>Book now</Button>
             {locations[activeIndex]?.phone && (
