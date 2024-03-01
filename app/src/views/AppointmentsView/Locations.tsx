@@ -235,7 +235,7 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
                       Book now
                     </Button>
                     {location?.phone && (
-                      <Button>{`Call ${locations?.phone}`}</Button>
+                      <Button>{`Call ${location?.phone}`}</Button>
                     )}
                   </ButtonsWrapper>
                 </ContentWrapper>
