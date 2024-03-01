@@ -5,11 +5,19 @@ import { useEffect, useRef } from 'react'
 interface AccordionProps {
   renderLabel: any
   children: React.ReactNode
+  index: number
+  setActiveIndex: (index: number) => void
+  isActive: boolean
 }
 
-export const Accordion = ({ renderLabel, children }: AccordionProps) => {
+export const Accordion = ({
+  renderLabel,
+  index,
+  setActiveIndex,
+  isActive,
+  children,
+}: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
-  const toggleOpen = () => setOpen(!open)
 
   const [height, updateHeight] = React.useState(0)
 
@@ -32,9 +40,17 @@ export const Accordion = ({ renderLabel, children }: AccordionProps) => {
     }
   }, [])
 
+  const handleClick = () => {
+    setActiveIndex(open ? -1 : index)
+  }
+
+  useEffect(() => {
+    setOpen(isActive)
+  }, [isActive])
+
   return (
     <Wrapper>
-      <Label onClick={() => setOpen(!open)}>{renderLabel()}</Label>
+      <Label onClick={handleClick}> {renderLabel()}</Label>
       <Inner tabIndex={-1} open={open} height={height}>
         <Item ref={refContainer}>{children}</Item>
       </Inner>

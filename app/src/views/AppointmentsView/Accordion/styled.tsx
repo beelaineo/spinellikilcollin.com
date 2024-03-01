@@ -37,7 +37,7 @@ export const Wrapper = styled.div``
 export const Label = styled.button`
   ${({ theme }) => css`
     position: relative;
-    padding: 3 0;
+
     width: 100%;
     text-align: left;
     background-color: transparent;
