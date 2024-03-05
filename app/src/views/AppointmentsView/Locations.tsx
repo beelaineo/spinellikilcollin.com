@@ -22,7 +22,6 @@ const ContentWrapper = styled.div`
   ${({ theme }) => css`
     border-left: 1px solid black;
     padding: 0 2 0 8;
-
     position: relative;
     width: 100%;
     margin: 8 auto;
