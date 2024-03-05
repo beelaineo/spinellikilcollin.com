@@ -48,6 +48,12 @@ const pageQuery = gql`
             _key
             title
           }
+          ... on Appointments {
+            _id
+            _type
+            _key
+            title
+          }
           ... on Customize {
             _id
             _type
@@ -162,6 +168,12 @@ const pageQueryById = gql`
             title
           }
           ... on Faq {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Appointments {
             _id
             _type
             _key

@@ -90,6 +90,11 @@ export default async function handler(
         return res.json({
           message: `Revalidated "${type}"`,
         })
+      case 'appointments':
+        await res.revalidate(`/about/appointments`)
+        return res.json({
+          message: `Revalidated "${type}"`,
+        })
       case 'paymentPlans':
         await res.revalidate(`/about/financing`)
         return res.json({
