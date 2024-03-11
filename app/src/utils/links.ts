@@ -11,6 +11,7 @@ import {
   JournalEntry,
   Contact,
   Faq,
+  Appointments,
   PaymentPlans,
   ShopifyCollectionImage,
   ShopifyImage,
@@ -30,6 +31,7 @@ export type Document =
   | JournalEntry
   | Contact
   | Faq
+  | Appointments
   | PaymentPlans
 
 export interface LinkInfo {
@@ -52,6 +54,7 @@ export const getPageLinkLabel = (
     case 'Page':
     case 'TeamPage':
     case 'Faq':
+    case 'Appointments':
     case 'PaymentPlans':
       return document.title
     case 'About':
@@ -113,6 +116,11 @@ export const getPageLinkUrl = (
     case 'Faq':
       return {
         href: '/about/faq'.concat(paramString),
+      }
+
+    case 'Appointments':
+      return {
+        href: '/about/appointments'.concat(paramString),
       }
 
     case 'Page':

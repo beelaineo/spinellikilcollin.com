@@ -35,8 +35,14 @@ export default async function handler(
   }
 
   try {
-    const { _type: type, slug, handle } = JSON.parse(body)
-
+    const { _type: type, slug, handle, collections } = JSON.parse(body)
+    console.log(
+      'revalidating',
+      `type: ${type}`,
+      `slug: ${slug}`,
+      `handle: ${handle}`,
+      `collections: ${collections}`,
+    )
     switch (type) {
       case 'homepage':
         await res.revalidate(`/`)
@@ -55,6 +61,11 @@ export default async function handler(
         })
       case 'about':
         await res.revalidate(`/about`)
+        return res.json({
+          message: `Revalidated "${type}"`,
+        })
+      case 'emailSignatureSettings':
+        await res.revalidate(`/email-signatures`)
         return res.json({
           message: `Revalidated "${type}"`,
         })
@@ -79,6 +90,11 @@ export default async function handler(
         return res.json({
           message: `Revalidated "${type}"`,
         })
+      case 'appointments':
+        await res.revalidate(`/about/appointments`)
+        return res.json({
+          message: `Revalidated "${type}"`,
+        })
       case 'paymentPlans':
         await res.revalidate(`/about/financing`)
         return res.json({
@@ -95,14 +111,47 @@ export default async function handler(
           message: `Revalidated "${type}" with slug "${slug}"`,
         })
       case 'product':
-        await res.revalidate(`/products/${handle}`)
+        console.log('revalidating product', handle)
+        await res
+          .revalidate(`/products/${handle}`)
+          .then(() => {
+            console.log('revalidated product', handle)
+          })
+          .catch((err) => {
+            console.log('error revalidating product ' + handle, err)
+          })
+        collections.map(async (handle) => {
+          await res
+            .revalidate(`/collections/${handle}`)
+            .then(() => {
+              console.log('revalidated collection', handle)
+            })
+            .catch((err) => {
+              console.log('error revalidating collection ' + handle, err)
+            })
+        })
         await res.revalidate(`/`)
         return res.json({
           message: `Revalidated "${type}" with slug "${handle}"`,
         })
       case 'collection':
-        await res.revalidate(`/collections/${handle}`)
-        await res.revalidate(`/`)
+        console.log('revalidating collection', handle)
+        await res
+          .revalidate(`/collections/${handle}`)
+          .then(() => {
+            console.log('revalidated collection', handle)
+          })
+          .catch((err) => {
+            console.log('error revalidating collection', handle)
+          })
+        await res
+          .revalidate(`/`)
+          .then(() => {
+            console.log('revalidated homepage')
+          })
+          .catch((err) => {
+            console.log('error revalidating homepage', err)
+          })
         return res.json({
           message: `Revalidated "${type}" with slug "${handle}"`,
         })

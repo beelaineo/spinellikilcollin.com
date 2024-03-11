@@ -118,6 +118,7 @@ export const internalLink = defineType({
         {type: 'contact'},
         {type: 'faq'},
         {type: 'customize'},
+        {type: 'appointments'},
         {type: 'about'},
         {type: 'page'},
         {type: 'paymentPlans'},
