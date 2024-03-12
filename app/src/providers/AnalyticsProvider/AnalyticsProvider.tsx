@@ -144,6 +144,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
     }
 
   const sendAddToCart: AnalyticsContextValue['sendAddToCart'] = (selected) => {
+    // console.log('sendAddToCart', selected)
     const products = arrayify(selected).map((s, i) =>
       parseProduct(s, { position: i + 1 }),
     )
