@@ -33,6 +33,7 @@ type FB_VIEW_CONTENT = {
 }
 
 export const reportFBAddToCart = (product: Product): void => {
+  // console.log('reportFBAddToCart', product)
   const content_ids: string[] = []
   const event_id =
     'ATC_' + new Date().getTime() + Math.floor(100000 + Math.random() * 900000)
@@ -40,20 +41,25 @@ export const reportFBAddToCart = (product: Product): void => {
   let contentName
   let template: FB_VIEW_CONTENT
   const hash = getLocationSearchHash(window.location.search)
-  const productId = getIdFromBase64(hash)
-  if (productId) {
-    content_ids.push(productId)
+  // console.log('hash', hash)
+  const variantId = getIdFromBase64(hash)
+  const shopifyVariantID = `gid://shopify/ProductVariant/${variantId}`
+  // console.log('shopifyVariantID', shopifyVariantID)
+  if (shopifyVariantID) {
+    content_ids.push(shopifyVariantID)
 
     template = {
       content_type: 'product',
       product_catalog_id: `${FB_PRDOUCT_CATALOG_ID}`,
       content_ids: content_ids,
     }
-
     const variants = product.store?.variants
+    // console.log('variants', variants)
     const variant = variants?.find((v) => {
-      return v?.shopifyVariantID === hash
+      return v?.shopifyVariantID === shopifyVariantID
     })
+
+    // console.log('variant', variant)
 
     if (variant && variant.sourceData) {
       contentName = `${product.title}`

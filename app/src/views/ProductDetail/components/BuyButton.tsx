@@ -177,7 +177,11 @@ export const BuyButton = ({
         currentVariant,
       })
     } else {
-      sendAddToCart({ product, variant: currentVariant, quantity })
+      sendAddToCart({
+        product,
+        variant: currentVariant,
+        quantity: quantity || 1,
+      })
       await addLineItem({
         variantId: currentVariant.shopifyVariantID,
         quantity: quantity || 1,
