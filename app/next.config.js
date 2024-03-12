@@ -76,11 +76,26 @@ module.exports = withSourceMaps({
     POSTMARK_KEY,
   },
   redirects: async function redirects() {
-    return redirectsJson.map(({ from, to }) => ({
+    const redirectRules = redirectsJson.map(({ from, to }) => ({
       source: from,
       destination: to,
       permanent: false,
     }))
+    return [
+      ...redirectRules,
+      {
+        source: '/(.*)',
+        has: [
+          {
+            type: 'header',
+            key: 'x-vercel-ip-country',
+            value: 'KR',
+          },
+        ],
+        permanent: false,
+        destination: 'https://spinellikilcollinkorea.com/',
+      },
+    ]
   },
   webpack: (config, { isServer, buildId }) => {
     config.plugins.push(
