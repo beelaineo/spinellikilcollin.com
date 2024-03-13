@@ -172,7 +172,7 @@ const CollectionPage = ({ collection, useEffect }: CollectionPageProps) => {
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
-
+      console.log('preview data', data)
       if (!data)
         return (
           <ProductListing
