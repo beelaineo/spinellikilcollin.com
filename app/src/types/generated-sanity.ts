@@ -399,7 +399,7 @@ export interface Collection extends Document {
   products?: Maybe<Array<Maybe<Product>>>
   /** Changes the layout to 2 columns on desktop, 1 column on tablet */
   reduceColumnCount?: Maybe<Scalars['Boolean']['output']>
-  seo?: Maybe<LegacySeo>
+  seo?: Maybe<Seo>
   shopifyId?: Maybe<Scalars['String']['output']>
   slugProxy?: Maybe<Scalars['String']['output']>
   store?: Maybe<ShopifyCollectionDef>
@@ -464,7 +464,7 @@ export type CollectionFilter = {
   minimalDisplay?: InputMaybe<BooleanFilter>
   overrideDefaultFilter?: InputMaybe<BooleanFilter>
   reduceColumnCount?: InputMaybe<BooleanFilter>
-  seo?: InputMaybe<LegacySeoFilter>
+  seo?: InputMaybe<SeoFilter>
   shopifyId?: InputMaybe<StringFilter>
   slugProxy?: InputMaybe<StringFilter>
   store?: InputMaybe<ShopifyCollectionDefFilter>
@@ -551,7 +551,7 @@ export type CollectionSorting = {
   minimalDisplay?: InputMaybe<SortOrder>
   overrideDefaultFilter?: InputMaybe<SortOrder>
   reduceColumnCount?: InputMaybe<SortOrder>
-  seo?: InputMaybe<LegacySeoSorting>
+  seo?: InputMaybe<SeoSorting>
   shopifyId?: InputMaybe<SortOrder>
   slugProxy?: InputMaybe<SortOrder>
   store?: InputMaybe<ShopifyCollectionDefSorting>

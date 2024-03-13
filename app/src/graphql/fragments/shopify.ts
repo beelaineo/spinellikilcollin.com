@@ -27,6 +27,18 @@ export const shopifyImageFragment = gql`
   }
 `
 
+export const shopifyCollectionImageFragment = gql`
+  fragment ShopifyCollectionImageFragment on ShopifyCollectionImage {
+    __typename
+    _key
+    _type
+    altText
+    src
+    width
+    height
+  }
+`
+
 export const shopifyVariantImageFragment = gql`
   fragment ShopifyVariantImageFragment on ShopifyVariantImage {
     __typename
