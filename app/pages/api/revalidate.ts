@@ -12,24 +12,64 @@ export const config = {
   },
 }
 
+const logError = (message, context) => {
+  console.error(
+    JSON.stringify({
+      message,
+      context,
+      level: 'error',
+      timestamp: new Date().toISOString(),
+    }),
+  )
+}
+
+const logInfo = (message, context) => {
+  console.log(
+    JSON.stringify({
+      message,
+      context,
+      level: 'info',
+      timestamp: new Date().toISOString(),
+    }),
+  )
+}
+
+const readBody = async (readable) => {
+  const chunks = []
+  for await (const chunk of readable) {
+    // @ts-ignore
+    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
+  }
+  return Buffer.concat(chunks).toString('utf8')
+}
+
+const generateUniqueId = () => {
+  // Implementation to generate a unique request ID
+  return Date.now().toString()
+}
+
 const secret = process.env.SANITY_REVALIDATE_SECRET
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
+  const requestId = generateUniqueId()
   const signature = req.headers[SIGNATURE_HEADER_NAME] as string
   const body = await readBody(req) // Read the body into a string
 
   if (!secret) {
+    logError('No secret provided', { requestId })
     return res.status(401).json({ message: 'No secret provided' })
   }
 
   if (req.method !== 'POST') {
+    logError('Must be a POST request', { requestId })
     return res.status(401).json({ message: 'Must be a POST request' })
   }
 
   if (!isValidSignature(body, signature, secret)) {
+    logError('Invalid signature', { requestId, signature })
     res.status(401).json({ message: 'Invalid signature' })
     return
   }
@@ -43,6 +83,13 @@ export default async function handler(
       `handle: ${handle}`,
       `collections: ${collections}`,
     )
+    logInfo('Attempting revalidation', {
+      requestId,
+      type,
+      slug,
+      handle,
+      collections,
+    })
     switch (type) {
       case 'homepage':
         await res.revalidate(`/`)
@@ -118,6 +165,10 @@ export default async function handler(
             console.log('revalidated product', handle)
           })
           .catch((err) => {
+            logError('Error revalidating product', {
+              requestId,
+              error: err.message,
+            })
             console.log('error revalidating product ' + handle, err)
           })
         collections.map(async (handle) => {
@@ -127,6 +178,10 @@ export default async function handler(
               console.log('revalidated collection', handle)
             })
             .catch((err) => {
+              logError('Error revalidating product-affiliated collection', {
+                requestId,
+                error: err.message,
+              })
               console.log('error revalidating collection ' + handle, err)
             })
         })
@@ -142,6 +197,10 @@ export default async function handler(
             console.log('revalidated collection', handle)
           })
           .catch((err) => {
+            logError('Error revalidating collection', {
+              requestId,
+              error: err.message,
+            })
             console.log('error revalidating collection', handle)
           })
         await res
@@ -150,6 +209,10 @@ export default async function handler(
             console.log('revalidated homepage')
           })
           .catch((err) => {
+            logError('Error revalidating homepage', {
+              requestId,
+              error: err.message,
+            })
             console.log('error revalidating homepage', err)
           })
         return res.json({
@@ -158,16 +221,8 @@ export default async function handler(
     }
 
     return res.json({ message: 'No managed type' })
-  } catch (err) {
+  } catch (err: any) {
+    logError('Error revalidating', { requestId, error: err.message })
     return res.status(500).send({ message: 'Error revalidating' })
   }
-}
-
-async function readBody(readable) {
-  const chunks = []
-  for await (const chunk of readable) {
-    // @ts-ignore
-    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
-  }
-  return Buffer.concat(chunks).toString('utf8')
 }
