@@ -10,7 +10,7 @@
 	"license": "NONE",
 	"scripts": {
 		"dev": "NODE_ENV=development next dev",
-		"start": "DEBUG=app* next",
+		"start": "next start",
 		"start:prod": "NODE_ENV=production next",
 		"start:debug": "NODE_ENV=development NODE_OPTIONS='--inspect' next dev",
 		"start:algolia": "DEBUG=api:algolia,dev:sentry yarn next",
