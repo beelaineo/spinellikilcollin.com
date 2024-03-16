@@ -97,6 +97,25 @@ module.exports = withSourceMaps({
       },
     ]
   },
+  async headers() {
+    return [
+      {
+        source: '/api/revalidateAction',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'Origin, Content-Type, Authorization, X-Auth-Token, X-Requested-With',
+          },
+        ],
+      },
+    ]
+  },
   webpack: (config, { isServer, buildId }) => {
     config.plugins.push(
       new webpack.DefinePlugin({
