@@ -102,6 +102,7 @@
 		"atob": "^2.1.2",
 		"bufferutil": "^4.0.8",
 		"common-tags": "^1.8.2",
+		"dayjs": "^1.11.10",
 		"eslint-plugin-react": "^7.34.0",
 		"eslint-watch": "^8.0.0",
 		"focus-trap-react": "^10.2.3",
