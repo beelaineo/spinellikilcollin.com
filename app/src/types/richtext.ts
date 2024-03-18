@@ -3,6 +3,7 @@ import {
   Block,
   RichImage,
   CloudinaryVideo,
+  Countdown,
   Maybe,
 } from './generated-sanity'
 
@@ -30,11 +31,16 @@ interface CloudinaryVideoBlock extends Omit<CloudinaryVideo, '_type'> {
   _type: 'cloudinaryVideo'
 }
 
+interface CountDownBlock extends Omit<Countdown, '_type'> {
+  _type: 'countdown'
+}
+
 export type RichTextBlock =
   | BlockNode<FormBlock>
   | BlockNode<TextBlock>
   | BlockNode<ImageBlock>
   | BlockNode<CloudinaryVideoBlock>
+  | BlockNode<CountDownBlock>
 
 export interface ListBlock {
   type: 'bullet' | 'number'
