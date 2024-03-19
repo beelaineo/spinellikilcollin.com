@@ -193,8 +193,6 @@ const serializers = ({
      * This allows us to change a default P tag into a different size/style */
     // @ts-ignore
 
-    console.log('node', node)
-
     if (Wrapper) return <Wrapper {...props} />
     const weight = customWeight ?? 4
 
@@ -211,7 +209,11 @@ const serializers = ({
     }
 
     if (node._type === 'countdown') {
-      return <CountDown targetDate={node.dateTime} />
+      return (
+        <React.Suspense>
+          <CountDown targetDate={node.dateTime} />
+        </React.Suspense>
+      )
     }
 
     const style = node.style || 'normal'
