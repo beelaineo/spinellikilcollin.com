@@ -6,6 +6,8 @@ import {
 } from 'sanity'
 import shopifyDelete from './shopifyDelete'
 import shopifyLink from './shopifyLink'
+import preview from './preview'
+import nextSync from './nextSync'
 
 import {LOCKED_DOCUMENT_TYPES, SHOPIFY_DOCUMENT_TYPES} from '../../constants'
 
@@ -29,10 +31,12 @@ export const resolveDocumentActions: DocumentActionsResolver = (prev, {schemaTyp
       ...prev,
       shopifyDelete as DocumentActionComponent,
       shopifyLink as DocumentActionComponent,
+      nextSync as DocumentActionComponent,
+      preview as DocumentActionComponent,
     ]
   }
 
-  return prev
+  return [...prev, nextSync as DocumentActionComponent, preview as DocumentActionComponent]
 }
 
 export const resolveNewDocumentOptions: NewDocumentOptionsResolver = (prev) => {

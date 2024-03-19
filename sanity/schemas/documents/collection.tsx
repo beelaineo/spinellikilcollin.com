@@ -198,7 +198,7 @@ export const collection = defineType({
     }),
     defineField({
       name: 'seo',
-      type: 'legacySeo',
+      type: 'seo',
       description:
         'Custom SEO settings. By default, the collection description and image will be used.',
       group: 'seo',

@@ -1,5 +1,9 @@
 import { gql } from 'graphql-tag'
-import { shopifyImageFragment, shopifyVariantImageFragment } from './shopify'
+import {
+  shopifyCollectionImageFragment,
+  shopifyImageFragment,
+  shopifyVariantImageFragment,
+} from './shopify'
 import {
   sanityImageFragment,
   sanityFileAssetFragment,
@@ -493,7 +497,7 @@ export const productFragment = gql`
     collections {
       __typename
       handle
-      id
+      _id
     }
     shopifyId
     store {
@@ -575,13 +579,12 @@ export const shopifyCollectionDefFragment = gql`
     __typename
     title
     handle
-    description
     descriptionHtml
     image {
-      ...ShopifyImageFragment
+      ...ShopifyCollectionImageFragment
     }
   }
-  ${shopifyImageFragment}
+  ${shopifyCollectionImageFragment}
 `
 
 export const collectionFragment = gql`

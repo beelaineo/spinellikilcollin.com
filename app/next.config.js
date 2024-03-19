@@ -76,11 +76,45 @@ module.exports = withSourceMaps({
     POSTMARK_KEY,
   },
   redirects: async function redirects() {
-    return redirectsJson.map(({ from, to }) => ({
+    const redirectRules = redirectsJson.map(({ from, to }) => ({
       source: from,
       destination: to,
       permanent: false,
     }))
+    return [
+      ...redirectRules,
+      {
+        source: '/(.*)',
+        has: [
+          {
+            type: 'header',
+            key: 'x-vercel-ip-country',
+            value: 'KR',
+          },
+        ],
+        permanent: false,
+        destination: 'https://spinellikilcollinkorea.com/',
+      },
+    ]
+  },
+  async headers() {
+    return [
+      {
+        source: '/api/revalidateAction',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'Origin, Content-Type, Authorization, X-Auth-Token, X-Requested-With',
+          },
+        ],
+      },
+    ]
   },
   webpack: (config, { isServer, buildId }) => {
     config.plugins.push(
