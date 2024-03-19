@@ -1,8 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
-import { Maybe } from '@good-idea/unwind-edges'
 
-export type TDate = Maybe<Date> | number | string | undefined
+export type TDate = Date | number | string | undefined | null
 
 export type Options = {
   targetDate?: TDate
@@ -39,7 +38,7 @@ export const useCountDown = (options?: Options) => {
     targetDate,
     interval = 1000,
     onEnd,
-    dateToMs = (t: TDate) => (t ? dayjs(t).valueOf() : 0),
+    dateToMs = (t: TDate) => dayjs(t).valueOf(),
   } = options || {}
 
   const [target, setTargetDate] = useState<TDate>(targetDate)
