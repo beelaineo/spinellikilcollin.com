@@ -58,6 +58,8 @@ export const Checkout = () => {
 
   const showFreeShippingIndicator = false
 
+  const { currentCountry } = useCountry()
+
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
@@ -208,7 +210,7 @@ export const Checkout = () => {
                   {lineItems?.some(
                     (item) =>
                       item.variant?.product?.productType === 'Gift Card',
-                  ) ? null : (
+                  ) ? null : currentCountry === 'US' ? (
                     <div className="payment-plans">
                       <style
                         jsx
@@ -246,7 +248,7 @@ export const Checkout = () => {
                       <Affirm price={checkout.paymentDue} />
                       <Klarna price={checkout.paymentDue} />
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </SubtotalWrapper>
             ) : null}
@@ -283,12 +285,17 @@ export const Checkout = () => {
               <Heading my={3} level={6} textAlign="center">
                 Shipping and discount codes are added at checkout.
               </Heading>
-
-              <Heading my={3} level={6} textAlign="center">
-                We accept the following forms of payment: Visa, Mastercard,
-                Amex, Discover, PayPal, BitPay, Affirm, JCB, Diners Club, Elo,
-                Shop Pay, Apple Pay, Google Pay
-              </Heading>
+              {currentCountry === 'US' ? (
+                <Heading my={3} level={6} textAlign="center">
+                  We accept the following forms of payment: Visa, Mastercard,
+                  Amex, Discover, PayPal, BitPay, Affirm, JCB, Diners Club, Elo,
+                  Shop Pay, Apple Pay, Google Pay
+                </Heading>
+              ) : (
+                <Heading my={5} level={6} textAlign="center">
+                  {' '}
+                </Heading>
+              )}
             </Form>
           </CartBottom>
         </>

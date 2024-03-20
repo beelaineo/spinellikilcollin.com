@@ -519,7 +519,8 @@ export const ProductDetail = ({ product }: Props) => {
                     currentVariant={currentVariant}
                   />
                   {inquiryOnly !== true &&
-                  product.store?.productType !== 'Gift Card' ? (
+                  product.store?.productType !== 'Gift Card' &&
+                  currentCountry === 'US' ? (
                     <>
                       <AffirmWrapper>
                         <style jsx global>{`
