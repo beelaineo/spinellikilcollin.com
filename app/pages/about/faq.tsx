@@ -13,7 +13,7 @@ const query = gql`
       _type
       title
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       faqCategories {
         _key

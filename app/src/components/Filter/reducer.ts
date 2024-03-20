@@ -2,13 +2,13 @@ import { useReducer } from 'react'
 import {
   Filter as FilterSingleType,
   FilterSet as FilterSetType,
-  PriceRangeFilter as PriceRangeFilterType,
-  InventoryFilter as InventoryFilterTypeSource,
+  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
+  InStockFilter as InStockFilterTypeSource,
 } from '../../types'
 import { unique } from '../../utils'
 import { FilterSetState, FilterValues } from './types'
 
-interface InventoryFilterType extends InventoryFilterTypeSource {
+interface InStockFilterType extends InStockFilterTypeSource {
   applyFilter?: boolean
 }
 
@@ -17,6 +17,7 @@ interface State {
 }
 
 const RESET_ALL = 'RESET_ALL'
+const RESET_BUTTONS = 'RESET_BUTTONS'
 const RESET_SET = 'RESET_SET'
 const ENABLE = 'ENABLE'
 const DISABLE = 'DISABLE'
@@ -26,6 +27,10 @@ const SET_VALUES = 'SET_VALUES'
 
 interface ResetAllAction {
   type: typeof RESET_ALL
+}
+
+interface ResetButtonsAction {
+  type: typeof RESET_BUTTONS
 }
 
 interface ResetSetAction {
@@ -66,6 +71,7 @@ interface SetValuesAction {
 
 type Action =
   | ResetAllAction
+  | ResetButtonsAction
   | ResetSetAction
   | EnableAction
   | DisableAction
@@ -89,6 +95,15 @@ const reducer = (state: State, action: Action): State => {
             ...set,
             activeMatchKeys: [],
             values: set.initialValues,
+          }
+        }),
+      }
+    case RESET_BUTTONS:
+      return {
+        filterSetStates: state.filterSetStates.map((set) => {
+          return {
+            ...set,
+            activeMatchKeys: [],
           }
         }),
       }
@@ -182,12 +197,16 @@ const reducer = (state: State, action: Action): State => {
 }
 
 type Filters = Array<
-  FilterSingleType | FilterSetType | PriceRangeFilterType | InventoryFilterType
+  | FilterSingleType
+  | FilterSetType
+  | PriceRangeMinMaxFilterType
+  | InStockFilterType
 >
 
 interface UseFilterReducer {
   filterSetStates: FilterSetState[]
   resetAll: () => void
+  resetButtons: () => void
   resetSet: (setKey: string) => () => void
   enable: (setKey: string, matchKey: string) => void
   disable: (setKey: string, matchKey: string) => void
@@ -204,26 +223,26 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
       key: filter._key || 'some-key',
       activeMatchKeys: [],
       initialValues:
-        filter.__typename === 'PriceRangeFilter'
+        filter.__typename === 'PriceRangeMinMaxFilter'
           ? {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
             }
-          : filter.__typename === 'InventoryFilter'
+          : filter.__typename === 'InStockFilter'
           ? {
-              label: filter?.label || 'Ready to Ship',
+              label: filter?.label || 'In Stock',
               applyFilter: false,
             }
           : {},
       values:
-        filter.__typename === 'PriceRangeFilter'
+        filter.__typename === 'PriceRangeMinMaxFilter'
           ? {
               minPrice: filter?.minPrice || 0,
               maxPrice: filter?.maxPrice || 0,
             }
-          : filter.__typename === 'InventoryFilter'
+          : filter.__typename === 'InStockFilter'
           ? {
-              label: filter?.label || 'Ready to Ship',
+              label: filter?.label || 'In Stock',
               applyFilter: filter?.applyFilter || false,
             }
           : {},
@@ -233,6 +252,7 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
 
   const { filterSetStates } = state
   const resetAll = () => dispatch({ type: RESET_ALL })
+  const resetButtons = () => dispatch({ type: RESET_BUTTONS })
   const resetSet = (setKey: string) => () =>
     dispatch({ type: RESET_SET, setKey })
   const enable = (setKey: string, matchKey: string) =>
@@ -250,6 +270,7 @@ export const useFilterState = (filters: Filters): UseFilterReducer => {
   return {
     filterSetStates,
     resetAll,
+    resetButtons,
     resetSet,
     enable,
     disable,

@@ -7,7 +7,7 @@ import {
   UseCheckoutValues,
 } from '../../../providers/ShopifyProvider'
 import { Button } from '../../../components/Button'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
 import { useAnalytics, useCart, useModal } from '../../../providers'
 import { useMedia } from '../../../hooks'
@@ -18,7 +18,7 @@ import { ShopifyStorefrontProductVariant } from '../../../types/generated-shopif
 const { useEffect, useRef, useState } = React
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
   quantity?: number
 }
@@ -90,11 +90,11 @@ const useVariantIsInStock = (
     const requestVariantData = async () => {
       setIsInStock(PENDING)
       const result = await shopifyQuery<{
-        data: { node: ShopifyStorefrontProductVariant }
+        node: ShopifyStorefrontProductVariant
       }>(shopifyVariantQuery, {
         id: currentVariantId,
       })
-      const variantIsAvailableForSale = result?.data.node.availableForSale
+      const variantIsAvailableForSale = result?.node.availableForSale
       setIsInStock(variantIsAvailableForSale)
     }
     requestVariantData()
@@ -177,7 +177,11 @@ export const BuyButton = ({
         currentVariant,
       })
     } else {
-      sendAddToCart({ product, variant: currentVariant, quantity })
+      sendAddToCart({
+        product,
+        variant: currentVariant,
+        quantity: quantity || 1,
+      })
       await addLineItem({
         variantId: currentVariant.shopifyVariantID,
         quantity: quantity || 1,
@@ -198,7 +202,7 @@ export const BuyButton = ({
       >
         {buttonLabel}
       </BuyButtonEl>
-      {isSticky ? <ButtonSpacer ref={spacerRef} /> : null}
+      {/* {isSticky ? <ButtonSpacer ref={spacerRef} /> : null} */}
     </>
   )
 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled from '@xstyled/styled-components'
 import { Box } from '@xstyled/styled-components'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
 import { getValidProductOptions, optionMatchesVariant } from '../../../utils'
 
@@ -26,7 +26,7 @@ const OptionWrapper = styled.div`
 
 interface Props {
   variants: ShopifyProductVariant[] | null
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
   disableStockIndication?: boolean
   changeValueForOption: (id: string) => (value: string) => void
@@ -48,7 +48,7 @@ export const ProductVariantSelector = (props: Props) => {
     disableStockIndication,
   } = props
   if (!variants || !variants.length) return null
-  const productType = product?.sourceData?.productType
+  const productType = product?.store?.productType
   const { inquiryOnly } = product
 
   const options = getValidProductOptions(product)

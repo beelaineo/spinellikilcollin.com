@@ -10,6 +10,7 @@ interface AccordionProps {
 
 export const Accordion = ({ label, children }: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
+  const shouldOpen = false
   const toggleOpen = () => setOpen(!open)
 
   const [height, updateHeight] = React.useState(0)
@@ -34,7 +35,7 @@ export const Accordion = ({ label, children }: AccordionProps) => {
   }, [])
 
   useEffect(() => {
-    if (open) return
+    if (open || !shouldOpen) return
 
     setTimeout(() => {
       if (label !== 'Description') return

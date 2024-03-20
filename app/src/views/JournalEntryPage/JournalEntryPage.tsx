@@ -43,11 +43,9 @@ export const JournalEntryPage = ({ entry }: JournalEntryPageProps) => {
       <JournalPageWrapper withHero={validHero} tabIndex={-1}>
         <LinkWrapper>
           <Link href="/journal">
-            <a>
-              <Heading level={5}>
-                <LeftArrow /> Back to Journal
-              </Heading>
-            </a>
+            <Heading level={5}>
+              <LeftArrow /> Back to Journal
+            </Heading>
           </Link>
         </LinkWrapper>
         <MainWrapper>

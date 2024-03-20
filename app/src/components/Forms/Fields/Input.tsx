@@ -11,6 +11,7 @@ export const Input = (props: InputProps) => {
     readOnly,
     disabled,
     placeholder,
+    maxLength,
     type,
     color,
     renderBeforeInput,
@@ -40,6 +41,7 @@ export const Input = (props: InputProps) => {
                       id={field.name}
                       color={color}
                       required={required}
+                      maxLength={maxLength}
                       type={type}
                       disabled={disabled}
                     />
@@ -53,6 +55,7 @@ export const Input = (props: InputProps) => {
                 id={field.name}
                 required={required}
                 placeholder={placeholder}
+                maxLength={maxLength}
                 color={color}
                 type={type}
                 readOnly={readOnly}

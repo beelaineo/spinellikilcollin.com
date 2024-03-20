@@ -35,6 +35,7 @@ export const SearchPane = () => {
     closeSearch,
     searchTerm,
   } = useSearch()
+
   const { lockScroll, unlockScroll } = useLockScroll()
   const { clearSearchResultPrices } = useShopifyPrice()
 

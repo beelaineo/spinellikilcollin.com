@@ -79,14 +79,14 @@ export const PageLink = ({
   }
 
   return (
-    <NextLink as={as} href={href}>
-      <a
-        onClick={onClick}
-        style={linkStyles}
-        aria-label={'Link to ' + document.title}
-      >
-        {inner()}
-      </a>
+    <NextLink
+      as={as}
+      href={href}
+      onClick={onClick}
+      style={linkStyles}
+      aria-label={'Link to ' + document.title}
+    >
+      {inner()}
     </NextLink>
   )
 }

@@ -1,5 +1,4 @@
 import * as React from 'react'
-import fetch from 'isomorphic-unfetch'
 import { ThemeProvider } from '@xstyled/styled-components'
 import { DocumentNode } from 'graphql'
 import { ShopDataResponse } from './ShopDataProvider/shopDataQuery'
@@ -48,19 +47,41 @@ export async function shopifyQuery<Response>(
   query: string | DocumentNode,
   variables?: Record<string, unknown>,
 ): Promise<Response> {
-  const queryString =
-    typeof query === 'string'
-      ? query
-      : deduplicateFragments(query?.loc?.source.body)
-  const result = await fetch(NEW_SHOPIFY_STOREFRONT_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_TOKEN,
-    },
-    body: JSON.stringify({ query: queryString, variables }),
-  }).then((r) => r.json())
-  return result
+  try {
+    const queryString =
+      typeof query === 'string'
+        ? query
+        : deduplicateFragments(query?.loc?.source.body)
+    // console.log('shopifyQuery queryString', queryString)
+
+    const response = await fetch(NEW_SHOPIFY_STOREFRONT_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': SHOPIFY_STOREFRONT_TOKEN,
+      },
+      body: JSON.stringify({ query: queryString, variables }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const result = await response.json()
+
+    // console.log('shopifyQuery body', { query: queryString, variables })
+    // console.log('shopifyQuery result', result)
+
+    if (result.errors) {
+      console.error('Shopify query errors:', result.errors)
+      throw new Error('Shopify query execution errors')
+    }
+
+    return result.data
+  } catch (error) {
+    console.error('Error in shopifyQuery:', error)
+    return undefined as unknown as Response
+  }
 }
 
 interface Props {

@@ -1,9 +1,9 @@
 import { useEffect, useReducer } from 'react'
 import { useRouter } from 'next/router'
-import { ShopifyProduct, ShopifyCollection } from '../../types'
+import { Product, Collection } from '../../types'
 import { algoliaIndex } from '../../services/algolia'
 
-export type SearchResult = ShopifyProduct | ShopifyCollection
+export type SearchResult = Product | Collection
 
 interface SearchHit {
   document: SearchResult
@@ -222,6 +222,7 @@ export const useSearchReducer = () => {
       exactOnSingleWordQuery: 'word',
       filters: `hideFromSearch:false`,
     })
+
     const results = hits
       .map((hit) => {
         const result = hit.document

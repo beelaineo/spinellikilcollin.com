@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ShopifyProduct } from '../../types'
+import { Product } from '../../types'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { definitely } from '../../utils'
 import { Heading } from '../../components/Text'
@@ -8,13 +8,13 @@ import { TagBadge, TagBadgeWrapper } from './styled'
 const { useMemo } = React
 
 interface TagBadgesProps {
-  product: ShopifyProduct
+  product: Product
 }
 
 export const TagBadges = ({ product }: TagBadgesProps) => {
   const shopData = useShopData()
   const tagBadges = definitely(shopData?.productInfoSettings?.tagBadges)
-  const tags = definitely(product?.sourceData?.tags)
+  const tags = definitely(product?.store?.tags)
   const matches = useMemo(
     () =>
       definitely(

@@ -1,10 +1,9 @@
-import { ShopifyProduct, ShopifyCollection } from './generated-sanity'
+import { Product, Collection } from './generated-sanity'
 
-export interface GroqShopifyCollection
-  extends Omit<ShopifyCollection, '__typename'> {
-  _type: 'shopifyCollection'
+export interface GroqCollection extends Omit<Collection, '__typename'> {
+  _type: 'collection'
 }
 
-export interface GroqShopifyProduct extends Omit<ShopifyProduct, '__typename'> {
-  _type: 'shopifyProduct'
+export interface GroqProduct extends Omit<Product, '__typename'> {
+  _type: 'product'
 }

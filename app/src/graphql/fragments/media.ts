@@ -16,6 +16,7 @@ export const sanityImageAssetFragment = gql`
         width
         aspectRatio
       }
+      lqip
     }
   }
 `

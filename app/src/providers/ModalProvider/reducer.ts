@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useReducer } from 'react'
 import {
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   ShopifySourceSelectedOption,
 } from '../../types'
@@ -21,7 +21,7 @@ export enum ModalName {
 
 interface State {
   currentModal: ModalName | null
-  currentProduct?: ShopifyProduct
+  currentProduct?: Product
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
@@ -37,7 +37,7 @@ interface OpenFormAction {
   type: typeof OPEN
   currentModal: ModalName
   formtype?: string
-  currentProduct?: ShopifyProduct
+  currentProduct?: Product
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
@@ -76,7 +76,7 @@ const initialState = {
 }
 
 export interface OpenModalArgs {
-  currentProduct?: ShopifyProduct
+  currentProduct?: Product
   currentVariant?: ShopifyProductVariant
   currentDiamond?: ShopifySourceSelectedOption
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>

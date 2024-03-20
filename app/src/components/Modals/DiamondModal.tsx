@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import {
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   ShopifySourceSelectedOption,
 } from '../../types'
@@ -12,7 +12,7 @@ import DiamondOutline from '../../svg/Diamond.svg'
 
 interface DiamondModalProps {
   closeModal: () => void
-  product?: ShopifyProduct
+  product?: Product
   variant?: ShopifyProductVariant
   diamond?: ShopifySourceSelectedOption
 }
@@ -150,12 +150,10 @@ export const DiamondModal = ({
           </Heading>
         ) : null}
         {stone?.stone?.gia_link ? (
-          <Link href={stone.stone.gia_link}>
-            <a target="_blank">
-              <Heading level={5} my={0} fontStyle="italic">
-                View on GIA →
-              </Heading>
-            </a>
+          <Link href={stone.stone.gia_link} target="_blank">
+            <Heading level={5} my={0} fontStyle="italic">
+              View on GIA →
+            </Heading>
           </Link>
         ) : null}
       </Footer>

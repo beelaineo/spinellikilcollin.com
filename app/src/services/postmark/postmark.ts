@@ -16,6 +16,10 @@ import {
   VIPSignupArgs,
   weddingCustomizationInquiry,
   WeddingCustomizationInquiryArgs,
+  VIPLoyaltyArgs,
+  vipLoyalty,
+  newCustomer,
+  NewCustomerArgs,
 } from './emails'
 import { config } from '../../config'
 
@@ -40,6 +44,8 @@ const { POSTMARK_KEY } = config
 interface PostmarkService {
   sendMagazineSignup: (args: MagazineSignupArgs) => Promise<PostmarkResponse>
   sendVIPSignup: (args: VIPSignupArgs) => Promise<PostmarkResponse>
+  sendVIPLoyalty: (args: VIPLoyaltyArgs) => Promise<PostmarkResponse>
+  sendNewCustomer: (args: NewCustomerArgs) => Promise<PostmarkResponse>
   sendRequestRingSizer: (
     args: RequestRingSizerArgs,
   ) => Promise<PostmarkResponse>
@@ -125,6 +131,16 @@ export const postmark: PostmarkService = {
 
   sendVIPSignup: async (args: VIPSignupArgs) => {
     const message = vipSignup(args)
+    return send(message)
+  },
+
+  sendVIPLoyalty: async (args: VIPLoyaltyArgs) => {
+    const message = vipLoyalty(args)
+    return send(message)
+  },
+
+  sendNewCustomer: async (args: NewCustomerArgs) => {
+    const message = newCustomer(args)
     return send(message)
   },
 

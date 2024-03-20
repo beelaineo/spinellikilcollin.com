@@ -4,11 +4,11 @@ import WeddingCustomizeIcon from '../../../svg/WeddingCustomize.svg'
 import { Heading } from '../../../components/Text'
 import Link from 'next/link'
 import { useModal } from '../../../providers'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 
 interface CustomizeButtonProps {
   mobile?: boolean
-  product: ShopifyProduct
+  product: Product
   variant: ShopifyProductVariant
   wedding?: boolean
 }

@@ -88,50 +88,46 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
       <PageLinkWrapper>
         {image ? (
           <ImageWrapper isOdd={Boolean(index % 2)}>
-            <Link href={linkHref}>
-              <a aria-label={'Link to ' + title}>
-                <Image
-                  image={image}
-                  ratio={0.75}
-                  sizes="(min-width: 600px) 100vw, 600px"
-                />
-              </a>
+            <Link href={linkHref} aria-label={'Link to ' + title}>
+              <Image
+                image={image}
+                ratio={0.75}
+                sizes="(min-width: 600px) 100vw, 600px"
+              />
             </Link>
           </ImageWrapper>
         ) : null}
 
         <PageLinkBody isOdd={Boolean(index % 2)}>
           <Link href={linkHref}>
-            <a>
-              <Heading mb={0} level={2}>
-                {title}
-              </Heading>
-              <Heading
-                maxWidth="450px"
-                my={3}
-                mx="auto"
-                textAlign="center"
-                level={3}
-              >
-                {summary}
-              </Heading>
-              {ctaText ? (
-                ctaType === 'button' ? (
-                  <Button level={2} as="div">
-                    {ctaText}
-                  </Button>
-                ) : (
-                  <Heading
-                    mb="-5px"
-                    level={4}
-                    fontStyle="italic"
-                    textDecoration="underline"
-                  >
-                    {ctaText}
-                  </Heading>
-                )
-              ) : null}
-            </a>
+            <Heading mb={0} level={2}>
+              {title}
+            </Heading>
+            <Heading
+              maxWidth="450px"
+              my={3}
+              mx="auto"
+              textAlign="center"
+              level={3}
+            >
+              {summary}
+            </Heading>
+            {ctaText ? (
+              ctaType === 'button' ? (
+                <Button level={2} as="div">
+                  {ctaText}
+                </Button>
+              ) : (
+                <Heading
+                  mb="-5px"
+                  level={4}
+                  fontStyle="italic"
+                  textDecoration="underline"
+                >
+                  {ctaText}
+                </Heading>
+              )
+            ) : null}
           </Link>
         </PageLinkBody>
       </PageLinkWrapper>

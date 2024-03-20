@@ -20,7 +20,7 @@ const homepageQueryById = gql`
     Homepage(id: $id) {
       _id
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       header_color
       content {
@@ -49,7 +49,7 @@ const homepageQuery = gql`
     Homepage(id: "homepage") {
       _id
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       header_color
       content {

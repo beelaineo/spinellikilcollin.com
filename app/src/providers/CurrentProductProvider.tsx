@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../types'
+import { Product, ShopifyProductVariant } from '../types'
 
 interface CurrentProductContextValue {
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
 }
 
@@ -19,7 +19,7 @@ export const useCurrentProduct = () => {
 
 interface CurrentProductProps {
   children: React.ReactNode
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
 }
 

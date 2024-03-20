@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { Modal } from '../Modal'
 import { RingSizerForm } from '../Forms'
-import { ShopifyProduct, ShopifyProductVariant } from '../../types'
+import { Product, ShopifyProductVariant } from '../../types'
 
 interface RingSizerModalProps {
   closeModal: () => void
-  product?: ShopifyProduct
+  product?: Product
   variant?: ShopifyProductVariant
 }
 

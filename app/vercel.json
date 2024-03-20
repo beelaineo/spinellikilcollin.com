@@ -1,3 +1,17 @@
 {
-  "version": 2
+  "version": 2,
+  "functions": {
+    "pages/api/algoliaIndex.ts": {
+      "maxDuration": 90
+    },
+    "pages/api/shopifySyncHandler.ts": {
+      "maxDuration": 300
+    },
+    "pages/api/revalidate.ts": {
+      "maxDuration": 120
+    },
+    "pages/api/revalidateAction.ts": {
+      "maxDuration": 120
+    }
+  }
 }

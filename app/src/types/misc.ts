@@ -30,14 +30,14 @@ export const FILTER_MATCH_GROUP = 'FILTER_MATCH_GROUP'
 export const INVENTORY_FILTER = 'INVENTORY_FILTER'
 export const FILTER_SINGLE = 'FILTER_SINGLE'
 
-export interface PriceRangeFilterConfiguration {
+export interface PriceRangeMinMaxFilterConfiguration {
   filterType: typeof PRICE_RANGE_FILTER
   key: string
   minPrice: number
   maxPrice: number
 }
 
-export interface InventoryFilterConfiguration {
+export interface InStockFilterConfiguration {
   filterType: typeof INVENTORY_FILTER
   key: string
   label: string
@@ -63,13 +63,13 @@ export interface FilterSingleConfiguration {
 
 type FilterGroup =
   | FilterMatchGroup
-  | PriceRangeFilterConfiguration
-  | InventoryFilterConfiguration
+  | PriceRangeMinMaxFilterConfiguration
+  | InStockFilterConfiguration
   | FilterSingleConfiguration
 
 export type FilterConfiguration = Array<
   | FilterMatchGroup
-  | PriceRangeFilterConfiguration
-  | InventoryFilterConfiguration
+  | PriceRangeMinMaxFilterConfiguration
+  | InStockFilterConfiguration
   | FilterSingleConfiguration
 >

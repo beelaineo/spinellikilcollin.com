@@ -39,8 +39,8 @@ export const AppointmentsButton = ({ mobile }: AppointmentsButtonProps) => {
     <Wrapper mobile={mobile}>
       <WeddingAppointmentIcon />
       <Heading m={0} level={5} textDecoration="underline">
-        <Link href={'/about/appointments'}>
-          <a target={'_blank'}>Appointments</a>
+        <Link href={'/about/appointments'} target={'_blank'}>
+          Appointments
         </Link>
       </Heading>
     </Wrapper>

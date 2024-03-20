@@ -1,10 +1,10 @@
 import * as React from 'react'
-import { ShopifyProductVariant, ShopifyProduct } from '../../../types'
+import { ShopifyProductVariant, Product } from '../../../types'
 import { Heading } from '../../../components/Text'
 import { Price } from '../../../components/Price'
 
 interface MobileProductHeaderProps {
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
 }
 

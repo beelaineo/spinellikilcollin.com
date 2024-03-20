@@ -21,7 +21,7 @@ interface WithLayout {
 const Wrapper = styled.div<WithLayout>`
   ${({ theme, layout }) => css`
     position: relative;
-    height: 100%;
+
     width: 100%;
     background-color: body.0;
     grid-column: ${layout === 'fullWidth' ? '1 / 3' : 'auto'};

@@ -16,7 +16,7 @@ const birthdaysQuery = gql`
       subtitle
       bodyRaw
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

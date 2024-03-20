@@ -4,12 +4,12 @@ import { useModal } from '../../../providers/ModalProvider'
 import InternationalIcon from '../../../svg/International.svg'
 import { Heading } from '../../../components/Text'
 
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 import { CheckoutLineItemInput } from '../../../providers/ShopifyProvider/types/checkout'
 
 interface SizeConverterButtonProps {
   mobile?: boolean
-  product: ShopifyProduct
+  product: Product
   variant: ShopifyProductVariant
   addLineItem?: (lineItem: CheckoutLineItemInput) => Promise<void>
   openRingSizerModal?: ({ currentProduct, currentVariant }) => void

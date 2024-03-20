@@ -1,8 +1,5 @@
 import * as React from 'react'
-import {
-  InventoryFilter as InventoryFilterTypeSource,
-  Maybe,
-} from '../../types'
+import { InStockFilter as InStockFilterTypeSource, Maybe } from '../../types'
 import { FilterSetState } from './types'
 import { Span } from '../Text'
 import { PriceRangeFilterWrapper, HeadingWrapper } from './styled'
@@ -15,19 +12,19 @@ import { commaListsOr } from 'common-tags'
 
 const { useEffect, useState } = React
 
-interface InventoryFilterValues {
+interface InStockFilterValues {
   label: string
   applyFilter: boolean
 }
 
-interface InventoryFilterType extends InventoryFilterTypeSource {
+interface InStockFilterType extends InStockFilterTypeSource {
   applyFilter?: boolean
 }
 
 interface InventoryFilterProps {
-  inventoryFilter: InventoryFilterType
+  inventoryFilter: InStockFilterType
   filterSetState?: FilterSetState
-  setValues: (matchKey: string, values: InventoryFilterValues) => void
+  setValues: (matchKey: string, values: InStockFilterValues) => void
   resetSet: () => void
   scrollGridIntoView: () => void
   setKey: string
