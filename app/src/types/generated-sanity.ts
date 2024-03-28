@@ -283,9 +283,10 @@ export interface Block {
   style?: Maybe<Scalars['String']['output']>
 }
 
-export type BlockOrCloudinaryVideoOrFormOrRichImage =
+export type BlockOrCloudinaryVideoOrCountdownOrFormOrRichImage =
   | Block
   | CloudinaryVideo
+  | Countdown
   | Form
   | RichImage
 
@@ -655,6 +656,25 @@ export type ContactSorting = {
   _updatedAt?: InputMaybe<SortOrder>
   seo?: InputMaybe<SeoSorting>
   title?: InputMaybe<SortOrder>
+}
+
+export interface Countdown {
+  __typename: 'Countdown'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  dateTime?: Maybe<Scalars['DateTime']['output']>
+}
+
+export type CountdownFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  dateTime?: InputMaybe<DatetimeFilter>
+}
+
+export type CountdownSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  dateTime?: InputMaybe<SortOrder>
 }
 
 export interface CrossDatasetReference {
