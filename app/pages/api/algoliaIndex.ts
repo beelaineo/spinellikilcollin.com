@@ -78,13 +78,7 @@ const parseDocument = (doc: SanityShopifyDocument) => {
           )
           .map((image) => ({ ...image, __typename: 'ShopifyImage' }))
         const thumbnailVariants = definitely(doc?.store?.options)
-          .filter(
-            (option) =>
-              option?.name === 'Color' ||
-              option?.name === 'Carat' ||
-              option?.name === 'Style' ||
-              option?.name === 'Material',
-          )
+          .filter((option) => option.name && /Color/.test(option.name))
           .reduce<ShopifyProductVariant[]>((variants, option) => {
             // if (!option || !option.name) return variants
             const variantsByOption = definitely(option?.values).reduce<
@@ -97,8 +91,10 @@ const parseDocument = (doc: SanityShopifyDocument) => {
                 })
                 if (!v) return acc
                 const picked = {
-                  ...pick(v, ['id', 'title']),
+                  ...pick(v, ['id', 'title', 'shopifyVariantID']),
                   ...pick(v.sourceData, [
+                    'id',
+                    'title',
                     'selectedOptions',
                     'priceV2',
                     'compareAtPriceV2',
