@@ -481,7 +481,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   if (!handle) throw new Error('No handle was fetched')
   const firstProduct = definitely(collection.products)[0]
-  const firstProductImage = firstProduct.store?.images
+  const firstProductImage = firstProduct?.store?.images
     ? firstProduct.store?.images[0]
     : undefined
 
