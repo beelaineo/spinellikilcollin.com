@@ -6,6 +6,12 @@
     },
     "pages/api/shopifySyncHandler.ts": {
       "maxDuration": 300
+    },
+    "pages/api/revalidate.ts": {
+      "maxDuration": 120
+    },
+    "pages/api/revalidateAction.ts": {
+      "maxDuration": 120
     }
   }
 }

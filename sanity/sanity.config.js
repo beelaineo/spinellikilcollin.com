@@ -12,31 +12,31 @@ import {customDocumentActions} from './plugins/customDocumentActions'
 import {scheduledPublishing} from '@sanity/scheduled-publishing'
 
 export default defineConfig([
-  // {
-  //   title: 'Spinelli Kilcollin',
-  //   projectId: 'i21fjdbi',
-  //   dataset: 'production',
-  //   name: 'production-workspace',
-  //   basePath: '/production',
-  //   plugins: [
-  //     deskTool({structure}),
-  //     colorInput(),
-  //     visionTool(),
-  //     imageHotspotArrayPlugin(),
-  //     customDocumentActions(),
-  //     media(),
-  //     scheduledPublishing(),
-  //   ],
-  //   schema: {
-  //     types: schemas,
-  //   },
-  // },
   {
     title: 'Spinelli Kilcollin (staging)',
     projectId: 'i21fjdbi',
     dataset: 'staging',
     name: 'staging-workspace',
     basePath: '/staging',
+    plugins: [
+      deskTool({structure}),
+      colorInput(),
+      visionTool(),
+      imageHotspotArrayPlugin(),
+      customDocumentActions(),
+      media(),
+      scheduledPublishing(),
+    ],
+    schema: {
+      types: schemas,
+    },
+  },
+  {
+    title: 'Spinelli Kilcollin (old production)',
+    projectId: 'i21fjdbi',
+    dataset: 'production',
+    name: 'production-workspace',
+    basePath: '/production',
     plugins: [
       deskTool({structure}),
       colorInput(),

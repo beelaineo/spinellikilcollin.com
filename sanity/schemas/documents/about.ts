@@ -27,6 +27,7 @@ export const pageLink = defineType({
         {type: 'magazine'},
         {type: 'contact'},
         {type: 'faq'},
+        {type: 'appointments'},
         {type: 'customize'},
         {type: 'about'},
         {type: 'page'},

@@ -61,6 +61,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
     'magazine',
     'contact',
     'faq',
+    'appointments',
     'customize',
     'loyalty',
     'newCustomer',
@@ -82,11 +83,6 @@ export const structure: StructureResolver = (S, context) =>
       S.divider(),
       collections(S, context),
       products(S, context),
-      // S.divider(),
-      // colorThemes(S, context),
-      // S.divider(),
-      // collectionsOld(S, context),
-      // productsOld(S, context),
       S.divider(),
       journal(S, context),
       S.listItem()
@@ -97,4 +93,7 @@ export const structure: StructureResolver = (S, context) =>
       specialPagesStructure(S, context),
       S.divider(),
       ...S.documentTypeListItems().filter(hiddenDocTypes),
+      S.divider(),
+      collectionsOld(S, context),
+      productsOld(S, context),
     ])

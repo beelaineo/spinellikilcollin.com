@@ -22,7 +22,6 @@ const logError = (message, context) => {
     }),
   )
 }
-
 const logInfo = (message, context) => {
   console.log(
     JSON.stringify({
@@ -34,61 +33,27 @@ const logInfo = (message, context) => {
   )
 }
 
-const readBody = async (readable) => {
-  const chunks = []
-  for await (const chunk of readable) {
-    // @ts-ignore
-    chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
-  }
-  return Buffer.concat(chunks).toString('utf8')
-}
-
 const generateUniqueId = () => {
   // Implementation to generate a unique request ID
   return Date.now().toString()
 }
 
-const secret = process.env.SANITY_REVALIDATE_SECRET
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>,
 ) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ message: 'Method Not Allowed' })
+  }
+  const { type, slug } = req.query
   const requestId = generateUniqueId()
-  const signature = req.headers[SIGNATURE_HEADER_NAME] as string
-  const body = await readBody(req) // Read the body into a string
-
-  if (!secret) {
-    logError('No secret provided', { requestId })
-    return res.status(401).json({ message: 'No secret provided' })
-  }
-
-  if (req.method !== 'POST') {
-    logError('Must be a POST request', { requestId })
-    return res.status(401).json({ message: 'Must be a POST request' })
-  }
-
-  if (!isValidSignature(body, signature, secret)) {
-    logError('Invalid signature', { requestId, signature })
-    res.status(401).json({ message: 'Invalid signature' })
-    return
-  }
+  console.log('revalidating', `type: ${type}`, `slug: ${slug}`)
 
   try {
-    const { _type: type, slug, handle, collections } = JSON.parse(body)
-    console.log(
-      'revalidating',
-      `type: ${type}`,
-      `slug: ${slug}`,
-      `handle: ${handle}`,
-      `collections: ${collections}`,
-    )
     logInfo('Attempting revalidation', {
       requestId,
       type,
       slug,
-      handle,
-      collections,
     })
     switch (type) {
       case 'homepage':
@@ -158,50 +123,36 @@ export default async function handler(
           message: `Revalidated "${type}" with slug "${slug}"`,
         })
       case 'product':
-        console.log('revalidating product', handle)
+        console.log('revalidating product', slug)
         await res
-          .revalidate(`/products/${handle}`)
+          .revalidate(`/products/${slug}`)
           .then(() => {
-            console.log('revalidated product', handle)
+            console.log('revalidated product', slug)
           })
           .catch((err) => {
             logError('Error revalidating product', {
               requestId,
               error: err.message,
             })
-            console.log('error revalidating product ' + handle, err)
+            console.log('error revalidating product ' + slug, err)
           })
-        collections.map(async (handle) => {
-          await res
-            .revalidate(`/collections/${handle}`)
-            .then(() => {
-              console.log('revalidated collection', handle)
-            })
-            .catch((err) => {
-              logError('Error revalidating product-affiliated collection', {
-                requestId,
-                error: err.message,
-              })
-              console.log('error revalidating collection ' + handle, err)
-            })
-        })
         await res.revalidate(`/`)
         return res.json({
-          message: `Revalidated "${type}" with slug "${handle}"`,
+          message: `Revalidated "${type}" with slug "${slug}"`,
         })
       case 'collection':
-        console.log('revalidating collection', handle)
+        console.log('revalidating collection', slug)
         await res
-          .revalidate(`/collections/${handle}`)
+          .revalidate(`/collections/${slug}`)
           .then(() => {
-            console.log('revalidated collection', handle)
+            console.log('revalidated collection', slug)
           })
           .catch((err) => {
             logError('Error revalidating collection', {
               requestId,
               error: err.message,
             })
-            console.log('error revalidating collection', handle)
+            console.log('error revalidating collection', slug)
           })
         await res
           .revalidate(`/`)
@@ -216,7 +167,7 @@ export default async function handler(
             console.log('error revalidating homepage', err)
           })
         return res.json({
-          message: `Revalidated "${type}" with slug "${handle}"`,
+          message: `Revalidated "${type}" with slug "${slug}"`,
         })
     }
 
