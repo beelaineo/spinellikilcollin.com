@@ -10,14 +10,17 @@ import { TitleWrapper } from '../styled'
 import { Heading, Span } from '../../../components/Text'
 import { Price } from '../../../components/Price'
 import { getVariantTitle } from '../../../utils'
-import { useShopifyPrice, useCountry } from '../../../providers'
+import { useShopifyPrice, Money } from '../../../providers'
 import styled, { css } from '@xstyled/styled-components'
+import { config } from '../../../config'
+import { ShopifyStorefrontCountryCode } from '../../../types/generated-shopify'
 
 const { useEffect, useState } = React
 
 interface ProductDetailHeaderProps {
   product: Product
   currentVariant: ShopifyProductVariant
+  currentCountry: ShopifyStorefrontCountryCode
   disableStockIndication?: boolean
   mobile?: string
 }
@@ -25,8 +28,6 @@ interface ProductDetailHeaderProps {
 interface WithHide {
   hide: boolean
 }
-
-import { config } from '../../../config'
 
 const { SHOW_IN_STOCK_INDICATORS } = config
 
@@ -59,6 +60,7 @@ const InStockDot = styled('span')`
 export const ProductDetailHeader = ({
   product,
   currentVariant,
+  currentCountry,
   disableStockIndication,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(product, currentVariant)
@@ -68,14 +70,13 @@ export const ProductDetailHeader = ({
     currentVariant?.sourceData ?? {}
 
   const { getVariantPriceById } = useShopifyPrice()
-  const { currentCountry } = useCountry()
 
   const [compareAtPrice, setCompareAtPrice] =
-    useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
-  const [price, setPrice] = useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
+    useState<Maybe<ShopifyStorefrontMoneyV2 | Money>>(null)
+  const [price, setPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2 | Money>>(null)
 
   useEffect(() => {
-    let isSubscribed = true
     // declare the async data fetching function
     const fetchData = async () => {
       if (!product?.shopifyId || !currentVariant?.shopifyVariantID) return
@@ -84,21 +85,14 @@ export const ProductDetailHeader = ({
         product.shopifyId,
         currentVariant?.shopifyVariantID,
       )
-      console.log('ProductDetailHeader current variant pricing', variantPrice)
       // set state with the result if `isSubscribed` is true
-      if (isSubscribed) {
-        variantPrice?.priceV2 && setPrice(variantPrice?.priceV2)
-        variantPrice?.compareAtPriceV2 &&
-          setCompareAtPrice(variantPrice?.compareAtPriceV2)
-      }
-      console.log('price state:', price)
+      variantPrice?.price && setPrice(variantPrice?.price)
+      variantPrice?.compareAtPrice &&
+        setCompareAtPrice(variantPrice?.compareAtPrice)
     }
     // call the function
     fetchData().catch(console.error)
     // cancel any future `setData`
-    return () => {
-      isSubscribed = false
-    }
   }, [currentVariant, product, currentCountry])
 
   const slugify = (text?: Maybe<string>) => {
@@ -193,14 +187,10 @@ export const ProductDetailHeader = ({
         </Heading>
         {inquiryOnly !== true ? (
           <Heading level={4} weight={1} mb={0} mt={{ xs: 1, md: 2 }}>
-            <Price price={price != null ? price : priceV2} />
-            {(compareAtPriceV2 || compareAtPrice) && (
+            {price && <Price price={price} />}
+            {compareAtPrice && (
               <Span ml={2} color="body.6" textDecoration="line-through">
-                <Price
-                  price={
-                    compareAtPrice != null ? compareAtPrice : compareAtPriceV2
-                  }
-                />
+                <Price price={compareAtPrice} />
               </Span>
             )}
           </Heading>

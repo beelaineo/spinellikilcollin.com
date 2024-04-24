@@ -17,10 +17,15 @@ enum ActionTypes {
   UPDATE = 'updateCountry',
   SUCCESS = 'success',
   ERROR = 'error',
+  CONTINUE = 'continue',
 }
 
 interface UpdateCountryAction {
   type: ActionTypes.UPDATE
+}
+
+interface ContinueAction {
+  type: ActionTypes.CONTINUE
 }
 
 interface SuccessAction {
@@ -70,9 +75,10 @@ const reducer = (state: State, action: Action): State => {
 }
 
 const initialState: State = {
-  loading: false,
+  loading: true,
   currentCountry: ShopifyStorefrontCountryCode.Us,
   currency: 'USD',
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
 }
 
 const getCurrencyFromCountry = async (
@@ -106,6 +112,8 @@ export const useCountryState = () => {
         dispatch({ type: ActionTypes.ERROR, error, message })
       })
   }
+
+  console.log('useCountryState', state)
 
   return {
     ...state,

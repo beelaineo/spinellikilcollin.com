@@ -6,6 +6,7 @@ import {
   useAnalytics,
   useShopifyPrice,
   useCountry,
+  Money,
 } from '../../providers'
 import {
   ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType,
@@ -42,7 +43,8 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
 
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
-  const [price, setPrice] = useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
+  const [price, setPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2 | Money>>(null)
   const product = variant?.product
 
   const handleQuantityChange = async (
@@ -82,7 +84,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
       console.log('CheckoutProduct current variant pricing', variantPrice)
       // set state with the result if `isSubscribed` is true
       if (isSubscribed) {
-        variantPrice?.priceV2 && setPrice(variantPrice?.priceV2)
+        variantPrice?.price && setPrice(variantPrice?.price)
       }
       console.log('CHECKOUT PRODUCT price state:', price)
     }

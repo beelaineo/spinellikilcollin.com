@@ -212,11 +212,13 @@ export const ProductThumbnail = ({
     ShopifyProductVariant | undefined
   >(initialVariant)
 
-  const [currentPrice, setCurrentPrice] =
-    useState<null | ShopifyStorefrontMoneyV2>(null)
+  const [currentPrice, setCurrentPrice] = useState<
+    null | ShopifyStorefrontMoneyV2 | Money
+  >(null)
 
-  const [currentCompareAtPrice, setCurrentCompareAtPrice] =
-    useState<null | ShopifyStorefrontMoneyV2>(null)
+  const [currentCompareAtPrice, setCurrentCompareAtPrice] = useState<
+    null | ShopifyStorefrontMoneyV2 | Money
+  >(null)
   const [currentSwatchOption, setCurrentSwatchOption] = useState<
     Maybe<ProductOptionValue> | undefined
   >(undefined)
@@ -286,34 +288,35 @@ export const ProductThumbnail = ({
         collectionHandle as string,
         currentVariantId,
       )
-      if (variantPriceInfo?.priceV2) {
-        setCurrentPrice(variantPriceInfo?.priceV2)
+      console.log('VARIANT PRICE INFO:', variantPriceInfo)
+      if (variantPriceInfo?.price) {
+        setCurrentPrice(variantPriceInfo?.price)
       } else {
         setCurrentPrice(null)
       }
-      if (variantPriceInfo?.compareAtPriceV2) {
-        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+      if (variantPriceInfo?.compareAtPrice) {
+        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
       } else {
         setCurrentCompareAtPrice(null)
       }
     }
     if (currentSearchResultPrices && currentVariantId) {
       const variantPriceInfo = getVariantPriceBySearchResults(currentVariantId)
-      if (variantPriceInfo?.priceV2) {
-        setCurrentPrice(variantPriceInfo?.priceV2)
+      if (variantPriceInfo?.price) {
+        setCurrentPrice(variantPriceInfo?.price)
       }
-      if (variantPriceInfo?.compareAtPriceV2) {
-        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+      if (variantPriceInfo?.compareAtPrice) {
+        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
       }
     }
     if (currentSearchResultPrices && !currentVariantId && product.shopifyId) {
       getProductPriceById(product?.shopifyId).then((price) => {
         console.log('productPriceInfo', price)
-        if (price?.priceV2) {
-          setCurrentPrice(price?.priceV2)
+        if (price?.price) {
+          setCurrentPrice(price?.price)
         }
-        if (price?.compareAtPriceV2) {
-          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        if (price?.compareAtPrice) {
+          setCurrentCompareAtPrice(price?.compareAtPrice)
         }
       })
     }
@@ -431,36 +434,36 @@ export const ProductThumbnail = ({
       collectionHandle as string,
       currentVariantId,
     )
-    if (variantPriceInfo?.priceV2) {
-      setCurrentPrice(variantPriceInfo?.priceV2)
+    if (variantPriceInfo?.price) {
+      setCurrentPrice(variantPriceInfo?.price)
     } else {
       setCurrentPrice(null)
     }
-    if (variantPriceInfo?.compareAtPriceV2) {
-      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+    if (variantPriceInfo?.compareAtPrice) {
+      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
     } else {
       setCurrentCompareAtPrice(null)
     }
     const variantSearchPriceInfo =
       getVariantPriceBySearchResults(currentVariantId)
-    if (variantSearchPriceInfo?.priceV2) {
-      setCurrentPrice(variantSearchPriceInfo?.priceV2)
+    if (variantSearchPriceInfo?.price) {
+      setCurrentPrice(variantSearchPriceInfo?.price)
     }
-    if (variantSearchPriceInfo?.compareAtPriceV2) {
-      setCurrentCompareAtPrice(variantSearchPriceInfo?.compareAtPriceV2)
+    if (variantSearchPriceInfo?.compareAtPrice) {
+      setCurrentCompareAtPrice(variantSearchPriceInfo?.compareAtPrice)
     }
     if (!currentVariantId && product.shopifyId) {
       getProductPriceById(product?.shopifyId).then((price) => {
         console.log('productPriceInfo', price)
-        if (price?.priceV2) {
-          setCurrentPrice(price?.priceV2)
+        if (price?.price) {
+          setCurrentPrice(price?.price)
           console.log('SET PRICE TO PRODUCT PRICE (NO VARIANTS)', price)
         } else {
           setCurrentCompareAtPrice(null)
           console.log('SET PRICE TO NULL (NO VARIANTS)')
         }
-        if (price?.compareAtPriceV2) {
-          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        if (price?.compareAtPrice) {
+          setCurrentCompareAtPrice(price?.compareAtPrice)
         } else {
           setCurrentCompareAtPrice(null)
         }

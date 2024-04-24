@@ -74,17 +74,17 @@ export const CountryProvider = ({ children }: CountryProps) => {
   useEffect(() => {
     const geolocateCountry = getCookie('geolocate')
     const viewerCountry = getCookie(COUNTRY_COOKIE)
-    console.log('geolocateCountry COOKIE', geolocateCountry)
-    console.log('viewerCountry COOKIE', viewerCountry)
+    // console.log('geolocateCountry COOKIE', geolocateCountry)
+    // console.log('viewerCountry COOKIE', viewerCountry)
     if (viewerCountry && viewerCountry !== currentCountry) {
-      console.log(
-        'updating user country to viewer country preference (from browser cookie)',
-      )
+      // console.log(
+      //   'updating user country to viewer country preference (from browser cookie)',
+      // )
       updateCountryState(viewerCountry)
     } else if (geolocateCountry && geolocateCountry !== currentCountry) {
-      console.log(
-        'updating user country to country based on browser geolocation',
-      )
+      // console.log(
+      //   'updating user country to country based on browser geolocation',
+      // )
       updateCountryState(geolocateCountry)
       // create toast here
       const sendToast = async () => {
@@ -103,6 +103,9 @@ export const CountryProvider = ({ children }: CountryProps) => {
         })
       }
       sendToast()
+    } else {
+      // console.log('no country cookie detected, setting to US')
+      updateCountryState(ShopifyStorefrontCountryCode.Us)
     }
   }, [])
 
@@ -118,8 +121,8 @@ export const CountryProvider = ({ children }: CountryProps) => {
 
   useEffect(() => {
     updateCurrency(currency)
-    console.log('CURRENCY', currency.toString())
-    console.log('COUNTRY', currentCountry)
+    // console.log('CURRENCY', currency.toString())
+    // console.log('COUNTRY', currentCountry)
   }, [currency])
 
   const updateCountry = async (country: ShopifyStorefrontCountryCode) => {
@@ -138,6 +141,8 @@ export const CountryProvider = ({ children }: CountryProps) => {
     setIsHighlighted,
   }
   return (
-    <CountryContext.Provider value={value}>{children}</CountryContext.Provider>
+    <CountryContext.Provider value={value}>
+      {!loading && children}
+    </CountryContext.Provider>
   )
 }

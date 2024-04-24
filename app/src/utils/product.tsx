@@ -308,12 +308,12 @@ export const getBestVariantByMatch = (
   const bestVariant = variants.find((v) =>
     matches.some((m) => v?.title?.includes(m)),
   )
-  console.log(
-    `return best variant or first variant:`,
-    bestVariant,
-    variants,
-    matches,
-  )
+  // console.log(
+  //   `return best variant or first variant:`,
+  //   bestVariant,
+  //   variants,
+  //   matches,
+  // )
   return bestVariant || variants[0]
 }
 

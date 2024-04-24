@@ -446,6 +446,7 @@ export const ProductDetail = ({ product }: Props) => {
               <InfoWrapper product={product}>
                 <ProductDetailHeader
                   currentVariant={currentVariant}
+                  currentCountry={currentCountry}
                   product={product}
                   disableStockIndication={disableStockIndication}
                 />
