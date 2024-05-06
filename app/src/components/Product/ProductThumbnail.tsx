@@ -237,6 +237,8 @@ export const ProductThumbnail = ({
 
   const optionsArray = ['Color', 'Style', 'Material']
 
+  const { getVariantPriceById } = useShopifyPrice()
+
   useEffect(() => {
     const initialSwatchValue =
       initialVariant?.sourceData?.selectedOptions?.filter((o) => {
@@ -283,23 +285,23 @@ export const ProductThumbnail = ({
     }
     const collectionHandle = router.query.collectionSlug
     const currentVariantId = currentVariant?.id
-    if (collectionHandle && currentVariantId) {
-      const variantPriceInfo = getVariantPriceByCollection(
-        collectionHandle as string,
-        currentVariantId,
-      )
-      console.log('VARIANT PRICE INFO:', variantPriceInfo)
-      if (variantPriceInfo?.price) {
-        setCurrentPrice(variantPriceInfo?.price)
-      } else {
-        setCurrentPrice(null)
-      }
-      if (variantPriceInfo?.compareAtPrice) {
-        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
-      } else {
-        setCurrentCompareAtPrice(null)
-      }
-    }
+    // if (collectionHandle && currentVariantId) {
+    //   const variantPriceInfo = getVariantPriceByCollection(
+    //     collectionHandle as string,
+    //     currentVariantId,
+    //   )
+    //   console.log('VARIANT PRICE INFO:', variantPriceInfo)
+    //   if (variantPriceInfo?.price) {
+    //     setCurrentPrice(variantPriceInfo?.price)
+    //   } else {
+    //     setCurrentPrice(null)
+    //   }
+    //   if (variantPriceInfo?.compareAtPrice) {
+    //     setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
+    //   } else {
+    //     setCurrentCompareAtPrice(null)
+    //   }
+    // }
     if (currentSearchResultPrices && currentVariantId) {
       const variantPriceInfo = getVariantPriceBySearchResults(currentVariantId)
       if (variantPriceInfo?.price) {
@@ -478,6 +480,25 @@ export const ProductThumbnail = ({
     product.shopifyId,
     getProductPriceById,
   ])
+
+  useEffect(() => {
+    // declare the async data fetching function
+    const fetchData = async () => {
+      if (!product?.shopifyId || !currentVariant?.shopifyVariantID) return
+      // get the data from the api
+      const variantPrice = await getVariantPriceById(
+        product.shopifyId,
+        currentVariant?.shopifyVariantID,
+      )
+      // set state with the result if `isSubscribed` is true
+      variantPrice?.price && setCurrentPrice(variantPrice?.price)
+      variantPrice?.compareAtPrice &&
+        setCurrentCompareAtPrice(variantPrice?.compareAtPrice)
+    }
+    // call the function
+    fetchData().catch(console.error)
+    // cancel any future `setData`
+  }, [currentVariant, product, currentCountry, getVariantPriceById])
 
   const handleClick = () => {
     // @ts-ignore
@@ -814,16 +835,7 @@ export const ProductThumbnail = ({
               )}
               {product.title} |{' '}
               <PriceWrapper>
-                <Price
-                  price={
-                    currentPrice && currentPrice != null
-                      ? currentPrice
-                      : currentVariant?.sourceData?.priceV2 || {
-                          __typename: 'ShopifyPrice',
-                          amount: product?.store?.priceRange?.minVariantPrice,
-                        }
-                  }
-                />
+                <Price price={currentPrice} />
                 <Span ml={2} color="body.6" textDecoration="line-through">
                   <Price price={currentVariant?.sourceData?.compareAtPriceV2} />
                 </Span>
