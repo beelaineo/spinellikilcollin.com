@@ -99,7 +99,7 @@ export const CheckboxWrapper = styled.div`
 
 export const TextWrapper = styled.div`
   ${({ theme }) => css`
-    font-size: 4;
+    font-size: 5;
     font-weight: 200;
     font-style: italic;
     line-height: 1.3;

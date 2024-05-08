@@ -36,18 +36,29 @@ const FieldsWrapper = styled(BaseFieldsWrapper)`
       max-width: 100%;
     }
 
+    .field--orderUnknown label {
+      margin-top: 0px;
+    }
+
     .field--name {
       grid-column: 1 / 3;
     }
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
+
       .field--name {
         grid-column: auto;
       }
 
+      .field--image {
+        grid-column: auto;
+        display: none;
+      }
+
       button[type='submit'],
       .field--message {
-        grid-column: auto;
+        grid-column: 1 / 3;
       }
     }
   `}
@@ -190,6 +201,21 @@ export const CustomerCareForm = ({ onContinue }: CustomerCareFormProps) => {
       >
         <FieldsWrapper visible={!success}>
           <Field
+            name="inquiryType"
+            type="inquiryTypeSelector"
+            label="Inquiry Type"
+            required
+          />
+          <TextWrapper className="consent-text">
+            {inquiryType === 'Returns & Exchanges' &&
+              'Eligible only for pieces purchased directly through Spinelli Kilcollin'}
+            {inquiryType === 'Start a Repair' &&
+              'Start a Repair (piece must have order number and purchased through SK directly)'}
+            {inquiryType === 'Upload Image' && 'Upload image'}
+            {inquiryType === 'Place an Order' && 'Place an Order'}
+            {inquiryType === 'Customization Inquiry' && 'Customization Inquiry'}
+          </TextWrapper>
+          <Field
             name="firstname"
             placeholder="First Name"
             label="First Name"
@@ -215,32 +241,17 @@ export const CustomerCareForm = ({ onContinue }: CustomerCareFormProps) => {
           <StateField label="State" name="state" />
           <Field label="Postal Code" name="zip" />
           <Field label="Country" name="country" type="countrySelector" />
-          <Field
-            name="inquiryType"
-            type="inquiryTypeSelector"
-            label="Inquiry Type"
-            required
-          />
-          <TextWrapper className="consent-text">
-            {inquiryType === 'Returns & Exchanges' &&
-              'Returns & Exchanges (piece must have order number and purchased through SK directly)'}
-            {inquiryType === 'Start a Repair' &&
-              'Start a Repair (piece must have order number and purchased through SK directly)'}
-            {inquiryType === 'Upload Image' && 'Upload image'}
-            {inquiryType === 'Place an Order' && 'Place an Order'}
-            {inquiryType === 'Customization Inquiry' && 'Customization Inquiry'}
-          </TextWrapper>
           {(inquiryType === 'Start a Repair' ||
             inquiryType === 'Returns & Exchanges') && (
             <>
+              <Field label="Product Name" name="product" />
               <Field label="Order Number" name="orderNumber" />
               <Field
-                label={`"I don't know my order number" / "It was a gift"`}
+                label={`I don't know my order number`}
                 name="orderUnknown"
                 type="checkbox"
               />
-              <Field label="Product Name" name="product" />
-              <Field label="Variant Name" name="variant" />
+              {/* <Field label="Variant Name" name="variant" /> */}
               {inquiryType === 'Start a Repair' && (
                 <Field label="Image" name="image" type="image" />
               )}

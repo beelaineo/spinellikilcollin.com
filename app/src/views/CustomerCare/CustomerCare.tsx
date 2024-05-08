@@ -30,6 +30,7 @@ export const PageWrapper = styled.divBox<WithBgImageUrl>`
     background-image: url(${bgImageUrl});
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     padding: calc(${theme.navHeight} + ${theme.space[9]}px) 10 8;
     overflow-x: hidden;
     color: white;
