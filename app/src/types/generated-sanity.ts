@@ -835,6 +835,50 @@ export type CustomProductOptionSizeSorting = {
   title?: InputMaybe<SortOrder>
 }
 
+export interface CustomerCare extends Document {
+  __typename: 'CustomerCare'
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']['output']>
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']['output']>
+  _key?: Maybe<Scalars['String']['output']>
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']['output']>
+  /** Document type */
+  _type?: Maybe<Scalars['String']['output']>
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']['output']>
+  backgroundImage?: Maybe<RichImage>
+  seo?: Maybe<Seo>
+  title?: Maybe<Scalars['String']['output']>
+}
+
+export type CustomerCareFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<DocumentFilter>
+  _createdAt?: InputMaybe<DatetimeFilter>
+  _id?: InputMaybe<IdFilter>
+  _key?: InputMaybe<StringFilter>
+  _rev?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  _updatedAt?: InputMaybe<DatetimeFilter>
+  backgroundImage?: InputMaybe<RichImageFilter>
+  seo?: InputMaybe<SeoFilter>
+  title?: InputMaybe<StringFilter>
+}
+
+export type CustomerCareSorting = {
+  _createdAt?: InputMaybe<SortOrder>
+  _id?: InputMaybe<SortOrder>
+  _key?: InputMaybe<SortOrder>
+  _rev?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  _updatedAt?: InputMaybe<SortOrder>
+  backgroundImage?: InputMaybe<RichImageSorting>
+  seo?: InputMaybe<SeoSorting>
+  title?: InputMaybe<SortOrder>
+}
+
 export interface Customize extends Document {
   __typename: 'Customize'
   /** Date the document was created */
@@ -3210,6 +3254,7 @@ export interface RootQuery {
   Birthdays?: Maybe<Birthdays>
   Collection?: Maybe<Collection>
   Contact?: Maybe<Contact>
+  CustomerCare?: Maybe<CustomerCare>
   Customize?: Maybe<Customize>
   Directory?: Maybe<Directory>
   Document?: Maybe<Document>
@@ -3240,6 +3285,7 @@ export interface RootQuery {
   allBirthdays: Array<Birthdays>
   allCollection: Array<Collection>
   allContact: Array<Contact>
+  allCustomerCare: Array<CustomerCare>
   allCustomize: Array<Customize>
   allDirectory: Array<Directory>
   allEmailSignatureSettings: Array<EmailSignatureSettings>
@@ -3283,6 +3329,10 @@ export type RootQueryCollectionArgs = {
 }
 
 export type RootQueryContactArgs = {
+  id: Scalars['ID']['input']
+}
+
+export type RootQueryCustomerCareArgs = {
   id: Scalars['ID']['input']
 }
 
@@ -3419,6 +3469,13 @@ export type RootQueryAllContactArgs = {
   offset?: InputMaybe<Scalars['Int']['input']>
   sort?: InputMaybe<Array<ContactSorting>>
   where?: InputMaybe<ContactFilter>
+}
+
+export type RootQueryAllCustomerCareArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>
+  offset?: InputMaybe<Scalars['Int']['input']>
+  sort?: InputMaybe<Array<CustomerCareSorting>>
+  where?: InputMaybe<CustomerCareFilter>
 }
 
 export type RootQueryAllCustomizeArgs = {

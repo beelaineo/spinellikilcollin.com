@@ -3,6 +3,8 @@ import {
   ErrorMessage,
   Field as FormikField,
   FieldProps as FormikFieldProps,
+  useField,
+  useFormikContext,
   FieldValidator,
 } from 'formik'
 import { Heading } from '../../Text'
@@ -17,8 +19,10 @@ import { PhoneField } from '../CustomFields/PhoneField'
 import { countryOptions } from '../CustomFields/countryOptions'
 import { sizeConversionOptions } from '../CustomFields/sizeConversionOptions'
 import { sizeCountryOptions } from '../CustomFields/sizeCountryOptions'
+import { inquiryTypeOptions } from '../CustomFields/inquiryTypeOptions'
 
 import { Option, FieldProps, Mask } from './types'
+import { ImageUpload } from './ImageUpload'
 /**
  * Base Field
  */
@@ -27,6 +31,14 @@ export type WithFormik<T> = T & {
 }
 
 export const Field = (fieldProps: FieldProps) => {
+  const [field, meta] = useField(fieldProps)
+  const { setFieldValue } = useFormikContext()
+
+  const handleSelectChange = (event) => {
+    const { value } = event.target
+    setFieldValue(fieldProps.name, value)
+  }
+
   const { label, name, required, type, helpText, children } = fieldProps
   if (fieldProps.type === 'hidden') {
     return (
@@ -48,6 +60,14 @@ export const Field = (fieldProps: FieldProps) => {
         return <Select {...fieldProps} />
       case 'countrySelector':
         return <Select options={countryOptions} {...fieldProps} />
+      case 'inquiryTypeSelector':
+        return (
+          <Select
+            options={inquiryTypeOptions}
+            {...fieldProps}
+            onChange={handleSelectChange}
+          />
+        )
       case 'sizeLocaleSelector':
         return (
           <Select
@@ -68,6 +88,8 @@ export const Field = (fieldProps: FieldProps) => {
         return <TextArea {...fieldProps} />
       case 'tel':
         return <PhoneField {...fieldProps} />
+      case 'image':
+        return <ImageUpload {...fieldProps} />
       default:
         return <Input {...fieldProps} />
     }
