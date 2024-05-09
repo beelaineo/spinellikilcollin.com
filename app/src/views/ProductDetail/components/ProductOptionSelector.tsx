@@ -234,7 +234,7 @@ export const ProductOptionSelector = ({
           }
         }
       })
-      const optionLabel = i > 0 ? value + ' | In Stock' : value
+      const optionLabel = i > 0 ? value + ' 🟢 In Stock' : value
       return optionLabel
     } else {
       let i = 0
@@ -266,7 +266,7 @@ export const ProductOptionSelector = ({
           }
         }
       })
-      const optionLabel = i > 0 ? value + ' | In Stock' : value
+      const optionLabel = i > 0 ? value + ' 🟢 In Stock' : value
       return optionLabel
     }
   }
