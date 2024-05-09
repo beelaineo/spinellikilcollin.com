@@ -4,7 +4,7 @@ import {ImFilesEmpty} from 'react-icons/im'
 import {BsTools, BsBookHalf} from 'react-icons/bs'
 import {MdLocalPhone, MdLoyalty, MdCake, MdPayment} from 'react-icons/md'
 import {GrDiamond, GrUserNew} from 'react-icons/gr'
-import {AiOutlineTeam} from 'react-icons/ai'
+import {AiFillCustomerService, AiOutlineTeam} from 'react-icons/ai'
 
 export default defineStructure<ListItemBuilder>((S) =>
   S.listItem()
@@ -43,6 +43,12 @@ export default defineStructure<ListItemBuilder>((S) =>
             .title('Birthdays')
             .icon(MdCake)
             .child(S.editor().id('birthdays').schemaType('birthdays').documentId('birthdays')),
+          S.listItem()
+            .title('Customer Care Form')
+            .icon(AiFillCustomerService)
+            .child(
+              S.editor().id('customerCare').schemaType('customerCare').documentId('customerCare')
+            ),
           S.listItem()
             .title('VIP Loyalty Form')
             .icon(MdLoyalty)
