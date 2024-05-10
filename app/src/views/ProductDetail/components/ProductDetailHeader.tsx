@@ -9,7 +9,6 @@ import styled, { css } from '@xstyled/styled-components'
 interface ProductDetailHeaderProps {
   product: Product
   currentVariant: ShopifyProductVariant
-  disableStockIndication?: boolean
   mobile?: string
 }
 
@@ -50,7 +49,6 @@ const InStockDot = styled('span')`
 export const ProductDetailHeader = ({
   product,
   currentVariant,
-  disableStockIndication,
 }: ProductDetailHeaderProps) => {
   const variantTitle = getVariantTitle(product, currentVariant)
   const { inquiryOnly } = product
@@ -124,9 +122,7 @@ export const ProductDetailHeader = ({
   return (
     <>
       <TitleWrapper product={product}>
-        {variantsInStock?.length > 0 &&
-        disableStockIndication !== true &&
-        showInStockIndicators ? (
+        {variantsInStock?.length > 0 && showInStockIndicators ? (
           <StockedLabel
             hide={
               !isSwatchCurrentlyInStock(

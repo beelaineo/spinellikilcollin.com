@@ -264,9 +264,6 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const [playing, setPlaying] = useState(false)
-  const [disableStockIndication, setDisableStockIndication] = useState(true)
-  const [disableVariantStockIndication, setDisableVariantStockIndication] =
-    useState(true)
   const productImages = product.store?.images || []
 
   const posterImage = currentVariant?.sourceData?.image
@@ -345,51 +342,6 @@ export const ProductDetail = ({ product }: Props) => {
     return withTypenames<R>(results)
   }
 
-  const productIsExcluded = async (product: Product): Promise<boolean> => {
-    const productIsExcluded = await sanityBooleanQuery(
-      `*[_type == 'product' && handle == $handle][0].store.metafields[key == "excludeFromIndication"][0].value`,
-      { handle: product?.handle },
-    )
-    return Boolean(productIsExcluded)
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const isExcludedFromStockIndication = (product: Product) => {
-    const excludedProducts = productInfoSettings?.excludeFromStockIndication
-    const handle = product?.handle
-    const isInExcludedList = excludedProducts?.find((product) => {
-      return product?.handle === handle
-    })
-    if (!isInExcludedList) {
-      setDisableStockIndication(false)
-      return
-    }
-    productIsExcluded(product).then((res: boolean) => {
-      setDisableStockIndication(res)
-    })
-  }
-
-  useEffect(() => {
-    const variantIsExcluded = async (
-      variant: ShopifyProductVariant,
-      product: Product,
-    ): Promise<boolean> => {
-      const variantIsExcluded = await sanityQuery(
-        `*[_type == 'product' && handle == $handle][0].store.variants[id == $id].sourceData.metafields[key == "excludeFromIndication"][0].value`,
-        { handle: product?.handle, id: variant?.sourceData?.id },
-      )
-      return Boolean(variantIsExcluded == 'true')
-    }
-
-    variantIsExcluded(currentVariant, product).then((res: boolean) => {
-      setDisableVariantStockIndication(res)
-    })
-  }, [currentVariant, product])
-
-  useEffect(() => {
-    isExcludedFromStockIndication(product)
-  }, [isExcludedFromStockIndication, disableStockIndication, product])
-
   const defaultSeo = {
     title: getVariantTitle(product, currentVariant),
     image:
@@ -445,7 +397,6 @@ export const ProductDetail = ({ product }: Props) => {
                 <ProductDetailHeader
                   currentVariant={currentVariant}
                   product={product}
-                  disableStockIndication={disableStockIndication}
                 />
                 {variantHasAnimation && variantAnimation?.videoId ? (
                   <CloudinaryAnimation
@@ -464,9 +415,7 @@ export const ProductDetail = ({ product }: Props) => {
                   )}
                 />
                 <ProductInfoWrapper>
-                  {variantsInStock?.length > 0 &&
-                  disableStockIndication !== true &&
-                  showInStockIndicators ? (
+                  {variantsInStock?.length > 0 && showInStockIndicators ? (
                     <StockedLabelMobile
                       hide={
                         !isSwatchCurrentlyInStock(
@@ -490,7 +439,6 @@ export const ProductDetail = ({ product }: Props) => {
                     currentVariant={currentVariant}
                     changeValueForOption={changeValueForOption}
                     product={product}
-                    disableStockIndication={disableStockIndication}
                   />
                   {productType === 'Ring' ? (
                     <RingToolsWrapper>

@@ -165,8 +165,6 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     throw new Error('The collection is missing an _id')
   }
 
-  const excludedProducts = productInfoSettings?.excludeFromStockIndication
-
   useEffect(() => {
     const defaultFilter = productListingSettings?.newDefaultFilter
     const defaultFilters = definitely(defaultFilter).filter(
@@ -276,9 +274,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
         } else if (filterGroup.filterType === INVENTORY_FILTER) {
           const { applyFilter } = filterGroup
           const handle = p.handle
-          const isInExcludedList = excludedProducts?.find((product) => {
-            return product?.handle === handle
-          })
+          // const isInExcludedList = excludedProducts?.find((product) => {
+          //   return product?.handle === handle
+          // })
           return applyFilter ? p.filterData.inStock == true : true
         } else {
           throw new Error(`This kind of filter cannot be parsed`)
