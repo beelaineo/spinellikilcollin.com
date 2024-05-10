@@ -131,15 +131,15 @@ const sanityQuery = async <R = any | null,>(
   return withTypenames<R>(results)
 }
 
-const getIncludedVariants = async (
-  product: Product,
-): Promise<ShopifyStorefrontProductVariant[] | null> => {
-  const variants = await sanityQuery(
-    `*[_type == 'product' && handle == $handle][0].store.variants[sourceData.metafields[key == "excludeFromIndication"].value == "false"]`,
-    { handle: product?.handle },
-  )
-  return variants
-}
+// const getIncludedVariants = async (
+//   product: Product,
+// ): Promise<ShopifyStorefrontProductVariant[] | null> => {
+//   const variants = await sanityQuery(
+//     `*[_type == 'product' && handle == $handle][0].store.variants[sourceData.metafields[key == "excludeFromIndication"].value == "false"]`,
+//     { handle: product?.handle },
+//   )
+//   return variants
+// }
 
 export const ProductThumbnail = ({
   product,
@@ -223,12 +223,6 @@ export const ProductThumbnail = ({
 
   const [playing, setPlaying] = useState(false)
 
-  const [disableStockIndication, setDisableStockIndication] = useState(true)
-  const [includedVariants, setIncludedVariants] = useState<
-    | Maybe<ShopifyStorefrontProductVariant[] | ShopifyProductVariant[]>
-    | undefined
-  >(null)
-
   const optionsArray = ['Color', 'Style', 'Material']
 
   useEffect(() => {
@@ -276,17 +270,6 @@ export const ProductThumbnail = ({
       setVariantAnimation(undefined)
     }
   }, [])
-
-  useEffect(() => {
-    if (disableStockIndication == true) {
-      const includedVariantsArray = getIncludedVariants(product)
-      includedVariantsArray.then((variants) => {
-        setIncludedVariants(variants)
-      })
-    } else {
-      setIncludedVariants(null)
-    }
-  }, [product])
 
   useEffect(() => {
     const currentSwatchValue =
@@ -582,37 +565,6 @@ export const ProductThumbnail = ({
     return withTypenames<R>(results)
   }
 
-  useEffect(() => {
-    const productIsExcluded = async (product: Product): Promise<boolean> => {
-      const productIsExcluded = await sanityBooleanQuery(
-        `*[_type == 'product' && handle == $handle][0].store.metafields[_key == "excludeFromIndication"].value`,
-        { handle: product?.handle },
-      )
-      return Boolean(productIsExcluded)
-    }
-
-    const isExcludedFromStockIndication = (product: Product) => {
-      const excludedProducts = productInfoSettings?.excludeFromStockIndication
-      const handle = product?.handle
-      const isInExcludedList = excludedProducts?.find((product) => {
-        return product?.handle === handle
-      })
-      if (!isInExcludedList) {
-        setDisableStockIndication(false)
-        return
-      }
-      productIsExcluded(product).then((res: boolean) => {
-        setDisableStockIndication(res)
-      })
-    }
-
-    isExcludedFromStockIndication(product)
-  }, [
-    productInfoSettings?.excludeFromStockIndication,
-    product,
-    disableStockIndication,
-  ])
-
   const isProductCurrentlyInStock = (product: Product): boolean => {
     if (!product?.store || !showInStockIndicators) return false
     const isInStock =
@@ -707,8 +659,7 @@ export const ProductThumbnail = ({
               currentlyInStock={isProductCurrentlyInStock(product)}
             >
               {isProductCurrentlyInStock(product) &&
-              !IsDisplayingSwatches(product) &&
-              disableStockIndication == false ? (
+              !IsDisplayingSwatches(product) ? (
                 <InStockDot />
               ) : (
                 ''
@@ -736,8 +687,7 @@ export const ProductThumbnail = ({
               currentlyInStock={isProductCurrentlyInStock(product)}
             >
               {isProductCurrentlyInStock(product) &&
-              !IsDisplayingSwatches(product) &&
-              disableStockIndication == false ? (
+              !IsDisplayingSwatches(product) ? (
                 <InStockDot />
               ) : (
                 ''
@@ -752,8 +702,6 @@ export const ProductThumbnail = ({
                 isSwatchActive={isSwatchActive}
                 product={product}
                 stockedVariants={stockedVariants}
-                disableStockIndication={disableStockIndication}
-                includedVariants={includedVariants}
               />
             </div>
           ) : (

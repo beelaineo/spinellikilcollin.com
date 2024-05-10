@@ -42,7 +42,6 @@ interface Metafield {
 
 interface ProductNode {
   id: string
-  excludeFromIndication: Maybe<Metafield>
 }
 
 interface CollectionRef {
@@ -71,7 +70,6 @@ interface ProductVariantNode {
   metal: Maybe<Metafield>
   style: Maybe<Metafield>
   stone: Maybe<Metafield>
-  excludeFromIndication: Maybe<Metafield>
 }
 
 interface ProductVariantImageNode {
@@ -138,9 +136,9 @@ interface ProductCollectionsResponse {
 }
 type ProductCollectionRefs = CollectionRef[]
 
-interface ProductMetafieldsResponse {
-  node: Maybe<ProductNode>
-}
+// interface ProductMetafieldsResponse {
+//   node: Maybe<ProductNode>
+// }
 
 interface ProductInventoryResponse {
   product: Maybe<ProductInventoryNode>
@@ -157,21 +155,6 @@ query ProductCollectionsQuery($productId: ID!) {
           handle
           title
         }
-      }
-    }
-  }
-}
-`
-
-const productMetafieldsQuery = `
-query ProductMetafieldsQuery($productId: ID!) {
-  node(id: $productId) {
-    id
-    ... on Product {
-      excludeFromIndication: metafield(namespace: "product", key: "excludeFromIndication") {
-        key
-        value
-        namespace
       }
     }
   }
@@ -335,20 +318,20 @@ async function updateRelatedCollectionProducts(
 }
 
 // This function fetches metafields for a product.
-async function fetchProductMetafields(
-  productId: string,
-): Promise<ProductMetafieldsResponse> {
-  const response = await shopifyQuery<ProductMetafieldsResponse>(
-    productMetafieldsQuery,
-    {
-      productId,
-    },
-  )
-  if (!response || !response.node) {
-    throw new Error('No data returned for fetchProductMetafields response')
-  }
-  return { node: response.node }
-}
+// async function fetchProductMetafields(
+//   productId: string,
+// ): Promise<ProductMetafieldsResponse> {
+//   const response = await shopifyQuery<ProductMetafieldsResponse>(
+//     productMetafieldsQuery,
+//     {
+//       productId,
+//     },
+//   )
+//   if (!response || !response.node) {
+//     throw new Error('No data returned for fetchProductMetafields response')
+//   }
+//   return { node: response.node }
+// }
 
 // This function fetches metafields for a variant.
 async function fetchVariantMetafields(
@@ -424,12 +407,12 @@ export async function handleProductUpdate(
   // Fetch collections
   const productCollectionsData = await fetchProductCollections(id)
   // Fetch metafields
-  const productMetafieldsData = await fetchProductMetafields(id)
+  // const productMetafieldsData = await fetchProductMetafields(id)
 
   const productInventoryData = await fetchProductInventory(id)
 
   const productCollections: SanityReference[] = []
-  const productMetafields: Metafield[] = []
+  // const productMetafields: Metafield[] = []
 
   if (productCollectionsData && productCollectionsData.length > 0) {
     productCollectionsData.forEach((collection) => {
@@ -444,13 +427,13 @@ export async function handleProductUpdate(
     })
   }
 
-  if (productMetafieldsData.node?.excludeFromIndication) {
-    productMetafields.push({
-      key: productMetafieldsData.node.excludeFromIndication.key,
-      namespace: 'product',
-      value: productMetafieldsData.node.excludeFromIndication.value,
-    })
-  }
+  // if (productMetafieldsData.node?.excludeFromIndication) {
+  //   productMetafields.push({
+  //     key: productMetafieldsData.node.excludeFromIndication.key,
+  //     namespace: 'product',
+  //     value: productMetafieldsData.node.excludeFromIndication.value,
+  //   })
+  // }
 
   const availableForSale =
     productInventoryData.product?.availableForSale ?? false
@@ -490,13 +473,13 @@ export async function handleProductUpdate(
           value: metafieldsData.node.stone.value,
         })
       }
-      if (metafieldsData.node?.excludeFromIndication) {
-        metafields.push({
-          key: metafieldsData.node.excludeFromIndication.key,
-          namespace: 'variant',
-          value: metafieldsData.node.excludeFromIndication.value,
-        })
-      }
+      // if (metafieldsData.node?.excludeFromIndication) {
+      //   metafields.push({
+      //     key: metafieldsData.node.excludeFromIndication.key,
+      //     namespace: 'variant',
+      //     value: metafieldsData.node.excludeFromIndication.value,
+      //   })
+      // }
 
       // console.log('variantImageData:', variantImageData)
 
@@ -607,16 +590,16 @@ export async function handleProductUpdate(
           _key: uuidv5(image.id, UUID_NAMESPACE_PRODUCT_IMAGE),
         }
       }),
-      metafields: productMetafields.map((metafield) => {
-        return {
-          __typename: 'Metafield',
-          _key: metafield.key,
-          id: metafield.key,
-          key: metafield.key,
-          namespace: metafield.namespace,
-          value: metafield.value,
-        }
-      }),
+      // metafields: productMetafields.map((metafield) => {
+      //   return {
+      //     __typename: 'Metafield',
+      //     _key: metafield.key,
+      //     id: metafield.key,
+      //     key: metafield.key,
+      //     namespace: metafield.namespace,
+      //     value: metafield.value,
+      //   }
+      // }),
       options,
       publishedAt: product.publishedAt,
       variants: productVariantsDocuments.map((variant) => {

@@ -28,7 +28,6 @@ interface Props {
   variants: ShopifyProductVariant[] | null
   product: Product
   currentVariant: ShopifyProductVariant
-  disableStockIndication?: boolean
   changeValueForOption: (id: string) => (value: string) => void
 }
 
@@ -40,13 +39,7 @@ interface Props {
  */
 
 export const ProductVariantSelector = (props: Props) => {
-  const {
-    variants,
-    changeValueForOption,
-    product,
-    currentVariant,
-    disableStockIndication,
-  } = props
+  const { variants, changeValueForOption, product, currentVariant } = props
   if (!variants || !variants.length) return null
   const productType = product?.store?.productType
   const { inquiryOnly } = product
@@ -71,7 +64,6 @@ export const ProductVariantSelector = (props: Props) => {
                 currentVariant={currentVariant}
                 option={option}
                 isInput={Boolean(productType === 'Gift Card')}
-                disableStockIndication={disableStockIndication}
               />
             </OptionWrapper>
           ) : null,

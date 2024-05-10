@@ -2872,7 +2872,6 @@ export interface ProductInfoSettings extends Document {
   _type?: Maybe<Scalars['String']['output']>
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>
-  excludeFromStockIndication?: Maybe<Array<Maybe<Product>>>
   globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
   /** Use these fields to add snippets of descriptions to all or some projects. For instance, you could add a 'Shipping and Returns' accordion on all items, a 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold' accordion to any product tagged with 'Black Gold'. These accordions will be displayed in accordion-dropdowns below the main product information. You can also add info accordions to individual items on their page here in the CMS. */
   helpText?: Maybe<Scalars['String']['output']>
