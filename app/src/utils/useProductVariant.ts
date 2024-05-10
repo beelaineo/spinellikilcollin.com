@@ -1,5 +1,4 @@
 import * as React from 'react'
-import atob from 'atob'
 import { definitely } from './data'
 import { Product, ShopifyProductVariant } from '../types'
 
@@ -31,9 +30,7 @@ export const useProductVariant = (
   const { initialVariant, shopifyVariant } = options
   let variants: ShopifyProductVariant[] = []
   if (product?.store?.variants && product?.store?.variants.length > 1) {
-    variants = definitely(product?.store?.variants).filter(
-      (v) => v.sourceData?.availableForSale === true,
-    )
+    variants = definitely(product?.store?.variants)
     if (variants.length === 0) {
       variants = definitely(product?.store?.variants)
     }
@@ -54,6 +51,12 @@ export const useProductVariant = (
     const variant = variants.find(
       (v) => v.shopifyVariantID === convertedVariantId,
     )
+
+    console.log('product', product)
+
+    console.log('variantId', variantId)
+    console.log('convertedVariantId', convertedVariantId)
+    console.log('variants in function', variants)
 
     if (!variant)
       throw new Error(
