@@ -113,7 +113,8 @@ export interface ShopifyStorefrontAppliedGiftCard
 export interface ShopifyStorefrontArticle
   extends ShopifyStorefrontHasMetafields,
     ShopifyStorefrontNode,
-    ShopifyStorefrontOnlineStorePublishable {
+    ShopifyStorefrontOnlineStorePublishable,
+    ShopifyStorefrontTrackable {
   __typename: 'Article'
   /**
    * The article's author.
@@ -157,6 +158,8 @@ export interface ShopifyStorefrontArticle
   tags: Array<Scalars['String']['output']>
   /** The article’s name. */
   title: Scalars['String']['output']
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters?: Maybe<Scalars['String']['output']>
 }
 
 /** An article in an online store blog. */
@@ -1338,7 +1341,12 @@ export type ShopifyStorefrontCartWalletPaymentMethodInput = {
   shopPayWalletContent?: InputMaybe<ShopifyStorefrontShopPayWalletContentInput>
 }
 
-/** A container for all the information required to checkout items and pay. */
+/**
+ * A container for all the information required to checkout items and pay.
+ *
+ * The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+ *
+ */
 export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   __typename: 'Checkout'
   /** The gift cards used on the checkout. */
@@ -1435,7 +1443,12 @@ export interface ShopifyStorefrontCheckout extends ShopifyStorefrontNode {
   webUrl: Scalars['URL']['output']
 }
 
-/** A container for all the information required to checkout items and pay. */
+/**
+ * A container for all the information required to checkout items and pay.
+ *
+ * The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+ *
+ */
 export type ShopifyStorefrontCheckoutDiscountApplicationsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
@@ -1444,7 +1457,12 @@ export type ShopifyStorefrontCheckoutDiscountApplicationsArgs = {
   reverse?: InputMaybe<Scalars['Boolean']['input']>
 }
 
-/** A container for all the information required to checkout items and pay. */
+/**
+ * A container for all the information required to checkout items and pay.
+ *
+ * The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+ *
+ */
 export type ShopifyStorefrontCheckoutLineItemsArgs = {
   after?: InputMaybe<Scalars['String']['input']>
   before?: InputMaybe<Scalars['String']['input']>
@@ -1969,7 +1987,8 @@ export interface ShopifyStorefrontCheckoutUserError
 export interface ShopifyStorefrontCollection
   extends ShopifyStorefrontHasMetafields,
     ShopifyStorefrontNode,
-    ShopifyStorefrontOnlineStorePublishable {
+    ShopifyStorefrontOnlineStorePublishable,
+    ShopifyStorefrontTrackable {
   __typename: 'Collection'
   /** Stripped description of the collection, single line with HTML tags removed. */
   description: Scalars['String']['output']
@@ -1997,6 +2016,8 @@ export interface ShopifyStorefrontCollection
   seo: ShopifyStorefrontSeo
   /** The collection’s name. Limit of 255 characters. */
   title: Scalars['String']['output']
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters?: Maybe<Scalars['String']['output']>
   /** The date and time when the collection was last modified. */
   updatedAt: Scalars['DateTime']['output']
 }
@@ -2056,6 +2077,8 @@ export interface ShopifyStorefrontCollectionConnection {
   nodes: Array<ShopifyStorefrontCollection>
   /** Information to aid in pagination. */
   pageInfo: ShopifyStorefrontPageInfo
+  /** The total count of Collections. */
+  totalCount: Scalars['UnsignedInt64']['output']
 }
 
 /**
@@ -2170,6 +2193,41 @@ export enum ShopifyStorefrontCompletionErrorCode {
   PaymentInvalidCurrency = 'PAYMENT_INVALID_CURRENCY',
   PaymentInvalidPaymentMethod = 'PAYMENT_INVALID_PAYMENT_METHOD',
   PaymentTransientError = 'PAYMENT_TRANSIENT_ERROR',
+}
+
+/** Represents information about the grouped merchandise in the cart. */
+export interface ShopifyStorefrontComponentizableCartLine
+  extends ShopifyStorefrontBaseCartLine,
+    ShopifyStorefrontNode {
+  __typename: 'ComponentizableCartLine'
+  /** An attribute associated with the cart line. */
+  attribute?: Maybe<ShopifyStorefrontAttribute>
+  /** The attributes associated with the cart line. Attributes are represented as key-value pairs. */
+  attributes: Array<ShopifyStorefrontAttribute>
+  /** The cost of the merchandise that the buyer will pay for at checkout. The costs are subject to change and changes will be reflected at checkout. */
+  cost: ShopifyStorefrontCartLineCost
+  /** The discounts that have been applied to the cart line. */
+  discountAllocations: Array<ShopifyStorefrontCartDiscountAllocation>
+  /**
+   * The estimated cost of the merchandise that the buyer will pay for at checkout. The estimated costs are subject to change and changes will be reflected at checkout.
+   * @deprecated Use `cost` instead.
+   */
+  estimatedCost: ShopifyStorefrontCartLineEstimatedCost
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output']
+  /** The components of the line item. */
+  lineComponents: Array<ShopifyStorefrontCartLine>
+  /** The merchandise that the buyer intends to purchase. */
+  merchandise: ShopifyStorefrontMerchandise
+  /** The quantity of the merchandise that the customer intends to purchase. */
+  quantity: Scalars['Int']['output']
+  /** The selling plan associated with the cart line and the effect that each selling plan has on variants when they're purchased. */
+  sellingPlanAllocation?: Maybe<ShopifyStorefrontSellingPlanAllocation>
+}
+
+/** Represents information about the grouped merchandise in the cart. */
+export type ShopifyStorefrontComponentizableCartLineAttributeArgs = {
+  key: Scalars['String']['input']
 }
 
 /** A country. */
@@ -3113,7 +3171,10 @@ export interface ShopifyStorefrontCustomer
   firstName?: Maybe<Scalars['String']['output']>
   /** A unique ID for the customer. */
   id: Scalars['ID']['output']
-  /** The customer's most recently updated, incomplete checkout. */
+  /**
+   * The customer's most recently updated, incomplete checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   lastIncompleteCheckout?: Maybe<ShopifyStorefrontCheckout>
   /** The customer’s last name. */
   lastName?: Maybe<Scalars['String']['output']>
@@ -4640,6 +4701,8 @@ export type ShopifyStorefrontMarketMetafieldsArgs = {
 export type ShopifyStorefrontMedia = {
   /** A word or phrase to share the nature or contents of a media. */
   alt?: Maybe<Scalars['String']['output']>
+  /** A globally-unique ID. */
+  id: Scalars['ID']['output']
   /** The media content type. */
   mediaContentType: ShopifyStorefrontMediaContentType
   /** The presentation for a media. */
@@ -4762,6 +4825,8 @@ export interface ShopifyStorefrontMenuItem extends ShopifyStorefrontNode {
   id: Scalars['ID']['output']
   /** The menu item's child items. */
   items: Array<ShopifyStorefrontMenuItem>
+  /** The linked resource. */
+  resource?: Maybe<ShopifyStorefrontMenuItemResource>
   /** The ID of the linked resource. */
   resourceId?: Maybe<Scalars['ID']['output']>
   /** The menu item's tags to filter a collection. */
@@ -4773,6 +4838,18 @@ export interface ShopifyStorefrontMenuItem extends ShopifyStorefrontNode {
   /** The menu item's URL. */
   url?: Maybe<Scalars['URL']['output']>
 }
+
+/**
+ * The list of possible resources a `MenuItem` can reference.
+ *
+ */
+export type ShopifyStorefrontMenuItemResource =
+  | ShopifyStorefrontArticle
+  | ShopifyStorefrontBlog
+  | ShopifyStorefrontCollection
+  | ShopifyStorefrontPage
+  | ShopifyStorefrontProduct
+  | ShopifyStorefrontShopPolicy
 
 /** A menu item type. */
 export enum ShopifyStorefrontMenuItemType {
@@ -5159,41 +5236,95 @@ export interface ShopifyStorefrontMutation {
   cartSelectedDeliveryOptionsUpdate?: Maybe<ShopifyStorefrontCartSelectedDeliveryOptionsUpdatePayload>
   /** Submit the cart for checkout completion. */
   cartSubmitForCompletion?: Maybe<ShopifyStorefrontCartSubmitForCompletionPayload>
-  /** Updates the attributes of a checkout if `allowPartialAddresses` is `true`. */
+  /**
+   * Updates the attributes of a checkout if `allowPartialAddresses` is `true`.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutAttributesUpdateV2?: Maybe<ShopifyStorefrontCheckoutAttributesUpdateV2Payload>
-  /** Completes a checkout without providing payment information. You can use this mutation for free items or items whose purchase price is covered by a gift card. */
+  /**
+   * Completes a checkout without providing payment information. You can use this mutation for free items or items whose purchase price is covered by a gift card.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutCompleteFree?: Maybe<ShopifyStorefrontCheckoutCompleteFreePayload>
-  /** Completes a checkout using a credit card token from Shopify's card vault. Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you need to  [_request payment processing_](https://shopify.dev/apps/channels/getting-started#request-payment-processing). */
+  /**
+   * Completes a checkout using a credit card token from Shopify's card vault. Before you can complete checkouts using CheckoutCompleteWithCreditCardV2, you need to  [_request payment processing_](https://shopify.dev/apps/channels/getting-started#request-payment-processing).
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutCompleteWithCreditCardV2?: Maybe<ShopifyStorefrontCheckoutCompleteWithCreditCardV2Payload>
-  /** Completes a checkout with a tokenized payment. */
+  /**
+   * Completes a checkout with a tokenized payment.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutCompleteWithTokenizedPaymentV3?: Maybe<ShopifyStorefrontCheckoutCompleteWithTokenizedPaymentV3Payload>
-  /** Creates a new checkout. */
+  /**
+   * Creates a new checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutCreate?: Maybe<ShopifyStorefrontCheckoutCreatePayload>
-  /** Associates a customer to the checkout. */
+  /**
+   * Associates a customer to the checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutCustomerAssociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerAssociateV2Payload>
-  /** Disassociates the current checkout customer from the checkout. */
+  /**
+   * Disassociates the current checkout customer from the checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutCustomerDisassociateV2?: Maybe<ShopifyStorefrontCheckoutCustomerDisassociateV2Payload>
-  /** Applies a discount to an existing checkout using a discount code. */
+  /**
+   * Applies a discount to an existing checkout using a discount code.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutDiscountCodeApplyV2?: Maybe<ShopifyStorefrontCheckoutDiscountCodeApplyV2Payload>
-  /** Removes the applied discounts from an existing checkout. */
+  /**
+   * Removes the applied discounts from an existing checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutDiscountCodeRemove?: Maybe<ShopifyStorefrontCheckoutDiscountCodeRemovePayload>
-  /** Updates the email on an existing checkout. */
+  /**
+   * Updates the email on an existing checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutEmailUpdateV2?: Maybe<ShopifyStorefrontCheckoutEmailUpdateV2Payload>
-  /** Removes an applied gift card from the checkout. */
+  /**
+   * Removes an applied gift card from the checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutGiftCardRemoveV2?: Maybe<ShopifyStorefrontCheckoutGiftCardRemoveV2Payload>
-  /** Appends gift cards to an existing checkout. */
+  /**
+   * Appends gift cards to an existing checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutGiftCardsAppend?: Maybe<ShopifyStorefrontCheckoutGiftCardsAppendPayload>
-  /** Adds a list of line items to a checkout. */
+  /**
+   * Adds a list of line items to a checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutLineItemsAdd?: Maybe<ShopifyStorefrontCheckoutLineItemsAddPayload>
-  /** Removes line items from an existing checkout. */
+  /**
+   * Removes line items from an existing checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutLineItemsRemove?: Maybe<ShopifyStorefrontCheckoutLineItemsRemovePayload>
-  /** Sets a list of line items to a checkout. */
+  /**
+   * Sets a list of line items to a checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutLineItemsReplace?: Maybe<ShopifyStorefrontCheckoutLineItemsReplacePayload>
-  /** Updates line items on a checkout. */
+  /**
+   * Updates line items on a checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutLineItemsUpdate?: Maybe<ShopifyStorefrontCheckoutLineItemsUpdatePayload>
-  /** Updates the shipping address of an existing checkout. */
+  /**
+   * Updates the shipping address of an existing checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutShippingAddressUpdateV2?: Maybe<ShopifyStorefrontCheckoutShippingAddressUpdateV2Payload>
-  /** Updates the shipping lines on an existing checkout. */
+  /**
+   * Updates the shipping lines on an existing checkout.
+   * @deprecated The Storefront GraphQL Checkout API is deprecated and will be removed in a future version. Please see https://shopify.dev/changelog/deprecation-of-checkout-apis for more information.
+   */
   checkoutShippingLineUpdate?: Maybe<ShopifyStorefrontCheckoutShippingLineUpdatePayload>
   /**
    * Creates a customer access token.
@@ -5845,7 +5976,8 @@ export enum ShopifyStorefrontOrderSortKeys {
 export interface ShopifyStorefrontPage
   extends ShopifyStorefrontHasMetafields,
     ShopifyStorefrontNode,
-    ShopifyStorefrontOnlineStorePublishable {
+    ShopifyStorefrontOnlineStorePublishable,
+    ShopifyStorefrontTrackable {
   __typename: 'Page'
   /** The description of the page, complete with HTML formatting. */
   body: Scalars['HTML']['output']
@@ -5867,6 +5999,8 @@ export interface ShopifyStorefrontPage
   seo?: Maybe<ShopifyStorefrontSeo>
   /** The title of the page. */
   title: Scalars['String']['output']
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters?: Maybe<Scalars['String']['output']>
   /** The timestamp of the latest page update. */
   updatedAt: Scalars['DateTime']['output']
 }
@@ -6016,6 +6150,47 @@ export enum ShopifyStorefrontPaymentTokenType {
   Vault = 'VAULT',
 }
 
+/** Decides the distribution of results. */
+export enum ShopifyStorefrontPredictiveSearchLimitScope {
+  /** Return results up to limit across all types. */
+  All = 'ALL',
+  /** Return results up to limit per type. */
+  Each = 'EACH',
+}
+
+/**
+ * A predictive search result represents a list of products, collections, pages, articles, and query suggestions
+ * that matches the predictive search query.
+ *
+ */
+export interface ShopifyStorefrontPredictiveSearchResult {
+  __typename: 'PredictiveSearchResult'
+  /** The articles that match the search query. */
+  articles: Array<ShopifyStorefrontArticle>
+  /** The articles that match the search query. */
+  collections: Array<ShopifyStorefrontCollection>
+  /** The pages that match the search query. */
+  pages: Array<ShopifyStorefrontPage>
+  /** The products that match the search query. */
+  products: Array<ShopifyStorefrontProduct>
+  /** The query suggestions that are relevant to the search query. */
+  queries: Array<ShopifyStorefrontSearchQuerySuggestion>
+}
+
+/** The types of search items to perform predictive search on. */
+export enum ShopifyStorefrontPredictiveSearchType {
+  /** Returns matching articles. */
+  Article = 'ARTICLE',
+  /** Returns matching collections. */
+  Collection = 'COLLECTION',
+  /** Returns matching pages. */
+  Page = 'PAGE',
+  /** Returns matching products. */
+  Product = 'PRODUCT',
+  /** Returns matching query strings. */
+  Query = 'QUERY',
+}
+
 /**
  * The input fields for a filter used to view a subset of products in a collection matching a specific price range.
  *
@@ -6049,7 +6224,8 @@ export type ShopifyStorefrontPricingValue =
 export interface ShopifyStorefrontProduct
   extends ShopifyStorefrontHasMetafields,
     ShopifyStorefrontNode,
-    ShopifyStorefrontOnlineStorePublishable {
+    ShopifyStorefrontOnlineStorePublishable,
+    ShopifyStorefrontTrackable {
   __typename: 'Product'
   /** Indicates if at least one product variant is available for sale. */
   availableForSale: Scalars['Boolean']['output']
@@ -6114,6 +6290,8 @@ export interface ShopifyStorefrontProduct
   title: Scalars['String']['output']
   /** The total quantity of inventory in stock for this Product. */
   totalInventory?: Maybe<Scalars['Int']['output']>
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters?: Maybe<Scalars['String']['output']>
   /**
    * The date and time when the product was last modified.
    * A product's `updatedAt` value can change for different reasons. For example, if an order
@@ -6658,6 +6836,8 @@ export interface ShopifyStorefrontQueryRoot {
   pageByHandle?: Maybe<ShopifyStorefrontPage>
   /** List of the shop's pages. */
   pages: ShopifyStorefrontPageConnection
+  /** List of the predictive search results. */
+  predictiveSearch?: Maybe<ShopifyStorefrontPredictiveSearchResult>
   /** Fetch a specific `Product` by one of its unique attributes. */
   product?: Maybe<ShopifyStorefrontProduct>
   /**
@@ -6684,6 +6864,8 @@ export interface ShopifyStorefrontQueryRoot {
   products: ShopifyStorefrontProductConnection
   /** The list of public Storefront API versions, including supported, release candidate and unstable versions. */
   publicApiVersions: Array<ShopifyStorefrontApiVersion>
+  /** List of the search results. */
+  search: ShopifyStorefrontSearchResultItemConnection
   /** The shop associated with the storefront access token. */
   shop: ShopifyStorefrontShop
   /** A list of redirects for a shop. */
@@ -6831,6 +7013,16 @@ export type ShopifyStorefrontQueryRootPagesArgs = {
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootPredictiveSearchArgs = {
+  limit?: InputMaybe<Scalars['Int']['input']>
+  limitScope?: InputMaybe<ShopifyStorefrontPredictiveSearchLimitScope>
+  query: Scalars['String']['input']
+  searchableFields?: InputMaybe<Array<ShopifyStorefrontSearchableField>>
+  types?: InputMaybe<Array<ShopifyStorefrontPredictiveSearchType>>
+  unavailableProducts?: InputMaybe<ShopifyStorefrontSearchUnavailableProductsType>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
 export type ShopifyStorefrontQueryRootProductArgs = {
   handle?: InputMaybe<Scalars['String']['input']>
   id?: InputMaybe<Scalars['ID']['input']>
@@ -6866,6 +7058,21 @@ export type ShopifyStorefrontQueryRootProductsArgs = {
   query?: InputMaybe<Scalars['String']['input']>
   reverse?: InputMaybe<Scalars['Boolean']['input']>
   sortKey?: InputMaybe<ShopifyStorefrontProductSortKeys>
+}
+
+/** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
+export type ShopifyStorefrontQueryRootSearchArgs = {
+  after?: InputMaybe<Scalars['String']['input']>
+  before?: InputMaybe<Scalars['String']['input']>
+  first?: InputMaybe<Scalars['Int']['input']>
+  last?: InputMaybe<Scalars['Int']['input']>
+  prefix?: InputMaybe<ShopifyStorefrontSearchPrefixQueryType>
+  productFilters?: InputMaybe<Array<ShopifyStorefrontProductFilter>>
+  query: Scalars['String']['input']
+  reverse?: InputMaybe<Scalars['Boolean']['input']>
+  sortKey?: InputMaybe<ShopifyStorefrontSearchSortKeys>
+  types?: InputMaybe<Array<ShopifyStorefrontSearchType>>
+  unavailableProducts?: InputMaybe<ShopifyStorefrontSearchUnavailableProductsType>
 }
 
 /** The schema’s entry-point for queries. This acts as the public, top-level API from which all queries must start. */
@@ -6905,6 +7112,115 @@ export interface ShopifyStorefrontScriptDiscountApplication
   title: Scalars['String']['output']
   /** The value of the discount application. */
   value: ShopifyStorefrontPricingValue
+}
+
+/** Specifies whether to perform a partial word match on the last search term. */
+export enum ShopifyStorefrontSearchPrefixQueryType {
+  /** Perform a partial word match on the last search term. */
+  Last = 'LAST',
+  /** Don't perform a partial word match on the last search term. */
+  None = 'NONE',
+}
+
+/** A search query suggestion. */
+export interface ShopifyStorefrontSearchQuerySuggestion
+  extends ShopifyStorefrontTrackable {
+  __typename: 'SearchQuerySuggestion'
+  /** The text of the search query suggestion with highlighted HTML tags. */
+  styledText: Scalars['String']['output']
+  /** The text of the search query suggestion. */
+  text: Scalars['String']['output']
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters?: Maybe<Scalars['String']['output']>
+}
+
+/**
+ * A search result that matches the search query.
+ *
+ */
+export type ShopifyStorefrontSearchResultItem =
+  | ShopifyStorefrontArticle
+  | ShopifyStorefrontPage
+  | ShopifyStorefrontProduct
+
+/**
+ * An auto-generated type for paginating through multiple SearchResultItems.
+ *
+ */
+export interface ShopifyStorefrontSearchResultItemConnection {
+  __typename: 'SearchResultItemConnection'
+  /** A list of edges. */
+  edges: Array<ShopifyStorefrontSearchResultItemEdge>
+  /** A list of the nodes contained in SearchResultItemEdge. */
+  nodes: Array<ShopifyStorefrontSearchResultItem>
+  /** Information to aid in pagination. */
+  pageInfo: ShopifyStorefrontPageInfo
+  /** A list of available filters. */
+  productFilters: Array<ShopifyStorefrontFilter>
+  /** The total number of results. */
+  totalCount: Scalars['Int']['output']
+}
+
+/**
+ * An auto-generated type which holds one SearchResultItem and a cursor during pagination.
+ *
+ */
+export interface ShopifyStorefrontSearchResultItemEdge {
+  __typename: 'SearchResultItemEdge'
+  /** A cursor for use in pagination. */
+  cursor: Scalars['String']['output']
+  /** The item at the end of SearchResultItemEdge. */
+  node: ShopifyStorefrontSearchResultItem
+}
+
+/** The set of valid sort keys for the search query. */
+export enum ShopifyStorefrontSearchSortKeys {
+  /** Sort by the `price` value. */
+  Price = 'PRICE',
+  /** Sort by relevance to the search terms. */
+  Relevance = 'RELEVANCE',
+}
+
+/** The types of search items to perform search within. */
+export enum ShopifyStorefrontSearchType {
+  /** Returns matching articles. */
+  Article = 'ARTICLE',
+  /** Returns matching pages. */
+  Page = 'PAGE',
+  /** Returns matching products. */
+  Product = 'PRODUCT',
+}
+
+/** Specifies whether to display results for unavailable products. */
+export enum ShopifyStorefrontSearchUnavailableProductsType {
+  /** Exclude unavailable products. */
+  Hide = 'HIDE',
+  /** Show unavailable products after all other matching results. This is the default. */
+  Last = 'LAST',
+  /** Show unavailable products in the order that they're found. */
+  Show = 'SHOW',
+}
+
+/** Specifies the list of resource fields to search. */
+export enum ShopifyStorefrontSearchableField {
+  /** Author of the page or article. */
+  Author = 'AUTHOR',
+  /** Body of the page or article or product description or collection description. */
+  Body = 'BODY',
+  /** Product type. */
+  ProductType = 'PRODUCT_TYPE',
+  /** Tag associated with the product or article. */
+  Tag = 'TAG',
+  /** Title of the page or article or product title or collection title. */
+  Title = 'TITLE',
+  /** Variant barcode. */
+  VariantsBarcode = 'VARIANTS_BARCODE',
+  /** Variant SKU. */
+  VariantsSku = 'VARIANTS_SKU',
+  /** Variant title. */
+  VariantsTitle = 'VARIANTS_TITLE',
+  /** Product vendor. */
+  Vendor = 'VENDOR',
 }
 
 /**
@@ -7283,6 +7599,8 @@ export interface ShopifyStorefrontStoreAvailability {
   location: ShopifyStorefrontLocation
   /** Returns the estimated amount of time it takes for pickup to be ready (Example: Usually ready in 24 hours). */
   pickUpTime: Scalars['String']['output']
+  /** The quantity of the product variant in-stock at this location. */
+  quantityAvailable: Scalars['Int']['output']
 }
 
 /**
@@ -7496,6 +7814,12 @@ export type ShopifyStorefrontTokenizedPaymentInputV3 = {
   test?: InputMaybe<Scalars['Boolean']['input']>
   /** The type of payment token. */
   type: ShopifyStorefrontPaymentTokenType
+}
+
+/** Represents a resource that you can track the origin of the search traffic. */
+export type ShopifyStorefrontTrackable = {
+  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  trackingParameters?: Maybe<Scalars['String']['output']>
 }
 
 /** An object representing exchange of money for a product or service. */

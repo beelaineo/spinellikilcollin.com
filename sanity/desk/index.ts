@@ -65,6 +65,7 @@ const hiddenDocTypes = (listItem: ListItemBuilder) => {
     'customize',
     'loyalty',
     'newCustomer',
+    'customerCare',
     'paymentPlans',
     'stone',
     'teamPage',

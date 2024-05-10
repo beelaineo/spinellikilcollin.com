@@ -44,7 +44,6 @@ interface OptionSwatchesProps {
   option: ProductOption
   variants?: Maybe<Maybe<ShopifyProductVariant>[]>
   stockedOptions?: string[]
-  disableStockIndication?: boolean
   onSwatchHover?: (
     option: ProductOption,
     value: ProductOptionValue,
@@ -63,7 +62,6 @@ export const OptionSwatches = ({
   onSwatchClick,
   isSwatchActive,
   onSwatchHover,
-  disableStockIndication,
 }: OptionSwatchesProps) => {
   const isSwatchCurrentlyInStock = (value, stockedOptions): boolean => {
     return stockedOptions.includes(value._key) ? true : false
@@ -108,10 +106,6 @@ export const OptionSwatches = ({
 interface ProductSwatchesProps {
   product: Product
   stockedVariants?: Maybe<ShopifyProductVariant>[]
-  disableStockIndication?: boolean
-  includedVariants?: Maybe<
-    ShopifyStorefrontProductVariant[] | ShopifyProductVariant[]
-  >
   onSwatchHover?: (
     option: ProductOption,
     value: ProductOptionValue,
@@ -137,8 +131,6 @@ export const ProductSwatches = ({
   onSwatchClick,
   onSwatchHover,
   isSwatchActive,
-  disableStockIndication,
-  includedVariants,
 }: ProductSwatchesProps) => {
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
@@ -152,24 +144,14 @@ export const ProductSwatches = ({
       .replace(/-+$/, '')
   }
   const optionsArray = ['Color', 'Style', 'Material']
-  const stockedColorOptions =
-    disableStockIndication && includedVariants
-      ? includedVariants
-          ?.map((variant) => {
-            return variant?.sourceData?.selectedOptions?.find((option) => {
-              if (!option?.name) return false
-              return optionsArray.includes(option?.name)
-            })
-          })
-          .map((option) => slugify(option?.value))
-      : stockedVariants
-          ?.map((variant) => {
-            return variant?.sourceData?.selectedOptions?.find((option) => {
-              if (!option?.name) return false
-              return optionsArray.includes(option?.name)
-            })
-          })
-          .map((option) => slugify(option?.value))
+  const stockedColorOptions = stockedVariants
+    ?.map((variant) => {
+      return variant?.sourceData?.selectedOptions?.find((option) => {
+        if (!option?.name) return false
+        return optionsArray.includes(option?.name)
+      })
+    })
+    .map((option) => slugify(option?.value))
 
   const stockedCaratOptions = product?.store?.variants
     ?.map((variant) => {
@@ -195,7 +177,6 @@ export const ProductSwatches = ({
           onSwatchClick={onSwatchClick}
           onSwatchHover={onSwatchHover}
           isSwatchActive={isSwatchActive}
-          disableStockIndication={disableStockIndication}
         />
       ))}
     </OptionSwatchesWrapper>
