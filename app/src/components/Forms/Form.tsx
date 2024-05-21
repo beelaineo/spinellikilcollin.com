@@ -25,6 +25,7 @@ interface FormProps<Values> {
   description?: string
   disabled?: boolean
   onSubmit: (values: Values) => void | Promise<void>
+  onFormStateChange?: (values: Values) => void
   initialValues: Values
   children: React.ReactNode
   validationSchema?: FormikValues['validationSchema']
@@ -35,6 +36,7 @@ export function Form<Values extends FormikValues>({
   title,
   description,
   onSubmit,
+  onFormStateChange,
   disabled,
   initialValues,
   children,
@@ -54,10 +56,22 @@ export function Form<Values extends FormikValues>({
       ) : null}
       <Formik<Values>
         initialValues={initialValues}
-        onSubmit={onSubmit}
+        onSubmit={(values, actions) => {
+          onSubmit(values)
+          if (onFormStateChange) {
+            onFormStateChange(values)
+          }
+          actions.setSubmitting(false)
+        }}
         validationSchema={validationSchema}
       >
-        {({ handleSubmit, isSubmitting }) => {
+        {({ handleSubmit, values, isSubmitting }) => {
+          React.useEffect(() => {
+            if (onFormStateChange) {
+              onFormStateChange(values)
+            }
+          }, [values, onFormStateChange])
+
           return (
             <FormElement
               id={id}

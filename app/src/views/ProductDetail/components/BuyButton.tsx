@@ -196,7 +196,11 @@ export const BuyButton = ({
     }
   }
   if (variantIsInStock === false) {
-    return <Placeholder>Out of stock</Placeholder>
+    return (
+      <BuyButtonEl disabled={true} ref={buttonRef}>
+        Out of Stock
+      </BuyButtonEl>
+    )
   }
   return (
     <>
