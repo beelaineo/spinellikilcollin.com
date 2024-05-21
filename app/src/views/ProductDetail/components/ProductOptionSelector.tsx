@@ -85,14 +85,15 @@ export const ProductOptionSelector = ({
   currentVariant,
   isInput,
 }: ProductOptionSelectorProps) => {
+  const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
+  const [initialValue, setInitialValue] = useState(0)
+
   if (!option || !option.name || !option.values) {
     console.warn('Missing option config', option)
     return null
   }
 
   if (option.values.length === 0) return null
-
-  const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
 
   const selectOption = changeValueForOption(option.name)
 
@@ -285,7 +286,11 @@ export const ProductOptionSelector = ({
             />
           </SwatchesWrapper>
         ) : (
-          <Form onSubmit={handleSubmit} initialValues={{}}>
+          <Form
+            onSubmit={handleSubmit}
+            initialValues={{ Value: initialValue }}
+            enableReinitialize={true}
+          >
             {isInput ? (
               <ProductPriceInput
                 name={option.name}
