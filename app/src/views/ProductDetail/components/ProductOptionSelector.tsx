@@ -226,13 +226,12 @@ export const ProductOptionSelector = ({
       : []
 
   const handleProductInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue: number = Number(e.target.value) || 50
-    const closest = optionsNumeric.reduce(function (prev, curr) {
-      return Math.abs(curr - inputValue) < Math.abs(prev - inputValue)
-        ? curr
-        : prev
-    })
-    const remasked = conformToMask(closest.toString(), currencyMask)
+    const inputValue: number = Number(e.target.value) || 0
+
+    const scaledValue = optionsNumeric[inputValue]
+
+    const remasked = conformToMask(scaledValue.toString(), currencyMask)
+
     selectOption(remasked.conformedValue)
   }
 
@@ -259,6 +258,17 @@ export const ProductOptionSelector = ({
   const handleSubmit = (values: any) => {
     //
   }
+
+  useEffect(() => {
+    if (isInput && option.name) {
+      const value = currentVariant?.sourceData?.priceV2?.amount
+      if (value) {
+        const scaledValue = optionsNumeric.indexOf(value)
+        setInitialValue(scaledValue)
+      }
+    }
+  }, [])
+
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
