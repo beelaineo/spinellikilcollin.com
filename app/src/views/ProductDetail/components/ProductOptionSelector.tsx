@@ -85,14 +85,15 @@ export const ProductOptionSelector = ({
   currentVariant,
   isInput,
 }: ProductOptionSelectorProps) => {
+  const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
+  const [initialValue, setInitialValue] = useState(0)
+
   if (!option || !option.name || !option.values) {
     console.warn('Missing option config', option)
     return null
   }
 
   if (option.values.length === 0) return null
-
-  const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
 
   const selectOption = changeValueForOption(option.name)
 
@@ -226,13 +227,12 @@ export const ProductOptionSelector = ({
       : []
 
   const handleProductInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue: number = Number(e.target.value) || 50
-    const closest = optionsNumeric.reduce(function (prev, curr) {
-      return Math.abs(curr - inputValue) < Math.abs(prev - inputValue)
-        ? curr
-        : prev
-    })
-    const remasked = conformToMask(closest.toString(), currencyMask)
+    const inputValue: number = Number(e.target.value) || 0
+
+    const scaledValue = optionsNumeric[inputValue]
+
+    const remasked = conformToMask(scaledValue.toString(), currencyMask)
+
     selectOption(remasked.conformedValue)
   }
 
@@ -259,6 +259,17 @@ export const ProductOptionSelector = ({
   const handleSubmit = (values: any) => {
     //
   }
+
+  useEffect(() => {
+    if (isInput && option.name) {
+      const value = currentVariant?.sourceData?.priceV2?.amount
+      if (value) {
+        const scaledValue = optionsNumeric.indexOf(value)
+        setInitialValue(scaledValue)
+      }
+    }
+  }, [])
+
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
@@ -275,7 +286,11 @@ export const ProductOptionSelector = ({
             />
           </SwatchesWrapper>
         ) : (
-          <Form onSubmit={handleSubmit} initialValues={{}}>
+          <Form
+            onSubmit={handleSubmit}
+            initialValues={{ Value: initialValue }}
+            enableReinitialize={true}
+          >
             {isInput ? (
               <ProductPriceInput
                 name={option.name}

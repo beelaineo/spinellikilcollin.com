@@ -1,6 +1,5 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
-import { Box } from '@xstyled/styled-components'
+import styled, { Box } from '@xstyled/styled-components'
 import { Product, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
 import { getValidProductOptions, optionMatchesVariant } from '../../../utils'
