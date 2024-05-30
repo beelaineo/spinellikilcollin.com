@@ -253,7 +253,7 @@ export const useBreadcrumbs = () => {
       setCrumbs(crumbs)
     }
     fetchCrumbs()
-  }, [router.asPath])
+  }, [router.pathname])
 
   return crumbs
 }
