@@ -270,6 +270,12 @@ export const ProductOptionSelector = ({
     }
   }, [])
 
+  const optionsWithDisabled = options.map((option) => {
+    return currentSelectedDiamond?.value === '2.0 carat' &&
+      option?.value === 'Natural'
+      ? { ...option, disabled: true }
+      : { ...option, disabled: false }
+  })
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
@@ -302,7 +308,7 @@ export const ProductOptionSelector = ({
                 type="select"
                 name={option.name}
                 onChange={handleSelectChange}
-                options={options}
+                options={optionsWithDisabled}
               />
             )}
           </Form>
