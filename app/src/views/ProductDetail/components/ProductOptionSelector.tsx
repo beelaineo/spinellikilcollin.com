@@ -158,6 +158,15 @@ export const ProductOptionSelector = ({
       (option) => option?.name === 'Carat',
     )
 
+  const currentSelectedStone =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Stone',
+    )
+
+  const currentSelectedSize = currentVariant?.sourceData?.selectedOptions?.find(
+    (option) => option?.name === 'Size',
+  )
+
   const getVariantOptions = (variantOptions) => {
     const arr: Record<string, unknown>[] = []
     variantOptions.forEach((v) => {
@@ -294,7 +303,11 @@ export const ProductOptionSelector = ({
         ) : (
           <Form
             onSubmit={handleSubmit}
-            initialValues={{ Value: initialValue }}
+            initialValues={{
+              Value: initialValue,
+              Stone: currentSelectedStone?.value,
+              Size: currentSelectedSize?.value,
+            }}
             enableReinitialize={true}
           >
             {isInput ? (
