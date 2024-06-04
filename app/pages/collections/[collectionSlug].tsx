@@ -221,7 +221,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       params,
       collection: collections[0] || null,
     },
-    revalidate: 10,
   }
 }
 

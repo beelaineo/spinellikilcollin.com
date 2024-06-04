@@ -75,7 +75,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
   const entries = response?.allJournalEntry ?? []
   const journalPage = response?.JournalPage
-  return { props: { journalPage, entries, shopData }, revalidate: 10 }
+  return { props: { journalPage, entries, shopData } }
 }
 
 export default Journal

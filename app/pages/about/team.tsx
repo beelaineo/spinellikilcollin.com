@@ -58,7 +58,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const teamPage = response?.TeamPage || null
 
-  return { props: { teamPage, shopData }, revalidate: 10 }
+  return { props: { teamPage, shopData } }
 }
 
 export default TeamPage

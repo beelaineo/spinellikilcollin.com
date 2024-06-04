@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ])
 
   const loyalty = response?.Loyalty || null
-  return { props: { loyalty, shopData }, revalidate: 10 }
+  return { props: { loyalty, shopData } }
 }
 
 export default Loyalty

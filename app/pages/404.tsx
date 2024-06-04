@@ -8,7 +8,7 @@ const NotFoundPage = () => <NotFound />
 export const getStaticProps: GetStaticProps = async () => {
   const shopData = await requestShopData()
 
-  return { props: { shopData }, revalidate: 10 }
+  return { props: { shopData } }
 }
 
 export default NotFoundPage
