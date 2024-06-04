@@ -158,6 +158,15 @@ export const ProductOptionSelector = ({
       (option) => option?.name === 'Carat',
     )
 
+  const currentSelectedStone =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Stone',
+    )
+
+  const currentSelectedSize = currentVariant?.sourceData?.selectedOptions?.find(
+    (option) => option?.name === 'Size',
+  )
+
   const getVariantOptions = (variantOptions) => {
     const arr: Record<string, unknown>[] = []
     variantOptions.forEach((v) => {
@@ -270,6 +279,12 @@ export const ProductOptionSelector = ({
     }
   }, [])
 
+  const optionsWithDisabled = options.map((option) => {
+    return currentSelectedDiamond?.value === '2.0 carat' &&
+      option?.value === 'Natural'
+      ? { ...option, disabled: true }
+      : { ...option, disabled: false }
+  })
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
@@ -288,7 +303,11 @@ export const ProductOptionSelector = ({
         ) : (
           <Form
             onSubmit={handleSubmit}
-            initialValues={{ Value: initialValue }}
+            initialValues={{
+              Value: initialValue,
+              Stone: currentSelectedStone?.value,
+              Size: currentSelectedSize?.value,
+            }}
             enableReinitialize={true}
           >
             {isInput ? (
@@ -302,7 +321,7 @@ export const ProductOptionSelector = ({
                 type="select"
                 name={option.name}
                 onChange={handleSelectChange}
-                options={options}
+                options={optionsWithDisabled}
               />
             )}
           </Form>
