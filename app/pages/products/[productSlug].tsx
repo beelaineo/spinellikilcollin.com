@@ -192,13 +192,13 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
     const product = getProductFromResponse(response)
 
-    return { props: { product, shopData }, revalidate: 10 }
+    return { props: { product, shopData } }
   } catch (e) {
     Sentry.captureException(e, 'next_static_props_error', {
       route: 'products/[productSlug]',
       handle,
     })
-    return { props: {}, revalidate: 1 }
+    return { props: {} }
   }
 }
 
