@@ -141,7 +141,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const entries = response?.allJournalEntry
 
   const entry = entries && entries.length ? entries[0] : null
-  return { props: { entry, shopData }, revalidate: 10 }
+  return { props: { entry, shopData } }
 }
 
 /**

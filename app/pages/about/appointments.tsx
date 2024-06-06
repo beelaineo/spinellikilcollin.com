@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   console.log('appointments', appointments)
 
-  return { props: { appointments, shopData }, revalidate: 10 }
+  return { props: { appointments, shopData } }
 }
 
 export default AppointmentsPage

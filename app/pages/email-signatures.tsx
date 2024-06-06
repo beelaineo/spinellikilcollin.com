@@ -393,7 +393,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const signatures = response?.EmailSignatureSettings || null
 
-  return { props: { shopData, signatures }, revalidate: 10 }
+  return { props: { shopData, signatures } }
 }
 
 export default EmailSignatures

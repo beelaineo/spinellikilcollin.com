@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ])
 
   const customerCare = response?.CustomerCare || null
-  return { props: { customerCare, shopData }, revalidate: 10 }
+  return { props: { customerCare, shopData } }
 }
 
 export default CustomerCare

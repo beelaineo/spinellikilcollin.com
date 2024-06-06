@@ -29,6 +29,7 @@ interface FormProps<Values> {
   initialValues: Values
   children: React.ReactNode
   validationSchema?: FormikValues['validationSchema']
+  enableReinitialize?: boolean
 }
 
 export function Form<Values extends FormikValues>({
@@ -41,6 +42,7 @@ export function Form<Values extends FormikValues>({
   initialValues,
   children,
   validationSchema,
+  enableReinitialize = false,
 }: FormProps<Values>) {
   return (
     <FormWrapper disabled={disabled}>
@@ -64,6 +66,7 @@ export function Form<Values extends FormikValues>({
           actions.setSubmitting(false)
         }}
         validationSchema={validationSchema}
+        enableReinitialize={enableReinitialize}
       >
         {({ handleSubmit, values, isSubmitting }) => {
           React.useEffect(() => {
