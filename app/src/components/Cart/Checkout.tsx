@@ -251,7 +251,7 @@ export const Checkout = () => {
                     label="Special Instructions"
                     name="notesBool"
                   />
-                  <Checkbox label="Gift Wrap" name="giftWrap" />
+                  <Checkbox label="This is a Gift" name="giftWrap" />
                 </div>
               </OptionsWrapper>
               {notesVisible ? (
