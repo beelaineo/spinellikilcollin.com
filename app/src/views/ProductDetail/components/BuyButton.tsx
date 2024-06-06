@@ -15,6 +15,8 @@ import { theme } from '../../../theme'
 import { shopifyQuery } from '../../../providers/AllProviders'
 import { ShopifyStorefrontProductVariant } from '../../../types/generated-shopify'
 import { Heading, Span } from '../../../components/Text'
+import Image from 'next/image'
+import ShippingStatus from './ShippingStatus'
 
 const { useEffect, useRef, useState } = React
 
@@ -33,11 +35,17 @@ const BuyButtonEl = styled(Button)<WithSticky>`
      {
       position: relative;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       padding: 0 20px;
+      font-weight: 200;
+      gap: 2;
 
       &:focus-visible {
         ${theme.focus.left()}
+      }
+
+      .status-label {
+        font-style: italic;
       }
 
       ${theme.mediaQueries.tablet} {
@@ -206,7 +214,7 @@ export const BuyButton = ({
     <>
       {!inquiryOnly && (
         <Heading level={5} weight={2}>
-          {readyToShip ? 'Ships in 1-2 days' : 'Ships in 6-8 weeks'}
+          <ShippingStatus readyToShip={readyToShip} />
         </Heading>
       )}
       <BuyButtonEl
@@ -216,7 +224,10 @@ export const BuyButton = ({
         sticky={false}
       >
         <span>{buttonLabel}</span>
-        <span>{readyToShip ? 'In Stock' : 'Made to Order'}</span>
+        <span>|</span>
+        <span className="status-label">
+          {readyToShip ? 'In Stock' : 'Made to Order'}
+        </span>
       </BuyButtonEl>
       {/* {isSticky ? <ButtonSpacer ref={spacerRef} /> : null} */}
     </>
