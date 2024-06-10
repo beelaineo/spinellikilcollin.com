@@ -368,6 +368,7 @@ export const ProductThumbnail = ({
     sendProductClick({ product, variant: currentVariant })
   }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
+
   useEffect(() => {
     if (!isInViewOnce) return
     // @ts-ignore
@@ -595,19 +596,19 @@ export const ProductThumbnail = ({
       >
         {variantAnimation ? (
           <VideoWrapper hide={!playing} carousel={carousel} hover={imageHover}>
-            {imageHover && currentSwatchOption?.hover_image && (
-              <HoverThumbWrapper>
-                <Image
-                  image={currentSwatchOption?.hover_image}
-                  ratio={imageRatio || 1}
-                  sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                  preload
-                  altText={altText}
-                  preloadImages={allImages}
-                  objectFit="cover"
-                />
-              </HoverThumbWrapper>
-            )}
+            <HoverThumbWrapper
+              hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+            >
+              <Image
+                image={currentSwatchOption?.hover_image}
+                ratio={imageRatio || 1}
+                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                preload
+                altText={altText}
+                preloadImages={allImages}
+                objectFit="cover"
+              />
+            </HoverThumbWrapper>
 
             <CloudinaryAnimation
               video={variantAnimation}
@@ -618,20 +619,18 @@ export const ProductThumbnail = ({
           </VideoWrapper>
         ) : null}
         <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
-          {imageHover && currentSwatchOption?.hover_image && (
-            // <HoverThumb src={currentSwatchOption?.hover_image.asset?.url} />
-            <HoverThumbWrapper>
-              <Image
-                image={currentSwatchOption?.hover_image}
-                ratio={imageRatio || 1}
-                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                preload
-                altText={altText}
-                preloadImages={allImages}
-              />
-            </HoverThumbWrapper>
-          )}
-
+          <HoverThumbWrapper
+            hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+          >
+            <Image
+              image={currentSwatchOption?.hover_image}
+              ratio={imageRatio || 1}
+              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+              preload
+              altText={altText}
+              preloadImages={allImages}
+            />
+          </HoverThumbWrapper>
           <Image
             image={productImage}
             ratio={imageRatio || 1}
