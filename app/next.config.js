@@ -114,6 +114,16 @@ module.exports = withSourceMaps({
           },
         ],
       },
+      {
+        source: '/:all*(svg|jpg|jpeg|png|webp|woff2|otf|woff|)',
+        locale: false,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, must-revalidate',
+          },
+        ],
+      },
     ]
   },
   webpack: (config, { isServer, buildId }) => {
