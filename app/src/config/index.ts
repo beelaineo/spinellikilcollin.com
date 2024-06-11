@@ -52,6 +52,8 @@ if (!EXCHANGE_RATE_API_KEY)
 const SHOPIFY_STOREFRONT_TOKEN = '0d3e3d2a74d125f799cd78a72e6c0000'
 const SHOPIFY_STOREFRONT_URL =
   'https://spinellikilcollin.myshopify.com/api/graphql'
+const NEW_SHOPIFY_STOREFRONT_URL =
+  'https://spinellikilcollin.myshopify.com/api/2023-01/graphql.json'
 const SANITY_GRAPHQL_URL = `https://${SANITY_PROJECT_ID}.api.sanity.io/v1/graphql/${SANITY_DATASET}/default`
 
 export const config = {
@@ -60,6 +62,7 @@ export const config = {
   ALGOLIA_APP_ID,
   STOREFRONT_ENV,
   SHOPIFY_STOREFRONT_TOKEN,
+  NEW_SHOPIFY_STOREFRONT_URL,
   SHOPIFY_STOREFRONT_URL,
   SANITY_PROJECT_ID,
   SANITY_DATASET,

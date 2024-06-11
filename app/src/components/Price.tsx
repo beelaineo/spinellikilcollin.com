@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { Money, useCurrency } from '../providers/CurrencyProvider'
+import { MoneyV2 } from '../providers/ShopifyProvider/types'
 import { Maybe, ShopifyPrice, ShopifyStorefrontMoneyV2 } from '../types'
 
 interface PriceProps {
-  price?: Maybe<ShopifyPrice | ShopifyStorefrontMoneyV2>
+  price?: Maybe<ShopifyPrice | ShopifyStorefrontMoneyV2 | Money>
   quantity?: number
   style?: 'full' | 'pretty'
 }

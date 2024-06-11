@@ -6,6 +6,10 @@ import { Heading } from '../Text'
 import { useStatefulRef } from '../../utils/hooks'
 
 import { Toast as IToast, ToastType, ToastDivState } from './types'
+import { useCountry, useNavigation } from '../../providers'
+import { useMedia } from '../../hooks'
+import { theme } from '../../theme'
+import Link from 'next/link'
 
 const { useEffect, useState, useRef } = React
 
@@ -16,30 +20,17 @@ interface ToastProps {
   dismissToast: (key: string) => void
 }
 
-const getStyles = (state: ToastDivState, elHeight: number | undefined) => {
-  switch (state) {
-    case ToastDivState.Init:
-      return { opacity: 0 }
-    case ToastDivState.Mounted:
-      return {
-        marginBottom: `-${elHeight}px`,
-        opacity: 0,
-        transitionDuration: '0s',
-      }
-    case ToastDivState.Displayed:
-      return { opacity: 1 }
-    case ToastDivState.Hidden:
-      return { marginBottom: `-${elHeight}px`, opacity: 0 }
-    default:
-      return undefined
-  }
-}
-
 const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   const wrapperRef = useStatefulRef<HTMLDivElement>(null)
   const [divState, setDivState] = useState(ToastDivState.Init)
   const dismiss = () => dismissToast(toastKey)
   const { dismissable, message } = toast
+
+  const isMobile = useMedia({
+    maxWidth: `${theme.breakpoints?.md || '650'}px`,
+  })
+
+  const { colorTheme } = useNavigation()
 
   const clearToast = () => {
     setDivState(ToastDivState.Hidden)
@@ -57,20 +48,80 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
   }, [wrapperRef.current])
 
   useEffect(() => {
-    if (dismissable) return
+    if (dismissable && !ToastType.Currency) return
+
+    const duration = ToastType.Currency ? 8000 : 5000
+
     const timeout = setTimeout(() => {
       clearToast()
-    }, 5000)
+    }, duration)
     return () => clearTimeout(timeout)
   }, [dismissable])
+
   const elHeight = wrapperRef.current?.offsetHeight
+
+  const getStyles = (state: ToastDivState, elHeight?: number | undefined) => {
+    switch (state) {
+      case ToastDivState.Init:
+        return { opacity: 0 }
+      case ToastDivState.Mounted:
+        return {
+          transform: `translateY(${
+            isMobile ? elHeight && 2 * -elHeight : elHeight && elHeight * 2
+          }px)`,
+
+          opacity: 0,
+          transitionDuration: '0s',
+        }
+      case ToastDivState.Displayed:
+        return { opacity: 1 }
+      case ToastDivState.Hidden:
+        return {
+          transform: `translateY(${
+            isMobile ? elHeight && 2 * -elHeight : elHeight
+          }px)`,
+          opacity: 0,
+        }
+      default:
+        return undefined
+    }
+  }
+
+  const { setIsHighlighted } = useCountry()
+
+  const handleClick = () => {
+    setIsHighlighted('isVisible')
+  }
+
   const styles = getStyles(divState, elHeight)
 
-  return (
-    <ToastWrapper style={styles} ref={wrapperRef} toastType={toast.type}>
+  const renderMessage = () =>
+    toast.type === ToastType.Currency ? (
+      <>
+        <Heading my={0} level={5}>
+          Now shopping in {message || 'Country Unknown'}.
+        </Heading>
+
+        <Heading my={0} level={6}>
+          Use our <button onClick={handleClick}>country selector</button> to
+          change your currency.{' '}
+        </Heading>
+      </>
+    ) : (
       <Heading my={0} level={5}>
-        {message}
+        message
       </Heading>
+    )
+
+  return (
+    <ToastWrapper
+      style={styles}
+      ref={wrapperRef}
+      toastType={toast.type}
+      colorTheme={colorTheme}
+    >
+      {renderMessage()}
+
       {dismissable ? (
         <CloseButton
           type="button"
