@@ -1,5 +1,5 @@
 import styled, { css } from '@xstyled/styled-components'
-import { ShopifyProduct } from '../../types'
+import { Product } from '../../types'
 import {
   CarouselContainer,
   SlidesContainer,
@@ -7,7 +7,7 @@ import {
 } from '../../components/Carousel/styled'
 
 interface WithProduct {
-  product?: ShopifyProduct
+  product?: Product
 }
 
 export const Wrapper = styled.div`
@@ -59,7 +59,7 @@ export const InfoWrapper = styled.div<WithProduct>`
     justify-content: flex-start;
 
     ${theme.mediaQueries.tablet} {
-      padding: ${product?.sourceData?.productType === 'Gift Card'
+      padding: ${product?.store?.productType === 'Gift Card'
         ? '0 81px 7'
         : '9 81px 7'};
     }
@@ -67,7 +67,7 @@ export const InfoWrapper = styled.div<WithProduct>`
     ${theme.mediaQueries.mobile} {
       height: 100%;
       display: block;
-      padding: ${product?.sourceData?.productType === 'Gift Card'
+      padding: ${product?.store?.productType === 'Gift Card'
         ? '0 0 7'
         : '96px 0 7'};
     }
@@ -77,6 +77,41 @@ export const InfoWrapper = styled.div<WithProduct>`
 export const AffirmWrapper = styled.div`
   ${({ theme }) => css`
     margin-top: 5;
+    font-family: 'Inferi', 'Georgia', serif !important;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2;
+    width: max-content;
+    h5,
+    span {
+      height: 100%;
+      text-align: left;
+    }
+
+    ${theme.mediaQueries.tablet} {
+      grid-row: 3;
+      margin: 4 auto 0;
+      width: 100%;
+      max-width: small;
+      align-items: center;
+    }
+    ${theme.mediaQueries.mobile} {
+      align-items: flex-start;
+    }
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom(0, 6)}
+      }
+    }
+  `}
+`
+
+export const KlarnaWrapper = styled.div`
+  ${({ theme }) => css`
+    margin-top: 5;
+
     ${theme.mediaQueries.tablet} {
       grid-row: 3;
       margin: 4 auto 0;
@@ -102,12 +137,8 @@ export const TitleWrapper = styled.div<WithProduct>`
     ${theme.mediaQueries.tablet} {
       text-align: center;
       grid-row: 1;
-      margin-top: ${product?.sourceData?.productType === 'Gift Card'
-        ? '0'
-        : '-2'};
-      margin-bottom: ${product?.sourceData?.productType === 'Gift Card'
-        ? '4'
-        : '0'};
+      margin-top: ${product?.store?.productType === 'Gift Card' ? '0' : '-2'};
+      margin-bottom: ${product?.store?.productType === 'Gift Card' ? '4' : '0'};
       & > em {
         margin-bottom: 2;
       }
@@ -216,7 +247,7 @@ export const Nav = styled.div`
 `
 
 interface WithProductHide {
-  product?: ShopifyProduct
+  product?: Product
   hide?: boolean
 }
 
@@ -228,7 +259,7 @@ export const ProductGalleryWrapper = styled.div<WithProductHide>`
 
     ${theme.mediaQueries.tablet} {
       position: relative;
-      order: ${product?.sourceData?.productType === 'Gift Card' ? '-1' : '0'};
+      order: ${product?.store?.productType === 'Gift Card' ? '-1' : '0'};
     }
   `}
 `

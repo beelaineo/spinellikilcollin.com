@@ -2,12 +2,7 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import {
-  ShopifyProduct,
-  ShopifyCollection,
-  Page,
-  JournalEntry,
-} from '../../types'
+import { Product, Collection, Page, JournalEntry } from '../../types'
 import { request } from '../../../src/graphql'
 
 import { BreadcrumbWrapper } from './styled'
@@ -16,9 +11,7 @@ const { useState, useEffect } = React
 
 const productQuery = gql`
   query ProductsPageQuery($handle: String) {
-    allShopifyProduct(
-      where: { handle: { eq: $handle }, archived: { neq: true } }
-    ) {
+    allProduct(where: { handle: { eq: $handle }, archived: { neq: true } }) {
       __typename
       _id
       _key
@@ -33,21 +26,12 @@ const productQuery = gql`
         handle
         shopifyId
       }
-      variants {
-        __typename
-        _key
-        _type
-        shopifyVariantID
-        title
-      }
     }
   }
 `
 const collectionQuery = gql`
   query CollectionQuery($handle: String) {
-    allShopifyCollection(
-      where: { handle: { eq: $handle }, archived: { neq: true } }
-    ) {
+    allCollection(where: { handle: { eq: $handle }, archived: { neq: true } }) {
       __typename
       _id
       _type
@@ -86,8 +70,8 @@ const journalEntryQuery = gql`
 `
 
 interface Response {
-  allShopifyProduct: ShopifyProduct[]
-  allShopifyCollection: ShopifyCollection[]
+  allProduct: Product[]
+  allCollection: Collection[]
   allPage: Page[]
   allJournalEntry: JournalEntry[]
 }
@@ -107,6 +91,7 @@ const Route2LabelMap = {
   '/about': 'About',
   '/about/contact': 'Contact',
   '/about/faq': 'FAQ',
+  '/about/appointments': 'Appointments',
   '/about/team': 'Team',
   '/blogs': 'Blog',
   '/collections': 'Collections',
@@ -116,6 +101,7 @@ const Route2LabelMap = {
   '/pages/[slug]': 'Page Not Found',
   '/products': 'Collection',
   '/customize/quiz': 'Quiz',
+  '/about/financing': 'Financing',
 }
 
 export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
@@ -128,7 +114,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     const [response] = await Promise.all([
       request<Response>(productQuery, variables),
     ])
-    const products = response?.allShopifyProduct
+    const products = response?.allProduct
     const product = products && products.length ? products[0] : null
     return product
   }
@@ -137,7 +123,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     const [response] = await Promise.all([
       request<Response>(collectionQuery, variables),
     ])
-    const collections = response?.allShopifyCollection
+    const collections = response?.allCollection
     const collection = collections && collections.length ? collections[0] : null
     return collection
   }
@@ -166,6 +152,11 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     const crumbLinks = CombineAccumulatively(segmentsPath)
     const crumbLabels = CombineAccumulatively(segmentsRoute)
 
+    // console.log('segmentsPath', segmentsPath)
+    // console.log('crumbLinks', crumbLinks)
+    // console.log('segmentsRoute', segmentsRoute)
+    // console.log('crumbLabels', crumbLabels)
+
     const fetchCrumbs = async () => {
       switch (segmentsRoute[1]) {
         case 'products':
@@ -176,7 +167,6 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
           ) {
             const segmentsPrevPath = storage.prevPath.split('/')
             const productCollection = await getCollection(segmentsPrevPath[2])
-            console.log('productCollection', productCollection)
             const collectionLink =
               `/collections/${segmentsPrevPath[2]}` ||
               '/collections/newarrivals'
@@ -207,7 +197,9 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
           crumbLabels[1] = collection?.title
           break
         case 'about':
-          if (
+          if (segmentsPath[2] === 'financing') {
+            crumbLabels[2] = 'Financing'
+          } else if (
             segmentsPath[2] === 'issues-we-care-about' ||
             segmentsPath[2] === 'product-sourcing'
           ) {
@@ -220,6 +212,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
               segmentsRoute.length > 2 &&
               segmentsRoute[2] !== 'contact' &&
               segmentsRoute[2] !== 'faq' &&
+              segmentsRoute[2] !== 'appointments' &&
               segmentsRoute[2] !== 'team'
             ) {
               const page = await getPage(router.query?.pageSlug)
@@ -253,8 +246,12 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
     }
     fetchCrumbs()
   }, [router.asPath])
+
   if (
     router.route === '/' ||
+    router.route === '/404' ||
+    router.route.includes('/new-customer') ||
+    router.route.includes('/vip-loyalty') ||
     (display == 'header' && router.route.includes('collections'))
   ) {
     return null
@@ -266,9 +263,7 @@ export const Breadcrumbs = ({ display }: BreadcrumbsProps) => {
             <div key={i}>
               {i > 0 ? <div className={'separator'}>{'→'}</div> : null}
               <div className={i == crumbs.length - 1 ? 'active ' : ''}>
-                <Link href={c.link}>
-                  <a>{c.label}</a>
-                </Link>
+                <Link href={c.link}>{c.label}</Link>
               </div>
             </div>
           )

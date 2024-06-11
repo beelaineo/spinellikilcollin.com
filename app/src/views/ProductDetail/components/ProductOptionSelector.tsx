@@ -1,10 +1,10 @@
 import React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import {
-  ShopifyProduct,
-  ShopifyProductOption,
+  Product,
+  ProductOption,
   ShopifyProductVariant,
-  ShopifyProductOptionValue,
+  ProductOptionValue,
   Maybe,
   ShopifySourceProductVariant,
   ShopifySourceSelectedOption,
@@ -31,9 +31,9 @@ const { useEffect, useState } = React
 
 interface ProductOptionSelectorProps {
   variants: ShopifyProductVariant[]
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
-  option: ShopifyProductOption
+  option: ProductOption
   changeValueForOption: (optionId: string) => (value: string) => void
   isInput: boolean
   disableStockIndication?: boolean
@@ -102,7 +102,7 @@ export const ProductOptionSelector = ({
   isInput,
   disableStockIndication,
 }: ProductOptionSelectorProps) => {
-  if (!option || !option.name || !option.shopifyOptionId || !option.values) {
+  if (!option || !option.name || !option.values) {
     console.warn('Missing option config', option)
     return null
   }
@@ -136,18 +136,18 @@ export const ProductOptionSelector = ({
     selectOption(value)
   }
 
-  const stockedVariants = product.sourceData?.variants?.edges
+  const stockedVariants = product.store?.variants
     ?.filter((variant) => {
       return (
-        variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false &&
-        !variant?.node?.selectedOptions?.find(
+        variant?.sourceData?.availableForSale === true &&
+        variant?.sourceData?.currentlyNotInStock === false &&
+        !variant?.sourceData?.selectedOptions?.find(
           (o) => o?.value == 'Not sure of my size',
         ) &&
-        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
+        !variant?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat')
       )
     })
-    .map((variant) => variant?.node)
+    .map((variant) => variant?.sourceData)
 
   const stockedColorOptions = stockedVariants
     ?.map((variant) => {
@@ -196,16 +196,16 @@ export const ProductOptionSelector = ({
   )
 
   const getIncludedVariants = async (
-    product: ShopifyProduct,
+    product: Product,
   ): Promise<ShopifyStorefrontProductVariant[] | null> => {
     const variants = await sanityQuery(
-      `*[_type == 'shopifyProduct' && handle == $handle][0].variants[sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value == "false"]`,
+      `*[_type == 'product' && handle == $handle][0].store.variants[sourceData.metafields[key == "excludeFromIndication"].value == "false"]`,
       { handle: product?.handle },
     )
     return variants
   }
 
-  const formatLabel = (value: string, option: ShopifyProductOption) => {
+  const formatLabel = (value: string, option: ProductOption) => {
     if (disableStockIndication == true) {
       // console.log('current variant', currentVariant)
       // console.log('disableStockIndication is TRUE')
@@ -234,7 +234,7 @@ export const ProductOptionSelector = ({
           }
         }
       })
-      const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+      const optionLabel = i > 0 ? value + ' | In Stock' : value
       return optionLabel
     } else {
       let i = 0
@@ -266,7 +266,7 @@ export const ProductOptionSelector = ({
           }
         }
       })
-      const optionLabel = i > 0 ? value + ' | Ready to Ship' : value
+      const optionLabel = i > 0 ? value + ' | In Stock' : value
       return optionLabel
     }
   }
@@ -302,14 +302,14 @@ export const ProductOptionSelector = ({
   }
 
   const handleSwatchClick =
-    (option: ShopifyProductOption, { value }: ShopifyProductOptionValue) =>
+    (option: ProductOption, { value }: ProductOptionValue) =>
     () => {
       if (value) selectOption(value)
     }
 
   const isSwatchActive = (
-    option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    option: ProductOption,
+    value: ProductOptionValue,
   ): boolean => {
     return optionMatchesVariant(option.name || 'foo', value, currentVariant)
   }

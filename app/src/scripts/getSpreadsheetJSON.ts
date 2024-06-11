@@ -1,4 +1,3 @@
-import 'isomorphic-unfetch'
 import path from 'path'
 import fs from 'fs'
 import Debug from 'debug'

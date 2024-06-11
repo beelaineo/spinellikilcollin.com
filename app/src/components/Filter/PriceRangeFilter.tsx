@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { PriceRangeFilter as PriceRangeFilterType } from '../../types'
+import { PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType } from '../../types'
 import { FilterSetState } from './types'
 import {
   PriceRangeFilterWrapper,
@@ -104,7 +104,7 @@ interface PriceRangeFilterValues {
 }
 
 interface PriceRangeFilterProps {
-  priceRangeFilter: PriceRangeFilterType
+  priceRangeFilter: PriceRangeMinMaxFilterType
   filterSetState?: FilterSetState
   setValues: (matchKey: string, values: PriceRangeFilterValues) => void
   resetSet: () => void

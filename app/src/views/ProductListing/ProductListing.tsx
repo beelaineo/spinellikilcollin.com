@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import {
-  ShopifyCollection,
-  ShopifyProduct,
+  Collection,
+  Product,
   CollectionBlock as CollectionBlockType,
   Filter as FilterType,
   FilterSet as FilterSetType,
-  InventoryFilter as InventoryFilterType,
-  PriceRangeFilter as PriceRangeFilterType,
+  InStockFilter as InStockFilterType,
+  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
   FilterConfiguration,
   FilterMatch,
   PRICE_RANGE_FILTER,
@@ -38,10 +38,11 @@ import {
   NoResultsWrapper,
   FooterGrid,
 } from './styled'
+import { useSearch } from '../../providers'
 
 const { useRef, useEffect, useState } = React
 
-interface ShopifyProductListingProduct extends ShopifyProduct {
+interface ShopifyProductListingProduct extends Product {
   filterData: {
     inStock: boolean
     metal: string[]
@@ -52,7 +53,7 @@ interface ShopifyProductListingProduct extends ShopifyProduct {
   }
 }
 
-interface ShopifyProductListingCollection extends ShopifyCollection {
+interface ShopifyProductListingCollection extends Collection {
   products?: Maybe<Maybe<ShopifyProductListingProduct>[]> | undefined
 }
 
@@ -72,8 +73,8 @@ type PaginationArgs = {
 }
 
 function isCollectionResult(
-  r?: ShopifyCollection[] | ShopifyProductListingProduct[],
-): r is ShopifyCollection[] {
+  r?: Collection[] | ShopifyProductListingProduct[],
+): r is Collection[] {
   if (!r || !r[0]) return false
   return 'products' in r[0]
 }
@@ -96,15 +97,19 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     minimalDisplay,
   } = collection
 
+  // console.log('collection', collection)
+  const search = useSearch()
+
   const collectionProductsWithPrices = [...definitely(collection.products)].map(
     (product) => {
-      const [variants] = unwindEdges(product?.sourceData?.variants)
+      const variants = product?.store?.variants
 
-      const prices = variants.map(
-        (variant) => variant?.priceV2 && variant.priceV2.amount,
+      const prices = variants?.map(
+        (variant) =>
+          variant?.sourceData?.priceV2 && variant.sourceData?.priceV2.amount,
       )
 
-      return { ...product, prices: unique(prices) }
+      return { ...product, prices: prices ? unique(prices) : [] }
     },
   )
 
@@ -137,15 +142,15 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     | (
         | FilterType
         | FilterSetType
-        | InventoryFilterType
-        | PriceRangeFilterType
+        | InStockFilterType
+        | PriceRangeMinMaxFilterType
       )[]
     | null
   >(null)
   const [currentFilters, setCurrentFilters] =
     useState<FilterConfiguration | null>(null)
   const { state: fetchMoreState, query: fetchMoreQuery } = useSanityQuery<
-    ShopifyCollection[] | ShopifyProductListingProduct[],
+    Collection[] | ShopifyProductListingProduct[],
     PaginationArgs
   >()
 
@@ -176,7 +181,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
       : [...customFilters, ...defaultFilters]
 
     filters.map((filter) => {
-      if (filter._type === 'inventoryFilter')
+      if (filter._type === 'inStockFilter')
         filters.push(filters.splice(filters.indexOf(filter), 1)[0])
     })
     setFilters(filters)
@@ -198,9 +203,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
     if (!match) return false
     switch (type) {
       case 'type':
-        return product.sourceData?.productType?.includes(match)
+        return product.store?.productType?.includes(match)
       case 'tag':
-        return product.sourceData?.tags?.includes(match)
+        return product.store?.tags?.includes(match)
       case 'title':
         return product.title == match
       case 'option':
@@ -246,20 +251,25 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             parseFilterMatch(p, filterMatch),
           )
         } else if (filterGroup.filterType === PRICE_RANGE_FILTER) {
-          if (!p.minVariantPrice || !p.maxVariantPrice) return false
+          if (
+            !p.store?.priceRange?.minVariantPrice ||
+            !p.store?.priceRange?.maxVariantPrice
+          )
+            return false
           const { minPrice, maxPrice } = filterGroup
 
-          if (p.minVariantPrice == p.maxVariantPrice) {
+          if (
+            p.store?.priceRange?.minVariantPrice ==
+            p.store?.priceRange?.maxVariantPrice
+          ) {
             return Boolean(
-              p.minVariantPrice >= minPrice && p.minVariantPrice <= maxPrice,
+              p.store?.priceRange?.minVariantPrice >= minPrice &&
+                p.store?.priceRange?.minVariantPrice <= maxPrice,
             )
           } else {
             return Boolean(
               p.prices.some(
-                (price) =>
-                  price &&
-                  minPrice <= parseFloat(price) &&
-                  maxPrice >= parseFloat(price),
+                (price) => price && minPrice <= price && maxPrice >= price,
               ),
             )
           }
@@ -471,16 +481,15 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
 
   if (!handle) throw new Error('No handle was fetched')
   const firstProduct = definitely(collection.products)[0]
-  const firstProductImage = firstProduct
-    ? unwindEdges(firstProduct?.sourceData?.images)[0][0]
+  const firstProductImage = firstProduct?.store?.images
+    ? firstProduct.store?.images[0]
     : undefined
 
   const path = ['collections', handle].join('/')
   const defaultSeo = {
     title: collection.title || '',
-    description: collection.sourceData?.description,
-    image:
-      getHeroImage(hero) || collection?.sourceData?.image || firstProductImage,
+    description: collection?.store?.descriptionHtml,
+    image: getHeroImage(hero) || collection?.store?.image || firstProductImage,
   }
 
   const validHero = isValidHero(hero)
@@ -548,7 +557,7 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
             currentFilter={currentFilters}
             productsCount={productsCount}
             resetFilters={resetFilters}
-            hideFilter={hideFilter}
+            hideFilter={search.open || hideFilter}
             scrollGridIntoView={scrollGridIntoView}
             minimalDisplay={minimalDisplay}
           />

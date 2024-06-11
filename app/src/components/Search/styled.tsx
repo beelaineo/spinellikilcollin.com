@@ -43,11 +43,7 @@ export const SearchInputWrapper = styled.div`
   border-bottom: body.3;
 `
 
-interface WithDisabled {
-  disabled: boolean
-}
-
-export const SearchForm = styled.form<WithDisabled>`
+export const SearchForm = styled.form<any>`
   ${({ theme, disabled }) => css`
     display: flex;
     flex-direction: column;
@@ -71,6 +67,8 @@ export const SearchForm = styled.form<WithDisabled>`
 export const SearchHeader = styled.div`
   ${({ theme }) => css`
     padding: 7;
+    overflow: hidden;
+
     ${theme.mediaQueries.mobile} {
       padding: 4;
     }
@@ -95,12 +93,77 @@ export const Results = styled.div`
   padding: 3 0 8;
 `
 
+export const AutocompleteItemWrapper = styled.div``
+
+export const Separator = styled.span`
+  position: relative;
+  pointer-events: none;
+  color: body.6;
+
+  display: flex;
+  svg {
+    width: 14px;
+    height: 14px;
+  }
+`
+
+export const AutocompleteItem = styled.li<any>`
+  list-style: none;
+  cursor: pointer;
+  position: relative;
+  text-transform: capitalize;
+  color: body.6;
+
+  position: relative;
+  display: flex;
+  flex-direction: row;
+
+  gap: 4px;
+  align-items: center;
+
+  &:hover {
+    color: body.8;
+    span {
+      color: body.8;
+    }
+  }
+`
+
 export const ResultsInner = styled.div`
   margin: 0 auto;
   padding: 0;
 `
 
-export const StyledSearchInput = styled(Input)`
+export const StyledSearchInput = styled(Input)<any>`
+  ${({ theme }) => css`
+    font-size: 2;
+    height: auto;
+    border: none;
+    text-align: center;
+    border-bottom: 1px solid;
+    background-color: transparent;
+    border-color: body.4;
+    margin-bottom: 4;
+    height: 55px;
+    width: fit-content;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    color: body.8;
+
+    caret-color: #222222;
+
+    &:focus-visible {
+      ${theme.focus.left()}
+    }
+
+    ${theme.mediaQueries.mobile} {
+      height: 45px;
+      font-size: 3;
+    }
+  `}
+`
+
+export const StyledSearchAutoComplete = styled.div<any>`
   ${({ theme }) => css`
     font-size: 2;
     height: auto;
@@ -111,6 +174,7 @@ export const StyledSearchInput = styled(Input)`
     border-color: body.4;
     margin-bottom: 6;
     height: 55px;
+    width: fit-content;
 
     ${theme.mediaQueries.mobile} {
       height: 45px;

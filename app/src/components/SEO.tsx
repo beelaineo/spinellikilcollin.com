@@ -4,16 +4,27 @@ import Script from 'next/script'
 import { CurrentProductProvider, useShopData } from '../providers'
 import {
   ShopifySourceImage,
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   RichImage,
   Image,
   Maybe,
   Seo,
+  LegacySeo,
+  ShopifyImage,
+  ShopifyCollectionImage,
+  ShopifyVariantImage,
 } from '../types'
 import { definitely, getProductIdLocationSearch } from '../utils'
 
-type ImageType = Image | RichImage | ShopifySourceImage | null
+type ImageType =
+  | Image
+  | RichImage
+  | ShopifySourceImage
+  | ShopifyImage
+  | ShopifyCollectionImage
+  | ShopifyVariantImage
+  | null
 
 type DefaultSeo = {
   title?: string | null
@@ -22,11 +33,11 @@ type DefaultSeo = {
 }
 
 interface SEOProps {
-  seo?: Maybe<Seo>
+  seo?: Maybe<Seo | LegacySeo>
   defaultSeo: DefaultSeo
   path: string
   contentType?: string
-  product?: ShopifyProduct
+  product?: Product
   hidden?: Maybe<boolean>
   currentVariant?: ShopifyProductVariant
 }
@@ -46,7 +57,7 @@ interface AboutSEOProps {
 }
 
 interface ProductSEOProps {
-  product: ShopifyProduct
+  product: Product
   defaultSeo: DefaultSeo
   currentVariant?: ShopifyProductVariant
 }
@@ -108,21 +119,21 @@ const ProductSEO = ({
   currentVariant,
   defaultSeo,
 }: ProductSEOProps) => {
-  const { minVariantPrice } = product
+  const minVariantPrice = product.store?.priceRange?.minVariantPrice
   const formattedPrice = minVariantPrice
     ? Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' })
         .format(minVariantPrice)
         .replace(/^\$/, '')
     : undefined
 
-  const availability = product?.sourceData?.availableForSale ? 'instock' : 'oos'
+  const availability = product?.store?.availableForSale ? 'instock' : 'oos'
   let id, imageSrc
-  const vendor = product?.sourceData?.vendor
-  const description = product?.sourceData?.description
-  const productType = product?.sourceData?.productType
+  const vendor = product?.store?.vendor
+  const description = product?.store?.description
+  const productType = product?.store?.productType
   const sku = currentVariant?.sourceData?.sku
   const variantPrice =
-    currentVariant?.sourceData?.compareAtPriceV2?.amount !== '0'
+    currentVariant?.sourceData?.compareAtPriceV2?.amount !== 0
       ? currentVariant?.sourceData?.compareAtPriceV2?.amount
       : currentVariant?.sourceData?.priceV2?.amount
 

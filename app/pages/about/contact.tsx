@@ -19,7 +19,7 @@ const query = gql`
         type
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }

@@ -6,9 +6,9 @@ import {
   useAnalytics,
   useShopifyPrice,
   useCountry,
+  Money,
 } from '../../providers'
 import {
-  Maybe,
   ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType,
   ShopifyStorefrontMoneyV2,
 } from '../../types/generated-shopify'
@@ -27,6 +27,7 @@ import {
   QuantityWrapper,
   QuantityAdjustButton,
 } from './styled'
+import { Maybe, ShopifyImage } from '../../types'
 
 const { useEffect, useState } = React
 
@@ -42,7 +43,8 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
 
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
-  const [price, setPrice] = useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
+  const [price, setPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2 | Money>>(null)
   const product = variant?.product
 
   const handleQuantityChange = async (
@@ -82,7 +84,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
       console.log('CheckoutProduct current variant pricing', variantPrice)
       // set state with the result if `isSubscribed` is true
       if (isSubscribed) {
-        variantPrice?.priceV2 && setPrice(variantPrice?.priceV2)
+        variantPrice?.price && setPrice(variantPrice?.price)
       }
       console.log('CHECKOUT PRODUCT price state:', price)
     }
@@ -206,6 +208,17 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     return options
   }
 
+  const displayImage: Maybe<ShopifyImage> = variant?.image
+    ? {
+        __typename: 'ShopifyImage',
+        altText: variant.image.altText,
+        height: variant.image.height,
+        id: variant.image.id,
+        src: variant.image.originalSrc,
+        width: variant.image.width,
+      }
+    : null
+
   useEffect(() => {
     if (!variant) {
       remove()
@@ -223,25 +236,29 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
 
   return (
     <CheckoutProductWrapper>
-      <Link href="/products/[productSlug]" as={linkAs}>
-        <a aria-label={'Link to ' + displayTitle(title, variant)}>
-          <Image image={variant.image} />
-        </a>
+      <Link
+        href="/products/[productSlug]"
+        as={linkAs}
+        aria-label={'Link to ' + displayTitle(title, variant)}
+      >
+        <Image image={displayImage} />
       </Link>
       <CheckoutItemDetails>
         <div>
-          <Link href="/products/[productSlug]" as={linkAs}>
-            <a aria-label={'Link to ' + displayTitle(title, variant)}>
-              <Heading
-                level={5}
-                weight={2}
-                mb={0}
-                mt={0}
-                textTransform="uppercase"
-              >
-                {displayTitle(title, variant)}
-              </Heading>
-            </a>
+          <Link
+            href="/products/[productSlug]"
+            as={linkAs}
+            aria-label={'Link to ' + displayTitle(title, variant)}
+          >
+            <Heading
+              level={5}
+              weight={2}
+              mb={0}
+              mt={0}
+              textTransform="uppercase"
+            >
+              {displayTitle(title, variant)}
+            </Heading>
           </Link>
           <Heading level={5} weight={2} mb={0} mt={0} textTransform="uppercase">
             <Price price={price != null ? price : variant.priceV2} />

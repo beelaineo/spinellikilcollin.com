@@ -2,11 +2,11 @@ import * as React from 'react'
 import {
   Filter as FilterSingleType,
   FilterSet as FilterSetType,
-  PriceRangeFilter as PriceRangeFilterType,
-  InventoryFilter as InventoryFilterTypeSource,
+  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
+  InStockFilter as InStockFilterTypeSource,
   FilterConfiguration,
-  PriceRangeFilterConfiguration,
-  InventoryFilterConfiguration,
+  PriceRangeMinMaxFilterConfiguration,
+  InStockFilterConfiguration,
   FilterMatchGroup,
   FILTER_SINGLE,
   PRICE_RANGE_FILTER,
@@ -48,7 +48,12 @@ import { useRouter } from 'next/router'
 
 const { useEffect, useState, useRef } = React
 
-interface InventoryFilterType extends InventoryFilterTypeSource {
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
+interface InStockFilterType extends InStockFilterTypeSource {
   applyFilter?: boolean
 }
 
@@ -57,8 +62,8 @@ type FilterValues = Record<string, any>
 type FilterType =
   | FilterSingleType
   | FilterSetType
-  | PriceRangeFilterType
-  | InventoryFilterType
+  | PriceRangeMinMaxFilterType
+  | InStockFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
@@ -98,7 +103,7 @@ const getCurrentFilters = (
         matches: filterMatches,
       }
       return [...acc, matchGroup]
-    } else if (filter.__typename === 'PriceRangeFilter') {
+    } else if (filter.__typename === 'PriceRangeMinMaxFilter') {
       const filterSetState = filterSetStates.find(
         (fss) => fss.key === filter._key,
       )
@@ -114,14 +119,14 @@ const getCurrentFilters = (
         throw new Error('currentMaxPrice must be a number')
       }
 
-      const priceRangeFilter: PriceRangeFilterConfiguration = {
+      const priceRangeMinMaxFilter: PriceRangeMinMaxFilterConfiguration = {
         filterType: PRICE_RANGE_FILTER,
         key: filter._key || 'some-key',
         minPrice,
         maxPrice,
       }
-      return [...acc, priceRangeFilter]
-    } else if (filter.__typename === 'InventoryFilter') {
+      return [...acc, priceRangeMinMaxFilter]
+    } else if (filter.__typename === 'InStockFilter') {
       const filterSetState = filterSetStates.find(
         (fss) => fss.key === filter._key,
       )
@@ -129,13 +134,13 @@ const getCurrentFilters = (
       const label = filterSetState?.values?.label
       const applyFilter = filterSetState?.values?.applyFilter
 
-      const inventoryFilter: InventoryFilterConfiguration = {
+      const inStockFilter: InStockFilterConfiguration = {
         filterType: INVENTORY_FILTER,
         key: filter._key || 'some-key',
         applyFilter,
         label,
       }
-      return [...acc, inventoryFilter]
+      return [...acc, inStockFilter]
     } else if (filter.__typename === 'Filter') {
       const activeMatchKeys = setState.activeMatchKeys
       if (activeMatchKeys.length === 0) return acc
@@ -165,7 +170,6 @@ export const Filter = ({
   const [open, setOpen] = useState(false)
   const [mobileDisplay, setMobileDisplay] = useState('filter')
   const [activeKey, setActiveKey] = useState('')
-  const [isRouterLoaded, setIsRouterLoaded] = useState(false)
   const router = useRouter()
   const { sendFilterClick } = useAnalytics()
 
@@ -181,12 +185,6 @@ export const Filter = ({
   const firstRender = useFirstRender()
 
   const filterRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    if (isRouterLoaded) return
-
-    router.isReady && setIsRouterLoaded(true)
-  }, [router.isReady])
 
   const toggleOpen = () => {
     setOpen(!open)
@@ -212,6 +210,7 @@ export const Filter = ({
     setValues,
     resetAll,
     resetSet,
+    resetButtons,
     toggle,
     toggleSingle,
     enable,
@@ -221,6 +220,12 @@ export const Filter = ({
   useEffect(() => {
     handleReset()
   }, [resetFilters])
+
+  useEffect(() => {
+    resetButtons()
+    setActiveKey('')
+    if (!firstRender) scrollGridIntoView()
+  }, [router.query])
 
   const isMobile = useMedia({
     maxWidth: `960px`,
@@ -245,7 +250,7 @@ export const Filter = ({
       .flat()
       .join(' ')
 
-    const inventoryFilter = filterMatches.find(
+    const inStockFilter = filterMatches.find(
       (f) => f.filterType === INVENTORY_FILTER,
       //@ts-ignore
     )?.applyFilter
@@ -268,8 +273,8 @@ export const Filter = ({
       priceRangeMatches !== Object.values(priceInitialValues).join(' ')
     ) {
       return { price: priceRangeMatches }
-    } else if (type === 'instock' && inventoryFilter) {
-      return { instock: inventoryFilter }
+    } else if (type === 'instock' && inStockFilter) {
+      return { instock: inStockFilter }
     } else {
       return { [type]: filterSetMatches }
     }
@@ -324,8 +329,6 @@ export const Filter = ({
   useQueryUpdate('price')
 
   useEffect(() => {
-    if (isRouterLoaded) return
-
     const getFilterSetQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
       arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
 
@@ -368,9 +371,7 @@ export const Filter = ({
     }
 
     const getInstockQuery = (items, query) => {
-      const match = items?.find(
-        (item) => item?.__typename === 'InventoryFilter',
-      )
+      const match = items?.find((item) => item?.__typename === 'InStockFilter')
 
       return {
         key: match?._key,
@@ -391,13 +392,13 @@ export const Filter = ({
     }
 
     updateFromValueFilter(instockQuery?.key, instockQuery?.values)
-  }, [router.isReady])
+  }, [router.isReady, router.query])
 
   if (!filters || filterSetStates.length === 0) return null
 
   const handleReset = () => {
+    // applyFilters(null)
     resetAll()
-    applyFilters(null)
     setActiveKey('')
     if (!firstRender) scrollGridIntoView()
   }
@@ -518,7 +519,7 @@ export const Filter = ({
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>
-              ) : filter.__typename === 'PriceRangeFilter' ? (
+              ) : filter.__typename === 'PriceRangeMinMaxFilter' ? (
                 <FilterWrapper
                   heading="Price:"
                   key={filter._key || 'some-key'}
@@ -540,9 +541,9 @@ export const Filter = ({
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>
-              ) : filter.__typename === 'InventoryFilter' ? (
+              ) : filter.__typename === 'InStockFilter' ? (
                 <FilterWrapper
-                  heading="Ready to Ship"
+                  heading="In Stock"
                   key={filter._key || 'some-key'}
                   type={filter.__typename}
                   filter={filter}
@@ -550,17 +551,19 @@ export const Filter = ({
                   active={Boolean(activeKey === filter._key)}
                   minimalDisplay={minimalDisplay}
                 >
-                  <InventoryFilter
-                    setKey={filter._key || 'some-key'}
-                    filterSetState={filterSetStates.find(
-                      (s) => s.key === filter._key,
-                    )}
-                    setValues={setValues(filter._key || 'some-key')}
-                    resetSet={resetSet(filter._key || 'some-key')}
-                    scrollGridIntoView={scrollGridIntoView}
-                    inventoryFilter={filter}
-                    active={Boolean(activeKey === filter._key)}
-                  />
+                  {showInStockIndicators && (
+                    <InventoryFilter
+                      setKey={filter._key || 'some-key'}
+                      filterSetState={filterSetStates.find(
+                        (s) => s.key === filter._key,
+                      )}
+                      setValues={setValues(filter._key || 'some-key')}
+                      resetSet={resetSet(filter._key || 'some-key')}
+                      scrollGridIntoView={scrollGridIntoView}
+                      inventoryFilter={filter}
+                      active={Boolean(activeKey === filter._key)}
+                    />
+                  )}
                 </FilterWrapper>
               ) : null,
             )}

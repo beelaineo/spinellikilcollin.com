@@ -2,7 +2,7 @@ import { getCookie } from '../utils'
 import { Sentry } from '../services/sentry'
 import { config } from '../config'
 import Debug from 'debug'
-import publicIp from 'public-ip'
+import { publicIpv4 } from 'public-ip'
 
 const debug = Debug('dev:hubspot')
 
@@ -57,7 +57,7 @@ export const submitToHubspot = async (
   const hutk = getCookie('hubspotutk')
   const pageUri = window.location.href.replace(/https?:\/\//, '')
   const pageName = document.title
-  const ipAddress = await publicIp.v4()
+  const ipAddress = await publicIpv4()
   const context = {
     hutk,
     pageUri,
@@ -87,7 +87,7 @@ export const submitToHubspot = async (
     context,
     legalConsentOptions,
   }
-  console.log('HUSBPOT FORM BODY SUBMITTED:', body)
+  console.log('HUBSPOT FORM BODY SUBMITTED:', body)
   if (config.STOREFRONT_ENV !== 'production') {
     debug('Not currently in production. Mocking Hubpsot form submission:')
     debug(body)

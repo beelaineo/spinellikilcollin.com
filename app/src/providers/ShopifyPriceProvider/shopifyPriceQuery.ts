@@ -42,15 +42,35 @@ export const PRODUCT_VARIANT_PRICES_QUERY = /* GraphQL */ gql`
             id
             sku
             title
-            compareAtPriceV2 {
+            compareAtPrice {
               amount
               currencyCode
             }
-            priceV2 {
+            price {
               amount
               currencyCode
             }
           }
+        }
+      }
+    }
+  }
+`
+
+export const VARIANT_PRICE_QUERY = /* GraphQL */ gql`
+  query GetSingleVariantPriceById($variantId: ID!, $countryCode: CountryCode!)
+  @inContext(country: $countryCode) {
+    node(id: $variantId) {
+      ... on ProductVariant {
+        id
+        title
+        compareAtPrice {
+          amount
+          currencyCode
+        }
+        price {
+          amount
+          currencyCode
         }
       }
     }
@@ -105,11 +125,11 @@ export const PRODUCT_VARIANT_PRICES_FROM_ARRAY_QUERY = /* GraphQL */ gql`
               id
               sku
               title
-              compareAtPriceV2 {
+              compareAtPrice {
                 amount
                 currencyCode
               }
-              priceV2 {
+              price {
                 amount
                 currencyCode
               }
@@ -139,11 +159,11 @@ export const COLLECTION_VARIANT_PRICES_QUERY = /* GraphQL */ gql`
                 node {
                   title
                   id
-                  compareAtPriceV2 {
+                  compareAtPrice {
                     amount
                     currencyCode
                   }
-                  priceV2 {
+                  price {
                     amount
                     currencyCode
                   }
@@ -160,6 +180,23 @@ export const COLLECTION_VARIANT_PRICES_QUERY = /* GraphQL */ gql`
 export interface ProductQueryInput {
   id: string
   countryCode: ShopifyStorefrontCountryCode
+}
+
+export interface VariantPriceQueryDataResponse {
+  data: {
+    node: {
+      id: string
+      title: string
+      compareAtPrice: {
+        amount: string
+        currencyCode: string
+      }
+      price: {
+        amount: string
+        currencyCode: string
+      }
+    }
+  }
 }
 
 export interface ProductQueryDataResponse {
@@ -199,6 +236,18 @@ async function shopifyQuery<Response>(
   return result
 }
 
+export const requestShopifyVariantPrice = async (
+  variables?: Record<string, unknown>,
+) => {
+  const response = await shopifyQuery<VariantPriceQueryDataResponse>(
+    VARIANT_PRICE_QUERY,
+    variables,
+  )
+  const { node } = response.data
+  const variant = node
+  return variant
+}
+
 export const requestShopifyProductVariantPrices = async (
   variables?: Record<string, unknown>,
 ) => {
@@ -207,7 +256,6 @@ export const requestShopifyProductVariantPrices = async (
     variables,
   )
   const { product } = response.data
-  console.log('fetch function results', response)
   return product
 }
 
@@ -219,7 +267,6 @@ export const requestShopifyProductVariantPricesFromArray = async (
     variables,
   )
   const { nodes } = response.data
-  console.log('fetch function results array', response)
   return nodes
 }
 
@@ -241,7 +288,6 @@ export const requestShopifyCollectionProductsVariantPrices = async (
     COLLECTION_VARIANT_PRICES_QUERY,
     variables,
   )
-  console.log('fetch function results', response)
   const { collection } = response.data
   return collection
 }

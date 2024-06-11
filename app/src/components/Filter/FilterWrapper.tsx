@@ -3,9 +3,9 @@ import styled, { css } from '@xstyled/styled-components'
 import { FilterSetWrapper } from './styled'
 import {
   Filter,
-  PriceRangeFilter,
+  PriceRangeMinMaxFilter,
   FilterSet,
-  InventoryFilter,
+  InStockFilter,
   Maybe,
 } from '../../types'
 
@@ -24,7 +24,7 @@ interface WithType {
 
 const Wrapper = styled.div<WithType>`
   ${({ theme, rowSpan, type, active, minimalDisplay }) => css`
-    grid-column: ${type === 'PriceRangeFilter' ? 'span 2' : 'auto'};
+    grid-column: ${type === 'PriceRangeMinMaxFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
     ${minimalDisplay
@@ -52,7 +52,7 @@ const Wrapper = styled.div<WithType>`
           `
         : ''};
 
-      ${active && type !== 'InventoryFilter'
+      ${active && type !== 'InStockFilter'
         ? css`
             flex: ${minimalDisplay ? '0' : '100%'};
             order: ${minimalDisplay ? 'unset' : '-1'};
@@ -62,7 +62,7 @@ const Wrapper = styled.div<WithType>`
     }
 
     &:last-of-type {
-      ${type === 'PriceRangeFilter'
+      ${type === 'PriceRangeMinMaxFilter'
         ? css`
             grid-column-start: -1;
             grid-column-end: -3;
@@ -89,7 +89,7 @@ interface FilterWrapperProps {
   heading?: string | null | void
   children: React.ReactNode
   type: string
-  filter: Filter | FilterSet | PriceRangeFilter | InventoryFilter
+  filter: Filter | FilterSet | PriceRangeMinMaxFilter | InStockFilter
   onClick: () => void
   active: boolean
   minimalDisplay?: Maybe<boolean>

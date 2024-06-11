@@ -1,10 +1,10 @@
 import {
   ShopifyStorefrontProductVariant as Variant,
-  ShopifyStorefrontProduct as Product,
+  ShopifyStorefrontProduct,
   ShopifyStorefrontCheckoutLineItem as CheckoutLineItem,
 } from '../../types/generated-shopify'
 import {
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   ShopifySourceProduct,
   ShopifySourceProductVariant,
@@ -19,10 +19,9 @@ declare global {
 
 export interface SelectedProduct {
   product:
-    | ShopifyProduct
-    | ShopifySourceProduct
     | Product
     | CheckoutLineItem
+    | ShopifyStorefrontProduct
     | undefined
     | null
   variant:
@@ -53,6 +52,7 @@ export enum EventType {
   AddToCart = 'productAddToCart',
   RemoveFromCart = 'productRemoveFromCart',
   BeginCheckout = 'productBeginCheckout',
+  QuickLinkClick = 'quickLinkClick',
 }
 
 interface ImpressionEvent {
@@ -107,6 +107,10 @@ interface BeginCheckoutEvent {
   }
 }
 
+interface QuickLinkClickEvent {
+  event: EventType.QuickLinkClick
+}
+
 export type GTagEvent =
   | FilterClickEvent
   | ImpressionEvent
@@ -115,3 +119,4 @@ export type GTagEvent =
   | AddToCartEvent
   | RemoveFromCartEvent
   | BeginCheckoutEvent
+  | QuickLinkClickEvent

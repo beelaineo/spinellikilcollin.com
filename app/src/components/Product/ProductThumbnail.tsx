@@ -3,16 +3,18 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import {
-  ShopifyProduct,
+  Product,
   ShopifyProductOption,
-  ShopifyProductOptionValue,
-  ShopifySourceProductVariant,
-  ShopifySourceImage,
+  ProductOptionValue,
+  ShopifyProductVariant,
+  ShopifyImage,
   FilterConfiguration,
   Maybe,
   Scalars,
   ShopifyStorefrontMoneyV2,
   ShopifySourceSelectedOption,
+  ProductOption,
+  ShopifyVariantImage,
 } from '../../types'
 import { Heading, Span } from '../Text'
 import { Image } from '../Image'
@@ -52,8 +54,13 @@ import { ShopifyStorefrontProductVariant } from '../../types/generated-shopify'
 
 const { useEffect, useState, useMemo, useRef } = React
 
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 interface ProductThumbnailProps {
-  product: ShopifyProduct
+  product: Product
   displayPrice?: boolean
   displayTags?: boolean
   displaySwatches?: boolean
@@ -70,7 +77,7 @@ interface ProductThumbnailProps {
 
 interface VariantAnimation {
   __typename: 'CloudinaryVideo'
-  videoId?: Maybe<Scalars['String']>
+  videoId?: Maybe<string>
 }
 
 interface WithCurrentlyInStock {
@@ -107,12 +114,12 @@ const PriceWrapper = styled('span')`
 `
 
 const uniqueImages = (
-  variants: ShopifySourceProductVariant[],
-): ShopifySourceImage[] =>
-  variants.reduce<ShopifySourceImage[]>((acc, variant) => {
-    const { image } = variant
+  variants: ShopifyProductVariant[],
+): ShopifyVariantImage[] =>
+  variants.reduce<ShopifyVariantImage[]>((acc, variant) => {
+    const image = variant?.sourceData?.image
     if (!image) return acc
-    if (acc.find((i) => i?.originalSrc === image.originalSrc)) {
+    if (acc.find((i) => i?.url === image.url)) {
       return acc
     }
     return [...acc, image]
@@ -128,10 +135,10 @@ const sanityQuery = async <R = any | null,>(
 }
 
 const getIncludedVariants = async (
-  product: ShopifyProduct,
+  product: Product,
 ): Promise<ShopifyStorefrontProductVariant[] | null> => {
   const variants = await sanityQuery(
-    `*[_type == 'shopifyProduct' && handle == $handle][0].variants[sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value == "false"]`,
+    `*[_type == 'product' && handle == $handle][0].store.variants[sourceData.metafields[key == "excludeFromIndication"].value == "false"]`,
     { handle: product?.handle },
   )
   return variants
@@ -167,10 +174,13 @@ export const ProductThumbnail = ({
   } = useShopifyPrice()
   const { currentCountry } = useCountry()
 
-  const productImages = product.sourceData?.images
-    ? unwindEdges(product.sourceData.images)[0]
-    : []
-  const [variants] = unwindEdges(product?.sourceData?.variants)
+  const productImages = product.store?.images
+  const variants = (product?.store?.variants || [])
+    .flat()
+    .filter(
+      (variant): variant is ShopifyProductVariant =>
+        variant !== null && variant !== undefined,
+    )
 
   const mappedSelections = !product.initialVariantSelections
     ? false
@@ -188,23 +198,29 @@ export const ProductThumbnail = ({
         })
         .map((s) => s.selectedVariant)
 
+  // console.log('initialVariantSelections:', initialVariantSelections)
+
   const initialVariant = initialVariantSelections
     ? getBestVariantByMatch(variants, definitely(initialVariantSelections))
     : preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
     : variants[0]
 
+  // console.log('initialVariant:', initialVariant)
+
   const [currentVariant, setCurrentVariant] = useState<
-    ShopifySourceProductVariant | undefined
+    ShopifyProductVariant | undefined
   >(initialVariant)
 
-  const [currentPrice, setCurrentPrice] =
-    useState<null | ShopifyStorefrontMoneyV2>(null)
+  const [currentPrice, setCurrentPrice] = useState<
+    null | ShopifyStorefrontMoneyV2 | Money
+  >(null)
 
-  const [currentCompareAtPrice, setCurrentCompareAtPrice] =
-    useState<null | ShopifyStorefrontMoneyV2>(null)
+  const [currentCompareAtPrice, setCurrentCompareAtPrice] = useState<
+    null | ShopifyStorefrontMoneyV2 | Money
+  >(null)
   const [currentSwatchOption, setCurrentSwatchOption] = useState<
-    Maybe<ShopifyProductOptionValue> | undefined
+    Maybe<ProductOptionValue> | undefined
   >(undefined)
 
   const [variantAnimation, setVariantAnimation] = useState<
@@ -215,22 +231,20 @@ export const ProductThumbnail = ({
 
   const [disableStockIndication, setDisableStockIndication] = useState(true)
   const [includedVariants, setIncludedVariants] = useState<
-    | Maybe<ShopifyStorefrontProductVariant[] | ShopifySourceProductVariant[]>
+    | Maybe<ShopifyStorefrontProductVariant[] | ShopifyProductVariant[]>
     | undefined
   >(null)
 
   const optionsArray = ['Color', 'Style', 'Material']
 
-  useEffect(() => {
-    console.log('title', product.title)
-    console.log(
-      initialVariant === undefined ? 'PRODUCT INITIAL VARIANT UNDEFINED' : null,
-    )
+  const { getVariantPriceById } = useShopifyPrice()
 
-    const initialSwatchValue = initialVariant?.selectedOptions?.filter((o) => {
-      if (!o?.name) return false
-      return optionsArray.includes(o?.name)
-    })[0]?.value
+  useEffect(() => {
+    const initialSwatchValue =
+      initialVariant?.sourceData?.selectedOptions?.filter((o) => {
+        if (!o?.name) return false
+        return optionsArray.includes(o?.name)
+      })[0]?.value
 
     const colorOption = product.options?.filter(
       (option) => option?.name == 'Color',
@@ -271,39 +285,40 @@ export const ProductThumbnail = ({
     }
     const collectionHandle = router.query.collectionSlug
     const currentVariantId = currentVariant?.id
-    if (collectionHandle && currentVariantId) {
-      const variantPriceInfo = getVariantPriceByCollection(
-        collectionHandle as string,
-        currentVariantId,
-      )
-      if (variantPriceInfo?.priceV2) {
-        setCurrentPrice(variantPriceInfo?.priceV2)
-      } else {
-        setCurrentPrice(null)
-      }
-      if (variantPriceInfo?.compareAtPriceV2) {
-        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
-      } else {
-        setCurrentCompareAtPrice(null)
-      }
-    }
+    // if (collectionHandle && currentVariantId) {
+    //   const variantPriceInfo = getVariantPriceByCollection(
+    //     collectionHandle as string,
+    //     currentVariantId,
+    //   )
+    //   console.log('VARIANT PRICE INFO:', variantPriceInfo)
+    //   if (variantPriceInfo?.price) {
+    //     setCurrentPrice(variantPriceInfo?.price)
+    //   } else {
+    //     setCurrentPrice(null)
+    //   }
+    //   if (variantPriceInfo?.compareAtPrice) {
+    //     setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
+    //   } else {
+    //     setCurrentCompareAtPrice(null)
+    //   }
+    // }
     if (currentSearchResultPrices && currentVariantId) {
       const variantPriceInfo = getVariantPriceBySearchResults(currentVariantId)
-      if (variantPriceInfo?.priceV2) {
-        setCurrentPrice(variantPriceInfo?.priceV2)
+      if (variantPriceInfo?.price) {
+        setCurrentPrice(variantPriceInfo?.price)
       }
-      if (variantPriceInfo?.compareAtPriceV2) {
-        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+      if (variantPriceInfo?.compareAtPrice) {
+        setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
       }
     }
     if (currentSearchResultPrices && !currentVariantId && product.shopifyId) {
       getProductPriceById(product?.shopifyId).then((price) => {
         console.log('productPriceInfo', price)
-        if (price?.priceV2) {
-          setCurrentPrice(price?.priceV2)
+        if (price?.price) {
+          setCurrentPrice(price?.price)
         }
-        if (price?.compareAtPriceV2) {
-          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        if (price?.compareAtPrice) {
+          setCurrentCompareAtPrice(price?.compareAtPrice)
         }
       })
     }
@@ -321,26 +336,31 @@ export const ProductThumbnail = ({
   }, [product])
 
   useEffect(() => {
-    const currentSwatchValue = currentVariant?.selectedOptions?.filter((o) => {
-      if (!o?.name) return false
-      return optionsArray.includes(o?.name)
-    })[0]?.value
+    const currentSwatchValue =
+      currentVariant?.sourceData?.selectedOptions?.filter((o) => {
+        if (!o?.name) return false
+        return optionsArray.includes(o?.name)
+      })[0]?.value
 
-    const currentSwatchCaratValue = currentVariant?.selectedOptions?.filter(
-      (o) => o?.name === 'Carat',
-    )[0]?.value
+    const currentSwatchCaratValue =
+      currentVariant?.sourceData?.selectedOptions?.filter(
+        (o) => o?.name === 'Carat',
+      )[0]?.value
 
-    const currentSwatchStyleValue = currentVariant?.selectedOptions?.filter(
-      (o) => o?.name === 'Style',
-    )[0]?.value
+    const currentSwatchStyleValue =
+      currentVariant?.sourceData?.selectedOptions?.filter(
+        (o) => o?.name === 'Style',
+      )[0]?.value
 
-    const currentSwatchMaterialValue = currentVariant?.selectedOptions?.filter(
-      (o) => o?.name === 'Material',
-    )[0]?.value
+    const currentSwatchMaterialValue =
+      currentVariant?.sourceData?.selectedOptions?.filter(
+        (o) => o?.name === 'Material',
+      )[0]?.value
 
-    const currentSwatchDefaultValue = currentVariant?.selectedOptions?.filter(
-      (o) => o?.name === 'Title',
-    )[0]?.value
+    const currentSwatchDefaultValue =
+      currentVariant?.sourceData?.selectedOptions?.filter(
+        (o) => o?.name === 'Title',
+      )[0]?.value
 
     const colorOption = product.options?.filter(
       (option) => option?.name == 'Color',
@@ -403,6 +423,8 @@ export const ProductThumbnail = ({
     } else {
       setVariantAnimation(undefined)
     }
+    // console.log('currentVariant:', currentVariant)
+    // console.log('currentSwatchOption:', currentSwatchOption)
   }, [currentVariant])
 
   useEffect(() => {
@@ -414,36 +436,36 @@ export const ProductThumbnail = ({
       collectionHandle as string,
       currentVariantId,
     )
-    if (variantPriceInfo?.priceV2) {
-      setCurrentPrice(variantPriceInfo?.priceV2)
+    if (variantPriceInfo?.price) {
+      setCurrentPrice(variantPriceInfo?.price)
     } else {
       setCurrentPrice(null)
     }
-    if (variantPriceInfo?.compareAtPriceV2) {
-      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPriceV2)
+    if (variantPriceInfo?.compareAtPrice) {
+      setCurrentCompareAtPrice(variantPriceInfo?.compareAtPrice)
     } else {
       setCurrentCompareAtPrice(null)
     }
     const variantSearchPriceInfo =
       getVariantPriceBySearchResults(currentVariantId)
-    if (variantSearchPriceInfo?.priceV2) {
-      setCurrentPrice(variantSearchPriceInfo?.priceV2)
+    if (variantSearchPriceInfo?.price) {
+      setCurrentPrice(variantSearchPriceInfo?.price)
     }
-    if (variantSearchPriceInfo?.compareAtPriceV2) {
-      setCurrentCompareAtPrice(variantSearchPriceInfo?.compareAtPriceV2)
+    if (variantSearchPriceInfo?.compareAtPrice) {
+      setCurrentCompareAtPrice(variantSearchPriceInfo?.compareAtPrice)
     }
     if (!currentVariantId && product.shopifyId) {
       getProductPriceById(product?.shopifyId).then((price) => {
         console.log('productPriceInfo', price)
-        if (price?.priceV2) {
-          setCurrentPrice(price?.priceV2)
+        if (price?.price) {
+          setCurrentPrice(price?.price)
           console.log('SET PRICE TO PRODUCT PRICE (NO VARIANTS)', price)
         } else {
           setCurrentCompareAtPrice(null)
           console.log('SET PRICE TO NULL (NO VARIANTS)')
         }
-        if (price?.compareAtPriceV2) {
-          setCurrentCompareAtPrice(price?.compareAtPriceV2)
+        if (price?.compareAtPrice) {
+          setCurrentCompareAtPrice(price?.compareAtPrice)
         } else {
           setCurrentCompareAtPrice(null)
         }
@@ -459,6 +481,25 @@ export const ProductThumbnail = ({
     getProductPriceById,
   ])
 
+  useEffect(() => {
+    // declare the async data fetching function
+    const fetchData = async () => {
+      if (!product?.shopifyId || !currentVariant?.shopifyVariantID) return
+      // get the data from the api
+      const variantPrice = await getVariantPriceById(
+        product.shopifyId,
+        currentVariant?.shopifyVariantID,
+      )
+      // set state with the result if `isSubscribed` is true
+      variantPrice?.price && setCurrentPrice(variantPrice?.price)
+      variantPrice?.compareAtPrice &&
+        setCurrentCompareAtPrice(variantPrice?.compareAtPrice)
+    }
+    // call the function
+    fetchData().catch(console.error)
+    // cancel any future `setData`
+  }, [currentVariant, product, currentCountry, getVariantPriceById])
+
   const handleClick = () => {
     // @ts-ignore
     sendProductClick({ product, variant: currentVariant })
@@ -467,12 +508,12 @@ export const ProductThumbnail = ({
   useEffect(() => {
     if (!isInViewOnce) return
     // @ts-ignore
-    sendProductImpression({ product, variant: currentVariant })
+    sendProductImpression(product, currentVariant)
   }, [isInViewOnce, currentVariant])
 
-  const productImage = currentVariant?.image
-    ? currentVariant.image
-    : productImages.length
+  const productImage = currentVariant?.sourceData?.image
+    ? currentVariant.sourceData?.image
+    : productImages?.length
     ? productImages[0]
     : undefined
 
@@ -482,10 +523,10 @@ export const ProductThumbnail = ({
   }
 
   const onSwatchHover =
-    (option: ShopifyProductOption, value: ShopifyProductOptionValue) => () => {
+    (option: ProductOption, value: ProductOptionValue) => () => {
       if (!value.value) return
-      if (!currentVariant?.selectedOptions) return
-      const currentOptions = currentVariant.selectedOptions
+      if (!currentVariant?.sourceData?.selectedOptions) return
+      const currentOptions = currentVariant.sourceData?.selectedOptions
         .filter(
           (v) =>
             v?.name === 'Color' ||
@@ -511,8 +552,8 @@ export const ProductThumbnail = ({
     }
 
   const isSwatchActive = (
-    option: ShopifyProductOption,
-    value: ShopifyProductOptionValue,
+    option: ProductOption,
+    value: ProductOptionValue,
   ): boolean => {
     if (!currentVariant) return false
 
@@ -533,13 +574,13 @@ export const ProductThumbnail = ({
       value: string | boolean
     }
 
-    const minVariantPrice = product?.minVariantPrice || 0
-    const maxVariantPrice = product?.maxVariantPrice || 0
+    const minVariantPrice = product?.store?.priceRange?.minVariantPrice || 0
+    const maxVariantPrice = product?.store?.priceRange?.maxVariantPrice || 0
 
     if (currentFilter) {
       const defaultPriceRangeFilter =
         productListingSettings?.newDefaultFilter?.find(
-          (f) => f?.__typename == 'PriceRangeFilter',
+          (f) => f?.__typename == 'PriceRangeMinMaxFilter',
         )
       //@ts-ignore
       const defaultMinPrice = defaultPriceRangeFilter?.minPrice
@@ -641,18 +682,16 @@ export const ProductThumbnail = ({
     }
   }, [currentFilter, currentSort])
 
-  const stockedVariants = product.sourceData?.variants?.edges?.filter(
-    (variant) => {
-      return (
-        variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false &&
-        !variant?.node?.selectedOptions?.find(
-          (o) => o?.value == 'Not sure of my size',
-        ) &&
-        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
-      )
-    },
-  )
+  const stockedVariants = product.store?.variants?.filter((variant) => {
+    return (
+      variant?.sourceData?.availableForSale === true &&
+      variant?.sourceData?.currentlyNotInStock === false &&
+      !variant?.sourceData?.selectedOptions?.find(
+        (o) => o?.value == 'Not sure of my size',
+      ) &&
+      !variant?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat')
+    )
+  })
 
   const sanityBooleanQuery = async <R = boolean,>(
     query: string,
@@ -664,17 +703,15 @@ export const ProductThumbnail = ({
   }
 
   useEffect(() => {
-    const productIsExcluded = async (
-      product: ShopifyProduct,
-    ): Promise<boolean> => {
+    const productIsExcluded = async (product: Product): Promise<boolean> => {
       const productIsExcluded = await sanityBooleanQuery(
-        `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
+        `*[_type == 'product' && handle == $handle][0].store.metafields[_key == "excludeFromIndication"].value`,
         { handle: product?.handle },
       )
       return Boolean(productIsExcluded)
     }
 
-    const isExcludedFromStockIndication = (product: ShopifyProduct) => {
+    const isExcludedFromStockIndication = (product: Product) => {
       const excludedProducts = productInfoSettings?.excludeFromStockIndication
       const handle = product?.handle
       const isInExcludedList = excludedProducts?.find((product) => {
@@ -696,11 +733,11 @@ export const ProductThumbnail = ({
     disableStockIndication,
   ])
 
-  const isProductCurrentlyInStock = (product: ShopifyProduct): boolean => {
-    if (!product?.sourceData) return false
-
+  const isProductCurrentlyInStock = (product: Product): boolean => {
+    if (!product?.store || !showInStockIndicators) return false
     const isInStock =
       stockedVariants && stockedVariants.length > 0 ? true : false
+    // console.log('isInStock:', isInStock)
     return isInStock
   }
 
@@ -717,43 +754,16 @@ export const ProductThumbnail = ({
 
   return (
     <ProductThumb ref={containerRef}>
-      <Link href="/products/[productSlug]" as={linkAs}>
-        <a
-          draggable="false"
-          aria-label={'Link to ' + product.title}
-          onClick={handleClick}
-        >
-          {variantAnimation ? (
-            <VideoWrapper
-              hide={!playing}
-              carousel={carousel}
-              hover={imageHover}
-            >
-              {imageHover && currentSwatchOption?.hover_image && (
-                <HoverThumbWrapper>
-                  <Image
-                    image={currentSwatchOption?.hover_image}
-                    ratio={imageRatio || 1}
-                    sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                    preload
-                    altText={altText}
-                    preloadImages={allImages}
-                    objectFit="cover"
-                  />
-                </HoverThumbWrapper>
-              )}
-
-              <CloudinaryAnimation
-                video={variantAnimation}
-                image={productImage}
-                setPlaying={setPlaying}
-                view={'list'}
-              />
-            </VideoWrapper>
-          ) : null}
-          <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
+      <Link
+        href="/products/[productSlug]"
+        as={linkAs}
+        draggable="false"
+        aria-label={'Link to ' + product.title}
+        onClick={handleClick}
+      >
+        {variantAnimation ? (
+          <VideoWrapper hide={!playing} carousel={carousel} hover={imageHover}>
             {imageHover && currentSwatchOption?.hover_image && (
-              // <HoverThumb src={currentSwatchOption?.hover_image.asset?.url} />
               <HoverThumbWrapper>
                 <Image
                   image={currentSwatchOption?.hover_image}
@@ -762,96 +772,107 @@ export const ProductThumbnail = ({
                   preload
                   altText={altText}
                   preloadImages={allImages}
+                  objectFit="cover"
                 />
               </HoverThumbWrapper>
             )}
 
-            <Image
+            <CloudinaryAnimation
+              video={variantAnimation}
               image={productImage}
-              ratio={imageRatio || 1}
-              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-              preload
-              altText={altText}
-              preloadImages={allImages}
+              setPlaying={setPlaying}
+              view={'list'}
             />
-          </ImageWrapper>
-          <HoverArea
-            onMouseEnter={() => setImageHover(true)}
-            onMouseLeave={() => setImageHover(false)}
-          />
+          </VideoWrapper>
+        ) : null}
+        <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
+          {imageHover && currentSwatchOption?.hover_image && (
+            // <HoverThumb src={currentSwatchOption?.hover_image.asset?.url} />
+            <HoverThumbWrapper>
+              <Image
+                image={currentSwatchOption?.hover_image}
+                ratio={imageRatio || 1}
+                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                preload
+                altText={altText}
+                preloadImages={allImages}
+              />
+            </HoverThumbWrapper>
+          )}
 
-          <ProductInfo
-            hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
-            displayGrid={Boolean(displayTags || displaySwatches)}
-          >
-            {displayTags ? <TagBadges product={product} /> : <div />}
-            {displayPrice && inquiryOnly != true ? (
-              <TitleHeading
-                level={headingLevel || 3}
-                my={0}
-                currentlyInStock={isProductCurrentlyInStock(product)}
-              >
-                {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) &&
-                disableStockIndication == false ? (
-                  <InStockDot />
-                ) : (
-                  ''
-                )}
-                {product.title} |{' '}
-                <PriceWrapper>
-                  <Price
-                    price={
-                      currentPrice && currentPrice != null
-                        ? currentPrice
-                        : currentVariant?.priceV2 ||
-                          product?.sourceData?.priceRange?.minVariantPrice
-                    }
-                  />
-                  <Span ml={2} color="body.6" textDecoration="line-through">
-                    <Price
-                      price={
-                        currentCompareAtPrice && currentCompareAtPrice != null
-                          ? currentCompareAtPrice
-                          : currentVariant?.compareAtPriceV2
-                      }
-                    />
-                  </Span>
-                </PriceWrapper>
-              </TitleHeading>
-            ) : (
-              <TitleHeading
-                textAlign="center"
-                my={0}
-                level={headingLevel || 3}
-                currentlyInStock={isProductCurrentlyInStock(product)}
-              >
-                {isProductCurrentlyInStock(product) &&
-                !IsDisplayingSwatches(product) &&
-                disableStockIndication == false ? (
-                  <InStockDot />
-                ) : (
-                  ''
-                )}
-                {product.title}
-              </TitleHeading>
-            )}
-            {displaySwatches ? (
-              <div onClick={stopPropagation}>
-                <ProductSwatches
-                  onSwatchHover={onSwatchHover}
-                  isSwatchActive={isSwatchActive}
-                  product={product}
-                  stockedVariants={stockedVariants}
-                  disableStockIndication={disableStockIndication}
-                  includedVariants={includedVariants}
-                />
-              </div>
-            ) : (
-              <div />
-            )}
-          </ProductInfo>
-        </a>
+          <Image
+            image={productImage}
+            ratio={imageRatio || 1}
+            sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+            preload
+            altText={altText}
+            preloadImages={allImages}
+            placeholder="shadow"
+          />
+        </ImageWrapper>
+        <HoverArea
+          onMouseEnter={() => setImageHover(true)}
+          onMouseLeave={() => setImageHover(false)}
+        />
+
+        <ProductInfo
+          hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+          displayGrid={Boolean(displayTags || displaySwatches)}
+        >
+          {displayTags ? <TagBadges product={product} /> : <div />}
+          {displayPrice && inquiryOnly != true ? (
+            <TitleHeading
+              level={headingLevel || 3}
+              my={0}
+              currentlyInStock={isProductCurrentlyInStock(product)}
+            >
+              {isProductCurrentlyInStock(product) &&
+              !IsDisplayingSwatches(product) &&
+              disableStockIndication == false ? (
+                <InStockDot />
+              ) : (
+                ''
+              )}
+              {product.title} |{' '}
+              <PriceWrapper>
+                <Price price={currentPrice} />
+                <Span ml={2} color="body.6" textDecoration="line-through">
+                  <Price price={currentVariant?.sourceData?.compareAtPriceV2} />
+                </Span>
+              </PriceWrapper>
+            </TitleHeading>
+          ) : (
+            <TitleHeading
+              textAlign="center"
+              my={0}
+              level={headingLevel || 3}
+              currentlyInStock={isProductCurrentlyInStock(product)}
+            >
+              {isProductCurrentlyInStock(product) &&
+              !IsDisplayingSwatches(product) &&
+              disableStockIndication == false ? (
+                <InStockDot />
+              ) : (
+                ''
+              )}
+              {product.title}
+            </TitleHeading>
+          )}
+          {displaySwatches ? (
+            <div onClick={stopPropagation}>
+              <ProductSwatches
+                onSwatchHover={onSwatchHover}
+                isSwatchActive={isSwatchActive}
+                product={product}
+                stockedVariants={stockedVariants}
+                disableStockIndication={disableStockIndication}
+                includedVariants={includedVariants}
+              />
+            </div>
+          ) : (
+            <div />
+          )}
+        </ProductInfo>
       </Link>
     </ProductThumb>
   )

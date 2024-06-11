@@ -28,7 +28,7 @@ export const RichPageLink = ({ link }: RichPageLinkProps) => {
   const linkTitle = label || link.title || link?.document?.title
 
   switch (link.document.__typename) {
-    case 'ShopifyProduct':
+    case 'Product':
       return (
         <ProductThumbnail
           displayTags={false}
@@ -36,7 +36,7 @@ export const RichPageLink = ({ link }: RichPageLinkProps) => {
           product={link.document}
         />
       )
-    case 'ShopifyCollection':
+    case 'Collection':
       return <CollectionThumbnail collection={link.document} />
     case 'Page':
       return (

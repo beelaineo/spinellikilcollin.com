@@ -5,11 +5,13 @@ import {
   requestShopifyProductPriceRange,
   requestShopifyCollectionProductsVariantPrices,
   requestShopifyProductVariantPricesFromArray,
+  requestShopifyVariantPrice,
 } from './shopifyPriceQuery'
 import { useRouter } from 'next/router'
 import { useCountry } from '../CountryProvider'
 import { QueryFunction } from '../ShopifyProvider/types'
 import { Maybe, ShopifyStorefrontMoneyV2 } from '../../types'
+import { Money } from '../CurrencyProvider'
 import {
   ShopifyStorefrontCollection,
   ShopifyStorefrontCountry,
@@ -33,8 +35,8 @@ interface PriceRange {
 }
 
 interface Price {
-  priceV2: ShopifyStorefrontMoneyV2 | undefined
-  compareAtPriceV2: Maybe<ShopifyStorefrontMoneyV2> | undefined
+  price: ShopifyStorefrontMoneyV2 | Money | undefined
+  compareAtPrice: Maybe<ShopifyStorefrontMoneyV2 | Money> | undefined
 }
 
 interface ShopifyPriceContextValue {
@@ -126,6 +128,8 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       countryCode: currentCountry,
     }).then((response) => {
       // console.log('UPDATING COUNTRY PRICE TABLE', currentCountry)
+      console.log('UPDATING COUNTRY COLLECTION PRICE TABLE', currentCountry)
+      console.log('RESPONSE:', response)
       setCurrentCollectionPrices(response)
     })
   }, [asPath, currentCountry])
@@ -144,9 +148,10 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       })
       ?.node.variants.edges.filter((v) => v.node.id == variantId)[0].node
 
+    console.log('FIND VARIANT:', findVariant)
     return {
-      priceV2: findVariant?.priceV2,
-      compareAtPriceV2: findVariant?.compareAtPriceV2,
+      price: findVariant?.price,
+      compareAtPrice: findVariant?.compareAtPrice,
     }
   }
 
@@ -161,8 +166,8 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       ?.variants.edges.filter((v) => v.node.id == variantId)[0].node
 
     return {
-      priceV2: findVariant?.priceV2,
-      compareAtPriceV2: findVariant?.compareAtPriceV2,
+      price: findVariant?.price,
+      compareAtPrice: findVariant?.compareAtPrice,
     }
   }
 
@@ -176,8 +181,8 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       countryCode: currentCountry,
     })
     return {
-      priceV2: product?.priceRange.minVariantPrice,
-      compareAtPriceV2:
+      price: product?.priceRange.minVariantPrice,
+      compareAtPrice:
         product?.compareAtPriceRange.minVariantPrice.amount == 0
           ? null
           : product?.compareAtPriceRange.minVariantPrice,
@@ -205,23 +210,19 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     variantId: string,
   ): Promise<Price | null> => {
     if (!productId || !variantId || !currentCountry) return null
-    const result = requestShopifyProductVariantPrices({
-      id: productId,
+    const result = requestShopifyVariantPrice({
+      variantId: variantId,
       countryCode: currentCountry,
     })
-    const product = await result
-    const variants = product?.variants.edges
-    const encodedVariantId = variantId.startsWith('gid')
-      ? Buffer.from(variantId, 'binary').toString('base64')
-      : variantId
-    const decodedVariantId = Buffer.from(encodedVariantId, 'base64').toString()
-    const currentVariant = variants.find(
-      (v) => v.node.id == encodedVariantId || v.node.id == decodedVariantId,
-    )
-    if (!currentVariant) return null
+
+    console.log('variantId:', variantId)
+    console.log('productId:', productId)
+    console.log('currentCountry:', currentCountry)
+    const variant = await result
+
     const variantPrice = {
-      priceV2: currentVariant.node.priceV2,
-      compareAtPriceV2: currentVariant.node.compareAtPriceV2,
+      price: variant.price,
+      compareAtPrice: variant.compareAtPrice,
     }
     return variantPrice
   }

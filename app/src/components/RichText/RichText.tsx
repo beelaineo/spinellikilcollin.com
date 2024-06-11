@@ -11,9 +11,13 @@ import { useShopData } from '../../providers/ShopDataProvider'
 import { LinkInfo } from '../../utils'
 import { EmbeddedForm } from './EmbeddedForm'
 import { CloudinaryVideo } from '../CloudinaryVideo'
+import { CountDown } from '../CountDown'
+
+import Link from 'next/link'
+import { Maybe } from '@good-idea/unwind-edges'
 
 interface CustomSerializerConfig {
-  blockWrapper?: React.ComponentType
+  blockWrapper?: any
   imageSizes?: string
   openCustomizationModal: () => void
   openRingSizerModal: () => void
@@ -154,7 +158,7 @@ const serializers = ({
       const linkData = getLinkByRef(mark?.document?._ref)
       if (!linkData) return <>{children}</>
       const { as, href } = linkData
-      return <a href={href || as}>{children}</a>
+      return <Link href={href}>{children}</Link>
     },
     action: ({ children, mark }) => {
       const { actionType } = mark
@@ -188,11 +192,12 @@ const serializers = ({
     /* If a custom block wrapper was passed in, use it instead.
      * This allows us to change a default P tag into a different size/style */
     // @ts-ignore
+
     if (Wrapper) return <Wrapper {...props} />
     const weight = customWeight ?? 4
 
     if (node._type === 'richImage') {
-      return <Image image={node} sizes={imageSizes} />
+      return <Image image={node} sizes={imageSizes} richImage />
     }
     if (node._type === 'form') {
       return (
@@ -202,6 +207,15 @@ const serializers = ({
     if (node._type === 'cloudinaryVideo') {
       return <CloudinaryVideo video={node} />
     }
+
+    if (node._type === 'countdown') {
+      return (
+        <React.Suspense>
+          <CountDown targetDate={node.dateTime} />
+        </React.Suspense>
+      )
+    }
+
     const style = node.style || 'normal'
     // if (props.node._type === 'videoEmbed') return <VideoEmbed video={props.node} />
 

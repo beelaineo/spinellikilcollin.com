@@ -16,7 +16,7 @@ const journalPageQuery = gql`
     JournalPage(id: "journalPage") {
       title
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
     allJournalEntry(
@@ -65,11 +65,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   const currentDate = [
     now.getFullYear(),
     (now.getMonth() + 1).toString().padStart(2, '0'),
-    now
-      //
-      .getDate()
-      .toString()
-      .padStart(2, '0'),
+    now.getDate().toString().padStart(2, '0'),
   ].join('-')
   const variables = { currentDate }
   const [response, shopData] = await Promise.all([

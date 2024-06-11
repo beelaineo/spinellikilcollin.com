@@ -1,6 +1,9 @@
 {
 	"name": "spinellikilcollin-root",
 	"private": true,
+	"engines": {
+		"node": "^18.x"
+	},
 	"scripts": {
 		"setup": "yarn install",
 		"test": "yarn workspace spinellikilcollin-app test",
@@ -12,30 +15,30 @@
 		"prepare": "husky install"
 	},
 	"devDependencies": {
-		"@commitlint/cli": "^17.4.2",
-		"@commitlint/config-conventional": "^17.4.2",
-		"@types/eslint": "^8.4.10",
-		"@types/eslint-plugin-prettier": "^3.1.0",
-		"@types/prettier": "^2.7.2",
-		"@types/tsc-watch": "^4.2.0",
-		"@typescript-eslint/eslint-plugin": "^5.48.2",
-		"@typescript-eslint/parser": "^5.48.2",
-		"dotenv": "^16.0.3",
-		"eslint": "^8.32.0",
-		"eslint-config-prettier": "^8.6.0",
-		"eslint-plugin-import": "^2.27.5",
+		"@commitlint/cli": "^17.8.1",
+		"@commitlint/config-conventional": "^17.8.1",
+		"@types/eslint": "^8.56.5",
+		"@types/eslint-plugin-prettier": "^3.1.3",
+		"@types/prettier": "^2.7.3",
+		"@types/tsc-watch": "^4.2.3",
+		"@typescript-eslint/eslint-plugin": "^5.62.0",
+		"@typescript-eslint/parser": "^5.62.0",
+		"dotenv": "^16.4.5",
+		"eslint": "^8.57.0",
+		"eslint-config-prettier": "^8.10.0",
+		"eslint-plugin-import": "^2.29.1",
 		"eslint-plugin-prettier": "^4.2.1",
-		"eslint-plugin-react": "^7.32.1",
+		"eslint-plugin-react": "^7.34.0",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-watch": "^8.0.0",
 		"husky": "^8.0.3",
-		"lerna": "^5.6.2",
-		"lint-staged": "^13.1.0",
-		"npm-check-updates": "^15.3.4",
-		"prettier": "^2.8.3",
-		"tsc-watch": "^5.0.3",
-		"vercel": "^27.4.0",
-		"yarnhook": "^0.6.0"
+		"lerna": "^7.4.2",
+		"lint-staged": "^13.3.0",
+		"npm-check-updates": "^16.14.15",
+		"prettier": "^2.8.8",
+		"tsc-watch": "^6.0.4",
+		"vercel": "^30.2.3",
+		"yarnhook": "^0.6.2"
 	},
 	"workspaces": [
 		"app",
@@ -51,8 +54,8 @@
 	},
 	"dependencies": {
 		"eslint-plugin-react-hooks": "^4.6.0",
-		"graphql": "^16.6.0",
-		"react-icons": "^4.7.1"
+		"graphql": "^16.8.1",
+		"react-icons": "^5.0.1"
 	},
 	"resolutions": {
 		"graphql": "^15.5.1"

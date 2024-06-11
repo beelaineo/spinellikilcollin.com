@@ -21,8 +21,8 @@ export const collectionBlock = {
             value: 'square',
             title: 'Square',
           },
-          { value: 'wide', title: 'Wide' },
-          { value: 'tall', title: 'Tall' },
+          {value: 'wide', title: 'Wide'},
+          {value: 'tall', title: 'Tall'},
         ],
       },
       validation: (Rule) => Rule.required(),
@@ -46,7 +46,14 @@ export const collectionBlock = {
     {
       name: 'textColor',
       title: 'Text color',
-      type: 'colorPicker',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     },
     {
       name: 'cloudinaryVideo',
@@ -61,7 +68,14 @@ export const collectionBlock = {
     {
       name: 'backgroundColor',
       title: 'Background Color',
-      type: 'colorPicker',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Light', value: 'light'},
+          {title: 'Dark', value: 'dark'},
+          {title: 'Custom', value: 'custom'},
+        ],
+      },
     },
   ],
   preview: {
@@ -70,7 +84,7 @@ export const collectionBlock = {
       format: 'format',
       backgroundImage: 'backgroundImage',
     },
-    prepare: ({ position, backgroundImage, format }) => {
+    prepare: ({position, backgroundImage, format}) => {
       return {
         title: `${position} - ${format}`,
         media: backgroundImage ? backgroundImage.asset : undefined,
