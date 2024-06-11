@@ -90,7 +90,7 @@ export default class MyDocument extends Document {
               new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
               j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-              })(window,document,'script','dataLayer','GTM-TRLD2RW');`,
+              })(window,document,'script','dataLayer','GTM-K4X87DCM');`,
             }}
             strategy="afterInteractive"
           />
@@ -202,7 +202,7 @@ export default class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `
               <iframe
-                src="https://www.googletagmanager.com/ns.html?id=GTM-TRLD2RW"
+                src="https://www.googletagmanager.com/ns.html?id=GTM-K4X87DCM"
                 height="0"
                 width="0"
                 style="{{ display: 'none', visibility: 'hidden' }}"

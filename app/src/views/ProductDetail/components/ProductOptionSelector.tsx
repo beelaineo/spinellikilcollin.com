@@ -6,8 +6,6 @@ import {
   ShopifyProductVariant,
   ProductOptionValue,
   Maybe,
-  ShopifySourceProductVariant,
-  ShopifySourceSelectedOption,
   Stone,
 } from '../../../types'
 import { Heading } from '../../../components/Text'
@@ -22,10 +20,6 @@ import {
   definitely,
   withTypenames,
 } from '../../../utils'
-import { useModal } from '../../../providers/ModalProvider'
-import Link from 'next/link'
-import { ShopifyStorefrontProductVariant } from '../../../types/generated-shopify'
-import { sanityClient } from '../../../services/sanity'
 
 const { useEffect, useState } = React
 
@@ -36,7 +30,6 @@ interface ProductOptionSelectorProps {
   option: ProductOption
   changeValueForOption: (optionId: string) => (value: string) => void
   isInput: boolean
-  disableStockIndication?: boolean
 }
 
 interface SelectWrapperProps {
@@ -84,15 +77,6 @@ const SelectWrapper = styled.div<SelectWrapperProps>`
   `}
 `
 
-const sanityQuery = async <R = any | null,>(
-  query: string,
-  params?: Record<string, any>,
-): Promise<R> => {
-  const results = await sanityClient.fetch<R>(query, params || {})
-  // @ts-ignore
-  return withTypenames<R>(results)
-}
-
 export const ProductOptionSelector = ({
   option,
   product,
@@ -100,22 +84,16 @@ export const ProductOptionSelector = ({
   changeValueForOption,
   currentVariant,
   isInput,
-  disableStockIndication,
 }: ProductOptionSelectorProps) => {
+  const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
+  const [initialValue, setInitialValue] = useState(0)
+
   if (!option || !option.name || !option.values) {
     console.warn('Missing option config', option)
     return null
   }
 
   if (option.values.length === 0) return null
-
-  const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
-  const [includedVariants, setIncludedVariants] = useState<
-    | Maybe<ShopifyStorefrontProductVariant[] | ShopifySourceProductVariant[]>
-    | undefined
-  >(null)
-  const [stockedColorOptionsIncluded, setStockedColorOptionsIncluded] =
-    useState<Maybe<string[]> | undefined>(null)
 
   const selectOption = changeValueForOption(option.name)
 
@@ -180,6 +158,15 @@ export const ProductOptionSelector = ({
       (option) => option?.name === 'Carat',
     )
 
+  const currentSelectedStone =
+    currentVariant?.sourceData?.selectedOptions?.find(
+      (option) => option?.name === 'Stone',
+    )
+
+  const currentSelectedSize = currentVariant?.sourceData?.selectedOptions?.find(
+    (option) => option?.name === 'Size',
+  )
+
   const getVariantOptions = (variantOptions) => {
     const arr: Record<string, unknown>[] = []
     variantOptions.forEach((v) => {
@@ -195,80 +182,38 @@ export const ProductOptionSelector = ({
     getVariantOptions(variant?.selectedOptions),
   )
 
-  const getIncludedVariants = async (
-    product: Product,
-  ): Promise<ShopifyStorefrontProductVariant[] | null> => {
-    const variants = await sanityQuery(
-      `*[_type == 'product' && handle == $handle][0].store.variants[sourceData.metafields[key == "excludeFromIndication"].value == "false"]`,
-      { handle: product?.handle },
-    )
-    return variants
-  }
-
   const formatLabel = (value: string, option: ProductOption) => {
-    if (disableStockIndication == true) {
-      // console.log('current variant', currentVariant)
-      // console.log('disableStockIndication is TRUE')
-      // console.log('OPTION', option)
-      // console.log('VALUE NAME', value)
-      // console.log('includedVariants', includedVariants)
-      // console.log('currentVariantStockedOptions', currentVariantStockedOptions)
-      const disabledProductCurrentStockedOptions =
-        currentVariantStockedOptions?.filter((o) => {
-          return includedVariants?.some((v) => {
-            return Boolean(v.title == `${o.color} / ${o.size}`)
-          })
-        })
-      let i = 0
-      disabledProductCurrentStockedOptions?.forEach((v) => {
-        if (currentSelectedColor) {
-          if (
-            Object.values(v).includes(value) &&
-            Object.values(v).includes(currentSelectedColor?.value)
-          ) {
-            i++
-          }
-        } else {
-          if (Object.values(v).includes(value)) {
-            i++
-          }
+    let i = 0
+    currentVariantStockedOptions?.forEach((v) => {
+      if (currentSelectedColor) {
+        if (
+          Object.values(v).includes(value) &&
+          Object.values(v).includes(currentSelectedColor?.value)
+        ) {
+          i++
         }
-      })
-      const optionLabel = i > 0 ? value + ' | In Stock' : value
-      return optionLabel
-    } else {
-      let i = 0
-      currentVariantStockedOptions?.forEach((v) => {
-        if (currentSelectedColor) {
-          if (
-            Object.values(v).includes(value) &&
-            Object.values(v).includes(currentSelectedColor?.value)
-          ) {
-            i++
-          }
-        } else if (currentSelectedStyle) {
-          if (
-            Object.values(v).includes(value) &&
-            Object.values(v).includes(currentSelectedStyle?.value)
-          ) {
-            i++
-          }
-        } else if (currentSelectedMaterial) {
-          if (
-            Object.values(v).includes(value) &&
-            Object.values(v).includes(currentSelectedMaterial?.value)
-          ) {
-            i++
-          }
-        } else {
-          if (Object.values(v).includes(value)) {
-            i++
-          }
+      } else if (currentSelectedStyle) {
+        if (
+          Object.values(v).includes(value) &&
+          Object.values(v).includes(currentSelectedStyle?.value)
+        ) {
+          i++
         }
-      })
-      const optionLabel = i > 0 ? value + ' | In Stock' : value
-      return optionLabel
-    }
+      } else if (currentSelectedMaterial) {
+        if (
+          Object.values(v).includes(value) &&
+          Object.values(v).includes(currentSelectedMaterial?.value)
+        ) {
+          i++
+        }
+      } else {
+        if (Object.values(v).includes(value)) {
+          i++
+        }
+      }
+    })
+    const optionLabel = i > 0 ? value + ' | In Stock' : value
+    return optionLabel
   }
 
   const options = definitely(
@@ -291,13 +236,12 @@ export const ProductOptionSelector = ({
       : []
 
   const handleProductInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue: number = Number(e.target.value) || 50
-    const closest = optionsNumeric.reduce(function (prev, curr) {
-      return Math.abs(curr - inputValue) < Math.abs(prev - inputValue)
-        ? curr
-        : prev
-    })
-    const remasked = conformToMask(closest.toString(), currencyMask)
+    const inputValue: number = Number(e.target.value) || 0
+
+    const scaledValue = optionsNumeric[inputValue]
+
+    const remasked = conformToMask(scaledValue.toString(), currencyMask)
+
     selectOption(remasked.conformedValue)
   }
 
@@ -321,32 +265,26 @@ export const ProductOptionSelector = ({
     setActiveStone(stone?.stone)
   }, [currentVariant])
 
-  useEffect(() => {
-    if (disableStockIndication == true) {
-      const includedVariantsArray = getIncludedVariants(product)
-      includedVariantsArray.then((variants) => {
-        setIncludedVariants(variants)
-      })
-    }
-    const colorOptions =
-      disableStockIndication == true
-        ? includedVariants
-            ?.map((variant) => {
-              return variant?.sourceData?.selectedOptions?.find(
-                (option) =>
-                  option?.name === 'Color' ||
-                  option?.name === 'Style' ||
-                  option?.name === 'Material',
-              )
-            })
-            .map((option) => slugify(option?.value))
-        : null
-    setStockedColorOptionsIncluded(colorOptions)
-  }, [disableStockIndication, includedVariants, product])
-
   const handleSubmit = (values: any) => {
     //
   }
+
+  useEffect(() => {
+    if (isInput && option.name) {
+      const value = currentVariant?.sourceData?.priceV2?.amount
+      if (value) {
+        const scaledValue = optionsNumeric.indexOf(value)
+        setInitialValue(scaledValue)
+      }
+    }
+  }, [])
+
+  const optionsWithDisabled = options.map((option) => {
+    return currentSelectedDiamond?.value === '2.0 carat' &&
+      option?.value === 'Natural'
+      ? { ...option, disabled: true }
+      : { ...option, disabled: false }
+  })
   return (
     <Wrapper>
       <Heading level={5} mb={2}>
@@ -359,16 +297,19 @@ export const ProductOptionSelector = ({
               onSwatchClick={handleSwatchClick}
               isSwatchActive={isSwatchActive}
               option={option}
-              stockedOptions={
-                stockedColorOptionsIncluded
-                  ? stockedColorOptionsIncluded
-                  : stockedColorOptions
-              }
-              disableStockIndication={disableStockIndication}
+              stockedOptions={stockedColorOptions}
             />
           </SwatchesWrapper>
         ) : (
-          <Form onSubmit={handleSubmit} initialValues={{}}>
+          <Form
+            onSubmit={handleSubmit}
+            initialValues={{
+              Value: initialValue,
+              Stone: currentSelectedStone?.value,
+              Size: currentSelectedSize?.value,
+            }}
+            enableReinitialize={true}
+          >
             {isInput ? (
               <ProductPriceInput
                 name={option.name}
@@ -380,7 +321,7 @@ export const ProductOptionSelector = ({
                 type="select"
                 name={option.name}
                 onChange={handleSelectChange}
-                options={options}
+                options={optionsWithDisabled}
               />
             )}
           </Form>

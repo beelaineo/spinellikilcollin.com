@@ -31,10 +31,9 @@ import { CurrencySelector } from './CurrencySelector'
 import { CountrySelector } from './CountrySelector'
 import { QuickLinks } from './QuickLinks'
 import { Breadcrumbs } from '../Footer/Breadcrumbs'
-import { search } from '@algolia/autocomplete-plugin-recent-searches'
-const { useEffect, useState, useRef, useCallback } = React
+const { useEffect, useRef } = React
 
-export const Navigation = () => {
+export const Navigation = ({ breadCrumbs }) => {
   const {
     closeAll,
     cartOpen,
@@ -121,7 +120,9 @@ export const Navigation = () => {
           </ToolsWrapper>
         </Inner>
         <BreadcrumbsWrapper>
-          {!searchOpen && <Breadcrumbs display={'header'} />}
+          {!searchOpen && (
+            <Breadcrumbs paths={breadCrumbs} display={'header'} />
+          )}
         </BreadcrumbsWrapper>
         {showQuickLinks(router) ? <QuickLinks colorTheme={colorTheme} /> : null}
       </Wrapper>

@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   ])
 
   const newCustomer = response?.NewCustomer || null
-  return { props: { newCustomer, person, shopData }, revalidate: 10 }
+  return { props: { newCustomer, person, shopData } }
 }
 
 /**

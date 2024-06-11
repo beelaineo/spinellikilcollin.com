@@ -24,7 +24,7 @@ import { Footer } from '../Footer'
 
 const { useEffect } = React
 
-export const SearchPane = () => {
+export const SearchPane = ({ breadCrumbs }) => {
   const {
     open,
     loading,
@@ -207,7 +207,7 @@ export const SearchPane = () => {
           </Results>
         )}
         <div hidden={!open}>
-          <Footer />
+          <Footer {...breadCrumbs} />
         </div>
       </Wrapper>
     </Outer>

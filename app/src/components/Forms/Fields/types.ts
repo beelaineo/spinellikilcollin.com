@@ -24,6 +24,7 @@ export interface FieldProps {
   color?: string
   options?: Option[]
   validate?: FieldValidator
+  maxSize?: number
   mask?: Mask
   /* eslint-disable-next-line */
   onChange?: (e: React.ChangeEvent<any>) => void

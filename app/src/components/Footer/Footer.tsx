@@ -57,7 +57,7 @@ const FooterNav = styled.nav`
   display: block;
 `
 
-export const Footer = () => {
+export const Footer = ({ breadCrumbs }) => {
   const shopData = useShopData()
   const footerLinks = shopData?.siteSettings?.links ?? []
   const mailerTitle = shopData?.siteSettings?.mailerTitle ?? ''
@@ -66,7 +66,7 @@ export const Footer = () => {
   const router = useRouter()
   return (
     <FooterWrapper>
-      <Breadcrumbs />
+      <Breadcrumbs paths={breadCrumbs} />
       <FooterInner>
         <FooterLinks>
           {footerLinks.map((link) =>
