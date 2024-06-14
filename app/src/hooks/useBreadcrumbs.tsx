@@ -100,6 +100,7 @@ const Route2LabelMap = {
   '/products': 'Collection',
   '/customize/quiz': 'Quiz',
   '/about/financing': 'Financing',
+  '/customer-care': 'Customer Care',
 }
 
 export const useBreadcrumbs = () => {

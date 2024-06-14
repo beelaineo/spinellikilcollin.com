@@ -32,6 +32,8 @@ export const pageLink = defineType({
         {type: 'about'},
         {type: 'page'},
         {type: 'paymentPlans'},
+        {type: 'customerCare'},
+        {type: 'homepage'},
       ],
     }),
     defineField({
