@@ -1,4 +1,5 @@
 import styled, { css } from '@xstyled/styled-components'
+import { useShopData } from '../../../providers/ShopDataProvider'
 
 interface ShippingStatusProps {
   readyToShip: boolean
@@ -43,6 +44,9 @@ const Wrapper = styled.div`
 `
 
 const ShippingStatus = ({ readyToShip }: ShippingStatusProps) => {
+  const { productInfoSettings } = useShopData()
+  const leadTimeLabel = productInfoSettings?.leadTimeLabel
+
   return (
     <Wrapper>
       <svg
@@ -108,7 +112,7 @@ const ShippingStatus = ({ readyToShip }: ShippingStatusProps) => {
           points="6.45 19.35 4.75 16.45 3.25 17.25 3.35 6.15 25.55 2.35 28.65 4.25 6.55 8.05 6.45 19.35"
         />
       </svg>
-      <span>{readyToShip ? 'Ships in 1-2 days' : 'Ships in 6-8 weeks'}</span>
+      <span>{readyToShip ? 'Ships in 1-2 days' : leadTimeLabel}</span>
       {readyToShip && <InStockDot />}
     </Wrapper>
   )
