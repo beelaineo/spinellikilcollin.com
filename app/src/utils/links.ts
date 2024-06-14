@@ -13,6 +13,7 @@ import {
   Faq,
   Appointments,
   PaymentPlans,
+  CustomerCare,
   ShopifyCollectionImage,
   ShopifyImage,
 } from '../types'
@@ -33,6 +34,7 @@ export type Document =
   | Faq
   | Appointments
   | PaymentPlans
+  | CustomerCare
 
 export interface LinkInfo {
   href: string
@@ -56,6 +58,7 @@ export const getPageLinkLabel = (
     case 'Faq':
     case 'Appointments':
     case 'PaymentPlans':
+    case 'CustomerCare':
       return document.title
     case 'About':
       return 'About'
@@ -142,6 +145,10 @@ export const getPageLinkUrl = (
     case 'PaymentPlans':
       return {
         href: '/about/financing',
+      }
+    case 'CustomerCare':
+      return {
+        href: '/customer-care',
       }
     default:
       throw new Error(

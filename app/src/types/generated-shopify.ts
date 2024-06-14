@@ -4564,7 +4564,7 @@ export interface ShopifyStorefrontMailingAddress extends ShopifyStorefrontNode {
   /** The region of the address, such as the province, state, or district. */
   province?: Maybe<Scalars['String']['output']>
   /**
-   * The two-letter code for the region.
+   * The alphanumeric code for the region.
    *
    * For example, ON.
    *
@@ -6566,7 +6566,10 @@ export interface ShopifyStorefrontProductOption extends ShopifyStorefrontNode {
   id: Scalars['ID']['output']
   /** The product option’s name. */
   name: Scalars['String']['output']
-  /** The corresponding value to the product option name. */
+  /**
+   * The corresponding value to the product option name.
+   * @deprecated Use `optionValues` instead.
+   */
   values: Array<Scalars['String']['output']>
 }
 

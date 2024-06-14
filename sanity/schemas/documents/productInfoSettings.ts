@@ -38,6 +38,11 @@ export const productInfo = defineType({
   fieldsets: [{name: 'accordions', title: 'Accordions'}],
   fields: [
     defineField({
+      name: 'leadTimeLabel',
+      title: 'Product Lead Time Label',
+      type: 'string',
+    }),
+    defineField({
       name: 'helpText',
       type: 'helpText',
       fieldset: 'accordions',

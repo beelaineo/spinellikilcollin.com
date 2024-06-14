@@ -28,11 +28,12 @@ import {
 import { Backdrop } from './Backdrop'
 import { NavigationInner } from './NavigationInner'
 import { CurrencySelector } from './CurrencySelector'
+import { CountrySelector } from './CountrySelector'
 import { QuickLinks } from './QuickLinks'
 import { Breadcrumbs } from '../Footer/Breadcrumbs'
-const { useEffect, useRef  } = React
+const { useEffect, useRef } = React
 
-export const Navigation = ({breadCrumbs}) => {
+export const Navigation = ({ breadCrumbs }) => {
   const {
     closeAll,
     cartOpen,
@@ -97,7 +98,7 @@ export const Navigation = ({breadCrumbs}) => {
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
-            <CurrencySelector colorTheme={colorTheme} />
+            <CountrySelector colorTheme={colorTheme} />
             <SearchButtonWrapper colorTheme={colorTheme}>
               <SearchButton />
             </SearchButtonWrapper>
@@ -119,7 +120,9 @@ export const Navigation = ({breadCrumbs}) => {
           </ToolsWrapper>
         </Inner>
         <BreadcrumbsWrapper>
-          {!searchOpen && <Breadcrumbs paths={breadCrumbs} display={'header'}/>}
+          {!searchOpen && (
+            <Breadcrumbs paths={breadCrumbs} display={'header'} />
+          )}
         </BreadcrumbsWrapper>
         {showQuickLinks(router) ? <QuickLinks colorTheme={colorTheme} /> : null}
       </Wrapper>

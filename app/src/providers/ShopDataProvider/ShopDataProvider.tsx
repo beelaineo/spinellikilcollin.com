@@ -74,6 +74,7 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
     paymentPlans: () => getPageLinkUrl({ __typename: 'PaymentPlans' }),
     magazine: () => getPageLinkUrl({ __typename: 'Magazine' }),
     contact: () => getPageLinkUrl({ __typename: 'Contact' }),
+    customerCare: () => getPageLinkUrl({ __typename: 'CustomerCare' }),
     default: (ref) => {
       const page = pagesMap.get(ref)
       const journalEntry = journalMap.get(ref)

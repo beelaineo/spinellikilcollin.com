@@ -65,14 +65,16 @@ export type AboutFilter = {
   title?: InputMaybe<StringFilter>
 }
 
-export type AboutOrAppointmentsOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage =
+export type AboutOrAppointmentsOrCollectionOrContactOrCustomerCareOrCustomizeOrFaqOrHomepageOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage =
 
     | About
     | Appointments
     | Collection
     | Contact
+    | CustomerCare
     | Customize
     | Faq
+    | Homepage
     | JournalEntry
     | JournalPage
     | Magazine
@@ -1883,7 +1885,7 @@ export interface InternalLink {
   __typename: 'InternalLink'
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
-  document?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
+  document?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomerCareOrCustomizeOrFaqOrHomepageOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   queryParams?: Maybe<Array<Maybe<QueryParam>>>
 }
 
@@ -2613,7 +2615,7 @@ export interface PageLink {
   /** Optional. Defaults to "Learn more" */
   ctaText?: Maybe<Scalars['String']['output']>
   image?: Maybe<RichImage>
-  linkedPage?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomizeOrFaqOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
+  linkedPage?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomerCareOrCustomizeOrFaqOrHomepageOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   summary?: Maybe<Scalars['String']['output']>
   /** Optional. By default the linked page title will be used. */
   title?: Maybe<Scalars['String']['output']>
@@ -2916,11 +2918,13 @@ export interface ProductInfoSettings extends Document {
   _type?: Maybe<Scalars['String']['output']>
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']['output']>
+  excludeFromStockIndication?: Maybe<Array<Maybe<Product>>>
   globalInfo?: Maybe<Array<Maybe<ProductInfo>>>
   /** Use these fields to add snippets of descriptions to all or some projects. For instance, you could add a 'Shipping and Returns' accordion on all items, a 'Ring Sizing Guide' accordion to all Rings, and an 'About Black Gold' accordion to any product tagged with 'Black Gold'. These accordions will be displayed in accordion-dropdowns below the main product information. You can also add info accordions to individual items on their page here in the CMS. */
   helpText?: Maybe<Scalars['String']['output']>
   infoByTag?: Maybe<Array<Maybe<ProductInfoByTag>>>
   infoByType?: Maybe<Array<Maybe<ProductInfoByType>>>
+  leadTimeLabel?: Maybe<Scalars['String']['output']>
   tagBadges?: Maybe<Array<Maybe<TagBadge>>>
 }
 
@@ -2934,6 +2938,7 @@ export type ProductInfoSettingsFilter = {
   _type?: InputMaybe<StringFilter>
   _updatedAt?: InputMaybe<DatetimeFilter>
   helpText?: InputMaybe<StringFilter>
+  leadTimeLabel?: InputMaybe<StringFilter>
 }
 
 export type ProductInfoSettingsSorting = {
@@ -2944,6 +2949,7 @@ export type ProductInfoSettingsSorting = {
   _type?: InputMaybe<SortOrder>
   _updatedAt?: InputMaybe<SortOrder>
   helpText?: InputMaybe<SortOrder>
+  leadTimeLabel?: InputMaybe<SortOrder>
 }
 
 export type ProductInfoSorting = {

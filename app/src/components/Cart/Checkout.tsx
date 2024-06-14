@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Button } from '../Button'
-import { useAnalytics, useCart } from '../../providers'
+import { useAnalytics, useCart, useCountry } from '../../providers'
 import { useShopify } from '../../providers/ShopifyProvider'
 import { Form, Field } from '../Forms'
 import { Checkbox } from '../Forms/Fields/Checkbox'
@@ -29,6 +29,7 @@ import { StringValueNode } from 'graphql'
 import { CSSTransition } from 'react-transition-group'
 import { render } from '@testing-library/react'
 import { Klarna } from '../Klarna'
+import { Maybe, ShopifyStorefrontMoneyV2 } from '../../types'
 
 const { useState, useRef, useEffect } = React
 
@@ -57,10 +58,14 @@ export const Checkout = () => {
 
   const showFreeShippingIndicator = false
 
+  const { currentCountry } = useCountry()
+
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
 
+  const [totalPrice, setTotalPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
   const [notesVisible, setNotesVisible] = useState(false)
 
   const handleNotesToggle = (e) => {
@@ -106,6 +111,11 @@ export const Checkout = () => {
   useEffect(() => {
     cartOpen && closeCart()
   }, [router])
+
+  useEffect(() => {
+    checkout && setTotalPrice(checkout.totalPriceV2)
+    console.log('UPDATED CHECKOUT', checkout)
+  }, [checkout])
 
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
@@ -200,7 +210,7 @@ export const Checkout = () => {
                   {lineItems?.some(
                     (item) =>
                       item.variant?.product?.productType === 'Gift Card',
-                  ) ? null : (
+                  ) ? null : currentCountry === 'US' ? (
                     <div className="payment-plans">
                       <style
                         jsx
@@ -238,7 +248,7 @@ export const Checkout = () => {
                       <Affirm price={checkout.paymentDue} />
                       <Klarna price={checkout.paymentDue} />
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </SubtotalWrapper>
             ) : null}
@@ -251,7 +261,7 @@ export const Checkout = () => {
                     label="Special Instructions"
                     name="notesBool"
                   />
-                  <Checkbox label="Gift Wrap" name="giftWrap" />
+                  <Checkbox label="This is a Gift" name="giftWrap" />
                 </div>
               </OptionsWrapper>
               {notesVisible ? (
@@ -275,12 +285,17 @@ export const Checkout = () => {
               <Heading my={3} level={6} textAlign="center">
                 Shipping and discount codes are added at checkout.
               </Heading>
-
-              <Heading my={3} level={6} textAlign="center">
-                We accept the following forms of payment: Visa, Mastercard,
-                Amex, Discover, PayPal, BitPay, Affirm, JCB, Diners Club, Elo,
-                Shop Pay, Apple Pay, Google Pay
-              </Heading>
+              {currentCountry === 'US' ? (
+                <Heading my={3} level={6} textAlign="center">
+                  We accept the following forms of payment: Visa, Mastercard,
+                  Amex, Discover, PayPal, BitPay, Affirm, JCB, Diners Club, Elo,
+                  Shop Pay, Apple Pay, Google Pay
+                </Heading>
+              ) : (
+                <Heading my={5} level={6} textAlign="center">
+                  {' '}
+                </Heading>
+              )}
             </Form>
           </CartBottom>
         </>

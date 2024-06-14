@@ -271,6 +271,13 @@ export const checkoutFragment = gql`
     paymentDue {
       ...MoneyV2Fragment
     }
+    totalPriceV2 {
+      amount
+      currencyCode
+    }
+    buyerIdentity {
+      countryCode
+    }
     webUrl
     completedAt
     shippingLine {
