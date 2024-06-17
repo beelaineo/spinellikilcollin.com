@@ -14,6 +14,9 @@ import { useMedia } from '../../../hooks'
 import { theme } from '../../../theme'
 import { shopifyQuery } from '../../../providers/AllProviders'
 import { ShopifyStorefrontProductVariant } from '../../../types/generated-shopify'
+import { Heading, Span } from '../../../components/Text'
+import Image from 'next/image'
+import ShippingStatus from './ShippingStatus'
 
 const { useEffect, useRef, useState } = React
 
@@ -31,9 +34,18 @@ const BuyButtonEl = styled(Button)<WithSticky>`
   ${({ theme, sticky }) => css`
      {
       position: relative;
+      display: flex;
+      justify-content: center;
+      padding: 0 20px;
+      font-weight: 200;
+      gap: 2;
 
       &:focus-visible {
         ${theme.focus.left()}
+      }
+
+      .status-label {
+        font-style: italic;
       }
 
       ${theme.mediaQueries.tablet} {
@@ -169,6 +181,8 @@ export const BuyButton = ({
   }, [winScroll])
 
   const buttonLabel = inquiryOnly ? 'Inquire' : 'Add to cart'
+  const readyToShip = !currentVariant?.sourceData?.currentlyNotInStock
+
   const handleClick = async () => {
     if (!currentVariant || !currentVariant.shopifyVariantID) return
     if (inquiryOnly) {
@@ -198,13 +212,22 @@ export const BuyButton = ({
   }
   return (
     <>
+      {!inquiryOnly && (
+        <Heading level={5} weight={2}>
+          <ShippingStatus readyToShip={readyToShip} />
+        </Heading>
+      )}
       <BuyButtonEl
         disabled={loading || variantIsInStock === PENDING}
         onClick={handleClick}
         ref={buttonRef}
         sticky={false}
       >
-        {buttonLabel}
+        <span>{buttonLabel}</span>
+        <span>|</span>
+        <span className="status-label">
+          {readyToShip ? 'In Stock' : 'Made to Order'}
+        </span>
       </BuyButtonEl>
       {/* {isSticky ? <ButtonSpacer ref={spacerRef} /> : null} */}
     </>

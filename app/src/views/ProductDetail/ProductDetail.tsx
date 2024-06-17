@@ -129,6 +129,7 @@ export const ProductDetail = ({ product }: Props) => {
   const productType = product?.store?.productType
   const images = product?.store?.images || []
   const hidden = product?.hideFromSearch
+  const leadTimeLabel = productInfoSettings?.leadTimeLabel
 
   // console.log('product', product)
 
