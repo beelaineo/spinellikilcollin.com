@@ -133,6 +133,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       _type
       _key
       _createdAt
+      leadTimeLabel
       globalInfo {
         ...ProductInfoFragment
       }
