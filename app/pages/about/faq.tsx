@@ -13,7 +13,7 @@ const query = gql`
       _type
       title
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       faqCategories {
         _key
@@ -56,7 +56,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const faq = response?.Faq || null
 
-  return { props: { faq, shopData }, revalidate: 10 }
+  return { props: { faq, shopData } }
 }
 
 export default FaqPage

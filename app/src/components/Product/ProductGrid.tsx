@@ -4,8 +4,8 @@ import { ProductThumb, ProductInfo } from './styled'
 import { ProductThumbnail } from './ProductThumbnail'
 import {
   Maybe,
-  ShopifyProduct,
-  ShopifyCollection,
+  Product,
+  Collection,
   CollectionBlock as CollectionBlockType,
   FilterConfiguration,
 } from '../../types'
@@ -104,7 +104,7 @@ export const ProductGridItem = styled.div<WithFormat>`
 `
 
 interface ProductGridProps {
-  items: Array<ShopifyProduct | ShopifyCollection | CollectionBlockType>
+  items: Array<Product | Collection | CollectionBlockType>
   preferredVariantMatches?: Maybe<string>[] | null
   currentFilter?: FilterConfiguration | null
   currentSort?: Sort | null
@@ -140,7 +140,7 @@ export const ProductGrid = ({
                 <CollectionBlock format={item.format} collectionBlock={item} />
               </ProductGridItem>
             )
-          case 'ShopifyProduct':
+          case 'Product':
             return (
               <ProductGridItem key={item._id || 'some-key'}>
                 <ProductGridItemPadding />
@@ -156,7 +156,7 @@ export const ProductGrid = ({
                 />
               </ProductGridItem>
             )
-          case 'ShopifyCollection':
+          case 'Collection':
             return (
               <ProductGridItem key={item._id || 'some-key'}>
                 <ProductGridItemPadding />

@@ -2,7 +2,7 @@ import * as React from 'react'
 import { ShopDataResponse } from './shopDataQuery'
 import {
   Menu,
-  ShopifyProduct,
+  Product,
   ProductInfo,
   ProductInfoSettings,
   ProductListingSettings,
@@ -15,7 +15,7 @@ const { useContext } = React
 interface ShopDataContextValue {
   ready: boolean
   menu?: Menu
-  getProductInfoBlocks: (product: ShopifyProduct) => ProductInfo[]
+  getProductInfoBlocks: (product: Product) => ProductInfo[]
   siteSettings?: SiteSettings
   productInfoSettings?: ProductInfoSettings
   productListingSettings?: ProductListingSettings
@@ -58,11 +58,11 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
   const journalMap = new Map(
     allJournalEntries.map((entry) => [entry._id, entry]),
   )
-  const allCollections = shopData?.allShopifyCollection || []
+  const allCollections = shopData?.allCollection || []
   const collectionMap = new Map(
     allCollections.map((collection) => [collection._id, collection]),
   )
-  const allProducts = shopData?.allShopifyProduct || []
+  const allProducts = shopData?.allProduct || []
   const productMap = new Map(
     allProducts.map((product) => [product._id, product]),
   )
@@ -74,6 +74,7 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
     paymentPlans: () => getPageLinkUrl({ __typename: 'PaymentPlans' }),
     magazine: () => getPageLinkUrl({ __typename: 'Magazine' }),
     contact: () => getPageLinkUrl({ __typename: 'Contact' }),
+    customerCare: () => getPageLinkUrl({ __typename: 'CustomerCare' }),
     default: (ref) => {
       const page = pagesMap.get(ref)
       const journalEntry = journalMap.get(ref)
@@ -88,12 +89,12 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
         })
       if (collection)
         return getPageLinkUrl({
-          __typename: 'ShopifyCollection',
+          __typename: 'Collection',
           handle: collection.handle,
         })
       if (product)
         return getPageLinkUrl({
-          __typename: 'ShopifyProduct',
+          __typename: 'Product',
           handle: product.handle,
         })
 
@@ -145,13 +146,13 @@ export const ShopDataProvider = ({ children, shopData }: Props) => {
   //   return null
   // }
 
-  const getProductInfoBlocks = (product: ShopifyProduct): ProductInfo[] => {
+  const getProductInfoBlocks = (product: Product): ProductInfo[] => {
     const productBlocks = definitely(product.info)
     if (!productInfoSettings) return productBlocks
     const { globalInfo, infoByType, infoByTag } = productInfoSettings
     const globalBlocks = globalInfo ? definitely(globalInfo) : []
-    const sourceTags = product?.sourceData?.tags
-    const productType = product?.sourceData?.productType
+    const sourceTags = product?.store?.tags
+    const productType = product?.store?.productType
     const productTags = sourceTags
       ? sourceTags.map((t) => (t ? t.toLowerCase() : ''))
       : []

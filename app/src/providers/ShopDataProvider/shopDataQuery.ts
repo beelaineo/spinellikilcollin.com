@@ -6,8 +6,8 @@ import {
   ProductListingSettings,
   SiteSettings,
   JournalEntry,
-  ShopifyCollection,
-  ShopifyProduct,
+  Collection,
+  Product,
 } from '../../types'
 import {
   productInfoFragment,
@@ -15,8 +15,8 @@ import {
   externalLinkFragment,
   ctaFragment,
   filterSetFragment,
-  priceRangeFilterFragment,
-  inventoryFilterFragment,
+  priceRangeMinMaxFilterFragment,
+  inStockFilterFragment,
   seoFragment,
 } from '../../graphql/fragments'
 import { request } from '../../graphql'
@@ -35,11 +35,11 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         current
       }
     }
-    allShopifyCollection {
+    allCollection {
       _id
       handle
     }
-    allShopifyProduct {
+    allProduct {
       _id
       handle
     }
@@ -116,16 +116,15 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
     }
     ProductListingSettings(id: "productListingSettings") {
       _id
-      _type
       newDefaultFilter {
         ... on FilterSet {
           ...FilterSetFragment
         }
-        ... on PriceRangeFilter {
-          ...PriceRangeFilterFragment
+        ... on PriceRangeMinMaxFilter {
+          ...PriceRangeMinMaxFilterFragment
         }
-        ... on InventoryFilter {
-          ...InventoryFilterFragment
+        ... on InStockFilter {
+          ...InStockFilterFragment
         }
       }
     }
@@ -134,6 +133,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       _type
       _key
       _createdAt
+      leadTimeLabel
       globalInfo {
         ...ProductInfoFragment
       }
@@ -154,10 +154,6 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         tag
         label
       }
-      excludeFromStockIndication {
-        _id
-        handle
-      }
     }
     SiteSettings(id: "site-settings") {
       _id
@@ -171,7 +167,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         }
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       phone
       mailerTitle
@@ -184,8 +180,8 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   ${externalLinkFragment}
   ${ctaFragment}
   ${filterSetFragment}
-  ${priceRangeFilterFragment}
-  ${inventoryFilterFragment}
+  ${priceRangeMinMaxFilterFragment}
+  ${inStockFilterFragment}
 `
 
 export interface ShopDataResponse {
@@ -195,8 +191,8 @@ export interface ShopDataResponse {
   SiteSettings: SiteSettings
   allPage: Page[]
   allJournalEntry: JournalEntry[]
-  allShopifyCollection: ShopifyCollection[]
-  allShopifyProduct: ShopifyProduct[]
+  allCollection: Collection[]
+  allProduct: Product[]
 }
 
 export const requestShopData = async () => {

@@ -17,7 +17,7 @@ const newCustomerQuery = gql`
         ...RichImageFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ])
 
   const newCustomer = response?.NewCustomer || null
-  return { props: { newCustomer, shopData }, revalidate: 10 }
+  return { props: { newCustomer, shopData } }
 }
 
 export default NewCustomer

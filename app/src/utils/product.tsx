@@ -1,14 +1,15 @@
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Sort } from '../constants'
 import {
-  ShopifyProduct,
-  ShopifyProductOptionValue,
+  Product,
+  ProductOptionValue,
   ShopifyProductOption,
   ShopifySourceProductVariant,
   ShopifyProductVariant,
   Maybe,
   ShopifyMoneyV2,
   Image,
+  ProductOption,
 } from '../types'
 import { definitely } from './data'
 
@@ -152,54 +153,55 @@ const variantOptions = {
   },
 }
 
-export const isValidSwatchOption = (option: ShopifyProductOption): boolean =>
+export const isValidSwatchOption = (option: ProductOption): boolean =>
   definitely(option.values).every(({ swatch }) =>
     Boolean(swatch && swatch.asset),
   )
 
-export const getSwatchOptions = (
-  product: ShopifyProduct,
-): ShopifyProductOption[] =>
+export const getSwatchOptions = (product: Product): ProductOption[] =>
   getValidProductOptions(product).filter((option) =>
     isValidSwatchOption(option),
   )
 
-export const getSwatchImages = ({ values }: ShopifyProductOption): Image[] =>
+export const getSwatchImages = ({ values }: ProductOption): Image[] =>
   definitely(values)
     .map(({ swatch }) => swatch)
     .reduce<Image[]>((acc, o) => (o ? [...acc, o] : acc), [])
 
 const optionHasVariant = (
-  variants: ShopifySourceProductVariant[],
+  variants: ShopifyProductVariant[],
   optionName: string,
-  optionValue: ShopifyProductOptionValue,
+  optionValue: ProductOptionValue,
 ): boolean => {
   return variants.some((v) =>
-    definitely(v.selectedOptions).some(
+    definitely(v.sourceData?.selectedOptions).some(
       (o) => o.name === optionName && o.value === optionValue.value,
     ),
   )
 }
 
 const optionHasAvailableVariant = (
-  variants: ShopifySourceProductVariant[],
+  variants: ShopifyProductVariant[],
   optionName: string,
-  optionValue: ShopifyProductOptionValue,
+  optionValue: ProductOptionValue,
 ): boolean => {
-  const availableVariants = variants.filter((v) => v.selectedOptions)
+  const availableVariants = variants.filter(
+    (v) => v.sourceData?.selectedOptions,
+  )
 
   return availableVariants.some((v) =>
-    definitely(v.selectedOptions).some(
+    definitely(v.sourceData?.selectedOptions).some(
       (o) => o.name === optionName && o.value === optionValue.value,
     ),
   )
 }
 
-export const getValidProductOptions = (
-  product: ShopifyProduct,
-): ShopifyProductOption[] => {
+export const getValidProductOptions = (product: Product): ProductOption[] => {
   const options = definitely(product.options)
-  const [variants] = unwindEdges(product?.sourceData?.variants)
+  const variants = (product?.store?.variants || []).filter(
+    (variant): variant is ShopifyProductVariant =>
+      variant !== null && variant !== undefined,
+  )
 
   return options.map((option) => {
     const optionName = option?.name
@@ -218,7 +220,7 @@ export const getValidProductOptions = (
 
 export const optionMatchesVariant = (
   optionName: string,
-  option: ShopifyProductOptionValue,
+  option: ProductOptionValue,
   variant: ShopifyProductVariant | ShopifySourceProductVariant,
 ): boolean => {
   const selectedOptions =
@@ -232,9 +234,9 @@ export const optionMatchesVariant = (
 }
 
 export const getSelectedOptionValues = (
-  product: ShopifyProduct,
+  product: Product,
   variant: ShopifyProductVariant | ShopifySourceProductVariant,
-): ShopifyProductOptionValue[] => {
+): ProductOptionValue[] => {
   const source =
     variant.__typename === 'ShopifyProductVariant'
       ? variant.sourceData
@@ -244,7 +246,7 @@ export const getSelectedOptionValues = (
   if (!product.options || !variantSelectedOptions) return []
 
   const selectedOptionValues = definitely(product?.options).reduce<
-    ShopifyProductOptionValue[]
+    ProductOptionValue[]
   >((acc, currentOption) => {
     const currentOptionValues = definitely(currentOption?.values).filter((co) =>
       optionMatchesVariant(currentOption?.name || 'foo', co, variant),
@@ -255,7 +257,7 @@ export const getSelectedOptionValues = (
 }
 
 export const getAdditionalDescriptions = (
-  selectedOptions: ShopifyProductOptionValue[],
+  selectedOptions: ProductOptionValue[],
 ) => {
   return definitely(
     selectedOptions.map(({ _key, descriptionRaw }) =>
@@ -268,11 +270,11 @@ export const getAdditionalDescriptions = (
  * Get the first variant that matches the selected option
  */
 export const getVariantBySelectedOption = (
-  variants: ShopifySourceProductVariant[],
+  variants: ShopifyProductVariant[],
   currentOption: SelectedProductOption,
-): ShopifySourceProductVariant | void =>
+): ShopifyProductVariant | void =>
   variants.find((variant) => {
-    const { selectedOptions } = variant
+    const selectedOptions = variant.sourceData?.selectedOptions
     return definitely(selectedOptions).some(
       (option) =>
         option.name === currentOption.name &&
@@ -284,12 +286,12 @@ export const getVariantBySelectedOption = (
  * Get the first variant that matches the selected options
  */
 export const getVariantBySelectedOptions = (
-  variants: ShopifySourceProductVariant[],
+  variants: ShopifyProductVariant[],
   currentOptions: any[],
-): ShopifySourceProductVariant | void =>
+): ShopifyProductVariant | void =>
   variants.find((variant) => {
     if (!currentOptions) return
-    const { selectedOptions } = variant
+    const selectedOptions = variant.sourceData?.selectedOptions
     return currentOptions.every((currentOption) =>
       selectedOptions?.find(
         (o) =>
@@ -300,31 +302,37 @@ export const getVariantBySelectedOptions = (
   })
 
 export const getBestVariantByMatch = (
-  variants: ShopifySourceProductVariant[],
+  variants: ShopifyProductVariant[],
   matches: string[],
-): ShopifySourceProductVariant => {
+): ShopifyProductVariant => {
   const bestVariant = variants.find((v) =>
     matches.some((m) => v?.title?.includes(m)),
   )
+  // console.log(
+  //   `return best variant or first variant:`,
+  //   bestVariant,
+  //   variants,
+  //   matches,
+  // )
   return bestVariant || variants[0]
 }
 
 export const getBestVariantBySort = (
-  variants: ShopifySourceProductVariant[],
+  variants: ShopifyProductVariant[],
   sort?: Sort | null,
   minVariantPrice?: number,
   maxVariantPrice?: number,
-  initialVariant?: ShopifySourceProductVariant,
-): ShopifySourceProductVariant => {
+  initialVariant?: ShopifyProductVariant,
+): ShopifyProductVariant => {
   if (sort == Sort.Default && initialVariant) return initialVariant
 
   const bestVariant = variants.find((v) => {
-    if (!v?.priceV2?.amount) return false
+    if (!v?.sourceData?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
-      const price = parseFloat(v.priceV2.amount)
+      const price = v.sourceData?.priceV2.amount
       return Boolean(price == minVariantPrice)
     } else if (sort == Sort.PriceDesc) {
-      const price = parseFloat(v.priceV2.amount)
+      const price = v.sourceData?.priceV2.amount
       return Boolean(price == maxVariantPrice)
     } else {
       return undefined
@@ -339,19 +347,19 @@ interface FilterProps {
 }
 
 export const getBestVariantByFilterMatch = (
-  variants: ShopifySourceProductVariant[],
+  variants: ShopifyProductVariant[],
   filters: FilterProps[],
   sort?: Sort | null,
   minVariantPrice?: number,
   maxVariantPrice?: number,
-  initialVariant?: ShopifySourceProductVariant,
+  initialVariant?: ShopifyProductVariant,
   minPrice?: number | null,
   maxPrice?: number | null,
-): ShopifySourceProductVariant => {
+): ShopifyProductVariant => {
   const priceFilteredVariants = variants.filter((v) => {
-    if (!v?.priceV2?.amount) return false
+    if (!v?.sourceData?.priceV2?.amount) return false
 
-    const price = parseFloat(v.priceV2.amount)
+    const price = v.sourceData?.priceV2.amount
 
     if (!minPrice || !maxPrice) return false
 
@@ -391,7 +399,7 @@ export const getBestVariantByFilterMatch = (
             default:
               break
           }
-          match = v?.selectedOptions?.some((o) =>
+          match = v?.sourceData?.selectedOptions?.some((o) =>
             keywords.some((word) => {
               if (o?.value?.includes(word)) {
                 return true
@@ -430,7 +438,7 @@ export const getBestVariantByFilterMatch = (
             default:
               break
           }
-          match = v?.selectedOptions?.some((o) =>
+          match = v?.sourceData?.selectedOptions?.some((o) =>
             keywords.some((word) => {
               if (o?.value?.includes(word)) {
                 return true
@@ -452,7 +460,7 @@ export const getBestVariantByFilterMatch = (
       let match: boolean | undefined = false
       switch (name) {
         case 'inventory':
-          if (value === true) match = !v?.currentlyNotInStock
+          if (value === true) match = !v?.sourceData?.currentlyNotInStock
           break
         default:
           break
@@ -463,14 +471,15 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestInStockColorVariant = inStockVariants.find((v) => {
-    const matchingPair = bestColorVariant?.selectedOptions?.filter((o1) =>
-      v.selectedOptions?.some((o2) => {
-        if (o2?.name === 'Color') {
-          return Boolean(o1?.value === o2?.value)
-        } else {
-          return false
-        }
-      }),
+    const matchingPair = bestColorVariant?.sourceData?.selectedOptions?.filter(
+      (o1) =>
+        v.sourceData?.selectedOptions?.some((o2) => {
+          if (o2?.name === 'Color') {
+            return Boolean(o1?.value === o2?.value)
+          } else {
+            return false
+          }
+        }),
     )
     const variantMatchesColor = Boolean(
       matchingPair && matchingPair?.length > 0,
@@ -479,14 +488,15 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestInStockStoneVariant = inStockVariants.find((v) => {
-    const matchingPair = bestStoneVariant?.selectedOptions?.filter((o1) =>
-      v.selectedOptions?.some((o2) => {
-        if (o2?.name === 'Color') {
-          return Boolean(o1?.value === o2?.value)
-        } else {
-          return false
-        }
-      }),
+    const matchingPair = bestStoneVariant?.sourceData?.selectedOptions?.filter(
+      (o1) =>
+        v.sourceData?.selectedOptions?.some((o2) => {
+          if (o2?.name === 'Color') {
+            return Boolean(o1?.value === o2?.value)
+          } else {
+            return false
+          }
+        }),
     )
     const variantMatchesStone = Boolean(
       matchingPair && matchingPair?.length > 0,
@@ -500,7 +510,7 @@ export const getBestVariantByFilterMatch = (
       let match: boolean | undefined = false
       switch (name) {
         case 'inventory':
-          if (value === true) match = !v?.currentlyNotInStock
+          if (value === true) match = !v?.sourceData?.currentlyNotInStock
           break
         default:
           break
@@ -511,12 +521,12 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestSortVariant = variants.find((v) => {
-    if (!v?.priceV2?.amount) return false
+    if (!v?.sourceData?.priceV2?.amount) return false
     if (sort == Sort.PriceAsc) {
-      const price = parseFloat(v.priceV2.amount)
+      const price = v.sourceData?.priceV2.amount
       return Boolean(price == minVariantPrice)
     } else if (sort == Sort.PriceDesc) {
-      const price = parseFloat(v.priceV2.amount)
+      const price = v.sourceData?.priceV2.amount
       return Boolean(price == maxVariantPrice)
     } else {
       return undefined
@@ -524,9 +534,9 @@ export const getBestVariantByFilterMatch = (
   })
 
   const bestPriceVariant = variants.find((v) => {
-    if (!v?.priceV2?.amount) return false
+    if (!v?.sourceData?.priceV2?.amount) return false
 
-    const price = parseFloat(v.priceV2.amount)
+    const price = v.sourceData?.priceV2.amount
 
     if (!minPrice || !maxPrice) return
 
@@ -552,11 +562,11 @@ export const isValidPrice = (price: Maybe<ShopifyMoneyV2>): boolean => {
 }
 
 export const getVariantTitle = (
-  product: ShopifyProduct,
+  product: Product,
   variant: ShopifyProductVariant | ShopifySourceProductVariant,
 ): string | null | undefined => {
-  if (product?.sourceData?.productType === 'Gift Card') return product?.title
-  if (product?.variants?.length && product.variants.length < 2) {
+  if (product?.store?.productType === 'Gift Card') return product?.title
+  if (product?.store?.variants?.length && product.store?.variants.length < 2) {
     // If there is only one variant, its name will be "Default Title",
     // so we should return the product title instead.
     return product?.title
@@ -594,9 +604,9 @@ export const getVariantTitle = (
 }
 
 export const getProductGoogleCategory = (
-  product: ShopifyProduct,
+  product: Product,
 ): number | undefined => {
-  switch (product?.sourceData?.productType?.toLowerCase()) {
+  switch (product?.store?.productType?.toLowerCase()) {
     case 'bracelets':
       return 191
     case 'earrings':
@@ -636,7 +646,7 @@ const getVariantId = (
 }
 
 export const getProductUri = (
-  product: ShopifyProduct,
+  product: Product,
   { variant, params, currentPath }: ProductUriOptions = {},
 ): string => {
   const matches = currentPath ? currentPath.match(/\?(.*)$/) : undefined
@@ -649,6 +659,7 @@ export const getProductUri = (
       : variantId
   newParams.delete('stone')
   newParams.delete('metal')
+  newParams.delete('instock')
   newParams.delete('pos')
   newParams.delete('search')
   newParams.delete('v')

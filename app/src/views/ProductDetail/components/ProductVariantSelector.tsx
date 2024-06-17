@@ -1,7 +1,6 @@
 import * as React from 'react'
-import styled from '@xstyled/styled-components'
-import { Box } from '@xstyled/styled-components'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import styled, { Box } from '@xstyled/styled-components'
+import { Product, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
 import { getValidProductOptions, optionMatchesVariant } from '../../../utils'
 
@@ -26,9 +25,8 @@ const OptionWrapper = styled.div`
 
 interface Props {
   variants: ShopifyProductVariant[] | null
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
-  disableStockIndication?: boolean
   changeValueForOption: (id: string) => (value: string) => void
 }
 
@@ -40,15 +38,9 @@ interface Props {
  */
 
 export const ProductVariantSelector = (props: Props) => {
-  const {
-    variants,
-    changeValueForOption,
-    product,
-    currentVariant,
-    disableStockIndication,
-  } = props
+  const { variants, changeValueForOption, product, currentVariant } = props
   if (!variants || !variants.length) return null
-  const productType = product?.sourceData?.productType
+  const productType = product?.store?.productType
   const { inquiryOnly } = product
 
   const options = getValidProductOptions(product)
@@ -71,7 +63,6 @@ export const ProductVariantSelector = (props: Props) => {
                 currentVariant={currentVariant}
                 option={option}
                 isInput={Boolean(productType === 'Gift Card')}
-                disableStockIndication={disableStockIndication}
               />
             </OptionWrapper>
           ) : null,

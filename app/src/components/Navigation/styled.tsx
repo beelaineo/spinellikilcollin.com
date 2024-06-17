@@ -225,6 +225,7 @@ export const HamburgerWrapper = styled.div`
 interface ColorThemeProps {
   theme: DefaultTheme
   colorTheme?: 'light' | 'dark'
+  isHighlighted?: 'isVisible' | 'isHidden' | null
 }
 
 export const SearchButtonWrapper = styled.div`
@@ -242,8 +243,14 @@ export const SearchButtonWrapper = styled.div`
       width: 100%;
       ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
+    ${theme.mediaQueries.tablet} {
+      width: 20px;
+      height: 16px;
+      margin-right: 3;
+      padding-bottom: 2px;
+    }
     ${theme.mediaQueries.mobile} {
-      width: 18px;
+      width: 20px;
       height: 16px;
       margin-right: 3;
     }
@@ -254,11 +261,37 @@ export const SearchButtonWrapper = styled.div`
 `
 
 export const CurrencySelectorWrapper = styled.div`
-  ${({ theme, colorTheme }: ColorThemeProps) => css`
-    margin-right: 2px;
+  ${({ theme, colorTheme, isHighlighted }: ColorThemeProps) => css`
+    margin-right: 2;
     position: relative;
-    ${colorTheme == 'light' ? `select {color: ${theme.colors.grays[3]};}` : ''}
+    border-radius: 4px;
+
+    ${isHighlighted === 'isVisible'
+      ? `outline: 110vmax solid rgba(0, 0, 0, 0.7); 
+        background-color: ${colorTheme === 'light' && theme.colors.grays[1]};
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`
+      : isHighlighted === 'isHidden'
+      ? `outline: 110vmax solid rgba(0, 0, 0, 0); 
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;
+        background-color: transparent;`
+      : `outline: none;
+        outline-color: rgba(0, 0, 0, 0);
+        background-color: transparent;
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`}
+
+    transition: outline-color 0.3s ease-in-out;
+
+    ${colorTheme == 'light' && !isHighlighted
+      ? `select {color: ${theme.colors.grays[3]};}`
+      : ''};
+
     ${theme.mediaQueries.mobile} {
+      ${isHighlighted === 'isVisible'
+        ? `background-color: ${theme.colors.grays[1]};`
+        : isHighlighted === 'isHidden'
+        ? `background-color: transparent;`
+        : `background-color: transparent;`}
+
       width: 24px;
       margin-right: 4px;
     }
@@ -268,7 +301,7 @@ export const CurrencySelectorWrapper = styled.div`
     }
 
     &:has(select:focus-visible) {
-      ${theme.focus.bottom(-40)}
+      ${theme.focus.bottom(-10)}
     }
   `}
 `

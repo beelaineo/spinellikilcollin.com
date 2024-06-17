@@ -1,8 +1,17 @@
 import * as React from 'react'
 import { Box } from '@xstyled/styled-components'
 import Link from 'next/link'
-import { useShopify, useAnalytics } from '../../providers'
-import { ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType } from '../../types/generated-shopify'
+import {
+  useShopify,
+  useAnalytics,
+  useShopifyPrice,
+  useCountry,
+  Money,
+} from '../../providers'
+import {
+  ShopifyStorefrontCheckoutLineItem as CheckoutLineItemType,
+  ShopifyStorefrontMoneyV2,
+} from '../../types/generated-shopify'
 import { Heading, Span } from '../../components/Text'
 import { Image } from '../../components/Image'
 import TrashIcon from '../../svg/TrashCan.svg'
@@ -18,6 +27,7 @@ import {
   QuantityWrapper,
   QuantityAdjustButton,
 } from './styled'
+import { Maybe, ShopifyImage } from '../../types'
 
 const { useEffect, useState } = React
 
@@ -27,9 +37,14 @@ interface CheckoutLineItemProps {
 
 export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   const { sendRemoveFromCart } = useAnalytics()
+  const { updateLineItem } = useShopify()
+  const { getVariantPriceById } = useShopifyPrice()
+  const { currentCountry } = useCountry()
+
   const { title, variant, quantity } = lineItem
   const [quantityValue, setQuantityValue] = useState(lineItem.quantity)
-  const { updateLineItem } = useShopify()
+  const [price, setPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2 | Money>>(null)
   const product = variant?.product
 
   const handleQuantityChange = async (
@@ -58,6 +73,28 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
   ) => {
     setQuantityValue(lineItem.quantity - 1)
   }
+
+  useEffect(() => {
+    let isSubscribed = true
+    // declare the async data fetching function
+    const fetchData = async () => {
+      if (!product?.id || !variant?.id) return
+      // get the data from the api
+      const variantPrice = await getVariantPriceById(product.id, variant.id)
+      console.log('CheckoutProduct current variant pricing', variantPrice)
+      // set state with the result if `isSubscribed` is true
+      if (isSubscribed) {
+        variantPrice?.price && setPrice(variantPrice?.price)
+      }
+      console.log('CHECKOUT PRODUCT price state:', price)
+    }
+    // call the function
+    fetchData().catch(console.error)
+    // cancel any future `setData`
+    return () => {
+      isSubscribed = false
+    }
+  }, [variant, product, currentCountry])
 
   useEffect(() => {
     if (quantityValue === lineItem.quantity) return
@@ -171,6 +208,17 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
     return options
   }
 
+  const displayImage: Maybe<ShopifyImage> = variant?.image
+    ? {
+        __typename: 'ShopifyImage',
+        altText: variant.image.altText,
+        height: variant.image.height,
+        id: variant.image.id,
+        src: variant.image.originalSrc,
+        width: variant.image.width,
+      }
+    : null
+
   useEffect(() => {
     if (!variant) {
       remove()
@@ -193,7 +241,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
         as={linkAs}
         aria-label={'Link to ' + displayTitle(title, variant)}
       >
-        <Image image={variant.image} />
+        <Image image={displayImage} />
       </Link>
       <CheckoutItemDetails>
         <div>
@@ -213,7 +261,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
             </Heading>
           </Link>
           <Heading level={5} weight={2} mb={0} mt={0} textTransform="uppercase">
-            <Price price={variant.priceV2} />
+            <Price price={price != null ? price : variant.priceV2} />
             {variant.compareAtPriceV2 && (
               <Span ml={2} color="body.6" textDecoration="line-through">
                 <Price price={variant.compareAtPriceV2} />

@@ -20,7 +20,7 @@ const homepageQueryById = gql`
     Homepage(id: $id) {
       _id
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       header_color
       content {
@@ -49,7 +49,7 @@ const homepageQuery = gql`
     Homepage(id: "homepage") {
       _id
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       header_color
       content {
@@ -132,12 +132,12 @@ export const getStaticProps: GetStaticProps = async () => {
       requestShopData(),
     ])
     const homepage = response?.Homepage || null
-    return { props: { shopData, homepage }, revalidate: 10 }
+    return { props: { shopData, homepage } }
   } catch (e) {
     Sentry.captureException(e, 'next_static_props_error', {
       route: 'index',
     })
-    return { props: {}, revalidate: 1 }
+    return { props: {} }
   }
 }
 

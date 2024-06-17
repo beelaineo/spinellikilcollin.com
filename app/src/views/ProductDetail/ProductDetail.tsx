@@ -1,14 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 import * as React from 'react'
 import { useRouter } from 'next/router'
-import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   Maybe,
-  Scalars,
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
-  ShopifySourceImage,
-  ShopifySourceProductVariant,
+  ShopifyImage,
+  ShopifyVariantImage,
 } from '../../types'
 import {
   getVariantTitle,
@@ -17,7 +15,6 @@ import {
   getSelectedOptionValues,
   getProductUri,
   getAdditionalDescriptions,
-  getStorefrontId,
   useProductVariant,
   useViewportSize,
   withTypenames,
@@ -45,6 +42,7 @@ import {
   SizeConverterButton,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
+import { useCountry } from '../../providers/CountryProvider'
 import { useModal } from '../../providers/ModalProvider'
 import {
   ProductPageWrapper,
@@ -97,8 +95,13 @@ const StockedLabelMobile = styled('div')<WithHide>`
 `
 
 interface Props {
-  product: ShopifyProduct
+  product: Product
 }
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 
 export const ProductDetail = ({ product }: Props) => {
   const { openCustomizationModal } = useModal()
@@ -110,21 +113,25 @@ export const ProductDetail = ({ product }: Props) => {
     : undefined
   /* get additional info blocks from Sanity */
   const { sendProductDetailView } = useAnalytics()
+  const { currentCountry } = useCountry()
   const { getProductInfoBlocks, productInfoSettings } = useShopData()
   const productInfoBlocks = getProductInfoBlocks(product)
   const accordions = productInfoBlocks
   /* get product variant utils */
-  if (!product.sourceData) return null
-  if (!product.variants) return null
+  if (!product.store) return null
+  if (!product.store?.variants) return null
   const { currentVariant, selectVariant } = useProductVariant(
     product,
     useProductVariantOptions,
   )
 
   const { width: viewportWidth } = useViewportSize()
-  const productType = product?.sourceData?.productType
-  const [images] = unwindEdges(product?.sourceData?.images)
+  const productType = product?.store?.productType
+  const images = product?.store?.images || []
   const hidden = product?.hideFromSearch
+  const leadTimeLabel = productInfoSettings?.leadTimeLabel
+
+  // console.log('product', product)
 
   /* Add the variant ID as a query parameter */
   useEffect(() => {
@@ -162,8 +169,8 @@ export const ProductDetail = ({ product }: Props) => {
   if (!currentVariant) return null
 
   const { addLineItem } = useShopify()
-  const { inquiryOnly, seo, handle, variants: maybeVariants } = product
-
+  const { inquiryOnly, seo, handle } = product
+  const maybeVariants = product?.store?.variants
   const variants = definitely(maybeVariants)
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
   const variantsInStock =
@@ -188,22 +195,20 @@ export const ProductDetail = ({ product }: Props) => {
       .replace(/-+$/, '')
   }
 
-  const stockedVariants = product.sourceData?.variants?.edges?.filter(
-    (variant) => {
-      return (
-        variant?.node?.availableForSale === true &&
-        variant?.node?.currentlyNotInStock === false &&
-        !variant?.node?.selectedOptions?.find(
-          (o) => o?.value == 'Not sure of my size',
-        ) &&
-        !variant?.node?.selectedOptions?.find((o) => o?.name == 'Carat')
-      )
-    },
-  )
+  const stockedVariants = product.store?.variants?.filter((variant) => {
+    return (
+      variant?.sourceData?.availableForSale === true &&
+      variant?.sourceData?.currentlyNotInStock === false &&
+      !variant?.sourceData?.selectedOptions?.find(
+        (o) => o?.value == 'Not sure of my size',
+      ) &&
+      !variant?.sourceData?.selectedOptions?.find((o) => o?.name == 'Carat')
+    )
+  })
 
   const stockedColorOptions = stockedVariants
     ?.map((variant) => {
-      return variant?.node?.selectedOptions?.find(
+      return variant?.sourceData?.selectedOptions?.find(
         (option) => option?.name === 'Color',
       )
     })
@@ -224,6 +229,9 @@ export const ProductDetail = ({ product }: Props) => {
           (option) => option.name === 'Color',
         ).value,
       )
+      // console.log('currentVariant', currentVariant)
+      // console.log('stockedOptions', stockedOptions)
+      // console.log('stockedVariants', stockedVariants)
       return stockedOptions.includes(color)
     } else {
       return Boolean(stockedVariants?.length > 0)
@@ -231,7 +239,7 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   /* get product image variants from Shopify */
-  const description = parseHTML(product?.sourceData?.descriptionHtml)
+  const description = parseHTML(product?.store?.descriptionHtml)
   const selectedOptions = getSelectedOptionValues(product, currentVariant)
   const optionDescriptions = getAdditionalDescriptions(selectedOptions)
 
@@ -259,12 +267,7 @@ export const ProductDetail = ({ product }: Props) => {
   }
 
   const [playing, setPlaying] = useState(false)
-  const [disableStockIndication, setDisableStockIndication] = useState(true)
-  const [disableVariantStockIndication, setDisableVariantStockIndication] =
-    useState(true)
-  const productImages = product.sourceData?.images
-    ? unwindEdges(product.sourceData.images)[0]
-    : []
+  const productImages = product.store?.images || []
 
   const posterImage = currentVariant?.sourceData?.image
     ? currentVariant.sourceData.image
@@ -274,10 +277,10 @@ export const ProductDetail = ({ product }: Props) => {
 
   const changeValueForOption = (optionName: string) => (newValue: string) => {
     const previousOptions = currentVariant?.sourceData?.selectedOptions || []
-    if (!product.sourceData) {
-      throw new Error('Product was loaded without sourceData')
+    if (!product.store) {
+      throw new Error('Product was loaded without store')
     }
-    const [variants] = unwindEdges(product.sourceData.variants)
+    const variants = product.store.variants || []
 
     const newOptions = definitely(previousOptions).map(({ name, value }) => {
       if (name !== optionName) return { name, value }
@@ -285,7 +288,7 @@ export const ProductDetail = ({ product }: Props) => {
     })
 
     const newVariant = variants.find((variant) => {
-      const { selectedOptions } = variant
+      const selectedOptions = variant?.sourceData?.selectedOptions
       if (!selectedOptions) return false
 
       const match = newOptions.every(({ name, value }) =>
@@ -307,7 +310,7 @@ export const ProductDetail = ({ product }: Props) => {
     const bestVariant = newVariant
       ? newVariant
       : variants.find((variant) => {
-          const { selectedOptions } = variant
+          const selectedOptions = variant?.sourceData?.selectedOptions
 
           if (!selectedOptions) return false
           const match = Boolean(
@@ -342,58 +345,11 @@ export const ProductDetail = ({ product }: Props) => {
     return withTypenames<R>(results)
   }
 
-  const productIsExcluded = async (
-    product: ShopifyProduct,
-  ): Promise<boolean> => {
-    const productIsExcluded = await sanityBooleanQuery(
-      `*[_type == 'shopifyProduct' && handle == $handle][0].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
-      { handle: product?.handle },
-    )
-    return Boolean(productIsExcluded)
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const isExcludedFromStockIndication = (product: ShopifyProduct) => {
-    const excludedProducts = productInfoSettings?.excludeFromStockIndication
-    const handle = product?.handle
-    const isInExcludedList = excludedProducts?.find((product) => {
-      return product?.handle === handle
-    })
-    if (!isInExcludedList) {
-      setDisableStockIndication(false)
-      return
-    }
-    productIsExcluded(product).then((res: boolean) => {
-      setDisableStockIndication(res)
-    })
-  }
-
-  useEffect(() => {
-    const variantIsExcluded = async (
-      variant: ShopifyProductVariant,
-      product: ShopifyProduct,
-    ): Promise<boolean> => {
-      const variantIsExcluded = await sanityQuery(
-        `*[_type == 'shopifyProduct' && handle == $handle][0].variants[id == $id].sourceData.metafields.edges[node.key == "excludeFromIndication"][0].node.value`,
-        { handle: product?.handle, id: variant?.sourceData?.id },
-      )
-      return Boolean(variantIsExcluded == 'true')
-    }
-
-    variantIsExcluded(currentVariant, product).then((res: boolean) => {
-      setDisableVariantStockIndication(res)
-    })
-  }, [currentVariant, product])
-
-  useEffect(() => {
-    isExcludedFromStockIndication(product)
-  }, [isExcludedFromStockIndication, disableStockIndication, product])
-
   const defaultSeo = {
     title: getVariantTitle(product, currentVariant),
     image:
       currentVariant?.sourceData?.image ?? images.length
-        ? (currentVariant?.sourceData?.image as ShopifySourceImage)
+        ? (currentVariant?.sourceData?.image as ShopifyVariantImage)
         : images[0],
   }
 
@@ -403,9 +359,9 @@ export const ProductDetail = ({ product }: Props) => {
     ? basePath.concat('?v=').concat(currentVariant.shopifyVariantID)
     : basePath
 
-  const weddingMatch = product.sourceData?.tags?.some(
-    (tag) => tag === 'wedding',
-  )
+  const weddingMatch = product.store?.tags?.some((tag) => tag === 'wedding')
+
+  // console.log('currentVariant', currentVariant)
 
   return (
     <>
@@ -443,8 +399,8 @@ export const ProductDetail = ({ product }: Props) => {
               <InfoWrapper product={product}>
                 <ProductDetailHeader
                   currentVariant={currentVariant}
+                  currentCountry={currentCountry}
                   product={product}
-                  disableStockIndication={disableStockIndication}
                 />
                 {variantHasAnimation && variantAnimation?.videoId ? (
                   <CloudinaryAnimation
@@ -463,8 +419,7 @@ export const ProductDetail = ({ product }: Props) => {
                   )}
                 />
                 <ProductInfoWrapper>
-                  {variantsInStock?.length > 0 &&
-                  disableStockIndication !== true ? (
+                  {variantsInStock?.length > 0 && showInStockIndicators ? (
                     <StockedLabelMobile
                       hide={
                         !isSwatchCurrentlyInStock(
@@ -478,8 +433,8 @@ export const ProductDetail = ({ product }: Props) => {
                         <InStockDot />
                         {currentlyNotInStock !== true &&
                         !currentVariant.title?.includes('Not sure of my size')
-                          ? 'Ready to Ship'
-                          : 'Ready to Ship in Select Sizes'}
+                          ? 'In Stock'
+                          : 'In Stock in Select Sizes'}
                       </Heading>
                     </StockedLabelMobile>
                   ) : null}
@@ -488,7 +443,6 @@ export const ProductDetail = ({ product }: Props) => {
                     currentVariant={currentVariant}
                     changeValueForOption={changeValueForOption}
                     product={product}
-                    disableStockIndication={disableStockIndication}
                   />
                   {productType === 'Ring' ? (
                     <RingToolsWrapper>
@@ -515,7 +469,8 @@ export const ProductDetail = ({ product }: Props) => {
                     currentVariant={currentVariant}
                   />
                   {inquiryOnly !== true &&
-                  product.sourceData?.productType !== 'Gift Card' ? (
+                  product.store?.productType !== 'Gift Card' &&
+                  currentCountry === 'US' ? (
                     <>
                       <AffirmWrapper>
                         <style jsx global>{`
@@ -585,7 +540,12 @@ export const ProductDetail = ({ product }: Props) => {
                               key={a._key || 'some-key'}
                               label={a.title}
                             >
-                              <RichText body={a.bodyRaw} />
+                              {a.title == 'Shipping' &&
+                              currentCountry != 'US' ? (
+                                <RichText body={a.body_intlRaw} />
+                              ) : (
+                                <RichText body={a.bodyRaw} />
+                              )}
                             </Accordion>
                           ) : null,
                         )

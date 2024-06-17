@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33.2 26.8">
+  <polygon points="32.95 6.65 32.95 21.85 10.55 26.55 10.55 10.85 32.95 6.65" style="fill: #f5f3f3; stroke: #000; stroke-linejoin: round; stroke-width: .5px;"/>
+  <polygon points=".25 4.25 .35 18.65 10.55 26.55 10.55 10.85 .25 4.25" style="fill: #f5f3f3; stroke: #000; stroke-linecap: round; stroke-linejoin: round; stroke-width: .5px;"/>
+  <polygon points=".25 4.25 21.95 .25 32.95 6.65 10.55 10.85 .25 4.25" style="fill: #f5f3f3; stroke: #000; stroke-linejoin: round; stroke-width: .5px;"/>
+  <g>
+    <polygon points="25.55 13.05 25.45 18.75 18.95 20.15 18.95 14.15 25.55 13.05" style="fill: #fff; stroke: #000; stroke-miterlimit: 10; stroke-width: .5px;"/>
+    <line x1="24.05" y1="15.25" x2="20.35" y2="15.95" style="fill: none; stroke: #000; stroke-miterlimit: 10; stroke-width: .5px;"/>
+    <line x1="24.05" y1="16.95" x2="20.35" y2="17.75" style="fill: none; stroke: #000; stroke-miterlimit: 10; stroke-width: .5px;"/>
+  </g>
+  <polygon points="6.45 19.35 4.75 16.45 3.25 17.25 3.35 6.15 25.55 2.35 28.65 4.25 6.55 8.05 6.45 19.35" style="fill: #f5f3f3; stroke: #000; stroke-linejoin: round; stroke-width: .5px;"/>
+</svg>

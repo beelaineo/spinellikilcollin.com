@@ -19,7 +19,7 @@ const query = gql`
         type
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const contact = response?.Contact || null
 
-  return { props: { contact, shopData }, revalidate: 10 }
+  return { props: { contact, shopData } }
 }
 
 export default ContactPage

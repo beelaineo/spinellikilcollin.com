@@ -36,7 +36,8 @@ const SHOPIFY_SHOP_NAME = process.env.SHOPIFY_SHOP_NAME
 const SHOPIFY_CHECKOUT_DOMAIN = process.env.SHOPIFY_CHECKOUT_DOMAIN
 const FB_PIXEL_ID = process.env.FB_PIXEL_ID
 const FB_PRDOUCT_CATALOG_ID = process.env.FB_PRDOUCT_CATALOG_ID
-
+const SHOW_IN_STOCK_INDICATORS = process.env.SHOW_IN_STOCK_INDICATORS
+const SKIP_BUILD_STATIC_GENERATION = process.env.SKIP_BUILD_STATIC_GENERATION
 const VERCEL_GITHUB_COMMIT_SHA = process.env.VERCEL_GITHUB_COMMIT_SHA
 const VERCEL_URL = process.env.VERCEL_URL
 
@@ -66,6 +67,8 @@ module.exports = withSourceMaps({
     SHOPIFY_SHOP_NAME,
     FB_PIXEL_ID,
     FB_PRDOUCT_CATALOG_ID,
+    SHOW_IN_STOCK_INDICATORS,
+    SKIP_BUILD_STATIC_GENERATION,
   },
   serverRuntimeConfig: {
     PROJECT_ROOT: __dirname,
@@ -73,11 +76,45 @@ module.exports = withSourceMaps({
     POSTMARK_KEY,
   },
   redirects: async function redirects() {
-    return redirectsJson.map(({ from, to }) => ({
+    const redirectRules = redirectsJson.map(({ from, to }) => ({
       source: from,
       destination: to,
       permanent: false,
     }))
+    return [
+      ...redirectRules,
+      {
+        source: '/(.*)',
+        has: [
+          {
+            type: 'header',
+            key: 'x-vercel-ip-country',
+            value: 'KR',
+          },
+        ],
+        permanent: false,
+        destination: 'https://spinellikilcollinkorea.com/',
+      },
+    ]
+  },
+  async headers() {
+    return [
+      {
+        source: '/api/revalidateAction',
+        headers: [
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'Origin, Content-Type, Authorization, X-Auth-Token, X-Requested-With',
+          },
+        ],
+      },
+    ]
   },
   webpack: (config, { isServer, buildId }) => {
     config.plugins.push(

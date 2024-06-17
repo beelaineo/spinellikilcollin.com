@@ -1,6 +1,6 @@
 import { getLocationSearchHash, getLocationSearchVariantId } from './links'
 import { getIdFromBase64 } from './shopify'
-import { ShopifyProduct, ShopifyProductVariant } from '../types'
+import { Product, ShopifyProductVariant } from '../types'
 
 const event = (name, eventData = {}) => {
   window.ttq.track(name, eventData)
@@ -28,7 +28,7 @@ export const reportTTPageView = () => {
   event('ViewContent')
 }
 
-export const reportTTAddToCart = (product: ShopifyProduct): void => {
+export const reportTTAddToCart = (product: Product): void => {
   let contentName
   let template: TT_VIEW_CONTENT
   const hash = getLocationSearchHash(window.location.search)
@@ -41,7 +41,7 @@ export const reportTTAddToCart = (product: ShopifyProduct): void => {
       content_id: productId,
     }
 
-    const variants = product.variants
+    const variants = product.store?.variants
     const variant = variants?.find((v) => {
       return v?.shopifyVariantID === variantId
     })
@@ -60,22 +60,22 @@ export const reportTTAddToCart = (product: ShopifyProduct): void => {
 
       if (variant.sourceData.priceV2) {
         if (variant.sourceData.priceV2.amount) {
-          template['value'] = parseFloat(variant.sourceData.priceV2.amount)
+          template['value'] = variant.sourceData.priceV2.amount
         }
         if (variant.sourceData.priceV2.currencyCode) {
           template['currency'] = variant.sourceData.priceV2.currencyCode
         }
       }
 
-      if (product.sourceData && product.sourceData.productType) {
-        template['content_category'] = product.sourceData.productType
+      if (product.store && product.store.productType) {
+        template['content_category'] = product.store.productType
       }
       addToCart(template)
     }
   }
 }
 
-export const reportTTViewContent = (product: ShopifyProduct): void => {
+export const reportTTViewContent = (product: Product): void => {
   let contentName
   let template: TT_VIEW_CONTENT
   const hash = getLocationSearchHash(window.location.search)
@@ -87,7 +87,7 @@ export const reportTTViewContent = (product: ShopifyProduct): void => {
       content_id: productId,
     }
 
-    const variants = product.variants
+    const variants = product.store?.variants
     const variant = variants?.find((v) => {
       return v?.shopifyVariantID === variantId
     })
@@ -106,15 +106,15 @@ export const reportTTViewContent = (product: ShopifyProduct): void => {
 
       if (variant.sourceData.priceV2) {
         if (variant.sourceData.priceV2.amount) {
-          template['value'] = parseFloat(variant.sourceData.priceV2.amount)
+          template['value'] = variant.sourceData?.priceV2.amount
         }
         if (variant.sourceData.priceV2.currencyCode) {
           template['currency'] = variant.sourceData.priceV2.currencyCode
         }
       }
 
-      if (product.sourceData && product.sourceData.productType) {
-        template['content_category'] = product.sourceData.productType
+      if (product.store?.productType) {
+        template['content_category'] = product.store?.productType
       }
       viewContent(template)
     }
@@ -122,7 +122,7 @@ export const reportTTViewContent = (product: ShopifyProduct): void => {
 }
 
 export const reportTTViewContentImpression = (
-  product: ShopifyProduct,
+  product: Product,
   variant?: any,
 ): void => {
   // content_type, quantity, description, content_id, currency, value
@@ -157,8 +157,8 @@ export const reportTTViewContentImpression = (
       }
     }
 
-    if (product.sourceData && product.sourceData.productType) {
-      template['content_category'] = product.sourceData.productType
+    if (product.store && product.store?.productType) {
+      template['content_category'] = product.store?.productType
     }
     viewContent(template)
   }

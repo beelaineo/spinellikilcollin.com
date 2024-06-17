@@ -3,8 +3,11 @@ import {
   Maybe,
   SanityRawImage,
   Image as SanityImage,
+  ShopifyVariantImage,
   RichImage,
   ShopifySourceImage,
+  ShopifyImage,
+  ShopifyCollectionImage,
 } from '../../types'
 import { config } from '../../config'
 
@@ -12,9 +15,12 @@ const { SANITY_PROJECT_ID, SANITY_DATASET } = config
 
 export type ImageType =
   | ShopifySourceImage
+  | ShopifyImage
+  | ShopifyCollectionImage
   | SanityImage
   | RichImage
   | SanityRawImage
+  | ShopifyVariantImage
 
 const builder = imageUrlBuilder({
   projectId: SANITY_PROJECT_ID,
@@ -147,20 +153,22 @@ export const getAspectRatio = (
 
 const shopifyWidths = [100, 300, 800, 1200, 1600]
 
-const getShopifyImageDetails = (
-  image: ShopifySourceImage,
-): ImageDetails | null => {
-  const src = image.originalSrc
-  const { altText } = image
+const getShopifyImageDetails = (image: ShopifyImage): ImageDetails | null => {
+  const { altText, src } = image
   const srcSet = shopifyWidths
-    .map((width) => {
-      const key = `w${width}`
-      if (!image[key]) return null
-      return `${image[key]} ${width}w`
-    })
-    .filter(Boolean)
+    .map((width) => `${src}?w=${width} ${width}w`)
     .join(', ')
   return { src, srcSet, altText }
+}
+
+const getShopifyVariantImageDetails = (
+  image: ShopifyVariantImage,
+): ImageDetails | null => {
+  const { altText, url } = image
+  const srcSet = shopifyWidths
+    .map((width) => `${url}?w=${width} ${width}w`)
+    .join(', ')
+  return { src: url, srcSet, altText }
 }
 
 // Type Guards
@@ -172,13 +180,19 @@ const isSanityImage = (image: ImageType): image is RichImage =>
   Boolean(image.__typename && /^Image|^RichImage/.test(image.__typename)) &&
   /richImage/.test(image._type || '')
 
-const isShopifyImage = (image: ImageType): image is ShopifySourceImage =>
-  'originalSrc' in image || image.__typename === 'ShopifySourceImage'
+const isShopifyImage = (image: ImageType): image is ShopifyImage =>
+  'src' in image || image.__typename === 'ShopifyImage'
+
+const isShopifyVariantImage = (
+  image: ImageType,
+): image is ShopifyVariantImage =>
+  'url' in image || image.__typename === 'ShopifyVariantImage'
 
 export const getImageDetails = (
   image?: ImageType | null | void,
 ): ImageDetails | null => {
   if (!image) return null
+  if (isShopifyVariantImage(image)) return getShopifyVariantImageDetails(image)
   if (isShopifyImage(image)) return getShopifyImageDetails(image)
   if (isSanityRawImage(image)) return getSanityImageDetails(image)
   if (isSanityImage(image)) return getSanityImageDetails(image)
@@ -191,6 +205,7 @@ export const getImageDetails = (
 
 export const getImageKey = (image: ImageType): string => {
   if (isShopifyImage(image)) return image.id || 'some-key'
+  if (isShopifyVariantImage(image)) return image.id || 'some-key'
   if (isSanityRawImage(image)) return image._key || 'some-key'
   if (isSanityImage(image)) return image._key || 'some-key'
 

@@ -1,5 +1,4 @@
-import { ShopifyProduct } from '../types'
+import { Product } from '../types'
 
-export const isShopifyProduct = (
-  obj: any | void | null,
-): obj is ShopifyProduct => Boolean(obj && obj?.__typename === 'ShopifyProduct')
+export const isProduct = (obj: any | void | null): obj is Product =>
+  Boolean(obj && obj?.__typename === 'Product')

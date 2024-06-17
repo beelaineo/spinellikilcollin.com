@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 import { Heading } from '../../Text'
 import { Button } from '../../Button'
 import { Form } from '../Form'
@@ -37,7 +37,7 @@ type FormValues = {
 }
 
 interface ProductBadgeProps {
-  product: ShopifyProduct
+  product: Product
   variant?: ShopifyProductVariant
   title?: string
 }
@@ -80,7 +80,7 @@ const ProductBadge = ({ product, variant, title }: ProductBadgeProps) =>
   ) : null
 
 interface CustomizationFormProps {
-  product?: ShopifyProduct
+  product?: Product
   variant?: ShopifyProductVariant
   onContinue?: () => void
 }

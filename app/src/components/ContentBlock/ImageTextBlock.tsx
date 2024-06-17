@@ -21,7 +21,7 @@ interface WithLayout {
 const Wrapper = styled.div<WithLayout>`
   ${({ theme, layout }) => css`
     position: relative;
-    height: 100%;
+
     width: 100%;
     background-color: body.0;
     grid-column: ${layout === 'fullWidth' ? '1 / 3' : 'auto'};
@@ -86,7 +86,7 @@ const TextWrapper = styled.div<TextWrapperProps>`
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 10;
+    z-index: 8;
     display: flex;
     justify-content: ${getFlexJustification(textPosition)};
     align-items: ${getFlexAlignment(textPosition)};
