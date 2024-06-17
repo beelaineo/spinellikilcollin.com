@@ -38,6 +38,8 @@ export default function resolveProductionUrl(props: DocumentActionProps): string
     case 'customize':
       return `https://spinellikilcollin.com/customize?preview=${readToken}`
       break
+    case 'customerCare':
+      return `https://spinellikilcollin.com/customer-care?preview=${readToken}`
     default:
       return `https://spinellikilcollin.com?preview=${readToken}`
   }

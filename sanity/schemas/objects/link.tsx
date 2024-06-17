@@ -122,6 +122,8 @@ export const internalLink = defineType({
         {type: 'about'},
         {type: 'page'},
         {type: 'paymentPlans'},
+        {type: 'customerCare'},
+        {type: 'homepage'},
       ],
     }),
     defineField({

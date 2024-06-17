@@ -2,6 +2,7 @@ export enum ToastType {
   Message = 'MESSAGE',
   Warning = 'WARNING',
   Error = 'Error',
+  Currency = 'CURRENCY',
 }
 
 export interface Toast {

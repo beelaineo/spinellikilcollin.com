@@ -13,8 +13,10 @@ import {
   Faq,
   Appointments,
   PaymentPlans,
+  CustomerCare,
   ShopifyCollectionImage,
   ShopifyImage,
+  Homepage,
 } from '../types'
 
 import { getIdFromBase64 } from './shopify'
@@ -33,6 +35,8 @@ export type Document =
   | Faq
   | Appointments
   | PaymentPlans
+  | CustomerCare
+  | Homepage
 
 export interface LinkInfo {
   href: string
@@ -56,9 +60,12 @@ export const getPageLinkLabel = (
     case 'Faq':
     case 'Appointments':
     case 'PaymentPlans':
+    case 'CustomerCare':
       return document.title
     case 'About':
       return 'About'
+    case 'Homepage':
+      return 'Home'
     default:
       // @ts-ignore
       throw new Error(`Could not get label for type ${document.__typename}`)
@@ -142,6 +149,10 @@ export const getPageLinkUrl = (
     case 'PaymentPlans':
       return {
         href: '/about/financing',
+      }
+    case 'CustomerCare':
+      return {
+        href: '/customer-care',
       }
     default:
       throw new Error(

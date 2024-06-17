@@ -64,11 +64,11 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (message) {
-      createToast({ message, type: ToastType.Error })
-    }
-  }, [message])
+  // useEffect(() => {
+  //   if (message) {
+  //     createToast({ message, type: ToastType.Error })
+  //   }
+  // }, [message])
 
   useEffect(() => {
     setCookie(CURRENCY_COOKIE, currentCurrency)
@@ -90,12 +90,19 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     quantity = 1,
     style?: 'full' | 'pretty',
   ) => {
-    const amount = getPrice(price, quantity)
+    const amount = price.amount
     const lang =
       typeof navigator !== 'undefined' ? navigator.language ?? 'en-US' : 'en-US'
+
+    const currency =
+      currentCurrency == price.currencyCode
+        ? currentCurrency
+        : price.currencyCode == null
+        ? 'USD'
+        : price.currencyCode
     const formattedPrice = new Intl.NumberFormat(lang, {
       style: 'currency',
-      currency: currentCurrency,
+      currency: currency,
     }).format(amount)
 
     if (style === 'full') {

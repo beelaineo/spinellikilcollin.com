@@ -84,7 +84,7 @@ export const PageLink = ({
       href={href}
       onClick={onClick}
       style={linkStyles}
-      aria-label={'Link to ' + document.title}
+      aria-label={'Link to ' + getPageLinkLabel(document)}
     >
       {inner()}
     </NextLink>
