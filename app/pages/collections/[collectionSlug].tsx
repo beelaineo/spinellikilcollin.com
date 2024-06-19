@@ -275,5 +275,5 @@ export default withKeepAlive(
   //@ts-ignore
   CollectionPage,
   'collection-page',
-  { keepScrollEnabled: true },
+  { keepScrollEnabled: false },
 )
