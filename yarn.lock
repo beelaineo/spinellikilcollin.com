@@ -20704,6 +20704,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mitt@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "mitt@npm:3.0.1"
+  checksum: b55a489ac9c2949ab166b7f060601d3b6d893a852515ae9eca4e11df01c013876df777ea109317622b5c1c60e8aae252558e33c8c94e14124db38f64a39614b1
+  languageName: node
+  linkType: hard
+
 "mkdirp-classic@npm:^0.5.2":
   version: 0.5.3
   resolution: "mkdirp-classic@npm:0.5.3"
@@ -21617,6 +21624,17 @@ __metadata:
   version: 1.1.1
   resolution: "nullthrows@npm:1.1.1"
   checksum: 10806b92121253eb1b08ecf707d92480f5331ba8ae5b23fa3eb0548ad24196eb797ed47606153006568a5733ea9e528a3579f21421f7828e09e7756f4bdd386f
+  languageName: node
+  linkType: hard
+
+"nuqs@npm:^1.17.4":
+  version: 1.17.4
+  resolution: "nuqs@npm:1.17.4"
+  dependencies:
+    mitt: ^3.0.1
+  peerDependencies:
+    next: ">=13.4 <14.0.2 || ^14.0.3"
+  checksum: e194dd96212098a47e82fe58647cfd1f89cc3cc7a9464cfeaa015a0fb555f2b50883e7169af50f61d1e64df9b78f94a25d54b6aa69b968dec1f9fddb5c0a5f31
   languageName: node
   linkType: hard
 
@@ -26032,6 +26050,7 @@ __metadata:
     node-fetch: 3.3.2
     node-html-parser: ^6.1.12
     node-watch: ^0.7.4
+    nuqs: ^1.17.4
     postmark: ^3.11.0
     public-ip: ^6.0.1
     react: ^18.2.0

@@ -173,8 +173,6 @@ export const Filter = ({
   const router = useRouter()
   const { sendFilterClick } = useAnalytics()
 
-  const [filterQuery, setFilterQuery] = useState<{ [key: string]: any }>({})
-
   const useFirstRender = () => {
     const firstRender = useRef(true)
     useEffect(() => {
@@ -195,16 +193,6 @@ export const Filter = ({
     setOpen(parentOpen ?? false)
   }, [parentOpen])
 
-  const updateQueryParam = (query) => {
-    router.replace(
-      {
-        query: query,
-      },
-      '',
-      { shallow: true },
-    )
-  }
-
   const {
     filterSetStates,
     setValues,
@@ -222,7 +210,7 @@ export const Filter = ({
   }, [resetFilters])
 
   useEffect(() => {
-    resetButtons()
+    // resetButtons()
     setActiveKey('')
   }, [router.query])
 
@@ -235,97 +223,57 @@ export const Filter = ({
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
   }
 
-  const getFilterMatchByType = (type: any) => {
-    if (!filters) return
+  // const getFilterMatchByType = (type: any) => {
+  //   if (!filters) return
 
-    const filterMatches = getCurrentFilters(filters, filterSetStates)
+  //   const filterMatches = getCurrentFilters(filters, filterSetStates)
 
-    const priceRange = filterMatches.find(
-      (f) => f.filterType === PRICE_RANGE_FILTER,
-    )
+  //   const priceRange = filterMatches.find(
+  //     (f) => f.filterType === PRICE_RANGE_FILTER,
+  //   )
 
-    //@ts-ignore
-    const priceRangeMatches = [priceRange?.minPrice, priceRange?.maxPrice]
-      .flat()
-      .join(' ')
+  //   //@ts-ignore
+  //   const priceRangeMatches = [priceRange?.minPrice, priceRange?.maxPrice]
+  //     .flat()
+  //     .join(' ')
 
-    const inStockFilter = filterMatches.find(
-      (f) => f.filterType === INVENTORY_FILTER,
-      //@ts-ignore
-    )?.applyFilter
+  //   const inStockFilter = filterMatches.find(
+  //     (f) => f.filterType === INVENTORY_FILTER,
+  //     //@ts-ignore
+  //   )?.applyFilter
 
-    const filterSetMatches = filterMatches
-      .filter((f) => f.filterType === FILTER_MATCH_GROUP)
-      //@ts-ignore
-      .map((f) => f?.matches.filter((m) => m.type === type))
-      .map((f) => f.map(({ match }) => match))
-      .flat()
-      .join(' ')
+  //   const filterSetMatches = filterMatches
+  //     .filter((f) => f.filterType === FILTER_MATCH_GROUP)
+  //     //@ts-ignore
+  //     .map((f) => f?.matches.filter((m) => m.type === type))
+  //     .map((f) => f.map(({ match }) => match))
+  //     .flat()
+  //     .join(' ')
 
-    const priceInitialValues =
-      //@ts-ignore
-      filterSetStates?.find((s) => s?.key === priceRange?.key)?.initialValues ||
-      {}
+  //   const priceInitialValues =
+  //     //@ts-ignore
+  //     filterSetStates?.find((s) => s?.key === priceRange?.key)?.initialValues ||
+  //     {}
 
-    if (
-      type === 'price' &&
-      priceRangeMatches !== Object.values(priceInitialValues).join(' ')
-    ) {
-      return { price: priceRangeMatches }
-    } else if (type === 'instock' && inStockFilter) {
-      return { instock: inStockFilter }
-    } else {
-      return { [type]: filterSetMatches }
-    }
-  }
-
-  const useQueryUpdate = (type) => {
-    const updateQueryByType = (type) => {
-      if (!router.isReady) return
-
-      if (filterQuery[type] !== '') {
-        updateQueryParam({ ...router.query, ...getFilterMatchByType(type) })
-      } else {
-        delete router.query[type]
-        updateQueryParam({ ...router.query })
-      }
-    }
-
-    useEffect(() => {
-      updateQueryByType(type)
-    }, [filterQuery[type]])
-  }
+  //   if (
+  //     type === 'price' &&
+  //     priceRangeMatches !== Object.values(priceInitialValues).join(' ')
+  //   ) {
+  //     return { price: priceRangeMatches }
+  //   } else if (type === 'instock' && inStockFilter) {
+  //     return { instock: inStockFilter }
+  //   } else {
+  //     return { [type]: filterSetMatches }
+  //   }
+  // }
 
   useEffect(() => {
     if (!filters || filterSetStates.length === 0) return
 
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
-    //@ts-ignore
-    setFilterQuery({
-      ...getFilterMatchByType('metal'),
-      ...getFilterMatchByType('stone'),
-      ...getFilterMatchByType('size'),
-      ...getFilterMatchByType('style'),
-      ...getFilterMatchByType('type'),
-      ...getFilterMatchByType('tag'),
-      ...getFilterMatchByType('subcategory'),
-      ...getFilterMatchByType('instock'),
-      ...getFilterMatchByType('price'),
-    })
-
     applyFilters(filterMatches)
   }, [filterSetStates])
-
-  useQueryUpdate('metal')
-  useQueryUpdate('stone')
-  useQueryUpdate('size')
-  useQueryUpdate('style')
-  useQueryUpdate('type')
-  useQueryUpdate('tag')
-  useQueryUpdate('subcategory')
-  useQueryUpdate('instock')
-  useQueryUpdate('price')
 
   useEffect(() => {
     const getFilterSetQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
@@ -355,7 +303,7 @@ export const Filter = ({
         const type = getFilterSetQueryType(items, match[0])
 
         //@ts-ignore
-        const matchArr = match[1]?.split(' ')
+        const matchArr = match[1]?.split(',')
 
         const matchKeys = matchArr?.map((item) => {
           return {
@@ -391,7 +339,7 @@ export const Filter = ({
     }
 
     updateFromValueFilter(instockQuery?.key, instockQuery?.values)
-  }, [router.isReady, router.query])
+  }, [router.isReady])
 
   if (!filters || filterSetStates.length === 0) return null
 

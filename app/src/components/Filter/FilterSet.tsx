@@ -17,6 +17,7 @@ import {
 import { FilterIndicator } from './FilterIndicator'
 import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
+import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs'
 const { useEffect, useState } = React
 
 interface FilterCheckboxProps {
@@ -95,6 +96,70 @@ export const FilterSet = ({
   const isMobile = useMedia({
     maxWidth: `960px`,
   })
+
+  const [, setStone] = useQueryState(
+    'stone',
+    parseAsArrayOf(parseAsString, ';'),
+  )
+  const [, setMetal] = useQueryState(
+    'metal',
+    parseAsArrayOf(parseAsString, ';'),
+  )
+  const [, setBand] = useQueryState(
+    'subcategory',
+    parseAsArrayOf(parseAsString, ';'),
+  )
+
+  useEffect(() => {
+    const getMatches = () => {
+      const matches = filterSet?.filters?.filter((f: any) => {
+        const match = filterSetState?.activeMatchKeys.includes(f?._key)
+        return match
+      })
+
+      const formatted = matches?.map((m: any) => {
+        const item = m?.matches && m.matches[0]
+        const type = item?.type
+        const match = item?.match
+
+        return { [type]: match }
+      })
+
+      const result = formatted?.reduce((acc: any, curr) => {
+        const key = Object.keys(curr)[0]
+        const found = acc.find((i) => i[key])
+        if (!found) {
+          acc.push(curr)
+        } else {
+          found[key] = [found[key], curr[key]]
+        }
+        return acc
+      }, [])[0]
+
+      filterSet.heading === 'Stone' &&
+        setStone(
+          result && Object?.keys(result)[0] === 'stone'
+            ? Object?.values(result)
+            : null,
+        )
+      filterSet.heading === 'Metal' &&
+        setMetal(
+          result && Object?.keys(result)[0] === 'metal'
+            ? Object?.values(result)
+            : null,
+        )
+      filterSet.heading === 'Bands' &&
+        setBand(
+          result && Object?.keys(result)[0] === 'subcategory'
+            ? Object?.values(result)
+            : null,
+        )
+
+      console.log('result', result)
+    }
+
+    getMatches()
+  }, [filterSet, filterSetState])
 
   if (!filters || !filters.length) return null
 
