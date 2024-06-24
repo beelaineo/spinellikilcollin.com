@@ -154,8 +154,6 @@ export const FilterSet = ({
             ? Object?.values(result)
             : null,
         )
-
-      console.log('result', result)
     }
 
     getMatches()

@@ -94,10 +94,6 @@ const getCurrentFilters = (
         .map((fsf) => definitely(fsf.matches))
         .flat()
 
-      const filterSetMatches = filterSetFilters.filter((fsf) =>
-        activeMatchKeys.includes(fsf._key || 'some-key'),
-      )
-
       const matchGroup: FilterMatchGroup = {
         filterType: FILTER_MATCH_GROUP,
         matches: filterMatches,
@@ -222,50 +218,6 @@ export const Filter = ({
     sendFilterClick()
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
   }
-
-  // const getFilterMatchByType = (type: any) => {
-  //   if (!filters) return
-
-  //   const filterMatches = getCurrentFilters(filters, filterSetStates)
-
-  //   const priceRange = filterMatches.find(
-  //     (f) => f.filterType === PRICE_RANGE_FILTER,
-  //   )
-
-  //   //@ts-ignore
-  //   const priceRangeMatches = [priceRange?.minPrice, priceRange?.maxPrice]
-  //     .flat()
-  //     .join(' ')
-
-  //   const inStockFilter = filterMatches.find(
-  //     (f) => f.filterType === INVENTORY_FILTER,
-  //     //@ts-ignore
-  //   )?.applyFilter
-
-  //   const filterSetMatches = filterMatches
-  //     .filter((f) => f.filterType === FILTER_MATCH_GROUP)
-  //     //@ts-ignore
-  //     .map((f) => f?.matches.filter((m) => m.type === type))
-  //     .map((f) => f.map(({ match }) => match))
-  //     .flat()
-  //     .join(' ')
-
-  //   const priceInitialValues =
-  //     //@ts-ignore
-  //     filterSetStates?.find((s) => s?.key === priceRange?.key)?.initialValues ||
-  //     {}
-
-  //   if (
-  //     type === 'price' &&
-  //     priceRangeMatches !== Object.values(priceInitialValues).join(' ')
-  //   ) {
-  //     return { price: priceRangeMatches }
-  //   } else if (type === 'instock' && inStockFilter) {
-  //     return { instock: inStockFilter }
-  //   } else {
-  //     return { [type]: filterSetMatches }
-  //   }
-  // }
 
   useEffect(() => {
     if (!filters || filterSetStates.length === 0) return

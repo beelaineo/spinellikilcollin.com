@@ -1,14 +1,11 @@
 import * as React from 'react'
 import { InStockFilter as InStockFilterTypeSource, Maybe } from '../../types'
 import { FilterSetState } from './types'
-import { Span } from '../Text'
 import { PriceRangeFilterWrapper, HeadingWrapper } from './styled'
 import { Label } from '../Forms/Fields/styled'
-import { theme } from '../../theme'
-import { useMedia } from '../../hooks'
 import styled, { css } from '@xstyled/styled-components'
-import { useRouter } from 'next/router'
-import { commaListsOr } from 'common-tags'
+import { parseAsBoolean, useQueryState } from 'nuqs'
+import { setIn } from 'formik'
 
 const { useEffect, useState } = React
 
@@ -93,8 +90,7 @@ export function InventoryFilter({
   active,
 }: InventoryFilterProps) {
   const { _key } = inventoryFilter
-  if (!filterSetState) return null
-  const { label } = filterSetState.values
+  const { label } = filterSetState?.values || {}
   const [applyFilter, setApplyFilter] = useState(false)
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
@@ -105,18 +101,18 @@ export function InventoryFilter({
     scrollGridIntoView()
   }
 
-  const router = useRouter()
-  // console.log('router', router)
+  const [, setInstock] = useQueryState('instock', parseAsBoolean)
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setValues('', { applyFilter: applyFilter, label: label })
     }, 300)
+    setInstock(!applyFilter ? null : applyFilter)
     return () => clearTimeout(timeout)
   }, [applyFilter])
 
   useEffect(() => {
-    setApplyFilter(filterSetState.values.applyFilter)
+    setApplyFilter(filterSetState?.values.applyFilter)
   }, [filterSetState])
 
   // useEffect(() => {
@@ -125,6 +121,8 @@ export function InventoryFilter({
   //     : setApplyFilter(false)
   // }, [router.isReady])
 
+  if (!filterSetState) return null
+
   if (!label) {
     throw new Error('The inventory filter was not configured with a label')
   }
@@ -132,10 +130,6 @@ export function InventoryFilter({
   if (!filterSetState?.values) {
     throw new Error('The inventory filter was not set up with initial values')
   }
-
-  const isMobile = useMedia({
-    maxWidth: `960px`,
-  })
 
   return (
     <InventoryFilterWrapper
