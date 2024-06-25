@@ -83,7 +83,7 @@ type FormValues = {
   state?: string
   zip?: string
   country?: string
-  inquiryType: string
+  inquiry_type: string
   orderNumber?: string
   orderUnknown: boolean
   message?: string
@@ -149,7 +149,7 @@ export const CustomerCareForm = ({ onContinue }: CustomerCareFormProps) => {
     state: '',
     zip: '',
     country: 'United States',
-    inquiryType: 'Returns & Exchanges',
+    inquiry_type: 'Returns & Exchanges',
     orderNumber: '',
     orderUnknown: false,
     message: '',
@@ -176,7 +176,7 @@ export const CustomerCareForm = ({ onContinue }: CustomerCareFormProps) => {
   }
 
   const handleFormStateChange = (values) => {
-    setInquiryType(values.inquiryType)
+    setInquiryType(values.inquiry_type)
   }
 
   return (
@@ -201,7 +201,7 @@ export const CustomerCareForm = ({ onContinue }: CustomerCareFormProps) => {
       >
         <FieldsWrapper visible={!success}>
           <Field
-            name="inquiryType"
+            name="inquiry_type"
             type="inquiryTypeSelector"
             label="Inquiry Type"
             required
