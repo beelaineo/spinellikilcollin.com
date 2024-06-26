@@ -15,7 +15,7 @@ export interface CustomerCareArgs {
   state?: string
   zip?: string
   country?: string
-  inquiryType: string
+  inquiry_type: string
   orderNumber?: string
   orderUnknown: boolean
   message?: string
@@ -28,7 +28,7 @@ export interface CustomerCareArgs {
 const Subject = 'New Customer Care Inquiry'
 
 const textTemplateOrder = (args: CustomerCareArgs): string => stripIndents`
-  New Customer Care Form submission - ${args.inquiryType}:
+  New Customer Care Form submission - ${args.inquiry_type}:
 
   ${args.firstname} ${args.lastname}
   ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
@@ -50,7 +50,7 @@ const textTemplateOrder = (args: CustomerCareArgs): string => stripIndents`
 `
 
 const textTemplate = (args: CustomerCareArgs): string => stripIndents`
-  New Customer Care Form submission - ${args.inquiryType}:
+  New Customer Care Form submission - ${args.inquiry_type}:
 
   ${args.firstname} ${args.lastname}
   ${args.address1}${args.address2 ? `\n${args.address2}` : ''}
@@ -66,16 +66,16 @@ const textTemplate = (args: CustomerCareArgs): string => stripIndents`
 `
 
 export const customerCare = (args: CustomerCareArgs): Message => {
-  const { inquiryType } = args
+  const { inquiry_type } = args
   return {
     From: DEAR,
     To:
-      inquiryType == 'Start a Repair' || inquiryType == 'Returns & Exchanges'
+      inquiry_type == 'Start a Repair' || inquiry_type == 'Returns & Exchanges'
         ? CARE
         : DEAR,
     Subject,
     TextBody:
-      inquiryType == 'Start a Repair' || inquiryType == 'Returns & Exchanges'
+      inquiry_type == 'Start a Repair' || inquiry_type == 'Returns & Exchanges'
         ? textTemplateOrder(args)
         : textTemplate(args),
     Tag: 'CustomerCare',
