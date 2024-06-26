@@ -10,10 +10,9 @@ import {
 } from './styled'
 import { Span } from '../Text'
 import { Label } from '../Forms/Fields/styled'
-import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
-import { useRouter } from 'next/router'
-import { CountryCodeSelector } from '../Forms/CustomFields/PhoneField/CountryCodeSelector'
+import { parseAsString, useQueryState } from 'nuqs'
+import { useDebounce } from 'react-use'
 
 const { useMemo, useEffect, useState } = React
 
@@ -142,18 +141,34 @@ export function PriceRangeFilter({
 }: PriceRangeFilterProps) {
   const { _key } = priceRangeFilter
 
-  if (!filterSetState) return null
   const { minPrice: initialMinPrice, maxPrice: initialMaxPrice } =
-    filterSetState.initialValues
-  const { minPrice, maxPrice } = filterSetState.values
+    filterSetState?.initialValues || {}
+  const { minPrice, maxPrice } = filterSetState?.values || {}
+
+  if (minPrice === null || minPrice === undefined) {
+    throw new Error(
+      'The price range filter was not configured with a min price',
+    )
+  }
+  if (maxPrice === null || maxPrice === undefined) {
+    throw new Error(
+      'The price range filter was not configured with a max price',
+    )
+  }
+
+  if (!filterSetState?.values) {
+    throw new Error('The price range filter was not set up with initial values')
+  }
+
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
 
-  const router = useRouter()
+  const [price, setPrice] = useQueryState('price', parseAsString)
 
   const [currentMinPrice, setCurrentMinPrice] = useState(100 / initialMaxPrice)
   const [currentMaxPrice, setCurrentMaxPrice] = useState(
     maxPrice / initialMaxPrice,
   )
+
   const [applyFilter, setApplyFilter] = useState(false)
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
@@ -171,27 +186,14 @@ export function PriceRangeFilter({
     return steps[index]
   }
 
-  const getClosestIndex = (num: number) => {
-    const diffArr = steps.map((x) => Math.abs(num - x))
+  const getClosestIndex = (num: number | string) => {
+    const numCheck = typeof num === 'string' ? parseInt(num) : num
+
+    const diffArr = steps.map((x) => Math.abs(numCheck - x))
     const minNumber = Math.min(...diffArr)
     const index = diffArr.findIndex((x) => x === minNumber)
 
     return index
-  }
-
-  if (minPrice === null || minPrice === undefined) {
-    throw new Error(
-      'The price range filter was not configured with a min price',
-    )
-  }
-  if (!maxPrice) {
-    throw new Error(
-      'The price range filter was not configured with a max price',
-    )
-  }
-
-  if (!filterSetState?.values) {
-    throw new Error('The price range filter was not set up with initial values')
   }
 
   useEffect(() => {
@@ -199,38 +201,53 @@ export function PriceRangeFilter({
       setApplyFilter(false)
       updateMinPosition(0)
       updateMaxPosition(1)
+      setPrice(null)
     }
     filterSetState.initialValues == filterSetState.values ? resetUI() : null
   }, [filterSetState])
 
-  useEffect(() => {
-    setApplyFilter(
-      getClosestStep(currentMinPrice) == initialMinPrice &&
-        getClosestStep(currentMaxPrice) == initialMaxPrice
-        ? false
-        : true,
-    )
-    const timeout = setTimeout(() => {
-      setValues('', {
-        minPrice: getClosestStep(currentMinPrice),
-        maxPrice: getClosestStep(currentMaxPrice),
-      })
-    }, 300)
-    return () => clearTimeout(timeout)
-  }, [currentMinPrice, currentMaxPrice])
+  useDebounce(
+    () => {
+      if (
+        getClosestStep(currentMinPrice) === initialMinPrice &&
+        getClosestStep(currentMaxPrice) === initialMaxPrice
+      )
+        return
 
-  if (
-    maxPrice === undefined ||
-    minPrice === undefined ||
-    maxPrice === null ||
-    minPrice === null ||
-    currentMinPrice === null ||
-    currentMaxPrice === null ||
-    currentMinPrice === undefined ||
-    currentMaxPrice === undefined
-  ) {
-    return null
-  }
+      if (
+        !getClosestStep(currentMinPrice) === initialMinPrice &&
+        !getClosestStep(currentMaxPrice) === initialMaxPrice
+      ) {
+        setValues('', {
+          minPrice: getClosestStep(currentMinPrice),
+          maxPrice: getClosestStep(currentMaxPrice),
+        })
+      }
+      setApplyFilter(
+        getClosestStep(currentMinPrice) === initialMinPrice &&
+          getClosestStep(currentMaxPrice) === initialMaxPrice
+          ? false
+          : true,
+      )
+
+      setPrice(
+        `${getClosestStep(currentMinPrice)} ${getClosestStep(currentMaxPrice)}`,
+      )
+    },
+    300,
+    [currentMinPrice, currentMaxPrice],
+  )
+
+  useEffect(() => {
+    if (
+      getClosestStep(currentMinPrice) === initialMinPrice &&
+      getClosestStep(currentMaxPrice) === initialMaxPrice
+    )
+      return
+
+    setPrice(`${minPrice} ${maxPrice}`)
+  }, [minPrice, maxPrice])
+
   const setContainer = (el: HTMLDivElement) => setContainerState(el)
 
   const updateMinPosition = (pos: number) =>
@@ -249,16 +266,32 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
-    if (!router.query.price) return
+    if (!price) return
 
-    const range = (router?.query?.price as string)?.split(' ')
-
-    const minPos = getClosestIndex(parseFloat(range[0]))
-    const maxPos = getClosestIndex(parseFloat(range[1]))
+    const minPos = getClosestIndex(price.split(' ')[0])
+    const maxPos = getClosestIndex(price.split(' ')[1])
 
     updateMinPosition(minPos / steps.length)
     updateMaxPosition(maxPos / steps.length)
-  }, [router.isReady])
+
+    setCurrentMaxPrice(maxPos / steps.length)
+    setCurrentMinPrice(minPos / steps.length)
+  }, [price])
+
+  if (!filterSetState) return null
+
+  if (
+    maxPrice === undefined ||
+    minPrice === undefined ||
+    maxPrice === null ||
+    minPrice === null ||
+    currentMinPrice === null ||
+    currentMaxPrice === null ||
+    currentMinPrice === undefined ||
+    currentMaxPrice === undefined
+  ) {
+    return null
+  }
 
   return (
     <PriceRangeFilterWrapper

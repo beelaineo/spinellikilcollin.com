@@ -6,6 +6,8 @@ import { Label } from '../Forms/Fields/styled'
 import styled, { css } from '@xstyled/styled-components'
 import { parseAsBoolean, useQueryState } from 'nuqs'
 import { setIn } from 'formik'
+import { useDebounce } from 'react-use'
+import { set } from 'husky'
 
 const { useEffect, useState } = React
 
@@ -95,31 +97,43 @@ export function InventoryFilter({
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
+  const [instock, setInstock] = useQueryState('instock', parseAsBoolean)
 
-  const toggleFilter = () => {
-    setApplyFilter(!applyFilter)
-    scrollGridIntoView()
-  }
-
-  const [, setInstock] = useQueryState('instock', parseAsBoolean)
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setValues('', { applyFilter: applyFilter, label: label })
-    }, 300)
-    setInstock(!applyFilter ? null : applyFilter)
-    return () => clearTimeout(timeout)
-  }, [applyFilter])
+    if (isLoaded === true) return
+
+    setIsLoaded(
+      applyFilter === instock || (applyFilter === false && instock === null),
+    )
+  }, [applyFilter, instock])
+
+  useDebounce(
+    () => {
+      setValues('', {
+        applyFilter: applyFilter,
+        label: label,
+      })
+    },
+    300,
+    [applyFilter],
+  )
 
   useEffect(() => {
     setApplyFilter(filterSetState?.values.applyFilter)
   }, [filterSetState])
 
-  // useEffect(() => {
-  //   router.query.instock === 'true'
-  //     ? setApplyFilter(true)
-  //     : setApplyFilter(false)
-  // }, [router.isReady])
+  const toggleFilter = () => {
+    setApplyFilter(!applyFilter)
+
+    scrollGridIntoView()
+  }
+
+  useEffect(() => {
+    if (!isLoaded) return
+    setInstock(!applyFilter ? null : true)
+  }, [applyFilter])
 
   if (!filterSetState) return null
 

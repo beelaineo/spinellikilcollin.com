@@ -15,9 +15,8 @@ import {
   FiltersWrapper,
 } from './styled'
 import { FilterIndicator } from './FilterIndicator'
-import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
-import { parseAsArrayOf, parseAsString, useQueryState } from 'nuqs'
+import { parseAsString, useQueryState } from 'nuqs'
 const { useEffect, useState } = React
 
 interface FilterCheckboxProps {
@@ -97,20 +96,20 @@ export const FilterSet = ({
     maxWidth: `960px`,
   })
 
-  const [, setStone] = useQueryState(
-    'stone',
-    parseAsArrayOf(parseAsString, ';'),
-  )
-  const [, setMetal] = useQueryState(
-    'metal',
-    parseAsArrayOf(parseAsString, ';'),
-  )
-  const [, setBand] = useQueryState(
-    'subcategory',
-    parseAsArrayOf(parseAsString, ';'),
-  )
+  const [, setStone] = useQueryState('stone', parseAsString)
+  const [, setMetal] = useQueryState('metal', parseAsString)
+  const [, setBand] = useQueryState('subcategory', parseAsString)
+
+  const [isLoaded, setIsLoaded] = useState(false)
 
   useEffect(() => {
+    if (isLoaded === true) return
+    setIsLoaded(Boolean(activeMatchKeys.length))
+  }, [activeMatchKeys])
+
+  useEffect(() => {
+    if (!isLoaded) return
+
     const getMatches = () => {
       const matches = filterSet?.filters?.filter((f: any) => {
         const match = filterSetState?.activeMatchKeys.includes(f?._key)
@@ -139,25 +138,31 @@ export const FilterSet = ({
       filterSet.heading === 'Stone' &&
         setStone(
           result && Object?.keys(result)[0] === 'stone'
-            ? Object?.values(result)
+            ? Object?.values(result).toString().replace(/,/g, ' ')
             : null,
         )
       filterSet.heading === 'Metal' &&
         setMetal(
           result && Object?.keys(result)[0] === 'metal'
-            ? Object?.values(result)
+            ? Object?.values(result).toString().replace(/,/g, ' ')
             : null,
         )
       filterSet.heading === 'Bands' &&
         setBand(
           result && Object?.keys(result)[0] === 'subcategory'
-            ? Object?.values(result)
+            ? Object?.values(result).toString().replace(/,/g, ' ')
             : null,
         )
     }
 
     getMatches()
-  }, [filterSet, filterSetState])
+  }, [
+    filterSetState,
+    activeMatchKeys,
+    isLoaded,
+    filterSet?.filters,
+    filterSet.heading,
+  ])
 
   if (!filters || !filters.length) return null
 

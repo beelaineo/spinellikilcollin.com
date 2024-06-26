@@ -228,6 +228,8 @@ export const Filter = ({
   }, [filterSetStates])
 
   useEffect(() => {
+    if (!router.isReady) return
+
     const getFilterSetQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
       arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
 
@@ -255,7 +257,7 @@ export const Filter = ({
         const type = getFilterSetQueryType(items, match[0])
 
         //@ts-ignore
-        const matchArr = match[1]?.split(',')
+        const matchArr = match[1]?.split(' ')
 
         const matchKeys = matchArr?.map((item) => {
           return {
@@ -278,7 +280,23 @@ export const Filter = ({
       }
     }
 
+    const getPriceRangeQuery = (items, query) => {
+      const match = items?.find(
+        (item) => item?.__typename === 'PriceRangeMinMaxFilter',
+      )
+
+      return {
+        key: match?._key,
+        values: {
+          minPrice: parseFloat(query?.price?.split(' ')[0]),
+          maxPrice: parseFloat(query?.price?.split(' ')[1]),
+        },
+      }
+    }
+
     const instockQuery = getInstockQuery(filters, router?.query)
+
+    const priceQuery = getPriceRangeQuery(filters, router?.query)
 
     const filterSetMatchedKeys = findFilterSetKeys(filters, router.query)
 
@@ -291,6 +309,7 @@ export const Filter = ({
     }
 
     updateFromValueFilter(instockQuery?.key, instockQuery?.values)
+    updateFromValueFilter(priceQuery?.key, priceQuery?.values)
   }, [router.isReady])
 
   if (!filters || filterSetStates.length === 0) return null
