@@ -321,7 +321,7 @@ export const ProductOptionSelector = ({
                 type="select"
                 name={option.name}
                 onChange={handleSelectChange}
-                options={optionsWithDisabled}
+                options={options}
               />
             )}
           </Form>
