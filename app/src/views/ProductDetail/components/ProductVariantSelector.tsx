@@ -27,6 +27,7 @@ interface Props {
   variants: ShopifyProductVariant[] | null
   product: Product
   currentVariant: ShopifyProductVariant
+  setIsInquiryOnly: (value: boolean) => void
   changeValueForOption: (id: string) => (value: string) => void
 }
 
@@ -38,9 +39,16 @@ interface Props {
  */
 
 export const ProductVariantSelector = (props: Props) => {
-  const { variants, changeValueForOption, product, currentVariant } = props
+  const {
+    variants,
+    changeValueForOption,
+    product,
+    currentVariant,
+    setIsInquiryOnly,
+  } = props
   if (!variants || !variants.length) return null
   const productType = product?.store?.productType
+
   const { inquiryOnly } = product
 
   const options = getValidProductOptions(product)
@@ -63,6 +71,7 @@ export const ProductVariantSelector = (props: Props) => {
                 currentVariant={currentVariant}
                 option={option}
                 isInput={Boolean(productType === 'Gift Card')}
+                setIsInquiryOnly={setIsInquiryOnly}
               />
             </OptionWrapper>
           ) : null,
