@@ -13,6 +13,7 @@ import { Label } from '../Forms/Fields/styled'
 import { useMedia } from '../../hooks'
 import { parseAsString, useQueryState } from 'nuqs'
 import { useDebounce } from 'react-use'
+import { useRouter } from 'next/router'
 
 const { useMemo, useEffect, useState } = React
 
@@ -160,6 +161,8 @@ export function PriceRangeFilter({
     throw new Error('The price range filter was not set up with initial values')
   }
 
+  const router = useRouter()
+
   const [container, setContainerState] = useState<HTMLDivElement | null>(null)
 
   const [price, setPrice] = useQueryState('price', parseAsString)
@@ -197,14 +200,21 @@ export function PriceRangeFilter({
   }
 
   useEffect(() => {
+    if (!router.isReady) return
     const resetUI = () => {
+      setPrice(null)
+
       setApplyFilter(false)
       updateMinPosition(0)
       updateMaxPosition(1)
-      setPrice(null)
     }
-    filterSetState.initialValues == filterSetState.values ? resetUI() : null
-  }, [filterSetState])
+
+    getClosestStep(currentMinPrice) === initialMinPrice &&
+    getClosestStep(currentMaxPrice) === initialMaxPrice &&
+    price === `${initialMinPrice} ${initialMaxPrice}`
+      ? resetUI()
+      : null
+  }, [currentMaxPrice, currentMinPrice, router.isReady])
 
   useDebounce(
     () => {
@@ -236,21 +246,6 @@ export function PriceRangeFilter({
     },
     300,
     [currentMinPrice, currentMaxPrice],
-  )
-
-  console.log(
-    'price',
-    price,
-    'currentMinPrice',
-    currentMinPrice,
-    'currentMaxPrice',
-    currentMaxPrice,
-    getClosestStep(currentMinPrice),
-    getClosestStep(currentMaxPrice),
-    'minPrice',
-    minPrice,
-    'maxPrice',
-    maxPrice,
   )
 
   useEffect(() => {

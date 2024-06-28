@@ -284,6 +284,7 @@ export const Filter = ({
       const match = items?.find(
         (item) => item?.__typename === 'PriceRangeMinMaxFilter',
       )
+
       if (query?.price)
         return {
           key: match?._key,
@@ -310,7 +311,7 @@ export const Filter = ({
 
     updateFromValueFilter(instockQuery?.key, instockQuery?.values)
     updateFromValueFilter(priceQuery?.key, priceQuery?.values)
-  }, [router.isReady, router.query])
+  }, [router.isReady, router.query.price])
 
   if (!filters || filterSetStates.length === 0) return null
 
