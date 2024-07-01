@@ -59,6 +59,7 @@ interface ShopifyProductListingCollection extends Collection {
 
 interface ProductListingProps {
   collection: ShopifyProductListingCollection & { productsCount?: number }
+  isHiddenByKeepAlive: boolean
 }
 
 type Item = ShopifyProductListingProduct | CollectionBlockType
@@ -79,7 +80,10 @@ function isCollectionResult(
   return 'products' in r[0]
 }
 
-export const ProductListing = ({ collection }: ProductListingProps) => {
+export const ProductListing = ({
+  collection,
+  isHiddenByKeepAlive,
+}: ProductListingProps) => {
   const {
     _id,
     preferredVariantMatches,
@@ -535,7 +539,9 @@ export const ProductListing = ({ collection }: ProductListingProps) => {
   `
   return (
     <>
-      <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
+      {!isHiddenByKeepAlive ? (
+        <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
+      ) : null}
       {hero && validHero ? (
         <HeroBlock hero={hero} minimalDisplay={minimalDisplay} />
       ) : null}
