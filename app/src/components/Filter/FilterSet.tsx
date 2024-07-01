@@ -99,6 +99,8 @@ export const FilterSet = ({
   const [, setStone] = useQueryState('stone', parseAsString)
   const [, setMetal] = useQueryState('metal', parseAsString)
   const [, setBand] = useQueryState('subcategory', parseAsString)
+  const [, setType] = useQueryState('type', parseAsString)
+  const [, setSize] = useQueryState('size', parseAsString)
 
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -153,8 +155,19 @@ export const FilterSet = ({
             ? Object?.values(result).toString().replace(/,/g, ' ')
             : null,
         )
+      filterSet.heading === 'Type' &&
+        setType(
+          result && Object?.keys(result)[0] === 'type'
+            ? Object?.values(result).toString().replace(/,/g, ' ')
+            : null,
+        )
+      filterSet.heading === 'Size' &&
+        setSize(
+          result && Object?.keys(result)[0] === 'size'
+            ? Object?.values(result).toString().replace(/,/g, ' ')
+            : null,
+        )
     }
-
     getMatches()
   }, [
     filterSetState,

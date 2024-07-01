@@ -290,5 +290,5 @@ export default withKeepAlive(
   //@ts-ignore
   CollectionPage,
   'collection-page',
-  { keepScrollEnabled: false, applyNewProps: true },
+  { keepScrollEnabled: false },
 )
