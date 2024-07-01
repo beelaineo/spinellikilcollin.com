@@ -15,8 +15,8 @@ import {
   FiltersWrapper,
 } from './styled'
 import { FilterIndicator } from './FilterIndicator'
-import { theme } from '../../theme'
 import { useMedia } from '../../hooks'
+import { parseAsString, useQueryState } from 'nuqs'
 const { useEffect, useState } = React
 
 interface FilterCheckboxProps {
@@ -95,6 +95,87 @@ export const FilterSet = ({
   const isMobile = useMedia({
     maxWidth: `960px`,
   })
+
+  const [, setStone] = useQueryState('stone', parseAsString)
+  const [, setMetal] = useQueryState('metal', parseAsString)
+  const [, setBand] = useQueryState('subcategory', parseAsString)
+  const [, setType] = useQueryState('type', parseAsString)
+  const [, setSize] = useQueryState('size', parseAsString)
+
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    if (isLoaded === true) return
+    setIsLoaded(Boolean(activeMatchKeys.length))
+  }, [activeMatchKeys])
+
+  useEffect(() => {
+    if (!isLoaded) return
+
+    const getMatches = () => {
+      const matches = filterSet?.filters?.filter((f: any) => {
+        const match = filterSetState?.activeMatchKeys.includes(f?._key)
+        return match
+      })
+
+      const formatted = matches?.map((m: any) => {
+        const item = m?.matches && m.matches[0]
+        const type = item?.type
+        const match = item?.match
+
+        return { [type]: match }
+      })
+
+      const result = formatted?.reduce((acc: any, curr) => {
+        const key = Object.keys(curr)[0]
+        const found = acc.find((i) => i[key])
+        if (!found) {
+          acc.push(curr)
+        } else {
+          found[key] = [found[key], curr[key]]
+        }
+        return acc
+      }, [])[0]
+
+      filterSet.heading === 'Stone' &&
+        setStone(
+          result && Object?.keys(result)[0] === 'stone'
+            ? Object?.values(result).toString().replace(/,/g, ' ')
+            : null,
+        )
+      filterSet.heading === 'Metal' &&
+        setMetal(
+          result && Object?.keys(result)[0] === 'metal'
+            ? Object?.values(result).toString().replace(/,/g, ' ')
+            : null,
+        )
+      filterSet.heading === 'Bands' &&
+        setBand(
+          result && Object?.keys(result)[0] === 'subcategory'
+            ? Object?.values(result).toString().replace(/,/g, ' ')
+            : null,
+        )
+      filterSet.heading === 'Type' &&
+        setType(
+          result && Object?.keys(result)[0] === 'type'
+            ? Object?.values(result).toString().replace(/,/g, ' ')
+            : null,
+        )
+      filterSet.heading === 'Size' &&
+        setSize(
+          result && Object?.keys(result)[0] === 'size'
+            ? Object?.values(result).toString().replace(/,/g, ' ')
+            : null,
+        )
+    }
+    getMatches()
+  }, [
+    filterSetState,
+    activeMatchKeys,
+    isLoaded,
+    filterSet?.filters,
+    filterSet.heading,
+  ])
 
   if (!filters || !filters.length) return null
 
