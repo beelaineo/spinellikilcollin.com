@@ -139,7 +139,6 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     variantId: string,
   ): Price | null => {
     if (!collectionHandle) return null
-    if (currentCountry == 'US') return null
     if (!currentCollectionPrices) return null
 
     const findVariant = currentCollectionPrices.products.edges
@@ -148,7 +147,7 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       })
       ?.node.variants.edges.filter((v) => v.node.id == variantId)[0].node
 
-    console.log('FIND VARIANT:', findVariant)
+    // console.log('FIND VARIANT:', findVariant)
     return {
       price: findVariant?.price,
       compareAtPrice: findVariant?.compareAtPrice,
