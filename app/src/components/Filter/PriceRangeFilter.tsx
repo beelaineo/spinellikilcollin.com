@@ -255,6 +255,13 @@ export function PriceRangeFilter({
     )
       return
 
+    if (
+      (price === null || price[0] !== minPrice) &&
+      (price === null || price[1] !== maxPrice)
+    ) {
+      setPrice(`${minPrice} ${maxPrice}`)
+    }
+
     setPrice(`${minPrice} ${maxPrice}`)
   }, [minPrice, maxPrice])
 
@@ -286,22 +293,15 @@ export function PriceRangeFilter({
 
     setCurrentMaxPrice(maxPos / steps.length)
     setCurrentMinPrice(minPos / steps.length)
-  }, [price])
+  }, [price, router.query.price])
 
-  if (!filterSetState) return null
-
-  if (
-    maxPrice === undefined ||
-    minPrice === undefined ||
-    maxPrice === null ||
-    minPrice === null ||
-    currentMinPrice === null ||
-    currentMaxPrice === null ||
-    currentMinPrice === undefined ||
-    currentMaxPrice === undefined
-  ) {
-    return null
-  }
+  console.log(
+    'price',
+    price,
+    router.query.price,
+    getClosestStep(currentMinPrice),
+    getClosestStep(currentMaxPrice),
+  )
 
   return (
     <PriceRangeFilterWrapper
