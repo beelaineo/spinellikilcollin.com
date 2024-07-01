@@ -4,6 +4,10 @@ interface BackgroundImageProps {
   imageSrc: string
 }
 
+interface HoverThumbWrapperProps {
+  hover: boolean
+}
+
 export const ProductThumb = styled.div`
   ${({ theme }) => css`
     position: relative;
@@ -106,11 +110,23 @@ export const HoverThumb = styled.img`
   height: 100%;
 `
 
-export const HoverThumbWrapper = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
+export const HoverThumbWrapper = styled.div<HoverThumbWrapperProps>`
+  ${({ hover, theme }) => css`
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    visibility: ${hover ? 'visible' : 'hidden'};
+    opacity: ${hover ? 1 : 0};
+
+    transition: 0.2s opacity ease-out,
+      0s visibility ease-in-out ${hover ? '0s' : '0.2s'};
+
+    ${theme.mediaQueries.mobile} {
+      visibility: hidden;
+      opacity: 0;
+    }
+  `}
 `
 
 interface WithHideCarousel {

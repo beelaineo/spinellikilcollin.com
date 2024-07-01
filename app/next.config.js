@@ -51,6 +51,7 @@ module.exports = withSourceMaps({
   },
   experimental: {
     scrollRestoration: true,
+    optimisticClientCache: false,
   },
   // webpack5: false,
   publicRuntimeConfig: {
@@ -111,6 +112,16 @@ module.exports = withSourceMaps({
             key: 'Access-Control-Allow-Headers',
             value:
               'Origin, Content-Type, Authorization, X-Auth-Token, X-Requested-With',
+          },
+        ],
+      },
+      {
+        source: '/:all*(svg|jpg|jpeg|png|webp|woff2|otf|woff|)',
+        locale: false,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, must-revalidate',
           },
         ],
       },

@@ -63,8 +63,6 @@ const App = (props: AppProps) => {
     storage.setItem('currentPath', globalThis.location.pathname)
   }
 
-  console.log('query test:', router.query)
-
   const breadCrumbs = useBreadcrumbs()
 
   if (!shopData) return null
