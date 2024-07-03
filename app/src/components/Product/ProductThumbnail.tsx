@@ -406,11 +406,11 @@ export const ProductThumbnail = ({
     } else {
       setVariantAnimation(undefined)
     }
-    // console.log('currentVariant:', currentVariant)
-    // console.log('currentSwatchOption:', currentSwatchOption)
   }, [currentVariant])
 
   useEffect(() => {
+    if (!router.isReady) return
+
     const collectionHandle = router.query.collectionSlug
     const currentVariantId = currentVariant?.id
     if (!currentVariantId) return
@@ -419,6 +419,7 @@ export const ProductThumbnail = ({
       collectionHandle as string,
       currentVariantId,
     )
+
     if (variantPriceInfo?.price) {
       setCurrentPrice(variantPriceInfo?.price)
     } else {
@@ -439,7 +440,6 @@ export const ProductThumbnail = ({
     }
     if (!currentVariantId && product.shopifyId) {
       getProductPriceById(product?.shopifyId).then((price) => {
-        console.log('productPriceInfo', price)
         if (price?.price) {
           setCurrentPrice(price?.price)
           console.log('SET PRICE TO PRODUCT PRICE (NO VARIANTS)', price)
@@ -457,37 +457,17 @@ export const ProductThumbnail = ({
   }, [
     currentVariant,
     currentCountry,
-    router.query,
-    getVariantPriceByCollection,
-    getVariantPriceBySearchResults,
+    router.isReady,
     product.shopifyId,
-    getProductPriceById,
+    getVariantPriceByCollection,
   ])
-
-  useEffect(() => {
-    // declare the async data fetching function
-    const fetchData = async () => {
-      if (!product?.shopifyId || !currentVariant?.shopifyVariantID) return
-      // get the data from the api
-      const variantPrice = await getVariantPriceById(
-        product.shopifyId,
-        currentVariant?.shopifyVariantID,
-      )
-      // set state with the result if `isSubscribed` is true
-      variantPrice?.price && setCurrentPrice(variantPrice?.price)
-      variantPrice?.compareAtPrice &&
-        setCurrentCompareAtPrice(variantPrice?.compareAtPrice)
-    }
-    // call the function
-    fetchData().catch(console.error)
-    // cancel any future `setData`
-  }, [currentVariant, product, currentCountry, getVariantPriceById])
 
   const handleClick = () => {
     // @ts-ignore
     sendProductClick({ product, variant: currentVariant })
   }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
+
   useEffect(() => {
     if (!isInViewOnce) return
     // @ts-ignore
@@ -715,19 +695,19 @@ export const ProductThumbnail = ({
       >
         {variantAnimation ? (
           <VideoWrapper hide={!playing} carousel={carousel} hover={imageHover}>
-            {imageHover && currentSwatchOption?.hover_image && (
-              <HoverThumbWrapper>
-                <Image
-                  image={currentSwatchOption?.hover_image}
-                  ratio={imageRatio || 1}
-                  sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                  preload
-                  altText={altText}
-                  preloadImages={allImages}
-                  objectFit="cover"
-                />
-              </HoverThumbWrapper>
-            )}
+            <HoverThumbWrapper
+              hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+            >
+              <Image
+                image={currentSwatchOption?.hover_image}
+                ratio={imageRatio || 1}
+                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+                preload
+                altText={altText}
+                preloadImages={allImages}
+                objectFit="cover"
+              />
+            </HoverThumbWrapper>
 
             <CloudinaryAnimation
               video={variantAnimation}
@@ -738,20 +718,18 @@ export const ProductThumbnail = ({
           </VideoWrapper>
         ) : null}
         <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
-          {imageHover && currentSwatchOption?.hover_image && (
-            // <HoverThumb src={currentSwatchOption?.hover_image.asset?.url} />
-            <HoverThumbWrapper>
-              <Image
-                image={currentSwatchOption?.hover_image}
-                ratio={imageRatio || 1}
-                sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
-                preload
-                altText={altText}
-                preloadImages={allImages}
-              />
-            </HoverThumbWrapper>
-          )}
-
+          <HoverThumbWrapper
+            hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+          >
+            <Image
+              image={currentSwatchOption?.hover_image}
+              ratio={imageRatio || 1}
+              sizes="(min-width: 1200px) 30vw, (min-width: 1000px) 50vw, 90vw"
+              preload
+              altText={altText}
+              preloadImages={allImages}
+            />
+          </HoverThumbWrapper>
           <Image
             image={productImage}
             ratio={imageRatio || 1}
