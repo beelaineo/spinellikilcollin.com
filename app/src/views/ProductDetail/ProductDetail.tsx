@@ -131,6 +131,8 @@ export const ProductDetail = ({ product }: Props) => {
   const hidden = product?.hideFromSearch
   const leadTimeLabel = productInfoSettings?.leadTimeLabel
 
+  const [isInquiryOnly, setIsInquiryOnly] = useState(false)
+
   // console.log('product', product)
 
   /* Add the variant ID as a query parameter */
@@ -169,7 +171,16 @@ export const ProductDetail = ({ product }: Props) => {
   if (!currentVariant) return null
 
   const { addLineItem } = useShopify()
-  const { inquiryOnly, seo, handle } = product
+
+  const productWithInquiryOverride = {
+    ...product,
+    inquiryOnly: isInquiryOnly ? isInquiryOnly : product.inquiryOnly,
+  }
+
+  const { seo, handle } = product
+
+  const { inquiryOnly } = productWithInquiryOverride
+
   const maybeVariants = product?.store?.variants
   const variants = definitely(maybeVariants)
   const { currentlyNotInStock } = currentVariant?.sourceData ?? {}
@@ -400,7 +411,7 @@ export const ProductDetail = ({ product }: Props) => {
                 <ProductDetailHeader
                   currentVariant={currentVariant}
                   currentCountry={currentCountry}
-                  product={product}
+                  product={productWithInquiryOverride}
                 />
                 {variantHasAnimation && variantAnimation?.videoId ? (
                   <CloudinaryAnimation
@@ -443,6 +454,7 @@ export const ProductDetail = ({ product }: Props) => {
                     currentVariant={currentVariant}
                     changeValueForOption={changeValueForOption}
                     product={product}
+                    setIsInquiryOnly={setIsInquiryOnly}
                   />
                   {productType === 'Ring' ? (
                     <RingToolsWrapper>
@@ -464,7 +476,7 @@ export const ProductDetail = ({ product }: Props) => {
                     </RingToolsWrapper>
                   ) : null}
                   <BuyButton
-                    product={product}
+                    product={productWithInquiryOverride}
                     addLineItem={addLineItem}
                     currentVariant={currentVariant}
                   />

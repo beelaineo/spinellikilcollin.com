@@ -28,6 +28,7 @@ interface ProductOptionSelectorProps {
   product: Product
   currentVariant: ShopifyProductVariant
   option: ProductOption
+  setIsInquiryOnly: (value: boolean) => void
   changeValueForOption: (optionId: string) => (value: string) => void
   isInput: boolean
 }
@@ -84,6 +85,7 @@ export const ProductOptionSelector = ({
   changeValueForOption,
   currentVariant,
   isInput,
+  setIsInquiryOnly,
 }: ProductOptionSelectorProps) => {
   const [activeStone, setActiveStone] = useState<Maybe<Stone> | undefined>(null)
   const [initialValue, setInitialValue] = useState(0)
@@ -279,6 +281,14 @@ export const ProductOptionSelector = ({
     }
   }, [])
 
+  useEffect(() => {
+    const isInquiryOnly =
+      currentSelectedDiamond?.value === '2.0 carat' &&
+      currentSelectedStone?.value === 'Natural'
+
+    setIsInquiryOnly(isInquiryOnly)
+  }, [currentSelectedDiamond?.value, currentSelectedStone?.value, options])
+
   const optionsWithDisabled = options.map((option) => {
     return currentSelectedDiamond?.value === '2.0 carat' &&
       option?.value === 'Natural'
@@ -321,7 +331,7 @@ export const ProductOptionSelector = ({
                 type="select"
                 name={option.name}
                 onChange={handleSelectChange}
-                options={optionsWithDisabled}
+                options={options}
               />
             )}
           </Form>
