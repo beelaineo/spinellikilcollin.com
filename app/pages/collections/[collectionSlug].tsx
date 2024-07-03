@@ -114,6 +114,7 @@ interface CollectionResponse {
 interface CollectionPageProps {
   collection: ProductListingCollection
   useEffect: any
+  isHiddenByKeepAlive: boolean
 }
 
 interface Response {
@@ -125,9 +126,15 @@ const getCollectionFromPreviewResponse = (response: Response) => {
   return collection
 }
 
-const CollectionPage = ({ collection, useEffect }: CollectionPageProps) => {
-  const { query, isReady } = useRouter()
-  // console.log('collection', collection)
+const CollectionPage = ({
+  collection,
+  useEffect,
+  isHiddenByKeepAlive,
+}: CollectionPageProps) => {
+  const router = useRouter()
+
+  const { query, isReady } = router
+
   const token = query?.preview
   const preview = Boolean(query?.preview)
 
@@ -150,7 +157,7 @@ const CollectionPage = ({ collection, useEffect }: CollectionPageProps) => {
         : prevCollection
 
     if (collectionState !== compareState) {
-      keepAliveDropCache('collection-page', false)
+      keepAliveDropCache('collection-page', true)
     }
   }, [collectionState, prevCollection])
 
@@ -178,15 +185,23 @@ const CollectionPage = ({ collection, useEffect }: CollectionPageProps) => {
           <ProductListing
             key={collection._id || 'some-key'}
             collection={collection}
+            isHiddenByKeepAlive={isHiddenByKeepAlive}
           />
         )
-      return <ProductListing key={data._id || 'some-key'} collection={data} />
+      return (
+        <ProductListing
+          key={data._id || 'some-key'}
+          collection={data}
+          isHiddenByKeepAlive={isHiddenByKeepAlive}
+        />
+      )
     } else {
       if (!collection) return <NotFound />
       return (
         <ProductListing
           key={collection._id || 'some-key'}
           collection={collection}
+          isHiddenByKeepAlive={isHiddenByKeepAlive}
         />
       )
     }

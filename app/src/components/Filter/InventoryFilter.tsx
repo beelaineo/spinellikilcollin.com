@@ -1,14 +1,13 @@
 import * as React from 'react'
 import { InStockFilter as InStockFilterTypeSource, Maybe } from '../../types'
 import { FilterSetState } from './types'
-import { Span } from '../Text'
 import { PriceRangeFilterWrapper, HeadingWrapper } from './styled'
 import { Label } from '../Forms/Fields/styled'
-import { theme } from '../../theme'
-import { useMedia } from '../../hooks'
 import styled, { css } from '@xstyled/styled-components'
-import { useRouter } from 'next/router'
-import { commaListsOr } from 'common-tags'
+import { parseAsBoolean, useQueryState } from 'nuqs'
+import { setIn } from 'formik'
+import { useDebounce } from 'react-use'
+import { set } from 'husky'
 
 const { useEffect, useState } = React
 
@@ -93,37 +92,50 @@ export function InventoryFilter({
   active,
 }: InventoryFilterProps) {
   const { _key } = inventoryFilter
-  if (!filterSetState) return null
-  const { label } = filterSetState.values
+  const { label } = filterSetState?.values || {}
   const [applyFilter, setApplyFilter] = useState(false)
   const [mouseEnter, setMouseEnter] = useState(false)
   const handleMouseEnter = () => setMouseEnter(true)
   const handleMouseLeave = () => setMouseEnter(false)
+  const [instock, setInstock] = useQueryState('instock', parseAsBoolean)
+
+  const [isLoaded, setIsLoaded] = useState(false)
+
+  useEffect(() => {
+    if (isLoaded === true) return
+
+    setIsLoaded(
+      applyFilter === instock || (applyFilter === false && instock === null),
+    )
+  }, [applyFilter, instock])
+
+  useDebounce(
+    () => {
+      setValues('', {
+        applyFilter: applyFilter,
+        label: label,
+      })
+    },
+    300,
+    [applyFilter],
+  )
+
+  useEffect(() => {
+    setApplyFilter(filterSetState?.values.applyFilter)
+  }, [filterSetState])
 
   const toggleFilter = () => {
     setApplyFilter(!applyFilter)
+
     scrollGridIntoView()
   }
 
-  const router = useRouter()
-  // console.log('router', router)
-
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      setValues('', { applyFilter: applyFilter, label: label })
-    }, 300)
-    return () => clearTimeout(timeout)
+    if (!isLoaded) return
+    setInstock(!applyFilter ? null : true)
   }, [applyFilter])
 
-  useEffect(() => {
-    setApplyFilter(filterSetState.values.applyFilter)
-  }, [filterSetState])
-
-  // useEffect(() => {
-  //   router.query.instock === 'true'
-  //     ? setApplyFilter(true)
-  //     : setApplyFilter(false)
-  // }, [router.isReady])
+  if (!filterSetState) return null
 
   if (!label) {
     throw new Error('The inventory filter was not configured with a label')
@@ -132,10 +144,6 @@ export function InventoryFilter({
   if (!filterSetState?.values) {
     throw new Error('The inventory filter was not set up with initial values')
   }
-
-  const isMobile = useMedia({
-    maxWidth: `960px`,
-  })
 
   return (
     <InventoryFilterWrapper
