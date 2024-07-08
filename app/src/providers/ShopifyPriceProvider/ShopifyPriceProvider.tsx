@@ -155,7 +155,7 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
   }
 
   const getVariantPriceBySearchResults = (variantId: string): Price | null => {
-    if (currentCountry == 'US') return null
+    // if (currentCountry == 'US') return null
     if (!currentSearchResultPrices) return null
 
     const findVariant = currentSearchResultPrices
