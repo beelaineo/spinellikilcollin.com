@@ -194,29 +194,28 @@ export const useSearchReducer = () => {
     startSearch(newSearchTerm)
     const term = searchTerm.trim()
 
-    const searchWithAdditionalMatches = (search) => {
-      const matches = {
-        rose: 'rg',
-        black: 'bg',
-        yellow: 'yg',
-      }
+    // const searchWithAdditionalMatches = (search) => {
+    //   const matches = {
+    //     rose: 'rg',
+    //     black: 'bg',
+    //     yellow: 'yg',
+    //   }
 
-      const additionalMatches = Object.entries(matches)
-        .map(([key, value]) => {
-          return search && search.includes(key) && value
-        })
-        .filter(Boolean)
+    //   const additionalMatches = Object.entries(matches)
+    //     .map(([key, value]) => {
+    //       return search && search.includes(key) && value
+    //     })
+    //     .filter(Boolean)
 
-      return additionalMatches.length
-        ? search.concat(' ', additionalMatches.join(' '))
-        : search
-    }
-
-    const termWithMatches = searchWithAdditionalMatches(term)
+    //   return additionalMatches.length
+    //     ? search.concat(' ', additionalMatches.join(' '))
+    //     : search
+    // }
 
     // const termSingular = term.replace(/s$/, '')
     // const params = { searchTerm: term, searchTermSingular: termSingular }
-    const { hits } = await algoliaIndex.search<SearchHit>(termWithMatches, {
+
+    const { hits } = await algoliaIndex.search<SearchHit>(term, {
       hitsPerPage: 100,
       typoTolerance: 'min',
       exactOnSingleWordQuery: 'word',
