@@ -3029,6 +3029,7 @@ export interface ProductOptionValue {
   _type?: Maybe<Scalars['String']['output']>
   /** Cloudinary Video ID (looping render) */
   animation?: Maybe<Scalars['String']['output']>
+  contentAfter?: Maybe<Array<Maybe<ImageTextBlock>>>
   descriptionRaw?: Maybe<Scalars['JSON']['output']>
   hover_image?: Maybe<Image>
   /** If Karat swatch, link to associated stone. */

@@ -47,6 +47,14 @@ export const productOptionValue = defineType({
       type: 'string',
     }),
     defineField({
+      title: 'Content Blocks',
+      name: 'contentAfter',
+      description:
+        'These blocks will appear below the product header whenever the swatch is selected.',
+      type: 'array',
+      of: [{type: 'imageTextBlock'}],
+    }),
+    defineField({
       title: 'Stone',
       name: 'stone',
       type: 'reference',

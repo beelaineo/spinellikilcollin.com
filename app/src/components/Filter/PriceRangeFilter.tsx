@@ -295,13 +295,13 @@ export function PriceRangeFilter({
     setCurrentMinPrice(minPos / steps.length)
   }, [price, router.query.price])
 
-  console.log(
-    'price',
-    price,
-    router.query.price,
-    getClosestStep(currentMinPrice),
-    getClosestStep(currentMaxPrice),
-  )
+  // console.log(
+  //   'price',
+  //   price,
+  //   router.query.price,
+  //   getClosestStep(currentMinPrice),
+  //   getClosestStep(currentMaxPrice),
+  // )
 
   return (
     <PriceRangeFilterWrapper

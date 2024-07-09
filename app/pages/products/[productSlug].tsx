@@ -63,6 +63,9 @@ const productQueryInner = `
         ...SanityImageFragment
       }
       animation
+      contentAfter {
+        ...ImageTextBlockFragment
+      }
       stone {
         ...StoneFragment
       }
