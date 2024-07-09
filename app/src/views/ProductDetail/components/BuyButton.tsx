@@ -106,7 +106,7 @@ const useVariantIsInStock = (
       }>(shopifyVariantQuery, {
         id: currentVariantId,
       })
-      const variantIsAvailableForSale = result?.node.availableForSale
+      const variantIsAvailableForSale = result?.node?.availableForSale
       setIsInStock(variantIsAvailableForSale)
     }
     requestVariantData()

@@ -1,7 +1,6 @@
 import {type DocumentActionProps, type DocumentActionDescription, type SanityDocument} from 'sanity'
 
 export default function resolveProductionUrl(props: DocumentActionProps): string {
-  console.log('preview Action props', props)
   const readToken =
     'sk56XjAXI9dV5P1yFoPyGIOB3c9Gb52XjGDB7YBrwO41mVRc3c4wq4Uvu8nNMWgRWxUmvHGLBozFm0U2QGcqfbYu8XrCmbzyv64wcwYOukq6fjhepAdrvgMNVtLdcVaBzapYOGMyZmnOxEtNGiMs8iQijid9aR7MMv1XYYHaqTBrfEmiVmWQ'
   const {type, draft, published} = props
@@ -9,8 +8,6 @@ export default function resolveProductionUrl(props: DocumentActionProps): string
   const slug =
     // @ts-ignore
     draft?.handle || draft?.slug?.current || published?.handle || published?.slug?.current
-
-  console.log('slug', slug)
 
   switch (type) {
     case 'homepage':

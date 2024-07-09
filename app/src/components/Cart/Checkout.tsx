@@ -114,7 +114,7 @@ export const Checkout = () => {
 
   useEffect(() => {
     checkout && setTotalPrice(checkout.totalPriceV2)
-    console.log('UPDATED CHECKOUT', checkout)
+    // console.log('UPDATED CHECKOUT', checkout)
   }, [checkout])
 
   const handleSubmit = async (values: FormValues) => {

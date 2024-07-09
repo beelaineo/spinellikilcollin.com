@@ -307,7 +307,7 @@ export const ProductThumbnail = ({
     }
     if (currentSearchResultPrices && !currentVariantId && product.shopifyId) {
       getProductPriceById(product?.shopifyId).then((price) => {
-        console.log('productPriceInfo', price)
+        // console.log('productPriceInfo', price)
         if (price?.price) {
           setCurrentPrice(price?.price)
         }
@@ -442,10 +442,10 @@ export const ProductThumbnail = ({
       getProductPriceById(product?.shopifyId).then((price) => {
         if (price?.price) {
           setCurrentPrice(price?.price)
-          console.log('SET PRICE TO PRODUCT PRICE (NO VARIANTS)', price)
+          // console.log('SET PRICE TO PRODUCT PRICE (NO VARIANTS)', price)
         } else {
           setCurrentCompareAtPrice(null)
-          console.log('SET PRICE TO NULL (NO VARIANTS)')
+          // console.log('SET PRICE TO NULL (NO VARIANTS)')
         }
         if (price?.compareAtPrice) {
           setCurrentCompareAtPrice(price?.compareAtPrice)

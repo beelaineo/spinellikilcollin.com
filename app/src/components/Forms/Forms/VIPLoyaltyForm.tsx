@@ -73,7 +73,7 @@ export const VIPLoyaltyForm = ({ onContinue }: VIPLoyaltyFormProps) => {
 
   const formatDateValue = (value: string) => {
     const date = new Date(value).setUTCHours(0, 0, 0, 0)
-    console.log('date', date)
+    // console.log('date', date)
     return date
   }
 

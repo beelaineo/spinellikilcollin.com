@@ -81,12 +81,12 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
       if (!product?.id || !variant?.id) return
       // get the data from the api
       const variantPrice = await getVariantPriceById(product.id, variant.id)
-      console.log('CheckoutProduct current variant pricing', variantPrice)
+      // console.log('CheckoutProduct current variant pricing', variantPrice)
       // set state with the result if `isSubscribed` is true
       if (isSubscribed) {
         variantPrice?.price && setPrice(variantPrice?.price)
       }
-      console.log('CHECKOUT PRODUCT price state:', price)
+      // console.log('CHECKOUT PRODUCT price state:', price)
     }
     // call the function
     fetchData().catch(console.error)

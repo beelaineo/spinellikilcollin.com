@@ -52,11 +52,11 @@ export const useProductVariant = (
       (v) => v.shopifyVariantID === convertedVariantId,
     )
 
-    console.log('product', product)
+    // console.log('product', product)
 
-    console.log('variantId', variantId)
-    console.log('convertedVariantId', convertedVariantId)
-    console.log('variants in function', variants)
+    // console.log('variantId', variantId)
+    // console.log('convertedVariantId', convertedVariantId)
+    // console.log('variants in function', variants)
 
     if (!variant)
       throw new Error(

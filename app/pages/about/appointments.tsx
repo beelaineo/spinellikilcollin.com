@@ -88,7 +88,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const appointments = response?.Appointments || null
 
-  console.log('appointments', appointments)
+  // console.log('appointments', appointments)
 
   return { props: { appointments, shopData } }
 }
