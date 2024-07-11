@@ -99,12 +99,12 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
     if (!searchResults) return
     setCurrentCountryState(currentCountry)
     const productIds = searchResults.map((p) => p.shopifyId)
-    console.log('SEARCH RESULT PRODUCT IDS:', productIds)
+    // console.log('SEARCH RESULT PRODUCT IDS:', productIds)
     requestShopifyProductVariantPricesFromArray({
       ids: productIds,
       countryCode: currentCountry,
     }).then((response) => {
-      console.log('UPDATING COUNTRY SEARCH RESULTS PRICE TABLE', currentCountry)
+      // console.log('UPDATING COUNTRY SEARCH RESULTS PRICE TABLE', currentCountry)
       setCurrentSearchResultPrices(response)
     })
   }, [searchResults, currentCountry])
@@ -128,8 +128,8 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       countryCode: currentCountry,
     }).then((response) => {
       // console.log('UPDATING COUNTRY PRICE TABLE', currentCountry)
-      console.log('UPDATING COUNTRY COLLECTION PRICE TABLE', currentCountry)
-      console.log('RESPONSE:', response)
+      // console.log('UPDATING COUNTRY COLLECTION PRICE TABLE', currentCountry)
+      // console.log('RESPONSE:', response)
       setCurrentCollectionPrices(response)
     })
   }, [asPath, currentCountry])
@@ -155,7 +155,7 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
   }
 
   const getVariantPriceBySearchResults = (variantId: string): Price | null => {
-    if (currentCountry == 'US') return null
+    // if (currentCountry == 'US') return null
     if (!currentSearchResultPrices) return null
 
     const findVariant = currentSearchResultPrices
@@ -173,7 +173,7 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
   const getProductPriceById = async (
     productId: string,
   ): Promise<Price | null> => {
-    console.log('GETTING VARIANT PRICE BY SEARCH RESULTS', productId)
+    // console.log('GETTING VARIANT PRICE BY SEARCH RESULTS', productId)
 
     const product = await requestShopifyProductPriceRange({
       id: productId,
@@ -214,9 +214,9 @@ export const ShopifyPriceProvider = ({ children, query }: Props) => {
       countryCode: currentCountry,
     })
 
-    console.log('variantId:', variantId)
-    console.log('productId:', productId)
-    console.log('currentCountry:', currentCountry)
+    // console.log('variantId:', variantId)
+    // console.log('productId:', productId)
+    // console.log('currentCountry:', currentCountry)
     const variant = await result
 
     const variantPrice = {

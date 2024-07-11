@@ -568,7 +568,10 @@ export const ProductDetail = ({ product }: Props) => {
             </ProductDetails>
           </Column>
         </ProductPageWrapper>
-        <ProductDetailFooter product={product} />
+        <ProductDetailFooter
+          product={product}
+          currentVariant={currentVariant}
+        />
         <ProductRelated product={product} currentVariant={currentVariant} />
       </CurrentProductProvider>
     </>

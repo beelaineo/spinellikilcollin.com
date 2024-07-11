@@ -228,9 +228,9 @@ const handler: NextApiHandler = (req, res) =>
       algoliaIndex.setSettings({
         searchableAttributes: [
           'title',
+          '_tags',
           'optionNames',
           'hidden',
-          '_tags',
           'description,optionDescriptions',
         ],
       })

@@ -210,29 +210,29 @@ export const useCheckout = ({
       }
       // otherwise, create a new checkout with updated country code and context
     } else {
-      console.log('create a new checkout with updated country code and context')
+      // console.log('create a new checkout with updated country code and context')
       // if state checkout had line items, add them to the new checkout
       if (state.checkout && state.checkout.lineItems) {
-        console.log(
-          'state checkout had line items, add them to the new checkout',
-        )
+        // console.log(
+        //   'state checkout had line items, add them to the new checkout',
+        // )
         // state checkout had line items, add them to the new checkout
         const lineItems = unwindEdges(state.checkout.lineItems)[0]
         const checkoutLineItemInputs: CheckoutLineItemInput[] = lineItems.map(
           (item) => getVariantLineItem(item),
         )
 
-        console.log('checkoutLineItemInputs:', checkoutLineItemInputs)
+        // console.log('checkoutLineItemInputs:', checkoutLineItemInputs)
 
         const variables: CheckoutCreateInput = {
           lineItems: checkoutLineItemInputs,
           countryCode: countryCode,
         }
-        console.log('UPDATING CHECKOUT WITH VARIABLES:', variables)
+        // console.log('UPDATING CHECKOUT WITH VARIABLES:', variables)
         return checkoutCreate(variables)
       } else {
-        console.log('state.checkout', state.checkout)
-        console.log('create new checkout with updated country code')
+        // console.log('state.checkout', state.checkout)
+        // console.log('create new checkout with updated country code')
         // create new checkout with updated country code
         return checkoutCreate({ countryCode: countryCode })
       }
@@ -249,16 +249,16 @@ export const useCheckout = ({
         variables,
       )
       const checkout = result ? result.node : undefined
-      console.log(
-        'fetched checkout using token, with updated country code',
-        checkout,
-      )
+      // console.log(
+      //   'fetched checkout using token, with updated country code',
+      //   checkout,
+      // )
 
       const lineItems = unwindEdges(checkout?.lineItems)[0]
       const checkoutLineItemInputs: CheckoutLineItemInput[] =
         lineItems.map(getVariantLineItem)
 
-      console.log('checkoutLineItemInputs:', checkoutLineItemInputs)
+      // console.log('checkoutLineItemInputs:', checkoutLineItemInputs)
       /* If checkout countryCode doesn't match CountryProvider countryCode, create a new checkout */
       // if (
       //   checkout &&
@@ -288,24 +288,24 @@ export const useCheckout = ({
       //   dispatch({ type: FETCHED_CHECKOUT, checkout })
       // }
       if (checkout && checkout.buyerIdentity.countryCode !== currentCountry) {
-        console.log(
-          'Country code mismatch, recreating checkout due to country change.',
-        )
+        // console.log(
+        //   'Country code mismatch, recreating checkout due to country change.',
+        // )
         const lineItems = unwindEdges(checkout.lineItems)[0]
         const checkoutLineItemInputs: CheckoutLineItemInput[] =
           lineItems.map(getVariantLineItem)
 
-        console.log('mismatch checkoutLineItemInputs:', checkoutLineItemInputs)
+        // console.log('mismatch checkoutLineItemInputs:', checkoutLineItemInputs)
         return getOrCreateCheckout({
           lineItems: checkoutLineItemInputs,
           countryCode: currentCountry,
         })
       } else {
-        console.log('Using existing checkout fetched with token.')
+        // console.log('Using existing checkout fetched with token.')
         dispatch({ type: FETCHED_CHECKOUT, checkout })
       }
     } else {
-      console.log('No checkout token found, creating a new checkout.')
+      // console.log('No checkout token found, creating a new checkout.')
       /* When no token exists, dispatch this to set "loading" to false. */
       /* This might deserve its own action type, "NOTHING_TO_FETCH" */
       getOrCreateCheckout({ countryCode: currentCountry })
@@ -429,7 +429,7 @@ export const useCheckout = ({
   const addNote = async (note: string) => checkoutAttributesUpdate({ note })
 
   const refetchCheckout = async () => {
-    console.log('refetching checkout')
+    // console.log('refetching checkout')
     fetchCheckout()
   }
 
@@ -442,7 +442,7 @@ export const useCheckout = ({
 
   useEffect(() => {
     if (loading) return
-    console.log('currentCountry changed in useCheckout:', currentCountry)
+    // console.log('currentCountry changed in useCheckout:', currentCountry)
     setCountryCode(currentCountry)
     fetchCheckout()
   }, [currentCountry, loading])
