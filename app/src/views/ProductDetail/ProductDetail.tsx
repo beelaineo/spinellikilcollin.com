@@ -40,6 +40,7 @@ import {
   ProductRelated,
   RingSizerButton,
   SizeConverterButton,
+  ProductRecent,
 } from './components'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useCountry } from '../../providers/CountryProvider'
@@ -583,7 +584,8 @@ export const ProductDetail = ({ product }: Props) => {
           product={product}
           currentVariant={currentVariant}
         />
-        <ProductRelated product={product} />
+        <ProductRecent />
+        <ProductRelated product={product} currentVariant={currentVariant} />
       </CurrentProductProvider>
     </>
   )
