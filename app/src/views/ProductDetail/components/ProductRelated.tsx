@@ -54,17 +54,23 @@ export const ProductRelated = ({
         </Heading>
       )}
       <ProductRelatedInner>
-        <SuggestedProductsCarousel
-          collection={
-            carousel.__typename === 'Carousel' && carousel.collection
-              ? carousel.collection
-              : carousel.__typename === 'Collection'
-              ? carousel
-              : null
-          }
-          currentVariant={currentVariant}
-          product={product}
-        />
+        {carousel.__typename === 'Carousel' &&
+        carousel.items &&
+        carousel.items.length ? (
+          <ItemsCarousel items={carousel.items} />
+        ) : (
+          <SuggestedProductsCarousel
+            collection={
+              carousel.__typename === 'Carousel' && carousel.collection
+                ? carousel.collection
+                : carousel.__typename === 'Collection'
+                ? carousel
+                : null
+            }
+            currentVariant={currentVariant}
+            product={product}
+          />
+        )}
       </ProductRelatedInner>
     </ProductRelatedWrapper>
   )

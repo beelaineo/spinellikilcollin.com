@@ -7,7 +7,7 @@ import {
   ShopifySourceProductVariant,
 } from '../../types'
 import { Carousel } from './Carousel'
-import { ProductThumbnail, VariantThumbnail } from '../Product'
+import { ProductThumbnail } from '../Product'
 import { definitely, getVariantTitle, useViewportSize } from '../../utils'
 import {
   useLazyRequest,
@@ -162,14 +162,11 @@ export const SuggestedProductsCarousel = ({
   currentVariant,
   product,
 }: SuggestedProductsCarouselProps) => {
-  const collectionProducts = collection?.products
   const { width: viewportWidth } = useViewportSize()
 
   const variables = collection?._id
     ? { collectionId: collection._id }
     : { productType: product?.store?.productType }
-
-  console.log('productproduct', product, variables)
 
   const query = collection?._id ? queryByCollection : queryByProductType
 
@@ -191,21 +188,49 @@ export const SuggestedProductsCarousel = ({
 
   const products = definitely(fetchedCollection)
 
-  const [variants, setVariants] = useState<
-    Maybe<ShopifySourceProductVariant>[]
-  >([])
+  const [variants, setVariants] = useState<Maybe<ShopifyProductVariant>[]>([])
+
+  const availableProducts =
+    (products as Product[])?.filter((p) => p?.hideFromSearch !== true) || []
 
   useEffect(() => {
-    const variants = products?.map((p: any) => p?.store?.variants).flat()
+    function getNestedValue(obj, path) {
+      return path.split('.').reduce((acc, part) => acc && acc[part], obj)
+    }
 
-    const unique =
-      variants?.filter(
-        (v) =>
-          v?.sourceData?.availableForSale === true &&
-          v?.sourceData?.selectedOptions?.find(
-            (o) => o?.value == 'Not sure of my size',
-          ),
-      ) || []
+    function getUniqueEntries(array, path) {
+      const seen = new Set()
+      return array.filter((item) => {
+        const value = getNestedValue(item, path)
+        if (seen.has(value)) {
+          return false
+        } else {
+          seen.add(value)
+          return true
+        }
+      })
+    }
+
+    const variants = availableProducts
+      ?.map((p: any) =>
+        p?.store?.variants.map((v) => ({
+          product: {
+            title: p.title,
+            handle: p.handle,
+            store: {
+              productType: p.store.productType,
+            },
+            variantsLength: p.store.variants.length,
+          },
+          ...v,
+        })),
+      )
+      .flat()
+
+    const availableForSale =
+      variants?.filter((v) => v?.sourceData?.availableForSale === true) || []
+
+    const unique = getUniqueEntries(availableForSale, 'sourceData.image.id')
 
     const sorted = unique.sort(
       (a, b) =>
@@ -219,27 +244,67 @@ export const SuggestedProductsCarousel = ({
         ),
     )
 
-    setVariants(sorted as Maybe<ShopifySourceProductVariant>[])
+    const variantsWithoutCurrent = sorted?.filter(
+      (v: any) => v?.title !== currentVariant?.title,
+    )
+
+    setVariants(variantsWithoutCurrent as Maybe<ShopifyProductVariant>[])
   }, [data, currentVariant])
 
-  console.log('suggest products carousel', variants)
+  const filteredProducts = variants.flatMap((variant: any) =>
+    availableProducts.filter(
+      (product) => variant?.product?.title === product.title,
+    ),
+  )
+
   if (!variants?.length) return null
 
   const initialSlide = viewportWidth < 650 ? 1 : 0
+
+  const preferredVariantMatches = variants
+    .flatMap(
+      (variant) =>
+        variant?.sourceData?.selectedOptions &&
+        variant?.sourceData?.selectedOptions.filter(
+          (v) =>
+            v?.name === 'Color' ||
+            v?.name === 'Carat' ||
+            v?.name === 'Style' ||
+            v?.name === 'Material' ||
+            (v?.name === 'Size' &&
+              variant?.sourceData?.selectedOptions &&
+              variant?.sourceData?.selectedOptions.length === 1),
+        ),
+    )
+    .map((v) => (v?.name === 'Size' ? null : v?.value))
+
   return (
-    <Carousel initialSlide={initialSlide}>
-      {definitely(variants).map((variant: any) => {
-        console.log('variant test', variant)
-        return (
-          <VariantThumbnail
-            key={variant?.shopifyId || 'some-key'}
-            preload
-            variant={variant}
-            headingLevel={5}
-            carousel={true}
-          />
+    <Carousel
+      key={preferredVariantMatches[0] || 'a-key'}
+      initialSlide={initialSlide}
+    >
+      {definitely(filteredProducts)
+        .filter(
+          (product: any) =>
+            product?.archived !== true &&
+            product?.hidden !== true &&
+            product?.hideFromSearch !== true,
         )
-      })}
+        .map((product: any, index) => {
+          return (
+            <ProductThumbnail
+              key={preferredVariantMatches[index] || 'some-key'}
+              preload
+              preferredVariantMatches={[preferredVariantMatches[index] || null]}
+              product={product}
+              displaySwatches={false}
+              displayTags={false}
+              headingLevel={5}
+              carousel={true}
+              enableVariantTitle
+            />
+          )
+        })}
     </Carousel>
   )
 }
