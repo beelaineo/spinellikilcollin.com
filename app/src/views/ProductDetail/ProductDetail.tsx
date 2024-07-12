@@ -98,6 +98,11 @@ interface Props {
   product: Product
 }
 import { config } from '../../config'
+import { add } from 'husky'
+import {
+  addRecentlyViewedProduct,
+  getRecentlyViewedProducts,
+} from '../../utils/recentlyViewed'
 
 const { SHOW_IN_STOCK_INDICATORS } = config
 
@@ -139,6 +144,12 @@ export const ProductDetail = ({ product }: Props) => {
   useEffect(() => {
     if (!currentVariant) throw new Error('Could not get current variant')
     sendProductDetailView({ product, variant: currentVariant })
+
+    console.log('currentVariant', currentVariant)
+    console.log('product', product)
+    // add recently viewed products store hook here
+    addRecentlyViewedProduct(product.shopifyId, currentVariant.id)
+    console.log('getRecentlyViewedProducts', getRecentlyViewedProducts())
 
     const newUri = getProductUri(product, {
       variant: currentVariant,
