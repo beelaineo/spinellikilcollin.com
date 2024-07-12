@@ -297,6 +297,7 @@ export const SuggestedProductsCarousel = ({
               displayTags={false}
               headingLevel={5}
               carousel={true}
+              enableVariantTitle
             />
           )
         })}

@@ -30,6 +30,7 @@ import {
   definitely,
   withTypenames,
   getBestVariantBySort,
+  getVariantTitle,
 } from '../../utils'
 import { useInViewport } from '../../hooks'
 import { Money, useAnalytics } from '../../providers'
@@ -73,6 +74,7 @@ interface ProductThumbnailProps {
   imageRatio?: number
   collectionId?: string | null
   carousel?: boolean
+  enableVariantTitle?: boolean
 }
 
 interface VariantAnimation {
@@ -157,6 +159,7 @@ export const ProductThumbnail = ({
   imageRatio,
   collectionId,
   carousel,
+  enableVariantTitle,
 }: ProductThumbnailProps) => {
   const router = useRouter()
   const { asPath } = useRouter()
@@ -685,6 +688,15 @@ export const ProductThumbnail = ({
 
   const [imageHover, setImageHover] = useState(false)
 
+  const variantTitle =
+    currentVariant && getVariantTitle(product, currentVariant)
+
+  const title = enableVariantTitle
+    ? variantTitle
+    : product?.title
+    ? product.title
+    : ' '
+
   return (
     <ProductThumb ref={containerRef}>
       <Link
@@ -763,7 +775,7 @@ export const ProductThumbnail = ({
               ) : (
                 ''
               )}
-              {product.title} |{' '}
+              {title}
               <PriceWrapper>
                 <Price price={currentPrice} />
                 <Span ml={2} color="body.6" textDecoration="line-through">
@@ -784,7 +796,7 @@ export const ProductThumbnail = ({
               ) : (
                 ''
               )}
-              {product.title}
+              {title}
             </TitleHeading>
           )}
           {displaySwatches ? (
