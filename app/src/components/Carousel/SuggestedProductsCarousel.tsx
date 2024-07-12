@@ -244,7 +244,11 @@ export const SuggestedProductsCarousel = ({
         ),
     )
 
-    setVariants(sorted as Maybe<ShopifyProductVariant>[])
+    const variantsWithoutCurrent = sorted?.filter(
+      (v: any) => v?.title !== currentVariant?.title,
+    )
+
+    setVariants(variantsWithoutCurrent as Maybe<ShopifyProductVariant>[])
   }, [data, currentVariant])
 
   const filteredProducts = variants.flatMap((variant: any) =>
