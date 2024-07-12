@@ -163,7 +163,6 @@ export const SuggestedProductsCarousel = ({
   product,
 }: SuggestedProductsCarouselProps) => {
   const { width: viewportWidth } = useViewportSize()
-  const [initialSlide, setInitalSlide] = useState<number>(0)
 
   const variables = collection?._id
     ? { collectionId: collection._id }
@@ -176,10 +175,6 @@ export const SuggestedProductsCarousel = ({
     variables,
   )
   const { data } = response
-
-  useEffect(() => {
-    setInitalSlide(viewportWidth < 650 ? 1 : 0)
-  }, [viewportWidth])
 
   useEffect(() => {
     if (Boolean(data)) return
@@ -260,6 +255,8 @@ export const SuggestedProductsCarousel = ({
 
   if (!variants?.length) return null
 
+  const initialSlide = viewportWidth < 650 ? 1 : 0
+
   const preferredVariantMatches = variants
     .flatMap(
       (variant) =>
@@ -278,7 +275,10 @@ export const SuggestedProductsCarousel = ({
     .map((v) => (v?.name === 'Size' ? null : v?.value))
 
   return (
-    <Carousel key={currentVariant?._key || 'a-key'} initialSlide={initialSlide}>
+    <Carousel
+      key={preferredVariantMatches[0] || 'a-key'}
+      initialSlide={initialSlide}
+    >
       {definitely(filteredProducts)
         .filter(
           (product: any) =>
@@ -289,7 +289,7 @@ export const SuggestedProductsCarousel = ({
         .map((product: any, index) => {
           return (
             <ProductThumbnail
-              key={product.shopifyId || 'some-key'}
+              key={preferredVariantMatches[index] || 'some-key'}
               preload
               preferredVariantMatches={[preferredVariantMatches[index] || null]}
               product={product}
