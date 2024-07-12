@@ -198,13 +198,13 @@ export const ProductThumbnail = ({
         })
         .map((s) => s.selectedVariant)
 
-  // console.log('initialVariantSelections:', initialVariantSelections)
-
   const initialVariant = initialVariantSelections
     ? getBestVariantByMatch(variants, definitely(initialVariantSelections))
     : preferredVariantMatches
     ? getBestVariantByMatch(variants, definitely(preferredVariantMatches))
     : variants[0]
+
+  // console.log('initials', preferredVariantMatches, initialVariantSelections)
 
   // console.log('initialVariant:', initialVariant)
 
@@ -511,6 +511,7 @@ export const ProductThumbnail = ({
           }
         })
       const newVariant = getVariantBySelectedOptions(variants, currentOptions)
+
       if (newVariant) setCurrentVariant(newVariant)
     }
 

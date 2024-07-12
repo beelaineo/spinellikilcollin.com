@@ -7,7 +7,7 @@ import {
   ShopifySourceProductVariant,
 } from '../../types'
 import { Carousel } from './Carousel'
-import { ProductThumbnail, VariantThumbnail } from '../Product'
+import { ProductThumbnail } from '../Product'
 import { definitely, getVariantTitle, useViewportSize } from '../../utils'
 import {
   useLazyRequest,
