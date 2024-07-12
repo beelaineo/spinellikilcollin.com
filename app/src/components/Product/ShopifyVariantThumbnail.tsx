@@ -1,7 +1,12 @@
 import * as React from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { FilterConfiguration, Maybe, ShopifyProductVariant } from '../../types'
+import {
+  FilterConfiguration,
+  Maybe,
+  Product,
+  ShopifyProductVariant,
+} from '../../types'
 import { Heading } from '../Text'
 import { Image } from '../Image'
 
@@ -110,6 +115,15 @@ export const ShopifyVariantThumbnail = ({
     return `/products/${variant?.product?.handle}?v=${variantId}`
   }
 
+  const isProductCurrentlyInStock = (
+    variant: ShopifyStorefrontProductVariant,
+  ): boolean => {
+    if (!variant?.product.totalInventory) return false
+    const isInStock = variant.product.totalInventory > 0 ? true : false
+    // console.log('isInStock:', isInStock)
+    return isInStock
+  }
+
   return (
     <ProductThumb ref={containerRef}>
       <Link
@@ -130,6 +144,7 @@ export const ShopifyVariantThumbnail = ({
 
         <ProductInfo>
           <TitleHeading textAlign="center" my={0} level={headingLevel || 3}>
+            {isProductCurrentlyInStock(variant) && <InStockDot />}
             {stripAfterSlash(variant.title)}
           </TitleHeading>
         </ProductInfo>

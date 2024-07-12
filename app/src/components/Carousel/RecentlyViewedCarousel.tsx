@@ -25,6 +25,7 @@ const getVariantsByIds = gql`
       ... on ProductVariant {
         id
         title
+        currentlyNotInStock
         price {
           amount
         }
@@ -32,6 +33,7 @@ const getVariantsByIds = gql`
           id
           title
           handle
+          totalInventory
         }
         image {
           __typename
