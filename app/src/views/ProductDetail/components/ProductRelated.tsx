@@ -1,12 +1,22 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { Carousel as CarouselType, Collection, Product } from '../../../types'
+import {
+  Carousel as CarouselType,
+  Collection,
+  Product,
+  ShopifyProductVariant,
+} from '../../../types'
 import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
-import { ItemsCarousel, CollectionCarousel } from '../../../components/Carousel'
+import {
+  ItemsCarousel,
+  CollectionCarousel,
+  SuggestedProductsCarousel,
+} from '../../../components/Carousel'
 import { Heading } from '../../../components/Text'
 
 interface ProductRelatedProps {
   product: Product
+  currentVariant: ShopifyProductVariant
 }
 
 const getCarousel = (product: Product): CarouselType | Collection | null => {
@@ -20,7 +30,10 @@ const getCarousel = (product: Product): CarouselType | Collection | null => {
   return null
 }
 
-export const ProductRelated = ({ product }: ProductRelatedProps) => {
+export const ProductRelated = ({
+  product,
+  currentVariant,
+}: ProductRelatedProps) => {
   const carousel = getCarousel(product)
   if (!carousel) return null
   const linkAs =
@@ -41,15 +54,17 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
         </Heading>
       )}
       <ProductRelatedInner>
-        {carousel.__typename === 'Carousel' &&
-        carousel.items &&
-        carousel.items.length ? (
-          <ItemsCarousel items={carousel.items} />
-        ) : carousel.__typename === 'Carousel' && carousel.collection ? (
-          <CollectionCarousel collection={carousel.collection} />
-        ) : carousel.__typename === 'Collection' ? (
-          <CollectionCarousel collection={carousel} />
-        ) : null}
+        <SuggestedProductsCarousel
+          collection={
+            carousel.__typename === 'Carousel' && carousel.collection
+              ? carousel.collection
+              : carousel.__typename === 'Collection'
+              ? carousel
+              : null
+          }
+          currentVariant={currentVariant}
+          product={product}
+        />
       </ProductRelatedInner>
     </ProductRelatedWrapper>
   )
