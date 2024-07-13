@@ -705,6 +705,7 @@ export const ProductThumbnail = ({
         draggable="false"
         aria-label={'Link to ' + product.title}
         onClick={handleClick}
+        style={{ display: 'flex', flexDirection: 'column' }}
       >
         {variantAnimation ? (
           <VideoWrapper hide={!playing} carousel={carousel} hover={imageHover}>
