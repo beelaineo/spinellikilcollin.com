@@ -51,7 +51,6 @@ module.exports = withSourceMaps({
   },
   experimental: {
     scrollRestoration: true,
-    optimisticClientCache: false,
   },
   // webpack5: false,
   publicRuntimeConfig: {
