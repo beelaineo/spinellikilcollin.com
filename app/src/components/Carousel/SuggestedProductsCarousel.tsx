@@ -195,7 +195,13 @@ export const SuggestedProductsCarousel = ({
   const [variants, setVariants] = useState<Maybe<ShopifyProductVariant>[]>([])
 
   const availableProducts =
-    (products as Product[])?.filter((p) => p?.hideFromSearch !== true) || []
+    (products as Product[])?.filter(
+      (p) =>
+        p?.hideFromSearch !== true &&
+        p?.archived !== true &&
+        p?.hidden !== true &&
+        p?.hideFromCollections !== true,
+    ) || []
 
   useEffect(() => {
     function getNestedValue(obj, path) {
@@ -302,12 +308,7 @@ export const SuggestedProductsCarousel = ({
   const filteredProducts = variants
     .flatMap((variant: any) =>
       availableProducts.filter(
-        (product) =>
-          variant?.product?.title === product.title &&
-          product?.archived !== true &&
-          product?.hidden !== true &&
-          product?.hideFromSearch !== true &&
-          product?.hideFromCollections !== true,
+        (product) => variant?.product?.title === product.title,
       ),
     )
     .slice(0, carouselMaxLength)
