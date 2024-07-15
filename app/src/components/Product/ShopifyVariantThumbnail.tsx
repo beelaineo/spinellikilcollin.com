@@ -130,6 +130,7 @@ export const ShopifyVariantThumbnail = ({
         href={getVariantUri(variant)}
         draggable="false"
         aria-label={'Link to ' + variant.title}
+        style={{ display: 'flex', flexDirection: 'column' }}
       >
         <ImageWrapper>
           <Image

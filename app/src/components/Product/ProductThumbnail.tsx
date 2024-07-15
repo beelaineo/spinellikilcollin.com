@@ -776,7 +776,7 @@ export const ProductThumbnail = ({
               ) : (
                 ''
               )}
-              {title}
+              {title} |{' '}
               <PriceWrapper>
                 <Price price={currentPrice} />
                 <Span ml={2} color="body.6" textDecoration="line-through">
