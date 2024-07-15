@@ -74,7 +74,6 @@ export const RecentlyViewedCarousel = ({
 
   const variantIds = recentlyViewed.map((item) => item.variantId)
 
-  console.log('variants', variants)
   useEffect(() => {
     if (variants.length) return
 
@@ -101,7 +100,6 @@ export const RecentlyViewedCarousel = ({
   return (
     <Carousel initialSlide={initialSlide}>
       {definitely(variants).map((variant: any) => {
-        console.log('variant test', variant)
         return (
           <ShopifyVariantThumbnail
             key={variant?.shopifyId || 'some-key'}
