@@ -74,7 +74,10 @@ export const RecentlyViewedCarousel = ({
 
   const variantIds = recentlyViewed.map((item) => item.variantId)
 
+  console.log('variants', variants)
   useEffect(() => {
+    if (variants.length) return
+
     const fetchVariants = async () => {
       if (variantIds.length > 0) {
         const variables = { variantIds }
