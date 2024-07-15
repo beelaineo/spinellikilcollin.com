@@ -170,6 +170,8 @@ export const SuggestedProductsCarousel = ({
     ? { collectionId: collection._id }
     : { productType: product?.store?.productType }
 
+  const carouselMaxLength = 40
+
   const query = collection?._id ? queryByCollection : queryByProductType
 
   const [getCarousel, response] = useLazyRequest<Response, Variables>(
@@ -297,11 +299,18 @@ export const SuggestedProductsCarousel = ({
     setVariants(variantsWithoutCurrent as Maybe<ShopifyProductVariant>[])
   }, [data, currentVariant])
 
-  const filteredProducts = variants.flatMap((variant: any) =>
-    availableProducts.filter(
-      (product) => variant?.product?.title === product.title,
-    ),
-  )
+  const filteredProducts = variants
+    .flatMap((variant: any) =>
+      availableProducts.filter(
+        (product) =>
+          variant?.product?.title === product.title &&
+          product?.archived !== true &&
+          product?.hidden !== true &&
+          product?.hideFromSearch !== true &&
+          product?.hideFromCollections !== true,
+      ),
+    )
+    .slice(0, carouselMaxLength)
 
   if (!variants?.length) return null
 
@@ -329,29 +338,21 @@ export const SuggestedProductsCarousel = ({
       key={preferredVariantMatches[0] || 'a-key'}
       initialSlide={initialSlide}
     >
-      {definitely(filteredProducts)
-        .filter(
-          (product: any) =>
-            product?.archived !== true &&
-            product?.hidden !== true &&
-            product?.hideFromSearch !== true &&
-            product?.hideFromCollections !== true,
+      {definitely(filteredProducts).map((product: any, index) => {
+        return (
+          <ProductThumbnail
+            key={preferredVariantMatches[index] || 'some-key'}
+            preload
+            preferredVariantMatches={[preferredVariantMatches[index] || null]}
+            product={product}
+            displaySwatches={false}
+            displayTags={false}
+            headingLevel={5}
+            carousel={true}
+            enableVariantTitle
+          />
         )
-        .map((product: any, index) => {
-          return (
-            <ProductThumbnail
-              key={preferredVariantMatches[index] || 'some-key'}
-              preload
-              preferredVariantMatches={[preferredVariantMatches[index] || null]}
-              product={product}
-              displaySwatches={false}
-              displayTags={false}
-              headingLevel={5}
-              carousel={true}
-              enableVariantTitle
-            />
-          )
-        })}
+      })}
     </Carousel>
   )
 }
