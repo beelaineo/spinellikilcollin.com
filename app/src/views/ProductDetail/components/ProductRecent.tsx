@@ -6,7 +6,12 @@ import {
   Product,
   ShopifyProductVariant,
 } from '../../../types'
-import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
+import {
+  ProductRelatedWrapper,
+  ProductRelatedInner,
+  ProductRecentWrapper,
+  ProductRecentInner,
+} from '../styled'
 import {
   ItemsCarousel,
   CollectionCarousel,
@@ -31,16 +36,16 @@ export const ProductRecent = ({
   if (!recentlyViewed.length || recentlyViewed.length < 2) return null
 
   return (
-    <ProductRelatedWrapper>
+    <ProductRecentWrapper>
       <Heading level={4} m={3} textTransform="capitalize" textAlign="center">
         Recently Viewed Styles
       </Heading>
-      <ProductRelatedInner>
+      <ProductRecentInner>
         <RecentlyViewedCarousel
           currentVariant={currentVariant}
           product={product}
         />
-      </ProductRelatedInner>
-    </ProductRelatedWrapper>
+      </ProductRecentInner>
+    </ProductRecentWrapper>
   )
 }
