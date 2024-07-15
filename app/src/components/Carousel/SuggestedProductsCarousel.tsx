@@ -35,6 +35,7 @@ const queryByCollection = gql`
         title
         hidden
         hideFromSearch
+        hideFromCollections
         handle
         archived
         shopifyId
@@ -93,6 +94,7 @@ const queryByProductType = gql`
       title
       hidden
       hideFromSearch
+      hideFromCollections
       handle
       archived
       shopifyId
@@ -289,7 +291,7 @@ export const SuggestedProductsCarousel = ({
     const sortedMeta = sortedMetaIndices.map((v) => unique[v.id - 1])
 
     const variantsWithoutCurrent = sortedMeta?.filter(
-      (v: any) => v?.title !== currentVariant?.title,
+      (v: any) => !v?.title.includes(product?.title),
     )
 
     setVariants(variantsWithoutCurrent as Maybe<ShopifyProductVariant>[])
