@@ -216,11 +216,6 @@ export const SuggestedProductsCarousel = ({
         p?.store?.variants.map((v) => ({
           product: {
             title: p.title,
-            handle: p.handle,
-            store: {
-              productType: p.store.productType,
-            },
-            variantsLength: p.store.variants.length,
           },
           ...v,
         })),
@@ -232,19 +227,56 @@ export const SuggestedProductsCarousel = ({
 
     const unique = getUniqueEntries(availableForSale, 'sourceData.image.id')
 
-    const sorted = unique.sort(
-      (a, b) =>
-        Math.abs(
-          (a?.sourceData?.priceV2?.amount ?? 0) -
-            (currentVariant?.sourceData?.priceV2?.amount ?? 0),
-        ) -
-        Math.abs(
-          (b?.sourceData?.priceV2?.amount ?? 0) -
-            (currentVariant?.sourceData?.priceV2?.amount ?? 0),
-        ),
+    const metafieldMatches = unique.map((v) => {
+      return {
+        price: v?.sourceData?.priceV2?.amount,
+        metafields: v?.sourceData?.metafields
+          .map((m) => m.value.split(','))
+          .flat(),
+      }
+    })
+
+    const countMatches = (searchArray, nestedArrays) => {
+      return nestedArrays.map((nestedArray, index) => {
+        const matchedCount = nestedArray?.metafields.reduce((count, val) => {
+          if (searchArray?.metafields?.includes(val)) {
+            return count + 1
+          } else {
+            return count
+          }
+        }, 0)
+
+        return {
+          id: index + 1,
+          matchedCount,
+          price: nestedArrays[index]?.price,
+        } // Using index + 1 as id for simplicity
+      })
+    }
+
+    const currentVariantMetafields = {
+      price: currentVariant?.sourceData?.priceV2?.amount,
+      metafields: unique
+        ?.filter((v: any) => v?.title === currentVariant?.title)[0]
+        ?.sourceData?.metafields?.map((m) => m?.value?.split(','))
+        .flat(),
+    }
+
+    const matchedCounts = countMatches(
+      currentVariantMetafields,
+      metafieldMatches,
     )
 
-    const variantsWithoutCurrent = sorted?.filter(
+    const sortedMetaIndices = matchedCounts.sort((a, b) => {
+      if (a.matchedCount === b.matchedCount) {
+        return b.price - a.price // Sort by price descending
+      }
+      return b.matchedCount - a.matchedCount // Sort by matchedCount descending
+    })
+
+    const sortedMeta = sortedMetaIndices.map((v) => unique[v.id - 1])
+
+    const variantsWithoutCurrent = sortedMeta?.filter(
       (v: any) => v?.title !== currentVariant?.title,
     )
 
