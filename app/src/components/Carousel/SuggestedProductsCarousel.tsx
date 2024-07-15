@@ -269,16 +269,28 @@ export const SuggestedProductsCarousel = ({
         .flat(),
     }
 
-    console.log('test', currentVariantMetafields, metafieldMatches)
-
     const matchedCounts = countMatches(
       currentVariantMetafields,
       metafieldMatches,
     )
 
+    // Math.abs(
+    //   (a?.sourceData?.priceV2?.amount ?? 0) -
+    //     (currentVariant?.sourceData?.priceV2?.amount ?? 0),
+    // ) -
+    // Math.abs(
+    //   (b?.sourceData?.priceV2?.amount ?? 0) -
+    //     (currentVariant?.sourceData?.priceV2?.amount ?? 0),
+    // ),
+
     const sortedMetaIndices = matchedCounts.sort((a, b) => {
       if (a.matchedCount === b.matchedCount) {
-        return b.price - a.price // Sort by price descending
+        return (
+          currentVariant?.sourceData?.priceV2?.amount &&
+          Math.abs(a.price - currentVariant?.sourceData?.priceV2?.amount) -
+            currentVariant?.sourceData?.priceV2?.amount &&
+          Math.abs(b.price - currentVariant?.sourceData?.priceV2?.amount)
+        ) // Sort by price descending
       }
       return b.matchedCount - a.matchedCount // Sort by matchedCount descending
     })
