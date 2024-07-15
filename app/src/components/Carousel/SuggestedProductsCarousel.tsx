@@ -274,15 +274,6 @@ export const SuggestedProductsCarousel = ({
       metafieldMatches,
     )
 
-    // Math.abs(
-    //   (a?.sourceData?.priceV2?.amount ?? 0) -
-    //     (currentVariant?.sourceData?.priceV2?.amount ?? 0),
-    // ) -
-    // Math.abs(
-    //   (b?.sourceData?.priceV2?.amount ?? 0) -
-    //     (currentVariant?.sourceData?.priceV2?.amount ?? 0),
-    // ),
-
     const sortedMetaIndices = matchedCounts.sort((a, b) => {
       if (a.matchedCount === b.matchedCount) {
         return (
