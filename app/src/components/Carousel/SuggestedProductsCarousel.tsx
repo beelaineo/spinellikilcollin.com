@@ -288,7 +288,8 @@ export const SuggestedProductsCarousel = ({
           (product: any) =>
             product?.archived !== true &&
             product?.hidden !== true &&
-            product?.hideFromSearch !== true,
+            product?.hideFromSearch !== true &&
+            product?.hideFromCollections !== true,
         )
         .map((product: any, index) => {
           return (
