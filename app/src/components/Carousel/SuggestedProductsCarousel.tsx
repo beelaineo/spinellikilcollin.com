@@ -231,7 +231,10 @@ export const SuggestedProductsCarousel = ({
       return {
         price: v?.sourceData?.priceV2?.amount,
         metafields: v?.sourceData?.metafields
-          .map((m) => m.value.split(','))
+          .map((m) => {
+            const val = m.key === 'style' && m.value === 'd' ? 'del' : m.value
+            return val.split(',')
+          })
           .flat(),
       }
     })
@@ -258,9 +261,15 @@ export const SuggestedProductsCarousel = ({
       price: currentVariant?.sourceData?.priceV2?.amount,
       metafields: unique
         ?.filter((v: any) => v?.title === currentVariant?.title)[0]
-        ?.sourceData?.metafields?.map((m) => m?.value?.split(','))
+        ?.sourceData?.metafields?.map((m) => {
+          const val = m.key === 'style' && m.value === 'd' ? 'del' : m.value
+
+          return val.split(',')
+        })
         .flat(),
     }
+
+    console.log('test', currentVariantMetafields, metafieldMatches)
 
     const matchedCounts = countMatches(
       currentVariantMetafields,
