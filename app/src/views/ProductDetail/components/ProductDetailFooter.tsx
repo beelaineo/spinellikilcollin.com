@@ -57,8 +57,6 @@ export const ProductDetailFooter = ({
 
   useEffect(() => {
     const swatchOptions = getSwatchOptions(product)
-    console.log('swatchOptions', swatchOptions)
-    console.log('currentVariant', currentVariant)
     const matchingColorOption = findMatchingColorOption(
       swatchOptions,
       currentVariant,

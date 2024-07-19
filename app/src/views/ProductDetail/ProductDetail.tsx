@@ -146,11 +146,11 @@ export const ProductDetail = ({ product }: Props) => {
     if (!currentVariant) throw new Error('Could not get current variant')
     sendProductDetailView({ product, variant: currentVariant })
 
-    console.log('currentVariant', currentVariant)
-    console.log('product', product)
+    // console.log('currentVariant', currentVariant)
+    // console.log('product', product)
     // add recently viewed products store hook here
     addRecentlyViewedProduct(product.shopifyId, currentVariant.id)
-    console.log('getRecentlyViewedProducts', getRecentlyViewedProducts())
+    // console.log('getRecentlyViewedProducts', getRecentlyViewedProducts())
 
     const newUri = getProductUri(product, {
       variant: currentVariant,

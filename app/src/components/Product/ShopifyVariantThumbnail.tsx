@@ -97,8 +97,6 @@ export const ShopifyVariantThumbnail = ({
 
   const altText = [variant?.title, variant?.title].filter(Boolean).join(' - ')
 
-  console.log('VARIANT THUMBNAIL:', variant)
-
   const stripAfterSlash = (text: string) => {
     const index = text.indexOf(' /')
     return index !== -1 ? text.substring(0, index) : text

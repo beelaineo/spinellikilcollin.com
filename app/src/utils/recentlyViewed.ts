@@ -25,7 +25,7 @@ export const addRecentlyViewedProduct = (productId, variantId) => {
 
 export const getRecentlyViewedProducts = () => {
   const recentlyViewed = localStorage.getItem('recentlyViewed')
-  console.log('recentlyViewed', recentlyViewed ?? '')
+  // console.log('recentlyViewed', recentlyViewed ?? '')
 
   try {
     return recentlyViewed ? JSON.parse(recentlyViewed) : []
