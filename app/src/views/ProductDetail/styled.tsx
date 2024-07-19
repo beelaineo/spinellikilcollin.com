@@ -345,3 +345,25 @@ export const ProductRelatedWrapper = styled.div`
 export const ProductRelatedInner = styled.div`
   padding: 7 0;
 `
+
+export const ProductRecentWrapper = styled.div`
+  ${({ theme }) => css`
+    background-color: body.0;
+    padding: 7 0 0 0;
+
+    a {
+      position: relative;
+      &:focus-visible {
+        ${theme.focus.bottom()}
+      }
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 7 0 0 0;
+    }
+  `}
+`
+
+export const ProductRecentInner = styled.div`
+  padding: 7 0 0 0;
+`
