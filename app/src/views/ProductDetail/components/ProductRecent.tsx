@@ -33,7 +33,7 @@ export const ProductRecent = ({
 }: ProductRecentProps) => {
   const recentlyViewed = getRecentlyViewedProducts()
 
-  if (!recentlyViewed.length || recentlyViewed.length < 2) return null
+  if (!recentlyViewed.length || recentlyViewed.length < 3) return null
 
   return (
     <ProductRecentWrapper>
