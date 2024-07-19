@@ -107,16 +107,7 @@ export const useBreadcrumbs = () => {
   const router = useRouter()
   const [crumbs, setCrumbs] = useState([])
   const storage = globalThis?.sessionStorage
-  const getProduct = async () => {
-    const handle = router?.query.productSlug
-    const variables = { handle }
-    const [response] = await Promise.all([
-      request<Response>(productQuery, variables),
-    ])
-    const products = response?.allProduct
-    const product = products && products.length ? products[0] : null
-    return product
-  }
+
   const getCollection = async (handle) => {
     const variables = { handle }
     const [response] = await Promise.all([
@@ -164,6 +155,17 @@ export const useBreadcrumbs = () => {
         return acc
       }, [])
       return links
+    }
+
+    const getProduct = async () => {
+      const handle = router?.query.productSlug
+      const variables = { handle }
+      const [response] = await Promise.all([
+        request<Response>(productQuery, variables),
+      ])
+      const products = response?.allProduct
+      const product = products && products.length ? products[0] : null
+      return product
     }
 
     const fetchCrumbs = async () => {
@@ -254,7 +256,7 @@ export const useBreadcrumbs = () => {
       setCrumbs(crumbs)
     }
     fetchCrumbs()
-  }, [router.pathname])
+  }, [router, storage])
 
   return crumbs
 }
