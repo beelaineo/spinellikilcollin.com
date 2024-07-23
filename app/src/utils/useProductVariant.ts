@@ -58,10 +58,10 @@ export const useProductVariant = (
     // console.log('convertedVariantId', convertedVariantId)
     // console.log('variants in function', variants)
 
-    if (!variant)
-      throw new Error(
-        `There is no variant with the id "${variantId}" on the product ${product.title}`,
-      )
+    if (!variant) return variants[0]
+    // throw new Error(
+    //   `There is no variant with the id "${variantId}" on the product ${product.title}`,
+    // )
     return variant
   }
 
