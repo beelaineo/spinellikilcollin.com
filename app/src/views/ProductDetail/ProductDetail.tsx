@@ -112,6 +112,13 @@ const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 export const ProductDetail = ({ product }: Props) => {
   const { openCustomizationModal } = useModal()
   const router = useRouter()
+
+  React.useEffect(() => {
+    if (product?.handle !== router.query.productSlug) {
+      router.reload()
+    }
+  }, [product?.handle, router])
+
   const params = new URLSearchParams(router.asPath.replace(/^(.*)\?/, ''))
   const variantId = params.get('v')
   const useProductVariantOptions = variantId
