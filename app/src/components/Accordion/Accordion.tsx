@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Label, Wrapper, Inner, Item } from './styled'
 import { useEffect, useRef } from 'react'
 import { PlusMinus } from '../PlusMinus'
+import { useDebounce } from 'react-use'
 
 interface AccordionProps {
   label: string
@@ -17,22 +18,27 @@ export const Accordion = ({ label, children }: AccordionProps) => {
 
   const refContainer = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    const element = refContainer?.current
+  useDebounce(
+    () => {
+      const element = refContainer?.current
 
-    if (!element) return
+      if (!element) return
 
-    const observer = new ResizeObserver(() => {
-      if (!refContainer.current) return
+      const observer = new ResizeObserver(() => {
+        if (!refContainer.current) return
 
-      updateHeight(refContainer.current.clientHeight)
-    })
+        updateHeight(refContainer.current.clientHeight)
+      })
 
-    observer.observe(element)
-    return () => {
-      observer.disconnect()
-    }
-  }, [])
+      observer.observe(element)
+
+      return () => {
+        observer.disconnect()
+      }
+    },
+    300,
+    [],
+  )
 
   useEffect(() => {
     if (open || !shouldOpen) return
