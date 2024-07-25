@@ -7,7 +7,6 @@ const { EXCHANGE_RATE_API_KEY } = config
 interface State {
   loading: boolean
   currentCurrency: string
-  exchangeRate: number
   error?: Error | null
   message?: string | null
 }
@@ -25,7 +24,6 @@ interface UpdateCurrencyAction {
 interface SuccessAction {
   type: ActionTypes.SUCCESS
   currency: string
-  exchangeRate: number
 }
 
 interface ErrorAction {
@@ -49,7 +47,6 @@ const reducer = (state: State, action: Action): State => {
         ...state,
         loading: false,
         currentCurrency: action.currency,
-        exchangeRate: action.exchangeRate,
         error: null,
         message: null,
       }
@@ -70,7 +67,6 @@ const reducer = (state: State, action: Action): State => {
 const initialState: State = {
   loading: false,
   currentCurrency: 'USD',
-  exchangeRate: 1,
 }
 
 export const useCurrencyState = () => {
@@ -79,14 +75,7 @@ export const useCurrencyState = () => {
   const updateCurrency = async (currency: string) => {
     dispatch({ type: ActionTypes.UPDATE })
     try {
-      const url = `https://api.exchangeratesapi.io/latest?access_key=${EXCHANGE_RATE_API_KEY}&base=USD&symbols=USD,${currency.toUpperCase()}`
-      const result = await fetch(url).then((r) => r.json())
-      const { rates } = result
-      const exchangeRate = rates[currency]
-      if (!exchangeRate) {
-        throw new Error(`Could not get exchange rate for ${currency}`)
-      }
-      dispatch({ type: ActionTypes.SUCCESS, currency, exchangeRate })
+      dispatch({ type: ActionTypes.SUCCESS, currency })
     } catch (error: Error | any | unknown) {
       Sentry.captureException(error, 'currency_conversion')
       const message =
