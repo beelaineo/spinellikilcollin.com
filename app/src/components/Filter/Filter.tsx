@@ -256,8 +256,7 @@ export const Filter = ({
       const getKeys = matches?.map((match, i) => {
         const type = getFilterSetQueryType(items, match[0])
 
-        //@ts-ignore
-        const matchArr = match[1]?.split(' ')
+        const matchArr = (match as string[]).flat()[1]?.split(' ')
 
         const matchKeys = matchArr?.map((item) => {
           return {
