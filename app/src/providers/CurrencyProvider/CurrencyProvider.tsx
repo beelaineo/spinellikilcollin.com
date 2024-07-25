@@ -20,7 +20,6 @@ interface CurrencyContextValue {
   currentCurrency: string
   loading: boolean
   updateCurrency: (currency: string) => Promise<void>
-  getPrice: (price: Money, quantity?: number) => number
   getFormattedPrice: (
     price: Money,
     quantity?: number,
@@ -49,7 +48,6 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
   const {
     loading,
     currentCurrency,
-    exchangeRate,
     error,
     message,
     updateCurrency: updateCurrencyState,
@@ -76,13 +74,6 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
 
   const updateCurrency = async (currency: string) => {
     await updateCurrencyState(currency)
-  }
-
-  const getPrice = (price: Money, quantity = 1) => {
-    if (!price.amount) {
-      throw new Error('The price object must contain an amount')
-    }
-    return roundTo(parseFloat(price.amount) * exchangeRate * quantity, 2)
   }
 
   const getFormattedPrice = (
@@ -119,7 +110,6 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     currentCurrency,
     updateCurrency,
     getFormattedPrice,
-    getPrice,
   }
   return (
     <CurrencyContext.Provider value={value}>
