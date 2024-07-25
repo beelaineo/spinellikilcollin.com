@@ -518,5 +518,9 @@
   {
     "from": "/products/sonny-max-mx-v",
     "to": "/"
+  },
+  {
+    "from": "/about/Ring-sizing",
+    "to": "/about/ring-sizing"
   }
 ]
