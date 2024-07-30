@@ -10,6 +10,7 @@ import { Slide, SlideInfo } from './Slide'
 import { Dots } from './Dots'
 import { useViewportSize } from '../../utils'
 import { useSwipeReducer } from './swipeReducer'
+import { useAnalytics } from '../../providers'
 import CarouselButtonIcon from '../../svg/CarouselButton.svg'
 
 const { useState, useEffect, useMemo, useRef } = React
@@ -206,9 +207,11 @@ export const CarouselProvider = ({
   const [currentSlide, setCurrentSlideState] = useState<number>(
     initialSlide || 0,
   )
+  const { sendCarouselClick } = useAnalytics()
 
   const setCurrentSlide = (num: number) => {
     setCurrentSlideState(num)
+    sendCarouselClick()
   }
 
   useEffect(() => {
