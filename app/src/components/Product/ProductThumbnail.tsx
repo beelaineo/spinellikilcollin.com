@@ -166,7 +166,8 @@ export const ProductThumbnail = ({
   const { inquiryOnly } = product
   const containerRef = useRef<HTMLDivElement>(null)
   const { isInViewOnce } = useInViewport(containerRef)
-  const { sendProductImpression, sendProductClick } = useAnalytics()
+  const { sendProductImpression, sendProductClick, sendCarouselClick } =
+    useAnalytics()
   const { productInfoSettings, productListingSettings } = useShopData()
   const {
     getVariantPriceByCollection,
@@ -468,6 +469,7 @@ export const ProductThumbnail = ({
   const handleClick = () => {
     // @ts-ignore
     sendProductClick({ product, variant: currentVariant })
+    if (carousel) sendCarouselClick()
   }
   const allImages = useMemo(() => uniqueImages(variants), [variants])
 

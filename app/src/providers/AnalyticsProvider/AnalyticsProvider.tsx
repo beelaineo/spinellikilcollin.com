@@ -16,6 +16,7 @@ import { SelectedProduct, EventType, GTagEvent } from './types'
 const { useEffect } = React
 
 interface AnalyticsContextValue {
+  sendCarouselClick: () => void
   sendFilterClick: () => void
   sendQuickLinkClick: () => void
   sendProductImpression: (
@@ -74,6 +75,12 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
   }
 
   useEffect(() => sendPageView(asPath), [asPath])
+
+  const sendCarouselClick: AnalyticsContextValue['sendCarouselClick'] = () => {
+    sendEvent({
+      event: EventType.CarouselClick,
+    })
+  }
 
   const sendFilterClick: AnalyticsContextValue['sendFilterClick'] = () => {
     sendEvent({
@@ -186,6 +193,7 @@ export const AnalyticsProvider = ({ children }: AnalyticsProps) => {
   }
 
   const value = {
+    sendCarouselClick,
     sendFilterClick,
     sendQuickLinkClick,
     sendProductImpression,
