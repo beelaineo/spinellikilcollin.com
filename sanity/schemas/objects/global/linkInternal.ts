@@ -45,7 +45,7 @@ export default defineType({
         title,
       } = selection
 
-      let subtitle = []
+      const subtitle = []
       if (reference) {
         subtitle.push([`→ ${referenceTitle || referenceProductTitle || reference?._id}`])
         if (referenceType === 'product' && referenceProductPriceRange) {
