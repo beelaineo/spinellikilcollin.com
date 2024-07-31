@@ -184,7 +184,7 @@ export type ShopifyStorefrontArticleExcerptArgs = {
 /** An article in an online store blog. */
 export type ShopifyStorefrontArticleMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** An article in an online store blog. */
@@ -411,7 +411,7 @@ export type ShopifyStorefrontBlogArticlesArgs = {
 /** An online store blog. */
 export type ShopifyStorefrontBlogMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** An online store blog. */
@@ -625,7 +625,7 @@ export type ShopifyStorefrontCartLinesArgs = {
  */
 export type ShopifyStorefrontCartMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /**
@@ -971,6 +971,8 @@ export enum ShopifyStorefrontCartErrorCode {
   MissingNote = 'MISSING_NOTE',
   /** The payment method is not supported. */
   PaymentMethodNotSupported = 'PAYMENT_METHOD_NOT_SUPPORTED',
+  /** Validation failed. */
+  ValidationCustom = 'VALIDATION_CUSTOM',
 }
 
 /** The estimated costs that the buyer will pay at checkout. The estimated cost uses [`CartBuyerIdentity`](https://shopify.dev/api/storefront/reference/cart/cartbuyeridentity) to determine [international pricing](https://shopify.dev/custom-storefronts/internationalization/international-pricing). */
@@ -2031,7 +2033,7 @@ export type ShopifyStorefrontCollectionDescriptionArgs = {
  */
 export type ShopifyStorefrontCollectionMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /**
@@ -3203,7 +3205,7 @@ export type ShopifyStorefrontCustomerAddressesArgs = {
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
 export type ShopifyStorefrontCustomerMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A customer represents a customer account with the shop. Customer accounts store contact information for the customer, saving logged-in customers the trouble of having to provide it at every checkout. */
@@ -3913,7 +3915,7 @@ export type ShopifyStorefrontHasMetafields = {
 /** Represents information about the metafields associated to the specified resource. */
 export type ShopifyStorefrontHasMetafieldsMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Represents information about the metafields associated to the specified resource. */
@@ -3925,8 +3927,8 @@ export type ShopifyStorefrontHasMetafieldsMetafieldsArgs = {
 export type ShopifyStorefrontHasMetafieldsIdentifier = {
   /** The identifier for the metafield. */
   key: Scalars['String']['input']
-  /** The container the metafield belongs to. */
-  namespace: Scalars['String']['input']
+  /** The container the metafield belongs to. If omitted, the app-reserved namespace will be used. */
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Represents an image resource. */
@@ -4419,7 +4421,7 @@ export interface ShopifyStorefrontLocation
 /** Represents a location where product inventory is held. */
 export type ShopifyStorefrontLocationMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Represents a location where product inventory is held. */
@@ -4682,7 +4684,7 @@ export interface ShopifyStorefrontMarket
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
 export type ShopifyStorefrontMarketMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** A group of one or more regions of the world that a merchant is targeting for sales. To learn more about markets, refer to [the Shopify Markets conceptual overview](/docs/apps/markets). */
@@ -5051,7 +5053,9 @@ export enum ShopifyStorefrontMetafieldsSetUserErrorCode {
 }
 
 /** An instance of a user-defined model based on a MetaobjectDefinition. */
-export interface ShopifyStorefrontMetaobject extends ShopifyStorefrontNode {
+export interface ShopifyStorefrontMetaobject
+  extends ShopifyStorefrontNode,
+    ShopifyStorefrontOnlineStorePublishable {
   __typename: 'Metaobject'
   /** Accesses a field of the object by key. */
   field?: Maybe<ShopifyStorefrontMetaobjectField>
@@ -5065,6 +5069,14 @@ export interface ShopifyStorefrontMetaobject extends ShopifyStorefrontNode {
   handle: Scalars['String']['output']
   /** A globally-unique ID. */
   id: Scalars['ID']['output']
+  /** The URL used for viewing the metaobject on the shop's Online Store. Returns `null` if the metaobject definition doesn't have the `online_store` capability. */
+  onlineStoreUrl?: Maybe<Scalars['URL']['output']>
+  /**
+   * The metaobject's SEO information. Returns `null` if the metaobject definition
+   * doesn't have the `renderable` capability.
+   *
+   */
+  seo?: Maybe<ShopifyStorefrontMetaobjectSeo>
   /** The type of the metaobject. Defines the namespace of its associated metafields. */
   type: Scalars['String']['output']
   /** The date and time when the metaobject was last updated. */
@@ -5135,6 +5147,15 @@ export type ShopifyStorefrontMetaobjectHandleInput = {
   handle: Scalars['String']['input']
   /** The type of the metaobject. */
   type: Scalars['String']['input']
+}
+
+/** SEO information for a metaobject. */
+export interface ShopifyStorefrontMetaobjectSeo {
+  __typename: 'MetaobjectSEO'
+  /** The meta description. */
+  description?: Maybe<ShopifyStorefrontMetaobjectField>
+  /** The SEO title. */
+  title?: Maybe<ShopifyStorefrontMetaobjectField>
 }
 
 /** Represents a Shopify hosted 3D model. */
@@ -5807,7 +5828,7 @@ export type ShopifyStorefrontOrderLineItemsArgs = {
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
 export type ShopifyStorefrontOrderMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** An order is a customer’s completed request to purchase one or more products from a shop. An order is created when a customer completes the checkout process, during which time they provides an email address, billing address and payment information. */
@@ -5832,6 +5853,8 @@ export enum ShopifyStorefrontOrderCancelReason {
   Inventory = 'INVENTORY',
   /** The order was canceled for an unlisted reason. */
   Other = 'OTHER',
+  /** Staff made an error. */
+  Staff = 'STAFF',
 }
 
 /**
@@ -6001,7 +6024,7 @@ export interface ShopifyStorefrontPage
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
 export type ShopifyStorefrontPageMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Shopify merchants can create pages to hold static HTML content. Each Page object represents a custom page on the online store. */
@@ -6373,7 +6396,7 @@ export type ShopifyStorefrontProductMediaArgs = {
  */
 export type ShopifyStorefrontProductMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /**
@@ -6681,7 +6704,7 @@ export interface ShopifyStorefrontProductVariant
  */
 export type ShopifyStorefrontProductVariantMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /**
@@ -7528,7 +7551,7 @@ export interface ShopifyStorefrontShop
 /** Shop represents a collection of the general settings and information about the shop. */
 export type ShopifyStorefrontShopMetafieldArgs = {
   key: Scalars['String']['input']
-  namespace: Scalars['String']['input']
+  namespace?: InputMaybe<Scalars['String']['input']>
 }
 
 /** Shop represents a collection of the general settings and information about the shop. */
