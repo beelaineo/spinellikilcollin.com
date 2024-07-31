@@ -25,10 +25,21 @@ export const SHOPIFY_DOCUMENT_TYPES = ['product', 'productVariant', 'collection'
 
 // References to include in 'internal' links
 export const PAGE_REFERENCES = [
-  {type: 'collection'},
-  {type: 'homepage'},
-  {type: 'page'},
   {type: 'product'},
+  {type: 'collection'},
+  {type: 'journalPage'},
+  {type: 'journalEntry'},
+  {type: 'teamPage'},
+  {type: 'magazine'},
+  {type: 'contact'},
+  {type: 'faq'},
+  {type: 'appointments'},
+  {type: 'customize'},
+  {type: 'about'},
+  {type: 'page'},
+  {type: 'paymentPlans'},
+  {type: 'customerCare'},
+  {type: 'homepage'},
 ]
 
 // API version to use when using the Sanity client within the studio
