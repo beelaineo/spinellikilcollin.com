@@ -13,11 +13,11 @@ import {scheduledPublishing} from '@sanity/scheduled-publishing'
 
 export default defineConfig([
   {
-    title: 'Spinelli Kilcollin (staging)',
+    title: 'Spinelli Kilcollin',
     projectId: 'i21fjdbi',
-    dataset: 'staging',
-    name: 'staging-workspace',
-    basePath: '/staging',
+    dataset: 'production',
+    name: 'production-workspace',
+    basePath: '/production',
     plugins: [
       deskTool({structure}),
       colorInput(),
@@ -32,11 +32,11 @@ export default defineConfig([
     },
   },
   {
-    title: 'Spinelli Kilcollin (old production)',
+    title: 'SK Staging',
     projectId: 'i21fjdbi',
-    dataset: 'production',
-    name: 'production-workspace',
-    basePath: '/production',
+    dataset: 'staging',
+    name: 'staging-workspace',
+    basePath: '/staging',
     plugins: [
       deskTool({structure}),
       colorInput(),

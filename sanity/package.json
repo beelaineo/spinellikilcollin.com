@@ -65,7 +65,7 @@
     "sanity-plugin-hotspot-array": "^1.0.1",
     "sanity-plugin-media": "^2.2.5",
     "slug": "^8.2.3",
-    "styled-components": "^5.3.11",
+    "styled-components": "6.0.0",
     "tsc-watch": "^6.0.4"
   },
   "devDependencies": {
