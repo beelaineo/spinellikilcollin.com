@@ -205,6 +205,12 @@ export const internalLinkFragment = gql`
         _key
         title
       }
+      ... on CustomerCare {
+        __typename
+        _id
+        _key
+        title
+      }
     }
   }
 `
