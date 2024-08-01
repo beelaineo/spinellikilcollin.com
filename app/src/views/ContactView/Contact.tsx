@@ -147,7 +147,7 @@ export const ContactView = ({ contact }: ContactProps) => {
                       </Heading>
                       <Button
                         level={2}
-                        onClick={handleModalClick('Engagement')}
+                        onClick={handleModalClick('Client Care')}
                         aria-label={label}
                       >
                         Contact Us
