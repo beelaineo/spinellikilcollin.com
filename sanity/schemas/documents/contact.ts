@@ -22,7 +22,7 @@ export const contactLine = defineType({
       title: 'Line type',
       type: 'string',
       options: {
-        list: ['Order', 'Wholesale', 'Press', 'Engagement', 'Telephone'],
+        list: ['Order', 'Wholesale', 'Press', 'Engagement', 'Telephone', 'Email', 'Customer Care'],
       },
       validation: (Rule) => Rule.required(),
     }),
