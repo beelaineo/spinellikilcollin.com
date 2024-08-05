@@ -5,8 +5,8 @@ interface PlusMinusProps {
   open: boolean
 }
 
-const Wrapper = styled.div`
-  ${({ open }: PlusMinusProps) => css`
+const Wrapper = styled.div<PlusMinusProps>`
+  ${({ open }) => css`
     width: 12px;
     height: 12px;
     position: relative;

@@ -6,8 +6,8 @@ interface CartSidebarProps {
   open: boolean
 }
 
-export const CartSidebar = styled.aside`
-  ${({ open }: CartSidebarProps) => css`
+export const CartSidebar = styled.aside<CartSidebarProps>`
+  ${({ open }) => css`
     position: fixed;
     z-index: cart;
     right: ${open ? '0px' : '-510px'};
@@ -278,8 +278,8 @@ interface CartModalProps {
   open: boolean
 }
 
-export const CartModal = styled.div`
-  ${({ open }: CartModalProps) => css`
+export const CartModal = styled.div<CartModalProps>`
+  ${({ open }) => css`
     opacity: ${open ? '1' : '0'};
     pointer-events; ${open ? 'initial' : 'none'};
   `}

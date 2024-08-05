@@ -31,8 +31,8 @@ interface LabelProps {
   required?: boolean
 }
 
-export const Label = styled(BaseLabel)`
-  ${({ required }: LabelProps) => css`
+export const Label = styled(BaseLabel)<LabelProps>`
+  ${({ required }) => css`
     position: relative;
     display: inline-block;
     font-weight: 2;

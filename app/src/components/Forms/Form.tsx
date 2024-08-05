@@ -9,8 +9,8 @@ interface FormElementProps {
   disabled?: boolean
 }
 
-const FormElement = styled.form`
-  ${({ isSubmitting, disabled }: FormElementProps) =>
+const FormElement = styled.form<FormElementProps>`
+  ${({ isSubmitting, disabled }) =>
     isSubmitting || disabled
       ? css`
           opacity: 0.75;

@@ -33,8 +33,8 @@ interface SubmenuInnerProps {
   theme: DefaultTheme
 }
 
-const SubmenuInner = styled.div`
-  ${({ open }: SubmenuInnerProps) => css`
+const SubmenuInner = styled.div<SubmenuInnerProps>`
+  ${({ open }) => css`
     display: ${open ? 'block' : 'none'};
     padding: 3 0 0 5;
 
