@@ -140,7 +140,9 @@ export const RichText = ({
   const { openCart } = useCart()
   const { openCustomizationModal, openRingSizerModal } = useModal()
   const openHubspotChat = () => {
+    // @ts-ignore
     if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
+      // @ts-ignore
       window.HubSpotConversations.widget.open()
     }
   }
