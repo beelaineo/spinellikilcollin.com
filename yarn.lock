@@ -6359,7 +6359,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@portabletext/react@npm:^3.0.0":
+"@portabletext/react@npm:^3.0.0, @portabletext/react@npm:^3.1.0":
   version: 3.1.0
   resolution: "@portabletext/react@npm:3.1.0"
   dependencies:
@@ -27336,6 +27336,7 @@ __metadata:
     "@graphql-codegen/typescript": ^4.0.6
     "@next/bundle-analyzer": ^13.5.6
     "@next/eslint-plugin-next": ^13.5.6
+    "@portabletext/react": ^3.1.0
     "@sane-shopify/server": ^0.24.0
     "@sanity/block-content-to-react": ^3.0.0
     "@sanity/client": ^6.15.4
