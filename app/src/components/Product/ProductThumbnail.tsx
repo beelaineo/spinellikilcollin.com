@@ -148,9 +148,9 @@ const sanityQuery = async <R = any | null,>(
 
 export const ProductThumbnail = ({
   product,
-  displayPrice,
-  displayTags,
-  displaySwatches,
+  displayPrice = false,
+  displayTags = true,
+  displaySwatches = true,
   headingLevel,
   preferredVariantMatches,
   currentFilter,
@@ -818,10 +818,4 @@ export const ProductThumbnail = ({
       </Link>
     </ProductThumb>
   )
-}
-
-ProductThumbnail.defaultProps = {
-  displayPrice: false,
-  displayTags: true,
-  displaySwatches: true,
 }
