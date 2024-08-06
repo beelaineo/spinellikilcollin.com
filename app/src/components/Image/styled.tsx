@@ -33,8 +33,8 @@ interface PictureProps {
   richImage?: boolean
 }
 
-export const Picture = styled.picture`
-  ${({ loaded, objectFit, ratio, richImage }: PictureProps) => css`
+export const Picture = styled.picture<PictureProps>`
+  ${({ loaded, objectFit, ratio, richImage }) => css`
     max-height: 100%;
     max-width: 100%;
     width: auto;

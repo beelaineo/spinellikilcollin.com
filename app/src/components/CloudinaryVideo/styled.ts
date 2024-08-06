@@ -28,8 +28,8 @@ interface VideoWrapperProps {
   loaded: boolean
 }
 
-export const VideoWrapper = styled.div`
-  ${({ loaded }: VideoWrapperProps) => css`
+export const VideoWrapper = styled.div<VideoWrapperProps>`
+  ${({ loaded }) => css`
     position: relative;
 
     opacity: ${loaded ? 1 : 0};

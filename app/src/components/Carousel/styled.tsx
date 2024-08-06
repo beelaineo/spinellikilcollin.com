@@ -77,8 +77,8 @@ interface WithColumnCount {
   single?: boolean
 }
 
-export const SlideContainer = styled.div`
-  ${({ theme, columnCount, single }: WithColumnCount) => css`
+export const SlideContainer = styled.div<WithColumnCount>`
+  ${({ theme, columnCount, single }) => css`
     height: 100%;
     text-align: center;
     padding-right: 5;
