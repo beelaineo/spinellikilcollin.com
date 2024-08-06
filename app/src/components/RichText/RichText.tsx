@@ -2,7 +2,6 @@ import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { PortableText, PortableTextComponents } from '@portabletext/react'
 import { Heading, Span, P, BlockQuote, Li, Ul, Ol } from '../Text'
-import { ListBlock, RichTextBlock } from '../../types'
 import { Image } from '../Image'
 import { useModal } from '../../providers/ModalProvider'
 import { useCurrentProduct } from '../../providers/CurrentProductProvider'
@@ -14,18 +13,6 @@ import { CloudinaryVideo } from '../CloudinaryVideo'
 import { CountDown } from '../CountDown'
 
 import Link from 'next/link'
-import { Maybe } from '@good-idea/unwind-edges'
-
-interface CustomSerializerConfig {
-  blockWrapper?: any
-  imageSizes?: string
-  openCustomizationModal: () => void
-  openRingSizerModal: () => void
-  openHubspotChat: () => void
-  openCart: () => void
-  getLinkByRef: (ref: string) => LinkInfo | null
-  weight?: number
-}
 
 interface WithArticle {
   article?: boolean
@@ -130,9 +117,6 @@ const RichTextWrapper = styled.div<WithArticle>`
   `}
 `
 
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
-
 interface RichTextProps {
   body?: { [key: string]: any } | null
   blockWrapper?: React.ComponentType
@@ -156,9 +140,7 @@ export const RichText = ({
   const { openCart } = useCart()
   const { openCustomizationModal, openRingSizerModal } = useModal()
   const openHubspotChat = () => {
-    // @ts-ignore
     if (typeof window !== 'undefined' && window?.HubSpotConversations?.widget) {
-      // @ts-ignore
       window.HubSpotConversations.widget.open()
     }
   }
@@ -180,7 +162,7 @@ export const RichText = ({
       internalLink: ({ children, value }) => {
         const linkData = getLinkByRef(value?.document?._ref)
         if (!linkData) return <>{children}</>
-        const { as, href } = linkData
+        const { href } = linkData
         return <Link href={href}>{children}</Link>
       },
       action: ({ children, value }) => {
