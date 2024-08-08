@@ -387,7 +387,6 @@ export async function handleProductUpdate(
   // productVariantsDocuments: ShopifyDocumentProductVariant[]
 }> {
   const { handle, id, images, status, priceRange } = product
-  console.log('INCOMING VARIANT FROM SHOPIIFY PAYLOAD:', product.variants[5])
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
     return text
@@ -484,8 +483,6 @@ export async function handleProductUpdate(
       // console.log('variantImageData:', variantImageData)
 
       const variantImage = variantImageData.node?.image
-
-      console.log('VARIANT RAW DATA:', variant)
 
       return {
         _id: buildProductVariantDocumentId(variantId),

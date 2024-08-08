@@ -409,7 +409,6 @@ export async function handleWebhookProductUpdate(
   // productVariantsDocuments: ShopifyDocumentProductVariant[]
 }> {
   const { handle, id, admin_graphql_api_id, images, status } = product
-  console.log('INCOMING VARIANT FROM SHOPIFY PAYLOAD:', product.variants[5])
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
     return text
@@ -463,10 +462,12 @@ export async function handleWebhookProductUpdate(
     productInventoryData.product?.availableForSale ?? false
 
   const priceRange = {
-    maxVariantPrice:
-      productInventoryData.product?.priceRange.maxVariantPrice.amount,
-    minVariantPrice:
-      productInventoryData.product?.priceRange.minVariantPrice.amount,
+    maxVariantPrice: parseFloat(
+      productInventoryData.product?.priceRange.maxVariantPrice.amount ?? '0',
+    ),
+    minVariantPrice: parseFloat(
+      productInventoryData.product?.priceRange.minVariantPrice.amount ?? '0',
+    ),
   }
 
   const productVariantsDocuments = await Promise.all(
@@ -519,8 +520,6 @@ export async function handleWebhookProductUpdate(
       // console.log('variantImageData:', variantImageData)
 
       const variantImage = variantImageData.node?.image
-
-      console.log('VARIANT RAW DATA:', variant)
 
       // in the following const, we are returning an array of selected options on each variant, the option name is taken from the product options field, and the option value is from the variant's option fields
       // this is useful for filtering products by options
