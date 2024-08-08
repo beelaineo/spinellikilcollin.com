@@ -137,12 +137,24 @@ module.exports = withSourceMaps({
       },
     ]
   },
-  webpack: (config, { isServer, buildId }) => {
+
+  webpack: (config, { defaultLoaders, isServer, buildId }) => {
     config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.SENTRY_RELEASE': JSON.stringify(buildId),
       }),
     )
+
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        defaultLoaders.babel,
+        {
+          loader: '@svgr/webpack',
+          options: { babel: false },
+        },
+      ],
+    })
 
     const release = VERCEL_GITHUB_COMMIT_SHA || VERCEL_URL
 
