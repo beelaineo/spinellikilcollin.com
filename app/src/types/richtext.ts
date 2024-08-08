@@ -8,7 +8,7 @@ import {
 } from './generated-sanity'
 
 interface BlockNode<T> {
-  node: T
+  value: T
   isInline?: boolean
   children: React.ReactNode[]
 }
