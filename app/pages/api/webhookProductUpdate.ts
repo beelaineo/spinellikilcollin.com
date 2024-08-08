@@ -22,7 +22,7 @@ import {
   UUID_NAMESPACE_PRODUCT_VARIANT,
   UUID_NAMESPACE_PRODUCTS,
 } from './constants'
-import { DataSinkProduct } from './requestTypes'
+import { ShopifyGraphQLProduct } from './webhookRequestTypes'
 import { idFromGid } from './requestHelpers'
 import { Maybe } from '../../src/types'
 import { shopifyQuery } from '../../src/providers/AllProviders'
@@ -62,6 +62,17 @@ interface ProductInventoryNode {
   id: string
   title: string
   availableForSale: boolean
+  priceRange: {
+    maxVariantPrice: {
+      amount: string
+      currencyCode: string
+    }
+    minVariantPrice: {
+      amount: string
+      currencyCode: string
+    }
+  }
+  totalInventory: number
 }
 
 interface ProductVariantNode {
@@ -219,6 +230,17 @@ query ProductInventoryQuery($productId: ID!) {
     id
     title
     availableForSale
+    priceRange {
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+    totalInventory
   }
 }
 `
@@ -379,14 +401,14 @@ async function fetchProductInventory(
   return { product: response.product }
 }
 
-export async function handleProductUpdate(
+export async function handleWebhookProductUpdate(
   client: SanityClient,
-  product: DataSinkProduct,
+  product: ShopifyGraphQLProduct,
 ): Promise<{
   productDocument: ShopifyDocumentProduct
   // productVariantsDocuments: ShopifyDocumentProductVariant[]
 }> {
-  const { handle, id, images, status, priceRange } = product
+  const { handle, id, admin_graphql_api_id, images, status } = product
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
     return text
@@ -401,14 +423,16 @@ export async function handleProductUpdate(
 
   const variants = product.variants || []
   const firstImage = images?.[0]
-  const shopifyProductId = idFromGid(id)
+  const shopifyProductId = id
 
   // Fetch collections
-  const productCollectionsData = await fetchProductCollections(id)
+  const productCollectionsData = await fetchProductCollections(
+    admin_graphql_api_id,
+  )
   // Fetch metafields
   // const productMetafieldsData = await fetchProductMetafields(id)
 
-  const productInventoryData = await fetchProductInventory(id)
+  const productInventoryData = await fetchProductInventory(admin_graphql_api_id)
 
   const productCollections: SanityReference[] = []
   // const productMetafields: Metafield[] = []
@@ -437,11 +461,24 @@ export async function handleProductUpdate(
   const availableForSale =
     productInventoryData.product?.availableForSale ?? false
 
+  const priceRange = {
+    maxVariantPrice: parseFloat(
+      productInventoryData.product?.priceRange.maxVariantPrice.amount ?? '0',
+    ),
+    minVariantPrice: parseFloat(
+      productInventoryData.product?.priceRange.minVariantPrice.amount ?? '0',
+    ),
+  }
+
   const productVariantsDocuments = await Promise.all(
     variants.map<Promise<ShopifyDocumentProductVariant>>(async (variant) => {
-      const variantId = idFromGid(variant.id)
-      const metafieldsData = await fetchVariantMetafields(variant.id)
-      const variantImageData = await fetchVariantImage(variant.id)
+      const variantId = variant.id
+      const metafieldsData = await fetchVariantMetafields(
+        variant.admin_graphql_api_id,
+      )
+      const variantImageData = await fetchVariantImage(
+        variant.admin_graphql_api_id,
+      )
 
       const metafields: Metafield[] = []
       if (metafieldsData.node?.subcategory) {
@@ -484,6 +521,16 @@ export async function handleProductUpdate(
 
       const variantImage = variantImageData.node?.image
 
+      // in the following const, we are returning an array of selected options on each variant, the option name is taken from the product options field, and the option value is from the variant's option fields
+      // this is useful for filtering products by options
+
+      const variantSelectedOptions = product.options.map((option, i) => {
+        return {
+          name: option.name,
+          value: variant[`option${i + 1}`],
+        }
+      })
+
       return {
         _id: buildProductVariantDocumentId(variantId),
         _type: SHOPIFY_PRODUCT_VARIANT_DOCUMENT_TYPE,
@@ -492,10 +539,10 @@ export async function handleProductUpdate(
           id: variantId,
           gid: `gid://shopify/ProductVariant/${variantId}`,
           isDeleted: false,
-          option1: variant.selectedOptions[0]?.value,
-          option2: variant.selectedOptions[1]?.value,
-          option3: variant.selectedOptions[2]?.value,
-          selectedOptions: variant.selectedOptions,
+          option1: variant.option1,
+          option2: variant.option2,
+          option3: variant.option3,
+          selectedOptions: variantSelectedOptions,
           previewImageUrl: variantImageData.node?.image?.url,
           image: variantImage
             ? {
@@ -508,21 +555,22 @@ export async function handleProductUpdate(
               }
             : undefined,
           price: Number(variant.price),
-          compareAtPrice: variant.compareAtPrice ?? 0,
-          productGid: variant.product.id,
-          productId: idFromGid(variant.product.id),
+          compareAtPrice: parseFloat(variant.compare_at_price) ?? 0,
+          productGid: `gid://shopify/Product/${variant.product_id}`,
+          productId: variant.product_id,
           sku: variant.sku,
           status,
-          updatedAt: variant.updatedAt,
+          createdAt: variant.created_at,
+          updatedAt: variant.updated_at,
           inventory: {
             management: (
-              variant.inventoryManagement || 'not_managed'
+              variant.inventory_management || 'not_managed'
             ).toUpperCase(),
-            policy: (variant.inventoryPolicy || '').toUpperCase(),
-            quantity: variant.inventoryQuantity ?? 0,
+            policy: (variant.inventory_policy || '').toUpperCase(),
+            quantity: variant.inventory_quantity ?? 0,
             isAvailable:
-              variant.inventoryQuantity !== null &&
-              variant.inventoryQuantity > 0,
+              variant.inventory_quantity !== null &&
+              variant.inventory_quantity > 0,
           },
           metafields: metafields,
         },
@@ -531,17 +579,17 @@ export async function handleProductUpdate(
   )
 
   const options: ShopifyDocumentProduct['store']['options'] =
-    product.options.map((option) => ({
+    product.options?.map((option) => ({
       _type: 'productOption',
-      _key: option.id,
+      _key: option.name,
       name: option.name,
       values: option.values ?? [],
     })) || []
 
   const productOptions: ShopifyDocumentProduct['options'] =
-    product.options.map((option) => ({
+    product.options?.map((option) => ({
       _type: 'productOption',
-      _key: option.id,
+      _key: option.name,
       name: option.name,
       values:
         option.values.map((v) => {
@@ -561,32 +609,42 @@ export async function handleProductUpdate(
   const productDocument: ShopifyDocumentProduct = {
     _id: buildProductDocumentId(shopifyProductId), // Shopify product ID
     _type: SHOPIFY_PRODUCT_DOCUMENT_TYPE,
-    shopifyId: id,
+    shopifyId: `gid://shopify/Product/${id}`,
     title: product.title,
     handle: product.handle,
     collections: productCollections,
     options: productOptions,
     store: {
       ...product,
-      description: product.descriptionHtml.replace(/<[^>]+>/g, ''),
+      description: product.body_html.replace(/<[^>]+>/g, ''),
+      descriptionHtml: product.body_html,
       id: shopifyProductId,
       availableForSale: availableForSale,
-      gid: id,
+      gid: admin_graphql_api_id,
       isDeleted: false,
       ...(firstImage
         ? {
             previewImageUrl: firstImage.src,
           }
         : {}),
+      productType: product.product_type,
       priceRange,
+      totalInventory: productInventoryData.product?.totalInventory ?? 0,
+      tracksInventory: true,
       slug: {
         _type: 'slug',
         current: handle,
       },
+      tags: product.tags.split(',').map((tag) => tag.trim()),
       images: images?.map((image) => {
         return {
           ...image,
-          _key: uuidv5(image.id, UUID_NAMESPACE_PRODUCT_IMAGE),
+          _key: uuidv5(
+            image.admin_graphql_api_id,
+            UUID_NAMESPACE_PRODUCT_IMAGE,
+          ),
+          id: image.admin_graphql_api_id,
+          altText: image.alt ?? '',
         }
       }),
       // metafields: productMetafields.map((metafield) => {
@@ -600,7 +658,8 @@ export async function handleProductUpdate(
       //   }
       // }),
       options,
-      publishedAt: product.publishedAt,
+      createdAt: product.created_at,
+      publishedAt: product.published_at,
       variants: productVariantsDocuments.map((variant) => {
         const variantId = idFromGid(variant.store.gid)
         return {
