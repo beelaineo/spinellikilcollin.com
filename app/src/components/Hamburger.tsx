@@ -1,6 +1,6 @@
 import React from 'react'
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
-
+import styled, { css } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 export interface HamburgerWrapperProps {
   theme: DefaultTheme
   open?: boolean

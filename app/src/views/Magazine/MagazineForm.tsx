@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css, Box } from '@xstyled/styled-components'
+import styled, { css, x } from '@xstyled/styled-components'
 import { Form, Field, FieldWrapper } from '../../components/Forms'
 import { Button } from '../../components/Button'
 import { submitToHubspot } from '../../services'
@@ -82,9 +82,9 @@ export const MagazineForm = ({ successMessage }: MagazineFormProps) => {
   return (
     <>
       {success ? (
-        <Box textAlign="center" my={4}>
+        <x.div textAlign="center" my={4}>
           <Heading level={3}>{successMessage}</Heading>
-        </Box>
+        </x.div>
       ) : (
         <Form<FormValues>
           id="magazine-signup"

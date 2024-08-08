@@ -158,7 +158,7 @@ export const SearchPane = ({ breadCrumbs }) => {
     <Outer>
       <Wrapper visible={open}>
         <SearchHeader hidden={!open}>
-          <Column maxWidth="medium">
+          <Column columnwidth="medium">
             <SearchInput />
           </Column>
         </SearchHeader>

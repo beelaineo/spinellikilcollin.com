@@ -19,7 +19,7 @@ export const FooterInner = styled.div`
     display: grid;
     padding: 9 0 9 0;
     grid-template-columns: 50% 10% 1fr;
-    grid-column-gap: 3;
+    column-gap: 3;
 
     &:nth-of-type(2) {
       align-items: center;
@@ -91,7 +91,7 @@ export const FooterInnerLower = styled.div`
     display: grid;
     padding: 7 0;
     grid-template-columns: 50% 10% 1fr;
-    grid-column-gap: 3;
+    column-gap: 3;
 
     &:nth-of-type(2) {
       align-items: center;
@@ -116,15 +116,15 @@ export const FooterInnerLower = styled.div`
 export const FooterLinks = styled.nav`
   ${({ theme }) => css`
     display: grid;
-    grid-column-gap: 5;
-    grid-row-gap: 32px;
+    column-gap: 5;
+    row-gap: 32px;
     grid-template-columns: 30% 1fr;
 
     ${theme.mediaQueries.mobile} {
       order: 2;
       padding: 0 5;
       grid-template-columns: 30% 1fr;
-      grid-column-gap: 5;
+      column-gap: 5;
     }
 
     a:focus-visible {

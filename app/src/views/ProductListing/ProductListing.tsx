@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   Collection,
   Product,
@@ -30,7 +29,7 @@ import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
-import styled, { css, Box } from '@xstyled/styled-components'
+import styled, { css, x } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
   ProductGridWrapper,
@@ -500,7 +499,7 @@ export const ProductListing = ({
     ${({ theme }) => css`
       display: grid;
       grid-template-columns: 50% 10% 1fr;
-      grid-column-gap: 3;
+      column-gap: 3;
 
       padding: 8 11;
 
@@ -598,7 +597,7 @@ export const ProductListing = ({
                 collectionId={_id}
               />
               {/* {!fetchComplete ? (
-                <Box my={8}>
+                <x.div my={8}>
                   <Heading
                     level={4}
                     textAlign="center"
@@ -610,7 +609,7 @@ export const ProductListing = ({
                       : 'Loading products...'}
                   </Heading>
                   <Loading />
-                </Box>
+                </x.div>
               ) : null} */}
               {footer && footer.length > 0 ? (
                 <FooterGrid>

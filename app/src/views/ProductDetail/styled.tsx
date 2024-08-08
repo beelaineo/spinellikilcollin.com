@@ -36,7 +36,7 @@ export const ProductDetails = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 1fr 330px;
-    grid-column-gap: 5;
+    column-gap: 5;
     padding-right: 11;
 
     ${theme.mediaQueries.desktop} {

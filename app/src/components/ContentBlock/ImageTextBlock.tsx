@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { Box, css } from '@xstyled/styled-components'
+import styled, { x, css } from '@xstyled/styled-components'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
 import { Heading } from '../Text'
 import { RichText } from '../RichText'
@@ -138,7 +138,7 @@ export const ImageTextBlock = ({
     layout,
   } = content
   const link = content.link ? content.link[0] : undefined
-  const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
+  const textColor = content.textColor === 'light' ? 'grays[0]' : 'grays.9'
 
   const ratio = layout === 'fullWidth' ? 0.48 : 1
   const isMobile = useMedia({
@@ -158,7 +158,7 @@ export const ImageTextBlock = ({
         </ImagesWrapper>
         {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
         <TextWrapper textPosition={textPosition}>
-          <Box color={textColor}>
+          <x.div color={textColor}>
             <RichText
               body={
                 isMobile && content.body_mobileRaw
@@ -173,7 +173,7 @@ export const ImageTextBlock = ({
                 </Heading>
               </CtaWrapper>
             ) : null}
-          </Box>
+          </x.div>
         </TextWrapper>
       </PageLink>
     </Wrapper>

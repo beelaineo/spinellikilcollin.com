@@ -1,4 +1,4 @@
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 
 export const Wrapper = styled.div`
   ${({ theme }) => css`

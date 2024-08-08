@@ -1,4 +1,5 @@
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 
 export const Wrapper = styled.nav`
   display: block;
@@ -37,7 +38,7 @@ export const BackdropFilter = styled.div`
 `
 
 interface WithBorder {
-  withBorder?: boolean
+  $withBorder?: boolean
   colorTheme?: 'light' | 'dark'
 }
 
@@ -58,14 +59,14 @@ export const SkipToMainContentButton = styled.button`
 `
 
 export const Inner = styled.div<WithBorder>`
-  ${({ theme, withBorder, colorTheme }) => css`
+  ${({ theme, $withBorder, colorTheme }) => css`
     position: relative;
     z-index: 10;
     display: grid;
     border-bottom: 1px solid;
-    border-color: ${colorTheme == 'light' && withBorder
+    border-color: ${colorTheme == 'light' && $withBorder
       ? theme.colors.grays[1]
-      : withBorder
+      : $withBorder
       ? 'currentColor'
       : 'transparent'};
     grid-template-columns: 1fr 267px 1fr;
@@ -195,8 +196,8 @@ export const LogoWrapper = styled.div<WithColor>`
   `}
 `
 
-export const NavHeader = styled.button`
-  ${({ active }: WithActive) => css`
+export const NavHeader = styled.button<WithActive>`
+  ${({ active }) => css`
     font-size: 6;
     border-top: 2px solid transparent;
     border-bottom: 2px solid ${active ? 'black' : 'transparent'};

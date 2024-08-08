@@ -1,4 +1,6 @@
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
+
 import { Input } from '../../components/Forms/Fields/styled'
 
 interface CartSidebarProps {

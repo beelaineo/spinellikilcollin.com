@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { Box, css } from '@xstyled/styled-components'
+import styled, { x, css } from '@xstyled/styled-components'
 import { Loop } from '../../components/Loop'
 import { Image, ImageWrapper } from '../../components/Image'
 import { Heading } from '../../components/Text'
@@ -68,13 +68,13 @@ export const Experience: React.FC<ExperienceProps> = ({ experience }) => {
       </Heading>
 
       <Heading level={4}>{subtitle}</Heading>
-      <Box py={4}>
+      <x.div py={4}>
         <Loop withButtons={true}>
           {definitely(blocks).map((block, index) => (
             <ExperienceBlock key={block._key} index={index} block={block} />
           ))}
         </Loop>
-      </Box>
+      </x.div>
     </ExperienceWrapper>
   )
 }

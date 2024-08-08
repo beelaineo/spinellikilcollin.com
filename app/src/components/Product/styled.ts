@@ -48,7 +48,7 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
       ? css`
           display: grid;
           grid-template-columns: 1fr;
-          grid-row-gap: 2;
+          row-gap: 2;
           grid-template-rows: 1fr 1fr 25px;
           align-items: center;
         `
@@ -67,7 +67,7 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
     ${theme.mediaQueries.mobile} {
       margin-top: 3;
       padding: 0px;
-      grid-row-gap: 1;
+      row-gap: 1;
       h3 {
         font-size: ${theme.mobileFontSizes[5]};
       }
@@ -102,12 +102,6 @@ export const HoverArea = styled.span`
   left: 6.5%;
   z-index: 1;
   opacity: 0;
-`
-
-export const HoverThumb = styled.img`
-  position: absolute;
-  width: 100%;
-  height: 100%;
 `
 
 export const HoverThumbWrapper = styled.div<HoverThumbWrapperProps>`

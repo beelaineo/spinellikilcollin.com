@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react'
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
+
 import {
   getColor,
   getBackgroundColor,

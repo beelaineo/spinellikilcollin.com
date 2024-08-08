@@ -9,13 +9,13 @@ export const PageLinkWrapper = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 4;
+    column-gap: 4;
     padding: 8 0;
     border-top: 1px solid;
     border-color: body.7;
 
     ${theme.mediaQueries.mobile} {
-      grid-row-gap: 5;
+      row-gap: 5;
       grid-template-columns: 1fr;
     }
   `}

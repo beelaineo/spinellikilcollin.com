@@ -85,7 +85,7 @@ export const Navigation = ({ breadCrumbs }) => {
 
       <Wrapper>
         <Backdrop />
-        <Inner withBorder={innerBorder} colorTheme={colorTheme}>
+        <Inner $withBorder={innerBorder} colorTheme={colorTheme}>
           <Hamburger
             onClick={toggleMenu}
             open={false}

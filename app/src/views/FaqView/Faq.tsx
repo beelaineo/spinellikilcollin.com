@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Faq, FaqCategory as FaqCategoryType } from '../../types'
 import { Column } from '../../components/Layout'
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
 
 import {
   Answer,

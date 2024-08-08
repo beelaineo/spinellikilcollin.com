@@ -1,14 +1,11 @@
 import * as React from 'react'
-import styled, {
-  css,
-  DefaultTheme,
-  Box,
-  BoxProps,
-} from '@xstyled/styled-components'
+import styled, { css, x, ITheme, system } from '@xstyled/styled-components'
 
-interface CustomTextProps extends BoxProps {
+import { DefaultTheme } from 'styled-components'
+
+interface CustomTextProps extends ITheme {
   theme: DefaultTheme
-  level: number
+  level?: number
   fontStyle?: string
   textDecoration?: string
   family?: 'mono' | 'sans' | 'serif'
@@ -45,14 +42,15 @@ const createTextBase = (as: any) => styled(as)<CustomTextProps>`
     em {
       font-style: italic;
     }
+    ${system}
   `}
 `
 
-const TextBase = createTextBase(Box)
+const TextBase = createTextBase(x.div)
 
 interface HeadingProps
   extends Omit<CustomTextProps, 'fontSize' | 'theme'>,
-    BoxProps {
+    ITheme {
   children: React.ReactNode
   level: number
   // TODO: type these properly
@@ -117,7 +115,7 @@ export const P = ({
 }
 
 P.defaultProps = {
-  family: 'body',
+  family: 'serif',
   weight: 3,
 }
 
@@ -172,7 +170,7 @@ export const Li = styled(LiBase)`
 `
 
 Li.defaultProps = {
-  family: 'body',
+  family: 'serif',
   color: 'bodyMain',
 }
 

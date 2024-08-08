@@ -25,9 +25,9 @@ export const DirectoryView = ({ data }: DirectoryViewProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="about" contentType="about" />
       {isValidHero(hero) && hero ? <HeroBlock hero={hero} /> : null}
-      <PageWrapper pt="83px">
-        <Column maxWidth="800px" textAlign="center">
-          <Heading my={0} fontWeight={1} level={3}>
+      <PageWrapper pt="83px" textAlign="center">
+        <Column columnwidth="800px">
+          <Heading my={0} weight={1} level={3}>
             {introText}
           </Heading>
         </Column>

@@ -40,7 +40,6 @@ import {
   ProductInfo,
   ProductThumb,
   HoverArea,
-  HoverThumb,
   HoverThumbWrapper,
 } from './styled'
 import { CloudinaryAnimation } from '../CloudinaryVideo'

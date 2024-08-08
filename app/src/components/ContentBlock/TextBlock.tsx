@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { Box, css } from '@xstyled/styled-components'
+import styled, { x, css } from '@xstyled/styled-components'
 import { TextBlock as TextBlockType, RichImage } from '../../types'
 import { RichText } from '../RichText'
 import { useMedia } from '../../hooks'
@@ -121,7 +121,7 @@ export const TextBlock = ({ content }: TextBlockProps) => {
         layout={layout}
         backgroundImage={backgroundImage}
       >
-        <Box color={textColor}>
+        <x.div color={textColor}>
           <RichText
             body={
               isMobile && content.body_mobileRaw
@@ -129,7 +129,7 @@ export const TextBlock = ({ content }: TextBlockProps) => {
                 : content.bodyRaw
             }
           />
-        </Box>
+        </x.div>
       </TextWrapper>
     </Wrapper>
   )

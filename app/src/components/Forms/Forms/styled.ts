@@ -26,8 +26,8 @@ export const FieldsWrapper = styled.div<WithVisible>`
     transition: 0.2s;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-row-gap: 4;
-    grid-column-gap: 3;
+    row-gap: 4;
+    column-gap: 3;
 
     > div:nth-child(odd) {
       position: relative;

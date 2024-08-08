@@ -1,5 +1,6 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 
 export const MainImage = styled.img``
 export const BlurImage = styled.img``

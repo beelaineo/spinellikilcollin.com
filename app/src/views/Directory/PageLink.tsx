@@ -1,6 +1,5 @@
 import * as React from 'react'
 import Link from 'next/link'
-import { Box } from '@xstyled/styled-components'
 import { PageLink as PageLinkType } from '../../types'
 import { Image } from '../../components/Image'
 import { Heading } from '../../components/Text'
