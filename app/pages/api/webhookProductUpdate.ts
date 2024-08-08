@@ -589,7 +589,7 @@ export async function handleWebhookProductUpdate(
   const productOptions: ShopifyDocumentProduct['options'] =
     product.options?.map((option) => ({
       _type: 'productOption',
-      _key: option.name,
+      _key: `gid://shopify/ProductOption/${option.id}`,
       name: option.name,
       values:
         option.values.map((v) => {
@@ -744,7 +744,7 @@ export async function handleWebhookProductUpdate(
 
   // type definition to match legacy shopify documents instead?
 
-  console.log('Committing product documents', productDocument)
+  console.log('Committing product documents', productDocument.title)
   console.log(
     'Committing product document collections:',
     productDocument.collections,
