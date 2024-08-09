@@ -118,7 +118,7 @@ const Toast: React.FC<ToastProps> = ({ toast, dismissToast, toastKey }) => {
       style={styles}
       ref={wrapperRef}
       toastType={toast.type}
-      colorTheme={colorTheme}
+      $colorTheme={colorTheme}
     >
       {renderMessage()}
 

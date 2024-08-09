@@ -1,10 +1,9 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
 import { Page } from '../../types'
-import { PageWrapper } from '../../components/Layout'
+import { PageWrapper, Column } from '../../components/Layout'
 import { ContentBlock } from '../../components/ContentBlock'
 import { Heading } from '../../components/Text'
-import { Column } from '../../components/Layout'
 import { RichText } from '../../components/RichText'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { SEO } from '../../components/SEO'
@@ -61,7 +60,7 @@ export const PageView = ({ page }: PageViewProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
-      {hero && isValidHero(hero) ? <HeroBlock hero={hero} /> : null}
+      {hero && isValidHero(hero) ? <HeroBlock $hero={hero} /> : null}
       <PageWrapper p={fullWidth ? '0' : undefined} tabIndex={-1}>
         {hideTitle !== true ? (
           <>
@@ -81,7 +80,7 @@ export const PageView = ({ page }: PageViewProps) => {
             <ContentBlock key={c._key || 'some-key'} content={c} />
           ))}
         </Grid>
-        <Column columnwidth="medium">
+        <Column $columnwidth="medium">
           <PageText>
             <RichText
               article

@@ -28,12 +28,12 @@ interface CustomSerializerConfig {
 }
 
 interface WithArticle {
-  article?: boolean
+  $article?: boolean
 }
 
 const RichTextWrapper = styled.div<WithArticle>`
-  ${({ theme, article }) => css`
-    ${article
+  ${({ theme, $article }) => css`
+    ${$article
       ? css`
           h2 {
             line-height: 1.5em;
@@ -279,7 +279,7 @@ export const RichText = ({
     openRingSizerModal({ currentProduct, currentVariant })
   const Wrapper = CustomWrapper || RichTextWrapper
   return body ? (
-    <Wrapper article={article}>
+    <Wrapper $article={article}>
       <BlockContent
         blocks={body}
         serializers={serializers({

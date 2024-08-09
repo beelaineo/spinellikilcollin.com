@@ -87,11 +87,11 @@ export const FaqView = ({ faq }: FaqProps) => {
         <Heading level={1} textAlign="center">
           {title || 'FAQ'}
         </Heading>
-        <QuickLinksNav ref={quickLinksRef} containerHeight={quickLinksHeight}>
+        <QuickLinksNav ref={quickLinksRef} $containerHeight={quickLinksHeight}>
           {sections?.map((section, index) => (
             <QuickLink
               key={index}
-              isActive={index === isActiveSection}
+              $isActive={index === isActiveSection}
               onClick={() => handleQuickLinkClick(index)}
             >
               {section}
@@ -99,7 +99,7 @@ export const FaqView = ({ faq }: FaqProps) => {
           ))}
         </QuickLinksNav>
 
-        <Column columnwidth={`clamp(30rem, -21.429rem + 85.714vw, 37.5rem)`}>
+        <Column $columnwidth={`clamp(30rem, -21.429rem + 85.714vw, 37.5rem)`}>
           <PageText>
             {faqCategories?.map((category, index) =>
               isMedium ? (

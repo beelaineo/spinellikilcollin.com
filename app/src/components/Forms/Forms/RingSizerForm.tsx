@@ -16,7 +16,7 @@ import * as Yup from 'yup'
 const { useState } = React
 
 interface WithVisible {
-  visible: boolean
+  $visible: boolean
 }
 
 const MainWrapper = styled.div`
@@ -24,9 +24,9 @@ const MainWrapper = styled.div`
 `
 
 const SuccessWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
-    opacity: ${visible ? 1 : 0};
-    pointer-events: ${visible ? 'inherit' : 'none'};
+  ${({ $visible }) => css`
+    opacity: ${$visible ? 1 : 0};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
     position: absolute;
     width: 100%;
@@ -39,10 +39,10 @@ const SuccessWrapper = styled.div<WithVisible>`
 `
 
 const FieldsWrapper = styled.div<WithVisible>`
-  ${({ visible, theme }) => css`
-    opacity: ${visible ? 1 : 0};
+  ${({ $visible, theme }) => css`
+    opacity: ${$visible ? 1 : 0};
     margin-top: 5;
-    pointer-events: ${visible ? 'inherit' : 'none'};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -179,7 +179,7 @@ export const RingSizerForm = ({
           initialValues={initialValues}
           validationSchema={validationSchema}
         >
-          <SuccessWrapper visible={success}>
+          <SuccessWrapper $visible={success}>
             <Heading color="body.8" level={4}>
               Thank you! We have received your request.
             </Heading>
@@ -189,7 +189,7 @@ export const RingSizerForm = ({
               </Button>
             ) : null}
           </SuccessWrapper>
-          <FieldsWrapper visible={!success}>
+          <FieldsWrapper $visible={!success}>
             <Field
               name="name"
               label="Name"

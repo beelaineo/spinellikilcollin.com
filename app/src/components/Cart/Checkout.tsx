@@ -144,7 +144,7 @@ export const Checkout = () => {
         </Heading>
       </CartHeading>
       {lineItems.length === 0 ? (
-        <CartInner center>
+        <CartInner $center>
           <Heading
             fontStyle="italic"
             textAlign="center"
@@ -160,7 +160,7 @@ export const Checkout = () => {
         </CartInner>
       ) : (
         <>
-          <CartInner isLoading={loading} hidden={!cartOpen}>
+          <CartInner $isLoading={loading} hidden={!cartOpen}>
             <CartItems>
               {lineItems.map((lineItem) => {
                 return <CheckoutProduct key={lineItem.id} lineItem={lineItem} />

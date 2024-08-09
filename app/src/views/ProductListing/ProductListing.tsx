@@ -79,6 +79,48 @@ function isCollectionResult(
   return 'products' in r[0]
 }
 
+const DescriptionWrapper = styled.div`
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 50% 10% 1fr;
+    column-gap: 3;
+
+    padding: 8 11;
+
+    ${theme.mediaQueries.tablet} {
+      padding: 4 8;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 4 5;
+      display: flex;
+      flex-direction: column;
+    }
+  `}
+`
+const TextWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    &:first-of-type p {
+      font-size: 16px;
+    }
+    p {
+      font-weight: 200;
+      font-size: 13px;
+    }
+    ${theme.mediaQueries.mobile} {
+      &:first-of-type p {
+        font-size: 13px;
+      }
+      &:last-of-type {
+        display: none;
+      }
+    }
+  `}
+`
+
 export const ProductListing = ({
   collection,
   isHiddenByKeepAlive,
@@ -495,62 +537,21 @@ export const ProductListing = ({
 
   const validHero = isValidHero(hero)
 
-  const DescriptionWrapper = styled.div`
-    ${({ theme }) => css`
-      display: grid;
-      grid-template-columns: 50% 10% 1fr;
-      column-gap: 3;
-
-      padding: 8 11;
-
-      ${theme.mediaQueries.tablet} {
-        padding: 4 8;
-      }
-
-      ${theme.mediaQueries.mobile} {
-        padding: 4 5;
-        display: flex;
-        flex-direction: column;
-      }
-    `}
-  `
-  const TextWrapper = styled.div`
-    ${({ theme }) => css`
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      &:first-of-type p {
-        font-size: 16px;
-      }
-      p {
-        font-weight: 200;
-        font-size: 13px;
-      }
-      ${theme.mediaQueries.mobile} {
-        &:first-of-type p {
-          font-size: 13px;
-        }
-        &:last-of-type {
-          display: none;
-        }
-      }
-    `}
-  `
   return (
     <>
       {!isHiddenByKeepAlive ? (
         <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
       ) : null}
       {hero && validHero ? (
-        <HeroBlock hero={hero} minimalDisplay={minimalDisplay} />
+        <HeroBlock $hero={hero} $minimalDisplay={minimalDisplay} />
       ) : null}
       <Wrapper
-        handle={handle}
-        withHero={Boolean(hero && validHero)}
-        isLightTheme={Boolean(lightTheme)}
+        $handle={handle}
+        $withHero={Boolean(hero && validHero)}
+        $isLightTheme={Boolean(lightTheme)}
         tabIndex={-1}
         ref={gridRef}
-        isReady={isReady}
+        $isReady={isReady}
       >
         {filters && filters.length ? (
           <Filter
@@ -586,7 +587,7 @@ export const ProductListing = ({
               </LoadingWrapper>
             ) : null}
 
-            <ProductGridWrapper isLoading={loading}>
+            <ProductGridWrapper $isLoading={loading}>
               <ProductGrid
                 reduceColumnCount={reduceColumnCount}
                 preferredVariantMatches={preferredVariantMatches}

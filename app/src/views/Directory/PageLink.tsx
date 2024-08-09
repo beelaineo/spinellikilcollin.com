@@ -37,7 +37,7 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
     return (
       <PageLinkWrapper>
         {image ? (
-          <ImageWrapper isOdd={Boolean(index % 2)}>
+          <ImageWrapper $isOdd={Boolean(index % 2)}>
             <a aria-label={'Link to ' + title} onClick={() => onQuizClick()}>
               <Image
                 image={image}
@@ -48,7 +48,7 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
           </ImageWrapper>
         ) : null}
 
-        <PageLinkBody isOdd={Boolean(index % 2)}>
+        <PageLinkBody $isOdd={Boolean(index % 2)}>
           <a onClick={() => onQuizClick()}>
             <Heading mb={0} level={2}>
               {title}
@@ -86,7 +86,7 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
     return (
       <PageLinkWrapper>
         {image ? (
-          <ImageWrapper isOdd={Boolean(index % 2)}>
+          <ImageWrapper $isOdd={Boolean(index % 2)}>
             <Link href={linkHref} aria-label={'Link to ' + title}>
               <Image
                 image={image}
@@ -97,7 +97,7 @@ export const PageLink = ({ ctaType, pageLink, index, href }: PageLinkProps) => {
           </ImageWrapper>
         ) : null}
 
-        <PageLinkBody isOdd={Boolean(index % 2)}>
+        <PageLinkBody $isOdd={Boolean(index % 2)}>
           <Link href={linkHref}>
             <Heading mb={0} level={2}>
               {title}

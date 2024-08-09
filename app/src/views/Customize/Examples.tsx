@@ -14,7 +14,7 @@ const ExamplesGrid = styled.div`
     margin-top: 9;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 4;
+    gap: 4;
 
     ${theme.mediaQueries.tablet} {
       grid-template-columns: repeat(2, 1fr);

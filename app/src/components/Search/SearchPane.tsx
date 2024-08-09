@@ -156,9 +156,9 @@ export const SearchPane = ({ breadCrumbs }) => {
 
   return (
     <Outer>
-      <Wrapper visible={open}>
+      <Wrapper $visible={open}>
         <SearchHeader hidden={!open}>
-          <Column columnwidth="medium">
+          <Column $columnwidth="medium">
             <SearchInput />
           </Column>
         </SearchHeader>

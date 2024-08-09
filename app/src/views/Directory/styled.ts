@@ -22,7 +22,7 @@ export const PageLinkWrapper = styled.div`
 `
 
 interface WithIsOdd {
-  isOdd: boolean
+  $isOdd: boolean
 }
 
 export const PageLinkBody = styled.div<WithIsOdd>`
@@ -57,10 +57,10 @@ export const PageLinkBody = styled.div<WithIsOdd>`
 `
 
 export const ImageWrapper = styled.div<WithIsOdd>`
-  ${({ isOdd, theme }) => css`
+  ${({ $isOdd, theme }) => css`
     ${theme.mediaQueries.aboveMobile} {
-      grid-column: ${isOdd ? '2 / 3' : 'auto'};
-      grid-row: ${isOdd ? '1' : 'auto'};
+      grid-column: ${$isOdd ? '2 / 3' : 'auto'};
+      grid-row: ${$isOdd ? '1' : 'auto'};
     }
 
     a {

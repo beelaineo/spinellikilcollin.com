@@ -44,7 +44,7 @@ export const CurrencySelector = ({ colorTheme }: CurrencySelectorProps) => {
   }
 
   return (
-    <CurrencySelectorWrapper colorTheme={colorTheme}>
+    <CurrencySelectorWrapper $colorTheme={colorTheme}>
       <Form
         disabled={loading}
         onSubmit={handleSubmit}

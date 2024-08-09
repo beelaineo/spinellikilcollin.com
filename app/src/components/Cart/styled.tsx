@@ -194,12 +194,12 @@ export const CartNav = styled.div`
 `
 
 interface CartInnerProps {
-  center?: boolean
-  isLoading?: boolean
+  $center?: boolean
+  $isLoading?: boolean
 }
 
 export const CartInner = styled.div<CartInnerProps>`
-  ${({ theme, center, isLoading }) => css`
+  ${({ theme, $center, $isLoading }) => css`
     flex-grow: 1;
     max-width: calc(100vw + 1px);
     overflow: scroll;
@@ -212,7 +212,7 @@ export const CartInner = styled.div<CartInnerProps>`
     justify-content: space-between;
 
     ${
-      isLoading
+      $isLoading
         ? css`
             opacity: 0.7;
             pointer-events: none;
@@ -220,7 +220,7 @@ export const CartInner = styled.div<CartInnerProps>`
         : ''
     }
     ${
-      center
+      $center
         ? css`
             display: flex;
             flex-direction: column;
@@ -258,7 +258,7 @@ export const SubtotalWrapper = styled.div`
   border-top: 1px solid black;
   display: grid;
   grid-template-columns: 150px 1fr;
-  grid-gap: 12px;
+  gap: 12px;
   margin-bottom: 3;
 `
 
@@ -291,7 +291,7 @@ export const CheckoutProductWrapper = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 150px 1fr;
-    grid-gap: 3;
+    gap: 3;
     border-color: body.7;
     padding: 4 0;
     position: relative;

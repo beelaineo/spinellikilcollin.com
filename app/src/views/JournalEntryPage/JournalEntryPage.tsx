@@ -39,8 +39,8 @@ export const JournalEntryPage = ({ entry }: JournalEntryPageProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
-      {validHero && hero ? <HeroBlock hero={hero} /> : null}
-      <JournalPageWrapper withHero={validHero} tabIndex={-1}>
+      {validHero && hero ? <HeroBlock $hero={hero} /> : null}
+      <JournalPageWrapper $withHero={validHero} tabIndex={-1}>
         <LinkWrapper>
           <Link href="/journal">
             <Heading level={5}>

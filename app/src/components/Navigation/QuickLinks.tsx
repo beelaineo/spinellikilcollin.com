@@ -5,10 +5,10 @@ import { QuickLinksWrapper } from './styled'
 import { useAnalytics } from '../../providers'
 
 interface QuickLinksProps {
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
 }
 
-export const QuickLinks = ({ colorTheme }: QuickLinksProps) => {
+export const QuickLinks = ({ $colorTheme }: QuickLinksProps) => {
   const { openRingSizerModal } = useModal()
   const { sendQuickLinkClick } = useAnalytics()
 
@@ -25,7 +25,7 @@ export const QuickLinks = ({ colorTheme }: QuickLinksProps) => {
   const router = useRouter()
 
   return (
-    <QuickLinksWrapper colorTheme={colorTheme}>
+    <QuickLinksWrapper $colorTheme={$colorTheme}>
       <button onClick={handleAppointmentClick}>Appointments</button>
       <button onClick={handleSizerClick}>Request a Sizer</button>
     </QuickLinksWrapper>

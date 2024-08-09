@@ -86,7 +86,7 @@ export const KindButtons = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 3;
+    gap: 3;
 
     ${theme.mediaQueries.tablet} {
       grid-template-columns: repeat(2, 1fr);

@@ -31,18 +31,18 @@ interface InventoryFilterProps {
 }
 
 interface WithIsApplied {
-  isApplied: boolean
+  $isApplied: boolean
 }
 
 const InventoryFilterWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
-  ${({ theme, isApplied }) => css`
+  ${({ theme, $isApplied }) => css`
     margin: 0;
     cursor: pointer;
     & > div:first-child {
       min-width: 130px !important;
       text-align: center !important;
       justify-content: center !important;
-      background-color: ${isApplied
+      background-color: ${$isApplied
         ? theme.colors.grays[4]
         : theme.colors.grays[2]};
       label {
@@ -150,7 +150,7 @@ export function InventoryFilter({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={toggleFilter}
-      isApplied={applyFilter}
+      $isApplied={applyFilter}
     >
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>

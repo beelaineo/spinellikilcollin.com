@@ -39,7 +39,7 @@ export const BackdropFilter = styled.div`
 
 interface WithBorder {
   $withBorder?: boolean
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
 }
 
 export const SkipToMainContentButton = styled.button`
@@ -59,12 +59,12 @@ export const SkipToMainContentButton = styled.button`
 `
 
 export const Inner = styled.div<WithBorder>`
-  ${({ theme, $withBorder, colorTheme }) => css`
+  ${({ theme, $withBorder, $colorTheme }) => css`
     position: relative;
     z-index: 10;
     display: grid;
     border-bottom: 1px solid;
-    border-color: ${colorTheme == 'light' && $withBorder
+    border-color: ${$colorTheme == 'light' && $withBorder
       ? theme.colors.grays[1]
       : $withBorder
       ? 'currentColor'
@@ -90,18 +90,18 @@ export const Inner = styled.div<WithBorder>`
 `
 
 interface WithColorTheme {
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
 }
 
 export const QuickLinksWrapper = styled.nav<WithColorTheme>`
-  ${({ theme, colorTheme }) => css`
+  ${({ theme, $colorTheme }) => css`
     display: flex;
     align-items: center;
     justify-content: flex-end;
     position: absolute;
     right: ${theme.space[7]}px;
     margin: 0 auto;
-    color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
+    color: ${$colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
     padding: 4 0 0 0;
     ${theme.mediaQueries.tablet} {
       display: none;
@@ -115,15 +115,19 @@ export const QuickLinksWrapper = styled.nav<WithColorTheme>`
       border-radius: 3rem;
       text-transform: uppercase;
       font-size: 5;
-      color: ${colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
+      color: ${$colorTheme == 'light' ? theme.colors.grays[1] : 'currentColor'};
       &:hover {
         background-color: white;
-        color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
+        color: ${$colorTheme == 'light'
+          ? theme.colors.body[7]
+          : 'currentColor'};
       }
       &:focus-visible {
         ${theme.focus.bottom()}
         background-color: white;
-        color: ${colorTheme == 'light' ? theme.colors.body[7] : 'currentColor'};
+        color: ${$colorTheme == 'light'
+          ? theme.colors.body[7]
+          : 'currentColor'};
       }
     }
   `}
@@ -159,21 +163,21 @@ export const NavSection = styled.div<WithReady>`
 
 interface WithActive {
   theme: DefaultTheme
-  active?: boolean
+  $active?: boolean
 }
 
 interface WithColor {
   theme: DefaultTheme
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
 }
 
 export const LogoWrapper = styled.div<WithColor>`
-  ${({ theme, colorTheme }) => css`
+  ${({ theme, $colorTheme }) => css`
     position: relative;
     margin: 0 auto;
     svg {
       width: 100%;
-      ${colorTheme == 'light'
+      ${$colorTheme == 'light'
         ? `path {
           fill: ${theme.colors.grays[1]};
         }
@@ -197,10 +201,10 @@ export const LogoWrapper = styled.div<WithColor>`
 `
 
 export const NavHeader = styled.button<WithActive>`
-  ${({ active }) => css`
+  ${({ $active }) => css`
     font-size: 6;
     border-top: 2px solid transparent;
-    border-bottom: 2px solid ${active ? 'black' : 'transparent'};
+    border-bottom: 2px solid ${$active ? 'black' : 'transparent'};
     color: inherit;
     text-decoration: none;
     transition: 0.2s;
@@ -225,12 +229,12 @@ export const HamburgerWrapper = styled.div`
 `
 interface ColorThemeProps {
   theme: DefaultTheme
-  colorTheme?: 'light' | 'dark'
-  isHighlighted?: 'isVisible' | 'isHidden' | null
+  $colorTheme?: 'light' | 'dark'
+  $isHighlighted?: 'isVisible' | 'isHidden' | null
 }
 
 export const SearchButtonWrapper = styled.div<ColorThemeProps>`
-  ${({ theme, colorTheme }) => css`
+  ${({ theme, $colorTheme }) => css`
     position: relative;
     transition: 250ms ease;
     display: flex;
@@ -242,7 +246,9 @@ export const SearchButtonWrapper = styled.div<ColorThemeProps>`
     svg {
       display: inline-block;
       width: 100%;
-      ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
+      ${$colorTheme == 'light'
+        ? `path { fill: ${theme.colors.grays[3]}; }`
+        : ''}
     }
     ${theme.mediaQueries.tablet} {
       width: 20px;
@@ -262,16 +268,16 @@ export const SearchButtonWrapper = styled.div<ColorThemeProps>`
 `
 
 export const CurrencySelectorWrapper = styled.div<ColorThemeProps>`
-  ${({ theme, colorTheme, isHighlighted }) => css`
+  ${({ theme, $colorTheme, $isHighlighted }) => css`
     margin-right: 2;
     position: relative;
     border-radius: 4px;
 
-    ${isHighlighted === 'isVisible'
+    ${$isHighlighted === 'isVisible'
       ? `outline: 110vmax solid rgba(0, 0, 0, 0.7); 
-        background-color: ${colorTheme === 'light' && theme.colors.grays[1]};
+        background-color: ${$colorTheme === 'light' && theme.colors.grays[1]};
         transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`
-      : isHighlighted === 'isHidden'
+      : $isHighlighted === 'isHidden'
       ? `outline: 110vmax solid rgba(0, 0, 0, 0); 
         transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;
         background-color: transparent;`
@@ -282,14 +288,14 @@ export const CurrencySelectorWrapper = styled.div<ColorThemeProps>`
 
     transition: outline-color 0.3s ease-in-out;
 
-    ${colorTheme == 'light' && !isHighlighted
+    ${$colorTheme == 'light' && !$isHighlighted
       ? `select {color: ${theme.colors.grays[3]};}`
       : ''};
 
     ${theme.mediaQueries.mobile} {
-      ${isHighlighted === 'isVisible'
+      ${$isHighlighted === 'isVisible'
         ? `background-color: ${theme.colors.grays[1]};`
-        : isHighlighted === 'isHidden'
+        : $isHighlighted === 'isHidden'
         ? `background-color: transparent;`
         : `background-color: transparent;`}
 
@@ -339,13 +345,13 @@ interface WithVisible {
 
 interface LoadingProps {
   theme: DefaultTheme
-  isLoading?: boolean
-  colorTheme?: 'light' | 'dark'
+  $isLoading?: boolean
+  $colorTheme?: 'light' | 'dark'
 }
 
 export const CartButtonWrapper = styled.button<LoadingProps>`
-  ${({ theme, isLoading, colorTheme }) => css`
-    opacity: ${isLoading ? '0.5' : '1'};
+  ${({ theme, $isLoading, $colorTheme }) => css`
+    opacity: ${$isLoading ? '0.5' : '1'};
     position: relative;
     transition: 250ms ease;
     display: flex;
@@ -356,7 +362,9 @@ export const CartButtonWrapper = styled.button<LoadingProps>`
     svg {
       display: inline-block;
       width: 100%;
-      ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
+      ${$colorTheme == 'light'
+        ? `path { fill: ${theme.colors.grays[3]}; }`
+        : ''}
     }
     ${theme.mediaQueries.mobile} {
       width: 16px;
@@ -369,7 +377,7 @@ export const CartButtonWrapper = styled.button<LoadingProps>`
 `
 
 export const CartBadge = styled.div<ColorThemeProps>`
-  ${({ theme, colorTheme }) => css`
+  ${({ theme, $colorTheme }) => css`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -379,8 +387,8 @@ export const CartBadge = styled.div<ColorThemeProps>`
     padding-top: 1px;
     width: 15px;
     height: 15px;
-    background-color: ${colorTheme == 'light' ? 'body.8' : 'body.2'};
-    color: ${colorTheme == 'light' ? 'body.2' : 'inherit'};
+    background-color: ${$colorTheme == 'light' ? 'body.8' : 'body.2'};
+    color: ${$colorTheme == 'light' ? 'body.2' : 'inherit'};
     border: 1px solid;
     border-radius: 20px;
 

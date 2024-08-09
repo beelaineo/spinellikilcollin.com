@@ -177,13 +177,13 @@ export const MailerForm = styled.form`
 `
 
 interface WithVisible {
-  visible: boolean
+  $visible: boolean
 }
 
 export const InputWrapper = styled.div<WithVisible>`
-  ${({ visible, theme }) => css`
-    opacity: ${visible ? 1 : 0};
-    pointer-events: ${visible ? 'inherit' : 'none'};
+  ${({ $visible, theme }) => css`
+    opacity: ${$visible ? 1 : 0};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
 
     button:focus-visible {
@@ -192,12 +192,12 @@ export const InputWrapper = styled.div<WithVisible>`
   `}
 `
 export const SuccessWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
-    opacity: ${visible ? 1 : 0};
+  ${({ $visible }) => css`
+    opacity: ${$visible ? 1 : 0};
     padding: 0 3;
     border: 1px solid;
     border-color: body.5;
-    pointer-events: ${visible ? 'inherit' : 'none'};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
     position: absolute;
     width: 100%;
@@ -249,16 +249,16 @@ export const FooterRight = styled.div`
 `
 
 interface HomepageLinkProps {
-  isMobile: boolean
+  $isMobile: boolean
 }
 
 export const HomepageLink = styled.div<HomepageLinkProps>`
-  ${({ isMobile, theme }) => css`
-    display: ${isMobile ? 'none' : 'block'};
+  ${({ $isMobile, theme }) => css`
+    display: ${$isMobile ? 'none' : 'block'};
     font-weight: 2;
 
     ${theme.mediaQueries.mobile} {
-      display: ${isMobile ? 'block' : 'none'};
+      display: ${$isMobile ? 'block' : 'none'};
       order: 3;
       padding: 7 5 0;
     }

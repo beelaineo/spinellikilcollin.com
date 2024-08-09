@@ -6,19 +6,19 @@ import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
 
 interface WrapperProps {
-  backgroundImage?: RichImage | null
-  layout?: string | null
+  $backgroundImage?: RichImage | null
+  $layout?: string | null
 }
 
 const Wrapper = styled.div<WrapperProps>`
-  ${({ theme, layout, backgroundImage }) => css`
+  ${({ theme, $layout, $backgroundImage }) => css`
     height: 100%;
     position: relative;
     width: 100%;
     background-color: body.0;
-    grid-column: ${layout === 'fullWidth' ? '1 / 3' : 'auto'};
-    background-image: ${backgroundImage
-      ? `url(${backgroundImage.asset?.url})`
+    grid-column: ${$layout === 'fullWidth' ? '1 / 3' : 'auto'};
+    background-image: ${$backgroundImage
+      ? `url(${$backgroundImage.asset?.url})`
       : 'none'};
 
     ${theme.mediaQueries.mobile} {
@@ -30,23 +30,23 @@ const Wrapper = styled.div<WrapperProps>`
 `
 
 interface TextWrapperProps {
-  textAlignment: string | null | undefined
-  layout?: string | null
-  backgroundImage?: RichImage | null
+  $textAlignment: string | null | undefined
+  $layout?: string | null
+  $backgroundImage?: RichImage | null
 }
 
 const TextWrapper = styled.div<TextWrapperProps>`
-  ${({ textAlignment, layout, backgroundImage, theme }) => css`
-    margin: ${backgroundImage ? '0 48px' : '48px'};
-    padding: ${backgroundImage ? '48px 0' : '0'};
+  ${({ $textAlignment, $layout, $backgroundImage, theme }) => css`
+    margin: ${$backgroundImage ? '0 48px' : '48px'};
+    padding: ${$backgroundImage ? '48px 0' : '0'};
     min-height: calc(50vh - 96px);
     height: calc(100% - 96px);
     width: auto;
     z-index: 10;
     display: flex;
-    text-align: ${textAlignment};
+    text-align: ${$textAlignment};
     align-items: center;
-    justify-content: ${textAlignment == 'center' ? 'center' : 'initial'};
+    justify-content: ${$textAlignment == 'center' ? 'center' : 'initial'};
 
     h1,
     h2,
@@ -65,13 +65,13 @@ const TextWrapper = styled.div<TextWrapperProps>`
       white-space: pre-wrap;
     }
 
-    ${layout === 'fullWidth'
+    ${$layout === 'fullWidth'
       ? `& > div {
         flex: 1;
       }`
       : ''}
 
-    ${layout !== 'fullWidth'
+    ${$layout !== 'fullWidth'
       ? `& > div > div {
       max-width: 500px;
     }
@@ -91,15 +91,15 @@ const TextWrapper = styled.div<TextWrapperProps>`
 
     ${theme.mediaQueries.mobile} {
       min-height: unset;
-      margin: ${backgroundImage ? '0 36px' : '36px'};
-      padding: ${backgroundImage ? '36px 0' : '0'};
+      margin: ${$backgroundImage ? '0 36px' : '36px'};
+      padding: ${$backgroundImage ? '36px 0' : '0'};
       position: static;
       top: unset;
       left: unset;
       height: auto;
       min-height: unset;
       display: block;
-      text-align: ${textAlignment};
+      text-align: ${$textAlignment};
     }
   `}
 `
@@ -115,11 +115,11 @@ export const TextBlock = ({ content }: TextBlockProps) => {
     maxWidth: `${theme.breakpoints?.md || '650'}px`,
   })
   return (
-    <Wrapper layout={layout} backgroundImage={backgroundImage}>
+    <Wrapper $layout={layout} $backgroundImage={backgroundImage}>
       <TextWrapper
-        textAlignment={alignment}
-        layout={layout}
-        backgroundImage={backgroundImage}
+        $textAlignment={alignment}
+        $layout={layout}
+        $backgroundImage={backgroundImage}
       >
         <x.div color={textColor}>
           <RichText

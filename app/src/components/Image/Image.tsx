@@ -177,7 +177,7 @@ export const Image = ({
     <Wrapper ref={containerRef}>
       {ratio ? <RatioPadding canvasFill={canvasFill} ratio={ratio} /> : null}
       {src && (preload || isInViewOnce) ? (
-        <Picture objectFit={objectFit} loaded={loaded} richImage={richImage}>
+        <Picture $objectFit={objectFit} $loaded={loaded} $richImage={richImage}>
           {lqip ? (
             <BlurImage src={lqip} />
           ) : placeholder === 'shadow' ? (

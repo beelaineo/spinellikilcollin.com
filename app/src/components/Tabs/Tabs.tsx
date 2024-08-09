@@ -114,12 +114,12 @@ interface TabProps {
 }
 
 interface WithVisible {
-  visible: boolean
+  $visible: boolean
 }
 
 const TabWrapper = styled.div<WithVisible>`
-  ${({ visible }) =>
-    visible === false
+  ${({ $visible }) =>
+    $visible === false
       ? css`
           opacity: 0;
           pointer-events: none;
@@ -145,5 +145,5 @@ export const Tab = ({ children, name }: TabProps) => {
 
   if (!isActive && mode !== 'hidden') return null
 
-  return <TabWrapper visible={isActive}>{children}</TabWrapper>
+  return <TabWrapper $visible={isActive}>{children}</TabWrapper>
 }

@@ -14,13 +14,13 @@ interface CustomizeButtonProps {
 }
 
 interface WithMobile {
-  mobile?: boolean
+  $mobile?: boolean
 }
 
 const Wrapper = styled.button<WithMobile>`
-  ${({ mobile, theme }) => css`
+  ${({ $mobile, theme }) => css`
     position: relative;
-    display: ${mobile ? 'none' : 'flex'};
+    display: ${$mobile ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;
     height: 32px;
@@ -32,7 +32,7 @@ const Wrapper = styled.button<WithMobile>`
     }
 
     ${theme.mediaQueries.tablet} {
-      display: ${mobile ? 'flex' : 'none'};
+      display: ${$mobile ? 'flex' : 'none'};
       margin: 4 0 0;
       padding: 0;
     }
@@ -48,7 +48,7 @@ export const CustomizeButton = ({
   const { openWeddingModal, openCustomizationModal } = useModal()
 
   return (
-    <Wrapper mobile={mobile}>
+    <Wrapper $mobile={mobile}>
       <WeddingCustomizeIcon />
       <Heading m={0} level={5} textDecoration="underline">
         <span

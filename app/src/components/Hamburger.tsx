@@ -4,11 +4,11 @@ import { DefaultTheme } from 'styled-components'
 export interface HamburgerWrapperProps {
   theme: DefaultTheme
   open?: boolean
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
 }
 
 const HamburgerWrapper = styled.button<HamburgerWrapperProps>`
-  ${({ open, theme, colorTheme }) => css`
+  ${({ open, theme, $colorTheme }) => css`
     cursor: pointer;
     transition: 250ms ease;
     position: relative;
@@ -29,7 +29,7 @@ const HamburgerWrapper = styled.button<HamburgerWrapperProps>`
       left: 0;
       width: 100%;
       height: 1px;
-      background-color: ${colorTheme == 'light'
+      background-color: ${$colorTheme == 'light'
         ? theme.colors.grays[1]
         : 'black'};
       display: block;
@@ -78,16 +78,16 @@ const HamburgerWrapper = styled.button<HamburgerWrapperProps>`
 interface HamburgerProps {
   open: boolean
   onClick?: () => void
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
   /* */
 }
 
-export const Hamburger = ({ open, onClick, colorTheme }: HamburgerProps) => {
+export const Hamburger = ({ open, onClick, $colorTheme }: HamburgerProps) => {
   return (
     <HamburgerWrapper
       open={open}
       onClick={onClick}
-      colorTheme={colorTheme}
+      $colorTheme={$colorTheme}
       aria-label={open ? 'Close' : 'Open'}
     >
       <span />

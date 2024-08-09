@@ -4,11 +4,11 @@ import { DefaultTheme } from 'styled-components'
 import { Wrapper as ImageWrapper } from '../Image/styled'
 
 interface WithSingle {
-  single?: boolean
+  $single?: boolean
 }
 
 export const CarouselContainer = styled.div<WithSingle>`
-  ${({ theme, single }) => css`
+  ${({ theme, $single }) => css`
     position: relative;
     height: 100%;
     width: 100%;
@@ -23,13 +23,13 @@ export const CarouselContainer = styled.div<WithSingle>`
     }
     ${theme.mediaQueries.mobile} {
       overflow: hidden;
-      padding: ${single ? '0' : '0 32vw'};
+      padding: ${$single ? '0' : '0 32vw'};
     }
   `}
 `
 
 export const CarouselMask = styled.div<WithSingle>`
-  ${({ theme, single }) => css`
+  ${({ theme, $single }) => css`
     overflow: hidden;
     padding-bottom: 3;
 
@@ -37,31 +37,31 @@ export const CarouselMask = styled.div<WithSingle>`
       max-width: 100%;
       overflow: visible;
 
-      ${single ? css`` : ''}
+      ${$single ? css`` : ''}
     }
   `}
 `
 
 interface SlidesContainerProps {
-  left: number
-  isSwiping: boolean
+  $left: number
+  $isSwiping: boolean
   theme: DefaultTheme
 }
 
 export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
   (props) => ({
     style: {
-      transform: `translateX(${props.left}px)`,
+      transform: `translateX(${props.$left}px)`,
     },
   }),
 )`
-  ${({ theme, isSwiping }: SlidesContainerProps) => css`
+  ${({ theme, $isSwiping }: SlidesContainerProps) => css`
     position: relative;
     height: 100%;
     width: 100%;
     top: 0;
     white-space: nowrap;
-    transition: ${isSwiping ? 0 : '0.4s cubic-bezier(0.57, 0.06, 0.05, 0.95)'};
+    transition: ${$isSwiping ? 0 : '0.4s cubic-bezier(0.57, 0.06, 0.05, 0.95)'};
 
     & > * {
       white-space: initial;
@@ -76,11 +76,11 @@ export const SlidesContainer = styled.div.attrs<SlidesContainerProps>(
 interface WithColumnCount {
   theme: DefaultTheme
   columnCount?: number
-  single?: boolean
+  $single?: boolean
 }
 
 export const SlideContainer = styled.div<WithColumnCount>`
-  ${({ theme, columnCount, single }) => css`
+  ${({ theme, columnCount, $single }) => css`
     height: 100%;
     text-align: center;
     padding-right: 5;
@@ -91,7 +91,7 @@ export const SlideContainer = styled.div<WithColumnCount>`
       margin-right: 0;
     }
 
-    ${single
+    ${$single
       ? css`
           width: 100%;
           padding-right: 0;
@@ -137,12 +137,12 @@ const WIDTH = 20
 const HEIGHT = WIDTH * 2
 
 interface ButtonWrapperProps {
-  visible: boolean
+  $visible: boolean
   direction: 'previous' | 'next'
 }
 
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
-  ${({ direction, visible, theme }) => css`
+  ${({ direction, $visible, theme }) => css`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -158,8 +158,8 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
           left: 0;
         `}
 
-    opacity: ${visible ? '1' : '0'};
-    pointer-events: ${visible ? 'auto' : 'none'};
+    opacity: ${$visible ? '1' : '0'};
+    pointer-events: ${$visible ? 'auto' : 'none'};
 
     ${theme.mediaQueries.desktop} {
       width: ${theme.space[11]}px;
@@ -227,15 +227,15 @@ export const DotsInner = styled.div`
 `
 
 interface WithActive {
-  active: boolean
+  $active: boolean
 }
 
 export const Dot = styled.div<WithActive>`
-  ${({ active }) => css`
+  ${({ $active }) => css`
     margin-right: 2;
     width: 6px;
     height: 6px;
     border-radius: 10px;
-    background-color: ${active ? 'body.7' : 'body.4'};
+    background-color: ${$active ? 'body.7' : 'body.4'};
   `}
 `

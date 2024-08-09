@@ -3,11 +3,11 @@ import { Button } from '../Button'
 import { Maybe } from '../../types'
 
 interface WithMinimalDisplay {
-  minimalDisplay?: Maybe<boolean>
+  $minimalDisplay?: Maybe<boolean>
 }
 
 export const Wrapper = styled.div<WithMinimalDisplay>`
-  ${({ theme, minimalDisplay }) => css`
+  ${({ theme, $minimalDisplay }) => css`
     padding: 5 0;
     width: 100%;
     position: sticky;
@@ -19,11 +19,11 @@ export const Wrapper = styled.div<WithMinimalDisplay>`
 
     ${theme.mediaQueries.tablet} {
       top: 62px;
-      padding: ${minimalDisplay ? '5 0' : '3 5'};
+      padding: ${$minimalDisplay ? '5 0' : '3 5'};
     }
     ${theme.mediaQueries.mobile} {
       top: 48px;
-      padding: ${minimalDisplay ? '4 0' : '3 0'};
+      padding: ${$minimalDisplay ? '4 0' : '3 0'};
     }
   `}
 `
@@ -164,7 +164,7 @@ export const MobileControlsDivider = styled.span`
 `
 
 export const SortWrapper = styled.div<WithHide>`
-  ${({ theme, hide }) => css`
+  ${({ theme, $hide }) => css`
     position: relative;
     padding: 2 4;
     width: 100%;
@@ -175,7 +175,7 @@ export const SortWrapper = styled.div<WithHide>`
     align-items: center;
     min-width: 124px;
     max-width: unset;
-    display: ${hide ? 'none' : 'block'};
+    display: ${$hide ? 'none' : 'block'};
     margin: 0 5px;
     text-align: center;
     border: 1px solid ${theme.colors.grays[5]};
@@ -229,15 +229,15 @@ export const Header = styled.div`
 
 interface WithOpenMinimalDisplay {
   open: boolean
-  minimalDisplay?: Maybe<boolean>
+  $minimalDisplay?: Maybe<boolean>
 }
 
 export const Inner = styled.div<WithOpenMinimalDisplay>`
-  ${({ theme, open, minimalDisplay }) => css`
+  ${({ theme, open, $minimalDisplay }) => css`
     display: ${open ? 'flex' : 'none'};
     margin: 0 7;
     padding: 0;
-    z-index: ${minimalDisplay ? '11' : '1'};
+    z-index: ${$minimalDisplay ? '11' : '1'};
     max-height: 48px;
     & > svg {
       width: 24px;
@@ -249,13 +249,13 @@ export const Inner = styled.div<WithOpenMinimalDisplay>`
     ${theme.mediaQueries.tablet} {
     }
     @media screen and (max-width: 960px) {
-      margin: 0 ${minimalDisplay ? '6' : '4'};
+      margin: 0 ${$minimalDisplay ? '6' : '4'};
       flex-direction: column;
-      border-bottom: ${minimalDisplay
+      border-bottom: ${$minimalDisplay
         ? `none`
         : '1px solid ' + theme.colors.grays[5]};
       max-height: unset;
-      ${minimalDisplay
+      ${$minimalDisplay
         ? css`
             & > div:first-child {
               padding: 0;
@@ -269,8 +269,8 @@ export const Inner = styled.div<WithOpenMinimalDisplay>`
         : ''};
     }
     ${theme.mediaQueries.mobile} {
-      margin: 0 ${minimalDisplay ? '2' : 'inherit'};
-      align-items: ${minimalDisplay ? 'center' : 'inherit'};
+      margin: 0 ${$minimalDisplay ? '2' : 'inherit'};
+      align-items: ${$minimalDisplay ? 'center' : 'inherit'};
     }
   `}
 `
@@ -295,11 +295,11 @@ export const OpenButton = styled(Button)`
   `}
 `
 interface WithHide {
-  hide: boolean
+  $hide: boolean
 }
 export const FilterSets = styled.div<WithHide>`
-  ${({ theme, hide }) => css`
-    display: ${hide ? 'none' : 'flex'};
+  ${({ theme, $hide }) => css`
+    display: ${$hide ? 'none' : 'flex'};
     padding: 0;
     margin: 0;
     flex: 1;
@@ -311,7 +311,7 @@ export const FilterSets = styled.div<WithHide>`
     @media screen and (max-width: 960px) {
       gap: 0 2;
       padding: 5 0 2 0;
-      display: ${hide ? 'none' : 'flex'};
+      display: ${$hide ? 'none' : 'flex'};
       flex-direction: row;
       flex-wrap: wrap;
       justify-content: flex-start;
@@ -325,12 +325,12 @@ export const FilterSets = styled.div<WithHide>`
 `
 
 interface WithIsActive {
-  isActive?: boolean
+  $isActive?: boolean
   type?: Maybe<string>
 }
 
 export const HeadingWrapper = styled.div<WithIsActive>`
-  ${({ theme, isActive, type }) => css`
+  ${({ theme, $isActive, type }) => css`
     padding: 2 4;
     min-width: 105px;
     margin: 0 5px;
@@ -346,7 +346,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
       line-height: 1;
       margin: 0;
     }
-    ${isActive
+    ${$isActive
       ? 'background-color: ' +
         theme.colors.grays[4] +
         '; justify-content: space-between; & > h5 {' +
@@ -354,7 +354,7 @@ export const HeadingWrapper = styled.div<WithIsActive>`
         theme.colors.grays[4] +
         '; z-index:11; } h5 { margin-right: 32px;}'
       : ''}
-    ${isActive &&
+    ${$isActive &&
     (type == 'Type' || type == 'Bands' || type == 'Size' || type == 'Ring Size')
       ? 'padding: 0; & > h5 { min-width: 72px; padding: 2 0; } h5 { border: 1px solid ' +
         theme.colors.grays[6] +
@@ -376,19 +376,19 @@ export const HeadingWrapper = styled.div<WithIsActive>`
 `
 
 interface WithIsHoveredType {
-  isHovered?: boolean
+  $isHovered?: boolean
   type?: Maybe<string>
 }
 
 export const FiltersWrapper = styled.div<WithIsHoveredType>`
-  ${({ theme, isHovered, type }) => css`
-    display: ${isHovered ? 'block' : 'none'};
+  ${({ $isHovered, type }) => css`
+    display: ${$isHovered ? 'block' : 'none'};
     position: relative;
     z-index: 2;
     padding-top: 1;
     ${type == 'Size' || type == 'Ring Size'
       ? css`
-          display: ${isHovered ? 'flex' : 'none'};
+          display: ${$isHovered ? 'flex' : 'none'};
           max-width: ${type == 'Size' ? '330px' : '115px'};
           flex-wrap: wrap;
           & > div {
@@ -408,7 +408,7 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
       : ''}
     @media screen and (max-width: 960px) {
       position: relative;
-      display: ${isHovered ? 'flex' : 'none'};
+      display: ${$isHovered ? 'flex' : 'none'};
       flex-wrap: wrap;
       flex-direction: row;
       gap: 0 2;
@@ -417,7 +417,7 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
       }
       ${type == 'Size' || type == 'Ring Size'
         ? css`
-            display: ${isHovered ? 'grid' : 'none'};
+            display: ${$isHovered ? 'grid' : 'none'};
             grid-template-columns: repeat(auto-fit, 36px);
             position: static;
             flex-wrap: unset;
@@ -436,17 +436,17 @@ export const FiltersWrapper = styled.div<WithIsHoveredType>`
 `
 
 interface WithActive {
-  active?: boolean
+  $active?: boolean
 }
 
 export const FilterSetWrapper = styled.div<WithActive>`
-  ${({ theme, active }) => css`
+  ${({ theme, $active }) => css`
     position: relative;
 
     @media screen and (max-width: 960px) {
-      display: ${active ? 'flex' : 'block'};
+      display: ${$active ? 'flex' : 'block'};
       flex-direction: column;
-      ${active
+      ${$active
         ? css`
             & > div:first-child {
               margin-right: 50%;
@@ -464,32 +464,32 @@ export const FilterSetWrapper = styled.div<WithActive>`
 `
 
 interface WithType {
-  setType?: Maybe<string>
-  isActive?: boolean
+  $setType?: Maybe<string>
+  $isActive?: boolean
 }
 
 export const FilterIndicatorsWrapper = styled.div<WithType>`
-  ${({ theme, setType, isActive }) => css`
+  ${({ theme, $setType, $isActive }) => css`
     display: flex;
     height: 100%;
-    margin-right: ${isActive &&
-    (setType == 'Type' ||
-      setType == 'Bands' ||
-      setType == 'Size' ||
-      setType == 'Ring Size')
+    margin-right: ${$isActive &&
+    ($setType == 'Type' ||
+      $setType == 'Bands' ||
+      $setType == 'Size' ||
+      $setType == 'Ring Size')
       ? '0'
-      : isActive &&
-        setType != 'Type' &&
-        setType != 'Bands' &&
-        setType != 'Size' &&
-        setType != 'Ring Size'
+      : $isActive &&
+        $setType != 'Type' &&
+        $setType != 'Bands' &&
+        $setType != 'Size' &&
+        $setType != 'Ring Size'
       ? '-13px'
       : '0px'};
     & > div:first-child {
       margin-left: 0;
       h5 {
-        padding-left: ${isActive &&
-        (setType == 'Bands' || setType == 'Size' || setType == 'Ring Size')
+        padding-left: ${$isActive &&
+        ($setType == 'Bands' || $setType == 'Size' || $setType == 'Ring Size')
           ? '16px'
           : '39px'};
       }
@@ -520,7 +520,7 @@ export const ButtonsWrapper = styled.div`
     margin: 0 7;
     padding: 4 0;
     grid-template-columns: 160px 160px;
-    grid-gap: 4;
+    gap: 4;
     @media screen and (max-width: 960px) {
       margin: 0 4;
       grid-template-columns: 1fr;
@@ -529,17 +529,17 @@ export const ButtonsWrapper = styled.div`
 `
 
 interface WithIsApplied {
-  isApplied: boolean
+  $isApplied: boolean
 }
 
 export const PriceRangeFilterWrapper = styled.div<WithIsApplied>`
-  ${({ theme, isApplied }) => css`
+  ${({ theme, $isApplied }) => css`
     margin: 0;
     & > div:first-child {
       min-width: 145px;
       text-align: left;
       justify-content: flex-start;
-      background-color: ${isApplied
+      background-color: ${$isApplied
         ? theme.colors.grays[4]
         : theme.colors.grays[2]};
     }
@@ -571,8 +571,8 @@ export const PriceRangeFilterWrapper = styled.div<WithIsApplied>`
 `
 
 export const Slider = styled.div<WithIsHoveredType>`
-  ${({ theme, isHovered }) => css`
-    display: ${isHovered ? 'block' : 'none'};
+  ${({ $isHovered }) => css`
+    display: ${$isHovered ? 'block' : 'none'};
     position: relative;
     padding: 3 0;
     max-width: 300px;
@@ -594,17 +594,17 @@ export const Slider = styled.div<WithIsHoveredType>`
 `
 
 interface WithPosition {
-  position: number
+  $position: number
 }
 
 export const KnobHandle = styled.div<WithPosition>`
-  ${({ position }) => css`
+  ${({ $position }) => css`
     position: absolute;
     cursor: pointer;
     text-align: center;
     z-index: 10;
     top: calc(50% - 7px);
-    left: calc(${position * 100}% - (${position} * 16px));
+    left: calc(${$position * 100}% - (${$position} * 16px));
   `}
 `
 

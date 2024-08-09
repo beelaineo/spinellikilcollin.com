@@ -1,7 +1,7 @@
 import styled, { css } from '@xstyled/styled-components'
 
 interface WithVisible {
-  visible: boolean
+  $visible: boolean
 }
 
 export const MainWrapper = styled.div`
@@ -19,10 +19,10 @@ export const ProductBadgeWrapper = styled.div`
 `
 
 export const FieldsWrapper = styled.div<WithVisible>`
-  ${({ visible, theme }) => css`
+  ${({ $visible, theme }) => css`
     margin-top: 5;
-    opacity: ${visible ? 1 : 0};
-    pointer-events: ${visible ? 'inherit' : 'none'};
+    opacity: ${$visible ? 1 : 0};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -77,9 +77,9 @@ export const FieldsWrapper = styled.div<WithVisible>`
 `
 
 export const SuccessWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
-    opacity: ${visible ? 1 : 0};
-    pointer-events: ${visible ? 'inherit' : 'none'};
+  ${({ $visible }) => css`
+    opacity: ${$visible ? 1 : 0};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
     position: absolute;
     width: 100%;

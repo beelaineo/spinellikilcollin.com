@@ -33,7 +33,7 @@ export const LoopChild = ({
   }, [])
 
   return (
-    <LoopChildContainer clone={clone} active={active} ref={childRef}>
+    <LoopChildContainer $clone={clone} $active={active} ref={childRef}>
       {children}
     </LoopChildContainer>
   )
