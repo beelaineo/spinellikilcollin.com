@@ -26,7 +26,7 @@ interface WithIsOdd {
 }
 
 export const PageLinkBody = styled.div<WithIsOdd>`
-  ${({ isOdd, theme }) => css`
+  ${({ $isOdd, theme }) => css`
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -50,8 +50,8 @@ export const PageLinkBody = styled.div<WithIsOdd>`
     }
 
     ${theme.mediaQueries.aboveMobile} {
-      grid-column: ${isOdd ? '1 / 2' : 'auto'};
-      grid-row: ${isOdd ? '1' : 'auto'};
+      grid-column: ${$isOdd ? '1 / 2' : 'auto'};
+      grid-row: ${$isOdd ? '1' : 'auto'};
     }
   `}
 `
