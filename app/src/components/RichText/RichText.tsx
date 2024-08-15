@@ -134,7 +134,6 @@ export const RichText = ({
   weight,
   article,
 }: RichTextProps) => {
-
   const currentProductContext = useCurrentProduct()
   const currentProduct = currentProductContext?.product
   const currentVariant = currentProductContext?.currentVariant
