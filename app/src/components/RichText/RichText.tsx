@@ -135,7 +135,6 @@ export const RichText = ({
   article,
 }: RichTextProps) => {
 
-  console.log('bodybody', body)
   const currentProductContext = useCurrentProduct()
   const currentProduct = currentProductContext?.product
   const currentVariant = currentProductContext?.currentVariant
