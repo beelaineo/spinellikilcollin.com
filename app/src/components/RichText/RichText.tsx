@@ -134,6 +134,8 @@ export const RichText = ({
   weight,
   article,
 }: RichTextProps) => {
+
+  console.log('bodybody', body)
   const currentProductContext = useCurrentProduct()
   const currentProduct = currentProductContext?.product
   const currentVariant = currentProductContext?.currentVariant
@@ -247,7 +249,6 @@ export const RichText = ({
       number: ({ children }) => <Ol>{children}</Ol>,
       bullet: ({ children }) => <Ul>{children}</Ul>,
     },
-    listItem: ({ value }) => <Li weight={3} {...value} />,
   }
 
   return body ? (
