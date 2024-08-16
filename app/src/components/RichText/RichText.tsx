@@ -273,7 +273,7 @@ export const RichText = ({
   }
 
   return body ? (
-    <Wrapper article={article}>
+    <Wrapper $article={article}>
       <PortableText value={body} components={components} />
     </Wrapper>
   ) : null
