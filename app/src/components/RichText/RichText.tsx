@@ -169,9 +169,32 @@ export const RichText = ({
       },
       action: ({ children, value }) => {
         const { actionType } = value
+
         const onClick =
           actionType === 'openCart'
-            ? openCart
+            ? () => openCart()
+            : actionType === 'launchHubspot'
+            ? () => openHubspotChat()
+            : actionType === 'launchCustomizationModal'
+            ? () => openCustomizationModalWithProduct()
+            : actionType === 'launchRingSizerModal'
+            ? () => openRingSizerModalWithProduct()
+            : null
+        if (!actionType) {
+          return <>{children}</>
+        }
+        return (
+          <Span role="button" tabIndex={0} cursor="pointer" onClick={onClick}>
+            {children}
+          </Span>
+        )
+      },
+      textAction: ({ children, value }) => {
+        const { actionType } = value
+
+        const onClick =
+          actionType === 'openCart'
+            ? () => openCart()
             : actionType === 'launchHubspot'
             ? () => openHubspotChat()
             : actionType === 'launchCustomizationModal'
