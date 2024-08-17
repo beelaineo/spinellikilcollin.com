@@ -58,7 +58,6 @@ import {
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
-import { configureScope } from '@sentry/node'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { sanityClient } from '../../services/sanity'
