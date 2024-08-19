@@ -157,7 +157,7 @@ export const WeddingCustomizationForm = ({
 
   return (
     <>
-      <Script id="hubspot-custom-widget">
+      <Script id="hubspot-custom-widget" strategy="lazyOnload">
         {`hbspt.forms.create({
         region: "na1",
         portalId: "7668999",

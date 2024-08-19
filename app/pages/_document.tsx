@@ -106,7 +106,7 @@ export default class MyDocument extends Document {
               (function(l,g,m,e,a,f,b){var d,c=l[m]||{},h=document.createElement(f),n=document.getElementsByTagName(f)[0],k=function(a,b,c){return function(){a[b]._.push([c,arguments])}};c[e]=k(c,e,"set");d=c[e];c[a]={};c[a]._=[];d._=[];c[a][b]=k(c,a,b);a=0;for(b="set add save post open empty reset on off trigger ready setProduct".split(" ");a<b.length;a++)d[b[a]]=k(c,e,b[a]);a=0;for(b=["get","token","url","items"];a<b.length;a++)d[b[a]]=function(){};h.async=!0;h.src=g[f];n.parentNode.insertBefore(h,n);delete g[f];d(g);l[m]=c})(window,_affirm_config,"affirm","checkout","ui","script","off");
             `,
             }}
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
           {/* Aspire */}
           <Script
@@ -119,7 +119,7 @@ export default class MyDocument extends Document {
               tdl.identify() 
             `,
             }}
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
           {/* Global Site Code Pixel - TikTok */}
           <Script
@@ -133,7 +133,7 @@ export default class MyDocument extends Document {
                 ttq.page();
               }`,
             }}
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
           {/* Global Site Code Pixel - Facebook Pixel */}
           <Script
@@ -152,7 +152,7 @@ export default class MyDocument extends Document {
                 fbq('track', 'PageView');
               }`,
             }}
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
           {/* Klarna config */}
           <Script
@@ -161,7 +161,7 @@ export default class MyDocument extends Document {
             data-environment="production"
             src="https://js.klarna.com/web-sdk/v1/klarna.js"
             data-client-id="c7897f4b-e31b-570a-992e-a5e959d99bd0"
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
         </Head>
         <body>
@@ -185,7 +185,7 @@ export default class MyDocument extends Document {
             dangerouslySetInnerHTML={{
               __html: `TripleHeadless = "spinellikilcollin.myshopify.com"`,
             }}
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
           <Script
             id="triple-pixel"
@@ -196,7 +196,7 @@ export default class MyDocument extends Document {
                 /* << TriplePixel :: end*/
               `,
             }}
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
           <noscript
             dangerouslySetInnerHTML={{
@@ -218,12 +218,12 @@ export default class MyDocument extends Document {
             src="//js.hs-scripts.com/7668999.js"
             async
             defer
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
           <Script
             id="hs-form-loader"
             src="//js.hsforms.net/forms/embed/v2.js"
-            strategy="beforeInteractive"
+            strategy="lazyOnload"
           />
         </body>
       </Html>

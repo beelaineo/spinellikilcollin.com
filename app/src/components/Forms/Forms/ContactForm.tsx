@@ -95,7 +95,7 @@ export const ContactForm = ({ formtype, onContinue }: ContactFormProps) => {
 
   return (
     <>
-      <Script id="hubspot-contact-widget">
+      <Script id="hubspot-contact-widget" strategy="lazyOnload">
         {`hbspt.forms.create({
         region: "na1",
         portalId: "7668999",

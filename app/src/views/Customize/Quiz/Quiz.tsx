@@ -57,7 +57,7 @@ const QuizInner = ({ customize }: QuizProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="customize/quiz" />
-      <Script id="hubspot-sizer-widget">
+      <Script id="hubspot-sizer-widget" strategy="lazyOnload">
         {`hbspt.forms.create({
           region: "na1",
           portalId: "7668999",
