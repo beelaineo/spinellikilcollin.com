@@ -98,7 +98,7 @@ interface Props {
   product: Product
 }
 import { config } from '../../config'
-import { add } from 'husky'
+
 import {
   addRecentlyViewedProduct,
   getRecentlyViewedProducts,
