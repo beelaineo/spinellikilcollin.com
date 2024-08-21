@@ -7,7 +7,6 @@ import styled, { css } from '@xstyled/styled-components'
 import { parseAsBoolean, useQueryState } from 'nuqs'
 import { setIn } from 'formik'
 import { useDebounce } from 'react-use'
-import { set } from 'husky'
 
 const { useEffect, useState } = React
 

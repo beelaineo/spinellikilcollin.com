@@ -2,7 +2,6 @@ import * as NodeSentryInitializer from '@sentry/node'
 import * as BrowserSentryInitializer from '@sentry/browser'
 import type { Scope } from '@sentry/browser'
 import path from 'path'
-import { RewriteFrames } from '@sentry/integrations'
 import Debug from 'debug'
 import { config } from '../config'
 
@@ -41,7 +40,7 @@ const getClient = () => {
       dsn: SENTRY_DSN,
       environment: ENV,
       integrations: [
-        new RewriteFrames({
+        BrowserSentryInitializer.rewriteFramesIntegration({
           root: global.__rootdir__,
         }),
       ],
