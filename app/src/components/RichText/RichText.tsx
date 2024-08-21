@@ -39,6 +39,12 @@ const RichTextWrapper = styled.div<WithArticle>`
       margin: 80px auto;
     }
 
+    ul {
+      font-weight: 300;
+      line-height: 1.4em;
+      font-size: 5;
+    }
+
     h2:has(a) {
       width: fit-content;
       margin: 2 auto 0.5em;
