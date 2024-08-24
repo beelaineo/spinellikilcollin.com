@@ -324,7 +324,6 @@ export const SizeConverterForm = ({
   }
   const handleRingSizerClick = () => {
     if (openRingSizerModal !== undefined) {
-      console.log
       openRingSizerModal({
         currentProduct: currentProduct,
         currentVariant: currentVariant,

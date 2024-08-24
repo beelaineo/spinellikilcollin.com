@@ -63,7 +63,6 @@ module.exports = withSourceMaps({
   experimental: {
     scrollRestoration: true,
   },
-  // webpack5: false,
   publicRuntimeConfig: {
     EXCHANGE_RATE_API_KEY,
     SANITY_PROJECT_ID,
