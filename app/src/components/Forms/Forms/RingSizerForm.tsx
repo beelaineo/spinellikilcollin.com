@@ -8,7 +8,7 @@ import { StateField } from '../CustomFields'
 import { Button } from '../../Button'
 import { CheckboxWrapper, ConsentWrapper } from './styled'
 import { submitToHubspot } from '../../../services'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 import Script from 'next/script'
 import Link from 'next/link'
 import * as Yup from 'yup'
@@ -93,7 +93,7 @@ const FieldsWrapper = styled.div<WithVisible>`
 `
 
 interface RingSizerFormProps {
-  product?: ShopifyProduct
+  product?: Product
   variant?: ShopifyProductVariant
   onContinue?: () => void
 }

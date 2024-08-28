@@ -2,13 +2,13 @@ import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
 import { useRouter } from 'next/router'
-import { Maybe, ShopifyCollection, ShopifyProduct } from '../../src/types'
+import { Maybe, Collection, Product } from '../../src/types'
 import { sanityQuery } from '../../src/services/sanity'
 import { NotFound, ProductListing } from '../../src/views'
 import {
   richImageFragment,
-  shopifySourceCollectionFragment,
-  shopifyProductFragment,
+  shopifyCollectionDefFragment,
+  productFragment,
   customFilterFragment,
   heroFragment,
   collectionBlockFragment,
@@ -26,8 +26,8 @@ import { keepAliveDropCache, withKeepAlive } from 'react-next-keep-alive'
 import { usePrevious } from 'react-use'
 
 const collectionQueryById = gql`
-  query ShopifyCollectionQuery($id: ID!) {
-    ShopifyCollection(id: $id) {
+  query CollectionQuery($id: ID!) {
+    Collection(id: $id) {
       __typename
       _id
       _key
@@ -36,11 +36,11 @@ const collectionQueryById = gql`
       title
       handle
       archived
-      sourceData {
-        ...ShopifySourceCollectionFragment
+      store {
+        ...ShopifyCollectionDefFragment
       }
       products {
-        ...ShopifyProductFragment
+        ...ProductFragment
       }
       hidden
       reduceColumnCount
@@ -73,12 +73,12 @@ const collectionQueryById = gql`
       descriptionRaw
       preferredVariantMatches
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
-  ${shopifySourceCollectionFragment}
-  ${shopifyProductFragment}
+  ${shopifyCollectionDefFragment}
+  ${productFragment}
   ${customFilterFragment}
   ${heroFragment}
   ${collectionBlockFragment}
@@ -88,7 +88,7 @@ const collectionQueryById = gql`
   ${imageTextBlockFragment}
   ${textBlockFragment}
 `
-interface ShopifyProductListingProduct extends ShopifyProduct {
+interface ProductListingProduct extends Product {
   filterData: {
     inStock: boolean
     metal: string[]
@@ -99,34 +99,41 @@ interface ShopifyProductListingProduct extends ShopifyProduct {
   }
 }
 
-interface ShopifyProductListingCollection extends ShopifyCollection {
-  products?: Maybe<Maybe<ShopifyProductListingProduct>[]> | undefined
+interface ProductListingCollection extends Collection {
+  products?: Maybe<Maybe<ProductListingProduct>[]> | undefined
 }
 
 export interface CollectionResult {
-  Collection: ShopifyProductListingCollection
+  Collection: ProductListingCollection
 }
 
 interface CollectionResponse {
-  allShopifyCollection: ShopifyProductListingCollection[]
+  allCollection: ProductListingCollection[]
 }
 
 interface CollectionPageProps {
-  collection: ShopifyProductListingCollection
+  collection: ProductListingCollection
   useEffect: any
+  isHiddenByKeepAlive: boolean
 }
 
 interface Response {
-  ShopifyCollection: ShopifyProductListingCollection
+  Collection: ProductListingCollection
 }
 
 const getCollectionFromPreviewResponse = (response: Response) => {
-  const collection = response?.ShopifyCollection
+  const collection = response?.Collection
   return collection
 }
 
-const Collection = ({ collection, useEffect }: CollectionPageProps) => {
-  const { query, isReady } = useRouter()
+const CollectionPage = ({
+  collection,
+  useEffect,
+  isHiddenByKeepAlive,
+}: CollectionPageProps) => {
+  const router = useRouter()
+
+  const { query, isReady } = router
 
   const token = query?.preview
   const preview = Boolean(query?.preview)
@@ -150,12 +157,12 @@ const Collection = ({ collection, useEffect }: CollectionPageProps) => {
         : prevCollection
 
     if (collectionState !== compareState) {
-      keepAliveDropCache('collection-page', false)
+      keepAliveDropCache('collection-page', true)
     }
   }, [collectionState, prevCollection])
 
   const refetchConfig = {
-    listenQuery: `*[_type == "shopifyCollection" && _id == $id]`,
+    listenQuery: `*[_type == "collection" && _id == $id]`,
     listenQueryParams: { id: 'drafts.' + collection?._id },
     refetchQuery: collectionQueryById,
     refetchQueryParams: { id: 'drafts.' + collection?._id },
@@ -164,7 +171,7 @@ const Collection = ({ collection, useEffect }: CollectionPageProps) => {
     token: token,
   }
 
-  const data = useRefetch<ShopifyProductListingCollection, Response>(
+  const data = useRefetch<ProductListingCollection, Response>(
     collection,
     refetchConfig,
   )
@@ -172,21 +179,29 @@ const Collection = ({ collection, useEffect }: CollectionPageProps) => {
   try {
     if (preview === true) {
       if (!collection) return <NotFound />
-
+      console.log('preview data', data)
       if (!data)
         return (
           <ProductListing
             key={collection._id || 'some-key'}
             collection={collection}
+            isHiddenByKeepAlive={isHiddenByKeepAlive}
           />
         )
-      return <ProductListing key={data._id || 'some-key'} collection={data} />
+      return (
+        <ProductListing
+          key={data._id || 'some-key'}
+          collection={data}
+          isHiddenByKeepAlive={isHiddenByKeepAlive}
+        />
+      )
     } else {
       if (!collection) return <NotFound />
       return (
         <ProductListing
           key={collection._id || 'some-key'}
           collection={collection}
+          isHiddenByKeepAlive={isHiddenByKeepAlive}
         />
       )
     }
@@ -205,7 +220,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     return { props: { products: undefined, collection: undefined } }
   const handle = getParam(params.collectionSlug)
   const responses = await Promise.all([
-    sanityQuery<ShopifyCollection[]>(createSanityCollectionQuery(), {
+    sanityQuery<Collection[]>(createSanityCollectionQuery(), {
       handle,
       sort: null,
     }),
@@ -221,7 +236,6 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
       params,
       collection: collections[0] || null,
     },
-    revalidate: 10,
   }
 }
 
@@ -231,7 +245,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 const collectionHandlesQuery = gql`
   query CollectionHandlesQuery {
-    allShopifyCollection {
+    allCollection {
       _id
       _updatedAt
       shopifyId
@@ -241,8 +255,16 @@ const collectionHandlesQuery = gql`
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // When this is true (in preview environments) don't pre-render pages
+  // if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+  //   return {
+  //     paths: [],
+  //     fallback: 'blocking',
+  //   }
+  // }
+
   const result = await request<CollectionResponse>(collectionHandlesQuery)
-  const collections = definitely(result?.allShopifyCollection)
+  const collections = definitely(result?.allCollection)
   const paths = collections.map((collection) => ({
     params: {
       collectionSlug: collection.handle ? collection.handle : undefined,
@@ -266,7 +288,7 @@ export const config = {
 
 export default withKeepAlive(
   //@ts-ignore
-  Collection,
+  CollectionPage,
   'collection-page',
   { keepScrollEnabled: false },
 )

@@ -200,7 +200,7 @@ const Signature = ({
                   rel="noreferrer"
                   target="_blank"
                 >
-                  <img width="75" src={wordmark} />
+                  <img width="75" src={wordmark} alt="Spinelli Kilcollin" />
                 </a>
               </td>
               <td
@@ -393,7 +393,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const signatures = response?.EmailSignatureSettings || null
 
-  return { props: { shopData, signatures }, revalidate: 10 }
+  return { props: { shopData, signatures } }
 }
 
 export default EmailSignatures

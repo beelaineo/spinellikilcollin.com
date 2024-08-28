@@ -24,7 +24,7 @@ const query = gql`
         }
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const financingPage = response?.PaymentPlans || null
 
-  return { props: { financingPage, shopData }, revalidate: 10 }
+  return { props: { financingPage, shopData } }
 }
 
 export default FinancingPage

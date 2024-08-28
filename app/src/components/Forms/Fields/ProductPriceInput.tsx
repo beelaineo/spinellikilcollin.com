@@ -43,25 +43,6 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
     onChange,
   } = props
 
-  const optionsNumeric =
-    options !== undefined
-      ? options.map((option: Option) => {
-          return Number(option.label.toString().replace(/[^0-9\.-]+/g, ''))
-        })
-      : []
-
-  const conformValue = (conformedValue: string) => {
-    const numericValue = Number(conformedValue.replace(/[^0-9\.-]+/g, ''))
-
-    const closest = optionsNumeric.reduce(function (prev, curr) {
-      return Math.abs(curr - numericValue) < Math.abs(prev - numericValue)
-        ? curr
-        : prev
-    })
-    const remasked = conformToMask(closest.toString(), currencyMask)
-    return remasked.conformedValue
-  }
-
   return (
     <FieldWrapper>
       <FormikField validate={validate} name={name}>
@@ -72,7 +53,7 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
             </Span>
             <InputRangeElement
               {...field}
-              value={field.value || '50'}
+              value={field.value || '0'}
               id={field.name}
               onChange={field.onChange}
               onInput={onChange}
@@ -80,9 +61,9 @@ export const ProductPriceInput = (props: ProductPriceInputProps) => {
               placeholder={placeholder}
               color={color}
               type={'range'}
-              min={50}
-              max={5000}
-              step={50}
+              min={0}
+              max={options ? options.length - 1 : 10000}
+              step={1}
             />
           </>
         )}

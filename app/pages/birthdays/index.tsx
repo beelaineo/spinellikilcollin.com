@@ -16,7 +16,7 @@ const birthdaysQuery = gql`
       subtitle
       bodyRaw
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -47,7 +47,7 @@ export const getStaticProps: GetStaticProps = async () => {
   ])
 
   const birthdays = response?.Birthdays || null
-  return { props: { birthdays, shopData }, revalidate: 10 }
+  return { props: { birthdays, shopData } }
 }
 
 export default Birthdays

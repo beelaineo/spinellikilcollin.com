@@ -1,10 +1,10 @@
 import {
   ShopifyStorefrontProductVariant as Variant,
-  ShopifyStorefrontProduct as Product,
+  ShopifyStorefrontProduct,
   ShopifyStorefrontCheckoutLineItem as CheckoutLineItem,
 } from '../../types/generated-shopify'
 import {
-  ShopifyProduct,
+  Product,
   ShopifyProductVariant,
   ShopifySourceProduct,
   ShopifySourceProductVariant,
@@ -19,10 +19,9 @@ declare global {
 
 export interface SelectedProduct {
   product:
-    | ShopifyProduct
-    | ShopifySourceProduct
     | Product
     | CheckoutLineItem
+    | ShopifyStorefrontProduct
     | undefined
     | null
   variant:
@@ -47,6 +46,7 @@ export interface EcommerceObject {
 
 export enum EventType {
   Impressions = 'productImpressions',
+  CarouselClick = 'carouselClick',
   FilterClick = 'filterClick',
   ProductClick = 'productClick',
   ProductDetailView = 'productDetail',
@@ -61,6 +61,10 @@ interface ImpressionEvent {
   ecommerce: {
     impressions: EcommerceObject[]
   }
+}
+
+interface CarouselClickEvent {
+  event: EventType.CarouselClick
 }
 
 interface FilterClickEvent {
@@ -113,6 +117,7 @@ interface QuickLinkClickEvent {
 }
 
 export type GTagEvent =
+  | CarouselClickEvent
   | FilterClickEvent
   | ImpressionEvent
   | ProductClickEvent

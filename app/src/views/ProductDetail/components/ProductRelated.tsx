@@ -2,20 +2,24 @@ import * as React from 'react'
 import Link from 'next/link'
 import {
   Carousel as CarouselType,
-  ShopifyCollection,
-  ShopifyProduct,
+  Collection,
+  Product,
+  ShopifyProductVariant,
 } from '../../../types'
 import { ProductRelatedWrapper, ProductRelatedInner } from '../styled'
-import { ItemsCarousel, CollectionCarousel } from '../../../components/Carousel'
+import {
+  ItemsCarousel,
+  CollectionCarousel,
+  SuggestedProductsCarousel,
+} from '../../../components/Carousel'
 import { Heading } from '../../../components/Text'
 
 interface ProductRelatedProps {
-  product: ShopifyProduct
+  product: Product
+  currentVariant: ShopifyProductVariant
 }
 
-const getCarousel = (
-  product: ShopifyProduct,
-): CarouselType | ShopifyCollection | null => {
+const getCarousel = (product: Product): CarouselType | Collection | null => {
   const { related, collections } = product
 
   if (related) {
@@ -26,16 +30,19 @@ const getCarousel = (
   return null
 }
 
-export const ProductRelated = ({ product }: ProductRelatedProps) => {
+export const ProductRelated = ({
+  product,
+  currentVariant,
+}: ProductRelatedProps) => {
   const carousel = getCarousel(product)
   if (!carousel) return null
   const linkAs =
-    carousel.__typename === 'ShopifyCollection'
+    carousel.__typename === 'Collection'
       ? `/collections/${carousel.handle}`
       : ''
   return (
     <ProductRelatedWrapper>
-      {carousel.__typename === 'ShopifyCollection' ? (
+      {carousel.__typename === 'Collection' ? (
         <Heading level={4} m={3} textTransform="capitalize" textAlign="center">
           <Link href="/collections/[collectionSlug]" as={linkAs}>
             {carousel.title || 'More like this'}
@@ -51,11 +58,19 @@ export const ProductRelated = ({ product }: ProductRelatedProps) => {
         carousel.items &&
         carousel.items.length ? (
           <ItemsCarousel items={carousel.items} />
-        ) : carousel.__typename === 'Carousel' && carousel.collection ? (
-          <CollectionCarousel collection={carousel.collection} />
-        ) : carousel.__typename === 'ShopifyCollection' ? (
-          <CollectionCarousel collection={carousel} />
-        ) : null}
+        ) : (
+          <SuggestedProductsCarousel
+            collection={
+              carousel.__typename === 'Carousel' && carousel.collection
+                ? carousel.collection
+                : carousel.__typename === 'Collection'
+                ? carousel
+                : null
+            }
+            currentVariant={currentVariant}
+            product={product}
+          />
+        )}
       </ProductRelatedInner>
     </ProductRelatedWrapper>
   )

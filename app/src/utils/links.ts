@@ -1,7 +1,7 @@
 import {
-  ShopifyProduct,
+  Product,
   ShopifySourceImage,
-  ShopifyCollection,
+  Collection,
   Page,
   About,
   Magazine,
@@ -11,14 +11,19 @@ import {
   JournalEntry,
   Contact,
   Faq,
+  Appointments,
   PaymentPlans,
+  CustomerCare,
+  ShopifyCollectionImage,
+  ShopifyImage,
+  Homepage,
 } from '../types'
 
 import { getIdFromBase64 } from './shopify'
 
 export type Document =
-  | ShopifyProduct
-  | ShopifyCollection
+  | Product
+  | Collection
   | Page
   | TeamPage
   | About
@@ -28,7 +33,10 @@ export type Document =
   | JournalEntry
   | Contact
   | Faq
+  | Appointments
   | PaymentPlans
+  | CustomerCare
+  | Homepage
 
 export interface LinkInfo {
   href: string
@@ -40,8 +48,8 @@ export const getPageLinkLabel = (
 ): string | null | void => {
   if (!document) return null
   switch (document.__typename) {
-    case 'ShopifyCollection':
-    case 'ShopifyProduct':
+    case 'Collection':
+    case 'Product':
     case 'Magazine':
     case 'Customize':
     case 'JournalPage':
@@ -50,10 +58,14 @@ export const getPageLinkLabel = (
     case 'Page':
     case 'TeamPage':
     case 'Faq':
+    case 'Appointments':
     case 'PaymentPlans':
+    case 'CustomerCare':
       return document.title
     case 'About':
       return 'About'
+    case 'Homepage':
+      return 'Home'
     default:
       // @ts-ignore
       throw new Error(`Could not get label for type ${document.__typename}`)
@@ -72,11 +84,11 @@ export const getPageLinkUrl = (
     .replace(/^\?$/, '')
   if (!document) throw new Error('No document was provided')
   switch (document.__typename) {
-    case 'ShopifyCollection':
+    case 'Collection':
       return {
         href: `/collections/${document.handle}`.concat(paramString),
       }
-    case 'ShopifyProduct':
+    case 'Product':
       return {
         href: `/products/${document.handle}`.concat(paramString),
       }
@@ -113,6 +125,11 @@ export const getPageLinkUrl = (
         href: '/about/faq'.concat(paramString),
       }
 
+    case 'Appointments':
+      return {
+        href: '/about/appointments'.concat(paramString),
+      }
+
     case 'Page':
       if (!document.slug || !document.slug.current) {
         throw new Error('This page does not have a slug')
@@ -132,6 +149,10 @@ export const getPageLinkUrl = (
     case 'PaymentPlans':
       return {
         href: '/about/financing',
+      }
+    case 'CustomerCare':
+      return {
+        href: '/customer-care',
       }
     default:
       throw new Error(
@@ -155,17 +176,17 @@ export const getLinkFromHref = (href: string): LinkInfo => {
 export const getDocumentLinkImage = (
   // document?: PageOrShopifyCollectionOrShopifyProduct,
   document?: Document | null,
-): ShopifySourceImage | void | null => {
+): ShopifySourceImage | ShopifyImage | ShopifyCollectionImage | void | null => {
   if (!document) return undefined
   switch (document.__typename) {
-    case 'ShopifyCollection':
-      return document?.sourceData?.image
-    case 'ShopifyProduct':
-      const imageEdges = document?.sourceData?.images?.edges
-      if (!imageEdges || imageEdges.length === 0 || imageEdges[0] === null) {
+    case 'Collection':
+      return document?.store?.image
+    case 'Product':
+      const images = document?.store?.images
+      if (!images || images.length === 0 || images[0] === null) {
         return undefined
       }
-      return imageEdges[0].node
+      return images[0]
     case 'Page':
       return undefined
     default:

@@ -2,11 +2,11 @@ import * as React from 'react'
 import {
   Filter as FilterSingleType,
   FilterSet as FilterSetType,
-  PriceRangeFilter as PriceRangeFilterType,
-  InventoryFilter as InventoryFilterTypeSource,
+  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
+  InStockFilter as InStockFilterTypeSource,
   FilterConfiguration,
-  PriceRangeFilterConfiguration,
-  InventoryFilterConfiguration,
+  PriceRangeMinMaxFilterConfiguration,
+  InStockFilterConfiguration,
   FilterMatchGroup,
   FILTER_SINGLE,
   PRICE_RANGE_FILTER,
@@ -48,7 +48,12 @@ import { useRouter } from 'next/router'
 
 const { useEffect, useState, useRef } = React
 
-interface InventoryFilterType extends InventoryFilterTypeSource {
+import { config } from '../../config'
+
+const { SHOW_IN_STOCK_INDICATORS } = config
+
+const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
+interface InStockFilterType extends InStockFilterTypeSource {
   applyFilter?: boolean
 }
 
@@ -57,8 +62,8 @@ type FilterValues = Record<string, any>
 type FilterType =
   | FilterSingleType
   | FilterSetType
-  | PriceRangeFilterType
-  | InventoryFilterType
+  | PriceRangeMinMaxFilterType
+  | InStockFilterType
 
 interface FilterProps {
   filters: FilterType[] | null
@@ -89,16 +94,12 @@ const getCurrentFilters = (
         .map((fsf) => definitely(fsf.matches))
         .flat()
 
-      const filterSetMatches = filterSetFilters.filter((fsf) =>
-        activeMatchKeys.includes(fsf._key || 'some-key'),
-      )
-
       const matchGroup: FilterMatchGroup = {
         filterType: FILTER_MATCH_GROUP,
         matches: filterMatches,
       }
       return [...acc, matchGroup]
-    } else if (filter.__typename === 'PriceRangeFilter') {
+    } else if (filter.__typename === 'PriceRangeMinMaxFilter') {
       const filterSetState = filterSetStates.find(
         (fss) => fss.key === filter._key,
       )
@@ -114,14 +115,14 @@ const getCurrentFilters = (
         throw new Error('currentMaxPrice must be a number')
       }
 
-      const priceRangeFilter: PriceRangeFilterConfiguration = {
+      const priceRangeMinMaxFilter: PriceRangeMinMaxFilterConfiguration = {
         filterType: PRICE_RANGE_FILTER,
         key: filter._key || 'some-key',
         minPrice,
         maxPrice,
       }
-      return [...acc, priceRangeFilter]
-    } else if (filter.__typename === 'InventoryFilter') {
+      return [...acc, priceRangeMinMaxFilter]
+    } else if (filter.__typename === 'InStockFilter') {
       const filterSetState = filterSetStates.find(
         (fss) => fss.key === filter._key,
       )
@@ -129,13 +130,13 @@ const getCurrentFilters = (
       const label = filterSetState?.values?.label
       const applyFilter = filterSetState?.values?.applyFilter
 
-      const inventoryFilter: InventoryFilterConfiguration = {
+      const inStockFilter: InStockFilterConfiguration = {
         filterType: INVENTORY_FILTER,
         key: filter._key || 'some-key',
         applyFilter,
         label,
       }
-      return [...acc, inventoryFilter]
+      return [...acc, inStockFilter]
     } else if (filter.__typename === 'Filter') {
       const activeMatchKeys = setState.activeMatchKeys
       if (activeMatchKeys.length === 0) return acc
@@ -168,8 +169,6 @@ export const Filter = ({
   const router = useRouter()
   const { sendFilterClick } = useAnalytics()
 
-  const [filterQuery, setFilterQuery] = useState<{ [key: string]: any }>({})
-
   const useFirstRender = () => {
     const firstRender = useRef(true)
     useEffect(() => {
@@ -190,16 +189,6 @@ export const Filter = ({
     setOpen(parentOpen ?? false)
   }, [parentOpen])
 
-  const updateQueryParam = (query) => {
-    router.replace(
-      {
-        query: query,
-      },
-      '',
-      { shallow: true },
-    )
-  }
-
   const {
     filterSetStates,
     setValues,
@@ -217,9 +206,8 @@ export const Filter = ({
   }, [resetFilters])
 
   useEffect(() => {
-    resetButtons()
+    // resetButtons()
     setActiveKey('')
-    if (!firstRender) scrollGridIntoView()
   }, [router.query])
 
   const isMobile = useMedia({
@@ -231,99 +219,17 @@ export const Filter = ({
     activeKey === key ? setActiveKey('') : setActiveKey(key ?? '')
   }
 
-  const getFilterMatchByType = (type: any) => {
-    if (!filters) return
-
-    const filterMatches = getCurrentFilters(filters, filterSetStates)
-
-    const priceRange = filterMatches.find(
-      (f) => f.filterType === PRICE_RANGE_FILTER,
-    )
-
-    //@ts-ignore
-    const priceRangeMatches = [priceRange?.minPrice, priceRange?.maxPrice]
-      .flat()
-      .join(' ')
-
-    const inventoryFilter = filterMatches.find(
-      (f) => f.filterType === INVENTORY_FILTER,
-      //@ts-ignore
-    )?.applyFilter
-
-    const filterSetMatches = filterMatches
-      .filter((f) => f.filterType === FILTER_MATCH_GROUP)
-      //@ts-ignore
-      .map((f) => f?.matches.filter((m) => m.type === type))
-      .map((f) => f.map(({ match }) => match))
-      .flat()
-      .join(' ')
-
-    const priceInitialValues =
-      //@ts-ignore
-      filterSetStates?.find((s) => s?.key === priceRange?.key)?.initialValues ||
-      {}
-
-    if (
-      type === 'price' &&
-      priceRangeMatches !== Object.values(priceInitialValues).join(' ')
-    ) {
-      return { price: priceRangeMatches }
-    } else if (type === 'instock' && inventoryFilter) {
-      return { instock: inventoryFilter }
-    } else {
-      return { [type]: filterSetMatches }
-    }
-  }
-
-  const useQueryUpdate = (type) => {
-    const updateQueryByType = (type) => {
-      if (!router.isReady) return
-
-      if (filterQuery[type] !== '') {
-        updateQueryParam({ ...router.query, ...getFilterMatchByType(type) })
-      } else {
-        delete router.query[type]
-        updateQueryParam({ ...router.query })
-      }
-    }
-
-    useEffect(() => {
-      updateQueryByType(type)
-    }, [filterQuery[type]])
-  }
-
   useEffect(() => {
     if (!filters || filterSetStates.length === 0) return
 
     const filterMatches = getCurrentFilters(filters, filterSetStates)
 
-    //@ts-ignore
-    setFilterQuery({
-      ...getFilterMatchByType('metal'),
-      ...getFilterMatchByType('stone'),
-      ...getFilterMatchByType('size'),
-      ...getFilterMatchByType('style'),
-      ...getFilterMatchByType('type'),
-      ...getFilterMatchByType('tag'),
-      ...getFilterMatchByType('subcategory'),
-      ...getFilterMatchByType('instock'),
-      ...getFilterMatchByType('price'),
-    })
-
     applyFilters(filterMatches)
   }, [filterSetStates])
 
-  useQueryUpdate('metal')
-  useQueryUpdate('stone')
-  useQueryUpdate('size')
-  useQueryUpdate('style')
-  useQueryUpdate('type')
-  useQueryUpdate('tag')
-  useQueryUpdate('subcategory')
-  useQueryUpdate('instock')
-  useQueryUpdate('price')
-
   useEffect(() => {
+    if (!router.isReady) return
+
     const getFilterSetQueryType = (arr?: Array<any>, query?: Maybe<string>) =>
       arr?.filter((item) => item?.filters?.[0]?.matches?.[0]?.type === query)[0]
 
@@ -350,8 +256,7 @@ export const Filter = ({
       const getKeys = matches?.map((match, i) => {
         const type = getFilterSetQueryType(items, match[0])
 
-        //@ts-ignore
-        const matchArr = match[1]?.split(' ')
+        const matchArr = (match as string[]).flat()[1]?.split(' ')
 
         const matchKeys = matchArr?.map((item) => {
           return {
@@ -366,9 +271,7 @@ export const Filter = ({
     }
 
     const getInstockQuery = (items, query) => {
-      const match = items?.find(
-        (item) => item?.__typename === 'InventoryFilter',
-      )
+      const match = items?.find((item) => item?.__typename === 'InStockFilter')
 
       return {
         key: match?._key,
@@ -376,7 +279,24 @@ export const Filter = ({
       }
     }
 
+    const getPriceRangeQuery = (items, query) => {
+      const match = items?.find(
+        (item) => item?.__typename === 'PriceRangeMinMaxFilter',
+      )
+
+      if (query?.price)
+        return {
+          key: match?._key,
+          values: {
+            minPrice: parseFloat(query?.price?.split(' ')[0]),
+            maxPrice: parseFloat(query?.price?.split(' ')[1]),
+          },
+        }
+    }
+
     const instockQuery = getInstockQuery(filters, router?.query)
+
+    const priceQuery = getPriceRangeQuery(filters, router?.query)
 
     const filterSetMatchedKeys = findFilterSetKeys(filters, router.query)
 
@@ -389,7 +309,8 @@ export const Filter = ({
     }
 
     updateFromValueFilter(instockQuery?.key, instockQuery?.values)
-  }, [router.isReady, router.query])
+    updateFromValueFilter(priceQuery?.key, priceQuery?.values)
+  }, [router.isReady, router.query.price])
 
   if (!filters || filterSetStates.length === 0) return null
 
@@ -516,7 +437,7 @@ export const Filter = ({
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>
-              ) : filter.__typename === 'PriceRangeFilter' ? (
+              ) : filter.__typename === 'PriceRangeMinMaxFilter' ? (
                 <FilterWrapper
                   heading="Price:"
                   key={filter._key || 'some-key'}
@@ -538,9 +459,9 @@ export const Filter = ({
                     active={Boolean(activeKey === filter._key)}
                   />
                 </FilterWrapper>
-              ) : filter.__typename === 'InventoryFilter' ? (
+              ) : filter.__typename === 'InStockFilter' ? (
                 <FilterWrapper
-                  heading="Ready to Ship"
+                  heading="In Stock"
                   key={filter._key || 'some-key'}
                   type={filter.__typename}
                   filter={filter}
@@ -548,17 +469,19 @@ export const Filter = ({
                   active={Boolean(activeKey === filter._key)}
                   minimalDisplay={minimalDisplay}
                 >
-                  <InventoryFilter
-                    setKey={filter._key || 'some-key'}
-                    filterSetState={filterSetStates.find(
-                      (s) => s.key === filter._key,
-                    )}
-                    setValues={setValues(filter._key || 'some-key')}
-                    resetSet={resetSet(filter._key || 'some-key')}
-                    scrollGridIntoView={scrollGridIntoView}
-                    inventoryFilter={filter}
-                    active={Boolean(activeKey === filter._key)}
-                  />
+                  {showInStockIndicators && (
+                    <InventoryFilter
+                      setKey={filter._key || 'some-key'}
+                      filterSetState={filterSetStates.find(
+                        (s) => s.key === filter._key,
+                      )}
+                      setValues={setValues(filter._key || 'some-key')}
+                      resetSet={resetSet(filter._key || 'some-key')}
+                      scrollGridIntoView={scrollGridIntoView}
+                      inventoryFilter={filter}
+                      active={Boolean(activeKey === filter._key)}
+                    />
+                  )}
                 </FilterWrapper>
               ) : null,
             )}

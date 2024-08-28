@@ -5,6 +5,7 @@ import { ProductGrid } from '../Product'
 import { Button } from '../Button'
 import { useLockScroll } from '../LockScroll'
 import { useSearch } from '../../providers/SearchProvider'
+import { useShopifyPrice } from '../../providers/ShopifyPriceProvider'
 import { SearchInput } from './SearchInput'
 import { Hamburger } from '../Hamburger'
 import { Loading } from '../Loading'
@@ -23,7 +24,7 @@ import { Footer } from '../Footer'
 
 const { useEffect } = React
 
-export const SearchPane = () => {
+export const SearchPane = ({ breadCrumbs }) => {
   const {
     open,
     loading,
@@ -36,11 +37,13 @@ export const SearchPane = () => {
   } = useSearch()
 
   const { lockScroll, unlockScroll } = useLockScroll()
+  const { clearSearchResultPrices } = useShopifyPrice()
 
   /* Handlers */
 
   const close = () => {
     closeSearch()
+    clearSearchResultPrices()
     reset()
   }
 
@@ -204,7 +207,7 @@ export const SearchPane = () => {
           </Results>
         )}
         <div hidden={!open}>
-          <Footer />
+          <Footer {...breadCrumbs} />
         </div>
       </Wrapper>
     </Outer>

@@ -31,8 +31,8 @@ interface LabelProps {
   required?: boolean
 }
 
-export const Label = styled(BaseLabel)`
-  ${({ required }: LabelProps) => css`
+export const Label = styled(BaseLabel)<LabelProps>`
+  ${({ required }) => css`
     position: relative;
     display: inline-block;
     font-weight: 2;
@@ -66,6 +66,7 @@ export const InputWrapper = styled.div<InputWrapperProps>`
     align-items: center;
     max-width: 100%;
     border: 1px solid;
+    width: 100%;
   `}
 `
 
@@ -81,6 +82,7 @@ export const Input = styled.input`
     background-color: white;
     color: ${color ? theme.colors[color] : theme.colors.body[8]};
     font-variant-numeric: ${type === 'tel' ? 'tabular-nums' : 'auto'};
+    width: 100%;
 
     &.gift-card-input {
       background-color: ${theme.colors.body[2]};

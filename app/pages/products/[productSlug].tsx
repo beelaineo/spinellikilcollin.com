@@ -1,7 +1,7 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { GetStaticProps, GetStaticPaths } from 'next'
-import { ShopifyProduct } from '../../src/types'
+import { Product } from '../../src/types'
 import { getParam, definitely } from '../../src/utils'
 import { NotFound, ProductDetail } from '../../src/views'
 import {
@@ -11,8 +11,7 @@ import {
   shopifySourceProductVariantFragment,
   sanityImageFragment,
   richImageFragment,
-  shopifySourceProductFragment,
-  shopifySourceImageFragment,
+  shopifyProductDefFragment,
   seoFragment,
   stoneFragment,
   request,
@@ -25,30 +24,31 @@ const productQueryInner = `
   __typename
   _id
   _key
-  shopifyId
-  title
-  handle
+  _type
+  _updatedAt
   archived
-  hideFromSearch
-  inquiryOnly
-  minVariantPrice
-  maxVariantPrice
-  sourceData {
-    ...ShopifySourceProductFragment
-  }
   collections {
     __typename
     _id
     _key
+    archived
     title
     handle
     shopifyId
   }
+  handle
+  hidden
+  hideFromSearch
+  inquiryOnly
+  shopifyId
+  store {
+    ...ShopifyProductDefFragment
+  }
+  title
   options {
     __typename
     _key
     _type
-    shopifyOptionId
     name
     values {
       __typename
@@ -63,19 +63,12 @@ const productQueryInner = `
         ...SanityImageFragment
       }
       animation
+      contentAfter {
+        ...ImageTextBlockFragment
+      }
       stone {
         ...StoneFragment
       }
-    }
-  }
-  variants {
-    __typename
-    _key
-    _type
-    shopifyVariantID
-    title
-    sourceData {
-      ...ShopifySourceProductVariantFragment
     }
   }
   info {
@@ -84,26 +77,22 @@ const productQueryInner = `
   contentAfter {
     ...ImageTextBlockFragment
   }
-  gallery {
-    ...RichImageFragment
-  }
   related {
     ...CarouselFragment
   }
   seo {
-    ...SEOFragment
+    ...SeoFragment
   }
 `
 
 const productQueryById = gql`
-  query ShopifyProductQuery($id: ID!) {
-    ShopifyProduct(id: $id) {
+  query ProductQuery($id: ID!) {
+    Product(id: $id) {
       ${productQueryInner}
     }
   }
-  ${shopifySourceProductFragment}
+  ${shopifyProductDefFragment}
   ${shopifySourceProductVariantFragment}
-  ${shopifySourceImageFragment}
   ${sanityImageFragment}
   ${richImageFragment}
   ${productInfoFragment}
@@ -115,15 +104,14 @@ const productQueryById = gql`
 
 const productQueryByHandle = gql`
   query ProductsPageQuery($handle: String) {
-    allShopifyProduct(
+    allProduct(
       where: { handle: { eq: $handle }, archived: { neq: true } }
     ) {
       ${productQueryInner}
     }
   }
-  ${shopifySourceProductFragment}
+  ${shopifyProductDefFragment}
   ${shopifySourceProductVariantFragment}
-  ${shopifySourceImageFragment}
   ${sanityImageFragment}
   ${richImageFragment}
   ${productInfoFragment}
@@ -133,26 +121,26 @@ const productQueryByHandle = gql`
 `
 
 interface Response {
-  allShopifyProduct: ShopifyProduct[]
-  ShopifyProduct: ShopifyProduct
+  allProduct: Product[]
+  Product: Product
 }
 
 interface ProductPageProps {
-  product: ShopifyProduct
+  product: Product
 }
 
 const getProductFromResponse = (response: Response) => {
-  const products = response?.allShopifyProduct
+  const products = response?.allProduct
   const product = products && products.length ? products[0] : null
   return product
 }
 
 const getProductFromPreviewResponse = (response: Response) => {
-  const product = response?.ShopifyProduct
+  const product = response?.Product
   return product
 }
 
-const Product = ({ product }: ProductPageProps) => {
+const ProductPage = ({ product }: ProductPageProps) => {
   const params =
     typeof window !== 'undefined'
       ? new URLSearchParams(window.location.search)
@@ -161,7 +149,7 @@ const Product = ({ product }: ProductPageProps) => {
   const preview = Boolean(params?.get('preview'))
 
   const refetchConfig = {
-    listenQuery: `*[_type == "shopifyProduct" && _id == $id]`,
+    listenQuery: `*[_type == "Product" && _id == $id]`,
     listenQueryParams: { id: 'drafts.' + product?._id },
     refetchQuery: productQueryById,
     refetchQueryParams: { id: 'drafts.' + product?._id },
@@ -169,7 +157,7 @@ const Product = ({ product }: ProductPageProps) => {
     enabled: preview,
     token: token,
   }
-  const data = useRefetch<ShopifyProduct, Response>(product, refetchConfig)
+  const data = useRefetch<Product, Response>(product, refetchConfig)
 
   try {
     if (preview === true) {
@@ -207,13 +195,13 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
     const product = getProductFromResponse(response)
 
-    return { props: { product, shopData }, revalidate: 10 }
+    return { props: { product, shopData } }
   } catch (e) {
     Sentry.captureException(e, 'next_static_props_error', {
       route: 'products/[productSlug]',
       handle,
     })
-    return { props: {}, revalidate: 1 }
+    return { props: {} }
   }
 }
 
@@ -223,7 +211,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
 
 const pageHandlesQuery = gql`
   query ProductHandlesQuery {
-    allShopifyProduct {
+    allProduct {
       _id
       _updatedAt
       shopifyId
@@ -233,15 +221,23 @@ const pageHandlesQuery = gql`
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // When this is true (in preview environments) don't pre-render pages
+  // if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+  //   return {
+  //     paths: [],
+  //     fallback: 'blocking',
+  //   }
+  // }
+
   try {
     const result = await request<Response>(pageHandlesQuery)
-    const products = definitely(result?.allShopifyProduct)
-    const paths = products.map((product) => ({
-      params: {
-        productSlug: product.handle ? product.handle : undefined,
-        updatedAt: product?._updatedAt?.toString(),
-      },
-    }))
+    const products = result.allProduct
+
+    const paths = products
+      .filter((product) => product.handle)
+      .map((product) => ({
+        params: { productSlug: product.handle ?? undefined },
+      }))
 
     return {
       paths,
@@ -255,4 +251,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export default Product
+export default ProductPage

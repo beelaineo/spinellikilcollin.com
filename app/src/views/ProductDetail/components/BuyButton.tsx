@@ -7,18 +7,21 @@ import {
   UseCheckoutValues,
 } from '../../../providers/ShopifyProvider'
 import { Button } from '../../../components/Button'
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 import { Placeholder } from '../../../components/Placeholder'
 import { useAnalytics, useCart, useModal } from '../../../providers'
 import { useMedia } from '../../../hooks'
 import { theme } from '../../../theme'
 import { shopifyQuery } from '../../../providers/AllProviders'
 import { ShopifyStorefrontProductVariant } from '../../../types/generated-shopify'
+import { Heading, Span } from '../../../components/Text'
+import Image from 'next/image'
+import ShippingStatus from './ShippingStatus'
 
 const { useEffect, useRef, useState } = React
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
-  product: ShopifyProduct
+  product: Product
   currentVariant: ShopifyProductVariant
   quantity?: number
 }
@@ -31,9 +34,18 @@ const BuyButtonEl = styled(Button)<WithSticky>`
   ${({ theme, sticky }) => css`
      {
       position: relative;
+      display: flex;
+      justify-content: center;
+      padding: 0 20px;
+      font-weight: 200;
+      gap: 2;
 
       &:focus-visible {
         ${theme.focus.left()}
+      }
+
+      .status-label {
+        font-style: italic;
       }
 
       ${theme.mediaQueries.tablet} {
@@ -90,11 +102,11 @@ const useVariantIsInStock = (
     const requestVariantData = async () => {
       setIsInStock(PENDING)
       const result = await shopifyQuery<{
-        data: { node: ShopifyStorefrontProductVariant }
+        node: ShopifyStorefrontProductVariant
       }>(shopifyVariantQuery, {
         id: currentVariantId,
       })
-      const variantIsAvailableForSale = result?.data.node.availableForSale
+      const variantIsAvailableForSale = result?.node?.availableForSale
       setIsInStock(variantIsAvailableForSale)
     }
     requestVariantData()
@@ -169,6 +181,8 @@ export const BuyButton = ({
   }, [winScroll])
 
   const buttonLabel = inquiryOnly ? 'Inquire' : 'Add to cart'
+  const readyToShip = !currentVariant?.sourceData?.currentlyNotInStock
+
   const handleClick = async () => {
     if (!currentVariant || !currentVariant.shopifyVariantID) return
     if (inquiryOnly) {
@@ -177,7 +191,11 @@ export const BuyButton = ({
         currentVariant,
       })
     } else {
-      sendAddToCart({ product, variant: currentVariant, quantity })
+      sendAddToCart({
+        product,
+        variant: currentVariant,
+        quantity: quantity || 1,
+      })
       await addLineItem({
         variantId: currentVariant.shopifyVariantID,
         quantity: quantity || 1,
@@ -186,19 +204,32 @@ export const BuyButton = ({
     }
   }
   if (variantIsInStock === false) {
-    return <Placeholder>Out of stock</Placeholder>
+    return (
+      <BuyButtonEl disabled={true} ref={buttonRef}>
+        Out of Stock
+      </BuyButtonEl>
+    )
   }
   return (
     <>
+      {!inquiryOnly && (
+        <Heading level={5} weight={2}>
+          <ShippingStatus readyToShip={readyToShip} />
+        </Heading>
+      )}
       <BuyButtonEl
         disabled={loading || variantIsInStock === PENDING}
         onClick={handleClick}
         ref={buttonRef}
         sticky={false}
       >
-        {buttonLabel}
+        <span>{buttonLabel}</span>
+        <span>|</span>
+        <span className="status-label">
+          {readyToShip ? 'In Stock' : 'Made to Order'}
+        </span>
       </BuyButtonEl>
-      {isSticky ? <ButtonSpacer ref={spacerRef} /> : null}
+      {/* {isSticky ? <ButtonSpacer ref={spacerRef} /> : null} */}
     </>
   )
 }

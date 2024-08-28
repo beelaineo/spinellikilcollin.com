@@ -5,6 +5,9 @@ import {
   ProductInfoSettings,
   ProductListingSettings,
   SiteSettings,
+  JournalEntry,
+  Collection,
+  Product,
 } from '../../types'
 import {
   productInfoFragment,
@@ -12,8 +15,8 @@ import {
   externalLinkFragment,
   ctaFragment,
   filterSetFragment,
-  priceRangeFilterFragment,
-  inventoryFilterFragment,
+  priceRangeMinMaxFilterFragment,
+  inStockFilterFragment,
   seoFragment,
 } from '../../graphql/fragments'
 import { request } from '../../graphql'
@@ -25,6 +28,20 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       slug {
         current
       }
+    }
+    allJournalEntry {
+      _id
+      slug {
+        current
+      }
+    }
+    allCollection {
+      _id
+      handle
+    }
+    allProduct {
+      _id
+      handle
     }
     Menu(id: "menu-settings") {
       _id
@@ -99,16 +116,15 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
     }
     ProductListingSettings(id: "productListingSettings") {
       _id
-      _type
       newDefaultFilter {
         ... on FilterSet {
           ...FilterSetFragment
         }
-        ... on PriceRangeFilter {
-          ...PriceRangeFilterFragment
+        ... on PriceRangeMinMaxFilter {
+          ...PriceRangeMinMaxFilterFragment
         }
-        ... on InventoryFilter {
-          ...InventoryFilterFragment
+        ... on InStockFilter {
+          ...InStockFilterFragment
         }
       }
     }
@@ -117,6 +133,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
       _type
       _key
       _createdAt
+      leadTimeLabel
       globalInfo {
         ...ProductInfoFragment
       }
@@ -137,10 +154,6 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         tag
         label
       }
-      excludeFromStockIndication {
-        _id
-        handle
-      }
     }
     SiteSettings(id: "site-settings") {
       _id
@@ -154,7 +167,7 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
         }
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       phone
       mailerTitle
@@ -167,8 +180,8 @@ export const SHOP_DATA_QUERY = /* GraphQL */ gql`
   ${externalLinkFragment}
   ${ctaFragment}
   ${filterSetFragment}
-  ${priceRangeFilterFragment}
-  ${inventoryFilterFragment}
+  ${priceRangeMinMaxFilterFragment}
+  ${inStockFilterFragment}
 `
 
 export interface ShopDataResponse {
@@ -177,6 +190,9 @@ export interface ShopDataResponse {
   ProductInfoSettings: ProductInfoSettings
   SiteSettings: SiteSettings
   allPage: Page[]
+  allJournalEntry: JournalEntry[]
+  allCollection: Collection[]
+  allProduct: Product[]
 }
 
 export const requestShopData = async () => {

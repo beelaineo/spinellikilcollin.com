@@ -140,8 +140,8 @@ interface WithReady {
   align?: string
 }
 
-export const NavSection = styled.div`
-  ${({ ready, align }: WithReady) => css`
+export const NavSection = styled.div<WithReady>`
+  ${({ ready, align }) => css`
     transition: 0.3s;
     flex-grow: 1;
     display: flex;
@@ -166,8 +166,8 @@ interface WithColor {
   colorTheme?: 'light' | 'dark'
 }
 
-export const LogoWrapper = styled.div`
-  ${({ theme, colorTheme }: WithColor) => css`
+export const LogoWrapper = styled.div<WithColor>`
+  ${({ theme, colorTheme }) => css`
     position: relative;
     margin: 0 auto;
     svg {
@@ -225,10 +225,11 @@ export const HamburgerWrapper = styled.div`
 interface ColorThemeProps {
   theme: DefaultTheme
   colorTheme?: 'light' | 'dark'
+  isHighlighted?: 'isVisible' | 'isHidden' | null
 }
 
-export const SearchButtonWrapper = styled.div`
-  ${({ theme, colorTheme }: ColorThemeProps) => css`
+export const SearchButtonWrapper = styled.div<ColorThemeProps>`
+  ${({ theme, colorTheme }) => css`
     position: relative;
     transition: 250ms ease;
     display: flex;
@@ -242,8 +243,14 @@ export const SearchButtonWrapper = styled.div`
       width: 100%;
       ${colorTheme == 'light' ? `path { fill: ${theme.colors.grays[3]}; }` : ''}
     }
+    ${theme.mediaQueries.tablet} {
+      width: 20px;
+      height: 16px;
+      margin-right: 3;
+      padding-bottom: 2px;
+    }
     ${theme.mediaQueries.mobile} {
-      width: 18px;
+      width: 20px;
       height: 16px;
       margin-right: 3;
     }
@@ -253,12 +260,38 @@ export const SearchButtonWrapper = styled.div`
   `}
 `
 
-export const CurrencySelectorWrapper = styled.div`
-  ${({ theme, colorTheme }: ColorThemeProps) => css`
-    margin-right: 2px;
+export const CurrencySelectorWrapper = styled.div<ColorThemeProps>`
+  ${({ theme, colorTheme, isHighlighted }) => css`
+    margin-right: 2;
     position: relative;
-    ${colorTheme == 'light' ? `select {color: ${theme.colors.grays[3]};}` : ''}
+    border-radius: 4px;
+
+    ${isHighlighted === 'isVisible'
+      ? `outline: 110vmax solid rgba(0, 0, 0, 0.7); 
+        background-color: ${colorTheme === 'light' && theme.colors.grays[1]};
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`
+      : isHighlighted === 'isHidden'
+      ? `outline: 110vmax solid rgba(0, 0, 0, 0); 
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;
+        background-color: transparent;`
+      : `outline: none;
+        outline-color: rgba(0, 0, 0, 0);
+        background-color: transparent;
+        transition: outline-color 0.3s ease-out, background-color 0.3s ease-out;`}
+
+    transition: outline-color 0.3s ease-in-out;
+
+    ${colorTheme == 'light' && !isHighlighted
+      ? `select {color: ${theme.colors.grays[3]};}`
+      : ''};
+
     ${theme.mediaQueries.mobile} {
+      ${isHighlighted === 'isVisible'
+        ? `background-color: ${theme.colors.grays[1]};`
+        : isHighlighted === 'isHidden'
+        ? `background-color: transparent;`
+        : `background-color: transparent;`}
+
       width: 24px;
       margin-right: 4px;
     }
@@ -268,7 +301,7 @@ export const CurrencySelectorWrapper = styled.div`
     }
 
     &:has(select:focus-visible) {
-      ${theme.focus.bottom(-40)}
+      ${theme.focus.bottom(-10)}
     }
   `}
 `
@@ -309,8 +342,8 @@ interface LoadingProps {
   colorTheme?: 'light' | 'dark'
 }
 
-export const CartButtonWrapper = styled.button`
-  ${({ theme, isLoading, colorTheme }: LoadingProps) => css`
+export const CartButtonWrapper = styled.button<LoadingProps>`
+  ${({ theme, isLoading, colorTheme }) => css`
     opacity: ${isLoading ? '0.5' : '1'};
     position: relative;
     transition: 250ms ease;
@@ -334,8 +367,8 @@ export const CartButtonWrapper = styled.button`
   `}
 `
 
-export const CartBadge = styled.div`
-  ${({ theme, colorTheme }: ColorThemeProps) => css`
+export const CartBadge = styled.div<ColorThemeProps>`
+  ${({ theme, colorTheme }) => css`
     position: absolute;
     display: flex;
     justify-content: center;
@@ -375,8 +408,8 @@ interface SideNavigation {
   open?: boolean
 }
 
-export const SideNavigation = styled.aside`
-  ${({ open }: SideNavigation) => css`
+export const SideNavigation = styled.aside<SideNavigation>`
+  ${({ open }) => css`
     transform: ${open ? 'translateX(0px)' : 'translateX(-520px)'};
     z-index: cart;
     width: 500px;
@@ -422,8 +455,8 @@ interface WithOpen {
   open: boolean
 }
 
-export const NavInnerBackground = styled.div`
-  ${({ open, theme }: WithOpen) => css`
+export const NavInnerBackground = styled.div<WithOpen>`
+  ${({ open, theme }) => css`
     height: 100%;
     position: fixed;
     background: rgba(0, 0, 0, 0.2);

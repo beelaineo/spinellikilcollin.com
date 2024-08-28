@@ -24,7 +24,7 @@ const pageQuery = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       pageLinks {
         _key
@@ -43,6 +43,12 @@ const pageQuery = gql`
             title
           }
           ... on Faq {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Appointments {
             _id
             _type
             _key
@@ -84,20 +90,6 @@ const pageQuery = gql`
               current
             }
           }
-          ... on ShopifyProduct {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
-          ... on ShopifyCollection {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
         }
       }
     }
@@ -137,7 +129,7 @@ const pageQuery = gql`
       }
 
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -157,7 +149,7 @@ const pageQueryById = gql`
         ...HeroFragment
       }
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       pageLinks {
         _key
@@ -176,6 +168,12 @@ const pageQueryById = gql`
             title
           }
           ... on Faq {
+            _id
+            _type
+            _key
+            title
+          }
+          ... on Appointments {
             _id
             _type
             _key
@@ -223,20 +221,6 @@ const pageQueryById = gql`
             _key
             title
           }
-          ... on ShopifyProduct {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
-          ... on ShopifyCollection {
-            _id
-            _key
-            _type
-            title
-            handle
-          }
         }
       }
     }
@@ -276,7 +260,7 @@ const pageQueryById = gql`
       }
 
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
     }
   }
@@ -358,7 +342,7 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
   // const directories = response?.allDirectory || []
   // const page = [...pages, ...directories][0] || null
   const page = pages[0] || null
-  return { props: { page, shopData }, revalidate: 10 }
+  return { props: { page, shopData } }
 }
 
 /**
@@ -378,6 +362,14 @@ const pageHandlesQuery = gql`
 `
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  // When this is true (in preview environments) don't pre-render pages
+  // if (process.env.SKIP_BUILD_STATIC_GENERATION) {
+  //   return {
+  //     paths: [],
+  //     fallback: 'blocking',
+  //   }
+  // }
+
   const result = await request<PageResponse>(pageHandlesQuery)
   const pages = definitely(result?.allPage)
   const paths = pages.map((page) => ({

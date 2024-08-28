@@ -6,8 +6,8 @@ interface WithOpen {
   height: number
 }
 
-export const Inner = styled.div`
-  ${({ open, height }: WithOpen) => css`
+export const Inner = styled.div<WithOpen>`
+  ${({ open, height }) => css`
     overflow: hidden;
 
     ${open

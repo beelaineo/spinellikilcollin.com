@@ -106,6 +106,7 @@ export const FilterSingle = ({
   if (!filterSetState) {
     throw new Error('No filterSetState was supplied')
   }
+
   const { _type, label, matches } = filterSingle
   const { activeMatchKeys } = filterSetState
   if (!matches) return null
@@ -126,9 +127,6 @@ export const FilterSingle = ({
     })
   }
 
-  const isMobile = useMedia({
-    maxWidth: `960px`,
-  })
   return (
     <FilterSingleWrapper
       onMouseEnter={handleMouseEnter}

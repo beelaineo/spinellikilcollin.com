@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Label, Wrapper, Inner, Item } from './styled'
 import { useEffect, useRef } from 'react'
 import { PlusMinus } from '../PlusMinus'
+import { useDebounce } from 'react-use'
 
 interface AccordionProps {
   label: string
@@ -10,31 +11,37 @@ interface AccordionProps {
 
 export const Accordion = ({ label, children }: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
+  const shouldOpen = false
   const toggleOpen = () => setOpen(!open)
 
   const [height, updateHeight] = React.useState(0)
 
   const refContainer = useRef<HTMLDivElement>(null)
 
+  useDebounce(
+    () => {
+      const element = refContainer?.current
+
+      if (!element) return
+
+      const observer = new ResizeObserver(() => {
+        if (!refContainer.current) return
+
+        updateHeight(refContainer.current.clientHeight)
+      })
+
+      observer.observe(element)
+
+      return () => {
+        observer.disconnect()
+      }
+    },
+    300,
+    [],
+  )
+
   useEffect(() => {
-    const element = refContainer?.current
-
-    if (!element) return
-
-    const observer = new ResizeObserver(() => {
-      if (!refContainer.current) return
-
-      updateHeight(refContainer.current.clientHeight)
-    })
-
-    observer.observe(element)
-    return () => {
-      observer.disconnect()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (open) return
+    if (open || !shouldOpen) return
 
     setTimeout(() => {
       if (label !== 'Description') return

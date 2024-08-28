@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Carousel } from './Carousel'
 import {
-  ShopifyCollection,
-  ShopifyProduct,
+  Collection,
+  Product,
   RichPageLink as RichPageLinkType,
 } from '../../types'
 import { ProductThumbnail } from '../Product'
@@ -11,7 +11,7 @@ import { RichPageLink } from '../RichPageLink'
 import { useViewportSize } from '../../utils'
 
 interface ItemsCarouselProps {
-  items: Array<null | ShopifyCollection | ShopifyProduct | RichPageLinkType>
+  items: Array<null | Collection | Product | RichPageLinkType>
 }
 
 export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
@@ -23,7 +23,7 @@ export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
         if (!item) return null
         const { _key } = item
         switch (item.__typename) {
-          case 'ShopifyProduct':
+          case 'Product':
             return (
               <ProductThumbnail
                 key={_key || 'some-key'}
@@ -33,7 +33,7 @@ export const ItemsCarousel = ({ items }: ItemsCarouselProps) => {
                 carousel={true}
               />
             )
-          case 'ShopifyCollection':
+          case 'Collection':
             return (
               <CollectionThumbnail key={_key || 'some-key'} collection={item} />
             )

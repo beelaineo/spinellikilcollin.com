@@ -2,15 +2,15 @@ import * as React from 'react'
 import { NextRouter } from 'next/router'
 import styled, { ThemeProvider } from '@xstyled/styled-components'
 import Head from 'next/head'
-import Script from 'next/script'
 import { Providers } from '../src/providers/AllProviders'
 import { Footer } from '../src/components/Footer'
 import { Navigation } from '../src/components/Navigation'
 import { SearchPane } from '../src/components/Search'
 import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
-import { config } from '../src/config'
 import { KeepAliveProvider } from 'react-next-keep-alive'
+import { Breadcrumbs } from '../src/components/Footer/Breadcrumbs'
+import { useBreadcrumbs } from '../src/hooks/useBreadcrumbs'
 
 import '../public/static/fonts/fonts.css'
 
@@ -31,7 +31,6 @@ const App = (props: AppProps) => {
   const { Component, pageProps: allPageProps, router } = props
   const path = router.asPath
   const { shopData, ...pageProps } = allPageProps
-  if (!shopData) return null
 
   // Hubspot Conversations launcher
   useEffect(() => {
@@ -64,6 +63,9 @@ const App = (props: AppProps) => {
     storage.setItem('currentPath', globalThis.location.pathname)
   }
 
+  const breadCrumbs = useBreadcrumbs()
+
+  if (!shopData) return null
   return (
     <Providers shopData={shopData}>
       <ThemeProvider theme={getThemeByRoute(path)}>
@@ -74,14 +76,14 @@ const App = (props: AppProps) => {
           />
         </Head>
         <Main>
-          <Navigation />
-          <SearchPane />
+          <Navigation breadCrumbs={breadCrumbs} />
+          <SearchPane breadCrumbs={breadCrumbs} />
           <ToastRoot />
           <KeepAliveProvider router={router}>
             <Component {...pageProps} />
           </KeepAliveProvider>
 
-          <Footer />
+          <Footer breadCrumbs={breadCrumbs} />
         </Main>
         <div id="modal" />
       </ThemeProvider>

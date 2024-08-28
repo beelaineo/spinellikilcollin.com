@@ -2,7 +2,7 @@ import * as React from 'react'
 import { useRouter } from 'next/router'
 import { unwindEdges } from '@good-idea/unwind-edges'
 import { Button } from '../Button'
-import { useAnalytics, useCart } from '../../providers'
+import { useAnalytics, useCart, useCountry } from '../../providers'
 import { useShopify } from '../../providers/ShopifyProvider'
 import { Form, Field } from '../Forms'
 import { Checkbox } from '../Forms/Fields/Checkbox'
@@ -29,6 +29,7 @@ import { StringValueNode } from 'graphql'
 import { CSSTransition } from 'react-transition-group'
 import { render } from '@testing-library/react'
 import { Klarna } from '../Klarna'
+import { Maybe, ShopifyStorefrontMoneyV2 } from '../../types'
 
 const { useState, useRef, useEffect } = React
 
@@ -57,10 +58,14 @@ export const Checkout = () => {
 
   const showFreeShippingIndicator = false
 
+  const { currentCountry } = useCountry()
+
   const lineItems =
     checkout && checkout.lineItems ? unwindEdges(checkout.lineItems)[0] : []
   const title = message || 'Your Cart'
 
+  const [totalPrice, setTotalPrice] =
+    useState<Maybe<ShopifyStorefrontMoneyV2>>(null)
   const [notesVisible, setNotesVisible] = useState(false)
 
   const handleNotesToggle = (e) => {
@@ -72,7 +77,7 @@ export const Checkout = () => {
   const freeShippingThreshold = 500
 
   const freeShippingPosition =
-    freeShippingThreshold - checkout?.paymentDueV2?.amount || 0
+    freeShippingThreshold - checkout?.paymentDue?.amount || 0
 
   useEffect(() => {
     if (cartOpen) {
@@ -90,7 +95,7 @@ export const Checkout = () => {
         ),
       )
     }
-  }, [cartOpen, checkout?.paymentDueV2.amount, freeShippingPosition])
+  }, [cartOpen, checkout?.paymentDue.amount, freeShippingPosition])
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -106,6 +111,11 @@ export const Checkout = () => {
   useEffect(() => {
     cartOpen && closeCart()
   }, [router])
+
+  useEffect(() => {
+    checkout && setTotalPrice(checkout.totalPriceV2)
+    // console.log('UPDATED CHECKOUT', checkout)
+  }, [checkout])
 
   const handleSubmit = async (values: FormValues) => {
     if (!checkout) throw new Error('There is no checkout')
@@ -188,20 +198,20 @@ export const Checkout = () => {
           </CartInner>
 
           <CartBottom hidden={!cartOpen}>
-            {checkout && checkout?.paymentDueV2?.amount ? (
+            {checkout && checkout?.paymentDue?.amount ? (
               <SubtotalWrapper>
                 <Heading level={4} weight={2}>
                   Total:
                 </Heading>
                 <div>
                   <Heading level={4} textTransform="uppercase" weight={2}>
-                    <Price price={checkout.paymentDueV2} style={'full'} />
+                    <Price price={checkout.paymentDue} style={'full'} />
                   </Heading>
                   {lineItems?.some(
                     (item) =>
                       item.variant?.product?.productType === 'Gift Card',
-                  ) ? null : (
-                    <div>
+                  ) ? null : currentCountry === 'US' ? (
+                    <div className="payment-plans">
                       <style
                         jsx
                         // eslint-disable-next-line react/no-unknown-property
@@ -220,11 +230,25 @@ export const Checkout = () => {
                           font-weight: 200;
                           line-height: 18.2px;
                         }
+                        @media screen and (max-width: 460px) {
+                          .payment-plans
+                            #klarnaPlacement
+                            ::part(osm-container) {
+                            margin-top: 1.5em;
+                          }
+                        }
+                        @media screen and (min-width: 640px) {
+                          .payment-plans
+                            #klarnaPlacement
+                            ::part(osm-container) {
+                            margin-top: 1.5em;
+                          }
+                        }
                       `}</style>
-                      <Affirm price={checkout.paymentDueV2} />
-                      <Klarna price={checkout.paymentDueV2} />
+                      <Affirm price={checkout.paymentDue} />
+                      <Klarna price={checkout.paymentDue} />
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </SubtotalWrapper>
             ) : null}
@@ -237,7 +261,7 @@ export const Checkout = () => {
                     label="Special Instructions"
                     name="notesBool"
                   />
-                  <Checkbox label="Gift Wrap" name="giftWrap" />
+                  <Checkbox label="This is a Gift" name="giftWrap" />
                 </div>
               </OptionsWrapper>
               {notesVisible ? (
@@ -261,12 +285,17 @@ export const Checkout = () => {
               <Heading my={3} level={6} textAlign="center">
                 Shipping and discount codes are added at checkout.
               </Heading>
-
-              <Heading my={3} level={6} textAlign="center">
-                We accept the following forms of payment: Visa, Mastercard,
-                Amex, Discover, PayPal, BitPay, Affirm, JCB, Diners Club, Elo,
-                Shop Pay, Apple Pay, Google Pay
-              </Heading>
+              {currentCountry === 'US' ? (
+                <Heading my={3} level={6} textAlign="center">
+                  We accept the following forms of payment: Visa, Mastercard,
+                  Amex, Discover, PayPal, BitPay, Affirm, JCB, Diners Club, Elo,
+                  Shop Pay, Apple Pay, Google Pay
+                </Heading>
+              ) : (
+                <Heading my={5} level={6} textAlign="center">
+                  {' '}
+                </Heading>
+              )}
             </Form>
           </CartBottom>
         </>

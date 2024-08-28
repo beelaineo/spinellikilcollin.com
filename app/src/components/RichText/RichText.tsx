@@ -1,8 +1,7 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import * as BlockContent from '@sanity/block-content-to-react'
+import { PortableText, PortableTextComponents } from '@portabletext/react'
 import { Heading, Span, P, BlockQuote, Li, Ul, Ol } from '../Text'
-import { ListBlock, RichTextBlock } from '../../types'
 import { Image } from '../Image'
 import { useModal } from '../../providers/ModalProvider'
 import { useCurrentProduct } from '../../providers/CurrentProductProvider'
@@ -11,17 +10,9 @@ import { useShopData } from '../../providers/ShopDataProvider'
 import { LinkInfo } from '../../utils'
 import { EmbeddedForm } from './EmbeddedForm'
 import { CloudinaryVideo } from '../CloudinaryVideo'
+import { CountDown } from '../CountDown'
 
-interface CustomSerializerConfig {
-  blockWrapper?: React.ComponentType
-  imageSizes?: string
-  openCustomizationModal: () => void
-  openRingSizerModal: () => void
-  openHubspotChat: () => void
-  openCart: () => void
-  getLinkByRef: (ref: string) => LinkInfo | null
-  weight?: number
-}
+import Link from 'next/link'
 
 interface WithArticle {
   article?: boolean
@@ -46,6 +37,12 @@ const RichTextWrapper = styled.div<WithArticle>`
     picture {
       max-width: 80%;
       margin: 80px auto;
+    }
+
+    ul {
+      font-weight: 300;
+      line-height: 1.4em;
+      font-size: 5;
     }
 
     h2:has(a) {
@@ -126,108 +123,6 @@ const RichTextWrapper = styled.div<WithArticle>`
   `}
 `
 
-/* eslint-disable react/display-name */
-/* eslint-disable react/prop-types */
-const serializers = ({
-  blockWrapper: Wrapper,
-  imageSizes,
-  openCustomizationModal,
-  openRingSizerModal,
-  openHubspotChat,
-  openCart,
-  getLinkByRef,
-  weight: customWeight,
-}: CustomSerializerConfig) => ({
-  list: (props: ListBlock) => {
-    if (props.type === 'number') {
-      return <Ol>{props.children}</Ol>
-    }
-    return <Ul>{props.children}</Ul>
-  },
-  marks: {
-    thin: ({ children }) => <Span fontWeight={100}>{children}</Span>,
-    light: ({ children }) => <Span fontWeight={200}>{children}</Span>,
-    book: ({ children }) => <Span fontWeight={300}>{children}</Span>,
-    regular: ({ children }) => <Span fontWeight={400}>{children}</Span>,
-    bold: ({ children }) => <Span fontWeight={700}>{children}</Span>,
-    internalLink: ({ children, mark }) => {
-      const linkData = getLinkByRef(mark?.document?._ref)
-      if (!linkData) return <>{children}</>
-      const { as, href } = linkData
-      return <a href={href || as}>{children}</a>
-    },
-    action: ({ children, mark }) => {
-      const { actionType } = mark
-      const onClick =
-        actionType === 'openCart'
-          ? openCart
-          : actionType === 'launchHubspot'
-          ? () => openHubspotChat()
-          : actionType === 'launchCustomizationModal'
-          ? () => openCustomizationModal()
-          : actionType === 'launchRingSizerModal'
-          ? () => openRingSizerModal()
-          : null
-      if (!actionType) {
-        return <>{children}</>
-      }
-      return (
-        <Span role="button" tabIndex={0} cursor="pointer" onClick={onClick}>
-          {children}
-        </Span>
-      )
-    },
-  },
-  listItem: (props) => <Li weight={3} {...props} />,
-  cloudinaryVideo: (props) => {
-    const { node } = props
-    return <CloudinaryVideo video={node} />
-  },
-  block: (props: RichTextBlock): React.ReactNode => {
-    const { node } = props
-    /* If a custom block wrapper was passed in, use it instead.
-     * This allows us to change a default P tag into a different size/style */
-    // @ts-ignore
-    if (Wrapper) return <Wrapper {...props} />
-    const weight = customWeight ?? 4
-
-    if (node._type === 'richImage') {
-      return <Image image={node} sizes={imageSizes} />
-    }
-    if (node._type === 'form') {
-      return (
-        <EmbeddedForm block={node} openRingSizerModal={openRingSizerModal} />
-      )
-    }
-    if (node._type === 'cloudinaryVideo') {
-      return <CloudinaryVideo video={node} />
-    }
-    const style = node.style || 'normal'
-    // if (props.node._type === 'videoEmbed') return <VideoEmbed video={props.node} />
-
-    switch (style) {
-      case 'h1':
-        return <Heading level={1} weight={weight} {...props} />
-      case 'h2':
-        return <Heading level={2} weight={weight} {...props} />
-      case 'h3':
-        return <Heading level={3} weight={weight} {...props} />
-      case 'h4':
-        return <Heading level={4} weight={weight} {...props} />
-      case 'h5':
-        return <Heading level={5} weight={weight} {...props} />
-      case 'h6':
-        return <Heading level={6} weight={weight} {...props} />
-      case 'blockquote':
-        return <BlockQuote {...props} />
-      case 'normal':
-        return <P {...props} />
-      default:
-        return <P {...props} />
-    }
-  },
-})
-
 interface RichTextProps {
   body?: { [key: string]: any } | null
   blockWrapper?: React.ComponentType
@@ -239,7 +134,7 @@ interface RichTextProps {
 
 export const RichText = ({
   body,
-  blockWrapper,
+  blockWrapper: BlockWrapper,
   wrapper: CustomWrapper,
   imageSizes,
   weight,
@@ -264,21 +159,128 @@ export const RichText = ({
   const openRingSizerModalWithProduct = () =>
     openRingSizerModal({ currentProduct, currentVariant })
   const Wrapper = CustomWrapper || RichTextWrapper
+
+  const components: PortableTextComponents = {
+    marks: {
+      thin: ({ children }) => <Span fontWeight={100}>{children}</Span>,
+      light: ({ children }) => <Span fontWeight={200}>{children}</Span>,
+      book: ({ children }) => <Span fontWeight={300}>{children}</Span>,
+      regular: ({ children }) => <Span fontWeight={400}>{children}</Span>,
+      bold: ({ children }) => <Span fontWeight={700}>{children}</Span>,
+      internalLink: ({ children, value }) => {
+        const linkData = getLinkByRef(value?.document?._ref)
+        if (!linkData) return <>{children}</>
+        const { href } = linkData
+        return <Link href={href}>{children}</Link>
+      },
+      action: ({ children, value }) => {
+        const { actionType } = value
+
+        const onClick =
+          actionType === 'openCart'
+            ? () => openCart()
+            : actionType === 'launchHubspot'
+            ? () => openHubspotChat()
+            : actionType === 'launchCustomizationModal'
+            ? () => openCustomizationModalWithProduct()
+            : actionType === 'launchRingSizerModal'
+            ? () => openRingSizerModalWithProduct()
+            : null
+        if (!actionType) {
+          return <>{children}</>
+        }
+        return (
+          <Span role="button" tabIndex={0} cursor="pointer" onClick={onClick}>
+            {children}
+          </Span>
+        )
+      },
+      textAction: ({ children, value }) => {
+        const { actionType } = value
+
+        const onClick =
+          actionType === 'openCart'
+            ? () => openCart()
+            : actionType === 'launchHubspot'
+            ? () => openHubspotChat()
+            : actionType === 'launchCustomizationModal'
+            ? () => openCustomizationModalWithProduct()
+            : actionType === 'launchRingSizerModal'
+            ? () => openRingSizerModalWithProduct()
+            : null
+        if (!actionType) {
+          return <>{children}</>
+        }
+        return (
+          <Span role="button" tabIndex={0} cursor="pointer" onClick={onClick}>
+            {children}
+          </Span>
+        )
+      },
+    },
+    types: {
+      BlockWrapper: BlockWrapper
+        ? ({ value }) => <BlockWrapper {...value} />
+        : undefined,
+      richImage: ({ value }) => (
+        <Image image={value} sizes={imageSizes} richImage />
+      ),
+      form: ({ value }) => (
+        <EmbeddedForm block={value} openRingSizerModal={openRingSizerModal} />
+      ),
+      cloudinaryVideo: ({ value }) => <CloudinaryVideo video={value} />,
+      countdown: ({ value }) => {
+        return (
+          <React.Suspense>
+            <CountDown targetDate={value.dateTime} />
+          </React.Suspense>
+        )
+      },
+    },
+    block: {
+      h1: ({ children }) => (
+        <Heading level={1} weight={weight}>
+          {children}
+        </Heading>
+      ),
+      h2: ({ children }) => (
+        <Heading level={2} weight={weight}>
+          {children}
+        </Heading>
+      ),
+      h3: ({ children }) => (
+        <Heading level={3} weight={weight}>
+          {children}
+        </Heading>
+      ),
+      h4: ({ children }) => (
+        <Heading level={4} weight={weight}>
+          {children}
+        </Heading>
+      ),
+      h5: ({ children }) => (
+        <Heading level={5} weight={weight}>
+          {children}
+        </Heading>
+      ),
+      h6: ({ children }) => (
+        <Heading level={6} weight={weight}>
+          {children}
+        </Heading>
+      ),
+      blockquote: ({ children }) => <BlockQuote>{children}</BlockQuote>,
+      normal: ({ children }) => <P>{children}</P>,
+      default: ({ children }) => <P>{children}</P>,
+    },
+    list: {
+      number: ({ children }) => <Ol>{children}</Ol>,
+      bullet: ({ children }) => <Ul>{children}</Ul>,
+    },
+  }
+
   return body ? (
     <Wrapper article={article}>
-      <BlockContent
-        blocks={body}
-        serializers={serializers({
-          blockWrapper,
-          imageSizes,
-          openCustomizationModal: openCustomizationModalWithProduct,
-          openRingSizerModal: openRingSizerModalWithProduct,
-          getLinkByRef,
-          openCart,
-          openHubspotChat,
-          weight,
-        })}
-      />
+      <PortableText value={body} components={components} />
     </Wrapper>
   ) : null
 }

@@ -15,7 +15,7 @@ const magazineQuery = gql`
       title
       descriptionRaw
       seo {
-        ...SEOFragment
+        ...SeoFragment
       }
       coverImage {
         ...RichImageFragment
@@ -51,7 +51,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const magazine = response?.Magazine || null
 
-  return { props: { shopData, magazine }, revalidate: 10 }
+  return { props: { shopData, magazine } }
 }
 
 export default MagazinePage

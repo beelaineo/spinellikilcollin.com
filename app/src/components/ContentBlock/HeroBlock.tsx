@@ -82,7 +82,7 @@ interface HeroTextProps {
   textXL?: boolean | null
 }
 
-const HeroText = styled.div`
+const HeroText = styled.div<HeroTextProps>`
   ${({
     theme,
     hero,
@@ -93,7 +93,7 @@ const HeroText = styled.div`
     textXL,
     textColorMobile,
     textContainer,
-  }: HeroTextProps) => css`
+  }) => css`
     pointer-events: none;
     position: ${hero.layout?.includes('flex') ? 'static' : 'absolute'};
     top: 0;

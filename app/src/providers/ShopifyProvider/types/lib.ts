@@ -16,4 +16,4 @@ export type QueryFunction = <
 >(
   query: string | DocumentNode,
   variables: Variables,
-) => Promise<{ data: ExpectedResult }>
+) => Promise<ExpectedResult>

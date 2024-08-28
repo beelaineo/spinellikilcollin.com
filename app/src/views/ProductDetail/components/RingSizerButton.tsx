@@ -4,11 +4,11 @@ import { useModal } from '../../../providers/ModalProvider'
 import RingSizerIcon from '../../../svg/RingSizer.svg'
 import { Heading } from '../../../components/Text'
 
-import { ShopifyProduct, ShopifyProductVariant } from '../../../types'
+import { Product, ShopifyProductVariant } from '../../../types'
 
 interface RingSizerButtonProps {
   mobile?: boolean
-  product: ShopifyProduct
+  product: Product
   variant: ShopifyProductVariant
 }
 

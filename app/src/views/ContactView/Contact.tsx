@@ -129,6 +129,31 @@ export const ContactView = ({ contact }: ContactProps) => {
                       </Heading>
                     </ContactLineWrapper>
                   )
+                case 'Email':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Heading level={3}>
+                        <a href={'mailto:' + contact}>{contact}</a>
+                      </Heading>
+                    </ContactLineWrapper>
+                  )
+                case 'Customer Care':
+                  return (
+                    <ContactLineWrapper key={_key}>
+                      <Heading level={4}>{label}</Heading>
+                      <Heading level={3}>
+                        <a href={'tel:' + contact}>{contact}</a>
+                      </Heading>
+                      <Button
+                        level={2}
+                        onClick={handleModalClick('Client Care')}
+                        aria-label={label}
+                      >
+                        Contact Us
+                      </Button>
+                    </ContactLineWrapper>
+                  )
                 default:
                   return null
               }

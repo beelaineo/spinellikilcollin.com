@@ -7,8 +7,8 @@ export interface HamburgerWrapperProps {
   colorTheme?: 'light' | 'dark'
 }
 
-const HamburgerWrapper = styled.button`
-  ${({ open, theme, colorTheme }: HamburgerWrapperProps) => css`
+const HamburgerWrapper = styled.button<HamburgerWrapperProps>`
+  ${({ open, theme, colorTheme }) => css`
     cursor: pointer;
     transition: 250ms ease;
     position: relative;

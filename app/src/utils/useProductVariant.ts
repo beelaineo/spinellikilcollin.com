@@ -1,12 +1,6 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
-import atob from 'atob'
 import { definitely } from './data'
-import {
-  ShopifyProduct,
-  ShopifyProductVariant,
-  // ShopifySourceProductVariant as SourceVariant,
-} from '../types'
+import { Product, ShopifyProductVariant } from '../types'
 
 const { useState } = React
 
@@ -30,20 +24,18 @@ interface ReturnValue {
 }
 
 export const useProductVariant = (
-  product: ShopifyProduct,
+  product: Product,
   options: Options = {},
 ): ReturnValue => {
   const { initialVariant, shopifyVariant } = options
   let variants: ShopifyProductVariant[] = []
-  if (product?.variants && product?.variants.length > 1) {
-    variants = definitely(product?.variants).filter(
-      (v) => v.sourceData?.availableForSale === true,
-    )
+  if (product?.store?.variants && product?.store?.variants.length > 1) {
+    variants = definitely(product?.store?.variants)
     if (variants.length === 0) {
-      variants = definitely(product?.variants)
+      variants = definitely(product?.store?.variants)
     }
   } else {
-    variants = definitely(product?.variants)
+    variants = definitely(product?.store?.variants)
   }
   // ? (product?.variants)
   // : []
@@ -52,7 +44,6 @@ export const useProductVariant = (
   /**
    * Private Methods
    */
-
   const findVariant = (variantId: string) => {
     const convertedVariantId = /gid:\/\/shopify\//.test(variantId)
       ? variantId
@@ -60,19 +51,25 @@ export const useProductVariant = (
     const variant = variants.find(
       (v) => v.shopifyVariantID === convertedVariantId,
     )
-    if (!variant)
-      throw new Error(
-        `There is no variant with the id "${variantId}" on the product ${product.title}`,
-      )
+
+    // console.log('product', product)
+
+    // console.log('variantId', variantId)
+    // console.log('convertedVariantId', convertedVariantId)
+    // console.log('variants in function', variants)
+
+    if (!variant) return variants[0]
+    // throw new Error(
+    //   `There is no variant with the id "${variantId}" on the product ${product.title}`,
+    // )
     return variant
   }
 
   const getInitialState = () => {
     if (shopifyVariant) {
-      const btoa = (str: string) => Buffer.from(str).toString('base64')
       const variantStorefrontId =
         'gid://shopify/ProductVariant/' + shopifyVariant
-      return findVariant(btoa(variantStorefrontId))
+      return findVariant(variantStorefrontId)
     }
     if (!initialVariant || initialVariant === 'first') return variants[0]
     if (initialVariant === 'last') return variants[variants.length - 1]

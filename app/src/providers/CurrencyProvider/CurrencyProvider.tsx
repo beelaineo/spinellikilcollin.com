@@ -1,5 +1,9 @@
 import * as React from 'react'
-import { ShopifyMoneyV2, ShopifyStorefrontMoneyV2 } from '../../types'
+import {
+  ShopifyMoneyV2,
+  ShopifyStorefrontMoneyV2,
+  ShopifyPrice,
+} from '../../types'
 import { roundTo, setCookie, getCookie } from '../../utils'
 import { useToast, ToastType } from '../ToastProvider'
 import { useCurrencyState } from './reducer'
@@ -10,12 +14,12 @@ const CURRENCY_COOKIE = 'VIEWER_CURRENCY'
 export type Money =
   | Omit<ShopifyMoneyV2, '__typename'>
   | Omit<ShopifyStorefrontMoneyV2, '__typename'>
+  | Omit<ShopifyPrice, '__typename'>
 
 interface CurrencyContextValue {
   currentCurrency: string
   loading: boolean
   updateCurrency: (currency: string) => Promise<void>
-  getPrice: (price: Money, quantity?: number) => number
   getFormattedPrice: (
     price: Money,
     quantity?: number,
@@ -44,7 +48,6 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
   const {
     loading,
     currentCurrency,
-    exchangeRate,
     error,
     message,
     updateCurrency: updateCurrencyState,
@@ -59,11 +62,11 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     }
   }, [])
 
-  useEffect(() => {
-    if (message) {
-      createToast({ message, type: ToastType.Error })
-    }
-  }, [message])
+  // useEffect(() => {
+  //   if (message) {
+  //     createToast({ message, type: ToastType.Error })
+  //   }
+  // }, [message])
 
   useEffect(() => {
     setCookie(CURRENCY_COOKIE, currentCurrency)
@@ -73,24 +76,24 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     await updateCurrencyState(currency)
   }
 
-  const getPrice = (price: Money, quantity = 1) => {
-    if (!price.amount) {
-      throw new Error('The price object must contain an amount')
-    }
-    return roundTo(parseFloat(price.amount) * exchangeRate * quantity, 2)
-  }
-
   const getFormattedPrice = (
     price: Money,
     quantity = 1,
     style?: 'full' | 'pretty',
   ) => {
-    const amount = getPrice(price, quantity)
+    const amount = price.amount
     const lang =
       typeof navigator !== 'undefined' ? navigator.language ?? 'en-US' : 'en-US'
+
+    const currency =
+      currentCurrency == price.currencyCode
+        ? currentCurrency
+        : price.currencyCode == null
+        ? 'USD'
+        : price.currencyCode
     const formattedPrice = new Intl.NumberFormat(lang, {
       style: 'currency',
-      currency: currentCurrency,
+      currency: currency,
     }).format(amount)
 
     if (style === 'full') {
@@ -107,7 +110,6 @@ export const CurrencyProvider = ({ children }: CurrencyProps) => {
     currentCurrency,
     updateCurrency,
     getFormattedPrice,
-    getPrice,
   }
   return (
     <CurrencyContext.Provider value={value}>
