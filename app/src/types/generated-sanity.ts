@@ -285,11 +285,12 @@ export interface Block {
   style?: Maybe<Scalars['String']['output']>
 }
 
-export type BlockOrCloudinaryVideoOrCountdownOrFormOrRichImage =
+export type BlockOrCloudinaryVideoOrCountdownOrFormOrIframeOrRichImage =
   | Block
   | CloudinaryVideo
   | Countdown
   | Form
+  | Iframe
   | RichImage
 
 export type BooleanFilter = {
@@ -502,12 +503,6 @@ export type CollectionGroupSorting = {
   _type?: InputMaybe<SortOrder>
   title?: InputMaybe<SortOrder>
 }
-
-export type CollectionOrHomepageOrPageOrProduct =
-  | Collection
-  | Homepage
-  | Page
-  | Product
 
 export type CollectionOrPageOrProduct = Collection | Page | Product
 
@@ -1708,6 +1703,26 @@ export type IdFilter = {
   nin?: InputMaybe<Array<Scalars['ID']['input']>>
 }
 
+export interface Iframe {
+  __typename: 'Iframe'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  /** Paste the embed code here */
+  code?: Maybe<Scalars['String']['output']>
+}
+
+export type IframeFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  code?: InputMaybe<StringFilter>
+}
+
+export type IframeSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  code?: InputMaybe<SortOrder>
+}
+
 export interface Image {
   __typename: 'Image'
   _key?: Maybe<Scalars['String']['output']>
@@ -2102,7 +2117,7 @@ export interface LinkInternal {
   __typename: 'LinkInternal'
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
-  reference?: Maybe<CollectionOrHomepageOrPageOrProduct>
+  reference?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomerCareOrCustomizeOrFaqOrHomepageOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   title?: Maybe<Scalars['String']['output']>
 }
 

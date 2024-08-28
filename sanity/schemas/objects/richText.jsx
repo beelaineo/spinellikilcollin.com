@@ -142,5 +142,6 @@ export const richText = {
     {type: 'cloudinaryVideo'},
     {type: 'form'},
     {type: 'countdown'},
+    {type: 'iframe'},
   ],
 }

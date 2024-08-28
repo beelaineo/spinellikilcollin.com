@@ -158,7 +158,7 @@ export interface ShopifyStorefrontArticle
   tags: Array<Scalars['String']['output']>
   /** The article’s name. */
   title: Scalars['String']['output']
-  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  /** URL parameters to be added to a page URL to track the origin of on-site search traffic for [analytics reporting](https://help.shopify.com/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports). Returns a result when accessed through the [search](https://shopify.dev/docs/api/storefront/current/queries/search) or [predictiveSearch](https://shopify.dev/docs/api/storefront/current/queries/predictiveSearch) queries, otherwise returns null. */
   trackingParameters?: Maybe<Scalars['String']['output']>
 }
 
@@ -255,12 +255,18 @@ export enum ShopifyStorefrontArticleSortKeys {
   UpdatedAt = 'UPDATED_AT',
 }
 
-/** Represents a generic custom attribute. */
+/** Represents a generic custom attribute, such as whether an order is a customer's first. */
 export interface ShopifyStorefrontAttribute {
   __typename: 'Attribute'
-  /** Key or name of the attribute. */
+  /**
+   * The key or name of the attribute. For example, `"customersFirstOrder"`.
+   *
+   */
   key: Scalars['String']['output']
-  /** Value of the attribute. */
+  /**
+   * The value of the attribute. For example, `"true"`.
+   *
+   */
   value?: Maybe<Scalars['String']['output']>
 }
 
@@ -2011,7 +2017,7 @@ export interface ShopifyStorefrontCollection
   seo: ShopifyStorefrontSeo
   /** The collection’s name. Limit of 255 characters. */
   title: Scalars['String']['output']
-  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  /** URL parameters to be added to a page URL to track the origin of on-site search traffic for [analytics reporting](https://help.shopify.com/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports). Returns a result when accessed through the [search](https://shopify.dev/docs/api/storefront/current/queries/search) or [predictiveSearch](https://shopify.dev/docs/api/storefront/current/queries/predictiveSearch) queries, otherwise returns null. */
   trackingParameters?: Maybe<Scalars['String']['output']>
   /** The date and time when the collection was last modified. */
   updatedAt: Scalars['DateTime']['output']
@@ -4094,7 +4100,7 @@ export interface ShopifyStorefrontLanguage {
   name: Scalars['String']['output']
 }
 
-/** ISO 639-1 language codes supported by Shopify. */
+/** Language codes supported by Shopify. */
 export enum ShopifyStorefrontLanguageCode {
   /** Afrikaans. */
   Af = 'AF',
@@ -5714,7 +5720,7 @@ export interface ShopifyStorefrontOrder
   currentTotalPrice: ShopifyStorefrontMoneyV2
   /** The total of all taxes applied to the order, excluding taxes for returned line items. */
   currentTotalTax: ShopifyStorefrontMoneyV2
-  /** A list of the custom attributes added to the order. */
+  /** A list of the custom attributes added to the order. For example, whether an order is a customer's first. */
   customAttributes: Array<ShopifyStorefrontAttribute>
   /** The locale code in which this specific order happened. */
   customerLocale?: Maybe<Scalars['String']['output']>
@@ -6015,7 +6021,7 @@ export interface ShopifyStorefrontPage
   seo?: Maybe<ShopifyStorefrontSeo>
   /** The title of the page. */
   title: Scalars['String']['output']
-  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  /** URL parameters to be added to a page URL to track the origin of on-site search traffic for [analytics reporting](https://help.shopify.com/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports). Returns a result when accessed through the [search](https://shopify.dev/docs/api/storefront/current/queries/search) or [predictiveSearch](https://shopify.dev/docs/api/storefront/current/queries/predictiveSearch) queries, otherwise returns null. */
   trackingParameters?: Maybe<Scalars['String']['output']>
   /** The timestamp of the latest page update. */
   updatedAt: Scalars['DateTime']['output']
@@ -6280,7 +6286,11 @@ export interface ShopifyStorefrontProduct
   metafield?: Maybe<ShopifyStorefrontMetafield>
   /** The metafields associated with the resource matching the supplied list of namespaces and keys. */
   metafields: Array<Maybe<ShopifyStorefrontMetafield>>
-  /** The URL used for viewing the resource on the shop's Online Store. Returns `null` if the resource is currently not published to the Online Store sales channel. */
+  /**
+   * The URL used for viewing the resource on the shop's Online Store. Returns
+   * `null` if the resource is currently not published to the Online Store sales channel.
+   *
+   */
   onlineStoreUrl?: Maybe<Scalars['URL']['output']>
   /** List of product options. */
   options: Array<ShopifyStorefrontProductOption>
@@ -6306,7 +6316,7 @@ export interface ShopifyStorefrontProduct
   title: Scalars['String']['output']
   /** The total quantity of inventory in stock for this Product. */
   totalInventory?: Maybe<Scalars['Int']['output']>
-  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  /** URL parameters to be added to a page URL to track the origin of on-site search traffic for [analytics reporting](https://help.shopify.com/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports). Returns a result when accessed through the [search](https://shopify.dev/docs/api/storefront/current/queries/search) or [predictiveSearch](https://shopify.dev/docs/api/storefront/current/queries/predictiveSearch) queries, otherwise returns null. */
   trackingParameters?: Maybe<Scalars['String']['output']>
   /**
    * The date and time when the product was last modified.
@@ -7149,7 +7159,7 @@ export interface ShopifyStorefrontSearchQuerySuggestion
   styledText: Scalars['String']['output']
   /** The text of the search query suggestion. */
   text: Scalars['String']['output']
-  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  /** URL parameters to be added to a page URL to track the origin of on-site search traffic for [analytics reporting](https://help.shopify.com/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports). Returns a result when accessed through the [search](https://shopify.dev/docs/api/storefront/current/queries/search) or [predictiveSearch](https://shopify.dev/docs/api/storefront/current/queries/predictiveSearch) queries, otherwise returns null. */
   trackingParameters?: Maybe<Scalars['String']['output']>
 }
 
@@ -7837,7 +7847,7 @@ export type ShopifyStorefrontTokenizedPaymentInputV3 = {
 
 /** Represents a resource that you can track the origin of the search traffic. */
 export type ShopifyStorefrontTrackable = {
-  /** A URL parameters to be added to a page URL when it is linked from a GraphQL result. This allows for tracking the origin of the traffic. */
+  /** URL parameters to be added to a page URL to track the origin of on-site search traffic for [analytics reporting](https://help.shopify.com/manual/reports-and-analytics/shopify-reports/report-types/default-reports/behaviour-reports). Returns a result when accessed through the [search](https://shopify.dev/docs/api/storefront/current/queries/search) or [predictiveSearch](https://shopify.dev/docs/api/storefront/current/queries/predictiveSearch) queries, otherwise returns null. */
   trackingParameters?: Maybe<Scalars['String']['output']>
 }
 
