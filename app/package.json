@@ -147,6 +147,7 @@
 		"text-mask-addons": "^3.8.0",
 		"utf-8-validate": "^6.0.3",
 		"uuid": "^9.0.1",
+		"yet-another-react-lightbox": "^3.21.4",
 		"yup": "^1.4.0",
 		"zlib": "^1.0.5",
 		"zod": "^3.22.4"
