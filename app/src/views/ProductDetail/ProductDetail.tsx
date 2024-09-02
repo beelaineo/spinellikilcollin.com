@@ -104,6 +104,7 @@ import {
   addRecentlyViewedProduct,
   getRecentlyViewedProducts,
 } from '../../utils/recentlyViewed'
+import { ImageGallery } from '../../components/ImageGallery'
 
 const { SHOW_IN_STOCK_INDICATORS } = config
 
@@ -594,6 +595,7 @@ export const ProductDetail = ({ product }: Props) => {
         <ProductRecent />
         <ProductRelated product={product} currentVariant={currentVariant} />
       </CurrentProductProvider>
+      <ImageGallery images={productImages} />
     </>
   )
 }
