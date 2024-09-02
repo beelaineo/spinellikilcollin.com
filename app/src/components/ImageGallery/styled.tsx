@@ -4,17 +4,24 @@ import styled, { DefaultTheme, css } from '@xstyled/styled-components'
 interface ThumbnailWrapperProps {
   theme: DefaultTheme
   isActive: boolean
-  isOpen: boolean
+  isOpen?: boolean
 }
 
 export const Wrapper = styled.div`
-  position: relative;
-  text-align: left;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  padding: 0 120px 64px;
-  gap: 5;
+  ${({ theme }) => css`
+    position: relative;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 120px 64px;
+    gap: 5;
+
+    ${theme.mediaQueries.mobile} {
+      padding: 0 30px;
+      gap: 3;
+    }
+  `}
 `
 
 export const ThumbnailsWrapper = styled.div`
@@ -105,11 +112,15 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
     position: relative;
     justify-content: center;
     align-items: center;
-    width: 64px;
-    height: 64px;
+    width: max(64px, 5%);
+    aspect-ratio: 1;
     padding-bottom: 10px;
 
     ${isOpen && `cursor: pointer;`};
+
+    ${theme.mediaQueries.mobile} {
+      width: max(44px, 15%);
+    }
 
     &:after {
       content: '';
@@ -122,7 +133,6 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
       display: none;
 
       ${isOpen && `background-color: #ffffff;`}
-
       ${isActive && `display: block;`};
     }
   `}
@@ -148,9 +158,16 @@ export const ActiveImageWrapper = styled.div`
     position: relative;
     justify-content: center;
     align-items: center;
-    width: 400px;
+    width: max(400px, 27%);
     aspect-ratio: 1;
     cursor: pointer;
+    max-width: 50%;
+
+    ${theme.mediaQueries.mobile} {
+      width: 100%;
+      max-width: none;
+      cursor: default;
+    }
   `}
 `
 export const Navigation = styled.div`

@@ -8,14 +8,13 @@ import {
 } from './styled'
 import { Image } from '../Image/Image'
 
-import Lightbox, {
-  SlotStyles,
-  usePreventWheelDefaults,
-} from 'yet-another-react-lightbox'
+import { Lightbox, SlotStyles } from 'yet-another-react-lightbox'
 import { Slide } from './Slide'
-import { Button } from '../Button'
-import 'yet-another-react-lightbox/styles.css'
 import { useLockScroll } from '../LockScroll'
+
+// eslint-disable-next-line import/no-unresolved
+import 'yet-another-react-lightbox/styles.css'
+import { useMedia } from '../../hooks'
 
 interface ImageGalleryProps {
   images: any
@@ -24,6 +23,11 @@ interface ImageGalleryProps {
 export const ImageGallery = ({ images }: ImageGalleryProps) => {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [isOpen, setIsOpen] = React.useState(false)
+
+  const isMedium = useMedia({
+    minWidth: '650px',
+  })
+
   const { lockScroll, unlockScroll } = useLockScroll()
 
   const slides = images.map((image, index) => {
@@ -47,11 +51,10 @@ export const ImageGallery = ({ images }: ImageGalleryProps) => {
     }
   }, [isOpen])
 
-  console.log('isOpen', isOpen)
   return (
     <>
       <Wrapper>
-        <ActiveImageWrapper onClick={() => setOpen(true)}>
+        <ActiveImageWrapper onClick={() => isMedium && setOpen(true)}>
           <Image image={images[activeIndex]} ratio={1} />
         </ActiveImageWrapper>
 
