@@ -116,7 +116,10 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
     aspect-ratio: 1;
     padding-bottom: 10px;
 
-    ${isOpen && `cursor: pointer;`};
+    ${isOpen &&
+    css`
+      cursor: pointer;
+    `};
 
     ${theme.mediaQueries.mobile} {
       width: max(44px, 15%);
@@ -132,8 +135,15 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
       opacity: 1;
       display: none;
 
-      ${isOpen && `background-color: #ffffff;`}
-      ${isActive && `display: block;`};
+      ${isOpen &&
+      css`
+        background-color: #ffffff;
+      `}
+
+      ${isActive &&
+      css`
+        display: block;
+      `};
     }
   `}
 `

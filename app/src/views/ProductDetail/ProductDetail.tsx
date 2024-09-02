@@ -595,7 +595,15 @@ export const ProductDetail = ({ product }: Props) => {
         <ProductRecent />
         <ProductRelated product={product} currentVariant={currentVariant} />
       </CurrentProductProvider>
-      <ImageGallery images={productImages} />
+      <Accordion product={product}>
+        <ImageGallery product={product} />
+      </Accordion>
+      <Accordion product={product}>
+        <ImageGallery product={product} />
+      </Accordion>
+      <Accordion product={product}>
+        <ImageGallery product={product} />
+      </Accordion>
     </>
   )
 }

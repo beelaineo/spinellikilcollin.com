@@ -15,12 +15,13 @@ import { useLockScroll } from '../LockScroll'
 // eslint-disable-next-line import/no-unresolved
 import 'yet-another-react-lightbox/styles.css'
 import { useMedia } from '../../hooks'
+import { Product } from '../../types'
 
 interface ImageGalleryProps {
-  images: any
+  product: Product
 }
 
-export const ImageGallery = ({ images }: ImageGalleryProps) => {
+export const ImageGallery = ({ product }: ImageGalleryProps) => {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -30,7 +31,10 @@ export const ImageGallery = ({ images }: ImageGalleryProps) => {
 
   const { lockScroll, unlockScroll } = useLockScroll()
 
-  const slides = images.map((image, index) => {
+  const images =
+    product?.contentAfter?.map((content) => content?.backgroundImage) || []
+
+  const slides = images?.map((image, index) => {
     return { ...image, index: index }
   })
 
@@ -59,7 +63,7 @@ export const ImageGallery = ({ images }: ImageGalleryProps) => {
         </ActiveImageWrapper>
 
         <ThumbnailsWrapper>
-          {images.map((image, index) => (
+          {images?.map((image, index) => (
             <ThumbnailWrapper
               key={index}
               isActive={activeIndex === index}
@@ -74,7 +78,6 @@ export const ImageGallery = ({ images }: ImageGalleryProps) => {
       <Lightbox
         open={open}
         close={() => setOpen(false)}
-        slides={slides}
         index={activeIndex}
         animation={{ swipe: 0 }}
         on={{ entered: () => onEnter(), exited: () => onExit() }}
