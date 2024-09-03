@@ -80,6 +80,7 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
         close={() => setOpen(false)}
         index={activeIndex}
         animation={{ swipe: 0 }}
+        slides={slides}
         on={{ entered: () => onEnter(), exited: () => onExit() }}
         styles={
           {
