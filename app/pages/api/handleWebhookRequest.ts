@@ -1,11 +1,17 @@
 import { createClient } from '@sanity/client'
-import { RequestBody, RequestAction } from './webhookRequestTypes'
+import {
+  RequestBody,
+  RequestAction,
+  ShopifyGraphQLProduct,
+  ShopifyGraphQLCollection,
+} from './webhookRequestTypes'
 import { handleWebhookProductUpdate } from './webhookProductUpdate'
+import { handleWebhookCollectionUpdate } from './webhookCollectionUpdate'
+
 import {
   deleteCollectionDocuments,
   deleteProductDocuments,
 } from './webhookSanityOps'
-import { handleCollectionUpdate } from './collectionUpdate'
 
 const sanityClient = createClient({
   apiVersion: '2024-01-01',
@@ -37,12 +43,18 @@ export async function handle(body: RequestBody, action: RequestAction) {
   //   }
   // }
   if (action === 'productCreate' || action === 'productUpdate') {
-    await handleWebhookProductUpdate(sanityClient, body)
+    await handleWebhookProductUpdate(
+      sanityClient,
+      body as ShopifyGraphQLProduct,
+    )
   } else if (action === 'productDelete') {
     await deleteProductDocuments(sanityClient, body.id)
   } else if (action === 'collectionCreate' || action === 'collectionUpdate') {
-    // await handleCollectionUpdate(sanityClient, body)
+    await handleWebhookCollectionUpdate(
+      sanityClient,
+      body as ShopifyGraphQLCollection,
+    )
   } else if (action === 'collectionDelete') {
-    // await deleteCollectionDocuments(sanityClient, body.id)
+    await deleteCollectionDocuments(sanityClient, body.id)
   }
 }
