@@ -74,14 +74,10 @@ const queryByCollection = gql`
               }
             }
           }
-          images {
-            ...ShopifyImageFragment
-          }
         }
       }
     }
   }
-  ${shopifyImageFragment}
   ${shopifyVariantImageFragment}
 `
 
@@ -133,14 +129,10 @@ const queryByProductType = gql`
             }
           }
         }
-        images {
-          ...ShopifyImageFragment
-        }
       }
     }
   }
 
-  ${shopifyImageFragment}
   ${shopifyVariantImageFragment}
 `
 
