@@ -26,6 +26,7 @@ import { ShopifyGraphQLProduct } from './webhookRequestTypes'
 import { idFromGid } from './requestHelpers'
 import { Maybe } from '../../src/types'
 import { shopifyQuery } from '../../src/providers/AllProviders'
+import { deleteProductDocuments } from './webhookSanityOps'
 
 interface SanityReference {
   _key: string
@@ -405,10 +406,17 @@ export async function handleWebhookProductUpdate(
   client: SanityClient,
   product: ShopifyGraphQLProduct,
 ): Promise<{
-  productDocument: ShopifyDocumentProduct
-  // productVariantsDocuments: ShopifyDocumentProductVariant[]
+  productDocument: ShopifyDocumentProduct | null
 }> {
   const { handle, id, admin_graphql_api_id, images, status } = product
+
+  // Check if the product is no longer available for sale (removed or draft status)
+  if (status === 'draft' || status === 'archived') {
+    console.log(`Product ${handle} is marked as ${status}, deleting...`)
+    await deleteProductDocuments(client, id)
+    return { productDocument: null } // Early return to stop further execution
+  }
+
   const slugify = (text?: Maybe<string>) => {
     if (!text) return ''
     return text

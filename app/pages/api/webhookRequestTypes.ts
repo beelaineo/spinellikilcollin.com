@@ -13,7 +13,7 @@ export interface CollectionDeleted {
   collectionIds: number[]
 }
 
-export type RequestBody = ShopifyGraphQLProduct
+export type RequestBody = ShopifyGraphQLProduct | ShopifyGraphQLCollection
 
 export type RequestAction =
   | 'productCreate'
@@ -168,4 +168,42 @@ export interface DataSinkCollectionImage {
   height?: number
   width?: number
   src: string
+}
+
+export interface ShopifyGraphQLCollectionRule {
+  column: string
+  condition: string
+  relation: string
+}
+
+export interface ShopifyGraphQLCollectionImage {
+  created_at: string
+  alt: string | null
+  width: number
+  height: number
+  src: string
+}
+
+export interface ShopifyGraphQLCollection {
+  id: number
+  handle: string
+  title: string
+  updated_at: string
+  body_html: string
+  published_at: string
+  sort_order:
+    | 'alpha-asc'
+    | 'alpha-desc'
+    | 'best-selling'
+    | 'created'
+    | 'created-desc'
+    | 'manual'
+    | 'price-asc'
+    | 'price-desc'
+  template_suffix: string
+  disjunctive: boolean
+  rules?: ShopifyGraphQLCollectionRule[]
+  published_scope: string
+  admin_graphql_api_id: `gid://shopify/Collection/${string}`
+  image?: ShopifyGraphQLCollectionImage
 }
