@@ -112,6 +112,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   reduceColumnCount,
   lightTheme,
   customFilter,
+  highValueTemplate,
   hideFilter,
   overrideDefaultFilter,
   minimalDisplay,

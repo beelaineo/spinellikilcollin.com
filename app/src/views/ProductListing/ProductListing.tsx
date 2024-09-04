@@ -96,6 +96,7 @@ export const ProductListing = ({
     reduceColumnCount,
     lightTheme,
     hidden,
+    highValueTemplate,
     hideFilter,
     overrideDefaultFilter,
     minimalDisplay,
