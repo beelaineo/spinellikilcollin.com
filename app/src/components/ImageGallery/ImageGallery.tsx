@@ -15,10 +15,14 @@ import { useLockScroll } from '../LockScroll'
 // eslint-disable-next-line import/no-unresolved
 import 'yet-another-react-lightbox/styles.css'
 import { useMedia } from '../../hooks'
-import { Product } from '../../types'
+import { Product, RichImage, ShopifyImage } from '../../types'
+
+interface ProductListingImageGalleryProduct extends Product {
+  images?: RichImage[] | ShopifyImage[]
+}
 
 interface ImageGalleryProps {
-  product: Product
+  product: ProductListingImageGalleryProduct
 }
 
 export const ImageGallery = ({ product }: ImageGalleryProps) => {
@@ -31,8 +35,7 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
 
   const { lockScroll, unlockScroll } = useLockScroll()
 
-  const images =
-    product?.contentAfter?.map((content) => content?.backgroundImage) || []
+  const images = product?.images || []
 
   const slides = images?.map((image, index) => {
     return { ...image, index: index }
@@ -63,7 +66,7 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
         </ActiveImageWrapper>
 
         <ThumbnailsWrapper>
-          {images?.map((image, index) => (
+          {images?.map((image: RichImage | ShopifyImage, index: number) => (
             <ThumbnailWrapper
               key={index}
               isActive={activeIndex === index}
@@ -100,13 +103,15 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
           } as SlotStyles
         }
         render={{
-          slide: ({ slide }) => (
-            <Slide
-              slide={slide}
-              slides={slides}
-              setActiveIndex={setActiveIndex}
-            />
-          ),
+          slide: ({ slide }) => {
+            return (
+              <Slide
+                slide={slide}
+                slides={slides}
+                setActiveIndex={setActiveIndex}
+              />
+            )
+          },
         }}
       />
     </>
