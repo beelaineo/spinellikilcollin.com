@@ -22,7 +22,7 @@ import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { ImageTextBlock } from '../../components/ContentBlock/ImageTextBlock'
 import { Sort, Filter } from '../../components/Filter'
-import { Heading } from '../../components/Text'
+import { Heading, P } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
 import { getHeroImage, isValidHero, definitely, unique } from '../../utils'
@@ -37,8 +37,11 @@ import {
   Wrapper,
   NoResultsWrapper,
   FooterGrid,
+  HighValueHeaderWrapper,
 } from './styled'
 import { useSearch } from '../../providers'
+import { Accordion } from '../../components/Accordion'
+import { ImageGallery } from '../../components/ImageGallery'
 
 const { useRef, useEffect, useState } = React
 
@@ -497,6 +500,8 @@ export const ProductListing = ({
 
   const validHero = isValidHero(hero)
 
+  console.log('collection', collection)
+
   const DescriptionWrapper = styled.div`
     ${({ theme }) => css`
       display: grid;
@@ -554,7 +559,7 @@ export const ProductListing = ({
         ref={gridRef}
         isReady={isReady}
       >
-        {filters && filters.length ? (
+        {filters && filters.length && !highValueTemplate ? (
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}
@@ -589,15 +594,45 @@ export const ProductListing = ({
             ) : null}
 
             <ProductGridWrapper isLoading={loading}>
-              <ProductGrid
-                reduceColumnCount={reduceColumnCount}
-                preferredVariantMatches={preferredVariantMatches}
-                currentFilter={currentFilters}
-                currentSort={sort}
-                hideFilter={hideFilter}
-                items={items}
-                collectionId={_id}
-              />
+              {highValueTemplate ? (
+                <div>
+                  <HighValueHeaderWrapper>
+                    <Heading level={2} textAlign={'center'}>
+                      {collection.title}
+                    </Heading>
+                    <div>
+                      <Heading level={5} textTransform={'uppercase'}>
+                        About the Collection
+                      </Heading>
+                      <P>
+                        {collection?.store?.descriptionHtml?.replace(
+                          /<[^>]*>/g,
+                          '',
+                        )}
+                      </P>
+                    </div>
+                  </HighValueHeaderWrapper>
+                  {items.map((item, index) => {
+                    if (item.__typename === 'Product') {
+                      return (
+                        <Accordion product={item} key={index}>
+                          <ImageGallery product={item} />
+                        </Accordion>
+                      )
+                    }
+                  })}
+                </div>
+              ) : (
+                <ProductGrid
+                  reduceColumnCount={reduceColumnCount}
+                  preferredVariantMatches={preferredVariantMatches}
+                  currentFilter={currentFilters}
+                  currentSort={sort}
+                  hideFilter={hideFilter}
+                  items={items}
+                  collectionId={_id}
+                />
+              )}
               {/* {!fetchComplete ? (
                 <Box my={8}>
                   <Heading

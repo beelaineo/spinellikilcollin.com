@@ -42,7 +42,7 @@ export const Wrapper = styled.div<WithProduct>`
   ${({ isProduct }) => css`
     ${isProduct
       ? css`
-          border-bottom: 1px solid;
+          border-top: 1px solid;
           margin: 0 40px 40px;
         `
       : css`

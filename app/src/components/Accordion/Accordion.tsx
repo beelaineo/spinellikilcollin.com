@@ -12,14 +12,18 @@ import {
 import { useEffect, useRef } from 'react'
 import { PlusMinus } from '../PlusMinus'
 import { useDebounce } from 'react-use'
-import { Product } from '../../types'
+import { Product, SanityRawImage } from '../../types'
 import { Heading } from '../Text'
 import { Image } from '../Image'
+
+interface SanityProduct extends Product {
+  images?: SanityRawImage[]
+}
 
 interface AccordionProps {
   label?: string
   children?: React.ReactNode
-  product?: Product
+  product?: SanityProduct
 }
 
 export const Accordion = ({ label, product, children }: AccordionProps) => {
@@ -32,6 +36,16 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
   const refContainer = useRef<HTMLDivElement>(null)
 
   console.log(product)
+
+  const coverImage = product?.images
+    ? product?.images[product.images.length - 1]
+    : null
+
+  const productSizes = product?.options?.find(
+    (option) => option?.name === 'Size',
+  )
+
+  const productSize = productSizes?.values?.[0]?.value ?? null
 
   useDebounce(
     () => {
@@ -69,12 +83,23 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
     return (
       <ProductButton onClick={toggleOpen}>
         <ProductImageWrapper>
-          {product?.store?.images && (
-            <Image image={product.store.images[0]} ratio={0.6} />
-          )}
+          {coverImage && <Image image={coverImage} ratio={0.67} />}
         </ProductImageWrapper>
         <TextWrapper>
-          <Heading level={4}>{product?.title}</Heading>
+          <Heading level={4}>
+            {product?.title}
+            {productSize && (
+              <span
+                style={{
+                  fontSize: '0.68em',
+                  fontStyle: 'italic',
+                  paddingLeft: '1em',
+                }}
+              >
+                Size {productSize}
+              </span>
+            )}
+          </Heading>
           <StatusWrapper>
             <Heading level={5}>{open ? `close` : `expand`}</Heading>
             <PlusMinus open={open} />

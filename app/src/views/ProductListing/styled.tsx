@@ -69,6 +69,14 @@ export const NoResultsWrapper = styled.div`
   justify-content: center;
 `
 
+export const HighValueHeaderWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 60%;
+  margin: 0 auto;
+  padding: 120px 10;
+`
+
 export const FooterGrid = styled.div`
   ${({ theme }) => css`
     display: grid;
