@@ -14,7 +14,7 @@ export const Wrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0 120px 64px;
+    padding: 0 120px 64px 0;
     gap: 5;
 
     ${theme.mediaQueries.mobile} {
@@ -168,10 +168,9 @@ export const ActiveImageWrapper = styled.div`
     position: relative;
     justify-content: center;
     align-items: center;
-    width: max(400px, 27%);
+    width: max(500px, 50%);
     aspect-ratio: 1;
     cursor: pointer;
-    max-width: 50%;
 
     ${theme.mediaQueries.mobile} {
       width: 100%;

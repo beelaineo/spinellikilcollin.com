@@ -33,9 +33,44 @@ export const Inner = styled.div<WithOpen>`
   `}
 `
 
-export const Item = styled.div`
-  padding: 2 0 4;
-  opacity: 1;
+export const Item = styled.div<WithProduct>`
+  ${({ isProduct }) => css`
+    padding: 2 0 4;
+    opacity: 1;
+    ${isProduct &&
+    css`
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: 240px;
+
+      .pd-wrapper {
+        max-width: 405px;
+        .pd-options {
+          display: flex;
+          button {
+            width: 100%;
+          }
+        }
+      }
+      .hv-description {
+        ul li {
+          white-space: normal;
+        }
+        ul ul {
+          font-weight: 300;
+          line-height: 1.1;
+          margin: 12px 0;
+          padding-left: 2em;
+          white-space: normal;
+          li {
+            margin: 0;
+            line-height: 1.1;
+            white-space: normal;
+          }
+        }
+      }
+    `}
+  `}
 `
 
 export const Wrapper = styled.div<WithProduct>`
@@ -113,6 +148,7 @@ export const TextWrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     width: 100%;
     padding-bottom: 6;
 

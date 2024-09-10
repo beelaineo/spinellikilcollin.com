@@ -83,10 +83,10 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
     return (
       <ProductButton onClick={toggleOpen}>
         <ProductImageWrapper>
-          {coverImage && <Image image={coverImage} ratio={0.67} />}
+          {coverImage && <Image image={coverImage} ratio={1} />}
         </ProductImageWrapper>
         <TextWrapper>
-          <Heading level={4}>
+          <Heading level={3}>
             {product?.title}
             {productSize && (
               <span
@@ -120,7 +120,9 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
       {product && renderProductButton()}
 
       <Inner tabIndex={-1} open={open} height={height}>
-        <Item ref={refContainer}>{children}</Item>
+        <Item ref={refContainer} isProduct={Boolean(product)}>
+          {children}
+        </Item>
       </Inner>
     </Wrapper>
   )

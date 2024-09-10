@@ -25,7 +25,13 @@ import { Sort, Filter } from '../../components/Filter'
 import { Heading, P } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
-import { getHeroImage, isValidHero, definitely, unique } from '../../utils'
+import {
+  getHeroImage,
+  isValidHero,
+  definitely,
+  unique,
+  parseHTML,
+} from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
@@ -42,6 +48,7 @@ import {
 import { useSearch } from '../../providers'
 import { Accordion } from '../../components/Accordion'
 import { ImageGallery } from '../../components/ImageGallery'
+import { HighValueProductListItem } from './HighValueProductListItem'
 
 const { useRef, useEffect, useState } = React
 
@@ -76,6 +83,34 @@ type PaginationArgs = {
   handle: string
 }
 
+const InStockDot = styled('span')`
+  ${({ theme }) => css`
+    display: inline-block;
+    background-color: #00d009;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    border-radius: 100%;
+    border: 1px solid #f5f3f3;
+  `}
+`
+interface WithHide {
+  hide: boolean
+}
+
+const StockedLabelMobile = styled('div')<WithHide>`
+  ${({ theme, hide }) => css`
+    display: none;
+    margin-bottom: 4;
+    opacity: ${hide ? 0 : 1};
+    transition: 250ms ease;
+    font-size: ${theme.fontSizes[5]}px;
+    ${theme.mediaQueries.tablet} {
+      display: block;
+    }
+  `}
+`
+
 function isCollectionResult(
   r?: Collection[] | ShopifyProductListingProduct[],
 ): r is Collection[] {
@@ -104,6 +139,8 @@ export const ProductListing = ({
     overrideDefaultFilter,
     minimalDisplay,
   } = collection
+
+  console.log('PDL collection', collection)
 
   // console.log('collection', collection)
   const search = useSearch()
@@ -500,8 +537,6 @@ export const ProductListing = ({
 
   const validHero = isValidHero(hero)
 
-  console.log('collection', collection)
-
   const DescriptionWrapper = styled.div`
     ${({ theme }) => css`
       display: grid;
@@ -613,11 +648,13 @@ export const ProductListing = ({
                     </div>
                   </HighValueHeaderWrapper>
                   {items.map((item, index) => {
+                    console.log('item', item)
                     if (item.__typename === 'Product') {
                       return (
-                        <Accordion product={item} key={index}>
-                          <ImageGallery product={item} />
-                        </Accordion>
+                        <HighValueProductListItem
+                          product={item}
+                          key={item._id}
+                        />
                       )
                     }
                   })}

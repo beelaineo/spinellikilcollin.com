@@ -67,6 +67,7 @@ const productInner = `
     images,
     tags,
     title,
+    descriptionHtml,
     priceRange,
     productType,
     publishedAt,
