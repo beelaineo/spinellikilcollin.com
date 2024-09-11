@@ -67,10 +67,10 @@ export const Slide = ({ slide, slides, setActiveIndex }: ImageGalleryProps) => {
           <TextWrapper>
             <span>
               <Heading level={4} color="white">
-                Custom Linked Ring
+                {slide.title}
               </Heading>
               <Heading level={5} color="white">
-                Size 8
+                {slide.size}
               </Heading>
             </span>
             <button onClick={() => close()}>

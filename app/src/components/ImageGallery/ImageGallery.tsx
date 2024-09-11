@@ -37,8 +37,14 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
 
   const images = product?.images || []
 
+  const productSizes = product?.options?.find(
+    (option) => option?.name === 'Size',
+  )
+
+  const productSize = productSizes?.values?.[0]?.value ?? null
+
   const slides = images?.map((image, index) => {
-    return { ...image, index: index }
+    return { ...image, index: index, title: product.title, size: productSize }
   })
 
   const [open, setOpen] = React.useState(false)
