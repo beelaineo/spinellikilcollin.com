@@ -83,6 +83,7 @@ export const HighValueHeaderWrapper = styled.div`
 
       > h2 {
         grid-column: 1/-1;
+        font-size: 42px;
       }
       > div {
         grid-column: 1/-1;

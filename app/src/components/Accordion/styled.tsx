@@ -71,6 +71,21 @@ export const Item = styled.div<WithProduct>`
           }
         }
       }
+
+      ${theme.mediaQueries.mobile} {
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        .pd-wrapper {
+          order: -1;
+          margin-bottom: 4;
+          button {
+            margin: 2 0;
+          }
+        }
+        .pd-options em {
+          display: none;
+        }
+      }
     `}
     ${theme.mediaQueries.mobile} {
       > div {

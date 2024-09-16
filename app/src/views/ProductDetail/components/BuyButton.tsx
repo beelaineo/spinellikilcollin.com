@@ -22,7 +22,7 @@ const { useEffect, useRef, useState } = React
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
   product: Product
-  currentVariant: ShopifyProductVariant
+  currentVariant?: ShopifyProductVariant
   quantity?: number
 }
 
@@ -89,7 +89,7 @@ const shopifyVariantQuery = gql`
 const PENDING = 'PENDING'
 type IsInStockValue = typeof PENDING | true | false
 const useVariantIsInStock = (
-  variant: ShopifyProductVariant,
+  variant?: ShopifyProductVariant,
 ): IsInStockValue => {
   const [isInStock, setIsInStock] = useState<IsInStockValue>(PENDING)
   const currentVariantId = variant?.sourceData?.id

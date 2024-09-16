@@ -10,7 +10,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { Accordion } from '../../components/Accordion'
 import { ImageGallery } from '../../components/ImageGallery'
 import { addRecentlyViewedProduct } from '../../utils/recentlyViewed'
-import { useAnalytics, useCountry, useShopify } from '../../providers'
+import { useAnalytics, useCountry, useShopify, useModal } from '../../providers'
 
 const { useEffect, useState } = React
 
@@ -112,6 +112,7 @@ export const HighValueProductListItem = ({
   const { sendProductDetailView } = useAnalytics()
   const { currentCountry } = useCountry()
   const { productInfoSettings } = useShopData()
+  const { openCustomizationModal } = useModal()
   /* get product variant utils */
   if (!product.store) return null
   if (!product.store?.variants) return null
@@ -273,9 +274,10 @@ export const HighValueProductListItem = ({
   const productSize = productSizes?.values?.[0]?.value ?? null
 
   const handleInquiryClick = () => {
+    const variant = currentVariant || undefined
     openCustomizationModal({
       currentProduct: product,
-      currentVariant,
+      currentVariant: variant,
     })
   }
 
@@ -332,9 +334,16 @@ export const HighValueProductListItem = ({
         <BuyButton
           product={productWithInquiryOverride}
           addLineItem={addLineItem}
-          currentVariant={currentVariant}
+          currentVariant={currentVariant || undefined}
         />
-        <P fontSize={5}>Inquire about this piece</P>
+        <P fontSize={5}>
+          <button
+            style={{ textDecoration: 'underline' }}
+            onClick={handleInquiryClick}
+          >
+            Inquire about this piece
+          </button>
+        </P>
       </div>
     </Accordion>
   )
