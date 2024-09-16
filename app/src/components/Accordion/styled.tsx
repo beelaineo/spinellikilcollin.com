@@ -34,7 +34,7 @@ export const Inner = styled.div<WithOpen>`
 `
 
 export const Item = styled.div<WithProduct>`
-  ${({ isProduct }) => css`
+  ${({ isProduct, theme }) => css`
     padding: 2 0 4;
     opacity: 1;
     ${isProduct &&
@@ -45,6 +45,8 @@ export const Item = styled.div<WithProduct>`
 
       .pd-wrapper {
         max-width: 405px;
+        display: flex;
+        flex-direction: column;
         .pd-options {
           display: flex;
           button {
@@ -70,15 +72,24 @@ export const Item = styled.div<WithProduct>`
         }
       }
     `}
+    ${theme.mediaQueries.mobile} {
+      > div {
+        padding: 0;
+        grid-column: 1/-1;
+      }
+    }
   `}
 `
 
 export const Wrapper = styled.div<WithProduct>`
-  ${({ isProduct }) => css`
+  ${({ isProduct, theme }) => css`
     ${isProduct
       ? css`
           border-top: 1px solid;
           margin: 0 40px 40px;
+          &:first-of-type {
+            border-top: none;
+          }
         `
       : css`
           border-top: 1px solid;
@@ -86,6 +97,14 @@ export const Wrapper = styled.div<WithProduct>`
 
     &:last-of-type {
       border-bottom: 1px solid;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      margin: 0 30px;
+
+      &:nth-of-type(2) {
+        border-top: none;
+      }
     }
   `}
 `
@@ -121,7 +140,7 @@ export const ProductButton = styled.button`
     align-items: center;
 
     ${theme.mediaQueries.mobile} {
-      padding: 0;
+      padding: 5 0;
       gap: 3;
     }
 
@@ -150,15 +169,23 @@ export const TextWrapper = styled.div`
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding-bottom: 6;
+    padding: 6 0;
 
-    > h4 {
+    > h3 {
       width: 100%;
-      margin: 0;
       line-height: 1;
       text-align: center;
 
       ${theme.mediaQueries.mobile} {
+        text-align: left;
+      }
+    }
+    ${theme.mediaQueries.mobile} {
+      padding: 0;
+      justify-content: space-between;
+
+      > h3 {
+        flex-basis: 70%;
         text-align: left;
       }
     }

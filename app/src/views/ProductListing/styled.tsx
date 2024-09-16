@@ -70,11 +70,25 @@ export const NoResultsWrapper = styled.div`
 `
 
 export const HighValueHeaderWrapper = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 60%;
-  margin: 0 auto;
-  padding: 120px 10;
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 60%;
+    margin: 0 auto;
+    padding: 120px 10;
+
+    ${theme.mediaQueries.mobile} {
+      padding: 60px 6;
+      width: 100%;
+
+      > h2 {
+        grid-column: 1/-1;
+      }
+      > div {
+        grid-column: 1/-1;
+      }
+    }
+  `}
 `
 
 export const FooterGrid = styled.div`

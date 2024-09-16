@@ -35,8 +35,6 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
 
   const refContainer = useRef<HTMLDivElement>(null)
 
-  console.log(product)
-
   const coverImage = product?.images
     ? product?.images[product.images.length - 1]
     : null

@@ -1,43 +1,21 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
-import {
-  Collection,
-  Product,
-  CollectionBlock as CollectionBlockType,
-  Filter as FilterType,
-  FilterSet as FilterSetType,
-  InStockFilter as InStockFilterType,
-  PriceRangeMinMaxFilter as PriceRangeMinMaxFilterType,
-  FilterConfiguration,
-  Maybe,
-} from '../../types'
-import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
-import { Sort, Filter } from '../../components/Filter'
+import { Product, Maybe } from '../../types'
 import { Heading, P } from '../../components/Text'
-import { RichText } from '../../components/RichText'
-import { Button } from '../../components/Button'
-import { definitely, unique, parseHTML, useProductVariant } from '../../utils'
+
+import { definitely, parseHTML, useProductVariant } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
-import { useInViewport, useSanityQuery } from '../../hooks'
-import { SEO } from '../../components/SEO'
-import { Loading } from '../../components/Loading'
-import styled, { css, Box } from '@xstyled/styled-components'
-import {
-  LoadingWrapper,
-  ProductGridWrapper,
-  Wrapper,
-  NoResultsWrapper,
-  HighValueHeaderWrapper,
-} from './styled'
+
+import styled, { css } from '@xstyled/styled-components'
+
 import { Accordion } from '../../components/Accordion'
 import { ImageGallery } from '../../components/ImageGallery'
 import { addRecentlyViewedProduct } from '../../utils/recentlyViewed'
 import { useAnalytics, useCountry, useShopify } from '../../providers'
 
-const { useRef, useEffect, useState } = React
+const { useEffect, useState } = React
 
 import { config } from '../../config'
-import { ProductVariantSelector, BuyButton } from '../ProductDetail/components'
+import { BuyButton } from '../ProductDetail/components'
 const { SHOW_IN_STOCK_INDICATORS } = config
 const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 
