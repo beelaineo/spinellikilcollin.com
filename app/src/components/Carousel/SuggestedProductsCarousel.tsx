@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { gql } from 'graphql-tag'
-import {
-  Collection,
-  Product,
-  ShopifyProductVariant,
-  ShopifySourceProductVariant,
-} from '../../types'
+import { Collection, Product, ShopifyProductVariant } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
-import { definitely, getVariantTitle, useViewportSize } from '../../utils'
-import {
-  useLazyRequest,
-  shopifyImageFragment,
-  shopifyVariantImageFragment,
-} from '../../graphql'
+import { definitely, useViewportSize } from '../../utils'
+import { useLazyRequest, shopifyVariantImageFragment } from '../../graphql'
 import { Maybe } from 'yup'
 
 //if collection then collection else prroducttype, then dollars within a range?
@@ -294,7 +285,21 @@ export const SuggestedProductsCarousel = ({
       (v: any) => !v?.title.includes(product?.title),
     )
 
-    setVariants(variantsWithoutCurrent as Maybe<ShopifyProductVariant>[])
+    const uniqueVariantsSet = new Set()
+
+    const uniqueVariants = variantsWithoutCurrent.filter((item) => {
+      if (
+        uniqueVariantsSet.has(item.product.title) ||
+        item.product.title === product.title
+      ) {
+        return false
+      } else {
+        uniqueVariantsSet.add(item.product.title)
+        return true
+      }
+    })
+
+    setVariants(uniqueVariants as Maybe<ShopifyProductVariant>[])
   }, [data, currentVariant])
 
   const filteredProducts = variants
