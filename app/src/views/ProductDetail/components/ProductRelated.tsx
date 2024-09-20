@@ -23,7 +23,7 @@ const getCarousel = (product: Product): CarouselType | Collection | null => {
   const { related, collections } = product
 
   if (related) {
-    if (related.items) return related
+    if (related.items.length) return related
     if (related.collection) return related.collection
   }
   if (collections && collections.length) return collections[0]
