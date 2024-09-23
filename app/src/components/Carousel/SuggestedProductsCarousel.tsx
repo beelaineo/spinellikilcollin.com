@@ -285,19 +285,30 @@ export const SuggestedProductsCarousel = ({
       (v: any) => !v?.title.includes(product?.title),
     )
 
-    const uniqueVariantsSet = new Set()
+    const uniqueVariantSet = variantsWithoutCurrent.reduce((acc, current) => {
+      const options = current.sourceData.selectedOptions
 
-    const uniqueVariants = variantsWithoutCurrent.filter((item) => {
-      if (
-        uniqueVariantsSet.has(item.product.title) ||
-        item.product.title === product.title
-      ) {
-        return false
-      } else {
-        uniqueVariantsSet.add(item.product.title)
-        return true
+      const currentStyle = currentVariant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Style',
+      )?.value
+      const currentColor = currentVariant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Color',
+      )?.value
+
+      const style = options.find((option) => option.name === 'Style')?.value
+      const color = options.find((option) => option.name === 'Color')?.value
+
+      const uniqueCurrentKey = currentStyle || currentColor
+      const uniqueKey = style || color
+
+      if (uniqueKey !== uniqueCurrentKey && !acc.has(uniqueKey)) {
+        acc.set(uniqueKey, current)
       }
-    })
+
+      return acc
+    }, new Map())
+
+    const uniqueVariants = Array.from(uniqueVariantSet.values())
 
     setVariants(uniqueVariants as Maybe<ShopifyProductVariant>[])
   }, [data, currentVariant])
