@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { gql } from 'graphql-tag'
-import {
-  Collection,
-  Product,
-  ShopifyProductVariant,
-  ShopifySourceProductVariant,
-} from '../../types'
+import { Collection, Product, ShopifyProductVariant } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
-import { definitely, getVariantTitle, useViewportSize } from '../../utils'
-import {
-  useLazyRequest,
-  shopifyImageFragment,
-  shopifyVariantImageFragment,
-} from '../../graphql'
+import { definitely, useViewportSize } from '../../utils'
+import { useLazyRequest, shopifyVariantImageFragment } from '../../graphql'
 import { Maybe } from 'yup'
 
 //if collection then collection else prroducttype, then dollars within a range?
@@ -294,7 +285,32 @@ export const SuggestedProductsCarousel = ({
       (v: any) => !v?.title.includes(product?.title),
     )
 
-    setVariants(variantsWithoutCurrent as Maybe<ShopifyProductVariant>[])
+    const uniqueVariantSet = variantsWithoutCurrent.reduce((acc, current) => {
+      const options = current.sourceData.selectedOptions
+
+      const currentStyle = currentVariant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Style',
+      )?.value
+      const currentColor = currentVariant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Color',
+      )?.value
+
+      const style = options.find((option) => option.name === 'Style')?.value
+      const color = options.find((option) => option.name === 'Color')?.value
+
+      const uniqueCurrentKey = currentStyle || currentColor
+      const uniqueKey = style || color
+
+      if (uniqueKey !== uniqueCurrentKey && !acc.has(uniqueKey)) {
+        acc.set(uniqueKey, current)
+      }
+
+      return acc
+    }, new Map())
+
+    const uniqueVariants = Array.from(uniqueVariantSet.values())
+
+    setVariants(uniqueVariants as Maybe<ShopifyProductVariant>[])
   }, [data, currentVariant])
 
   const filteredProducts = variants
