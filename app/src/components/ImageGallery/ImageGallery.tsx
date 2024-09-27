@@ -23,9 +23,10 @@ interface ProductListingImageGalleryProduct extends Product {
 
 interface ImageGalleryProps {
   product?: ProductListingImageGalleryProduct
+  onClick?: any
 }
 
-export const ImageGallery = ({ product }: ImageGalleryProps) => {
+export const ImageGallery = ({ product, onClick }: ImageGalleryProps) => {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -73,7 +74,9 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
   return (
     <>
       <Wrapper>
-        <ActiveImageWrapper onClick={() => isMedium && setOpen(true)}>
+        <ActiveImageWrapper
+          onClick={() => (isMedium ? setOpen(true) : onClick())}
+        >
           <Image image={images[activeIndex]} ratio={1} />
         </ActiveImageWrapper>
 

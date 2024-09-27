@@ -11,6 +11,11 @@ interface WithProduct {
   open?: boolean
 }
 
+interface ProductImageWrapperProps {
+  onClick: any
+  open?: boolean
+}
+
 export const Inner = styled.div<WithOpen>`
   ${({ open, height }) => css`
     overflow: hidden;
@@ -208,10 +213,16 @@ export const ProductButton = styled.button`
   `}
 `
 
-export const ProductImageWrapper = styled.div`
-  ${({ theme }) => css`
+export const ProductImageWrapper = styled.div<ProductImageWrapperProps>`
+  ${({ theme, open }) => css`
     position: relative;
     width: 60%;
+
+    ${open
+      ? css`
+          cursor: default;
+        `
+      : `cursor: pointer`}
 
     ${theme.mediaQueries.mobile} {
       width: 100%;
