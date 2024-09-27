@@ -22,7 +22,7 @@ interface ProductListingImageGalleryProduct extends Product {
 }
 
 interface ImageGalleryProps {
-  product: ProductListingImageGalleryProduct
+  product?: ProductListingImageGalleryProduct
 }
 
 export const ImageGallery = ({ product }: ImageGalleryProps) => {
@@ -35,7 +35,13 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
 
   const { lockScroll, unlockScroll } = useLockScroll()
 
-  const images = product?.images || []
+  const productImages = product?.images ?? []
+
+  const images = isMedium
+    ? productImages
+    : productImages.length > 0
+    ? [productImages[productImages.length - 1], ...productImages.slice(0, -1)]
+    : []
 
   const productSizes = product?.options?.find(
     (option) => option?.name === 'Size',
@@ -44,7 +50,7 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
   const productSize = productSizes?.values?.[0]?.value ?? null
 
   const slides = images?.map((image, index) => {
-    return { ...image, index: index, title: product.title, size: productSize }
+    return { ...image, index: index, title: product?.title, size: productSize }
   })
 
   const [open, setOpen] = React.useState(false)
@@ -89,6 +95,7 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
         close={() => setOpen(false)}
         index={activeIndex}
         animation={{ swipe: 0 }}
+        // @ts-ignore
         slides={slides}
         on={{ entered: () => onEnter(), exited: () => onExit() }}
         styles={

@@ -16,6 +16,7 @@ const { useEffect, useState } = React
 
 import { config } from '../../config'
 import { BuyButton } from '../ProductDetail/components'
+import ShippingStatus from '../ProductDetail/components/ShippingStatus'
 const { SHOW_IN_STOCK_INDICATORS } = config
 const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 
@@ -292,50 +293,29 @@ export const HighValueProductListItem = ({
             <div className="hv-description">{description}</div>
           </div>
         ) : null}
-        <div className="pd-options">
-          {productSize && (
-            <Heading level={5}>
-              Size: {productSize}
-              {variantsInStock?.length > 0 && showInStockIndicators
-                ? ' | In Stock'
-                : ''}
-            </Heading>
-          )}
-          {/* {currentVariant && (
-            <ProductVariantSelector
-              variants={variants}
-              currentVariant={currentVariant}
-              changeValueForOption={changeValueForOption}
-              product={product}
-              setIsInquiryOnly={setIsInquiryOnly}
-            />
-          )} */}
-          {variantsInStock?.length > 0 && showInStockIndicators ? (
-            <StockedLabelMobile
-              hide={
-                !isSwatchCurrentlyInStock(
-                  currentVariant,
-                  stockedColorOptions,
-                  stockedVariants,
-                )
-              }
-            >
-              <Heading level={4} weight={1} as={'em'}>
-                <InStockDot />
-                {currentlyNotInStock !== true &&
-                currentVariant &&
-                !currentVariant?.title?.includes('Not sure of my size')
-                  ? 'In Stock'
-                  : 'In Stock in Select Sizes'}
+        <div className="pd-inner">
+          <div className="pd-options">
+            {productSize && (
+              <Heading level={5}>
+                Size: {productSize}
+                {variantsInStock?.length > 0 && showInStockIndicators
+                  ? ' | In Stock'
+                  : ''}
               </Heading>
-            </StockedLabelMobile>
-          ) : null}
+            )}
+
+            <Heading level={5} weight={2}>
+              <ShippingStatus
+                readyToShip={!currentVariant?.sourceData?.currentlyNotInStock}
+              />
+            </Heading>
+          </div>
+          <BuyButton
+            product={productWithInquiryOverride}
+            addLineItem={addLineItem}
+            currentVariant={currentVariant || undefined}
+          />
         </div>
-        <BuyButton
-          product={productWithInquiryOverride}
-          addLineItem={addLineItem}
-          currentVariant={currentVariant || undefined}
-        />
         <P fontSize={5}>
           <button
             style={{ textDecoration: 'underline' }}

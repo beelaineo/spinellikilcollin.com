@@ -8,6 +8,7 @@ interface WithOpen {
 
 interface WithProduct {
   isProduct?: boolean
+  open?: boolean
 }
 
 export const Inner = styled.div<WithOpen>`
@@ -35,7 +36,7 @@ export const Inner = styled.div<WithOpen>`
 
 export const Item = styled.div<WithProduct>`
   ${({ isProduct, theme }) => css`
-    padding: 2 0 4;
+    padding: 2 0 0;
     opacity: 1;
     ${isProduct &&
     css`
@@ -43,12 +44,24 @@ export const Item = styled.div<WithProduct>`
       grid-template-columns: 1fr 1fr;
       column-gap: 240px;
 
+      .pd-inner {
+        display: flex;
+        flex-direction: column;
+        > h5 {
+          display: none;
+        }
+      }
       .pd-wrapper {
         max-width: 405px;
         display: flex;
         flex-direction: column;
+        > div:first-of-type {
+          padding-top: 3;
+        }
         .pd-options {
           display: flex;
+          align-items: center;
+          gap: 20%;
           button {
             width: 100%;
           }
@@ -72,15 +85,27 @@ export const Item = styled.div<WithProduct>`
         }
       }
 
+      ${theme.mediaQueries.tablet} {
+        column-gap: 0px;
+      }
+
       ${theme.mediaQueries.mobile} {
         grid-template-columns: 1fr;
         column-gap: 0;
+        .pd-inner {
+          order: -1;
+        }
+
         .pd-wrapper {
           order: -1;
           margin-bottom: 4;
           button {
             margin: 2 0;
           }
+        }
+        .pd-options {
+          gap: 7;
+          margin-top: -20px;
         }
         .pd-options em {
           display: none;
@@ -89,21 +114,33 @@ export const Item = styled.div<WithProduct>`
     `}
     ${theme.mediaQueries.mobile} {
       > div {
-        padding: 0;
-        grid-column: 1/-1;
+        display: none;
       }
     }
   `}
 `
 
 export const Wrapper = styled.div<WithProduct>`
-  ${({ isProduct, theme }) => css`
+  ${({ isProduct, theme, open }) => css`
     ${isProduct
       ? css`
           border-top: 1px solid;
-          margin: 0 40px 40px;
+
+          ${open
+            ? css`
+                padding-bottom: 8;
+                transition: padding-bottom 0s linear 0.5s;
+              `
+            : `padding-bottom: 0;`}
+
+          max-width: 1200px;
+          margin: 0 auto;
+
           &:first-of-type {
             border-top: none;
+          }
+          ${theme.mediaQueries.mobile} {
+            padding-bottom: 0;
           }
         `
       : css`
@@ -114,7 +151,7 @@ export const Wrapper = styled.div<WithProduct>`
       border-bottom: 1px solid;
     }
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       margin: 0 30px;
 
       &:nth-of-type(2) {
@@ -145,7 +182,8 @@ export const Label = styled.button`
 export const ProductButton = styled.button`
   ${({ theme }) => css`
     position: relative;
-    padding: 3 10;
+    padding: 8 10 0;
+
     width: 100%;
     text-align: center;
     background-color: transparent;
@@ -154,8 +192,13 @@ export const ProductButton = styled.button`
     justify-content: center;
     align-items: center;
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       padding: 5 0;
+      gap: 3;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 5 0 3;
       gap: 3;
     }
 

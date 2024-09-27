@@ -14,11 +14,16 @@ export const Wrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0 120px 64px 0;
+    padding: 0;
     gap: 5;
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       padding: 0 30px;
+      gap: 3;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 0;
       gap: 3;
     }
   `}
@@ -113,6 +118,7 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
     justify-content: center;
     align-items: center;
     width: max(64px, 5%);
+    flex-shrink: 0;
     aspect-ratio: 1;
     padding-bottom: 10px;
 
@@ -121,7 +127,7 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
       cursor: pointer;
     `};
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       width: max(44px, 15%);
     }
 
@@ -171,6 +177,10 @@ export const ActiveImageWrapper = styled.div`
     width: max(500px, 50%);
     aspect-ratio: 1;
     cursor: pointer;
+
+    ${theme.mediaQueries.tablet} {
+      width: min(300px, 40vw);
+    }
 
     ${theme.mediaQueries.mobile} {
       width: 100%;
