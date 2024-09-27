@@ -73,8 +73,16 @@ const queryByCollection = gql`
 `
 
 const queryByProductType = gql`
-  query CarouselSuggestedProductsQuery($productType: ID!) {
-    allProducts(where: { store: { productType: { eq: $productType } } }) {
+  query CarouselSuggestedProductsQuery($productType: String!) {
+    allProduct(
+      where: {
+        hideFromSearch: { neq: true }
+        archived: { neq: true }
+        hidden: { neq: true }
+        hideFromCollections: { neq: true }
+        store: { productType: { eq: $productType } }
+      }
+    ) {
       __typename
       _id
       _key
@@ -129,7 +137,7 @@ const queryByProductType = gql`
 
 interface Response {
   allCollection: Collection[]
-  allProducts: Collection[]
+  allProduct: Collection[]
 }
 interface Variables {
   collectionId?: string | null | undefined
@@ -165,13 +173,13 @@ export const SuggestedProductsCarousel = ({
 
   useEffect(() => {
     if (Boolean(data)) return
-    if (!variables.collectionId) return
+    if (!variables) return
     getCarousel(variables)
   }, [data])
 
   const fetchedCollection: any = collection?._id
     ? data?.allCollection[0]?.products
-    : data?.allProducts[0]
+    : data?.allProduct
 
   const products = definitely(fetchedCollection)
 
