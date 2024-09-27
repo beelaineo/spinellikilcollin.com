@@ -7,6 +7,10 @@ interface ThumbnailWrapperProps {
   isOpen?: boolean
 }
 
+interface ThumbnailsWrapperProps {
+  hide?: boolean
+}
+
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
@@ -29,17 +33,22 @@ export const Wrapper = styled.div`
   `}
 `
 
-export const ThumbnailsWrapper = styled.div`
-  position: relative;
-  text-align: left;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 3;
+export const ThumbnailsWrapper = styled.div<ThumbnailsWrapperProps>`
+  ${({ hide }) => css`
+    position: relative;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 3;
 
-  img {
-    opacity: 1 !important;
-  }
+    transition: height 1s ease-in-out;
+    ${hide && `display: none;`};
+
+    img {
+      opacity: 1 !important;
+    }
+  `}
 `
 
 export const SlideContainer = styled.div`

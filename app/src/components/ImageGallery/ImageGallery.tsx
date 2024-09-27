@@ -24,9 +24,14 @@ interface ProductListingImageGalleryProduct extends Product {
 interface ImageGalleryProps {
   product?: ProductListingImageGalleryProduct
   onClick?: any
+  hideThumbnails?: boolean
 }
 
-export const ImageGallery = ({ product, onClick }: ImageGalleryProps) => {
+export const ImageGallery = ({
+  product,
+  onClick,
+  hideThumbnails = false,
+}: ImageGalleryProps) => {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -80,7 +85,7 @@ export const ImageGallery = ({ product, onClick }: ImageGalleryProps) => {
           <Image image={images[activeIndex]} ratio={1} />
         </ActiveImageWrapper>
 
-        <ThumbnailsWrapper>
+        <ThumbnailsWrapper hide={hideThumbnails}>
           {images?.map((image: RichImage | ShopifyImage, index: number) => (
             <ThumbnailWrapper
               key={index}

@@ -87,7 +87,11 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
     return (
       <ProductButton>
         {isMobile ? (
-          <ImageGallery product={product} onClick={!open ? toggleOpen : null} />
+          <ImageGallery
+            hideThumbnails={!open}
+            product={product}
+            onClick={!open ? toggleOpen : null}
+          />
         ) : (
           <ProductImageWrapper open={open} onClick={!open ? toggleOpen : null}>
             {coverImage && <Image image={coverImage} ratio={0.5} />}
