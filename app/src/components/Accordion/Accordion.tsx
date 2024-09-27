@@ -93,7 +93,7 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
             {coverImage && <Image image={coverImage} ratio={0.5} />}
           </ProductImageWrapper>
         )}
-        <TextWrapper onClick={toggleOpen}>
+        <TextWrapper onClick={!open ? toggleOpen : null} open={open}>
           <Heading level={3}>
             {product?.title}
             {productSize && (
@@ -108,7 +108,7 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
               </span>
             )}
           </Heading>
-          <StatusWrapper>
+          <StatusWrapper onClick={toggleOpen}>
             <Heading level={5}>{open ? `close` : `expand`}</Heading>
             <PlusMinus open={open} />
           </StatusWrapper>

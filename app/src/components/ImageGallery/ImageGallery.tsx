@@ -75,7 +75,7 @@ export const ImageGallery = ({ product, onClick }: ImageGalleryProps) => {
     <>
       <Wrapper>
         <ActiveImageWrapper
-          onClick={() => (isMedium ? setOpen(true) : onClick())}
+          onClick={() => (isMedium ? setOpen(true) : onClick && onClick())}
         >
           <Image image={images[activeIndex]} ratio={1} />
         </ActiveImageWrapper>

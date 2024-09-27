@@ -11,7 +11,7 @@ interface WithProduct {
   open?: boolean
 }
 
-interface ProductImageWrapperProps {
+interface ClickProps {
   onClick: any
   open?: boolean
 }
@@ -184,7 +184,7 @@ export const Label = styled.button`
     }
   `}
 `
-export const ProductButton = styled.button`
+export const ProductButton = styled.span`
   ${({ theme }) => css`
     position: relative;
     padding: 8 10 0;
@@ -213,16 +213,14 @@ export const ProductButton = styled.button`
   `}
 `
 
-export const ProductImageWrapper = styled.div<ProductImageWrapperProps>`
+export const ProductImageWrapper = styled.div<ClickProps>`
   ${({ theme, open }) => css`
     position: relative;
     width: 60%;
 
-    ${open
-      ? css`
-          cursor: default;
-        `
-      : `cursor: pointer`}
+    cursor: pointer;
+
+    ${open && `cursor: default;`}
 
     ${theme.mediaQueries.mobile} {
       width: 100%;
@@ -230,8 +228,8 @@ export const ProductImageWrapper = styled.div<ProductImageWrapperProps>`
   `}
 `
 
-export const TextWrapper = styled.div`
-  ${({ theme }) => css`
+export const TextWrapper = styled.div<ClickProps>`
+  ${({ theme, open }) => css`
     position: relative;
     display: flex;
     flex-direction: row;
@@ -239,6 +237,10 @@ export const TextWrapper = styled.div`
     justify-content: center;
     width: 100%;
     padding: 6 0;
+
+    cursor: pointer;
+
+    ${open && `cursor: initial;`}
 
     > h3 {
       width: 100%;
@@ -270,6 +272,8 @@ export const StatusWrapper = styled.div`
     align-items: center;
     gap: 20px;
     right: 0;
+
+    cursor: pointer;
 
     > h5 {
       margin: 0;
