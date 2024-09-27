@@ -80,7 +80,7 @@ export const TextWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -206,7 +206,7 @@ export const NavLeft = styled.button`
     left: 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
     cursor: pointer;
     pointer-events: all;
 
@@ -221,7 +221,7 @@ export const NavRight = styled.button`
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     pointer-events: all;
 
