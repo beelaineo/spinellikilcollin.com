@@ -29,11 +29,11 @@ interface FilterCheckboxProps {
 }
 
 interface WithIsApplied {
-  isApplied: boolean
+  $isApplied: boolean
 }
 
 const FilterSingleWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
-  ${({ theme, isApplied }) => css`
+  ${({ theme, $isApplied }) => css`
     margin: 0;
     cursor: pointer;
     position: relative;
@@ -46,7 +46,7 @@ const FilterSingleWrapper = styled(PriceRangeFilterWrapper)<WithIsApplied>`
       min-width: 130px !important;
       text-align: center !important;
       justify-content: center !important;
-      background-color: ${isApplied
+      background-color: ${$isApplied
         ? theme.colors.grays[4]
         : theme.colors.grays[2]};
       label {
@@ -134,7 +134,7 @@ export const FilterSingle = ({
       onMouseLeave={handleMouseLeave}
       onBlur={handleBlur}
       onClick={toggleMatch(filterSingle._key || 'some-key')}
-      isApplied={activeMatchKeys.includes(filterSingle._key || 'foo')}
+      $isApplied={activeMatchKeys.includes(filterSingle._key || 'foo')}
       tabIndex={0}
     >
       <HeadingWrapper>

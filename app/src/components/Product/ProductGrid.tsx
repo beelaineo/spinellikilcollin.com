@@ -15,15 +15,15 @@ import { definitely } from '../../utils'
 import { useRouter } from 'next/router'
 
 interface ProductGridWrapperProps {
-  reduceColumnCount?: boolean | null
+  $reduceColumnCount?: boolean | null
   ref?: any
 }
 
 const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
-  ${({ theme, reduceColumnCount }) => css`
+  ${({ theme, $reduceColumnCount }) => css`
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(${reduceColumnCount ? '2' : '3'}, 1fr);
+    grid-template-columns: repeat(${$reduceColumnCount ? '2' : '3'}, 1fr);
     justify-content: space-evenly;
     padding: 0;
     grid-auto-rows: min-content;
@@ -34,8 +34,8 @@ const ProductGridWrapper = styled.div<ProductGridWrapperProps>`
     }
 
     ${theme.mediaQueries.tablet} {
-      grid-template-columns: ${reduceColumnCount ? '1fr' : 'repeat(2, 1fr)'};
-      display: ${reduceColumnCount ? 'block' : 'grid'};
+      grid-template-columns: ${$reduceColumnCount ? '1fr' : 'repeat(2, 1fr)'};
+      display: ${$reduceColumnCount ? 'block' : 'grid'};
     }
     ${theme.mediaQueries.mobile} {
       display: block;
@@ -126,7 +126,7 @@ export const ProductGrid = ({
   const featuredLayout = router.query.collectionSlug === '925-collection'
 
   return (
-    <ProductGridWrapper reduceColumnCount={reduceColumnCount}>
+    <ProductGridWrapper $reduceColumnCount={reduceColumnCount}>
       {definitely(items).map((item) => {
         switch (item.__typename) {
           case 'CollectionBlock':

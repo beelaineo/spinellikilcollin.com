@@ -77,12 +77,12 @@ export const OptionSwatches = ({
           as={onSwatchClick ? 'button' : undefined}
           role="button"
           tabIndex={0}
-          clickable={Boolean(onSwatchClick)}
+          $clickable={Boolean(onSwatchClick)}
           onClick={onSwatchClick ? onSwatchClick(option, value) : undefined}
           onMouseEnter={
             onSwatchHover ? onSwatchHover(option, value) : undefined
           }
-          active={isSwatchActive ? isSwatchActive(option, value) : false}
+          $active={isSwatchActive ? isSwatchActive(option, value) : false}
           aria-label={'Select color ' + value.value}
         >
           <Image

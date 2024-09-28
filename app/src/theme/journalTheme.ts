@@ -1,4 +1,4 @@
-import { DefaultTheme } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 
 export const journalTheme = (theme: DefaultTheme): DefaultTheme => {
   return {

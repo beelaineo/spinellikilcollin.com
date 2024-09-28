@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box } from '@xstyled/styled-components'
+import { x } from '@xstyled/styled-components'
 import { RichPageLink as RichPageLinkType } from '../types'
 import { DocumentLink } from './DocumentLink'
 import { RichText } from './RichText'
@@ -42,14 +42,14 @@ export const RichPageLink = ({ link }: RichPageLinkProps) => {
       return (
         <DocumentLink document={link.document}>
           <Image hoverImage={hoverImage} image={image} ratio={1} />
-          <Box mt={3}>
+          <x.div mt={3}>
             <Heading weight={3} level={5}>
               {linkTitle}
             </Heading>
             {captionRaw && captionRaw.length ? (
               <RichText body={captionRaw} blockWrapper={Subtitle} />
             ) : null}
-          </Box>
+          </x.div>
         </DocumentLink>
       )
   }

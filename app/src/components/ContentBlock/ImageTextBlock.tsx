@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { Box, css } from '@xstyled/styled-components'
+import styled, { x, css } from '@xstyled/styled-components'
 import { ImageTextBlock as ImageTextBlockType } from '../../types'
 import { Heading } from '../Text'
 import { RichText } from '../RichText'
@@ -15,16 +15,16 @@ import { useMedia } from '../../hooks'
 import { theme } from '../../theme'
 
 interface WithLayout {
-  layout?: string | null
+  $layout?: string | null
 }
 
 const Wrapper = styled.div<WithLayout>`
-  ${({ theme, layout }) => css`
+  ${({ theme, $layout }) => css`
     position: relative;
 
     width: 100%;
     background-color: body.0;
-    grid-column: ${layout === 'fullWidth' ? '1 / 3' : 'auto'};
+    grid-column: ${$layout === 'fullWidth' ? '1 / 3' : 'auto'};
 
     &:hover ${HoverImage} {
       opacity: 1;
@@ -75,11 +75,11 @@ const CtaWrapper = styled.div`
 `
 
 interface TextWrapperProps {
-  textPosition: string | null | void
+  $textPosition: string | null | void
 }
 
 const TextWrapper = styled.div<TextWrapperProps>`
-  ${({ textPosition, theme }) => css`
+  ${({ $textPosition, theme }) => css`
     padding: 6;
     position: absolute;
     top: 0;
@@ -88,9 +88,9 @@ const TextWrapper = styled.div<TextWrapperProps>`
     height: 100%;
     z-index: 8;
     display: flex;
-    justify-content: ${getFlexJustification(textPosition)};
-    align-items: ${getFlexAlignment(textPosition)};
-    text-align: ${getTextAlignment(textPosition)};
+    justify-content: ${getFlexJustification($textPosition)};
+    align-items: ${getFlexAlignment($textPosition)};
+    text-align: ${getTextAlignment($textPosition)};
 
     h1,
     h2,
@@ -138,7 +138,7 @@ export const ImageTextBlock = ({
     layout,
   } = content
   const link = content.link ? content.link[0] : undefined
-  const textColor = content.textColor === 'light' ? 'grays.0' : 'grays.9'
+  const textColor = content.textColor === 'light' ? 'grays[0]' : 'grays.9'
 
   const ratio = layout === 'fullWidth' ? 0.48 : 1
   const isMobile = useMedia({
@@ -146,7 +146,7 @@ export const ImageTextBlock = ({
   })
 
   return (
-    <Wrapper layout={layout}>
+    <Wrapper $layout={layout}>
       <PageLink link={link} linkParams={linkParams}>
         <ImagesWrapper>
           <Image
@@ -157,8 +157,8 @@ export const ImageTextBlock = ({
           <Image image={backgroundImage} hoverImage={hoverImage} ratio={1} />
         </ImagesWrapper>
         {cloudinaryVideo ? <CloudinaryVideo video={cloudinaryVideo} /> : null}
-        <TextWrapper textPosition={textPosition}>
-          <Box color={textColor}>
+        <TextWrapper $textPosition={textPosition}>
+          <x.div color={textColor}>
             <RichText
               body={
                 isMobile && content.body_mobileRaw
@@ -173,7 +173,7 @@ export const ImageTextBlock = ({
                 </Heading>
               </CtaWrapper>
             ) : null}
-          </Box>
+          </x.div>
         </TextWrapper>
       </PageLink>
     </Wrapper>

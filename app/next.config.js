@@ -46,13 +46,23 @@ module.exports = withSourceMaps({
     locales: ['en'],
     defaultLocale: 'en',
   },
+  compiler: {
+    styledComponents: {
+      ssr: true,
+      topLevelImportPaths: [
+        '@xstyled/styled-components',
+        '@xstyled/styled-components/no-tags',
+        '@xstyled/styled-components/native',
+        '@xstyled/styled-components/primitives',
+      ],
+    },
+  },
   images: {
     domains: ['cdn.shopify.com'],
   },
   experimental: {
     scrollRestoration: true,
   },
-  // webpack5: false,
   publicRuntimeConfig: {
     EXCHANGE_RATE_API_KEY,
     SANITY_PROJECT_ID,
@@ -126,12 +136,24 @@ module.exports = withSourceMaps({
       },
     ]
   },
-  webpack: (config, { isServer, buildId }) => {
+
+  webpack: (config, { defaultLoaders, isServer, buildId }) => {
     config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.SENTRY_RELEASE': JSON.stringify(buildId),
       }),
     )
+
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        defaultLoaders.babel,
+        {
+          loader: '@svgr/webpack',
+          options: { babel: false },
+        },
+      ],
+    })
 
     const release = VERCEL_GITHUB_COMMIT_SHA || VERCEL_URL
 

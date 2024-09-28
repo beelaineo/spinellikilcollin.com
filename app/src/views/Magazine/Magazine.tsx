@@ -56,7 +56,7 @@ export const MagazineView = ({ magazine }: MagazineProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
       <PageWrapper tabIndex={-1}>
-        <Column columnwidth="wide">
+        <Column $columnwidth="wide">
           <Heading mt={4} mb={6} textAlign="center" level={2}>
             {title}
           </Heading>

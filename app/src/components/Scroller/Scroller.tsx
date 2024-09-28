@@ -17,15 +17,15 @@ export const SliderContext = createContext({
 })
 
 interface WrapperProps {
-  isBeginning?: boolean
-  isEnd?: boolean
+  $isBeginning?: boolean
+  $isEnd?: boolean
 }
 interface ContainerProps {
-  hasOverflow?: boolean
+  $hasOverflow?: boolean
 }
 
 const Wrapper = styled.section<WrapperProps>`
-  ${({ isBeginning, isEnd }) => css`
+  ${({ $isBeginning, $isEnd }) => css`
     width: 100%;
     position: relative;
     opacity: 1;
@@ -33,7 +33,7 @@ const Wrapper = styled.section<WrapperProps>`
     margin-bottom: 6;
 
     &:before {
-      opacity: ${isBeginning ? 0 : 1};
+      opacity: ${$isBeginning ? 0 : 1};
       transition: opacity 1s ease-out;
       z-index: 1;
       content: '';
@@ -51,7 +51,7 @@ const Wrapper = styled.section<WrapperProps>`
       );
     }
     &:after {
-      opacity: ${isEnd ? 0 : 1};
+      opacity: ${$isEnd ? 0 : 1};
       transition: opacity 1s ease-out;
       z-index: 1;
       content: '';
@@ -197,8 +197,8 @@ export const Scroller = ({
         scrollToIndex,
       }}
     >
-      <Wrapper ref={ref} isBeginning={isBeginning} isEnd={isEnd}>
-        <Container ref={containerRef} hasOverflow={hasOverflow}>
+      <Wrapper ref={ref} $isBeginning={isBeginning} $isEnd={isEnd}>
+        <Container ref={containerRef} $hasOverflow={hasOverflow}>
           <div // @ts-ignore
             ref={widthRef}
           >

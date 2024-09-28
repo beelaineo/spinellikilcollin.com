@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box } from '@xstyled/styled-components'
+import { x } from '@xstyled/styled-components'
 import { Contact } from '../../types'
 import { useModal } from '../../providers'
 import { PageWrapper } from '../../components/Layout'
@@ -23,7 +23,7 @@ const Chat = () => {
     }
   }
   return (
-    <Box width={{ xs: '100%', md: 'auto' }}>
+    <x.div w={{ xs: '100%', md: 'auto' }}>
       <ChatBox />
       <Heading my={4} level={3}>
         Contact us directly, via Chat
@@ -31,7 +31,7 @@ const Chat = () => {
       <Button onClick={launchChat} width="100%" minWidth="220px">
         Launch Chat
       </Button>
-    </Box>
+    </x.div>
   )
 }
 

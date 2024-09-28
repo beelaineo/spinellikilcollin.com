@@ -5,8 +5,6 @@ import { Field } from '../../../components/Forms'
 import { Heading } from '../../../components/Text'
 import { QuizTabWrapper, ContactFields, NextButton } from './styled'
 import { FormValues } from './types'
-import { Condition } from '../../../utils/catalogs'
-import { ShopifyStorefrontCollectionSortKeys } from '../../../types/generated-shopify'
 
 const { useState, useEffect } = React
 
@@ -21,7 +19,7 @@ export const Contact = () => {
   const { goToTab } = useTabs()
   const { values, errors } = useFormikContext<FormValues>()
   const advance = () => goToTab('notes')
-  const [advanceDisabled, setAdvanceDisabled] = React.useState(true)
+  const [advanceDisabled, setAdvanceDisabled] = useState(true)
 
   useEffect(() => {
     Boolean(

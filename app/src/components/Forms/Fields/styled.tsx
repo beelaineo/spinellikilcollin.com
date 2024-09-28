@@ -2,12 +2,12 @@ import styled, { css } from '@xstyled/styled-components'
 import { Label as BaseLabel } from '../../Text'
 
 interface FieldWrapperProps {
-  noBorder?: boolean
+  $noBorder?: boolean
 }
 
 export const FieldWrapper = styled.div<FieldWrapperProps>`
-  ${({ noBorder, theme }) => css`
-    ${noBorder
+  ${({ $noBorder, theme }) => css`
+    ${$noBorder
       ? ``
       : css`
           color: body.8;

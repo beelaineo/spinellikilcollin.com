@@ -200,19 +200,19 @@ export const FilterSet = ({
       onMouseLeave={handleMouseLeave}
       onFocus={handleMouseEnter}
       onBlur={handleBlur}
-      active={active}
+      $active={active}
       tabIndex={0}
     >
       <HeadingWrapper
-        isActive={Boolean(activeMatchKeys.length > 0)}
+        $isActive={Boolean(activeMatchKeys.length > 0)}
         type={heading}
       >
         <Heading textTransform="uppercase" level={5}>
           {Boolean(activeMatchKeys.length > 0) ? heading + ':' : heading}
         </Heading>
         <FilterIndicatorsWrapper
-          isActive={Boolean(activeMatchKeys.length > 0)}
-          setType={filterSet.heading}
+          $isActive={Boolean(activeMatchKeys.length > 0)}
+          $setType={filterSet.heading}
         >
           {Boolean(activeMatchKeys.length > 0)
             ? definitely(filters).map((filter, i) => {
@@ -232,7 +232,7 @@ export const FilterSet = ({
         </FilterIndicatorsWrapper>
       </HeadingWrapper>
       <FiltersWrapper
-        isHovered={
+        $isHovered={
           Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
         }
         type={filterSet.heading}

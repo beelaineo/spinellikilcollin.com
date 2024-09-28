@@ -1,25 +1,25 @@
 import styled, { css } from '@xstyled/styled-components'
 
 interface WrapperProps {
-  withHero: boolean
-  handle: string
-  isLightTheme: boolean
-  isReady: boolean
+  $withHero: boolean
+  $handle: string
+  $isLightTheme: boolean
+  $isReady: boolean
 }
 
 export const Wrapper = styled.main<WrapperProps>`
-  ${({ handle, theme, withHero, isLightTheme, isReady }) => css`
+  ${({ $handle, theme, $withHero, $isLightTheme, $isReady }) => css`
     position: relative;
-    padding-top: ${withHero ? 0 : theme.navHeight};
+    padding-top: ${$withHero ? 0 : theme.navHeight};
 
-    opacity: ${isReady === true ? 1 : 0};
+    opacity: ${$isReady === true ? 1 : 0};
     transition: opacity 0.3s linear 0s;
 
     & > div:last-child {
-      opacity: ${isReady ? 1 : 0};
+      opacity: ${$isReady ? 1 : 0};
       transition: opacity 0.3s linear 0.3s;
     }
-    ${isLightTheme === true
+    ${$isLightTheme === true
       ? css`
           h3,
           h5 {
@@ -33,14 +33,14 @@ export const Wrapper = styled.main<WrapperProps>`
   `}
 `
 interface GridWrapperProps {
-  isLoading: boolean
+  $isLoading: boolean
 }
 
 export const ProductGridWrapper = styled.div<GridWrapperProps>`
-  ${({ isLoading }) => css`
-    opacity: ${isLoading ? 0.4 : 1};
+  ${({ $isLoading }) => css`
+    opacity: ${$isLoading ? 0.4 : 1};
     position: relative;
-    pointer-events: ${isLoading ? 'none' : 'inherit'};
+    pointer-events: ${$isLoading ? 'none' : 'inherit'};
     transition: 0.3s;
   `}
 `

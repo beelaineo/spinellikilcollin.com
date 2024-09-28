@@ -180,7 +180,7 @@ export const CloudinaryVideo = ({ video }: CloudinaryVideoProps) => {
   // )
 
   return (
-    <VideoWrapper loaded={loaded}>
+    <VideoWrapper $loaded={loaded}>
       <NormalVideo
         video={video}
         playing={playing}

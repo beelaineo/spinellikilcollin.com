@@ -1,6 +1,6 @@
 import React from 'react'
 import { Appointments } from '../../types'
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
 
 import { Wrapper } from './styled'
 import { SEO } from '../../components/SEO'

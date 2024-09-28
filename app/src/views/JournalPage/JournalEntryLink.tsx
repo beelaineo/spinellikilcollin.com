@@ -8,14 +8,14 @@ import { definitely, niceDate } from '../../utils'
 import { TagLink } from '../../components/Tags'
 
 interface WrapperProps {
-  featured: boolean
+  $featured: boolean
 }
 
 const ImageContainer = styled.div<WrapperProps>`
-  ${({ featured, theme }) => css`
+  ${({ $featured, theme }) => css`
     display: block;
     position: relative;
-    ${featured
+    ${$featured
       ? css`
           margin-bottom: 3;
         `
@@ -27,7 +27,7 @@ const ImageContainer = styled.div<WrapperProps>`
       margin-top: 2;
       margin-bottom: 4;
 
-      ${featured
+      ${$featured
         ? css`
             margin-left: -4;
             margin-right: -4;
@@ -47,20 +47,20 @@ const ImageContainer = styled.div<WrapperProps>`
 `
 
 const ImagePadding = styled.div<WrapperProps>`
-  ${({ featured, theme }) => css`
+  ${({ $featured, theme }) => css`
     width: 100%;
     padding-bottom: 45%;
     ${theme.mediaQueries.tablet} {
-      padding-bottom: ${featured ? '80%' : '45%'};
+      padding-bottom: ${$featured ? '80%' : '45%'};
     }
   `}
 `
 
 const Wrapper = styled.divBox<WrapperProps>`
-  ${({ featured, theme }) => css`
+  ${({ $featured, theme }) => css`
     margin: 0 auto;
     padding: 5 0;
-    ${featured
+    ${$featured
       ? css`
           display: flex;
           flex-direction: column;
@@ -77,7 +77,7 @@ const Wrapper = styled.divBox<WrapperProps>`
           display: grid;
           grid-template-columns: 1fr 1fr;
           grid-template-rows: auto auto 1fr;
-          grid-gap: 2 5;
+          gap: 2 5;
           max-width: 1200px;
         `}
 
@@ -103,14 +103,14 @@ const Wrapper = styled.divBox<WrapperProps>`
 `
 
 const DateTags = styled.divBox<WrapperProps>`
-  ${({ featured, theme }) => css`
+  ${({ $featured, theme }) => css`
     display: flex;
-    justify-content: ${featured ? 'center' : 'left'};
-    margin-bottom: ${featured ? 3 : 0};
+    justify-content: ${$featured ? 'center' : 'left'};
+    margin-bottom: ${$featured ? 3 : 0};
 
     ${theme.mediaQueries.tablet} {
       grid-row: 1;
-      margin-bottom: ${featured ? 2 : 0};
+      margin-bottom: ${$featured ? 2 : 0};
     }
   `}
 `
@@ -130,9 +130,9 @@ export const JournalEntryLink = ({
   const as = `/journal/${slug.current}`
 
   return (
-    <Wrapper featured={featured}>
+    <Wrapper $featured={featured}>
       {publishDate ? (
-        <DateTags featured={featured}>
+        <DateTags $featured={featured}>
           <Heading level={5}>{niceDate(entry.publishDate)}</Heading>
           {tags
             ? definitely(tags).map((tag) => <TagLink key={tag} tag={tag} />)
@@ -140,8 +140,8 @@ export const JournalEntryLink = ({
         </DateTags>
       ) : null}
       {thumbnail ? (
-        <ImageContainer featured={featured}>
-          <ImagePadding featured={featured} />
+        <ImageContainer $featured={featured}>
+          <ImagePadding $featured={featured} />
           <Link
             href={href}
             as={as}

@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types'
 import React, { useContext, useRef, useEffect, useCallback } from 'react'
 import { useIntersection } from 'react-use'
 import styled from '@xstyled/styled-components'
@@ -61,11 +60,4 @@ export const Slide = ({ children, index, root }) => {
       {children}
     </Wrapper>
   )
-}
-
-Slide.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  index: PropTypes.number.isRequired,
-  root: PropTypes.shape({ current: PropTypes.object }),
 }

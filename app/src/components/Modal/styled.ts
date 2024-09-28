@@ -30,7 +30,7 @@ export const DiamondWrapper = styled.div`
     transition: 0.2s;
     display: grid;
     grid-template-columns: 1fr 330px;
-    grid-column-gap: 24px;
+    column-gap: 24px;
     padding-right: 184px;
 
     @media screen and (max-width: 1200px) {

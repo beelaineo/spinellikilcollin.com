@@ -14,7 +14,7 @@ export const Dots = ({ currentSlide, totalSlides }: DotsProps) => {
         {Array(totalSlides)
           .fill(null)
           .map((_, index) => (
-            <Dot key={index} active={index === currentSlide} />
+            <Dot key={index} $active={index === currentSlide} />
           ))}
       </DotsInner>
     </DotsWrapper>

@@ -59,15 +59,15 @@ export const LoopInner = styled.div`
 `
 
 interface LoopChildContainerProps {
-  active: boolean
-  clone?: boolean
+  $active: boolean
+  $clone?: boolean
 }
 
 export const LoopChildContainer = styled.div<LoopChildContainerProps>`
-  ${({ active, clone }) => css`
+  ${({ $active, $clone }) => css`
     display: inline-block;
     transition: 0.3s ease-out;
-    opacity: ${active ? 1 : 0.4};
-    // outline: ${clone ? '1px solid blue' : 'none'};
+    opacity: ${$active ? 1 : 0.4};
+    // outline: ${$clone ? '1px solid blue' : 'none'};
   `}
 `

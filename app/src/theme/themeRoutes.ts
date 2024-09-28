@@ -1,4 +1,4 @@
-import { DefaultTheme } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 import { defaultTheme } from './defaultTheme'
 import { journalTheme } from './journalTheme'
 import { magazineTheme } from './magazineTheme'

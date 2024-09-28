@@ -87,7 +87,7 @@ const Knob = ({
   }, [mouseDown])
 
   return (
-    <KnobHandle position={position}>
+    <KnobHandle $position={position}>
       <KnobDot
         onTouchStart={handleMouseDown}
         onTouchEnd={release}
@@ -307,7 +307,7 @@ export function PriceRangeFilter({
     <PriceRangeFilterWrapper
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      isApplied={applyFilter}
+      $isApplied={applyFilter}
     >
       <HeadingWrapper>
         <Label htmlFor={_key || 'some-key'}>
@@ -319,7 +319,7 @@ export function PriceRangeFilter({
       </HeadingWrapper>
       <Slider
         ref={setContainer}
-        isHovered={
+        $isHovered={
           Boolean(!isMobile && mouseEnter) || Boolean(isMobile && active)
         }
       >

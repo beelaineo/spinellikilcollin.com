@@ -63,7 +63,7 @@ const TextWrapper = styled.div`
 
 type WrapperProps = Pick<
   CollectionBlockType,
-  'backgroundColor' | 'textColor' | 'textPosition'
+  'backgroundColor' | '$textColor' | '$textPosition'
 >
 
 interface WithFormat {
@@ -93,18 +93,18 @@ const Padding = styled.div<WithFormat>`
 `
 
 const Wrapper = styled.div<WrapperProps>`
-  ${({ backgroundColor, textPosition, textColor, theme }) => css`
+  ${({ backgroundColor, $textPosition, $textColor, theme }) => css`
     position: absolute;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     background-color: ${getColor(backgroundColor)};
-    color: ${getColor(textColor)};
+    color: ${getColor($textColor)};
     display: flex;
-    align-items: ${getFlexAlignment(textPosition)};
-    justify-content: ${getFlexJustification(textPosition)};
-    text-align: ${getTextAlignment(textPosition)};
+    align-items: ${getFlexAlignment($textPosition)};
+    justify-content: ${getFlexJustification($textPosition)};
+    text-align: ${getTextAlignment($textPosition)};
     padding: 6;
     z-index: 0;
     ${VideoWrapper},
@@ -137,8 +137,8 @@ export const CollectionBlock = ({
     body,
     bodyRaw,
     body_mobileRaw,
-    textPosition,
-    textColor,
+    $textPosition,
+    $textColor,
     backgroundImage,
     backgroundColor,
     cloudinaryVideo,
@@ -155,8 +155,8 @@ export const CollectionBlock = ({
   return (
     <Wrapper
       backgroundColor={backgroundColor}
-      textPosition={textPosition}
-      textColor={textColor}
+      $textPosition={$textPosition}
+      $textColor={$textColor}
     >
       {body || bodyRaw ? (
         <TextWrapper>

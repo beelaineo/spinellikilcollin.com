@@ -38,7 +38,7 @@ interface CarouselProps {
   columnCount?: number
   buttons?: boolean
   dots?: boolean
-  single?: boolean
+  $single?: boolean
 }
 
 export const CarouselInner = ({
@@ -46,7 +46,7 @@ export const CarouselInner = ({
   columnCount,
   dots,
   buttons: customButtons,
-  single,
+  $single,
 }: CarouselProps) => {
   const { width: viewportWidth } = useViewportSize()
   const { currentSlide, setCurrentSlide } = useCarousel()
@@ -140,9 +140,12 @@ export const CarouselInner = ({
     : 0
 
   return (
-    <CarouselContainer single={single}>
+    <CarouselContainer $single={$single}>
       {children && buttons ? (
-        <ButtonWrapper direction="previous" visible={hasOverflow && !isAtFirst}>
+        <ButtonWrapper
+          direction="previous"
+          $visible={hasOverflow && !isAtFirst}
+        >
           <CarouselButton
             tabIndex={hasOverflow && !isAtFirst ? 0 : -1}
             aria-label="previous slide"
@@ -153,10 +156,10 @@ export const CarouselInner = ({
           </CarouselButton>
         </ButtonWrapper>
       ) : null}
-      <CarouselMask single={single} ref={outerRef}>
+      <CarouselMask $single={$single} ref={outerRef}>
         <SlidesContainer
-          isSwiping={state.active}
-          left={containerLeft}
+          $isSwiping={state.active}
+          $left={containerLeft}
           onMouseDown={startSwipe(containerLeft)}
           onTouchStart={startSwipe(containerLeft)}
         >
@@ -167,7 +170,7 @@ export const CarouselInner = ({
               columnCount={columnCount}
               index={index}
               key={index}
-              single={single}
+              $single={$single}
             >
               {child}
             </Slide>
@@ -175,7 +178,7 @@ export const CarouselInner = ({
         </SlidesContainer>
       </CarouselMask>
       {children && buttons ? (
-        <ButtonWrapper direction="next" visible={hasOverflow && !isAtLast}>
+        <ButtonWrapper direction="next" $visible={hasOverflow && !isAtLast}>
           <CarouselButton
             direction="next"
             aria-label="next slide"
@@ -236,12 +239,12 @@ export const Carousel = ({
   children,
   columnCount,
   dots,
-  single,
+  $single,
 }: CarouselProps) => {
   return (
     <CarouselProvider initialSlide={initialSlide}>
       <CarouselInner
-        single={single || false}
+        $single={$single || false}
         buttons={buttons}
         dots={dots}
         columnCount={columnCount}

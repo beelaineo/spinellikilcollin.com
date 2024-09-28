@@ -84,7 +84,7 @@ export const Footer = ({ breadCrumbs }) => {
             mailerSubtitle={mailerSubtitle}
           />
           {router.asPath !== '/' ? (
-            <HomepageLink isMobile={false}>
+            <HomepageLink $isMobile={false}>
               <Heading m={0} level={4}>
                 <Link href="/">
                   → <em>Return</em> to the Homepage
@@ -94,7 +94,7 @@ export const Footer = ({ breadCrumbs }) => {
           ) : null}
         </FooterRight>
         {router.asPath !== '/' ? (
-          <HomepageLink isMobile={true}>
+          <HomepageLink $isMobile={true}>
             <Heading m={0} level={4}>
               <Link href="/">
                 → <em>Return</em> to the Homepage

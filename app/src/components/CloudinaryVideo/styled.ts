@@ -25,14 +25,14 @@ export const PlaybackButtonWrapper = styled(ButtonWrapper)`
 `
 
 interface VideoWrapperProps {
-  loaded: boolean
+  $loaded: boolean
 }
 
 export const VideoWrapper = styled.div<VideoWrapperProps>`
-  ${({ loaded }) => css`
+  ${({ $loaded }) => css`
     position: relative;
 
-    opacity: ${loaded ? 1 : 0};
+    opacity: ${$loaded ? 1 : 0};
 
     video {
       max-width: 100%;

@@ -1,7 +1,11 @@
 import * as React from 'react'
 import styled, { css } from '@xstyled/styled-components'
-import { Filter, FilterMatch, FilterSet as FilterSetType } from '../../types'
-import { Maybe } from '../../types'
+import {
+  Filter,
+  FilterMatch,
+  FilterSet as FilterSetType,
+  Maybe,
+} from '../../types'
 import { Heading } from '../Text'
 import { FilterIndicatorWrapper, DiamondWrapper, CloseButton } from './styled'
 import { definitely } from '../../utils'
@@ -23,7 +27,7 @@ interface WithValue {
 interface FilterValueLabelProps {
   value?: Maybe<string>
   type?: Maybe<string>
-  index: number
+  $index: number
 }
 
 const IndicatorStyle = (value) => {
@@ -82,9 +86,9 @@ const StyleIndicator = styled.div<WithValue>`
 `
 
 const FilterValueLabel = styled.div<FilterValueLabelProps>`
-  ${({ theme, value, index, type }) => css`
+  ${({ theme, value, $index, type }) => css`
     height: 100%;
-    z-index: ${50 - index};
+    z-index: ${50 - $index};
     ${IndicatorStyle(value)}
     h5 {
       border: 1px solid #979797;
@@ -150,7 +154,7 @@ export const FilterIndicator = ({
   switch (type) {
     case 'Type':
       return (
-        <FilterValueLabel index={index} onClick={remove}>
+        <FilterValueLabel $index={index} onClick={remove}>
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
@@ -161,7 +165,7 @@ export const FilterIndicator = ({
       )
     case 'Bands':
       return (
-        <FilterValueLabel index={index} onClick={remove}>
+        <FilterValueLabel $index={index} onClick={remove}>
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>
@@ -173,7 +177,7 @@ export const FilterIndicator = ({
     case 'Size':
     case 'Ring Size':
       return (
-        <FilterValueLabel index={index} onClick={remove} type={type}>
+        <FilterValueLabel $index={index} onClick={remove} type={type}>
           <Heading level={5}>
             {label}
             <CloseButtonWrapper>

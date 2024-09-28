@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box } from '@xstyled/styled-components'
+import { x } from '@xstyled/styled-components'
 import Link from 'next/link'
 import { JournalEntry } from '../../types'
 import { Heading } from '../../components/Text'
@@ -39,8 +39,8 @@ export const JournalEntryPage = ({ entry }: JournalEntryPageProps) => {
   return (
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path={path} />
-      {validHero && hero ? <HeroBlock hero={hero} /> : null}
-      <JournalPageWrapper withHero={validHero} tabIndex={-1}>
+      {validHero && hero ? <HeroBlock $hero={hero} /> : null}
+      <JournalPageWrapper $withHero={validHero} tabIndex={-1}>
         <LinkWrapper>
           <Link href="/journal">
             <Heading level={5}>
@@ -66,13 +66,13 @@ export const JournalEntryPage = ({ entry }: JournalEntryPageProps) => {
               </Heading>
             ) : null}
           </Header>
-          <Box mx="auto" maxWidth="690px">
+          <x.div mx="auto" maxWidth="690px">
             <RichText
               article
               body={bodyRaw}
               imageSizes="(max-width: 600px) 100vw, 600px"
             />
-          </Box>
+          </x.div>
         </MainWrapper>
       </JournalPageWrapper>
     </>

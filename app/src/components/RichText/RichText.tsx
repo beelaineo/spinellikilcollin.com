@@ -16,12 +16,12 @@ import { Iframe } from '../Iframe'
 import Link from 'next/link'
 
 interface WithArticle {
-  article?: boolean
+  $article?: boolean
 }
 
 const RichTextWrapper = styled.div<WithArticle>`
-  ${({ theme, article }) => css`
-    ${article
+  ${({ theme, $article }) => css`
+    ${$article
       ? css`
           h2 {
             line-height: 1.5em;
@@ -281,7 +281,7 @@ export const RichText = ({
   }
 
   return body ? (
-    <Wrapper article={article}>
+    <Wrapper $article={article}>
       <PortableText value={body} components={components} />
     </Wrapper>
   ) : null

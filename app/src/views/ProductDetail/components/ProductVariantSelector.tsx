@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { Box } from '@xstyled/styled-components'
+import styled, { x } from '@xstyled/styled-components'
 import { Product, ShopifyProductVariant } from '../../../types'
 import { ProductOptionSelector } from './ProductOptionSelector'
 import { getValidProductOptions, optionMatchesVariant } from '../../../utils'
@@ -56,7 +56,7 @@ export const ProductVariantSelector = (props: Props) => {
   if (options.length < 1) return null
 
   return (
-    <Box mb={5}>
+    <x.div mb={5}>
       {options
         .filter(
           (option) => !Boolean(option.name === 'Size' && inquiryOnly === true),
@@ -76,6 +76,6 @@ export const ProductVariantSelector = (props: Props) => {
             </OptionWrapper>
           ) : null,
         )}
-    </Box>
+    </x.div>
   )
 }

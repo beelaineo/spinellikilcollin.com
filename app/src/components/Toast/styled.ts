@@ -4,15 +4,15 @@ import { CloseButton } from '../Modal/styled'
 
 interface ToastWrapperProps {
   toastType: ToastType
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
 }
 
 export const ToastWrapper = styled.div<ToastWrapperProps>`
-  ${({ toastType, theme, colorTheme }) => css`
+  ${({ toastType, theme, $colorTheme }) => css`
     pointer-events: initial;
     border: none;
-    background-color: ${colorTheme === 'light' ? 'body.9' : 'body.0'};
-    color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
+    background-color: ${$colorTheme === 'light' ? 'body.9' : 'body.0'};
+    color: ${$colorTheme === 'light' ? 'body.0' : 'body.9'};
     box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.2);
     max-width: 400px;
     width: calc(100vw - 20px);
@@ -48,11 +48,11 @@ export const ToastWrapper = styled.div<ToastWrapperProps>`
     }
 
     & ${CloseButton} {
-      color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
+      color: ${$colorTheme === 'light' ? 'body.0' : 'body.9'};
 
       :after,
       :before {
-        background-color: ${colorTheme === 'light' ? 'body.0' : 'body.9'};
+        background-color: ${$colorTheme === 'light' ? 'body.0' : 'body.9'};
       }
 
       top: 50%;

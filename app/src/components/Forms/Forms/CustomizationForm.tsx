@@ -175,7 +175,7 @@ export const CustomizationForm = ({
             title={weddingTitle}
           />
         ) : null}
-        <SuccessWrapper visible={success}>
+        <SuccessWrapper $visible={success}>
           <Heading color="body.8" level={4}>
             Thank you! We have received your request.
           </Heading>
@@ -193,7 +193,7 @@ export const CustomizationForm = ({
           initialValues={initialValues}
           validationSchema={validationSchema}
         >
-          <FieldsWrapper visible={!success}>
+          <FieldsWrapper $visible={!success}>
             <Field
               name="name"
               label="Name"

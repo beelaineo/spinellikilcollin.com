@@ -48,12 +48,12 @@ export const NewsletterSignup = ({
         {mailerSubtitle}
       </Heading>
       <MailerForm onSubmit={handleSubmit}>
-        <SuccessWrapper visible={success}>
+        <SuccessWrapper $visible={success}>
           <Heading my={0} color="body.6" textAlign="left" level={5}>
             Thank you! You have been subscribed.
           </Heading>
         </SuccessWrapper>
-        <InputWrapper visible={!success}>
+        <InputWrapper $visible={!success}>
           <Input
             type="email"
             disabled={loading}

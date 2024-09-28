@@ -45,7 +45,7 @@ export const ProductGalleryCarousel = ({
     setCurrentSlide(0)
   }, [currentVariant])
   return (
-    <CarouselInner single dots buttons={false} columnCount={1}>
+    <CarouselInner $single dots buttons={false} columnCount={1}>
       {images.map((image) => (
         <Image key={getKey(image)} ratio={1} image={image} sizes="90vw" />
       ))}
@@ -63,7 +63,7 @@ interface ProductImagesProps {
   product: Product
   currentVariant: ShopifyProductVariant
   screen: string
-  hide?: boolean
+  $hide?: boolean
 }
 
 const getKey = (
@@ -88,7 +88,7 @@ export const ProductImages = ({
   product,
   currentVariant,
   screen,
-  hide,
+  $hide,
 }: ProductImagesProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   // console.log('currentVariant', currentVariant)
@@ -103,7 +103,7 @@ export const ProductImages = ({
   if (!images.length) return null
   const mainImage = images[currentImageIndex]
   return screen === 'desktop' ? (
-    <ProductGalleryWrapper hide={hide}>
+    <ProductGalleryWrapper $hide={$hide}>
       <DesktopWrapper>
         <MainImage>
           <Image ratio={1} image={mainImage} />
@@ -123,7 +123,7 @@ export const ProductImages = ({
       </DesktopWrapper>
     </ProductGalleryWrapper>
   ) : screen === 'mobile' ? (
-    <ProductGalleryWrapper product={product} hide={hide}>
+    <ProductGalleryWrapper $product={product} $hide={$hide}>
       <MobileWrapper>
         <MainImage>
           <Image ratio={1} image={mainImage} />

@@ -41,7 +41,7 @@ const FieldsWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 0.5fr 1fr 1fr;
     align-items: center;
-    grid-gap: 3;
+    gap: 3;
 
     & > * {
       grid-column: span 1;
@@ -324,7 +324,6 @@ export const SizeConverterForm = ({
   }
   const handleRingSizerClick = () => {
     if (openRingSizerModal !== undefined) {
-      console.log
       openRingSizerModal({
         currentProduct: currentProduct,
         currentVariant: currentVariant,

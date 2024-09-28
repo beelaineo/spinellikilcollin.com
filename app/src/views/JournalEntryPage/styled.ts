@@ -1,17 +1,17 @@
 import styled, { css } from '@xstyled/styled-components'
 
 interface WithHero {
-  withHero: boolean
+  $withHero: boolean
 }
 
 /* padding: calc(${theme.space[8]}px + 4px) 6 7; */
 export const JournalPageWrapper = styled.main<WithHero>`
-  ${({ theme, withHero }) => css`
+  ${({ theme, $withHero }) => css`
     padding: calc(${theme.navHeight} + ${theme.space[2]}px) 7 7;
 
     ${theme.mediaQueries.tablet} {
       padding: calc(${theme.navHeight} + ${theme.space[2]}px) 6 7;
-      ${withHero
+      ${$withHero
         ? css`
             padding-top: 2;
           `
@@ -19,13 +19,13 @@ export const JournalPageWrapper = styled.main<WithHero>`
     }
     ${theme.mediaQueries.mobile} {
       padding: calc(${theme.space[8]}px + 4px) 30px 7;
-      ${withHero
+      ${$withHero
         ? css`
             padding-top: 2;
           `
         : ''}
     }
-    ${withHero
+    ${$withHero
       ? css`
           padding-top: 3;
         `

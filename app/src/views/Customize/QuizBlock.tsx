@@ -11,7 +11,7 @@ const QuizBlockWrapper = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap 4;
+    gap 4;
 
     ${theme.mediaQueries.mobile} {
       display: block;

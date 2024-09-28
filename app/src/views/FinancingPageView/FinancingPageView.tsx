@@ -82,7 +82,7 @@ export const FinancingPageView = ({ page }: FinancingPageProps) => {
           {title || 'Financing'}
         </Heading>
         <Wrapper>
-          <Column columnwidth="medium">
+          <Column $columnwidth="medium">
             <PageText>
               <RichText
                 body={bodyRaw}

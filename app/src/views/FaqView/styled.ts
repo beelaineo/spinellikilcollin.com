@@ -1,11 +1,11 @@
 import styled, { css } from '@xstyled/styled-components'
 
 interface QuickLinksNavProps {
-  containerHeight: number
+  $containerHeight: number
 }
 
 interface QuickLinkProps {
-  isActive: boolean
+  $isActive: boolean
 }
 
 export const QuestionWrapper = styled.div`
@@ -50,12 +50,12 @@ export const Wrapper = styled.mainBox`
 `
 
 export const QuickLinksNav = styled.ul<QuickLinksNavProps>`
-  ${({ theme, containerHeight }) => css`
+  ${({ theme, $containerHeight }) => css`
     position: sticky;
     top: 50%;
     transform: translateY(-50%);
     padding-inline-start: 0;
-    margin-top: calc(-1 * ${containerHeight}px);
+    margin-top: calc(-1 * ${$containerHeight}px);
 
     ${theme.mediaQueries.tablet} {
       margin-top: 0;
@@ -64,7 +64,7 @@ export const QuickLinksNav = styled.ul<QuickLinksNavProps>`
 `
 
 export const QuickLink = styled.li<QuickLinkProps>`
-  ${({ isActive, theme }) => css`
+  ${({ $isActive, theme }) => css`
     ${theme.mediaQueries.tablet} {
       display: none;
     }
@@ -74,7 +74,7 @@ export const QuickLink = styled.li<QuickLinkProps>`
     font-weight: 200;
     list-style: none;
     margin: 6px auto 0.5em;
-    text-decoration: ${isActive ? 'underline' : 'none'};
+    text-decoration: ${$isActive ? 'underline' : 'none'};
     cursor: pointer;
   `}
 `

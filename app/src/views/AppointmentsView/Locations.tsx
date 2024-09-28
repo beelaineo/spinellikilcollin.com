@@ -15,7 +15,7 @@ interface LocationsProps {
 }
 
 interface ItemProps {
-  isActive: boolean
+  $isActive: boolean
 }
 
 const ContentWrapper = styled.div`
@@ -92,7 +92,7 @@ const Items = styled.ul`
 `
 
 const Item = styled.li<ItemProps>`
-  ${({ theme, isActive }) => css`
+  ${({ theme, $isActive }) => css`
     position: relative;
     display: flex;
     flex-direction: row;
@@ -108,7 +108,7 @@ const Item = styled.li<ItemProps>`
       }
     }
 
-    ${isActive &&
+    ${$isActive &&
     `    >span {
       outline: 1px solid ${theme.colors.grays[6]}; 
       border-radius: 10px;
@@ -215,7 +215,7 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
               setActiveIndex={setActiveIndex}
               key={i}
               renderLabel={() => (
-                <Item key={i} isActive={activeIndex === i}>
+                <Item key={i} $isActive={activeIndex === i}>
                   <IconWrapper>
                     <Image image={location?.icon} objectFit="contain" />
                   </IconWrapper>
@@ -251,7 +251,7 @@ export const Locations = ({ locations, isMedium }: LocationsProps) => {
             </Accordion>
           ) : (
             <Item
-              isActive={activeIndex === i}
+              $isActive={activeIndex === i}
               key={i}
               onClick={handleLocationClick(i)}
             >

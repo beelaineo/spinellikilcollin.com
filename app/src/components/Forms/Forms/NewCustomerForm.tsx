@@ -117,7 +117,7 @@ export const NewCustomerForm = ({
 
   return (
     <MainWrapper>
-      <SuccessWrapper visible={success}>
+      <SuccessWrapper $visible={success}>
         <Heading color="body.8" level={4}>
           Thank you! We have received your submission.
         </Heading>
@@ -134,7 +134,7 @@ export const NewCustomerForm = ({
         initialValues={initialValues}
         validationSchema={validationSchema}
       >
-        <FieldsWrapper visible={!success}>
+        <FieldsWrapper $visible={!success}>
           <Field
             name="firstname"
             placeholder="First Name"
