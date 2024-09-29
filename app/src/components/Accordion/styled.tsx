@@ -25,16 +25,17 @@ export const Inner = styled.div<WithOpen>`
           height: ${height};
           opacity: 1;
           visibility: visible;
+          margin: 0 0 3;
 
           transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
-            opacity 0.5s linear, visibility 0s linear;
+            opacity 0.5s linear, margin 0.5s linear, visibility 0s linear;
         `
       : css`
           height: 0;
           opacity: 0;
           visibility: hidden;
           transition: height 0.5s cubic-bezier(0.65, 0, 0.35, 1),
-            opacity 0.5s linear, visibility 0s linear 0.5s;
+            opacity 0.5s linear, margin 0.5s, visibility 0s linear 0.5s;
         `};
   `}
 `
@@ -127,31 +128,6 @@ export const Item = styled.div<WithProduct>`
 
 export const Wrapper = styled.div<WithProduct>`
   ${({ isProduct, theme, open }) => css`
-    ${isProduct
-      ? css`
-          border-top: 1px solid;
-
-          ${open
-            ? css`
-                padding-bottom: 8;
-                transition: padding-bottom 0s linear 0.5s;
-              `
-            : `padding-bottom: 0;`}
-
-          max-width: 1200px;
-          margin: 0 auto;
-
-          &:first-of-type {
-            border-top: none;
-          }
-          ${theme.mediaQueries.mobile} {
-            padding-bottom: 0;
-          }
-        `
-      : css`
-          border-top: 1px solid;
-        `}
-
     &:last-of-type {
       border-bottom: 1px solid;
     }
@@ -163,6 +139,38 @@ export const Wrapper = styled.div<WithProduct>`
         border-top: none;
       }
     }
+
+    ${isProduct
+      ? css`
+          border-top: 1px solid;
+
+          ${open
+            ? css`
+                padding-bottom: 6;
+                transition: padding 0.5s linear;
+              `
+            : `padding-bottom: 0;
+              transition: padding 0.5s linear;
+              `}
+
+          max-width: 1200px;
+          margin: 0 auto;
+
+          &:first-of-type {
+            border-top: none;
+          }
+
+          &:last-of-type {
+            border-bottom: none;
+          }
+
+          ${theme.mediaQueries.mobile} {
+            padding-bottom: 0;
+          }
+        `
+      : css`
+          border-top: 1px solid;
+        `}
   `}
 `
 
@@ -187,7 +195,7 @@ export const Label = styled.button`
 export const ProductButton = styled.span`
   ${({ theme }) => css`
     position: relative;
-    padding: 8 10 0;
+    padding: 8 0 0;
 
     width: 100%;
     text-align: center;
@@ -216,7 +224,7 @@ export const ProductButton = styled.span`
 export const ProductImageWrapper = styled.div<ClickProps>`
   ${({ theme, open }) => css`
     position: relative;
-    width: 60%;
+    width: 75%;
 
     cursor: pointer;
 
@@ -236,7 +244,7 @@ export const TextWrapper = styled.div<ClickProps>`
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 6 0;
+    padding: 9 0 6;
 
     cursor: pointer;
 
