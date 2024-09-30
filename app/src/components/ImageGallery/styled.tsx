@@ -41,9 +41,19 @@ export const ThumbnailsWrapper = styled.div<ThumbnailsWrapperProps>`
     display: flex;
     flex-direction: row;
     gap: 3;
+    max-height: 110px;
 
-    transition: height 1s ease-in-out;
-    ${hide && `display: none;`};
+    overflow: hidden;
+    opactiy: 1;
+
+    transition: opacity 0.33s linear 0.1s,
+      max-height 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+
+    ${hide &&
+    `max-height: 0;   
+    opacity: 0;  
+    transition: opacity .5s linear 0.1s, max-height 0.75s cubic-bezier(0.65, 0, 0.35, 1);
+`};
 
     img {
       opacity: 1 !important;
