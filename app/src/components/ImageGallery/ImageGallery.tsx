@@ -76,6 +76,12 @@ export const ImageGallery = ({
     }
   }, [isOpen])
 
+  React.useEffect(() => {
+    if (hideThumbnails) {
+      setActiveIndex(0)
+    }
+  }, [hideThumbnails])
+
   return (
     <>
       <Wrapper>
