@@ -211,7 +211,7 @@ export const ProductButton = styled.span`
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 5 0 3;
+      padding: 5 0 10px;
       gap: 3;
     }
 
@@ -244,7 +244,7 @@ export const TextWrapper = styled.div<ClickProps>`
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 9 0 6;
+    padding: 9 0 42px;
 
     cursor: pointer;
 
@@ -254,6 +254,7 @@ export const TextWrapper = styled.div<ClickProps>`
       width: 100%;
       line-height: 1;
       text-align: center;
+      margin: 0;
 
       ${theme.mediaQueries.mobile} {
         text-align: left;
