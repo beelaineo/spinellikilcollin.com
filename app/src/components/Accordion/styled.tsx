@@ -211,7 +211,7 @@ export const ProductButton = styled.span`
     }
 
     ${theme.mediaQueries.mobile} {
-      padding: 5 0 10px;
+      padding: 5 0;
       gap: 3;
     }
 
@@ -228,10 +228,9 @@ export const ProductImageWrapper = styled.div<ClickProps>`
 
     cursor: pointer;
 
-    ${open && `cursor: default;`}
-
     ${theme.mediaQueries.mobile} {
       width: 100%;
+      ${open && `cursor: default;`}
     }
   `}
 `
