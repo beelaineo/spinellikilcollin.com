@@ -154,7 +154,7 @@ export const Wrapper = styled.div<WithProduct>`
               `}
 
           max-width: 1200px;
-          margin: 0 auto;
+          margin: 0 5;
 
           &:first-of-type {
             border-top: none;

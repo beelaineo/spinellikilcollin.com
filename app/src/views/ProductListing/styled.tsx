@@ -96,6 +96,14 @@ export const HighValueHeaderWrapper = styled.div`
   `}
 `
 
+export const HighValueWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `}
+`
+
 export const FooterGrid = styled.div`
   ${({ theme }) => css`
     display: grid;

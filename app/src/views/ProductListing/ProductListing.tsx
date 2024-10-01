@@ -44,6 +44,7 @@ import {
   NoResultsWrapper,
   FooterGrid,
   HighValueHeaderWrapper,
+  HighValueWrapper,
 } from './styled'
 import { useSearch } from '../../providers'
 import { Accordion } from '../../components/Accordion'
@@ -630,7 +631,7 @@ export const ProductListing = ({
 
             <ProductGridWrapper isLoading={loading}>
               {highValueTemplate ? (
-                <div>
+                <HighValueWrapper>
                   <HighValueHeaderWrapper>
                     <Heading level={2} textAlign={'center'}>
                       {collection.title}
@@ -658,7 +659,7 @@ export const ProductListing = ({
                       )
                     }
                   })}
-                </div>
+                </HighValueWrapper>
               ) : (
                 <ProductGrid
                   reduceColumnCount={reduceColumnCount}
