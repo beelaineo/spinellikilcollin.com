@@ -32,7 +32,7 @@ const App = (props: AppProps) => {
   const { shopData, ...pageProps } = allPageProps
 
   useEffect(() => {
-    import('./braze-exports.js').then(({ initialize, openSession }) => {
+    import('../src/utils/braze-exports').then(({ initialize, openSession }) => {
       initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
         baseUrl: 'sdk.iad-07.braze.com',
         enableLogging: true,
