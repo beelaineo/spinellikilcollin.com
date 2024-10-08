@@ -261,7 +261,9 @@ export const SizeConverterForm = ({
     if (!bestVariant || !bestVariant.id) {
       throw new Error('No variant was found for these options')
     }
-    selectVariant(bestVariant.id)
+    if (selectVariant) {
+      selectVariant(bestVariant.id)
+    }
   }
 
   useEffect(() => {

@@ -9,7 +9,6 @@ import { SearchPane } from '../src/components/Search'
 import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { KeepAliveProvider } from 'react-next-keep-alive'
-import { Breadcrumbs } from '../src/components/Footer/Breadcrumbs'
 import { useBreadcrumbs } from '../src/hooks/useBreadcrumbs'
 
 import '../public/static/fonts/fonts.css'
@@ -31,6 +30,16 @@ const App = (props: AppProps) => {
   const { Component, pageProps: allPageProps, router } = props
   const path = router.asPath
   const { shopData, ...pageProps } = allPageProps
+
+  useEffect(() => {
+    import('../src/utils/braze-exports').then(({ initialize, openSession }) => {
+      initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
+        baseUrl: 'sdk.iad-07.braze.com',
+        enableLogging: true,
+      })
+      openSession()
+    })
+  }, [])
 
   // Hubspot Conversations launcher
   useEffect(() => {
