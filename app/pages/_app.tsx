@@ -9,10 +9,7 @@ import { SearchPane } from '../src/components/Search'
 import { ToastRoot } from '../src/components/Toast'
 import { getThemeByRoute } from '../src/theme'
 import { KeepAliveProvider } from 'react-next-keep-alive'
-import { Breadcrumbs } from '../src/components/Footer/Breadcrumbs'
 import { useBreadcrumbs } from '../src/hooks/useBreadcrumbs'
-import * as braze from '@braze/web-sdk'
-import dynamic from 'next/dynamic'
 
 import '../public/static/fonts/fonts.css'
 
@@ -34,18 +31,14 @@ const App = (props: AppProps) => {
   const path = router.asPath
   const { shopData, ...pageProps } = allPageProps
 
-  React.useEffect(() => {
-    const loadBraze = async () => {
-      const braze = await import('@braze/web-sdk')
-
-      // Initialize Braze
-      braze.initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
+  useEffect(() => {
+    import('./braze-exports.js').then(({ initialize, openSession }) => {
+      initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
         baseUrl: 'sdk.iad-07.braze.com',
         enableLogging: true,
       })
-    }
-
-    loadBraze()
+      openSession()
+    })
   }, [])
 
   // Hubspot Conversations launcher
