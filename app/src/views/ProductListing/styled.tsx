@@ -77,6 +77,10 @@ export const HighValueHeaderWrapper = styled.div`
     margin: 0 auto;
     padding: 120px 10;
 
+    ${theme.mediaQueries.tablet} {
+      padding: 60px 0;
+    }
+
     ${theme.mediaQueries.mobile} {
       padding: 60px 6;
       width: 100%;
@@ -89,6 +93,14 @@ export const HighValueHeaderWrapper = styled.div`
         grid-column: 1/-1;
       }
     }
+  `}
+`
+
+export const HighValueWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   `}
 `
 

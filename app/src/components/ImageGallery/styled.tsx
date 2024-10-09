@@ -7,6 +7,10 @@ interface ThumbnailWrapperProps {
   isOpen?: boolean
 }
 
+interface ThumbnailsWrapperProps {
+  hide?: boolean
+}
+
 export const Wrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
@@ -14,27 +18,47 @@ export const Wrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    padding: 0 120px 64px 0;
+    padding: 0;
     gap: 5;
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       padding: 0 30px;
+      gap: 3;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 0;
       gap: 3;
     }
   `}
 `
 
-export const ThumbnailsWrapper = styled.div`
-  position: relative;
-  text-align: left;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  gap: 3;
+export const ThumbnailsWrapper = styled.div<ThumbnailsWrapperProps>`
+  ${({ hide }) => css`
+    position: relative;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 3;
+    max-height: 110px;
 
-  img {
-    opacity: 1 !important;
-  }
+    overflow: hidden;
+    opactiy: 1;
+
+    transition: opacity 0.33s linear 0.1s,
+      max-height 0.25s cubic-bezier(0.65, 0, 0.35, 1);
+
+    ${hide &&
+    `max-height: 0;   
+    opacity: 0;  
+    transition: opacity .5s linear 0.1s, max-height 0.75s cubic-bezier(0.65, 0, 0.35, 1);
+`};
+
+    img {
+      opacity: 1 !important;
+    }
+  `}
 `
 
 export const SlideContainer = styled.div`
@@ -75,7 +99,7 @@ export const TextWrapper = styled.div`
   ${({ theme }) => css`
     position: relative;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     display: flex;
     flex-direction: row;
     width: 100%;
@@ -113,6 +137,7 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
     justify-content: center;
     align-items: center;
     width: max(64px, 5%);
+    flex-shrink: 0;
     aspect-ratio: 1;
     padding-bottom: 10px;
 
@@ -121,7 +146,7 @@ export const ThumbnailWrapper = styled.div<ThumbnailWrapperProps>`
       cursor: pointer;
     `};
 
-    ${theme.mediaQueries.mobile} {
+    ${theme.mediaQueries.tablet} {
       width: max(44px, 15%);
     }
 
@@ -172,6 +197,10 @@ export const ActiveImageWrapper = styled.div`
     aspect-ratio: 1;
     cursor: pointer;
 
+    ${theme.mediaQueries.tablet} {
+      width: min(300px, 40vw);
+    }
+
     ${theme.mediaQueries.mobile} {
       width: 100%;
       max-width: none;
@@ -196,7 +225,7 @@ export const NavLeft = styled.button`
     left: 10px;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
     cursor: pointer;
     pointer-events: all;
 
@@ -211,7 +240,7 @@ export const NavRight = styled.button`
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     align-items: center;
     pointer-events: all;
 

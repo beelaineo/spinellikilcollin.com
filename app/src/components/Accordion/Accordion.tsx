@@ -12,12 +12,14 @@ import {
 import { useEffect, useRef } from 'react'
 import { PlusMinus } from '../PlusMinus'
 import { useDebounce } from 'react-use'
-import { Product, SanityRawImage } from '../../types'
+import { Product, RichImage, SanityRawImage, ShopifyImage } from '../../types'
 import { Heading } from '../Text'
 import { Image } from '../Image'
+import { useMedia } from '../../hooks'
+import { ImageGallery } from '../ImageGallery'
 
 interface SanityProduct extends Product {
-  images?: SanityRawImage[]
+  images?: RichImage[] | ShopifyImage[]
 }
 
 interface AccordionProps {
@@ -30,6 +32,10 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
   const [open, setOpen] = React.useState(false)
   const shouldOpen = false
   const toggleOpen = () => setOpen(!open)
+
+  const isMobile = useMedia({
+    maxWidth: '650px',
+  })
 
   const [height, updateHeight] = React.useState(0)
 
@@ -79,11 +85,19 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
 
   const renderProductButton = () => {
     return (
-      <ProductButton onClick={toggleOpen}>
-        <ProductImageWrapper>
-          {coverImage && <Image image={coverImage} ratio={1} />}
-        </ProductImageWrapper>
-        <TextWrapper>
+      <ProductButton>
+        {isMobile ? (
+          <ImageGallery
+            hideThumbnails={!open}
+            product={product}
+            onClick={!open ? toggleOpen : null}
+          />
+        ) : (
+          <ProductImageWrapper open={open} onClick={toggleOpen}>
+            {coverImage && <Image image={coverImage} ratio={0.5} />}
+          </ProductImageWrapper>
+        )}
+        <TextWrapper onClick={!open ? toggleOpen : null} open={open}>
           <Heading level={3}>
             {product?.title}
             {productSize && productSizes?.values?.length == 1 && (
@@ -98,7 +112,7 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
               </span>
             )}
           </Heading>
-          <StatusWrapper>
+          <StatusWrapper onClick={toggleOpen}>
             <Heading level={5}>{open ? `close` : `expand`}</Heading>
             <PlusMinus open={open} />
           </StatusWrapper>
@@ -108,7 +122,7 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
   }
 
   return (
-    <Wrapper isProduct={Boolean(product)}>
+    <Wrapper isProduct={Boolean(product)} open={open}>
       {label && (
         <Label onClick={toggleOpen}>
           {label}

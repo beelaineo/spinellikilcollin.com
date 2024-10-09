@@ -22,10 +22,16 @@ interface ProductListingImageGalleryProduct extends Product {
 }
 
 interface ImageGalleryProps {
-  product: ProductListingImageGalleryProduct
+  product?: ProductListingImageGalleryProduct
+  onClick?: any
+  hideThumbnails?: boolean
 }
 
-export const ImageGallery = ({ product }: ImageGalleryProps) => {
+export const ImageGallery = ({
+  product,
+  onClick,
+  hideThumbnails = false,
+}: ImageGalleryProps) => {
   const [activeIndex, setActiveIndex] = React.useState(0)
   const [isOpen, setIsOpen] = React.useState(false)
 
@@ -35,7 +41,13 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
 
   const { lockScroll, unlockScroll } = useLockScroll()
 
-  const images = product?.images || []
+  const productImages = product?.images ?? []
+
+  const images = isMedium
+    ? productImages
+    : productImages.length > 0
+    ? [productImages[productImages.length - 1], ...productImages.slice(0, -1)]
+    : []
 
   const productSizes = product?.options?.find(
     (option) => option?.name === 'Size',
@@ -44,7 +56,12 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
   const productSize = productSizes?.values?.[0]?.value ?? null
 
   const slides = images?.map((image, index) => {
-    return { ...image, index: index, title: product.title, size: productSize }
+    return {
+      ...image,
+      index: index,
+      title: product?.title,
+      size: productSizes?.values?.length == 1 ? productSize : '',
+    }
   })
 
   const [open, setOpen] = React.useState(false)
@@ -64,14 +81,22 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
     }
   }, [isOpen])
 
+  React.useEffect(() => {
+    if (hideThumbnails) {
+      setActiveIndex(0)
+    }
+  }, [hideThumbnails])
+
   return (
     <>
       <Wrapper>
-        <ActiveImageWrapper onClick={() => isMedium && setOpen(true)}>
+        <ActiveImageWrapper
+          onClick={() => (isMedium ? setOpen(true) : onClick && onClick())}
+        >
           <Image image={images[activeIndex]} ratio={1} />
         </ActiveImageWrapper>
 
-        <ThumbnailsWrapper>
+        <ThumbnailsWrapper hide={hideThumbnails}>
           {images?.map((image: RichImage | ShopifyImage, index: number) => (
             <ThumbnailWrapper
               key={index}
@@ -89,6 +114,7 @@ export const ImageGallery = ({ product }: ImageGalleryProps) => {
         close={() => setOpen(false)}
         index={activeIndex}
         animation={{ swipe: 0 }}
+        // @ts-ignore
         slides={slides}
         on={{ entered: () => onEnter(), exited: () => onExit() }}
         styles={

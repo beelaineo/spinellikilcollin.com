@@ -322,35 +322,6 @@ export const HighValueProductListItem = ({
           <Heading level={5} weight={2}>
             <ShippingStatus readyToShip={readyToShip} />
           </Heading>
-          {/* {currentVariant && (
-            <ProductVariantSelector
-              variants={variants}
-              currentVariant={currentVariant}
-              changeValueForOption={changeValueForOption}
-              product={product}
-              setIsInquiryOnly={setIsInquiryOnly}
-            />
-          )} */}
-          {/* {variantsInStock?.length > 0 && showInStockIndicators ? (
-            <StockedLabelMobile
-              hide={
-                !isSwatchCurrentlyInStock(
-                  currentVariant,
-                  stockedColorOptions,
-                  stockedVariants,
-                )
-              }
-            >
-              <Heading level={4} weight={1} as={'em'}>
-                <InStockDot />
-                {currentlyNotInStock !== true &&
-                currentVariant &&
-                !currentVariant?.title?.includes('Not sure of my size')
-                  ? 'In Stock'
-                  : 'In Stock in Select Sizes'}
-              </Heading>
-            </StockedLabelMobile>
-          ) : null} */}
         </div>
         <BuyButton
           product={productWithInquiryOverride}

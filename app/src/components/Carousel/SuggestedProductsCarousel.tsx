@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { gql } from 'graphql-tag'
-import {
-  Collection,
-  Product,
-  ShopifyProductVariant,
-  ShopifySourceProductVariant,
-} from '../../types'
+import { Collection, Product, ShopifyProductVariant } from '../../types'
 import { Carousel } from './Carousel'
 import { ProductThumbnail } from '../Product'
-import { definitely, getVariantTitle, useViewportSize } from '../../utils'
-import {
-  useLazyRequest,
-  shopifyImageFragment,
-  shopifyVariantImageFragment,
-} from '../../graphql'
+import { definitely, useViewportSize } from '../../utils'
+import { useLazyRequest, shopifyVariantImageFragment } from '../../graphql'
 import { Maybe } from 'yup'
 
 //if collection then collection else prroducttype, then dollars within a range?
@@ -82,8 +73,16 @@ const queryByCollection = gql`
 `
 
 const queryByProductType = gql`
-  query CarouselSuggestedProductsQuery($productType: ID!) {
-    allProducts(where: { store: { productType: { eq: $productType } } }) {
+  query CarouselSuggestedProductsQuery($productType: String!) {
+    allProduct(
+      where: {
+        hideFromSearch: { neq: true }
+        archived: { neq: true }
+        hidden: { neq: true }
+        hideFromCollections: { neq: true }
+        store: { productType: { eq: $productType } }
+      }
+    ) {
       __typename
       _id
       _key
@@ -138,7 +137,7 @@ const queryByProductType = gql`
 
 interface Response {
   allCollection: Collection[]
-  allProducts: Collection[]
+  allProduct: Collection[]
 }
 interface Variables {
   collectionId?: string | null | undefined
@@ -174,13 +173,13 @@ export const SuggestedProductsCarousel = ({
 
   useEffect(() => {
     if (Boolean(data)) return
-    if (!variables.collectionId) return
+    if (!variables) return
     getCarousel(variables)
   }, [data])
 
   const fetchedCollection: any = collection?._id
     ? data?.allCollection[0]?.products
-    : data?.allProducts[0]
+    : data?.allProduct
 
   const products = definitely(fetchedCollection)
 
@@ -294,7 +293,32 @@ export const SuggestedProductsCarousel = ({
       (v: any) => !v?.title.includes(product?.title),
     )
 
-    setVariants(variantsWithoutCurrent as Maybe<ShopifyProductVariant>[])
+    const uniqueVariantSet = variantsWithoutCurrent.reduce((acc, current) => {
+      const options = current.sourceData.selectedOptions
+
+      const currentStyle = currentVariant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Style',
+      )?.value
+      const currentColor = currentVariant?.sourceData?.selectedOptions?.find(
+        (option) => option?.name === 'Color',
+      )?.value
+
+      const style = options.find((option) => option.name === 'Style')?.value
+      const color = options.find((option) => option.name === 'Color')?.value
+
+      const uniqueCurrentKey = currentStyle || currentColor
+      const uniqueKey = style || color
+
+      if (uniqueKey !== uniqueCurrentKey && !acc.has(uniqueKey)) {
+        acc.set(uniqueKey, current)
+      }
+
+      return acc
+    }, new Map())
+
+    const uniqueVariants = Array.from(uniqueVariantSet.values())
+
+    setVariants(uniqueVariants as Maybe<ShopifyProductVariant>[])
   }, [data, currentVariant])
 
   const filteredProducts = variants

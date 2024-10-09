@@ -70,7 +70,7 @@ export const Slide = ({ slide, slides, setActiveIndex }: ImageGalleryProps) => {
                 {slide.title}
               </Heading>
               <Heading level={5} color="white">
-                {slide.size}
+                Size: {slide.size}
               </Heading>
             </span>
             <button onClick={() => close()}>
