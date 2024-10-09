@@ -150,6 +150,13 @@ export const collection = defineType({
       group: 'editorial',
     }),
     defineField({
+      title: 'High Value Collection Template',
+      name: 'highValueTemplate',
+      type: 'boolean',
+      description: 'Toggle this to ON to change collection layout.',
+      group: 'editorial',
+    }),
+    defineField({
       title: 'Hide Filters',
       name: 'hideFilter',
       type: 'boolean',

@@ -3,6 +3,7 @@ import * as React from 'react'
 import {
   ContactFormModal,
   CustomizationModal,
+  HighValueCustomizationModal,
   RingSizerModal,
   SizeConverterModal,
   DiamondModal,
@@ -39,6 +40,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openRingSizerModal,
     openSizeConverterModal,
     openCustomizationModal,
+    openHighValueCustomizationModal,
     openContactModal,
     openDiamondModal,
     openWeddingModal,
@@ -69,6 +71,7 @@ export const ModalProvider = ({ children }: ModalProps) => {
     openRingSizerModal,
     openSizeConverterModal,
     openCustomizationModal,
+    openHighValueCustomizationModal,
     openContactModal,
     openDiamondModal,
     openWeddingModal,
@@ -87,6 +90,12 @@ export const ModalProvider = ({ children }: ModalProps) => {
       {children}
       {currentModal === ModalName.CUSTOMIZATION ? (
         <CustomizationModal
+          product={currentProduct}
+          variant={currentVariant}
+          closeModal={closeModal}
+        />
+      ) : currentModal === ModalName.HIGHVALUECUSTOMIZATION ? (
+        <HighValueCustomizationModal
           product={currentProduct}
           variant={currentVariant}
           closeModal={closeModal}

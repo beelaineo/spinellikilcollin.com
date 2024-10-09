@@ -1,5 +1,6 @@
 export * from './ContactFormModal'
 export * from './CustomizationModal'
+export * from './HighValueCustomizationModal'
 export * from './RingSizerModal'
 export * from './SizeConverterModal'
 export * from './DiamondModal'

@@ -14,6 +14,7 @@ export enum ModalName {
   RING_SIZER = 'RING_SIZER',
   SIZE_CONVERTER = 'SIZE_CONVERTER',
   CUSTOMIZATION = 'CUSTOMIZATION',
+  HIGHVALUECUSTOMIZATION = 'HIGHVALUECUSTOMIZATION',
   CONTACT = 'CONTACT',
   DIAMOND = 'DIAMOND',
   WEDDING = 'WEDDING',
@@ -121,6 +122,15 @@ export const useModalReducer = () => {
     })
   }
 
+  const openHighValueCustomizationModal = (args?: OpenModalArgs) => {
+    dispatch({
+      type: OPEN,
+      currentModal: ModalName.HIGHVALUECUSTOMIZATION,
+      currentProduct: args?.currentProduct,
+      currentVariant: args?.currentVariant,
+    })
+  }
+
   const openDiamondModal = (args?: OpenModalArgs) => {
     dispatch({
       type: OPEN,
@@ -164,6 +174,7 @@ export const useModalReducer = () => {
     openRingSizerModal,
     openSizeConverterModal,
     openCustomizationModal,
+    openHighValueCustomizationModal,
     openContactModal,
     openDiamondModal,
     openWeddingModal,

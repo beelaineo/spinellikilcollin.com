@@ -3,6 +3,7 @@ import { defaultTheme } from './defaultTheme'
 import { journalTheme } from './journalTheme'
 import { magazineTheme } from './magazineTheme'
 import { pageTheme } from './pageTheme'
+import { highValueTheme } from './highValueTheme'
 
 interface ThemeRoute {
   pattern: RegExp
@@ -26,6 +27,11 @@ const routes: ThemeRoute[] = [
   {
     pattern: /^\/customize/,
     theme: pageTheme,
+  },
+
+  {
+    pattern: /^\/collections\/vault/,
+    theme: highValueTheme,
   },
 ]
 

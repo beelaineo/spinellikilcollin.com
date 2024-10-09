@@ -22,8 +22,9 @@ const { useEffect, useRef, useState } = React
 
 interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
   product: Product
-  currentVariant: ShopifyProductVariant
+  currentVariant?: ShopifyProductVariant
   quantity?: number
+  hideShippingStatus?: boolean
 }
 
 interface WithSticky {
@@ -89,7 +90,7 @@ const shopifyVariantQuery = gql`
 const PENDING = 'PENDING'
 type IsInStockValue = typeof PENDING | true | false
 const useVariantIsInStock = (
-  variant: ShopifyProductVariant,
+  variant?: ShopifyProductVariant,
 ): IsInStockValue => {
   const [isInStock, setIsInStock] = useState<IsInStockValue>(PENDING)
   const currentVariantId = variant?.sourceData?.id
@@ -119,6 +120,7 @@ export const BuyButton = ({
   currentVariant,
   addLineItem,
   quantity,
+  hideShippingStatus,
 }: Props) => {
   const { sendAddToCart } = useAnalytics()
   const { openCart } = useCart()
@@ -212,7 +214,7 @@ export const BuyButton = ({
   }
   return (
     <>
-      {!inquiryOnly && (
+      {!inquiryOnly && !hideShippingStatus && (
         <Heading level={5} weight={2}>
           <ShippingStatus readyToShip={readyToShip} />
         </Heading>
