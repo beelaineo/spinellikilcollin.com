@@ -71,7 +71,7 @@ const productInner = `
     priceRange,
     productType,
     publishedAt,
-    "variants": variants[sourceData.availableForSale == true] {
+    "variants": variants[] {
       _type,
       _key,
       id,

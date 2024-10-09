@@ -49,6 +49,8 @@ export const ProductVariantSelector = (props: Props) => {
   if (!variants || !variants.length) return null
   const productType = product?.store?.productType
 
+  console.log('SELECTOR PROPS', props)
+
   const { inquiryOnly } = product
 
   const options = getValidProductOptions(product)

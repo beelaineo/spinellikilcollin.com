@@ -49,6 +49,8 @@ export const Item = styled.div<WithProduct>`
         flex-direction: column;
         .pd-options {
           display: flex;
+          column-gap: 5;
+          align-items: center;
           button {
             width: 100%;
           }

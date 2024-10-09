@@ -15,7 +15,11 @@ import { useAnalytics, useCountry, useShopify, useModal } from '../../providers'
 const { useEffect, useState } = React
 
 import { config } from '../../config'
-import { BuyButton } from '../ProductDetail/components'
+import {
+  BuyButton,
+  ProductVariantSelector,
+  ShippingStatus,
+} from '../ProductDetail/components'
 const { SHOW_IN_STOCK_INDICATORS } = config
 const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 
@@ -266,12 +270,15 @@ export const HighValueProductListItem = ({
     selectVariant(bestVariant.id)
   }
 
+  console.log('HIGH VALUE PRODUCT LIST ITEM', product)
   console.log('CURRENT VARIANT', currentVariant)
 
   const productSizes = product?.options?.find(
     (option) => option?.name === 'Size',
   )
   const productSize = productSizes?.values?.[0]?.value ?? null
+
+  const readyToShip = !currentVariant?.sourceData?.currentlyNotInStock
 
   const handleHighValueInquiryClick = () => {
     const variant = currentVariant || undefined
@@ -293,14 +300,28 @@ export const HighValueProductListItem = ({
           </div>
         ) : null}
         <div className="pd-options">
-          {productSize && (
+          {productSize && productSizes?.values?.length == 1 ? (
             <Heading level={5}>
               Size: {productSize}
               {variantsInStock?.length > 0 && showInStockIndicators
                 ? ' | In Stock'
                 : ''}
             </Heading>
-          )}
+          ) : productSizes?.values &&
+            productSize &&
+            currentVariant &&
+            productSizes.values.length > 1 ? (
+            <ProductVariantSelector
+              variants={variants}
+              currentVariant={currentVariant}
+              changeValueForOption={changeValueForOption}
+              product={product}
+              setIsInquiryOnly={setIsInquiryOnly}
+            />
+          ) : null}
+          <Heading level={5} weight={2}>
+            <ShippingStatus readyToShip={readyToShip} />
+          </Heading>
           {/* {currentVariant && (
             <ProductVariantSelector
               variants={variants}
@@ -310,7 +331,7 @@ export const HighValueProductListItem = ({
               setIsInquiryOnly={setIsInquiryOnly}
             />
           )} */}
-          {variantsInStock?.length > 0 && showInStockIndicators ? (
+          {/* {variantsInStock?.length > 0 && showInStockIndicators ? (
             <StockedLabelMobile
               hide={
                 !isSwatchCurrentlyInStock(
@@ -329,12 +350,13 @@ export const HighValueProductListItem = ({
                   : 'In Stock in Select Sizes'}
               </Heading>
             </StockedLabelMobile>
-          ) : null}
+          ) : null} */}
         </div>
         <BuyButton
           product={productWithInquiryOverride}
           addLineItem={addLineItem}
           currentVariant={currentVariant || undefined}
+          hideShippingStatus={true}
         />
         <P fontSize={5}>
           <button

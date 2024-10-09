@@ -24,6 +24,7 @@ interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
   product: Product
   currentVariant?: ShopifyProductVariant
   quantity?: number
+  hideShippingStatus?: boolean
 }
 
 interface WithSticky {
@@ -119,6 +120,7 @@ export const BuyButton = ({
   currentVariant,
   addLineItem,
   quantity,
+  hideShippingStatus,
 }: Props) => {
   const { sendAddToCart } = useAnalytics()
   const { openCart } = useCart()
@@ -212,7 +214,7 @@ export const BuyButton = ({
   }
   return (
     <>
-      {!inquiryOnly && (
+      {!inquiryOnly && !hideShippingStatus && (
         <Heading level={5} weight={2}>
           <ShippingStatus readyToShip={readyToShip} />
         </Heading>

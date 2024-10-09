@@ -86,7 +86,7 @@ export const Accordion = ({ label, product, children }: AccordionProps) => {
         <TextWrapper>
           <Heading level={3}>
             {product?.title}
-            {productSize && (
+            {productSize && productSizes?.values?.length == 1 && (
               <span
                 style={{
                   fontSize: '0.68em',
