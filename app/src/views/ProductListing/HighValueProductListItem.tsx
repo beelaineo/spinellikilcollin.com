@@ -112,7 +112,7 @@ export const HighValueProductListItem = ({
   const { sendProductDetailView } = useAnalytics()
   const { currentCountry } = useCountry()
   const { productInfoSettings } = useShopData()
-  const { openCustomizationModal } = useModal()
+  const { openHighValueCustomizationModal } = useModal()
   /* get product variant utils */
   if (!product.store) return null
   if (!product.store?.variants) return null
@@ -273,9 +273,9 @@ export const HighValueProductListItem = ({
   )
   const productSize = productSizes?.values?.[0]?.value ?? null
 
-  const handleInquiryClick = () => {
+  const handleHighValueInquiryClick = () => {
     const variant = currentVariant || undefined
-    openCustomizationModal({
+    openHighValueCustomizationModal({
       currentProduct: product,
       currentVariant: variant,
     })
@@ -339,7 +339,7 @@ export const HighValueProductListItem = ({
         <P fontSize={5}>
           <button
             style={{ textDecoration: 'underline' }}
-            onClick={handleInquiryClick}
+            onClick={handleHighValueInquiryClick}
           >
             Inquire about this piece
           </button>
