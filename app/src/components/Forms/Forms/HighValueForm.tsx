@@ -50,11 +50,11 @@ const ProductBadge = ({ product, variant, title }: ProductBadgeProps) =>
         {title.toUpperCase()}
       </Heading>
     </ProductBadgeWrapper>
-  ) : variant?.title ? (
+  ) : variant?.title && product.title && variant.title != product.title ? (
     <ProductBadgeWrapper>
       <Checkmark />
       <Heading my={0} ml={2} level={5}>
-        {variant.title.toUpperCase()}
+        {product.title.toUpperCase()} / {variant.title.toUpperCase()}
       </Heading>
     </ProductBadgeWrapper>
   ) : product.title ? (
@@ -145,13 +145,7 @@ export const HighValueForm = ({
         <Heading mt={0} level={3}>
           Inquiry
         </Heading>
-        {product ? (
-          <ProductBadge
-            product={product}
-            variant={variant}
-            title={weddingTitle}
-          />
-        ) : null}
+        {product ? <ProductBadge product={product} variant={variant} /> : null}
         <SuccessWrapper visible={success}>
           <Heading color="body.8" level={4}>
             Thank you! We have received your request.

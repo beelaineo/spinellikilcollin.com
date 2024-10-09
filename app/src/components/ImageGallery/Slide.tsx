@@ -69,9 +69,11 @@ export const Slide = ({ slide, slides, setActiveIndex }: ImageGalleryProps) => {
               <Heading level={4} color="white">
                 {slide.title}
               </Heading>
-              <Heading level={5} color="white">
-                Size: {slide.size}
-              </Heading>
+              {slide.size && (
+                <Heading level={5} color="white">
+                  Size: {slide.size}
+                </Heading>
+              )}
             </span>
             <button onClick={() => close()}>
               <Heading level={5} color="white">
