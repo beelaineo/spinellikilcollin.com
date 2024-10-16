@@ -11,6 +11,8 @@ import { getThemeByRoute } from '../src/theme'
 import { KeepAliveProvider } from 'react-next-keep-alive'
 import { useBreadcrumbs } from '../src/hooks/useBreadcrumbs'
 
+import * as braze from '@braze/web-sdk'
+
 import '../public/static/fonts/fonts.css'
 
 const { useEffect } = React
@@ -32,30 +34,24 @@ const App = (props: AppProps) => {
   const { shopData, ...pageProps } = allPageProps
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      import('../src/utils/braze-exports').then(
-        ({
-          initialize,
-          openSession,
-          automaticallyShowInAppMessages,
-          getUser,
-        }) => {
-          initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
-            baseUrl: 'sdk.iad-07.braze.com',
-            enableLogging: true,
-            allowUserSuppliedJavascript: true,
-          })
-          openSession()
+    import('../src/utils/braze-exports')
+      .then(({ initialize, openSession }) => {
+        initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
+          baseUrl: 'sdk.iad-07.braze.com',
+          enableLogging: true,
+          allowUserSuppliedJavascript: true,
+        })
+      })
+      .then(() => {
+        braze.automaticallyShowInAppMessages()
 
-          automaticallyShowInAppMessages()
+        const user = braze.getUser()
+        const userId = user?.getUserId()
 
-          const user = getUser()
-          const userId = user?.getUserId()
+        console.log('The user ID is:', userId)
 
-          console.log('The user ID is:', userId)
-        },
-      )
-    }
+        braze.openSession()
+      })
   }, [])
 
   // Hubspot Conversations launcher
