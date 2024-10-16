@@ -11,8 +11,6 @@ import { getThemeByRoute } from '../src/theme'
 import { KeepAliveProvider } from 'react-next-keep-alive'
 import { useBreadcrumbs } from '../src/hooks/useBreadcrumbs'
 
-import * as braze from '@braze/web-sdk'
-
 import '../public/static/fonts/fonts.css'
 
 const { useEffect } = React
@@ -49,7 +47,7 @@ const App = (props: AppProps) => {
           })
           openSession()
 
-          braze.automaticallyShowInAppMessages()
+          automaticallyShowInAppMessages()
 
           const user = getUser()
           const userId = user?.getUserId()
