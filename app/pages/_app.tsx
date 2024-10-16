@@ -34,23 +34,30 @@ const App = (props: AppProps) => {
   const { shopData, ...pageProps } = allPageProps
 
   useEffect(() => {
-    import('../src/utils/braze-exports')
-      .then(({ initialize, openSession }) => {
-        initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
-          baseUrl: 'sdk.iad-07.braze.com',
-          enableLogging: true,
-          allowUserSuppliedJavascript: true,
-        })
-        openSession()
-      })
-      .then(() => {
-        braze.automaticallyShowInAppMessages()
+    if (typeof window !== 'undefined') {
+      import('../src/utils/braze-exports').then(
+        ({
+          initialize,
+          openSession,
+          automaticallyShowInAppMessages,
+          getUser,
+        }) => {
+          initialize('8c2c6ebc-a139-4836-a787-25756bd6c8f8', {
+            baseUrl: 'sdk.iad-07.braze.com',
+            enableLogging: true,
+            allowUserSuppliedJavascript: true,
+          })
+          openSession()
 
-        const user = braze.getUser()
-        const userId = user?.getUserId()
+          braze.automaticallyShowInAppMessages()
 
-        console.log('The user ID is:', userId)
-      })
+          const user = getUser()
+          const userId = user?.getUserId()
+
+          console.log('The user ID is:', userId)
+        },
+      )
+    }
   }, [])
 
   // Hubspot Conversations launcher
