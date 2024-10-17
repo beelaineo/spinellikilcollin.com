@@ -111,8 +111,6 @@ export const HighValueProductListItem = ({
     `}
   `
   const description = parseHTML(product?.store?.descriptionHtml)
-  console.log('PRODUCT', product)
-
   const { sendProductDetailView } = useAnalytics()
   const { currentCountry } = useCountry()
   const { productInfoSettings } = useShopData()
@@ -269,9 +267,6 @@ export const HighValueProductListItem = ({
     }
     selectVariant(bestVariant.id)
   }
-
-  console.log('HIGH VALUE PRODUCT LIST ITEM', product)
-  console.log('CURRENT VARIANT', currentVariant)
 
   const productSizes = product?.options?.find(
     (option) => option?.name === 'Size',

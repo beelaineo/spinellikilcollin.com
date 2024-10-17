@@ -141,8 +141,6 @@ export const ProductListing = ({
     minimalDisplay,
   } = collection
 
-  console.log('PDL collection', collection)
-
   // console.log('collection', collection)
   const search = useSearch()
 
@@ -649,7 +647,6 @@ export const ProductListing = ({
                     </div>
                   </HighValueHeaderWrapper>
                   {items.map((item, index) => {
-                    console.log('item', item)
                     if (item.__typename === 'Product') {
                       return (
                         <HighValueProductListItem
