@@ -29,6 +29,7 @@ type FormValues = {
   phone: string
   product: string
   variant: string
+  customization_details?: string
   phoneCountryCode?: string
   dialingCode?: string
   communicationsConsent: boolean
@@ -164,7 +165,7 @@ export const HighValueForm = ({
           initialValues={initialValues}
           validationSchema={validationSchema}
         >
-          <FieldsWrapper visible={!success}>
+          <FieldsWrapper visible={!success} highValue>
             <Field
               name="name"
               label="Name"
@@ -188,6 +189,7 @@ export const HighValueForm = ({
             <Field required name="location" label="Your Location" />
             <Field name="product" label="Product Name" type="hidden" />
             <Field name="variant" label="Variant Name" type="hidden" />
+            <Field name="customization_details" type="textarea" label="Notes" />
             <ConsentWrapper>
               Spinelli Kilcollin is committed to respecting your privacy and we
               will never sell your personal information. We only use your

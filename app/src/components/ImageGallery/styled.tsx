@@ -178,7 +178,7 @@ export const ImageWrapper = styled.div`
     position: relative;
     justify-content: center;
     align-items: center;
-    width: 35vw;
+    width: 75vmin;
     aspect-ratio: 1;
     padding-bottom: 32px;
     pointer-events: all;
