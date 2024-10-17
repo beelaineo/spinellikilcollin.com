@@ -22,10 +22,16 @@ import { ProductGrid } from '../../components/Product'
 import { HeroBlock } from '../../components/ContentBlock/HeroBlock'
 import { ImageTextBlock } from '../../components/ContentBlock/ImageTextBlock'
 import { Sort, Filter } from '../../components/Filter'
-import { Heading } from '../../components/Text'
+import { Heading, P } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
-import { getHeroImage, isValidHero, definitely, unique } from '../../utils'
+import {
+  getHeroImage,
+  isValidHero,
+  definitely,
+  unique,
+  parseHTML,
+} from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
@@ -37,8 +43,13 @@ import {
   Wrapper,
   NoResultsWrapper,
   FooterGrid,
+  HighValueHeaderWrapper,
+  HighValueWrapper,
 } from './styled'
 import { useSearch } from '../../providers'
+import { Accordion } from '../../components/Accordion'
+import { ImageGallery } from '../../components/ImageGallery'
+import { HighValueProductListItem } from './HighValueProductListItem'
 
 const { useRef, useEffect, useState } = React
 
@@ -73,6 +84,34 @@ type PaginationArgs = {
   handle: string
 }
 
+const InStockDot = styled('span')`
+  ${({ theme }) => css`
+    display: inline-block;
+    background-color: #00d009;
+    width: 10px;
+    height: 10px;
+    margin-right: 6px;
+    border-radius: 100%;
+    border: 1px solid #f5f3f3;
+  `}
+`
+interface WithHide {
+  hide: boolean
+}
+
+const StockedLabelMobile = styled('div')<WithHide>`
+  ${({ theme, hide }) => css`
+    display: none;
+    margin-bottom: 4;
+    opacity: ${hide ? 0 : 1};
+    transition: 250ms ease;
+    font-size: ${theme.fontSizes[5]}px;
+    ${theme.mediaQueries.tablet} {
+      display: block;
+    }
+  `}
+`
+
 function isCollectionResult(
   r?: Collection[] | ShopifyProductListingProduct[],
 ): r is Collection[] {
@@ -96,6 +135,7 @@ export const ProductListing = ({
     reduceColumnCount,
     lightTheme,
     hidden,
+    highValueTemplate,
     hideFilter,
     overrideDefaultFilter,
     minimalDisplay,
@@ -553,7 +593,7 @@ export const ProductListing = ({
         ref={gridRef}
         isReady={isReady}
       >
-        {filters && filters.length ? (
+        {filters && filters.length && !highValueTemplate ? (
           <Filter
             applyFilters={applyFilters}
             applySort={applySort}
@@ -588,15 +628,46 @@ export const ProductListing = ({
             ) : null}
 
             <ProductGridWrapper isLoading={loading}>
-              <ProductGrid
-                reduceColumnCount={reduceColumnCount}
-                preferredVariantMatches={preferredVariantMatches}
-                currentFilter={currentFilters}
-                currentSort={sort}
-                hideFilter={hideFilter}
-                items={items}
-                collectionId={_id}
-              />
+              {highValueTemplate ? (
+                <HighValueWrapper>
+                  <HighValueHeaderWrapper>
+                    <Heading level={2} textAlign={'center'}>
+                      {collection.title}
+                    </Heading>
+                    <div>
+                      <Heading level={5} textTransform={'uppercase'}>
+                        About the Collection
+                      </Heading>
+                      <P>
+                        {collection?.store?.descriptionHtml?.replace(
+                          /<[^>]*>/g,
+                          '',
+                        )}
+                      </P>
+                    </div>
+                  </HighValueHeaderWrapper>
+                  {items.map((item, index) => {
+                    if (item.__typename === 'Product') {
+                      return (
+                        <HighValueProductListItem
+                          product={item}
+                          key={item._id}
+                        />
+                      )
+                    }
+                  })}
+                </HighValueWrapper>
+              ) : (
+                <ProductGrid
+                  reduceColumnCount={reduceColumnCount}
+                  preferredVariantMatches={preferredVariantMatches}
+                  currentFilter={currentFilters}
+                  currentSort={sort}
+                  hideFilter={hideFilter}
+                  items={items}
+                  collectionId={_id}
+                />
+              )}
               {/* {!fetchComplete ? (
                 <Box my={8}>
                   <Heading

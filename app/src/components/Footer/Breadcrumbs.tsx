@@ -17,14 +17,16 @@ interface BreadcrumbProps {
 
 export const Breadcrumbs = ({ display, paths }: BreadcrumbsProps) => {
   const router = useRouter()
-
+  console.log('router', router)
   if (
     router.route === '/' ||
     router.route === '/404' ||
     router.route.includes('/customer-care') ||
     router.route.includes('/new-customer') ||
     router.route.includes('/vip-loyalty') ||
-    (display == 'header' && router.route.includes('collections'))
+    (display == 'header' &&
+      router.route.includes('collections') &&
+      !router.asPath.includes('vault'))
   ) {
     return null
   } else {

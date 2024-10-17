@@ -88,11 +88,11 @@ export const submitToHubspot = async (
     legalConsentOptions,
   }
   console.log('HUBSPOT FORM BODY SUBMITTED:', body)
-  if (config.STOREFRONT_ENV !== 'production') {
-    debug('Not currently in production. Mocking Hubpsot form submission:')
-    debug(body)
-    return
-  }
+  // if (config.STOREFRONT_ENV !== 'production') {
+  //   debug('Not currently in production. Mocking Hubpsot form submission:')
+  //   debug(body)
+  //   return
+  // }
 
   try {
     const response = await fetch(url, {

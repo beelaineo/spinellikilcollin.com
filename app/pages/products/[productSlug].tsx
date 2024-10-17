@@ -105,7 +105,7 @@ const productQueryById = gql`
 const productQueryByHandle = gql`
   query ProductsPageQuery($handle: String) {
     allProduct(
-      where: { handle: { eq: $handle }, archived: { neq: true } }
+      where: { handle: { eq: $handle }, archived: { neq: true }, store: { isDeleted: { neq: true } } }
     ) {
       ${productQueryInner}
     }

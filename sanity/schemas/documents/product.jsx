@@ -31,19 +31,19 @@ export const product = defineType({
   groups: GROUPS,
   fields: [
     // The ProductHiddenInput is hiding all product info, temporarily disabling it here
-    // defineField({
-    //   name: 'hidden',
-    //   type: 'string',
-    //   components: {
-    //     field: ProductHiddenInput,
-    //   },
-    //   group: GROUPS.map((group) => group.name),
-    //   hidden: ({ parent }) => {
-    //     const isActive = parent?.store?.status === 'active'
-    //     const isDeleted = parent?.store?.isDeleted
-    //     return !parent?.store || (isActive && !isDeleted)
-    //   },
-    // }),
+    defineField({
+      name: 'shopifyHidden',
+      type: 'string',
+      components: {
+        field: ProductHiddenInput,
+      },
+      group: GROUPS.map((group) => group.name),
+      hidden: ({parent}) => {
+        const isActive = parent?.store?.status === 'active'
+        const isDeleted = parent?.store?.isDeleted
+        return !parent?.store || (isActive && !isDeleted)
+      },
+    }),
     defineField({
       name: 'shopifyId',
       title: 'ShopifyId',

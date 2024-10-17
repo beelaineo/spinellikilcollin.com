@@ -26836,6 +26836,7 @@ __metadata:
     utf-8-validate: ^6.0.3
     utility-types: ^3.11.0
     uuid: ^9.0.1
+    yet-another-react-lightbox: ^3.21.4
     yup: ^1.4.0
     zlib: ^1.0.5
     zod: ^3.22.4
@@ -30321,6 +30322,16 @@ __metadata:
     buffer-crc32: ~0.2.3
     fd-slicer: ~1.1.0
   checksum: 7f21fe0bbad6e2cb130044a5d1d0d5a0e5bf3d8d4f8c4e6ee12163ce798fee3de7388d22a7a0907f563ac5f9d40f8699a223d3d5c1718da90b0156da6904022b
+  languageName: node
+  linkType: hard
+
+"yet-another-react-lightbox@npm:^3.21.4":
+  version: 3.21.4
+  resolution: "yet-another-react-lightbox@npm:3.21.4"
+  peerDependencies:
+    react: ">=16.8.0"
+    react-dom: ">=16.8.0"
+  checksum: a5006d24bbd98c9a587925ba1c595373dfc10961c61c466befae51ad1f2277b82cc506b391f52840cff5649e923546fce36bb66003b9c618482dd1922329da80
   languageName: node
   linkType: hard
 

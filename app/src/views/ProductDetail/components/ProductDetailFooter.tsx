@@ -35,7 +35,6 @@ const findMatchingColorOption = (productColorOptions, currentVariant) => {
   const selectedColor = currentVariant.sourceData.selectedOptions.find(
     (option) => ['Color', 'Style'].includes(option.name),
   )?.value
-  console.log('selectedColor', selectedColor)
   if (!selectedColor) return null
 
   const colorOption = productColorOptions.find((option) =>
@@ -57,23 +56,14 @@ export const ProductDetailFooter = ({
 
   useEffect(() => {
     const swatchOptions = getSwatchOptions(product)
-    console.log('PRODUCT PAYLOAD', product)
-    console.log('swatchOptions', swatchOptions)
-    console.log('currentVariant', currentVariant)
     const matchingColorOption = findMatchingColorOption(
       swatchOptions,
       currentVariant,
     )
-    console.log('matchingColorOption', matchingColorOption)
     if (matchingColorOption && matchingColorOption.contentAfter) {
       setContent(matchingColorOption.contentAfter)
-      console.log(
-        'CONTENT: matchingColorOption.contentAfter',
-        matchingColorOption.contentAfter,
-      )
     } else {
       setContent(product.contentAfter || [])
-      console.log('CONTENT: product.contentAfter', product.contentAfter)
     }
   }, [currentVariant, product.contentAfter])
 
