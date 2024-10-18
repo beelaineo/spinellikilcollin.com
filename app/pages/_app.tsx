@@ -47,14 +47,15 @@ const App = (props: AppProps) => {
             enableLogging: true,
             allowUserSuppliedJavascript: true,
           })
-          openSession()
 
           automaticallyShowInAppMessages()
 
           const user = getUser()
           const userId = user?.getUserId()
 
-          console.log('The user ID is:', userId)
+          console.log('The user ID is:', user, userId)
+
+          openSession()
         },
       )
     }
