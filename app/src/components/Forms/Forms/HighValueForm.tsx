@@ -29,7 +29,8 @@ type FormValues = {
   phone: string
   product: string
   variant: string
-  customization_details?: string
+  customization_details: string
+  customization_budget: string
   phoneCountryCode?: string
   dialingCode?: string
   communicationsConsent: boolean
@@ -121,6 +122,8 @@ export const HighValueForm = ({
     phone: '',
     product: product?.title || '(no product specified)',
     variant: weddingTitle || variant?.title || '',
+    customization_details: '',
+    customization_budget: 'High Value Inquiry',
     phoneCountryCode: 'US',
     dialingCode: '',
     communicationsConsent: true,
