@@ -75,7 +75,8 @@ export const FieldsWrapper = styled.div<WithVisibleHV>`
     }
 
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
 
       button[type='submit'],
       .field--message {
