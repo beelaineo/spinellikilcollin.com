@@ -41,7 +41,7 @@ const Wrapper = styled.div`
   `}
 `
 
-const ShippingStatus = ({ readyToShip }: ShippingStatusProps) => {
+export const ShippingStatus = ({ readyToShip }: ShippingStatusProps) => {
   const { productInfoSettings } = useShopData()
   const leadTimeLabel = productInfoSettings?.leadTimeLabel
 

@@ -116,8 +116,10 @@
 		"styled-components": "^6.1.12",
 		"swr": "^2.2.5",
 		"text-mask-addons": "^3.8.0",
+		"utf-8-validate": "^6.0.3",
 		"uuid": "^10.0.0",
 		"webpack": "^5.93.0",
+		"yet-another-react-lightbox": "^3.21.4",
 		"yup": "^1.4.0",
 		"zlib": "^1.0.5",
 		"zod": "^3.23.8"

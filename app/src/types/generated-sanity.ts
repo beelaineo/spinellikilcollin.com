@@ -285,11 +285,12 @@ export interface Block {
   style?: Maybe<Scalars['String']['output']>
 }
 
-export type BlockOrCloudinaryVideoOrCountdownOrFormOrRichImage =
+export type BlockOrCloudinaryVideoOrCountdownOrFormOrIframeOrRichImage =
   | Block
   | CloudinaryVideo
   | Countdown
   | Form
+  | Iframe
   | RichImage
 
 export type BooleanFilter = {
@@ -392,6 +393,8 @@ export interface Collection extends Document {
   hidden?: Maybe<Scalars['Boolean']['output']>
   /** Toggle this to ON to remove all filters from the collection view. */
   hideFilter?: Maybe<Scalars['Boolean']['output']>
+  /** Toggle this to ON to change collection layout. */
+  highValueTemplate?: Maybe<Scalars['Boolean']['output']>
   /** Toggle this to ON to change text color to white for all products in collection. */
   lightTheme?: Maybe<Scalars['Boolean']['output']>
   /** Toggle this to ON to hide filter label, reset button, and sort tools. */
@@ -463,6 +466,7 @@ export type CollectionFilter = {
   hero?: InputMaybe<HeroFilter>
   hidden?: InputMaybe<BooleanFilter>
   hideFilter?: InputMaybe<BooleanFilter>
+  highValueTemplate?: InputMaybe<BooleanFilter>
   lightTheme?: InputMaybe<BooleanFilter>
   minimalDisplay?: InputMaybe<BooleanFilter>
   overrideDefaultFilter?: InputMaybe<BooleanFilter>
@@ -502,12 +506,6 @@ export type CollectionGroupSorting = {
   _type?: InputMaybe<SortOrder>
   title?: InputMaybe<SortOrder>
 }
-
-export type CollectionOrHomepageOrPageOrProduct =
-  | Collection
-  | Homepage
-  | Page
-  | Product
 
 export type CollectionOrPageOrProduct = Collection | Page | Product
 
@@ -550,6 +548,7 @@ export type CollectionSorting = {
   hero?: InputMaybe<HeroSorting>
   hidden?: InputMaybe<SortOrder>
   hideFilter?: InputMaybe<SortOrder>
+  highValueTemplate?: InputMaybe<SortOrder>
   lightTheme?: InputMaybe<SortOrder>
   minimalDisplay?: InputMaybe<SortOrder>
   overrideDefaultFilter?: InputMaybe<SortOrder>
@@ -1708,6 +1707,26 @@ export type IdFilter = {
   nin?: InputMaybe<Array<Scalars['ID']['input']>>
 }
 
+export interface Iframe {
+  __typename: 'Iframe'
+  _key?: Maybe<Scalars['String']['output']>
+  _type?: Maybe<Scalars['String']['output']>
+  /** Paste the embed code here */
+  code?: Maybe<Scalars['String']['output']>
+}
+
+export type IframeFilter = {
+  _key?: InputMaybe<StringFilter>
+  _type?: InputMaybe<StringFilter>
+  code?: InputMaybe<StringFilter>
+}
+
+export type IframeSorting = {
+  _key?: InputMaybe<SortOrder>
+  _type?: InputMaybe<SortOrder>
+  code?: InputMaybe<SortOrder>
+}
+
 export interface Image {
   __typename: 'Image'
   _key?: Maybe<Scalars['String']['output']>
@@ -2102,7 +2121,7 @@ export interface LinkInternal {
   __typename: 'LinkInternal'
   _key?: Maybe<Scalars['String']['output']>
   _type?: Maybe<Scalars['String']['output']>
-  reference?: Maybe<CollectionOrHomepageOrPageOrProduct>
+  reference?: Maybe<AboutOrAppointmentsOrCollectionOrContactOrCustomerCareOrCustomizeOrFaqOrHomepageOrJournalEntryOrJournalPageOrMagazineOrPageOrPaymentPlansOrProductOrTeamPage>
   title?: Maybe<Scalars['String']['output']>
 }
 
@@ -2817,6 +2836,7 @@ export interface Product extends Document {
   options?: Maybe<Array<Maybe<ProductOption>>>
   related?: Maybe<Carousel>
   seo?: Maybe<Seo>
+  shopifyHidden?: Maybe<Scalars['String']['output']>
   shopifyId?: Maybe<Scalars['String']['output']>
   showInCollections?: Maybe<Array<Maybe<Collection>>>
   store?: Maybe<ShopifyProductDef>
@@ -2842,6 +2862,7 @@ export type ProductFilter = {
   inquiryOnly?: InputMaybe<BooleanFilter>
   related?: InputMaybe<CarouselFilter>
   seo?: InputMaybe<SeoFilter>
+  shopifyHidden?: InputMaybe<StringFilter>
   shopifyId?: InputMaybe<StringFilter>
   store?: InputMaybe<ShopifyProductDefFilter>
   title?: InputMaybe<StringFilter>
@@ -3073,6 +3094,7 @@ export type ProductSorting = {
   inquiryOnly?: InputMaybe<SortOrder>
   related?: InputMaybe<CarouselSorting>
   seo?: InputMaybe<SeoSorting>
+  shopifyHidden?: InputMaybe<SortOrder>
   shopifyId?: InputMaybe<SortOrder>
   store?: InputMaybe<ShopifyProductDefSorting>
   title?: InputMaybe<SortOrder>

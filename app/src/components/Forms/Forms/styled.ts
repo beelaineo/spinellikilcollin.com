@@ -18,8 +18,13 @@ export const ProductBadgeWrapper = styled.div`
   display: flex;
 `
 
-export const FieldsWrapper = styled.div<WithVisible>`
-  ${({ $visible, theme }) => css`
+interface WithVisibleHV {
+  $visible: boolean
+  $highValue?: boolean
+}
+
+export const FieldsWrapper = styled.div<WithVisibleHV>`
+  ${({ $visible, $highValue, theme }) => css`
     margin-top: 5;
     opacity: ${$visible ? 1 : 0};
     pointer-events: ${$visible ? 'inherit' : 'none'};
@@ -28,6 +33,10 @@ export const FieldsWrapper = styled.div<WithVisible>`
     grid-template-columns: 1fr 1fr;
     row-gap: 4;
     column-gap: 3;
+
+    .field--customization_details {
+      grid-column: ${$highValue ? '1 / 3' : 'unset'};
+    }
 
     > div:nth-child(odd) {
       position: relative;
@@ -66,7 +75,8 @@ export const FieldsWrapper = styled.div<WithVisible>`
     }
 
     ${theme.mediaQueries.mobile} {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-direction: column;
 
       button[type='submit'],
       .field--message {

@@ -10,7 +10,7 @@ export const sanityClient = createClient({
   dataset: SANITY_DATASET,
   useCdn: false, // `false` if you want to ensure fresh data
   useProjectHostname: true,
-  apiVersion: '2021-10-21',
+  apiVersion: '2024-01-01',
 })
 
 export const sanityClientForPreview = createClient({
@@ -19,7 +19,7 @@ export const sanityClientForPreview = createClient({
   token: SANITY_READ_TOKEN,
   useCdn: false,
   useProjectHostname: true,
-  apiVersion: '2021-10-21',
+  apiVersion: '2024-01-01',
   withCredentials: true,
 })
 

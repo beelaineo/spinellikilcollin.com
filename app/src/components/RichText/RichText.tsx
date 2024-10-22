@@ -11,6 +11,7 @@ import { LinkInfo } from '../../utils'
 import { EmbeddedForm } from './EmbeddedForm'
 import { CloudinaryVideo } from '../CloudinaryVideo'
 import { CountDown } from '../CountDown'
+import { Iframe } from '../Iframe'
 
 import Link from 'next/link'
 
@@ -236,6 +237,7 @@ export const RichText = ({
           </React.Suspense>
         )
       },
+      iframe: ({ value }) => <Iframe code={value.code} />,
     },
     block: {
       h1: ({ children }) => (

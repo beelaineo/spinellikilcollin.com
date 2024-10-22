@@ -76,6 +76,7 @@ interface ImageProps {
   loading?: 'eager' | 'lazy' | undefined
   placeholder?: 'shadow' | undefined
   richImage?: boolean
+  draggable?: boolean
 
   /**
    * The css/html sizes at which this image is expected to appear,
@@ -129,6 +130,7 @@ export const Image = ({
   objectFit,
   placeholder,
   richImage,
+  draggable = true,
 }: ImageProps) => {
   const sizes = customSizes || '100vw'
   const [loaded, setLoaded] = React.useState(false)
@@ -195,6 +197,7 @@ export const Image = ({
             ref={imageRef}
             onLoad={handleOnLoad}
             loading={loading || 'lazy'}
+            draggable={draggable}
           />
           {hoverDetails && hoverDetails.src ? (
             <HoverImage

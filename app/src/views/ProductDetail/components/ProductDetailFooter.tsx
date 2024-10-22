@@ -35,11 +35,10 @@ const findMatchingColorOption = (productColorOptions, currentVariant) => {
   const selectedColor = currentVariant.sourceData.selectedOptions.find(
     (option) => ['Color', 'Style'].includes(option.name),
   )?.value
-
   if (!selectedColor) return null
 
-  const colorOption = productColorOptions.find(
-    (option) => option.name === 'Color',
+  const colorOption = productColorOptions.find((option) =>
+    ['Color', 'Style'].includes(option.name),
   )
 
   if (!colorOption) return null

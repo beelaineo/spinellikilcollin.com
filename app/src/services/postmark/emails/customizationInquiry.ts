@@ -26,7 +26,7 @@ const textTemplate = (args: CustomizationInquiryArgs): string => stripIndents`
   ${args.phone ? `Phone: ${args.phone}` : ''}
   Consent to receive communications: ${args.communicationsConsent}
 
-  N Budget: ${args.customization_budget}
+  Budget: ${args.customization_budget}
   Notes: ${args.customization_details}
 
   ${args.variant ? `Interested in: ${args.variant}` : ''}

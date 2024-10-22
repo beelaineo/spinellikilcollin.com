@@ -10,7 +10,7 @@ const Wrapper = styled.div<PlusMinusProps>`
     width: 12px;
     height: 12px;
     position: relative;
-
+    flex-shrink: 0;
     & span {
       position: absolute;
       background-color: currentColor;

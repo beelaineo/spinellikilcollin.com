@@ -1,5 +1,6 @@
 export * from './ContactForm'
 export * from './CustomizationForm'
+export * from './HighValueForm'
 export * from './RingSizerForm'
 export * from './VIPSignupForm'
 export * from './SizeConverterForm'
