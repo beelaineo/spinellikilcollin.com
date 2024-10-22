@@ -34,7 +34,7 @@ interface ProductOptionSelectorProps {
 }
 
 interface SelectWrapperProps {
-  isInput: boolean
+  $isInput: boolean
 }
 
 const currencyMask = createNumberMask({
@@ -63,9 +63,9 @@ const SwatchesWrapper = styled.div`
 `
 
 const SelectWrapper = styled.div<SelectWrapperProps>`
-  ${({ theme, isInput }) => css`
+  ${({ theme, $isInput }) => css`
     position: relative;
-    max-width: ${isInput ? '100%' : '200px'};
+    max-width: ${$isInput ? '100%' : '200px'};
 
     ${theme.mediaQueries.mobile} {
       width: 100%;
@@ -300,7 +300,7 @@ export const ProductOptionSelector = ({
       <Heading level={5} mb={2}>
         {isInput ? null : option.name}
       </Heading>
-      <SelectWrapper isInput={isInput}>
+      <SelectWrapper $isInput={isInput}>
         {isValidSwatchOption(option) ? (
           <SwatchesWrapper>
             <OptionSwatches

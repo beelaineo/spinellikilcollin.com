@@ -26,7 +26,7 @@ interface ProductDetailHeaderProps {
 }
 
 interface WithHide {
-  hide: boolean
+  $hide: boolean
 }
 
 const { SHOW_IN_STOCK_INDICATORS } = config
@@ -34,9 +34,9 @@ const { SHOW_IN_STOCK_INDICATORS } = config
 const showInStockIndicators = SHOW_IN_STOCK_INDICATORS === 'true'
 
 const StockedLabel = styled('div')<WithHide>`
-  ${({ theme, hide }) => css`
+  ${({ theme, $hide }) => css`
     display: block;
-    opacity: ${hide ? 0 : 1};
+    opacity: ${$hide ? 0 : 1};
     transition: 250ms ease;
     em {
       font-size: 13px;
@@ -160,10 +160,10 @@ export const ProductDetailHeader = ({
 
   return (
     <>
-      <TitleWrapper product={product}>
+      <TitleWrapper $product={product}>
         {variantsInStock?.length > 0 && showInStockIndicators ? (
           <StockedLabel
-            hide={
+            $hide={
               !isSwatchCurrentlyInStock(
                 currentVariant,
                 stockedColorOptions,

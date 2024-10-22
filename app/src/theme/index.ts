@@ -1,4 +1,4 @@
-import { DefaultTheme } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 import { defaultTheme } from './defaultTheme'
 export * from './themeRoutes'
 export * from './utils'

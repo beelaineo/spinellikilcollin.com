@@ -29,7 +29,7 @@ export const ContentBlock = React.forwardRef(
       case 'TextBlock':
         return <TextBlock content={content} />
       case 'Hero':
-        return <HeroBlock hero={content} ref={ref} />
+        return <HeroBlock $hero={content} ref={ref} />
       case 'Carousel':
         return <CarouselBlock content={content} />
       case 'EmbedBlock':

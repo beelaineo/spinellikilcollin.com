@@ -72,7 +72,7 @@ export const Birthdays = ({ birthdays }: BirthdaysProps) => {
         </Heading>
         {subtitle ? <Heading level={3}>{subtitle}</Heading> : null}
         {bodyRaw ? (
-          <Column columnwidth="medium">
+          <Column $columnwidth="medium">
             <PageText>
               <RichText
                 body={bodyRaw}

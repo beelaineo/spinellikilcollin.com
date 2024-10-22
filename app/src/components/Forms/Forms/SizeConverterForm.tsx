@@ -41,7 +41,7 @@ const FieldsWrapper = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 0.5fr 1fr 1fr;
     align-items: center;
-    grid-gap: 3;
+    gap: 3;
 
     & > * {
       grid-column: span 1;
@@ -261,7 +261,10 @@ export const SizeConverterForm = ({
     if (!bestVariant || !bestVariant.id) {
       throw new Error('No variant was found for these options')
     }
-    selectVariant(bestVariant.id)
+
+    if (selectVariant) {
+      selectVariant(bestVariant.id)
+    }
   }
 
   useEffect(() => {
@@ -324,7 +327,6 @@ export const SizeConverterForm = ({
   }
   const handleRingSizerClick = () => {
     if (openRingSizerModal !== undefined) {
-      console.log
       openRingSizerModal({
         currentProduct: currentProduct,
         currentVariant: currentVariant,

@@ -1,5 +1,7 @@
 import React, { ReactNode } from 'react'
-import styled, { css, DefaultTheme } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
+
 import {
   getColor,
   getBackgroundColor,
@@ -22,22 +24,22 @@ import { Heading } from '../Text'
 const { useEffect, useRef } = React
 
 interface HeroWrapperProps {
-  hero: Hero
+  $hero: Hero
   ref?: React.ForwardedRef<HTMLDivElement>
-  minimalDisplay?: Maybe<boolean>
+  $minimalDisplay?: Maybe<boolean>
 }
 
 export const HeroWrapper = styled.div<HeroWrapperProps>`
-  ${({ theme, hero, minimalDisplay }) => css`
-    display: ${hero.layout?.includes('flex') ? 'flex' : 'block'};
-    margin-bottom: ${minimalDisplay === true ? '-76px' : 'inherit'};
+  ${({ theme, $hero, $minimalDisplay }) => css`
+    display: ${$hero.layout?.includes('flex') ? 'flex' : 'block'};
+    margin-bottom: ${$minimalDisplay === true ? '-76px' : 'inherit'};
     position: relative;
     z-index: 0;
     grid-column: span 2;
-    background-color: ${hero.backgroundColor === 'custom'
-      ? hero.backgroundColorCustom?.hex
-      : hero.backgroundColor
-      ? getColor(hero.backgroundColor)
+    background-color: ${$hero.backgroundColor === 'custom'
+      ? $hero.backgroundColorCustom?.hex
+      : $hero.backgroundColor
+      ? getColor($hero.backgroundColor)
       : 'inherit'};
     video {
       display: block;
@@ -48,75 +50,75 @@ export const HeroWrapper = styled.div<HeroWrapperProps>`
     }
 
     ${theme.mediaQueries.tablet} {
-      margin-bottom: ${minimalDisplay === true ? '-76px' : 'inherit'};
+      margin-bottom: ${$minimalDisplay === true ? '-76px' : 'inherit'};
     }
 
     ${theme.mediaQueries.mobile} {
-      background-color: ${hero.mobileBackgroundColor === 'custom' &&
-      hero.mobileBackgroundColorCustom
-        ? hero.mobileBackgroundColorCustom?.hex
-        : hero.mobileBackgroundColor
-        ? hero.mobileBackgroundColor
-        : hero.backgroundColor === 'custom' && hero.backgroundColorCustom
-        ? hero.backgroundColorCustom?.hex
-        : hero.backgroundColor
-        ? getColor(hero.backgroundColor)
+      background-color: ${$hero.mobileBackgroundColor === 'custom' &&
+      $hero.mobileBackgroundColorCustom
+        ? $hero.mobileBackgroundColorCustom?.hex
+        : $hero.mobileBackgroundColor
+        ? $hero.mobileBackgroundColor
+        : $hero.backgroundColor === 'custom' && $hero.backgroundColorCustom
+        ? $hero.backgroundColorCustom?.hex
+        : $hero.backgroundColor
+        ? getColor($hero.backgroundColor)
         : 'inherit'};
       flex-direction: column;
 
-      margin-bottom: ${minimalDisplay === true ? '-63px' : 'inherit'};
-      padding-bottom: ${minimalDisplay === true ? '63px' : 'inherit'};
+      margin-bottom: ${$minimalDisplay === true ? '-63px' : 'inherit'};
+      padding-bottom: ${$minimalDisplay === true ? '63px' : 'inherit'};
     }
   `}
 `
 
 interface HeroTextProps {
   theme: DefaultTheme
-  hero: Hero
-  minimalDisplay?: Maybe<boolean>
-  textPosition?: string | null | undefined
-  textColor?: string | null
-  textPositionMobile?: string | null
-  textColorMobile?: string | null
-  textContainer?: string | null
-  textXL?: boolean | null
+  $hero: Hero
+  $minimalDisplay?: Maybe<boolean>
+  $textPosition?: string | null | undefined
+  $textColor?: string | null
+  $textPositionMobile?: string | null
+  $textColorMobile?: string | null
+  $textContainer?: string | null
+  $textXL?: boolean | null
 }
 
 const HeroText = styled.div<HeroTextProps>`
   ${({
     theme,
-    hero,
-    minimalDisplay,
-    textPosition,
-    textColor,
-    textPositionMobile,
-    textXL,
-    textColorMobile,
-    textContainer,
+    $hero,
+    $minimalDisplay,
+    $textPosition,
+    $textColor,
+    $textPositionMobile,
+    $textXL,
+    $textColorMobile,
+    $textContainer,
   }) => css`
     pointer-events: none;
-    position: ${hero.layout?.includes('flex') ? 'static' : 'absolute'};
+    position: ${$hero.layout?.includes('flex') ? 'static' : 'absolute'};
     top: 0;
     left: 0;
-    width: ${hero.layout?.includes('flex') ? '50%' : '100%'};
+    width: ${$hero.layout?.includes('flex') ? '50%' : '100%'};
     height: 100%;
     padding: calc(${theme.navHeight} + ${theme.space[6]}px) 6 6;
     ${
-      minimalDisplay
+      $minimalDisplay
         ? `padding: calc(${theme.navHeight} + ${theme.space[4]}px) 6 ${theme.navHeight} 6;`
         : null
     }
     display: flex;
     justify-content: ${
-      textPosition ? getFlexJustification(textPosition) : 'center'
+      $textPosition ? getFlexJustification($textPosition) : 'center'
     };
-    align-items: ${textPosition ? getFlexAlignment(textPosition) : 'center'};
-    text-align: ${textPosition ? getTextAlignment(textPosition) : 'center'};
+    align-items: ${$textPosition ? getFlexAlignment($textPosition) : 'center'};
+    text-align: ${$textPosition ? getTextAlignment($textPosition) : 'center'};
     color: ${
-      textColor === 'custom' && hero.textColorCustom
-        ? hero.textColorCustom?.hex
-        : textColor
-        ? getColor(textColor)
+      $textColor === 'custom' && $hero.textColorCustom
+        ? $hero.textColorCustom?.hex
+        : $textColor
+        ? getColor($textColor)
         : 'inherit'
     };
 
@@ -124,18 +126,18 @@ const HeroText = styled.div<HeroTextProps>`
 
     .text-container {
       ${
-        textXL
+        $textXL
           ? 'max-width: 90vw;'
-          : textContainer == 'full'
+          : $textContainer == 'full'
           ? 'max-width: 720px;'
-          : textContainer == 'half-left' || textContainer == 'half-right'
+          : $textContainer == 'half-left' || $textContainer == 'half-right'
           ? 'max-width: 60%;'
           : 'max-width: 400px'
       };
 
 
       ${
-        textContainer == 'half-top' || textContainer == 'half-bottom'
+        $textContainer == 'half-top' || $textContainer == 'half-bottom'
           ? 'max-height: 60%;'
           : null
       }
@@ -167,7 +169,7 @@ const HeroText = styled.div<HeroTextProps>`
       }
 
       ${
-        !hero.cta
+        !$hero.cta
           ? `
         h1:first-child,
         h2:first-child,
@@ -195,21 +197,21 @@ const HeroText = styled.div<HeroTextProps>`
     }
     h1 {
       font-size: ${
-        textContainer == 'full' && textXL ? '14vw' : theme.fontSizes[1]
+        $textContainer == 'full' && $textXL ? '14vw' : theme.fontSizes[1]
       };
 
     }
     ${theme.mediaQueries.tablet} {
       ${
-        minimalDisplay
+        $minimalDisplay
           ? `padding: calc(${theme.navHeight} + ${theme.space[2]}px) 4 10 6;`
           : null
       }
 
       ${
-        textContainer == 'full'
+        $textContainer == 'full'
           ? `h1 {
-              font-size: ${textXL ? '14vw' : theme.mobileFontSizes[1]};
+              font-size: ${$textXL ? '14vw' : theme.mobileFontSizes[1]};
             }
             h2 {
               font-size: ${theme.mobileFontSizes[2]};
@@ -232,30 +234,30 @@ const HeroText = styled.div<HeroTextProps>`
     }
 
     ${theme.mediaQueries.mobile} {
-      justify-content: ${getFlexJustification(textPositionMobile)};
-      align-items: ${getFlexAlignment(textPositionMobile)};
+      justify-content: ${getFlexJustification($textPositionMobile)};
+      align-items: ${getFlexAlignment($textPositionMobile)};
       text-align: ${
-        textPositionMobile ? getTextAlignment(textPositionMobile) : 'center'
+        $textPositionMobile ? getTextAlignment($textPositionMobile) : 'center'
       };
-      color: ${textColorMobile ? getColor(textColorMobile) : 'inherit'};
+      color: ${$textColorMobile ? getColor($textColorMobile) : 'inherit'};
       padding: ${
-        minimalDisplay
+        $minimalDisplay
           ? `4;`
           : `calc(${theme.mobileNavHeight} + ${theme.space[4]}px) 4 4;`
       }
       
       width: 100%;
-      min-height: ${hero.layout?.includes('flex') ? '40vw' : 'auto'};
+      min-height: ${$hero.layout?.includes('flex') ? '40vw' : 'auto'};
 
       color: ${
-        textColorMobile === 'custom' && hero.textColorMobileCustom
-          ? hero.textColorMobileCustom?.hex
-          : hero.textColorMobile
-          ? hero.textColorMobile
-          : hero.textColor === 'custom' && hero.textColorCustom
-          ? hero.textColorCustom?.hex
-          : hero.textColor
-          ? getColor(hero.textColor)
+        $textColorMobile === 'custom' && $hero.textColorMobileCustom
+          ? $hero.textColorMobileCustom?.hex
+          : $hero.textColorMobile
+          ? $hero.textColorMobile
+          : $hero.textColor === 'custom' && $hero.textColorCustom
+          ? $hero.textColorCustom?.hex
+          : $hero.textColor
+          ? getColor($hero.textColor)
           : 'inherit'
       };
     }
@@ -278,14 +280,14 @@ const CtaWrapper = styled.span`
 `
 
 interface HeroImageWrapperProps {
-  hero: Hero
+  $hero: Hero
   ref?: React.ForwardedRef<HTMLDivElement>
 }
 
 const HeroImageWrapper = styled.div<HeroImageWrapperProps>`
-  ${({ theme, hero }) => css`
-    width: ${hero.layout?.includes('flex') ? '50%' : '100%'};
-    order: ${hero.layout === 'flex-left' ? '1' : '0'};
+  ${({ theme, $hero }) => css`
+    width: ${$hero.layout?.includes('flex') ? '50%' : '100%'};
+    order: ${$hero.layout === 'flex-left' ? '1' : '0'};
 
     video {
       top: 0;
@@ -295,7 +297,7 @@ const HeroImageWrapper = styled.div<HeroImageWrapperProps>`
       object-fit: cover;
     }
 
-    ${hero.layout?.includes('flex')
+    ${$hero.layout?.includes('flex')
       ? `& > div {
       height: 100%;
       & > picture {
@@ -326,14 +328,14 @@ const HeroImageWrapper = styled.div<HeroImageWrapperProps>`
 `
 
 interface HeroBlockProps {
-  hero: Hero
-  minimalDisplay?: Maybe<boolean>
+  $hero: Hero
+  $minimalDisplay?: Maybe<boolean>
 }
 
 // eslint-disable-next-line react/display-name
 export const HeroBlock = React.forwardRef(
   (
-    { hero, minimalDisplay }: HeroBlockProps,
+    { $hero, $minimalDisplay }: HeroBlockProps,
     ref: React.ForwardedRef<HTMLDivElement>,
   ) => {
     const {
@@ -352,7 +354,7 @@ export const HeroBlock = React.forwardRef(
       mobileImage,
       header_color,
       cta: ctas,
-    } = hero
+    } = $hero
     const cta = definitely(ctas).length ? definitely(ctas)[0] : null
     const isMobile = useMedia({
       maxWidth: `${theme.breakpoints?.md || '650'}px`,
@@ -376,30 +378,30 @@ export const HeroBlock = React.forwardRef(
     }, [])
 
     return (
-      <HeroWrapper hero={hero} ref={ref} minimalDisplay={minimalDisplay}>
+      <HeroWrapper $hero={$hero} ref={ref} $minimalDisplay={$minimalDisplay}>
         <DocumentLink document={heroLink?.document ?? undefined}>
           {cloudinaryVideo?.videoId ? (
-            <HeroImageWrapper hero={hero} ref={heroRef}>
+            <HeroImageWrapper $hero={$hero} ref={heroRef}>
               <CloudinaryVideo video={cloudinaryVideo} />
               {cloudinaryVideoMobile ? (
                 <CloudinaryVideo video={cloudinaryVideoMobile} />
               ) : null}
             </HeroImageWrapper>
           ) : (
-            <HeroImageWrapper hero={hero} ref={heroRef}>
+            <HeroImageWrapper $hero={$hero} ref={heroRef}>
               {image ? <Image image={image} preload loading="eager" /> : null}
               {mobileImage ? <Image image={mobileImage} /> : null}
             </HeroImageWrapper>
           )}
           <HeroText
-            textPosition={textPosition}
-            textXL={textXL}
-            textColor={textColor}
-            textPositionMobile={textPositionMobile}
-            textColorMobile={textColorMobile}
-            textContainer={textContainer}
-            minimalDisplay={minimalDisplay}
-            hero={hero}
+            $textPosition={textPosition}
+            $textXL={textXL}
+            $textColor={textColor}
+            $textPositionMobile={textPositionMobile}
+            $textColorMobile={textColorMobile}
+            $textContainer={textContainer}
+            $minimalDisplay={$minimalDisplay}
+            $hero={$hero}
           >
             <div className="text-container">
               <RichText

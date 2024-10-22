@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styled, { css, Box } from '@xstyled/styled-components'
+import styled, { css, x } from '@xstyled/styled-components'
 import { Heading } from '../../../Text'
 import { CountryPhoneOption } from './types'
 import { HiddenSelect } from './HiddenSelect'
@@ -11,7 +11,7 @@ interface CountryCodeSelectorProps {
   currentValue?: string | null
 }
 
-const Wrapper = styled(Box)`
+const Wrapper = styled(x.div)`
   display: block;
   margin-right: -6px;
 `

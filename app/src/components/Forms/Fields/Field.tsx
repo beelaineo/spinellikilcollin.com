@@ -105,7 +105,7 @@ export const Field = (fieldProps: FieldProps) => {
           {label}
         </Label>
       ) : null}
-      <FieldWrapper noBorder={noBorder}>
+      <FieldWrapper $noBorder={noBorder}>
         {children ? children : renderInner()}
       </FieldWrapper>
       {helpText ? (

@@ -18,16 +18,16 @@ interface WithOpen {
 interface WithType {
   type?: string
   rowSpan?: number
-  active: boolean
-  minimalDisplay?: Maybe<boolean>
+  $active: boolean
+  $minimalDisplay?: Maybe<boolean>
 }
 
 const Wrapper = styled.div<WithType>`
-  ${({ theme, rowSpan, type, active, minimalDisplay }) => css`
+  ${({ theme, rowSpan, type, $active, $minimalDisplay }) => css`
     grid-column: ${type === 'PriceRangeMinMaxFilter' ? 'span 2' : 'auto'};
     grid-row: ${rowSpan ? `span ${rowSpan}` : 'auto'};
 
-    ${minimalDisplay
+    ${$minimalDisplay
       ? css`
           &:nth-child(1) > div > div > div {
             margin-left: 0px;
@@ -38,13 +38,13 @@ const Wrapper = styled.div<WithType>`
     ${theme.mediaQueries.tablet} {
     }
     @media screen and (max-width: 960px) {
-      flex: ${minimalDisplay ? '0' : '49%'};
+      flex: ${$minimalDisplay ? '0' : '49%'};
       flex-grow: 0;
       &:nth-last-child(2) {
         min-width: unset;
       }
 
-      ${minimalDisplay
+      ${$minimalDisplay
         ? css`
             &:nth-child(1) > div > div > div {
               margin-left: 0px;
@@ -52,11 +52,11 @@ const Wrapper = styled.div<WithType>`
           `
         : ''};
 
-      ${active && type !== 'InStockFilter'
+      ${$active && type !== 'InStockFilter'
         ? css`
-            flex: ${minimalDisplay ? '0' : '100%'};
-            order: ${minimalDisplay ? 'unset' : '-1'};
-            margin-bottom: ${minimalDisplay ? 'auto' : '4'};
+            flex: ${$minimalDisplay ? '0' : '100%'};
+            order: ${$minimalDisplay ? 'unset' : '-1'};
+            margin-bottom: ${$minimalDisplay ? 'auto' : '4'};
           `
         : ''};
     }
@@ -91,8 +91,8 @@ interface FilterWrapperProps {
   type: string
   filter: Filter | FilterSet | PriceRangeMinMaxFilter | InStockFilter
   onClick: () => void
-  active: boolean
-  minimalDisplay?: Maybe<boolean>
+  $active: boolean
+  $minimalDisplay?: Maybe<boolean>
 }
 
 export const FilterWrapper = ({
@@ -101,8 +101,8 @@ export const FilterWrapper = ({
   children,
   filter,
   onClick,
-  active,
-  minimalDisplay,
+  $active,
+  $minimalDisplay,
 }: FilterWrapperProps) => {
   const rowSpan =
     filter.__typename === 'FilterSet'
@@ -116,8 +116,8 @@ export const FilterWrapper = ({
       rowSpan={rowSpan}
       type={type}
       onClick={onClick}
-      active={active}
-      minimalDisplay={minimalDisplay}
+      $active={$active}
+      $minimalDisplay={$minimalDisplay}
     >
       <Inner open={true}>{children}</Inner>
     </Wrapper>

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Box } from '@xstyled/styled-components'
+import { x } from '@xstyled/styled-components'
 import Link from 'next/link'
 import {
   useShopify,
@@ -276,7 +276,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
             )
           })}
         </div>
-        <Box my={0}>
+        <x.div my={0}>
           <QuantityWrapper>
             <Heading weight={2} my={0} level={5}>
               Quantity:
@@ -295,7 +295,7 @@ export const CheckoutProduct = ({ lineItem }: CheckoutLineItemProps) => {
               +
             </QuantityAdjustButton>
           </QuantityWrapper>
-        </Box>
+        </x.div>
         <CloseButtonWrapper>
           <CloseButton onClick={remove} />
         </CloseButtonWrapper>

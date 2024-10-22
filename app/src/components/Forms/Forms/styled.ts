@@ -1,7 +1,7 @@
 import styled, { css } from '@xstyled/styled-components'
 
 interface WithVisible {
-  visible: boolean
+  $visible: boolean
 }
 
 export const MainWrapper = styled.div`
@@ -19,23 +19,23 @@ export const ProductBadgeWrapper = styled.div`
 `
 
 interface WithVisibleHV {
-  visible: boolean
-  highValue?: boolean
+  $visible: boolean
+  $highValue?: boolean
 }
 
 export const FieldsWrapper = styled.div<WithVisibleHV>`
-  ${({ visible, highValue, theme }) => css`
+  ${({ $visible, $highValue, theme }) => css`
     margin-top: 5;
-    opacity: ${visible ? 1 : 0};
-    pointer-events: ${visible ? 'inherit' : 'none'};
+    opacity: ${$visible ? 1 : 0};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-row-gap: 4;
-    grid-column-gap: 3;
+    row-gap: 4;
+    column-gap: 3;
 
     .field--customization_details {
-      grid-column: ${highValue ? '1 / 3' : 'unset'};
+      grid-column: ${$highValue ? '1 / 3' : 'unset'};
     }
 
     > div:nth-child(odd) {
@@ -87,9 +87,9 @@ export const FieldsWrapper = styled.div<WithVisibleHV>`
 `
 
 export const SuccessWrapper = styled.div<WithVisible>`
-  ${({ visible }) => css`
-    opacity: ${visible ? 1 : 0};
-    pointer-events: ${visible ? 'inherit' : 'none'};
+  ${({ $visible }) => css`
+    opacity: ${$visible ? 1 : 0};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.2s;
     position: absolute;
     width: 100%;

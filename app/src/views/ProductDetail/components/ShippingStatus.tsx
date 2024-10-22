@@ -19,26 +19,24 @@ const InStockDot = styled('span')`
 
 const Wrapper = styled.div`
   ${({ theme }) => css`
-     {
-      display: flex;
-      align-items: center;
-      margin: 3 0;
-      position: relative;
+    display: flex;
+    align-items: center;
+    margin: 3 0;
+    position: relative;
 
-      #shippingIcon {
-        width: 32px;
-        margin-right: 3;
-        height: auto;
-      }
+    #shippingIcon {
+      width: 32px;
+      margin-right: 3;
+      height: auto;
+    }
 
-      span {
-        font-style: italic;
-      }
+    span {
+      font-style: italic;
+    }
 
-      ${theme.mediaQueries.tablet} {
-      }
-      ${theme.mediaQueries.mobile} {
-      }
+    ${theme.mediaQueries.tablet} {
+    }
+    ${theme.mediaQueries.mobile} {
     }
   `}
 `

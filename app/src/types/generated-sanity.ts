@@ -424,8 +424,8 @@ export interface CollectionBlock {
   cloudinaryVideo?: Maybe<CloudinaryVideo>
   format?: Maybe<Scalars['String']['output']>
   position?: Maybe<Scalars['Float']['output']>
-  textColor?: Maybe<Scalars['String']['output']>
-  textPosition?: Maybe<Scalars['String']['output']>
+  $textColor?: Maybe<Scalars['String']['output']>
+  $textPosition?: Maybe<Scalars['String']['output']>
 }
 
 export type CollectionBlockFilter = {

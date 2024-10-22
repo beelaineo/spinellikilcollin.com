@@ -28,42 +28,40 @@ interface Props extends Pick<UseCheckoutValues, 'addLineItem'> {
 }
 
 interface WithSticky {
-  sticky: boolean
+  sticky?: boolean
 }
 
 const BuyButtonEl = styled(Button)<WithSticky>`
   ${({ theme, sticky }) => css`
-     {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+    font-weight: 200;
+    gap: 2;
+
+    &:focus-visible {
+      ${theme.focus.left()}
+    }
+
+    .status-label {
+      font-style: italic;
+    }
+
+    ${theme.mediaQueries.tablet} {
       position: relative;
-      display: flex;
-      justify-content: center;
-      padding: 0 20px;
-      font-weight: 200;
-      gap: 2;
 
-      &:focus-visible {
-        ${theme.focus.left()}
-      }
+      position: ${sticky ? 'fixed' : 'inherit'};
+      top: ${sticky ? '92px' : 'inherit'};
+      z-index: 4;
+      width: ${sticky ? 'calc(100% - 250px)' : 'inherit'};
+      transition: width 0s;
+    }
+    ${theme.mediaQueries.mobile} {
+      position: relative;
 
-      .status-label {
-        font-style: italic;
-      }
-
-      ${theme.mediaQueries.tablet} {
-        position: relative;
-
-        position: ${sticky ? 'fixed' : 'inherit'};
-        top: ${sticky ? '92px' : 'inherit'};
-        z-index: 4;
-        width: ${sticky ? 'calc(100% - 250px)' : 'inherit'};
-        transition: width 0s;
-      }
-      ${theme.mediaQueries.mobile} {
-        position: relative;
-
-        top: ${sticky ? '85px' : 'inherit'};
-        width: ${sticky ? 'calc(100% - 88px)' : 'inherit'};
-      }
+      top: ${sticky ? '85px' : 'inherit'};
+      width: ${sticky ? 'calc(100% - 88px)' : 'inherit'};
     }
   `}
 `
@@ -207,7 +205,7 @@ export const BuyButton = ({
   }
   if (variantIsInStock === false) {
     return (
-      <BuyButtonEl disabled={true} ref={buttonRef}>
+      <BuyButtonEl disabled={true} ref={buttonRef} sticky={false}>
         Out of Stock
       </BuyButtonEl>
     )

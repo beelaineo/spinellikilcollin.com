@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   Collection,
   Product,
@@ -36,7 +35,7 @@ import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
 import { Loading } from '../../components/Loading'
-import styled, { css, Box } from '@xstyled/styled-components'
+import styled, { css, x } from '@xstyled/styled-components'
 import {
   LoadingWrapper,
   ProductGridWrapper,
@@ -118,6 +117,48 @@ function isCollectionResult(
   if (!r || !r[0]) return false
   return 'products' in r[0]
 }
+
+const DescriptionWrapper = styled.div`
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 50% 10% 1fr;
+    column-gap: 3;
+
+    padding: 8 11;
+
+    ${theme.mediaQueries.tablet} {
+      padding: 4 8;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 4 5;
+      display: flex;
+      flex-direction: column;
+    }
+  `}
+`
+const TextWrapper = styled.div`
+  ${({ theme }) => css`
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    &:first-of-type p {
+      font-size: 16px;
+    }
+    p {
+      font-weight: 200;
+      font-size: 13px;
+    }
+    ${theme.mediaQueries.mobile} {
+      &:first-of-type p {
+        font-size: 13px;
+      }
+      &:last-of-type {
+        display: none;
+      }
+    }
+  `}
+`
 
 export const ProductListing = ({
   collection,
@@ -536,62 +577,21 @@ export const ProductListing = ({
 
   const validHero = isValidHero(hero)
 
-  const DescriptionWrapper = styled.div`
-    ${({ theme }) => css`
-      display: grid;
-      grid-template-columns: 50% 10% 1fr;
-      grid-column-gap: 3;
-
-      padding: 8 11;
-
-      ${theme.mediaQueries.tablet} {
-        padding: 4 8;
-      }
-
-      ${theme.mediaQueries.mobile} {
-        padding: 4 5;
-        display: flex;
-        flex-direction: column;
-      }
-    `}
-  `
-  const TextWrapper = styled.div`
-    ${({ theme }) => css`
-      position: relative;
-      z-index: 1;
-      max-width: 800px;
-      &:first-of-type p {
-        font-size: 16px;
-      }
-      p {
-        font-weight: 200;
-        font-size: 13px;
-      }
-      ${theme.mediaQueries.mobile} {
-        &:first-of-type p {
-          font-size: 13px;
-        }
-        &:last-of-type {
-          display: none;
-        }
-      }
-    `}
-  `
   return (
     <>
       {!isHiddenByKeepAlive ? (
         <SEO seo={seo} defaultSeo={defaultSeo} path={path} hidden={hidden} />
       ) : null}
       {hero && validHero ? (
-        <HeroBlock hero={hero} minimalDisplay={minimalDisplay} />
+        <HeroBlock $hero={hero} $minimalDisplay={minimalDisplay} />
       ) : null}
       <Wrapper
-        handle={handle}
-        withHero={Boolean(hero && validHero)}
-        isLightTheme={Boolean(lightTheme)}
+        $handle={handle}
+        $withHero={Boolean(hero && validHero)}
+        $isLightTheme={Boolean(lightTheme)}
         tabIndex={-1}
         ref={gridRef}
-        isReady={isReady}
+        $isReady={isReady}
       >
         {filters && filters.length && !highValueTemplate ? (
           <Filter
@@ -627,7 +627,7 @@ export const ProductListing = ({
               </LoadingWrapper>
             ) : null}
 
-            <ProductGridWrapper isLoading={loading}>
+            <ProductGridWrapper $isLoading={loading}>
               {highValueTemplate ? (
                 <HighValueWrapper>
                   <HighValueHeaderWrapper>
@@ -669,7 +669,7 @@ export const ProductListing = ({
                 />
               )}
               {/* {!fetchComplete ? (
-                <Box my={8}>
+                <x.div my={8}>
                   <Heading
                     level={4}
                     textAlign="center"
@@ -681,7 +681,7 @@ export const ProductListing = ({
                       : 'Loading products...'}
                   </Heading>
                   <Loading />
-                </Box>
+                </x.div>
               ) : null} */}
               {footer && footer.length > 0 ? (
                 <FooterGrid>

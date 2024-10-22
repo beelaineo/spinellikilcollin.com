@@ -5,7 +5,7 @@ interface BackgroundImageProps {
 }
 
 interface HoverThumbWrapperProps {
-  hover: boolean
+  $hover: boolean
 }
 
 export const ProductThumb = styled.div`
@@ -33,22 +33,22 @@ export const ProductThumb = styled.div`
 `
 
 interface WithDisplayGrid {
-  displayGrid?: boolean
-  hover?: boolean
+  $displayGrid?: boolean
+  $hover?: boolean
 }
 
 export const ProductInfo = styled.div<WithDisplayGrid>`
-  ${({ theme, displayGrid, hover }) => css`
+  ${({ theme, $displayGrid, $hover }) => css`
     padding: 3 0 5;
     text-align: center;
     text-transform: capitalize;
     color: body.7;
     z-index: 1;
-    ${displayGrid
+    ${$displayGrid
       ? css`
           display: grid;
           grid-template-columns: 1fr;
-          grid-row-gap: 2;
+          row-gap: 2;
           grid-template-rows: 1fr 1fr 25px;
           align-items: center;
         `
@@ -61,13 +61,13 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
 
     & > *:first-child,
     & > *:nth-child(2) {
-      opacity: ${hover ? 0 : 1};
+      opacity: ${$hover ? 0 : 1};
     }
 
     ${theme.mediaQueries.mobile} {
       margin-top: 3;
       padding: 0px;
-      grid-row-gap: 1;
+      row-gap: 1;
       h3 {
         font-size: ${theme.mobileFontSizes[5]};
       }
@@ -79,14 +79,14 @@ export const ProductInfo = styled.div<WithDisplayGrid>`
 `
 
 interface WithHide {
-  hide?: boolean
-  hover?: boolean
+  $hide?: boolean
+  $hover?: boolean
 }
 
 export const ImageWrapper = styled.div<WithHide>`
-  ${({ theme, hide, hover }) => css`
+  ${({ theme, $hide, $hover }) => css`
     position: relative;
-    display: ${hide ? 'none' : 'flex'};
+    display: ${$hide ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -104,23 +104,17 @@ export const HoverArea = styled.span`
   opacity: 0;
 `
 
-export const HoverThumb = styled.img`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-`
-
 export const HoverThumbWrapper = styled.div<HoverThumbWrapperProps>`
-  ${({ hover, theme }) => css`
+  ${({ $hover, theme }) => css`
     position: absolute;
     width: 100%;
     height: 100%;
     z-index: 1;
-    visibility: ${hover ? 'visible' : 'hidden'};
-    opacity: ${hover ? 1 : 0};
+    visibility: ${$hover ? 'visible' : 'hidden'};
+    opacity: ${$hover ? 1 : 0};
 
     transition: 0.2s opacity ease-out,
-      0s visibility ease-in-out ${hover ? '0s' : '0.2s'};
+      0s visibility ease-in-out ${$hover ? '0s' : '0.2s'};
 
     ${theme.mediaQueries.mobile} {
       visibility: hidden;
@@ -130,13 +124,13 @@ export const HoverThumbWrapper = styled.div<HoverThumbWrapperProps>`
 `
 
 interface WithHideCarousel {
-  hide?: boolean
+  $hide?: boolean
   carousel?: boolean
-  hover?: boolean
+  $hover?: boolean
 }
 
 export const VideoWrapper = styled.div<WithHideCarousel>`
-  ${({ theme, hide, carousel, hover }) => css`
+  ${({ theme, $hide, carousel, $hover }) => css`
     position: relative;
     width: 100%;
     height: 100%;
@@ -200,19 +194,19 @@ export const SwatchLabel = styled.div`
 `
 
 interface WithClickable {
-  clickable: boolean
-  active: boolean
+  $clickable: boolean
+  $active: boolean
 }
 
 export const SwatchWrapper = styled.div<WithClickable>`
-  ${({ theme, clickable, active }) => css`
+  ${({ theme, $clickable, $active }) => css`
     position: relative;
     width: 23px;
     margin: 0;
     margin-right: 2;
     padding-bottom: 2;
-    cursor: ${clickable ? 'pointer' : 'inherit'};
-    border-bottom: ${active ? '1px solid' : 'none'};
+    cursor: ${$clickable ? 'pointer' : 'inherit'};
+    border-bottom: ${$active ? '1px solid' : 'none'};
     border-color: body.5;
 
     img {

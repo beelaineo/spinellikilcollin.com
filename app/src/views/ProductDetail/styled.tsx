@@ -7,7 +7,7 @@ import {
 } from '../../components/Carousel/styled'
 
 interface WithProduct {
-  product?: Product
+  $product?: Product
 }
 
 export const Wrapper = styled.div`
@@ -36,7 +36,7 @@ export const ProductDetails = styled.div`
   ${({ theme }) => css`
     display: grid;
     grid-template-columns: 1fr 330px;
-    grid-column-gap: 5;
+    column-gap: 5;
     padding-right: 11;
 
     ${theme.mediaQueries.desktop} {
@@ -51,7 +51,7 @@ export const ProductDetails = styled.div`
 `
 
 export const InfoWrapper = styled.div<WithProduct>`
-  ${({ product, theme }) => css`
+  ${({ $product, theme }) => css`
     height: 100%;
     display: flex;
     padding: 190px 0 9 0;
@@ -59,7 +59,7 @@ export const InfoWrapper = styled.div<WithProduct>`
     justify-content: flex-start;
 
     ${theme.mediaQueries.tablet} {
-      padding: ${product?.store?.productType === 'Gift Card'
+      padding: ${$product?.store?.productType === 'Gift Card'
         ? '0 81px 7'
         : '9 81px 7'};
     }
@@ -67,7 +67,7 @@ export const InfoWrapper = styled.div<WithProduct>`
     ${theme.mediaQueries.mobile} {
       height: 100%;
       display: block;
-      padding: ${product?.store?.productType === 'Gift Card'
+      padding: ${$product?.store?.productType === 'Gift Card'
         ? '0 0 7'
         : '96px 0 7'};
     }
@@ -129,7 +129,7 @@ export const KlarnaWrapper = styled.div`
 `
 
 export const TitleWrapper = styled.div<WithProduct>`
-  ${({ product, theme }) => css`
+  ${({ $product, theme }) => css`
     & > em {
       display: block;
       margin-bottom: 3;
@@ -137,8 +137,10 @@ export const TitleWrapper = styled.div<WithProduct>`
     ${theme.mediaQueries.tablet} {
       text-align: center;
       grid-row: 1;
-      margin-top: ${product?.store?.productType === 'Gift Card' ? '0' : '-2'};
-      margin-bottom: ${product?.store?.productType === 'Gift Card' ? '4' : '0'};
+      margin-top: ${$product?.store?.productType === 'Gift Card' ? '0' : '-2'};
+      margin-bottom: ${$product?.store?.productType === 'Gift Card'
+        ? '4'
+        : '0'};
       & > em {
         margin-bottom: 2;
       }
@@ -247,19 +249,19 @@ export const Nav = styled.div`
 `
 
 interface WithProductHide {
-  product?: Product
-  hide?: boolean
+  $product?: Product
+  $hide?: boolean
 }
 
 export const ProductGalleryWrapper = styled.div<WithProductHide>`
-  ${({ product, hide, theme }) => css`
-    display: ${hide ? 'none' : 'block'};
+  ${({ $product, $hide, theme }) => css`
+    display: ${$hide ? 'none' : 'block'};
     position: sticky;
     top: 0;
 
     ${theme.mediaQueries.tablet} {
       position: relative;
-      order: ${product?.store?.productType === 'Gift Card' ? '-1' : '0'};
+      order: ${$product?.store?.productType === 'Gift Card' ? '-1' : '0'};
     }
   `}
 `
@@ -267,7 +269,7 @@ export const ProductGalleryWrapper = styled.div<WithProductHide>`
 export const Thumbnails = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 2;
+  gap: 2;
   margin-top: 3;
 `
 

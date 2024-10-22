@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { Box } from '@xstyled/styled-components'
 import { useFormikContext } from 'formik'
 import { useTabs } from '../../../components/Tabs'
 import { Field } from '../../../components/Forms'

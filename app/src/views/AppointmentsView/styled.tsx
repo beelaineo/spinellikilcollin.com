@@ -5,7 +5,7 @@ interface QuickLinksNavProps {
 }
 
 interface QuickLinkProps {
-  isActive: boolean
+  $isActive: boolean
 }
 
 export const QuestionWrapper = styled.div`
@@ -60,7 +60,7 @@ export const QuickLinksNav = styled.ul<QuickLinksNavProps>`
 `
 
 export const QuickLink = styled.li<QuickLinkProps>`
-  ${({ isActive, theme }) => css`
+  ${({ $isActive, theme }) => css`
     ${theme.mediaQueries.tablet} {
       display: none;
     }
@@ -69,7 +69,7 @@ export const QuickLink = styled.li<QuickLinkProps>`
     font-weight: 200;
     list-style: none;
     margin: 6px auto 0.5em;
-    text-decoration: ${isActive ? 'underline' : 'none'};
+    text-decoration: ${$isActive ? 'underline' : 'none'};
     cursor: pointer;
   `}
 `

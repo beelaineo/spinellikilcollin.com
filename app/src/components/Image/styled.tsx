@@ -1,5 +1,6 @@
 import * as React from 'react'
-import styled, { DefaultTheme, css } from '@xstyled/styled-components'
+import styled, { css } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 
 export const MainImage = styled.img``
 export const BlurImage = styled.img``
@@ -27,21 +28,21 @@ export const Wrapper = styled.div`
 
 interface PictureProps {
   theme: DefaultTheme
-  loaded: boolean
-  objectFit?: string
+  $loaded: boolean
+  $objectFit?: string
   ratio?: number
-  richImage?: boolean
+  $richImage?: boolean
 }
 
 export const Picture = styled.picture<PictureProps>`
-  ${({ loaded, objectFit, ratio, richImage }) => css`
+  ${({ $loaded, $objectFit, ratio, $richImage }) => css`
     max-height: 100%;
     max-width: 100%;
     width: auto;
     background-color: transparent;
     display: block;
 
-    position: ${richImage ? 'relative' : 'absolute'};
+    position: ${$richImage ? 'relative' : 'absolute'};
     top: 0;
     left: 0;
     right: 0;
@@ -51,18 +52,18 @@ export const Picture = styled.picture<PictureProps>`
     overflow: hidden;
 
     & > ${MainImage} {
-      opacity: ${loaded ? 1 : 0};
+      opacity: ${$loaded ? 1 : 0};
 
       transition: opacity 0.5s ease-out;
       transition-delay: 0s;
       max-width: 100%;
-      object-fit: ${objectFit || 'cover'};
+      object-fit: ${$objectFit || 'cover'};
       display: block;
     }
 
     & > ${BlurImage} {
-      opacity: ${loaded ? 0 : 1};
-      filter: blur(${loaded ? 0 : 16}px) contrast(${loaded ? 0 : 0.7});
+      opacity: ${$loaded ? 0 : 1};
+      filter: blur(${$loaded ? 0 : 16}px) contrast(${$loaded ? 0 : 0.7});
       aspect-ratio: ${ratio};
 
       transition: opacity 0.5s ease-in, filter 0.5s ease-in;
@@ -70,11 +71,11 @@ export const Picture = styled.picture<PictureProps>`
       max-width: 100%;
       transform: scale(1.1, 1.1);
 
-      object-fit: ${objectFit || 'cover'};
+      object-fit: ${$objectFit || 'cover'};
       display: block;
     }
     & > ${ShadowImage} {
-      opacity: ${loaded ? 0 : 1};
+      opacity: ${$loaded ? 0 : 1};
       transition: opacity 0.3s ease-out;
       transition-delay: 0.1s;
 

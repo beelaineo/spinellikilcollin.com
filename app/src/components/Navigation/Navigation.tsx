@@ -85,31 +85,31 @@ export const Navigation = ({ breadCrumbs }) => {
 
       <Wrapper>
         <Backdrop />
-        <Inner withBorder={innerBorder} colorTheme={colorTheme}>
+        <Inner $withBorder={innerBorder} $colorTheme={colorTheme}>
           <Hamburger
             onClick={toggleMenu}
             open={false}
-            colorTheme={colorTheme}
+            $colorTheme={colorTheme}
           />
 
-          <LogoWrapper colorTheme={colorTheme}>
+          <LogoWrapper $colorTheme={colorTheme}>
             <Link href="/" as="/" aria-label="Link to homepage">
               <Logotype />
             </Link>
           </LogoWrapper>
           <ToolsWrapper>
-            <CountrySelector colorTheme={colorTheme} />
-            <SearchButtonWrapper colorTheme={colorTheme}>
+            <CountrySelector $colorTheme={colorTheme} />
+            <SearchButtonWrapper $colorTheme={colorTheme}>
               <SearchButton />
             </SearchButtonWrapper>
             <CartButtonWrapper
-              isLoading={loading}
+              $isLoading={loading}
               onClick={openCartHandler}
-              colorTheme={colorTheme}
+              $colorTheme={colorTheme}
               aria-label="open cart"
             >
               {cartCount ? (
-                <CartBadge colorTheme={colorTheme}>
+                <CartBadge $colorTheme={colorTheme}>
                   <Heading m={0} fontWeight={4} level={5}>
                     {cartCount}
                   </Heading>
@@ -124,7 +124,7 @@ export const Navigation = ({ breadCrumbs }) => {
             <Breadcrumbs paths={breadCrumbs} display={'header'} />
           )}
         </BreadcrumbsWrapper>
-        {showQuickLinks(router) ? <QuickLinks colorTheme={colorTheme} /> : null}
+        {showQuickLinks(router) ? <QuickLinks $colorTheme={colorTheme} /> : null}
       </Wrapper>
       <Checkout />
     </>

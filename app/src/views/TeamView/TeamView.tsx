@@ -10,7 +10,7 @@ import { TeamMember } from './TeamMember'
 const TeamGrid = styled.div`
   ${({ theme }) => css`
     display: grid;
-    grid-gap: 3;
+    gap: 3;
     grid-template-columns: repeat(3, 1fr);
     text-align: center;
 
@@ -33,7 +33,7 @@ export const TeamView = ({ teamPage }: TeamViewProps) => {
     <>
       <SEO seo={seo} defaultSeo={defaultSeo} path="about/team" />
       <PageWrapper tabIndex={-1}>
-        <Column columnwidth="mediumWide">
+        <Column $columnwidth="mediumWide">
           <Heading mt={4} mb={10} textAlign="center" level={1}>
             {title}
           </Heading>

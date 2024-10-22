@@ -1,4 +1,4 @@
-import { DefaultTheme } from '@xstyled/styled-components'
+import { DefaultTheme } from 'styled-components'
 
 export const magazineTheme = (theme: DefaultTheme): DefaultTheme => {
   return {

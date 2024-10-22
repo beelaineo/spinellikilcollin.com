@@ -1,14 +1,11 @@
 import * as React from 'react'
-import styled, {
-  css,
-  DefaultTheme,
-  Box,
-  BoxProps,
-} from '@xstyled/styled-components'
+import styled, { css, x, ITheme, system } from '@xstyled/styled-components'
 
-interface CustomTextProps extends BoxProps {
+import { DefaultTheme } from 'styled-components'
+
+interface CustomTextProps extends ITheme {
   theme: DefaultTheme
-  level: number
+  level?: number
   fontStyle?: string
   textDecoration?: string
   family?: 'mono' | 'sans' | 'serif'
@@ -45,14 +42,15 @@ const createTextBase = (as: any) => styled(as)<CustomTextProps>`
     em {
       font-style: italic;
     }
+    ${system}
   `}
 `
 
-const TextBase = createTextBase(Box)
+const TextBase = createTextBase(x.div)
 
 interface HeadingProps
   extends Omit<CustomTextProps, 'fontSize' | 'theme'>,
-    BoxProps {
+    ITheme {
   children: React.ReactNode
   level: number
   // TODO: type these properly
@@ -66,7 +64,8 @@ const hTags = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']
 export const Heading = ({
   children,
   level,
-  weight,
+  weight = 2,
+  family = 'serif',
   as,
   htmlFor,
   ...rest
@@ -79,6 +78,7 @@ export const Heading = ({
       level={level}
       weight={weight}
       htmlFor={htmlFor}
+      family={family}
       {...rest}
     >
       {children}
@@ -86,18 +86,13 @@ export const Heading = ({
   )
 }
 
-Heading.defaultProps = {
-  family: 'serif',
-  weight: 2,
-}
-
 type PProps = Omit<HeadingProps, 'level'>
 
 export const P = ({
   children,
   color,
-  family,
-  weight,
+  family = 'serif',
+  weight = 3,
   htmlFor,
   ...rest
 }: PProps) => {
@@ -114,16 +109,6 @@ export const P = ({
       {children}
     </TextBase>
   )
-}
-
-P.defaultProps = {
-  family: 'body',
-  weight: 3,
-}
-
-interface LabelProps {
-  htmlFor: string
-  children: string
 }
 
 export const LabelBase = createTextBase('label')
@@ -170,11 +155,6 @@ export const Li = styled(LiBase)`
   font-size: 5;
   margin: 0;
 `
-
-Li.defaultProps = {
-  family: 'body',
-  color: 'bodyMain',
-}
 
 export const Input = styled.input`
   border: 1px solid;

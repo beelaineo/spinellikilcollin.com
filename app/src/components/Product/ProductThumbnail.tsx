@@ -40,7 +40,6 @@ import {
   ProductInfo,
   ProductThumb,
   HoverArea,
-  HoverThumb,
   HoverThumbWrapper,
 } from './styled'
 import { CloudinaryAnimation } from '../CloudinaryVideo'
@@ -148,9 +147,9 @@ const sanityQuery = async <R = any | null,>(
 
 export const ProductThumbnail = ({
   product,
-  displayPrice,
-  displayTags,
-  displaySwatches,
+  displayPrice = false,
+  displayTags = true,
+  displaySwatches = true,
   headingLevel,
   preferredVariantMatches,
   currentFilter,
@@ -710,9 +709,13 @@ export const ProductThumbnail = ({
         style={{ display: 'flex', flexDirection: 'column' }}
       >
         {variantAnimation ? (
-          <VideoWrapper hide={!playing} carousel={carousel} hover={imageHover}>
+          <VideoWrapper
+            $hide={!playing}
+            carousel={carousel}
+            $hover={imageHover}
+          >
             <HoverThumbWrapper
-              hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+              $hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
             >
               <Image
                 image={currentSwatchOption?.hover_image}
@@ -733,9 +736,9 @@ export const ProductThumbnail = ({
             />
           </VideoWrapper>
         ) : null}
-        <ImageWrapper hide={Boolean(variantAnimation)} hover={imageHover}>
+        <ImageWrapper $hide={Boolean(variantAnimation)} $hover={imageHover}>
           <HoverThumbWrapper
-            hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+            $hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
           >
             <Image
               image={currentSwatchOption?.hover_image}
@@ -762,8 +765,8 @@ export const ProductThumbnail = ({
         />
 
         <ProductInfo
-          hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
-          displayGrid={Boolean(displayTags || displaySwatches)}
+          $hover={Boolean(imageHover && currentSwatchOption?.hover_image)}
+          $displayGrid={Boolean(displayTags || displaySwatches)}
         >
           {displayTags ? <TagBadges product={product} /> : <div />}
           {displayPrice && inquiryOnly != true ? (
@@ -818,10 +821,4 @@ export const ProductThumbnail = ({
       </Link>
     </ProductThumb>
   )
-}
-
-ProductThumbnail.defaultProps = {
-  displayPrice: false,
-  displayTags: true,
-  displaySwatches: true,
 }

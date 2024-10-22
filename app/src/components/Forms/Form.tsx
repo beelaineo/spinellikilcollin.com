@@ -5,13 +5,13 @@ import { FormWrapper } from './styled'
 import { Heading } from '../Text'
 
 interface FormElementProps {
-  isSubmitting: boolean
+  $isSubmitting: boolean
   disabled?: boolean
 }
 
 const FormElement = styled.form<FormElementProps>`
-  ${({ isSubmitting, disabled }) =>
-    isSubmitting || disabled
+  ${({ $isSubmitting, disabled }) =>
+    $isSubmitting || disabled
       ? css`
           opacity: 0.75;
           pointer-events: none;
@@ -78,7 +78,7 @@ export function Form<Values extends FormikValues>({
           return (
             <FormElement
               id={id}
-              isSubmitting={isSubmitting}
+              $isSubmitting={isSubmitting}
               disabled={disabled}
               onSubmit={handleSubmit}
             >

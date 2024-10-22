@@ -58,7 +58,6 @@ import {
 } from './styled'
 import { Accordion } from '../../components/Accordion'
 import { SEO } from '../../components/SEO'
-import { configureScope } from '@sentry/node'
 import { variantFragment } from '../../graphql'
 import styled, { css } from '@xstyled/styled-components'
 import { sanityClient } from '../../services/sanity'
@@ -79,14 +78,14 @@ const InStockDot = styled('span')`
   `}
 `
 interface WithHide {
-  hide: boolean
+  $hide: boolean
 }
 
 const StockedLabelMobile = styled('div')<WithHide>`
-  ${({ theme, hide }) => css`
+  ${({ theme, $hide }) => css`
     display: none;
     margin-bottom: 4;
-    opacity: ${hide ? 0 : 1};
+    opacity: ${$hide ? 0 : 1};
     transition: 250ms ease;
     font-size: ${theme.fontSizes[5]}px;
     ${theme.mediaQueries.tablet} {
@@ -99,7 +98,7 @@ interface Props {
   product: Product
 }
 import { config } from '../../config'
-import { add } from 'husky'
+
 import {
   addRecentlyViewedProduct,
   getRecentlyViewedProducts,
@@ -422,12 +421,12 @@ export const ProductDetail = ({ product }: Props) => {
                   currentVariant={currentVariant}
                   product={product}
                   screen="desktop"
-                  hide={Boolean(
+                  $hide={Boolean(
                     variantHasAnimation && variantAnimation?.videoId,
                   )}
                 />
               </ProductImagesWrapper>
-              <InfoWrapper product={product}>
+              <InfoWrapper $product={product}>
                 <ProductDetailHeader
                   currentVariant={currentVariant}
                   currentCountry={currentCountry}
@@ -445,14 +444,14 @@ export const ProductDetail = ({ product }: Props) => {
                   currentVariant={currentVariant}
                   product={product}
                   screen="mobile"
-                  hide={Boolean(
+                  $hide={Boolean(
                     variantHasAnimation && variantAnimation?.videoId,
                   )}
                 />
                 <ProductInfoWrapper>
                   {variantsInStock?.length > 0 && showInStockIndicators ? (
                     <StockedLabelMobile
-                      hide={
+                      $hide={
                         !isSwatchCurrentlyInStock(
                           currentVariant,
                           stockedColorOptions,

@@ -323,7 +323,7 @@ export const Filter = ({
 
   if (hideFilter !== true) {
     return (
-      <Wrapper minimalDisplay={minimalDisplay} ref={filterRef}>
+      <Wrapper $minimalDisplay={minimalDisplay} ref={filterRef}>
         {!minimalDisplay ? <Backdrop /> : null}
         {isMobile === true && open === false && !minimalDisplay ? (
           <MobileToggleWrapper onClick={toggleOpen}>
@@ -340,7 +340,7 @@ export const Filter = ({
               (isMobile === true && minimalDisplay) ||
               (isMobile === true && open),
           )}
-          minimalDisplay={minimalDisplay}
+          $minimalDisplay={minimalDisplay}
         >
           {isMobile === false && !minimalDisplay ? (
             <Heading level={5} color="body.7" mr={2} lineHeight={1}>
@@ -384,7 +384,7 @@ export const Filter = ({
             ''
           )}
           <FilterSets
-            hide={Boolean(isMobile === true && mobileDisplay === 'sort')}
+            $hide={Boolean(isMobile === true && mobileDisplay === 'sort')}
           >
             {filters.map((filter) =>
               filter.__typename === 'FilterSet' ? (
@@ -394,8 +394,8 @@ export const Filter = ({
                   type={filter.__typename}
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
-                  active={Boolean(activeKey === filter._key)}
-                  minimalDisplay={minimalDisplay}
+                  $active={Boolean(activeKey === filter._key)}
+                  $minimalDisplay={minimalDisplay}
                 >
                   <FilterSet
                     setKey={filter._key || 'some-key'}
@@ -416,8 +416,8 @@ export const Filter = ({
                   type={filter.__typename}
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
-                  active={Boolean(activeKey === filter._key)}
-                  minimalDisplay={minimalDisplay}
+                  $active={Boolean(activeKey === filter._key)}
+                  $minimalDisplay={minimalDisplay}
                 >
                   <FilterSingle
                     setKey={filter._key || 'some-key'}
@@ -444,8 +444,8 @@ export const Filter = ({
                   type={filter.__typename}
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
-                  active={Boolean(activeKey === filter._key)}
-                  minimalDisplay={minimalDisplay}
+                  $active={Boolean(activeKey === filter._key)}
+                  $minimalDisplay={minimalDisplay}
                 >
                   <PriceRangeFilter
                     setKey={filter._key || 'some-key'}
@@ -466,8 +466,8 @@ export const Filter = ({
                   type={filter.__typename}
                   filter={filter}
                   onClick={() => handleFilterClick(filter._key)}
-                  active={Boolean(activeKey === filter._key)}
-                  minimalDisplay={minimalDisplay}
+                  $active={Boolean(activeKey === filter._key)}
+                  $minimalDisplay={minimalDisplay}
                 >
                   {showInStockIndicators && (
                     <InventoryFilter
@@ -514,7 +514,7 @@ export const Filter = ({
             )}
           </FilterSets>
           <SortWrapper
-            hide={Boolean(
+            $hide={Boolean(
               (isMobile === true && mobileDisplay === 'filter') ||
                 minimalDisplay,
             )}

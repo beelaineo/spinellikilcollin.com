@@ -2,7 +2,7 @@ import styled, { css } from '@xstyled/styled-components'
 import { Input } from '../Forms/Fields/styled'
 
 interface WithVisible {
-  visible: boolean
+  $visible: boolean
 }
 
 export const Outer = styled.div`
@@ -15,7 +15,7 @@ export const Outer = styled.div`
 `
 
 export const Wrapper = styled.div<WithVisible>`
-  ${({ theme, visible }) => css`
+  ${({ theme, $visible }) => css`
     position: fixed;
     background-color: body.1;
     z-index: calc(${theme.zIndices.nav} - 1);
@@ -26,10 +26,10 @@ export const Wrapper = styled.div<WithVisible>`
     height: 100%;
     overflow: scroll;
     text-align: center;
-    opacity: ${visible ? 1 : 0};
-    pointer-events: ${visible ? 'inherit' : 'none'};
+    opacity: ${$visible ? 1 : 0};
+    pointer-events: ${$visible ? 'inherit' : 'none'};
     transition: 0.3s ease-out;
-    transform: ${visible ? 'none' : 'translateY(-10px)'};
+    transform: ${$visible ? 'none' : 'translateY(-10px)'};
 
     ${theme.mediaQueries.mobile} {
       padding-top: calc(${theme.mobileNavHeight} + ${theme.space[4]}px);

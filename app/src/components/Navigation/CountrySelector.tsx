@@ -72,10 +72,10 @@ const countryOptions = async (): Promise<CountryOption[]> => {
 }
 
 interface CountrySelectorProps {
-  colorTheme?: 'light' | 'dark'
+  $colorTheme?: 'light' | 'dark'
 }
 
-export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
+export const CountrySelector = ({ $colorTheme }: CountrySelectorProps) => {
   const wait = useWait()
 
   const [options, setOptions] = useState<CountryOption[]>([])
@@ -139,8 +139,8 @@ export const CountrySelector = ({ colorTheme }: CountrySelectorProps) => {
   return (
     <>
       <CurrencySelectorWrapper
-        isHighlighted={isHighlighted}
-        colorTheme={colorTheme}
+        $isHighlighted={isHighlighted}
+        $colorTheme={$colorTheme}
         id={'currency-select'}
       >
         <Form

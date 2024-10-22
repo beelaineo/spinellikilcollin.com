@@ -150,7 +150,7 @@ export const HighValueForm = ({
           Inquiry
         </Heading>
         {product ? <ProductBadge product={product} variant={variant} /> : null}
-        <SuccessWrapper visible={success}>
+        <SuccessWrapper $visible={success}>
           <Heading color="body.8" level={4}>
             Thank you! We have received your request.
           </Heading>
@@ -168,7 +168,7 @@ export const HighValueForm = ({
           initialValues={initialValues}
           validationSchema={validationSchema}
         >
-          <FieldsWrapper visible={!success} highValue>
+          <FieldsWrapper $visible={!success} $highValue>
             <Field
               name="name"
               label="Name"

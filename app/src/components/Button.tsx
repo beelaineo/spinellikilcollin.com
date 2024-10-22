@@ -1,8 +1,8 @@
 import * as React from 'react'
-import styled, { css, BoxProps } from '@xstyled/styled-components'
+import styled, { css, ITheme } from '@xstyled/styled-components'
 import Link from 'next/link'
 
-interface ButtonProps extends BoxProps {
+interface ButtonProps extends ITheme {
   level?: 1 | 2 | 3
   disabled?: boolean
 }
