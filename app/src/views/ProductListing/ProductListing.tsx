@@ -627,7 +627,7 @@ export const ProductListing = ({
               </LoadingWrapper>
             ) : null}
 
-            <ProductGridWrapper isLoading={loading}>
+            <ProductGridWrapper $isLoading={loading}>
               {highValueTemplate ? (
                 <HighValueWrapper>
                   <HighValueHeaderWrapper>
