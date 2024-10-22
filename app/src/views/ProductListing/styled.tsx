@@ -69,6 +69,41 @@ export const NoResultsWrapper = styled.div`
   justify-content: center;
 `
 
+export const HighValueHeaderWrapper = styled.div`
+  ${({ theme }) => css`
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 60%;
+    margin: 0 auto;
+    padding: 120px 10;
+
+    ${theme.mediaQueries.tablet} {
+      padding: 60px 0;
+    }
+
+    ${theme.mediaQueries.mobile} {
+      padding: 60px 6;
+      width: 100%;
+
+      > h2 {
+        grid-column: 1/-1;
+        font-size: 42px;
+      }
+      > div {
+        grid-column: 1/-1;
+      }
+    }
+  `}
+`
+
+export const HighValueWrapper = styled.div`
+  ${({ theme }) => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  `}
+`
+
 export const FooterGrid = styled.div`
   ${({ theme }) => css`
     display: grid;

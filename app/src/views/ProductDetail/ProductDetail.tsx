@@ -104,6 +104,7 @@ import {
   addRecentlyViewedProduct,
   getRecentlyViewedProducts,
 } from '../../utils/recentlyViewed'
+import { ImageGallery } from '../../components/ImageGallery'
 
 const { SHOW_IN_STOCK_INDICATORS } = config
 

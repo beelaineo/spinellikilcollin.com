@@ -393,6 +393,8 @@ export interface Collection extends Document {
   hidden?: Maybe<Scalars['Boolean']['output']>
   /** Toggle this to ON to remove all filters from the collection view. */
   hideFilter?: Maybe<Scalars['Boolean']['output']>
+  /** Toggle this to ON to change collection layout. */
+  highValueTemplate?: Maybe<Scalars['Boolean']['output']>
   /** Toggle this to ON to change text color to white for all products in collection. */
   lightTheme?: Maybe<Scalars['Boolean']['output']>
   /** Toggle this to ON to hide filter label, reset button, and sort tools. */
@@ -464,6 +466,7 @@ export type CollectionFilter = {
   hero?: InputMaybe<HeroFilter>
   hidden?: InputMaybe<BooleanFilter>
   hideFilter?: InputMaybe<BooleanFilter>
+  highValueTemplate?: InputMaybe<BooleanFilter>
   lightTheme?: InputMaybe<BooleanFilter>
   minimalDisplay?: InputMaybe<BooleanFilter>
   overrideDefaultFilter?: InputMaybe<BooleanFilter>
@@ -545,6 +548,7 @@ export type CollectionSorting = {
   hero?: InputMaybe<HeroSorting>
   hidden?: InputMaybe<SortOrder>
   hideFilter?: InputMaybe<SortOrder>
+  highValueTemplate?: InputMaybe<SortOrder>
   lightTheme?: InputMaybe<SortOrder>
   minimalDisplay?: InputMaybe<SortOrder>
   overrideDefaultFilter?: InputMaybe<SortOrder>
@@ -2832,6 +2836,7 @@ export interface Product extends Document {
   options?: Maybe<Array<Maybe<ProductOption>>>
   related?: Maybe<Carousel>
   seo?: Maybe<Seo>
+  shopifyHidden?: Maybe<Scalars['String']['output']>
   shopifyId?: Maybe<Scalars['String']['output']>
   showInCollections?: Maybe<Array<Maybe<Collection>>>
   store?: Maybe<ShopifyProductDef>
@@ -2857,6 +2862,7 @@ export type ProductFilter = {
   inquiryOnly?: InputMaybe<BooleanFilter>
   related?: InputMaybe<CarouselFilter>
   seo?: InputMaybe<SeoFilter>
+  shopifyHidden?: InputMaybe<StringFilter>
   shopifyId?: InputMaybe<StringFilter>
   store?: InputMaybe<ShopifyProductDefFilter>
   title?: InputMaybe<StringFilter>
@@ -3088,6 +3094,7 @@ export type ProductSorting = {
   inquiryOnly?: InputMaybe<SortOrder>
   related?: InputMaybe<CarouselSorting>
   seo?: InputMaybe<SeoSorting>
+  shopifyHidden?: InputMaybe<SortOrder>
   shopifyId?: InputMaybe<SortOrder>
   store?: InputMaybe<ShopifyProductDefSorting>
   title?: InputMaybe<SortOrder>

@@ -59,6 +59,7 @@ const productInner = `
   },
   "excludeFromIndication": store.metafields[key == "excludeFromIndication"][0].value,
   "metafields": store.metafields,
+  "images": contentAfter[defined(backgroundImage)].backgroundImage,
   store {
     _type,
     handle,
@@ -66,6 +67,7 @@ const productInner = `
     images,
     tags,
     title,
+    descriptionHtml,
     priceRange,
     productType,
     publishedAt,
@@ -112,9 +114,11 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
   reduceColumnCount,
   lightTheme,
   customFilter,
+  highValueTemplate,
   hideFilter,
   overrideDefaultFilter,
   minimalDisplay,
+  store,
 	seo{
   	"image": select(
   		defined(image.asset) => {
@@ -177,7 +181,7 @@ export const createSanityCollectionQuery = (sort?: Sort) => `
       }
     },
   },
-  "products": products[!(@->_id in path("drafts.**")) && @->hidden!=true && (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "collection" && handle == $handle][0]._id]) > 0))]-> | order(${getSortString(
+  "products": products[!(@->_id in path("drafts.**")) && @->hidden!=true && @->store.isDeleted!=true && (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "collection" && handle == $handle][0]._id]) > 0))]-> | order(${getSortString(
     sort,
   )}) {
     ${productInner}
@@ -213,7 +217,7 @@ export const moreProductsQuery = `
   && defined(shopifyId)
   && handle == $handle
 ] {
-  "products": products[@->hidden != true &&
+  "products": products[@->hidden != true && @->store.isDeleted != true &&
     (!(@->_id in path("drafts.**")) &&
     @->hideFromCollections != true || (@->hideFromCollections == true &&
       count(@->showInCollections[_ref == *[_type == "collection" &&
@@ -243,7 +247,7 @@ ${
       && defined(shopifyId)
       && handle == $handle
     ] {
-        products[@->hidden != true &&
+        products[@->hidden != true && @->store.isDeleted != true &&
         !(@->_id in path("drafts.**")) &&
         (@->hideFromCollections != true || (@->hideFromCollections == true &&
         count(@->showInCollections[_ref == *[_type == "collection" &&
@@ -262,7 +266,7 @@ ${
       handle == $handle
     ] 
     {
-      products[@->hidden != true &&
+      products[@->hidden != true && @->store.isDeleted != true &&
         !(@->_id in path("drafts.**")) &&
       (@->hideFromCollections != true || (@->hideFromCollections == true && count(@->showInCollections[_ref == *[_type == "collection" && handle == $handle][0]._id]) > 0))
       ${filterString ? `&& ${filterString}` : ''}]->{${productInner}}
@@ -271,7 +275,7 @@ ${
     : `*[
       _type == "product" &&
         defined(shopifyId) &&
-        hidden != true &&
+        hidden != true && @->store.isDeleted != true &&
         !(_id in path("drafts.**")) &&
         (hideFromCollections != true || (hideFromCollections == true && count(showInCollections[_ref == *[_type == "collection" && handle == $handle][0]._id]) > 0)) &&
         references($collectionId) 

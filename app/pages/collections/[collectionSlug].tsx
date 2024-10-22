@@ -48,6 +48,7 @@ const collectionQueryById = gql`
       customFilter {
         ...CustomFilterFragment
       }
+      highValueTemplate
       hideFilter
       overrideDefaultFilter
       hero {

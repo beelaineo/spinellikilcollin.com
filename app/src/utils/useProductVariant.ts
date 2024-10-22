@@ -36,6 +36,7 @@ export const useProductVariant = (
     }
   } else {
     variants = definitely(product?.store?.variants)
+    console.log('VARIANT', variants)
   }
   // ? (product?.variants)
   // : []
