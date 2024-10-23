@@ -50,6 +50,7 @@ import { useSearch } from '../../providers'
 import { Accordion } from '../../components/Accordion'
 import { ImageGallery } from '../../components/ImageGallery'
 import { HighValueProductListItem } from './HighValueProductListItem'
+import { parseAsString, useQueryState } from 'nuqs'
 
 const { useRef, useEffect, useState } = React
 
@@ -155,6 +156,11 @@ export const ProductListing = ({
 
       return { ...product, prices: prices ? unique(prices) : [] }
     },
+  )
+
+  const [productQuery, setProductQuery] = useQueryState(
+    'product',
+    parseAsString,
   )
 
   const [productResults, setProductResults] = useState<
@@ -536,6 +542,28 @@ export const ProductListing = ({
 
   const validHero = isValidHero(hero)
 
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const scrollToItem = (index: number) => {
+    const item = itemRefs.current[index]
+    if (item) {
+      item.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (productQuery) {
+      const index = items.findIndex(
+        (item) => 'handle' in item && item.handle === productQuery,
+      )
+
+      productQuery && scrollToItem(index)
+    }
+  }, [items, productQuery])
+
   const DescriptionWrapper = styled.div`
     ${({ theme }) => css`
       display: grid;
@@ -649,10 +677,14 @@ export const ProductListing = ({
                   {items.map((item, index) => {
                     if (item.__typename === 'Product') {
                       return (
-                        <HighValueProductListItem
-                          product={item}
+                        <div
                           key={item._id}
-                        />
+                          ref={(el) => {
+                            itemRefs.current[index] = el
+                          }}
+                        >
+                          <HighValueProductListItem product={item} />
+                        </div>
                       )
                     }
                   })}
