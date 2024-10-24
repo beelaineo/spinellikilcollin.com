@@ -683,10 +683,20 @@ export const ProductThumbnail = ({
     .filter(Boolean)
     .join(' - ')
 
-  const linkAs = getProductUri(product, {
-    variant: currentVariant,
-    currentPath: asPath,
-  })
+  const tags = product?.store?.tags
+
+  const linkAs = tags?.includes('vault')
+    ? `/collections/vault?product=${product?.handle}`
+    : getProductUri(product, {
+        variant: currentVariant,
+        currentPath: asPath,
+      })
+
+  console.log('linkAs:', linkAs, asPath, router)
+
+  const href = tags?.includes('vault')
+    ? `/collections/vault?product=${product?.handle}`
+    : '/products/[productSlug]'
 
   const [imageHover, setImageHover] = useState(false)
 
@@ -702,7 +712,7 @@ export const ProductThumbnail = ({
   return (
     <ProductThumb ref={containerRef}>
       <Link
-        href="/products/[productSlug]"
+        href={href}
         as={linkAs}
         draggable="false"
         aria-label={'Link to ' + product.title}

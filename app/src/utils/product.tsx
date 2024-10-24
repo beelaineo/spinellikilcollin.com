@@ -662,6 +662,7 @@ export const getProductUri = (
   newParams.delete('instock')
   newParams.delete('pos')
   newParams.delete('search')
+  newParams.delete('product')
   newParams.delete('v')
   if (variant && convertedId) {
     newParams.set('v', convertedId)

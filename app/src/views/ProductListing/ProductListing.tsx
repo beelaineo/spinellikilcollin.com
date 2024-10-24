@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { unwindEdges } from '@good-idea/unwind-edges'
 import {
   Collection,
   Product,
@@ -14,8 +13,6 @@ import {
   INVENTORY_FILTER,
   FILTER_MATCH_GROUP,
   FILTER_SINGLE,
-  Document,
-  FilterMatchGroup,
   Maybe,
 } from '../../types'
 import { ProductGrid } from '../../components/Product'
@@ -25,13 +22,7 @@ import { Sort, Filter } from '../../components/Filter'
 import { Heading, P } from '../../components/Text'
 import { RichText } from '../../components/RichText'
 import { Button } from '../../components/Button'
-import {
-  getHeroImage,
-  isValidHero,
-  definitely,
-  unique,
-  parseHTML,
-} from '../../utils'
+import { getHeroImage, isValidHero, definitely, unique } from '../../utils'
 import { useShopData } from '../../providers/ShopDataProvider'
 import { useInViewport, useSanityQuery } from '../../hooks'
 import { SEO } from '../../components/SEO'
@@ -47,10 +38,8 @@ import {
   HighValueWrapper,
 } from './styled'
 import { useSearch } from '../../providers'
-import { Accordion } from '../../components/Accordion'
-import { ImageGallery } from '../../components/ImageGallery'
 import { HighValueProductListItem } from './HighValueProductListItem'
-import { parseAsString, useQueryState } from 'nuqs'
+import { useQueryState } from 'nuqs'
 
 const { useRef, useEffect, useState } = React
 
@@ -158,10 +147,10 @@ export const ProductListing = ({
     },
   )
 
-  const [productQuery, setProductQuery] = useQueryState(
-    'product',
-    parseAsString,
-  )
+  const [productQuery] = useQueryState('product', {
+    defaultValue: '',
+    clearOnDefault: true,
+  })
 
   const [productResults, setProductResults] = useState<
     ShopifyProductListingProduct[]
@@ -176,6 +165,17 @@ export const ProductListing = ({
         }, definitely(productResults))
       : definitely(productResults),
   )
+
+  useEffect(() => {
+    if (productQuery) {
+      const index = items.findIndex(
+        (item) => 'handle' in item && item.handle === productQuery,
+      )
+
+      scrollToItem(index)
+    }
+  }, [items, productQuery])
+
   const collectionBlocksLength = collectionBlocks?.length || 0
 
   const gridRef = useRef<HTMLDivElement>(null)
@@ -546,6 +546,7 @@ export const ProductListing = ({
 
   const scrollToItem = (index: number) => {
     const item = itemRefs.current[index]
+
     if (item) {
       item.scrollIntoView({
         behavior: 'smooth',
@@ -553,16 +554,6 @@ export const ProductListing = ({
       })
     }
   }
-
-  useEffect(() => {
-    if (productQuery) {
-      const index = items.findIndex(
-        (item) => 'handle' in item && item.handle === productQuery,
-      )
-
-      productQuery && scrollToItem(index)
-    }
-  }, [items, productQuery])
 
   const DescriptionWrapper = styled.div`
     ${({ theme }) => css`
@@ -675,6 +666,7 @@ export const ProductListing = ({
                     </div>
                   </HighValueHeaderWrapper>
                   {items.map((item, index) => {
+                    console.log(item)
                     if (item.__typename === 'Product') {
                       return (
                         <div
